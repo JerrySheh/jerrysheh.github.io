@@ -66,28 +66,28 @@ tags: git
 ## git 分支管理
 
 
-
-#### · 新建本地分支
-
-
+#### · 新建并切换到分支
 `git checkout -b branch_name`
-
-#### · 切换分支
-
-
-`git checkout branch_name`
 
 
 #### · 把新建的本地分支 push 到远程
-
-
 `git push origin branch_name:branch_name`
 
 
 #### · 删除远程分支
-
-
 `git push origin -d branch_name`
 
 
 <br />
+***
+## git 撤销
+
+
+#### · 查看更改日志，找到你想撤销的commit_id
+`git log`
+
+#### ·  撤销提交和修改过的代码
+`git reset --hard commit_id`
+
+#### · 只撤销提交，不撤销修改过的代码（可以直接通过git commit 重新提交对本地代码的修改。）
+`git reset commit_id `
