@@ -1,7 +1,7 @@
 ---
 title: linux 常用命令
-date: 2017-09-12 19:28:00
-updated:  2017-09-12 10:40:00
+date: 2017-09-24 14:28:00
+updated:  2017-09-24 15:40:00
 tags: linux
 ---
 
@@ -10,55 +10,109 @@ tags: linux
 <!-- more -->
 ## 常用命令
 
-  命令| 说明
-  ---|-----
-  ls | 显示当前目录下文件
-  ls -a|显示当前目录包括隐藏的文件
-  mkdir | 创建目录
-  rmdir | 删除空目录
-  pwd | 显示当前目录
-  cd| 切换目录
-  touch|新建文件
-  echo | 创建带有内容的文件
-  cat| 查看文件内容
-  cp | 拷贝
-  mv | 移动或重命名
-  rm | 删除文件
-  rm -r| 删除包括子目录
-  rm -f| 强制删除
-  apropos -e “list directory contents”| 精确反查带有”“list directory contents”功能的命令
-  whatis ls| 显示ls命令的作用
-  man ls| 显示ls命令的手册（space翻页 j下行 k上行 /关键字搜索 n下一个关键字 shift+n上一个关键字）
+命令	| 说明
+---|---
+ls	| 显示当前目录下文件
+ls -a	| 显示当前目录包括隐藏的文件
+mkdir	| 创建目录
+rmdir	| 删除空目录
+pwd	| 显示当前目录
+touch a.txt	| 如果 a.txt 不存在，生成一个新的空文档a.txt。如果a.txt存在，那么只更改该文档的时间信息。
+echo	| 创建带有内容的文件（见标准输出）
+cat	| 查看文件内容
+cd	| 切换目录
+cp a.txt b.txt	| 拷贝. 在工作目录下，将a.txt复制到文件b.txt
+mv a.txt c.txt	| 重命名 a.txt 为 c.txt
+mv a.txt /home/jerrysheh	| 将 a.txt 移动到 /home/jerrysheh 目录下
+rm	| 删除文件
+rm -r	| 删除包括子目录和子文件 （-r 表示 recursive，递归）
+rm -f	| 强制删除
+apropos -e “list directory contents”	| 精确反查带有”“list directory contents”功能的命令
+whatis ls	| 显示ls命令的作用
+man ls	| 显示ls命令的手册（space翻页 j下行 k上行 /关键字搜索 n下一个关键字 shift+n上一个关键字）
+
+FBI WARNING ！！！ 千万不要用下面这个命令。
+
+`$rm -rf /`
+
+## Linux 通配表达式
+
+Linux 通配表达式 与 正则表达式 相类似，但语法有所不同。
+
+命令	| 说明
+---|---
+×	|任意多个字符
+？	|任意一个字符
+[xyz]	|字符 x 或 y 或 z
+[0-3]	|数字 0 到 3 其中一个
+[b-e]	|字符 b 到 e 其中一个
+[^mnp]	|不是 m 或 n 或 p 的 一个字符
+
+不要在删除文件到时候多敲了一个空格，会删除当前整个目录下的文件～
+
+`$rm * .txt`
 
 
-  ## 快捷操作
+## 文件权限相关
 
-  命令| 说明
-  ---|-----
-  ctrl+a | 定位到命令开头
-  ctrl+e| 定位到命令结尾
-  ctrl+ ←| 定位到上一个单词
+命令	|说明
+---|---
+sudo chmod 755 a.txt	|chmod = change mode ，改变 a.txt 的权限为 755
 
+说明：
+Linux中，每个文件都有 9 位读写执行的权限。分为三组，三位一组。分别对应拥有者(owner)，拥有组(owner group)中的用户和所有其他用户(other)。 7 = 111（2进制），表示 Owner 有读/写/执行 的权限， 5 = 101（2进制），表示 Owner group 有 读/执行 的权限，但没有写的权限。
+
+## 快捷操作
+
+命令	| 说明
+---|---
+ctrl+a	|定位到命令开头
+ctrl+e	|定位到命令结尾
+ctrl+ ←	|定位到上一个单词
+
+## 标准输入，标准输出，标准错误与重新定向
+
+命令	|说明
+---|---
+ls > a.txt	|不将 ls 命令的结果输出到屏幕上，而是输出到 a.txt 文件里面
+ls >> a.txt	|将 ls 命令的结果输出添加到 a.txt 文件的末尾
+echo helloworld	|将 helloworld 这段文本输出到标准输出（屏幕）
+echo helloworld > b.txt	|将 helloworld 这段文本输出到 b.txt 文件里面
+
+
+管道：以将一个命令的输出导向另一个命令的输入，从而让两个(或者更多命令)像流水线一样连续工作，不断地处理文本流。
+
+命令	| 说明
+---|---
+cat	|显示文件内容
+wc	word count |统计文本中的行、词以及字符的总数
+
+命令：
+`$cat < a.txt | wc`
+
+执行步骤：
+
+1. 输入（标准输入被重定向为 a.txt ） → cat（处理） → 输出（作为wc命令的输入）
+2. 输入（cat命令的输出） → wc（处理） → 输出（标准输出，屏幕）
+
+执行结果：
+```
+jerrysheh@MI:~$ cat < a.txt | wc
+      2       2      22
+```
 
 ## vim
 
-  命令| 说明
-  ---|-----
-  :q | 退出
-  :q! | 强制退出
-  :wq | 保存并退出
-  :set number | 显示行号
-  :set nonumber | 隐藏行号
-  /apache | 在文档中查找apache, n 下一个，shift+n 上一个
-  yyp | 复制光标所在行，并粘贴
-  h | 左移
-  j | 下一行
-  k | 上一行
-  l | 右移
-
-## 正则表达式
-
-  命令| 说明
-  ---|-----
-  ×| 匹配所有
-  ？| 匹配一个字符
+命令	|说明
+---|---
+:q	|退出
+:q!	|强制退出
+:wq	|保存并退出
+:set number	|显示行号
+:set nonumber	|隐藏行号
+/apache	|在文档中查找apache, n 下一个，shift+n 上一个
+yyp	|复制光标所在行，并粘贴
+h	|左移
+j	|下一行
+k	|上一行
+l	|右移
