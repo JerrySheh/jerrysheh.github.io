@@ -104,5 +104,34 @@ hexo d
 #### 10. 将静态文件上传到 github stat分支
 
 ```
+git add .
+git commit -m "somethings update"
+git push origin stat
+```
+
+
+## 三、 回到旧电脑，拉取新电脑的更新
+
+#### 1. 同步
+
+```
+git pull origin stat:stat
+```
+
+#### 2. 开始写文章
+
+#### 3. 重新部署
+
+```
+hexo c
+hexo g
+hexo d
+```
+
+#### 4. 提交静态文件并推送到远程
+
+```
+git add .
+git commit -m "somethings update"
 git push origin stat
 ```
