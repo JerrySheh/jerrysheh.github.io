@@ -21,7 +21,9 @@ rmdir	| 删除空目录
 pwd	| 显示当前目录
 touch a.txt	| 如果 a.txt 不存在，生成一个新的空文档a.txt。如果a.txt存在，那么只更改该文档的时间信息。
 echo	| 创建带有内容的文件（见标准输出）
-cat	| 查看文件内容
+cat	| 查看文件内容（当文件太大无法一页展示时，用more）
+more | 多屏查看文件内容 （ space-翻页 回车-下一行 q-退出）
+less | 多屏可滚动查看文件内容 （space-翻页 回车-下一行 q-退出 up/down-上下滚动 居然还可以用鼠标666）
 cd	| 切换目录
 cp a.txt b.txt	| 拷贝. 在工作目录下，将a.txt复制到文件b.txt
 mv a.txt c.txt	| 重命名 a.txt 为 c.txt
