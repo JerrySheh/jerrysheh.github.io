@@ -118,6 +118,25 @@ git push origin stat
 git pull origin stat:stat
 ```
 
+如果遇到以下报错
+```
+There is no tracking information for the current branch.
+Please specify which branch you want to merge with.
+See git-pull(1) for details
+
+    git pull <remote> <branch>
+
+If you wish to set tracking information for this branch you can do so with:
+
+git branch --set-upstream-to=origin/<branch>
+```
+
+将本地 static 和 远程 origin/static 链接即可
+
+```
+git branch --set-upstream-to=origin/stat stat
+```
+
 #### 2. 开始写文章
 
 #### 3. 重新部署
