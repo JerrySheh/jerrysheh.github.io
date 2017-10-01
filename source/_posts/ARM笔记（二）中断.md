@@ -17,6 +17,8 @@ tags: ARM
 
 ---
 
+<!-- more -->
+
 # 向量中断控制器（VIC）
 
 ARM 内核本身只有<font color=#FF0000 > 快速中断（FIQ）</font>和<font color=#FF0000 > 普通中断（IRQ）</font>两条中断输入信号线，只能接受两个中断。但是我们有很多个中断事件要处理怎么办？<font color=#FF0000 >  向量中断控制器（Vectored Interrupt Controller, VIC）</font> 介于内核和外设中断之间，就是用来解决这个问题的。
