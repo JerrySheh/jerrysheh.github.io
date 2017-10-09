@@ -16,7 +16,8 @@ Linux 学习任重而道远，此文记录了我在 Linux 学习中需要知道�
 ---|---
 ls	| 显示当前目录下文件
 ls -a	| 显示当前目录包括隐藏的文件
-mkdir	| 创建目录
+mkdir	myweb| 创建目录
+mkdir -p myweb/www/static | 创建多级目录
 rmdir	| 删除空目录
 pwd	| 显示当前目录
 touch a.txt	| 如果 a.txt 不存在，生成一个新的空文档a.txt。如果a.txt存在，那么只更改该文档的时间信息。
@@ -138,6 +139,8 @@ jerrysheh@MI:~$ cat < a.txt | wc
 ***
 ## 六、vim
 
+### 命令相关
+
 命令	|说明
 ---|---
 :q	|退出
@@ -146,8 +149,23 @@ jerrysheh@MI:~$ cat < a.txt | wc
 :set number	|显示行号
 :set nonumber	|隐藏行号
 /apache	|在文档中查找apache, n 下一个，shift+n 上一个
-yyp	|复制光标所在行，并粘贴
+
+
+### 操作相关
+
+命令	|说明
+---|---
 h	|左移
 j	|下一行
 k	|上一行
 l	|右移
+a |补充文本（修改完记得Esc退出编辑模式）
+i |插入文本（修改完记得Esc退出编辑模式）
+x |删除光标所指字符
+u |撤销
+U |撤销整行
+dw |从光标处删除至一个单字/单词的末尾
+d2w |从光标处删除至两个单字/单词的末尾
+dd | 删除行
+2dd |删除两行
+yyp	|复制光标所在行，并粘贴
