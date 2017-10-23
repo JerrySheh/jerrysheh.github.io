@@ -1,5 +1,5 @@
 ---
-title: socket 编程初探
+title: socket编程初探
 date: 2017-10-18 00:04:01
 tags: [linux, c, 计算机网络]
 ---
