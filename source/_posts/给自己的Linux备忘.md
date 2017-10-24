@@ -105,12 +105,14 @@ ctrl+e	|定位到命令结尾
 ctrl+ ←	|定位到上一个单词
 
 ***
-## 五、标准输入，标准输出，标准错误与重新定向
+## 五、标准输入，标准输出，标准错误，管道与重新定向
 
 命令	|说明
 ---|---
 ls > a.txt	|不将 ls 命令的结果输出到屏幕上，而是输出到 a.txt 文件里面
 ls >> a.txt	|将 ls 命令的结果输出添加到 a.txt 文件的末尾
+ls 2>> b.txt | 如果ls命令出错，报错信息输出到 b.txt 的末尾
+ls > c.txt 2>&1| 将结果和错误（如果同时有）都输出到 c.txt
 echo helloworld	|将 helloworld 这段文本输出到标准输出（屏幕）
 echo helloworld > b.txt	|将 helloworld 这段文本输出到 b.txt 文件里面
 
@@ -121,6 +123,7 @@ echo helloworld > b.txt	|将 helloworld 这段文本输出到 b.txt 文件里面
 ---|---
 cat	|显示文件内容
 wc	word count |统计文本中的行、词以及字符的总数
+
 
 命令：
 `$cat < a.txt | wc`
@@ -136,8 +139,42 @@ jerrysheh@MI:~$ cat < a.txt | wc
       2       2      22
 ```
 
+命令：
+`$head -n 3 /etc/passwd | sort`
+
+将 passwd 文件到前3行输出并排序
+
+可以使用 `xargs` 参数，让管道接受命令行参数
+
+```
+echo /etc/nano | xargs -i cp {} /tmp/dir
+```
+
+将echo的输出作为参数，填入 cp 中的{}
+
 ***
-## 六、vim
+
+## 六、 使用 grep 和 cut 过滤信息
+
+`ls --help | grep "  -l"`: 查看 ls 命令的 -l 参数用途
+
+`mkdir --help| grep “  -p”`：查看 mkdir 命令的 -p 参数用途
+
+`grep -inr "int printf" /usr/include >> /tmp/out.txt`: 搜索/usr/include目录下，含有 int printf 的文件内容，输出到 /tmp/out.txt 上
+
+- -i  忽略大小写
+- -n  打印行号
+- -r  包含子目录
+
+`grep -inr "int printf" /usr/include | cut -d : -f 1`: 搜索/usr/include目录下，含有 int printf 的文件内容，用 cut 剪切每个搜索结果以冒号分隔的第一片
+
+cut
+- -d 分割 
+- -f 第几片
+
+
+***
+## 七、vim
 
 ### 命令相关
 
