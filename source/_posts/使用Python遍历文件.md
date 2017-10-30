@@ -114,7 +114,7 @@ for root, dirs, files in os.walk(music_dir):
     for file in files:
         target = os.path.join(root, file)
         if file.endswith(".mp3") or file.endswith(".wav"):
-            print("deleting "target)
+            print("deleting " + target)
             os.remove(target)
 ```
 

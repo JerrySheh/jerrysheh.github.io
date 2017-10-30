@@ -77,7 +77,7 @@ sudo apt-get autoremove
 
 # 四. Ubuntu 国内更新源
 
-为了提高更新下载速度，可以把 Ubuntu 的更新源改为国内镜像。
+为了提高更新下载速度，可以把 Ubuntu 的更新源改为国内镜像。推荐使用阿里云源。因为大学的服务器在某些特殊时期因为某些原因可能无法访问，你懂的。
 
 ## 1. 备份
 
@@ -129,7 +129,7 @@ deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security universe
 deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security multiverse
 ```
 
-阿里云
+阿里云（推荐）
 ```
 # deb cdrom:[Ubuntu 16.04 LTS _Xenial Xerus_ - Release amd64 (20160420.1)]/ xenial main restricted
 deb-src http://archive.ubuntu.com/ubuntu xenial main restricted #Added by software-properties
