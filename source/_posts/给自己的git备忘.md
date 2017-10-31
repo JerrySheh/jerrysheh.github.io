@@ -91,3 +91,7 @@ tags: git
 
 #### · 只撤销提交，不撤销修改过的代码（可以直接通过git commit 重新提交对本地代码的修改。）
 `git reset commit_id `
+
+#### · 如果想撤销的commit已经提交到远程仓库了，在本地 reset 修改后，重新强制提交。这样上次的错误提交就消失了。但是这样做有个弊端，就是如果你的错误commit（如commit3）之后还有其他人再提交了(commit4)， commit4也会消失。
+
+`git push --force`
