@@ -41,21 +41,13 @@ tags: English
 * 垃圾回收(garbage collection)
 
 
-
-* 运行时类型识别(RTTI, Run-Time Type Identification)
-* 收缩变换(narrowing conversion)
-* 宽松变换(widening conversion)
-* 应用程序编程接口 (API，Application Programming Interface)
-* 图形用户接口 (GUI，Graphical User Interface)
-* 异常处理器(Exception Handler)
-* 闭包(closure)
-
-
+---
 
 # Web
 
 * Deploy (部署)
 
+---
 
 # 其他
 * JAVA虚拟机(JVM，Java Virtual Machine)
@@ -63,9 +55,15 @@ tags: English
 * 转义符(Escape sequence)
 * 断言(assert )
 * 缓冲区(buffers)
-
 * 泛型(Generic type)
+* 收缩变换(narrowing conversion)
+* 宽松变换(widening conversion)
+* 图形用户接口 (GUI，Graphical User Interface)
+* 运行时类型识别(RTTI, Run-Time Type Identification)
+* 异常处理器(Exception Handler)
+* 闭包(closure)
 
+---
 
 # 组成原理
 
@@ -76,6 +74,20 @@ tags: English
 * 算数逻辑单元(Arthmetic Logic Unit, ALU)
 * 控制单元(Control Unit, CU)
 * 程序计数器(Program Counter，PC)
+
 * 输入输出设备(Input/Output Equipment)
 * 基本输入输出系统(Basic Input Output System,BIOS)
 * 通用串行总线(Universal Serial Bus,USB)
+
+---
+
+# 计算机网络
+
+* 主机（host）
+* 端系统（end system）
+* 分组 （packet）
+* 因特网服务提供商（Internet Sevice Provider, ISP）
+* 协议（protocol）
+* 传输控制协议（Transmission Control Protocol，TCP）
+* 网际协议（Internet Protocol，IP）
+* 应用程序编程接口 (API，Application Programming Interface)
