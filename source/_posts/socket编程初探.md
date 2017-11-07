@@ -170,111 +170,143 @@ int close(int fd);
 ## 服务器端
 
 ```c
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-#include<errno.h>
-#include<sys/types.h>
-#include<sys/socket.h>
-#include<netinet/in.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <string.h>
+#include <unistd.h>
+#include <netinet/in.h>
+#define SERVPORT 14001
+#define BACKLOG 10
+#define MAX_CONNECTED_NO 10
+#define MAXDATASIZE 50
 
-#define MAXLINE 4096
-
-int main(int argc, char** argv)
+int main()
 {
-    int    listenfd, connfd;
-    struct sockaddr_in     servaddr;
-    char    buff[4096];
-    int     n;
+	struct sockaddr_in server_sockaddr,client_sockaddr;
+	int sin_size,recvbytes;
+	int sockfd,client_fd;
+	time_t currentTime;
+	char timebuffer[MAXDATASIZE+1];
 
-    if( (listenfd = socket(AF_INET, SOCK_STREAM, 0)) == -1 ){
-    printf("create socket error: %s(errno: %d)\n",strerror(errno),errno);
-    exit(0);
-    }
+	char buf[MAXDATASIZE];
+	if((sockfd = socket(AF_INET,SOCK_STREAM,0))==-1){
+		perror("socket");
+		exit(1);
+	}
+	printf("socket success!,sockfd=%d\n",sockfd);
+	server_sockaddr.sin_family=AF_INET;
+	server_sockaddr.sin_port=htons(SERVPORT);
+	server_sockaddr.sin_addr.s_addr=INADDR_ANY;
+	bzero(&(server_sockaddr.sin_zero),8);
+	if(bind(sockfd,(struct sockaddr *)&server_sockaddr,sizeof(struct sockaddr))==-1){
+		perror("bind");
+		exit(1);
+	}
+	printf("bind success!\n");
+	if(listen(sockfd,BACKLOG)==-1){
+		perror("listen");
+		exit(1);
+	}
+	printf("listening....\n");
+        sin_size = sizeof(struct sockaddr);
+	if((client_fd=accept(sockfd,(struct sockaddr *)&client_sockaddr,&sin_size))==-1){
+		perror("accept");
+		exit(1);
+	}
+	currentTime = time(NULL);
+	snprintf(timebuffer, MAXDATASIZE, "%s\n", ctime(&currentTime));
 
-    memset(&servaddr, 0, sizeof(servaddr));
-    servaddr.sin_family = AF_INET;
-    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-    servaddr.sin_port = htons(6666);
+	if ((recvbytes =write(client_fd, timebuffer, strlen(timebuffer))) <0 ) {
+		perror("write");
+		exit(1);
+	}
+	while (1) {
+		if((recvbytes=recv(client_fd,buf,MAXDATASIZE,0))==-1){
+			perror("recv");
+			exit(1);
+		}
+		buf[recvbytes] = '\0';
+	 	printf("received msg from clients :%s\n",buf);
 
-    if( bind(listenfd, (struct sockaddr*)&servaddr, sizeof(servaddr)) == -1){
-    printf("bind socket error: %s(errno: %d)\n",strerror(errno),errno);
-    exit(0);
-    }
-
-    if( listen(listenfd, 10) == -1){
-    printf("listen socket error: %s(errno: %d)\n",strerror(errno),errno);
-    exit(0);
-    }
-
-    printf("======waiting for client's request======\n");
-    while(1){
-    if( (connfd = accept(listenfd, (struct sockaddr*)NULL, NULL)) == -1){
-        printf("accept socket error: %s(errno: %d)",strerror(errno),errno);
-        continue;
-    }
-    n = recv(connfd, buff, MAXLINE, 0);
-    buff[n] = '\0';
-    printf("recv msg from client: %s\n", buff);
-    close(connfd);
-    }
-
-    close(listenfd);
+	    currentTime = time(NULL);
+	    snprintf(timebuffer, MAXDATASIZE, "%s\n", ctime(&currentTime));
+		write(client_fd, timebuffer, strlen(timebuffer));
+	}
+	close(sockfd);
 }
 ```
 
 ## 客户端
 
 ```c
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-#include<errno.h>
-#include<sys/types.h>
-#include<sys/socket.h>
-#include<netinet/in.h>
-
-#define MAXLINE 4096
-
-int main(int argc, char** argv)
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <string.h>
+#include <netdb.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#define SERVPORT 14001
+#define MAXDATASIZE 300
+main(int argc,char *argv[])
 {
-    int    sockfd, n;
-    char    recvline[4096], sendline[4096];
-    struct sockaddr_in    servaddr;
+	int sockfd,sendbytes;
+	char buf[MAXDATASIZE];
+	struct hostent * host;
+	struct sockaddr_in serv_addr;
+	if(argc < 2){
+		fprintf(stderr,"Please enter the server's hostname!\n");
+		exit(1);
+	}
+	if((host=gethostbyname(argv[1]))==NULL){
+		perror("gethostbyname");
+		exit(1);
+	}
+	if((sockfd=socket(AF_INET,SOCK_STREAM,0))==-1){
+		perror("socket");
+		exit(1);
+	}
+	serv_addr.sin_family=AF_INET;
+	serv_addr.sin_port=htons(SERVPORT);
+	serv_addr.sin_addr=* ((struct in_addr * )host->h_addr);
+	bzero(&(serv_addr.sin_zero),8);
+	if(connect(sockfd,(struct sockaddr *)&serv_addr,\
+		sizeof(struct sockaddr))==-1){
+		perror("connect");
+		exit(1);
+	}
+	if((sendbytes=recv(sockfd,buf,MAXDATASIZE,0))==-1){
+		perror("recv");
+		exit(1);
+	}
+	buf[sendbytes] = '\0';
+ 	printf("received msg from server:%s\n",buf);
+	while (1)
+	{
+        	printf("Enter the message  : ");
+        	if(fgets(buf, sizeof(buf) - 1, stdin) == NULL)
+        	{
+        		break;
+        	}
+		if((sendbytes=send(sockfd,buf,strlen(buf),0))==-1){
+			perror("send");
+			exit(1);
+		}
+		printf("sent %d bytes \n", sendbytes);
 
-    if( argc != 2){
-    printf("usage: ./client <ipaddress>\n");
-    exit(0);
-    }
+		if((sendbytes=recv(sockfd,buf,MAXDATASIZE,0))==-1){
+		perror("recv");
+		exit(1);
+	    }
 
-    if( (sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0){
-    printf("create socket error: %s(errno: %d)\n", strerror(errno),errno);
-    exit(0);
-    }
-
-    memset(&servaddr, 0, sizeof(servaddr));
-    servaddr.sin_family = AF_INET;
-    servaddr.sin_port = htons(6666);
-    if( inet_pton(AF_INET, argv[1], &servaddr.sin_addr) <= 0){
-    printf("inet_pton error for %s\n",argv[1]);
-    exit(0);
-    }
-
-    if( connect(sockfd, (struct sockaddr*)&servaddr, sizeof(servaddr)) < 0){
-    printf("connect error: %s(errno: %d)\n",strerror(errno),errno);
-    exit(0);
-    }
-
-    printf("send msg to server: \n");
-    fgets(sendline, 4096, stdin);
-    if( send(sockfd, sendline, strlen(sendline), 0) < 0)
-    {
-    printf("send msg error: %s(errno: %d)\n", strerror(errno), errno);
-    exit(0);
-    }
-
-    close(sockfd);
-    exit(0);
+		buf[sendbytes] = '\0';
+		printf("received time from server:%s\n",buf);
+	}
+	close(sockfd);
 }
 ```
 
