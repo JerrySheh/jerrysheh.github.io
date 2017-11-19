@@ -57,11 +57,13 @@ tags: English
 * 缓冲区(buffers)
 * 泛型(Generic type)
 * 收缩变换(narrowing conversion)
+
 * 宽松变换(widening conversion)
 * 图形用户接口 (GUI，Graphical User Interface)
 * 运行时类型识别(RTTI, Run-Time Type Identification)
 * 异常处理器(Exception Handler)
 * 闭包(closure)
+* 减去(substract)
 
 ---
 
