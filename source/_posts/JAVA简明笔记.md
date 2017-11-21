@@ -28,6 +28,11 @@ tags: JAVA
 * 用 `if (Double.isNaN(x))`来检查 `x` 是否为 NaN，但不可以用`if (x == Double.NaN)`，因为NaN都是彼此不同的
 * 浮点数不适合金融计算，用BigDecimal类
 * `BigDecimal.ValueOf(n,e);`，其中n是一个整数数，e是小数位，如(588888,3)，就是 588.888
+* JAVA不允许对象直接使用操作符，所以BigDecimal和BigInteer类需要用方法
+
+```java
+BigDecimal next = bd.multiply(bd.add(BigDecimal.valueOf(l)));
+```
 
 ---
 
