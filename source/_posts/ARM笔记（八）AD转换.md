@@ -156,3 +156,127 @@ ADCData = (ADDR >> 6) & 0x3FF;         // 读取转换结果
 
 
 ```
+
+
+---
+
+# AD转换控制 —— 按需采样
+
+```c
+
+//ADC模块初始化设置
+PINSEL1 = 0x01400000;         // 设置P0.27、P0.28连接到AIN0、AIN1
+ADCR = (1 << 0)                    |   // SEL = 1 ，选择通道0
+      ((Fpclk / 1000000 - 1) << 8) |  // CLKDIV = Fpclk / 1000000 - 1 ，转换时钟1M
+          (0 << 16)               |   // BURST = 0 ，软件控制转换操作
+          (0 << 17)               |   // CLKS = 0 ，使用11clock转换
+          (1 << 21)               |   // PDN = 1 ， 正常工作模式(非掉电转换模式)
+          (0 << 22)               |   // TEST1:0 = 00 ，正常工作模式(非测试模式)
+          (1 << 24)               |    // START = 1 ，直接启动ADC转换
+          (0 << 27);		          // EDGE = 0 (CAP/MAT引脚下降沿触发ADC转换)
+
+    DelayNS(10);							
+    ADC_Data = ADDR;	// 读取ADC结果，并清除DONE标志位
+
+
+//主函数不断启动AD转换
+while(1)    {  
+		ADCR = (ADCR&0x00FFFF00)|0x01|(1 << 24); //设置通道1,第1次转换
+		while( (ADDR&0x80000000)==0 );                     // 等待转换结束
+	  ADCR = ADCR | (1 << 24);	                               // 再次启运转换
+		while( (ADDR&0x80000000)==0 );                     // 等待转换结束            
+	  ADC_Data = ADDR;                                             // 读取ADC结果
+		ADC_Data = (ADC_Data>>6) & 0x3FF;            // 提取AD转换值
+		ADC_Data = ADC_Data * 3300;                          // 数值转换
+		ADC_Data = ADC_Data / 1024;
+		sprintf(str, "%4dmV at VIN1", ADC_Data);
+	  ISendStr(60, 23, 0x30, str);                  
+		ADCR = (ADCR&0x00FFFF00)|0x02|(1 << 24);// 设置通道2
+
+     while( (ADDR&0x80000000)==0 );	           // 等待转换结束
+	   ADCR = ADCR | (1 << 24);		           // 再次启运转换
+     while( (ADDR&0x80000000)==0 );                // 等待转换结束
+     ADC_Data = ADDR;		                      // 读取ADC结果
+	   ADC_Data = (ADC_Data>>6) & 0x3FF;      // 提取AD转换值
+	   ADC_Data = ADC_Data * 3300;                    // 数值转换
+     ADC_Data = ADC_Data / 1024;
+	   sprintf(str, "%4dmV at VIN2", ADC_Data);
+     UART0SendStr(str);
+     DelayNS(10);        
+}
+
+
+```
+
+---
+
+
+## AD转换控制 —— 周期采样
+
+1. 以周期2s的时间对通道0电压ADC转换；
+2. 把结果转换成电压值，然后发送到串口
+
+```c
+
+//ADC中断服务程序
+void  __irq  IRQ_ADC(void){
+        uint32  ADC_Data;
+        char    str[20];
+         ADC_Data = ADDR;	                                 // 读取ADC结果
+         ADC_Data = (ADC_Data>>6) & 0x3FF;   // 提取AD转换值
+         ADC_Data = ADC_Data * 3300;                  // 数值转换
+         ADC_Data = ADC_Data / 1024;
+         sprintf(str, "%4dmV at VIN2", ADC_Data);
+         UART0SendStr(str);
+        VICVectAddr=0;
+}
+
+//ADC工作模式初始化
+void ADC_Init(void){
+         uint32  ADC_Data;
+         PINSEL1 = 1<<22;      // 设置P0.27 连接到AIN0
+         ADCR = (1 << 0)         |// SEL = 1 ，选择通道0
+((Fpclk / 1000000 - 1) << 8) | // CLKDIV = Fpclk / 1000000 - 1  转换时钟:1MHz
+           (0 << 16)         | // BURST = 0 ，软件控制转换操作
+           (0 << 17)         | // CLKS = 0 ，使用11clock转换
+           (1 << 21)         | // PDN = 1 ， 正常工作模式(非掉电转换模式)
+           (0 << 22)         | // TEST1:0 = 00 ，正常工作模式(非测试模式)
+           (4 << 24)         | // START = 100 ，MAT0.1出现时启动转换
+           (1 << 27);		       // EDGE = 0 (CAP/MAT引脚下降沿触发ADC转换)
+          DelayNS(10);							
+         ADC_Data = ADDR;	// 读取ADC结果，并清除DONE标志位
+}
+
+
+//ADC中断初始化
+void ADC_Int( void)
+{
+    VICIntSelect = 0x00000000;		    VICVectCntl0 = 0x20|18;		
+    VICVectAddr0 = (int)IRQ_ADC;
+    VICIntEnable = 1<<18;           		
+}
+
+
+//定时器初始化
+void  Time0Init(void){
+     T0PR = 99;			    		
+     T0MCR = 0x18;		   				
+     T0EMR =0xc0;    //MAT0.1匹配翻转
+     T0MR1 = 110591;	    				
+     T0TCR = 0x03;		   			
+     T0TCR = 0x01;
+}
+
+
+int  main(void){  
+       IRQEnable();
+       Time0Init();					    
+       ADC_Init();
+       ADC_Int();
+       UART0Init(9600);
+       while(1);
+}
+
+
+
+```
