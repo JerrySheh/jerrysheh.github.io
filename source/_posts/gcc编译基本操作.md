@@ -82,12 +82,14 @@ data_3 pass [26]
 ```
 
 值得注意的地方
-1. 我们的动态链接库文件名是`libmystrlen.so`，但在`-l`参数中，去掉lib和.so，只需要`mystrlen`就可以。 -l后面不用空格。
+1. 我们的动态链接库文件名是`libmystrlen.so`，但在`-l`参数中，去掉lib和.so，只需要`mystrlen`就可以。 -l后面可以不用空格。
 2. 在gcc编译的时候，如果文件a依赖于文件b，那么编译的时候必须把a放前面，b放后面。 所以， 命令中`test.c`一定要放在`-lmystrlen`前面。
 
 ---
 
 # 三、可能出现的报错
+
+##  error while loading shared libraries
 
 ```
 jerrysheh@ubuntu:~/shiyan9$ ./test
@@ -121,4 +123,14 @@ sudo ldconfig
 
 ```
 ./test
+```
+
+## 找不到头文件
+
+如果头文件跟 .c 文件不在同一目录，使用 `-I` 参数，指定头文件的路径即可
+
+如头文件在 `/home/jerrysheh/shiyan9/include` 里面，只需要
+
+```
+gcc -I /home/jerrysheh/shiyan9/include -L ./ test.c -lmystrlen -o test
 ```
