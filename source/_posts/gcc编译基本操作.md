@@ -48,7 +48,7 @@ gcc -c mystrlen.c -o mystrlen.o
 ## 2. 把目标文件编译成动态链接库
 
 ```
-gcc -shared -fPIC mystrlen.o -o lib
+gcc -shared -fPIC mystrlen.o -o libmystrlen.so
 ```
 
 在当前目录会生成 `libmystrlen.so`文件
