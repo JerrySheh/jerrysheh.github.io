@@ -1,0 +1,213 @@
+---
+title: 再谈Socket
+date: 2017-11-29 00:01:36
+tags: [计算机网络,Python]
+---
+
+之前在 Socket 编程初探中，初步使用 Socket 套接字，在 linux 下用 C 实现了一个客户端/服务器 通信的例子。但是对于TCP Socket 的过程还理解不深。这一篇，主要是补齐 Socket 通信的过程。 使用 Python语言，更好理解。 参考书籍《计算机网络：自顶向下方法》（第2章）。
+
+
+---
+
+<!-- more -->
+
+# TCP Socket的过程
+
+## 1. TCP连接
+
+TCP是面向连接的协议。客户端和服务器在发送数据之前，必须先握手和创建一个TCP连接。
+
+一个TCP连接模型如下：
+
+客户端应用程序 <---> `客户端Socket` <---> TCP连接 <--->  `服务器Socket` <--->服务器应用程序
+
+
+## 2. 欢迎之门和连接之门
+
+TCP连接中，客户端需要首先向服务器发起接触。也就是说，服务器必须提前准备好（也就是应用程序必须先运行起来），而且，服务器必须有一扇“特殊的门”，我们可以称之为“欢迎之门”（`欢迎Socket`，SererSocket），欢迎来自任意主机上的客户端进程来接触。
+
+客户端要向服务器发起连接的时候，首先创建一个TCP Socket，这个 Socket 指定了服务器中`欢迎Socket`的地址（即服务器IP和端口号）。创建完毕后，客户端即可向服务器发起三次握手并建立与服务器的TCP连接了。
+
+在三次握手期间，客户端敲的是服务器的“欢迎之门”。当服务器听到敲门后，将生成一个新的门，这个新门就是`连接Socket`（connection Socket），这个连接Socket专门用于特定的客户。
+
+对于应用程序来说，`客户端Socket`和`服务器连接Socket`（注意不是欢迎Socket）直接通过一根管道连接。服务器和客户端可以互相发送或接收字节。
+
+---
+
+
+# 一个Python实现TCP的例子
+
+## 1. TCPClient.py 客户端
+
+```Python
+from socket import *
+serverName = "servername"
+serverPort = 12000
+clientSocket = socket(AF_INET,SOCK_STREAM)
+clientSocket.connect((serverName,serverPort))
+sentence = input("Input lowercase sentence:")
+clientSocket.send(sentence)
+modifiedSentence = clientSocket.recv(1024)
+print("From Server:", modifiedSentence)
+clientSocket.close()
+
+```
+
+
+逐行解释:
+
+### 1. `clientSocket = socket(AF_INET,SOCK_STREAM)`
+
+使用`socket()`初始化函数，创建了一个`客户端Socket`，第一个参数`AF_INET`指明底层网络使用的是IPv4，第二个参数`SOCK_STREAM`指明该Socket是SOCK_STREAM类型，也就是TCP。 `clientSocket`就是一个 Socket对象，它具有connect、send、recv等方法。
+
+### 2. `clientSocket.connect((serverName,serverPort))`
+
+前面提到，当客户端创建完一个TCP Socket之后，就可以向服务器发起三次握手并建立与服务器的TCP连接了，这一句就是连接。第一个参数`serverName`指明服务器的名字（即ip地址），第二个参数`serverPort`指明了服务器进程的端口。
+
+### 3. `sentence = input("Input lowercase sentence:")`
+
+用户输入一个句子，并存储在 `sentence` 变量中。
+
+### 4. `clientSocket.send(sentence)`
+
+clientSocket对象的`send`方法，将用户输入的句子放到TCP连接中去，交给TCP去发送。
+
+### 5. `modifiedSentence = clientSocket.recv(1024)`
+
+当字符到达服务器时，就会被放在modifiedSentence这个字符串变量中，字符持续积累，直到遇到结束符。clientSocket对象的`recv`方法，把服务器发回来的字符串放入modifiedSentence中。
+
+### 6. `clientSocket.close()`
+
+关闭Socket，关闭了客户端和服务器之间的TCP连接。
+
+
+## 2. TCPServer.py 服务器
+
+```Python
+from socket import *
+serverPort = 12000
+serverSocket = socket(AF_INET,SOCK_STREAM)
+serverSocket.bind(("",serverPort))
+serverSocket.listen(1)
+print("The server is ready to receive")
+while 1:
+  connectionSocket, addr = serverSocket.accept()
+  sentence = connectionSocket.recv(1024)
+  capitalizedSentence = sentence.upper()
+  connectionSocket.send(capitalizedSentence)
+  connectionSocket.close()
+
+```
+逐行解释:
+
+### 1. `serverSocket = socket(AF_INET,SOCK_STREAM)`
+
+使用`socket()`初始化函数，创建了一个服务器Socket。也就是`serverSocket`，这是上文提到的欢迎Socket。
+
+### 2. `serverSocket.bind(("",serverPort))`
+
+`bind`方法绑定一个端口号。
+
+### 3. `serverSocket.listen(1)`
+
+一切准备就绪，开始聆听某个客户端来敲门。参数`1`表示最大连接客户数量为1
+
+### 4. `connectionSocket, addr = serverSocket.accept()`
+
+当有客户敲门时，服务器的欢迎Socket通过`accept()`函数创建了一个新的Socket（连接Socket），为这个特定的客户专用。客户端和服务器完成了握手，这时候，在客户端的`clientSocket`和服务器的`serverSocket`之间创建了一个TCP连接，这个TCP连接让客户端的`clientSocket`服务器的`connectionSocket`之间互传数据。
+
+### 5. `connectionSocket.close()`
+
+传输完数据后，我们关闭的是`connectionSocket`，但`serverSocket`保持打开。所以另一个客户敲门时，服务器仍继续响应。
+
+---
+
+---
+
+# UDP Socket的过程
+
+UDP是无连接的，不可靠的数据传送服务。当使用UDP时，必须先将`目的地址`和`源地址`附在分组上面。目的地址和源地址，都包括其`IP地址`和Socket应用程序的`端口号`。
+
+需要注意的是，将源地址附在分组上这个动作是由底层操作系统来完成的，不用我们关心。
+
+
+---
+
+# 一个Python实现UDP的例子
+
+## 1. UDPClient.py 客户端
+
+```Python
+from socket import *
+serverName = 'hostname'
+serverPort = 12000
+clientSocket = socket(AF_INET, SOCK_DGRAM)
+message = input('Input lowercase sentence:')
+clientSocket.sendto(message,(serverName,serverPort))
+modifiedMessage, serverAddress = clientSocket.recvfrom(2048)
+print(modifiedMessage)
+clientSocket.close()
+
+```
+
+逐行解释：
+
+### 1. `clientSocket = socket(AF_INET, SOCK_DGRAM)`
+
+使用`socket()`初始化函数，创建了一个`客户端Socket`，第一个参数`AF_INET`指明底层网络使用的是IPv4，第二个参数`SOCK_DGRAM`指明该Socket是SOCK_DGRAM类型，也就是UDP。 `clientSocket`就是一个 Socket对象，它具有connect、send、recv等方法。
+
+注意，创建客户端Socket时，并没有指定`客户端的端口号`，这件事由操作系统来做。
+
+### 2. `message = input('Input lowercase sentence:')`
+
+用户输入一个句子，并存储在 `sentence` 变量中。
+
+### 3. `clientSocket.sendto(message,(serverName,serverPort))`
+
+clientSocket对象的`sendto`方法，将用户输入的句子放到UDP连接中去，交给UDP去发送。第一个参数是刚刚用户输入的内容，第二个参数指定了服务器的地址和端口号。
+
+### 4. `modifiedMessage, serverAddress = clientSocket.recvfrom(2048)`
+
+当一个来自服务器的分组到达这个客户端Socket的时候，该分组的数据就会被放到`modifiedMessage`这个变量中，对方的源地址（包含IP和端口号）被放置到变量`serverAddress`中。事实上，在这个UDP的例子中，UDPClient并不需要服务器的地址信息，因为它一开始就已经知道了。但这行代码仍然提供了服务器的地址。
+
+### 5. clientSocket.close()
+
+关闭Socket，关闭了客户端和服务器之间的UDP连接。
+
+
+## 2. UDPServer.py
+
+```Python
+from socket import *
+serverPort = 12000
+serverSocket = socket(AF_INET, SOCK_DGRAM)
+serverSocket.bind(('', serverPort))
+print("The server is ready to receive")
+while True:
+  message, clientAddress = serverSocket.recvfrom(2048)
+  modifiedMessage = message.upper()
+  serverSocket.sendto(modifiedMessage, clientAddress)
+
+```
+
+逐行解释：
+
+### 1. `serverSocket = socket(AF_INET, SOCK_DGRAM)`
+
+使用`socket()`初始化函数，创建了一个服务器Socket。
+
+### 2. `serverSocket.bind(('', serverPort))`
+
+`bind`方法绑定一个端口号。
+
+### 3. `message, clientAddress = serverSocket.recvfrom(2048)`
+
+当一个来自客户端的分组到达这个服务器Socket的时候，该分组的数据就会被放到`message`这个变量中，对方的源地址（包含IP和端口号）被放置到变量`clientAddress`中。使用该源地址信息，服务器就可知道接下来的应答要发往何处。
+
+### 4. `modifiedMessage = message.upper()`
+
+把接收到的数据`message`，转化成大写，并存在`modifiedMessage`这个变量中。
+
+### 5. `serverSocket.sendto(modifiedMessage, clientAddress)`
+
+erverSocket对象的`sendto`方法，将转换成大写的数据，放到UDP连接中去，交给UDP去发送。第一个参数是刚刚转换过的内容，第二个参数指定了客户端的地址和端口号。（客户端的地址和端口号在第3步就接收到了）
