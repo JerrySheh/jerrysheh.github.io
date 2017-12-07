@@ -93,3 +93,11 @@ tags: English
 * 传输控制协议（Transmission Control Protocol，TCP）
 * 网际协议（Internet Protocol，IP）
 * 应用程序编程接口 (API，Application Programming Interface)
+* 面向连接的(connection-oriented)
+
+
+---
+
+# IO编程
+
+* 文本流(byte stream)
