@@ -29,13 +29,13 @@ p0.9/PWM6|输出|PWM输出通道6
 
 # 基本控制寄存器
 
-![PWM1](../../../../images/PWM1.png)
+![PWM1](../../../../images/ARM/PWM1.png)
 
 ---
 
 # 匹配功能寄存器
 
-![PWM2](../../../../images/PWM2.png)
+![PWM2](../../../../images/ARM/PWM2.png)
 
 ---
 

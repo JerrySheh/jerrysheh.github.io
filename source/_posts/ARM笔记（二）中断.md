@@ -28,7 +28,7 @@ ARM 内核本身只有<font color=#FF0000 > 快速中断（FIQ）</font>和<font
 向量中断控制器（VIC）的作用就是允许哪些中断源可以产生中断、可以产生哪类中断、产生中断后执行哪段服务程序。
 
 
-![interrupt](../../../../images/LPC2000_interrupt.jpg)
+![interrupt](../../../../images/ARM/LPC2000_interrupt.jpg)
 
 
 
@@ -53,7 +53,7 @@ VIC可以管理32路中断请求，但在 LPC2000 系列中，并没有用完32�
 
 以下是中断源表
 
-![interrupt](../../../../images/中断源.png)
+![interrupt](../../../../images/ARM/中断源.png)
 
 
 
@@ -156,13 +156,13 @@ VICVectCntlx[5]：该位为1，使能当前优先级的向量IRQ中断。否则�
 
 ## 外部中断相关寄存器
 
-![interrupt](../../../../images/外部中断相关寄存器.png)
+![interrupt](../../../../images/ARM/外部中断相关寄存器.png)
 
 ### 1. 外部中断极性控制寄存器(EXTPOLAR)
 
 功能：控制外部中断输入信号的极性，其中低四位（EXTPOLAR[3:0]）分别对应外部中断3～0。
 
-![interrupt](../../../../images/EXTPOLAR.png)
+![interrupt](../../../../images/ARM/EXTPOLAR.png)
 
 当EXTPOLARx设置为 1 时EINTx引脚输入信号高电平或上升沿有效。
 

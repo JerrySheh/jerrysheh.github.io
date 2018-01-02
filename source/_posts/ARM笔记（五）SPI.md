@@ -19,7 +19,7 @@ SPI是一种全双工的同步串行接口，一个SPI总线可以连接多个�
 
 # 一. 引脚
 
-![SPI](../../../../images/SPI.png)
+![SPI](../../../../images/ARM/SPI.png)
 
 使用示例：
 ```c
@@ -30,7 +30,7 @@ PINSEL0 = 0x5500;  // 0b 0101 0101 0000 0000  //SCK0 MISO0
 
 # 二. 相关寄存器
 
-![SPII](../../../../images/SPII.png)
+![SPII](../../../../images/ARM/SPII.png)
 
 
 ## 1. SPI控制寄存器 SPCR
@@ -67,7 +67,7 @@ PINSEL0 = 0x5500;  // 0b 0101 0101 0000 0000  //SCK0 MISO0
 
 ## 2. SPI状态寄存器 SPSR
 
-![SPISTAT](../../../../images/SPISTAT.png)
+![SPISTAT](../../../../images/ARM/SPISTAT.png)
 
 
 ---

@@ -41,7 +41,7 @@ PINSEL0 = (PINSEL0 & 0xFFFFFF0F) | 0x50;
 
 # 二. IIC相关寄存器
 
-![IICI](../../../../images/IIC2I.png)
+![IICI](../../../../images/ARM/IIC2I.png)
 
 ---
 

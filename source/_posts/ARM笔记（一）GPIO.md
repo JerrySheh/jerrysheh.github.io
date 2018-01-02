@@ -11,7 +11,7 @@ update: 2017-10-01 10:26:01
 
 笔记的参考教材为《ARM嵌入式系统基础教程》（周立功主编，第二版），以LPC2000系列为例。
 
-![LARM](../../../../images/学ARM.jpg)
+![LARM](../../../../images/ARM/学ARM.jpg)
 
 笔记（一）涉及到的知识：
 1. GPIO的引脚连接
@@ -38,11 +38,11 @@ PINSEL1 也有 16 个引脚，分别为 p0.16 - p0.31，每个引脚占用 2 位
 
  PINSEL0
 
-![PINSEL0](../../../../images/PINSEL0.png)
+![PINSEL0](../../../../images/ARM/PINSEL0.png)
 
  PINSEL1
 
-![PINSEL1](../../../../images/PINSEL1.png)
+![PINSEL1](../../../../images/ARM/PINSEL1.png)
 
 ## 使用方法
 
