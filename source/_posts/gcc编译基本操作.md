@@ -1,7 +1,9 @@
 ---
 title: gcc编译基本操作
-date: 2017-11-21 08:10:47
+categories: 技术&技巧
 tags: C/C++
+abbrlink: bbe22ae6
+date: 2017-11-21 08:10:47
 ---
 
 假设我现在有3个文件，分别是：

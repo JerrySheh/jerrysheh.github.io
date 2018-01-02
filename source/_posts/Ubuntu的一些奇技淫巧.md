@@ -1,7 +1,10 @@
 ---
 title: Ubuntu的一些奇技淫巧
+categories: 技术&技巧
+tags:
+  - Linux
+abbrlink: 2656dc91
 date: 2017-09-12 20:14:40
-tags: [linux,技巧]
 ---
 
 接触linux越久，掉进莫名其妙的坑里就越多，于是我决定每遇到一个坑就记录下来，这样以后再踩的时候不至于爬不起来。
@@ -179,11 +182,13 @@ sudo apt-get lrzsz
 ```
 
 上传使用命令：
-`rz`
+`sudo rz`
 
 输入`rz`后会从 windows 中选取文件，自动传输到VPS的当前目录下
 
 下载使用命令：
-`sz`
+`sudo sz`
+
+如果没有使用`sudo`，可能导致卡在上传中。
 
 比如，要把VPS当前目录下的 gf.jpg 文件下载到本地电脑，直接`rz gf.jpg`

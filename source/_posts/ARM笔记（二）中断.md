@@ -1,7 +1,9 @@
 ---
 title: ARM笔记（二）中断
-date: 2017-10-01 10:26:57
+categories: ARM基础
 tags: ARM
+abbrlink: ea5e98a2
+date: 2017-10-01 10:26:57
 ---
 
 今天是国庆节耶，早上起来整个朋友圈都是塞车。

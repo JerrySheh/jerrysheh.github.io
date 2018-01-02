@@ -1,7 +1,9 @@
 ---
 title: JAVA简明笔记（一） 基本编程结构
-date: 2017-11-05 22:40:39
+categories: JAVA
 tags: JAVA
+abbrlink: b3088ac5
+date: 2017-11-05 22:40:39
 ---
 
 

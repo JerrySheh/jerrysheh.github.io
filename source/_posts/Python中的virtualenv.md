@@ -1,7 +1,9 @@
 ---
 title: Python 中的 virtualenv
-date: 2017-10-16 21:16:30
+categories: Python
 tags: Python
+abbrlink: e7cabdd8
+date: 2017-10-16 21:16:30
 ---
 
 开发 Python 应用程序的时候，需要安装（import）各种各样的第三方包。默认情况下，都会被安装到Python 3的 site-packages 目录下面。比如，我的第三方包统一安装在目录`C:\Program Files\Python36\Lib\site-packages`下面。

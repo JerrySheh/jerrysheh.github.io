@@ -1,7 +1,11 @@
 ---
 title: Hexo多终端同步
+categories: 技术&技巧
+tags:
+  - hexo
+  - Linux
+abbrlink: 63b47f65
 date: 2017-09-13 23:14:59
-tags: [hexo,linux]
 ---
 
 Hexo 多终端同步问题

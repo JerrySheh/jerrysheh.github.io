@@ -1,8 +1,10 @@
 ---
 title: 给自己的 Linux 备忘
+categories: 技术&技巧
+tags: Linux
+abbrlink: ee3d8fa1
 date: 2017-09-24 14:28:00
-updated:  2017-09-25 15:40:00
-tags: linux
+updated: 2017-09-25 15:40:00
 ---
 
 # 给自己的 Linux 备忘
@@ -169,7 +171,7 @@ echo /etc/nano | xargs -i cp {} /tmp/dir
 `grep -inr "int printf" /usr/include | cut -d : -f 1`: 搜索/usr/include目录下，含有 int printf 的文件内容，用 cut 剪切每个搜索结果以冒号分隔的第一片
 
 cut
-- -d 分割 
+- -d 分割
 - -f 第几片
 
 

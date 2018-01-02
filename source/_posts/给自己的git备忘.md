@@ -1,8 +1,10 @@
 ---
 title: 给自己的 git 备忘
+categories: 技术&技巧
+tags: git
+abbrlink: 9f9a74a3
 date: 2017-09-04 15:43:46
 updated: 2017-09-04 17:04:01
-tags: git
 ---
 
 

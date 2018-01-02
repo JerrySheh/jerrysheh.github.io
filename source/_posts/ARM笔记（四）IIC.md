@@ -1,7 +1,9 @@
 ---
 title: ARM笔记（四）IIC
-date: 2017-10-16 16:52:01
+categories: ARM基础
 tags: ARM
+abbrlink: f86c33d
+date: 2017-10-16 16:52:01
 ---
 
 什么是 IIC ?

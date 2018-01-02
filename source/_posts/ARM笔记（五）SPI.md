@@ -1,7 +1,9 @@
 ---
 title: ARM笔记（五）SPI
-date: 2017-10-23 12:02:44
+categories: ARM基础
 tags: ARM
+abbrlink: b10da3ff
+date: 2017-10-23 12:02:44
 ---
 
 最近有点累，更新都放缓了。

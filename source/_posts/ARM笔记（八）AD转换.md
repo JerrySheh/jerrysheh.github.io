@@ -1,7 +1,9 @@
 ---
 title: ARM笔记（八）AD转换
-date: 2017-11-21 20:35:30
+categories: ARM基础
 tags: ARM
+abbrlink: f61a54c1
+date: 2017-11-21 20:35:30
 ---
 
 AD转换

@@ -1,7 +1,9 @@
 ---
 title: TCP之旅
-date: 2017-12-08 00:11:39
+categories: 计算机网络
 tags: 计算机网络
+abbrlink: e997edc6
+date: 2017-12-08 00:11:39
 ---
 
 # 前言

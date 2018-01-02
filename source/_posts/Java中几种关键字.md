@@ -1,7 +1,9 @@
 ---
 title: Java 中几种关键字
-date: 2017-09-07 23:25:47
+categories: JAVA
 tags: JAVA
+abbrlink: 3d143648
+date: 2017-09-07 23:25:47
 ---
 ## JAVA 几种关键字
 

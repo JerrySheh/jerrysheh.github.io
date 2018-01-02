@@ -1,7 +1,11 @@
 ---
 title: 了解makefile
-date: 2017-11-28 9:15:30
-tags: [C/C++,linux]
+categories: 技术&技巧
+tags:
+  - C/C++
+  - Linux
+abbrlink: 264103f9
+date: 2017-11-28 09:15:30
 ---
 
 

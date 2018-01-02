@@ -1,7 +1,11 @@
 ---
 title: 再谈Socket
+categories: 计算机网络
+tags:
+  - 计算机网络
+  - Python
+abbrlink: '78265215'
 date: 2017-11-29 00:01:36
-tags: [计算机网络,Python]
 ---
 
 之前在 Socket 编程初探中，初步使用 Socket 套接字，在 linux 下用 C 实现了一个客户端/服务器 通信的例子。但是对于TCP Socket 的过程还理解不深。这一篇，主要是补齐 Socket 通信的过程。 使用 Python语言，更好理解。 参考书籍《计算机网络：自顶向下方法》（第2章）。

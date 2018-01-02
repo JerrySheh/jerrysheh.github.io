@@ -1,7 +1,8 @@
 ---
 title: Program English
-date: 2017-10-29 16:52:43
 tags: English
+abbrlink: 95617eea
+date: 2017-10-29 16:52:43
 ---
 
 技术英语记录
@@ -64,6 +65,8 @@ tags: English
 * 异常处理器(Exception Handler)
 * 闭包(closure)
 * 减去(substract)
+* 截断（truncate）
+* 转换（cast）
 
 ---
 

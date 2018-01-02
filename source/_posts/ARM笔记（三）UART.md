@@ -1,7 +1,9 @@
 ---
 title: ARM笔记（三）UART
-date: 2017-10-08 10:54:31
+categories: ARM基础
 tags: ARM
+abbrlink: cb46c933
+date: 2017-10-08 10:54:31
 ---
 
 什么是UART ？
@@ -31,7 +33,7 @@ p0.9|TxD1|输出|串行输出，发送数据
 设置方法：PINSEL0第  0:3 位 设为 0101
 
 ```
-PINSEL0 = 0x00000005; 
+PINSEL0 = 0x00000005;
 ```
 
 ---

@@ -1,7 +1,9 @@
 ---
 title: 使用Python遍历文件
-date: 2017-10-29 12:22:01
+categories: Python
 tags: Python
+abbrlink: c78ec954
+date: 2017-10-29 12:22:01
 ---
 
 
