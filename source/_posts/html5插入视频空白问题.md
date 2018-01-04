@@ -7,7 +7,7 @@ abbrlink: 5e11ed5b
 date: 2017-12-31 23:50:58
 ---
 
-今天想在我的博客文章[一些想法](https://jerrysheh.github.io/2017/12/29/c3c12d05/)中插入一段视频。
+今天想在我的博客文章[一些想法](https://jerrysheh.github.io/post/c3c12d05.html)中插入一段视频。
 
 本来把视频上传到我的apache服务器中，然后在 Hexo 的 Markdown语法中插入以下语句即可
 
