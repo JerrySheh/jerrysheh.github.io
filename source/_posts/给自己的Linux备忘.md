@@ -12,7 +12,7 @@ Linux 学习任重而道远，此文记录了我在 Linux 学习中需要知道�
 
 
 <!-- more -->
-## 一、常用命令
+## 常用命令
 
 命令	| 说明
 ---|---
@@ -37,13 +37,17 @@ rm -f	| 强制删除
 apropos -e “list directory contents”	| 精确反查带有”“list directory contents”功能的命令
 whatis ls	| 显示ls命令的作用
 man ls	| 显示ls命令的手册（space翻页 j下行 k上行 /关键字搜索 n下一个关键字 shift+n上一个关键字）
+tar -zcvf xxxx.tar.gz  /home/test | 压缩
+tar -zxvf xxxx.tar.gz -C /tmp    | 解压
 
-FBI WARNING ！！！ 千万不要用下面这个命令。
 
-`$rm -rf /`
+
+> FBI WARNING ！！！ 千万不要用下面这个命令。
+
+> `$rm -rf /`
 
 ***
-## 二、Linux 通配表达式
+## Linux 通配表达式
 
 Linux 通配表达式 与 正则表达式 相类似，但语法有所不同。
 
@@ -61,7 +65,7 @@ Linux 通配表达式 与 正则表达式 相类似，但语法有所不同。
 `$rm * .txt`
 
 ***
-## 三、文件权限相关
+## 文件权限相关
 
 命令	|说明
 ---|---
@@ -98,7 +102,7 @@ Linux中，每个文件都有 9 位读写执行的权限。分为三组，三位
 
 
 ***
-## 四、快捷操作
+## 快捷操作
 
 命令	| 说明
 ---|---
@@ -107,7 +111,7 @@ ctrl+e	|定位到命令结尾
 ctrl+ ←	|定位到上一个单词
 
 ***
-## 五、标准输入，标准输出，标准错误，管道与重新定向
+## 标准输入，标准输出，标准错误，管道与重新定向
 
 命令	|说明
 ---|---
@@ -156,7 +160,7 @@ echo /etc/nano | xargs -i cp {} /tmp/dir
 
 ***
 
-## 六、 使用 grep 和 cut 过滤信息
+## 使用 grep 和 cut 过滤信息
 
 `ls --help | grep "  -l"`: 查看 ls 命令的 -l 参数用途
 
@@ -176,7 +180,7 @@ cut
 
 
 ***
-## 七、vim
+## vim
 
 ### 命令相关
 
