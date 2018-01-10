@@ -1,7 +1,9 @@
 ---
 title: gcc编译基本操作
 categories: 技术&技巧
-tags: C/C++
+tags:
+  - C/C++
+  - linux
 abbrlink: bbe22ae6
 date: 2017-11-21 08:10:47
 ---

@@ -3,7 +3,7 @@ title: 了解makefile
 categories: 技术&技巧
 tags:
   - C/C++
-  - Linux
+  - linux
 abbrlink: 264103f9
 date: 2017-11-28 09:15:30
 ---

@@ -2,7 +2,7 @@
 title: socket编程初探
 categories: 计算机网络
 tags:
-  - Linux
+  - linux
   - C/C++
   - 计算机网络
 abbrlink: bfa70c14
