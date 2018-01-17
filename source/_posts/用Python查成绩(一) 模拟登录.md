@@ -162,8 +162,23 @@ data = {
 
 ## post登录教务系统
 
-```
-# 登录教务系统
+如果成功登录进教务系统，右上角会显示：欢迎您，XXX同学
+
+因此可以从网页源码中获取到姓名
+
+写一个获取基本信息的函数，传入网页的response和xpath查找规则，返回我们需要提取的信息。
+
+```Python
+def getInfor(response, xpath):
+    content = response.content.decode('gb2312')  # 网页源码是gb2312要先解码
+    selector = etree.HTML(content)
+    infor = selector.xpath(xpath)[0]
+    return infor
+``
+
+然后开始post，并加入错误判断
+
+```Python
 response = s.post(url, data=data, headers=headers)
 print("正在登录...")
 print(response.status_code)
@@ -183,7 +198,6 @@ else:
     student = getInfor(response, '//*[@id="xhxm"]/text()').replace("同学", "")
     # student = student.replace("同学","")
     print("你好，" + student + " " + number)
-    return response
 ```
 
 如果一切正常，输出应该为：
@@ -290,6 +304,12 @@ def login_jcgl(session):
         # student = student.replace("同学","")
         print("你好，" + student + " " + number)
         return response
+
+def getInfor(response, xpath):
+    content = response.content.decode('gb2312')  # 网页源码是gb2312要先解码
+    selector = etree.HTML(content)
+    infor = selector.xpath(xpath)[0]
+    return infor
 
 s = requests.Session()
 response = login_jcgl(s)
