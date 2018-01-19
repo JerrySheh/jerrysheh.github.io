@@ -174,7 +174,7 @@ def getInfor(response, xpath):
     selector = etree.HTML(content)
     infor = selector.xpath(xpath)[0]
     return infor
-``
+```
 
 然后开始post，并加入错误判断
 
