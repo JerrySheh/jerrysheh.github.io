@@ -17,6 +17,7 @@ tags: JAVA
 * 接口可以包含默认方法，实现类可以继承或覆盖该默认方法。
 * Comparable和Comparator接口是用来比较对象的。
 
+<!-- more -->
 
 ---
 

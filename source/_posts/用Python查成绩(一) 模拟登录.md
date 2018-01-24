@@ -9,17 +9,22 @@ date: 2018-01-16 16:03:05
 
 # 前言碎语
 
-这个小项目的起因是每到期末，成绩总是一科一科不定时地出，每天都要登录教务系统查询成绩页面看看成绩出了没。
+这个小项目的起因是每到期末，成绩总是一科一科不定时地出，每天都要登录教务系统查询成绩页面看看成绩出了没，出了没？
 
-于是乎，就想到能不能用Python爬虫模拟登录教务系统，一键获取本学期所有科目的成绩！
+于是乎，就想到能不能用Python爬虫模拟登录教务系统，一键获取本学期所有科目的成绩！当然，一开始是想放到后台不断地自动查询、获取，等成绩更新的时候自动推送Email或微信。但鉴于时间、难度、寒假安排...想想还是暂时先做个一键脚本吧。
 
-Just do it ！
 
-首先来看看教务系统长什么样
+Just do it ！首先来看看教务系统长什么样
 
 ![jwgl](../../../../images/Login_jwgl/jwgl.png)
 
-学校的教务系统是流行的正方教务管理系统，我们可以用 Python 的 requests 库来模拟登录。然后往方框里提交正确的学号、密码和验证码，即可登录。看起来应该不难。
+学校的教务系统是流行的正方教务管理系统，我们可以用 Python 的 requests 库来模拟登录。然后往方框里提交（post）正确的学号、密码和验证码，即可登录。
+
+需要的储备知识：
+1. http协议
+2. python 3基本语法，request库的使用
+3. xpath和正则表达式
+4. cookie和session的功能和区别
 
 <!-- more -->
 
@@ -32,7 +37,7 @@ Just do it ！
 
 用了Session后，之前登录的信息会保留下来，这样远程服务器就认为你已经登录，允许后续操作。
 
-所以，我们首先实例化一个 Session对象，
+所以，我们首先实例化一个 Session对象。
 
 ```Python
 import requests
@@ -61,25 +66,25 @@ headers = {
 
 # 模拟登录
 
-## 输入学号和密码，用request.Session，get教务系统
+## 用request.Session访问教务系统
+
+response是request.get返回的内容
 
 ```Python
 number = input('请输入学号：')
 password = input("请输入密码：")
 url = "http://jwgl.zsc.edu.cn:90/(enfj1b45crtyfibn2cj2u045)/default2.aspx"
-response = session.get(url)
+response = s.get(url)
 ```
 
 
 ## 记录cookie, 并加入到header中
 
-上面我们构造的header中不包括cookie，因为cookie是会变的，我们需要Session自动帮我们添加。
-
-cookie的作用是让服务器记住你，所以我们也要把cookie加入到header中。
+cookie的作用是让服务器记住你，所以我们也要把cookie加入到header中。但上面我们构造的header中不包括cookie，因为cookie是会变的，我们需要Session自动帮我们添加。
 
 我们用requests的session方法保持cookie时，requests不能保持手动构建的cookie。原因是requests只能保持 cookiejar 类型的cookie，而我们手动构建的cookie（在header里面）是dict类型的。所以这里要做一个转换，然后把cookie加入到header里面去。
 
-```Python
+```python
 # 把cookie转变成字典类型，并加入到header中
 cookies = requests.utils.dict_from_cookiejar(s.cookies)
 headers.update(cookies)
@@ -91,7 +96,7 @@ headers_code.update(cookies)
 验证码实际上也是一个链接，用F12找到链接是
 `http://jwgl.zsc.edu.cn:90/(enfj1b45crtyfibn2cj2u045)/CheckCode.aspx`
 
-所以我们需要提前给它也设一个 header ，上面的`headers_code.update(cookies)`就是给验证码链接header加cookie的。
+我们需要提前给它也设一个 header ，上面的`headers_code.update(cookies)`就是给验证码链接header加cookie的。
 
 ```Python
 headers_code = {

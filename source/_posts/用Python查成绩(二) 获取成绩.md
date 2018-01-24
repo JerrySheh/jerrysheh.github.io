@@ -84,7 +84,7 @@ data = {
 response = s.post(grade_url, headers=grade_headers, data=data)
 ```
 
-至此我们已经得到一个含有成绩信息的网页了。离成功不远了！
+response是服务器返回给我们的网页，至此我们已经得到一个含有成绩信息的网页了。离成功不远了！
 
 ---
 
@@ -320,3 +320,5 @@ for go in result:
 os.system("pause")
 
 ```
+
+代码写得比较烂，请多批评指教。

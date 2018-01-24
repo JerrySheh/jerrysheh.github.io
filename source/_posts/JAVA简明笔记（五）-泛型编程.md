@@ -1,0 +1,114 @@
+---
+title: JAVA简明笔记（五） 泛型编程
+comments: true
+categories: JAVA
+tags: JAVA
+abbrlink: 76bad10f
+date: 2018-01-24 16:59:55
+---
+
+《Core Java for the Impatient》简明笔记。
+
+本章要点：
+
+* 泛型类是带有一个或者多个类型参数的类。
+* 泛型方法是带有类型参数的方法。
+
+
+---
+
+# 什么是泛型类
+
+假设我们现在有一个存储字符串字典键值对的类，就像这样
+
+```java
+public class Entry {
+    private int key;
+    private String value;
+
+    public Entry(int key, String value) {
+      this.key = key;
+      this.value = value;
+    }
+
+    public int getKey() { return key; }
+    public String getValue() { return value; }
+}
+```
+
+在这个类中，我们用 int 类型来存储 key 值， 用 String 类型来存储 value 值。
+
+现在，老板要求我们的不仅要有存储字符串类型的类，还要有存储其他类型的，那我们要写很多个类似上面的类，只是把`private String value`和`private int key;`改成别的类型吗？ 8种基本数据类型或许可以，但是存储的是抽象数据类型呢？我们不可能所有类型都写一个对应的类。
+
+解决这个问题，我们可以用 JAVA 泛型。 只写一个类，实例化的时候再写明是什么类型就好了。这就是泛型类。
+
+<!-- more -->
+
+
+```java
+public class Entry<K, V> {
+    private K key;
+    private V value;
+
+    public Entry(K key, V value) {
+      this.key = key;
+      this.value = value;
+    }
+
+    public K getKey() { return key; }
+    public V getValue() { return value; }
+}
+```
+
+实例化泛型类
+
+```java
+// new 后面尖括号的类型参数可以省略
+Entry<String, Integer> entry = new Entry<>("Fred", 42);
+```
+
+
+---
+
+# 泛型方法
+
+泛型类是带类型参数的类，同理，泛型方法是带类型参数的方法。
+
+一个普通类的泛型方法的例子，swap方法用于交换任何数组中的元素。
+
+```java
+public class Array {
+  public static <T> void swap (T[] array, int i, int j)
+    T temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+}
+
+String[] friends = ...;
+Array.swap(friends, 0, 1);
+```
+
+* 声明一个泛型方法时，类型参数放在返回类型之前。
+* 调用泛型方法时，不需要指定类型参数。编译器会自动推断。当然，指定也不会错。如`Array.<String>swap(friends, 0, 1);`
+
+---
+
+# 类型限定（extends）
+
+假设有一个类对象的ArrayList，该类实现了AutoCloseable接口。里面有一个关闭所有的方法。
+
+```java
+public static <T extends AutoCloseable> void closeAll(ArrayList<T> elems) throws Exception {
+  for (T elem: elems) elem.close();
+}
+```
+
+观察`<T extends AutoCloseable>`， 我们用 `extends` 限制了 T 类型是AutoCloseable的子类型。以防传入了一些奇奇怪怪不可接受的类型。
+
+* 多个限制可以用 &， 如`<T extends Runnable & AutoCloseable>`
+
+---
+
+# 类型变异和通配符
+
+todo..
