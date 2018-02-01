@@ -1,5 +1,5 @@
 ---
-title: 初识Android
+title: Android笔记（一） 初识
 comments: true
 abbrlink: 4afa9fc3
 date: 2018-01-21 20:21:23
@@ -7,7 +7,7 @@ categories: Android
 tags: Android
 ---
 
-![Android 8](../../../../images/Android.jpg)
+![Android 8](../../../../images/Learn_Android/Android.jpg)
 
 # Android 简介
 
@@ -36,12 +36,15 @@ tags: Android
 
 
 参考视频：
+
+对于没有编程基础的:
 * [Android 基础：用户界面](https://classroom.udacity.com/courses/ud834)
 * [Android 基础：用户输入](https://cn.udacity.com/course/android-basics-user-input--ud836)
 * [Android 基础：多屏应用](https://cn.udacity.com/course/android-basics-multi-screen-apps--ud839)
 * [Android 基础：网络](https://cn.udacity.com/course/android-basics-networking--ud843)
 * [Android 基础：数据存储](https://cn.udacity.com/course/android-basics-data-storage--ud845)
 
+有编程基础可以直接从这个开始：
 * [Android应用开发](https://classroom.udacity.com/courses/ud851)
 
 <!-- more -->
@@ -200,9 +203,13 @@ Android程序设计讲究逻辑和视图分离，所以逻辑代码写在MainAct
 
 Gradle是一个先进的项目构建工具，它使用一种基于Groovy的领域特定语言（DSL）来声明项目设置，摒弃了传统基于XML（如Ant和Maven）的各种繁琐设置。
 
+Android Project 会首先经过gradle构建，gradle会将你的代码构建成字节码和资源，打包成APK，然后经过jar签名，最后通过adb安装到虚拟或真实的Android设备上。
+
+![project](../../../../images/Learn_Android/stru.png)
+
 在Android Studio中，有多种项目构造目录，其中默认的Android方式是IDE自动调整的，方便我们查看文件。而只有project目录结构是真实存放在我们硬盘里的组织结构。
 
-![project](../../../../images/Android_project.png)
+![project](../../../../images/Learn_Android/Android_project.png)
 
 
 切换到project目录结构，可以看到 Helloworld项目有两个 build.gradle 文件。
@@ -274,3 +281,15 @@ dependencies {
 * `buildTypes`闭包用于指定生成安装文件的相关配置。
 
 * `dependencies`闭包指定当前项目的所有依赖关系。Android Studio有3种依赖方式：本地依赖、库依赖、远程依赖。
+
+---
+
+
+# Android Debug Bridge （ADB）
+
+ADB 是 Android 的 SDK 包含的命令行工具。用于调试。
+
+要从命令行中启动 Android 应用，你可以输入：
+```
+adb shell am start -n com.package.name/com.package.name.ActivityName
+```

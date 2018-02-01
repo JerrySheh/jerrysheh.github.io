@@ -97,10 +97,24 @@ date: 2017-10-29 16:52:43
 * 网际协议（Internet Protocol，IP）
 * 应用程序编程接口 (API，Application Programming Interface)
 * 面向连接的(connection-oriented)
-
+* 广播（Broadcast）
 
 ---
 
 # IO编程
 
 * 文本流(byte stream)
+
+---
+
+# Android
+
+* 布局（layout）
+* 视图（view）
+* 内容提供器（Content Providers）
+* 内边距（padding）
+* 外边距（margin）
+* 线性（Linear）
+* 垂直（vertical）
+* 水平（horizontal）
+* 方向（orientation）
