@@ -30,6 +30,14 @@ comments: false
 
 ## 2月
 
+### 02-02
+
+{% note success %}
+
+用技术去生存，用艺术去生活。——《死亡诗社》
+
+{% endnote %}
+
 ### 02-01
 
 {% note info %}

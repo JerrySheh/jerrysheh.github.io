@@ -14,6 +14,8 @@ Activity 是用户可以执行的单一任务。Activity 负责创建新的窗�
 
 Activity 会创建视图来向用户显示信息，并使用户与 Activity 互动。视图是 Android UI 框架中的类。它们占据了屏幕上的方形区域，负责绘制并处理事件。Activity 通过读取 XML 布局文件确定要创建哪些视图（并放在何处）。这些 XML 文件存储在标记为 layouts 的 res 文件夹内。
 
+参阅[Activity Google官方文档](https://developer.android.com/guide/components/activities.html?hl=zh-cn#Creating)
+
 ---
 
 # 布局 XML

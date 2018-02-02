@@ -162,7 +162,7 @@ new 一个 Intnet对象后， 用 intent.setData 方法可以调用其他程序
 
 ```java
   Intent intent = new Intent("com.jerrysheh.hello.ACTION_START");
-  intent.setData(Uri.parse("http://www.github.com"));
+  intent.setData(Uri.parse("https://www.github.com"));
   startActivity(intent);
 ```
 
@@ -181,7 +181,7 @@ new 一个 Intnet对象后， 用 intent.setData 方法可以调用其他程序
     <intent-filter>
         <action android:name="com.jerrysheh.hello.ACTION_START" />
         <category android:name="android.intent.category.DEFAULT"/>
-        <data android:schme="http" />
+        <data android:schme="https" />
         <data android:host="www.zhihu.com" />
     </intent-filter>
 </activity>
@@ -249,6 +249,72 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 }
 ```
 
+---
+
 # Activity的生命周期
 
-todo
+Android 用 任务（Task）来管理活动，一个Task就是一组存放在返回栈（Back Stack）里的活动的集合。系统总是会显示处于栈顶的活动给用户。
+
+## Activity的四种状态
+
+* 运行状态
+* 暂停状态（弹出式卡片，背景活动就是暂停状态）
+* 停止状态
+* 销毁状态
+
+## Activity的生存期
+
+* 完整生存期
+
+ 活动在`onCraete()`和`onDestroy()`之间经历的，就是一个完整生存期。
+
+* 可见生存期
+
+ 活动在`onStart()`和`onStop()`之间经历的，就是一个可见生存期。onStart()方法在活动从不可见变为可见时调用，onStop()反之。
+
+* 前台生存期
+
+ 活动在`onResume()`和`onPause()`之间经历的，就是一个前台生存期。onResume()方法在活动准备好和用户交互时调用。当系统准备去启动或恢复另一个活动时，onPause()将当前活动一些消耗CPU的资源释放，同时保存关键数据。
+
+此外，还有一个`onRestart()`，用于活动从停止状态变为运行状态之前调用，也就是活动被重新启动。
+
+> 当系统内存不足时，用户按下back键返回到上一个Activity，有可能上一个Activity已经被系统回收，这时不会执行`onRestart()`，而是执行`onCreate()`。遇到这种情况，如果上一个Activity有数据，那这些数据都丢失了，这是很影响用户体验的。解决办法是调用`onSaveInstantState()`回调方法。具体参见《第一行代码》第二版p62，以及[Activity Google官方文档](https://developer.android.com/guide/components/activities.html?hl=zh-cn#Creating)（推荐）
+
+![Toast](../../../../images/Learn_Android/activity_lifecycle.png)
+
+
+## Activity的启动模式
+
+Activity有四种启动模式，可以在 AndroidManifest.xml 的 <activity> 标签中修改
+
+```xml
+<activity
+  android:name=".SecondActivity"
+  android:launchMode="singleTop">
+    <intent-filter>
+        <action android:name="com.jerrysheh.hello.ACTION_START" />
+        <category android:name="android.intent.category.DEFAULT"/>
+    </intent-filter>
+</activity>
+```
+
+`android:launchMode`可填以下四种模式
+
+* standard
+
+ 标准模式，在MainActivity中启动MainActivity，会重复创建MainActivity的新实例。如创建了3个MainActivity的实例，需要按3次返回键才能完全退出。
+
+* singleTop
+
+  如果MainActivity已经在栈顶，启动MainActivity则不会重复创建新实例。但MainActivity不在栈顶，还是会创建新实例。
+
+* singleTask
+
+ 无论MainActivity是否在栈顶，在整个应用程序上下文中只存在一个MainActivity实例。
+
+* singleInstance
+
+  单独创建一个返回栈存放该实例。解决不同应用共享一个返回栈的问题。
+
+
+  参考：[Google官方文档](https://developer.android.com/guide/components/tasks-and-back-stack.html?hl=zh-cn)
