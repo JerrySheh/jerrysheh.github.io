@@ -30,6 +30,15 @@ comments: false
 
 ## 2月
 
+### 02-03
+
+{% note primary %}
+
+人生实苦，但请你足够相信！ ——— 清华招生办给魏祥的回信
+
+{% endnote %}
+
+
 ### 02-02
 
 {% note success %}
@@ -55,7 +64,7 @@ comments: false
 
 {% note default %}
 
-太倔强的人没资格惋惜 ——《没有人像你》
+太倔强的人 没资格惋惜 ——《没有人像你》
 
 {% endnote %}
 
