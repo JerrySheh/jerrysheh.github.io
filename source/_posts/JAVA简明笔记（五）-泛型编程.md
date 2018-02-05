@@ -1,8 +1,8 @@
 ---
-title: JAVA简明笔记（五） 泛型编程
+title: Java简明笔记（五） 泛型编程
 comments: true
-categories: JAVA
-tags: JAVA
+categories: Java
+tags: Java
 abbrlink: 76bad10f
 date: 2018-01-24 16:59:55
 ---
@@ -21,7 +21,7 @@ date: 2018-01-24 16:59:55
 
 假设我们现在有一个存储字符串字典键值对的类，就像这样
 
-```java
+```Java
 public class Entry {
     private int key;
     private String value;
@@ -40,12 +40,12 @@ public class Entry {
 
 现在，老板要求我们的不仅要有存储字符串类型的类，还要有存储其他类型的，那我们要写很多个类似上面的类，只是把`private String value`和`private int key;`改成别的类型吗？ 8种基本数据类型或许可以，但是存储的是抽象数据类型呢？我们不可能所有类型都写一个对应的类。
 
-解决这个问题，我们可以用 JAVA 泛型。 只写一个类，实例化的时候再写明是什么类型就好了。这就是泛型类。
+解决这个问题，我们可以用 Java 泛型。 只写一个类，实例化的时候再写明是什么类型就好了。这就是泛型类。
 
 <!-- more -->
 
 
-```java
+```Java
 public class Entry<K, V> {
     private K key;
     private V value;
@@ -62,7 +62,7 @@ public class Entry<K, V> {
 
 实例化泛型类
 
-```java
+```Java
 // new 后面尖括号的类型参数可以省略
 Entry<String, Integer> entry = new Entry<>("Fred", 42);
 ```
@@ -76,7 +76,7 @@ Entry<String, Integer> entry = new Entry<>("Fred", 42);
 
 一个普通类的泛型方法的例子，swap方法用于交换任何数组中的元素。
 
-```java
+```Java
 public class Array {
   public static <T> void swap (T[] array, int i, int j)
     T temp = array[i];
@@ -97,7 +97,7 @@ Array.swap(friends, 0, 1);
 
 假设有一个类对象的ArrayList，该类实现了AutoCloseable接口。里面有一个关闭所有的方法。
 
-```java
+```Java
 public static <T extends AutoCloseable> void closeAll(ArrayList<T> elems) throws Exception {
   for (T elem: elems) elem.close();
 }

@@ -1,7 +1,7 @@
 ---
-title: JAVA简明笔记（一） 基本编程结构
-categories: JAVA
-tags: JAVA
+title: Java简明笔记（一） 基本编程结构
+categories: Java
+tags: Java
 abbrlink: b3088ac5
 date: 2017-11-05 22:40:39
 ---
@@ -31,9 +31,9 @@ date: 2017-11-05 22:40:39
 * 用 `if (Double.isNaN(x))`来检查 `x` 是否为 NaN，但不可以用`if (x == Double.NaN)`，因为NaN都是彼此不同的
 * 浮点数不适合金融计算，用BigDecimal类
 * `BigDecimal.ValueOf(n,e);`，其中n是一个整数数，e是小数位，如(588888,3)，就是 588.888
-* JAVA不允许对象直接使用操作符，所以BigDecimal和BigInteer类需要用方法
+* Java不允许对象直接使用操作符，所以BigDecimal和BigInteer类需要用方法
 
-```java
+```Java
 BigDecimal next = bd.multiply(bd.add(BigDecimal.valueOf(l)));
 ```
 
@@ -91,13 +91,13 @@ BigDecimal next = bd.multiply(bd.add(BigDecimal.valueOf(l)));
 
 * 声明一个有100个元素的字符串数组 `String[] names = new String[100];`
 * new构造数组时的默认值：数字（0）， Boolean（flase）, 对象（空引用）
-* 构造数组时，需要知道数组的长度，一旦构造出来长度便不能改变。在许多实际应用中很不方便。所以需要 java.util 包中的 ArrayList 类来根据需求随时增长或者缩减数组的长度。
+* 构造数组时，需要知道数组的长度，一旦构造出来长度便不能改变。在许多实际应用中很不方便。所以需要 Java.util 包中的 ArrayList 类来根据需求随时增长或者缩减数组的长度。
 * ArrayList是泛型类
 * == 和 != 比较的是对象引用，而不是对象的内容。所以不要用 `if (numbers.get(i) == numbers.get(j))`，要用 equals
 
-```java
+```Java
 
-ArrayList<Sstring> friends;
+ArrayList<String> friends;
 friend = new ArrayList<>();
 friend.add("Peter");
 friend.add("Paul");
@@ -109,7 +109,7 @@ friends.set(1, "Mary");
 
 * 装箱和拆箱
 
-```java
+```Java
 
 ArrayList<Integer> numbers = new ArrayList<>();
 numbers.add(42);
@@ -119,7 +119,7 @@ int first = numbers.get(0);
 
 * 增强 for 循环
 
-```java
+```Java
 
 int sum = 0;
 for ( int n : numbers){
@@ -133,7 +133,7 @@ for ( int n : numbers){
 * 可变长参数的声明：... 如 `public static double average(double... values)`
 * 可变参数必须是方法的最后一个参数
 
-```java
+```Java
 
 public static double average(double... values) {
   double sum = 0;

@@ -1,9 +1,9 @@
 ---
-title: JAVA简明笔记（四） 继承
+title: Java简明笔记（四） 继承
 comments: true
-categories: JAVA
-tags: JAVA
-abbrlink: 2fa74b80
+categories: Java
+tags: Java
+abbrlink: 2fJava80
 date: 2018-01-23 18:14:26
 ---
 
@@ -26,7 +26,7 @@ date: 2018-01-23 18:14:26
 
 举个例子。
 
-```java
+```Java
 public class Manager extends Employee {
   private double bonus;
   ...
@@ -47,7 +47,7 @@ public class Manager extends Employee {
 
 `Employee`类有个`setSalary`方法，返回员工的总薪水。对于管理层来说，除了工资外，还有奖金，于是`Employee`的`setSalary`方法不适用，我们需要重写。这个过程就叫方法覆盖。
 
-```JAVA
+```Java
 
 public class Manager extends Employee {
   ...
@@ -65,7 +65,7 @@ public class Manager extends Employee {
 
 假如Employee类有一个方法
 
-```java
+```Java
 public boolean workdsFor (Employee supervisor){
   ...
 }
@@ -73,7 +73,7 @@ public boolean workdsFor (Employee supervisor){
 
 我们现在要在`Manager`类重写这个方法，如果我们这样写：
 
-```java
+```Java
 public boolean workdsFor (Manager supervisor){
   ...
 }
@@ -83,7 +83,7 @@ public boolean workdsFor (Manager supervisor){
 
 正确的重写应该是：
 
-```java
+```Java
 public boolean workdsFor (Employee supervisor){
   ...
 }
@@ -91,7 +91,7 @@ public boolean workdsFor (Employee supervisor){
 
 因此，为了避免发生这样的失误，最好在我们重写方法的前面加上`@Override`，以注明这是一个重写方法，当我们失误参数写错时，编译器会报错。
 
-```java
+```Java
 @Override
 public boolean workdsFor (Employee supervisor){
   ...
@@ -106,7 +106,7 @@ public boolean workdsFor (Employee supervisor){
 
 Manager的构造函数不能访问Employee的私有变量，所以我们要用`super`调用父类的构造函数来初始化。
 
-```java
+```Java
 public Manager (String name, double salary) {
   super(name, salary);
   bonus = 0;
@@ -116,9 +116,9 @@ public Manager (String name, double salary) {
 
 # 父类赋值
 
-在JAVA中，将一个子类对象赋给父类变量是可以的。JAVA有动态查找，即使是Employee类型，执行的时候还是会执行Manager的方法。
+在Java中，将一个子类对象赋给父类变量是可以的。Java有动态查找，即使是Employee类型，执行的时候还是会执行Manager的方法。
 
-```java
+```Java
 Manager boss = new Manager(...);
 Employee empl = boss;  // it is ok.
 
@@ -128,14 +128,14 @@ double salary = empl.getSalary();
 
 但是这也有一个缺点，那就是只能调用属于父类的方法（getSalary），而不能调用子类方法（getBonus）。
 
-```java
+```Java
 Employee empl = new Manager(...);
 empl.setBonus(10010); //编译报错
 ```
 
 解决这个问题，可以用`instanceof`操作符。
 
-```java
+```Java
 Employee empl = new Manager(...);
 
 //如果empl不是Manager类型，则类型转换
@@ -152,19 +152,19 @@ if (empl instanceof Manager) {
 * final方法不能被覆盖，final类不能被继承。
 * abstract方法没有实现，abstract类不能被实例化。
 
-* JAVA中，类比接口优先（class win）。因此一个类继承了另一个类，又实现了某个接口，碰巧父类和接口有同名方法。这时，默认为父类的实现。
+* Java中，类比接口优先（class win）。因此一个类继承了另一个类，又实现了某个接口，碰巧父类和接口有同名方法。这时，默认为父类的实现。
 
 ---
 
 # 终极父类：Object
 
-Object是JAVA中所有类的父类。Object类有几个重要的方法。
+Object是Java中所有类的父类。Object类有几个重要的方法。
 
 
 ## ToString方法
 
 许多toString方法都采用一种格式： 类名称后面跟中括号，里面是实例变量。如
-调用Point类的toString将会输出：`java.awt.Point[x=10, y=20]`
+调用Point类的toString将会输出：`Java.awt.Point[x=10, y=20]`
 
 所以，在我们的Employee方法中，可以重写toString为
 

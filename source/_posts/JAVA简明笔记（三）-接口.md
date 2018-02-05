@@ -1,10 +1,10 @@
 ---
-title: JAVA简明笔记（三） 接口
+title: Java简明笔记（三） 接口
 comments: true
 abbrlink: 32811f1d
 date: 2018-01-20 22:27:27
-categories: JAVA
-tags: JAVA
+categories: Java
+tags: Java
 ---
 
 《Core Java for the Impatient》简明笔记。
@@ -25,7 +25,7 @@ tags: JAVA
 
 假设有一种整数序列服务，这种服务可以计算前n个整数的平均值。就像这样：
 
-```java
+```Java
 public static double average(IntSequence seq, int n){
   ...
   return average
@@ -45,7 +45,7 @@ public static double average(IntSequence seq, int n){
 
 我们暂时不去想这两个方法具体怎么实现，只是知道需要有这两个方法。于是，我们的average计算平均数服务可以是这样：
 
-```java
+```Java
 public static double average(IntSequence seq, int n) {
   int count = 0;
   double sum = 0;
@@ -57,9 +57,9 @@ public static double average(IntSequence seq, int n) {
 }
 ```
 
-在JAVA中，我们把这两种方法声明出来，但不实现，这就是接口了。
+在Java中，我们把这两种方法声明出来，但不实现，这就是接口了。
 
-```java
+```Java
 public interface IntSequence{
   boolean hasNext();
   int next();
@@ -76,7 +76,7 @@ public interface IntSequence{
 
 现在有一个类，它的序列是一组无限平方数（0,1,4,9,16,25...），我们要用上面的average方法来计算这组平方数前n个数的平均值。那么，这个类必然有`hasNext()`和`next()`这两个方法的`具体实现`。我们就称这个类实现了上面的`IntSequence`接口。
 
-```java
+```Java
 public class SquareSequence implements IntSequence {
   private int i;
 
@@ -93,7 +93,7 @@ public class SquareSequence implements IntSequence {
 
 获得前100个平方数的平均值：
 
-```java
+```Java
 SquareSequence squares = new SquareSequence();
 double avg = average(squares, 100);
 ```
@@ -104,7 +104,7 @@ double avg = average(squares, 100);
 
 现在又有一个类，它是一个有限序列。是正整数从个位开始每个位的值。比如1729，那么序列就是9，2，7，1。这个序列必然也有`hasNext()`和`next()`这两个方法的`具体实现`。因此，这个类也实现了上面的`IntSequence`接口。
 
-```java
+```Java
 public class DigitSequence implements IntSequence {
   private int number;
 
@@ -130,7 +130,7 @@ public class DigitSequence implements IntSequence {
 
 计算1729位数序列的平均值
 
-```java
+```Java
 IntSequence digits = new DigitSequence(1729);
 double avg = average(digits, 100);  //虽然这里传入100，但实际只有4个数
 ```
@@ -144,7 +144,7 @@ double avg = average(digits, 100);  //虽然这里传入100，但实际只有4�
 * 你只能将一个对象强制转换为它的实际类或者它的父类之一。
 * 可以用`instanceof`测试对象是否期望的类型
 
-```java
+```Java
 // 如果DigitSequence是sequence的父类，if语句为true
 if (sequence instanceof DigitSequence) {
   DigitSequence digits = (DigitSequence) sequence;
@@ -159,13 +159,13 @@ if (sequence instanceof DigitSequence) {
 
 # 静态方法和默认方法
 
-* 接口可以有静态方法（JAVA 8新特性）
+* 接口可以有静态方法（Java 8新特性）
 
 ## 默认方法和作用
 
 * 可以给接口一个默认实现（默认方法），用`default`修饰。
 
-```java
+```Java
 public interface IntSequence {
 
   default boolean hasNext(){
@@ -178,13 +178,13 @@ public interface IntSequence {
 
 * 默认方法的一个重要用途：接口演化
 
-> 有一个旧接口，一个类实现了这个接口。新版java中对旧接口增加了一个方法，那么这个类就无法编译了，因为这个类没有实现新增加的方法。这时，如果新增加的方法设为默认方法。那么在类的实例中调用这个方法时，执行的是接口的默认方法，即使这个类没有该方法也得以编译和运行。
+> 有一个旧接口，一个类实现了这个接口。新版Java中对旧接口增加了一个方法，那么这个类就无法编译了，因为这个类没有实现新增加的方法。这时，如果新增加的方法设为默认方法。那么在类的实例中调用这个方法时，执行的是接口的默认方法，即使这个类没有该方法也得以编译和运行。
 
 ## 解决冲突
 
 * 如果一个类实现了两个接口，其中一个接口有默认方法，另一个接口有同名同参数的方法（默认或非默认），那么编译器会报错。可以用`父类.super.方法()`来决定要执行哪个方法。
 
-```java
+```Java
 //返回Identified接口的getID，而不是Persons接口的
 public class Employee implements Persons, Identified {
   public int getID() {
@@ -202,7 +202,7 @@ public class Employee implements Persons, Identified {
 
 Comparable接口的一个技术要点：
 
-```java
+```Java
 public interface Comparable<T> {
   int compareTo(T other);
 }
@@ -210,13 +210,13 @@ public interface Comparable<T> {
 
 String类实现`Comparable<String>`，它的compareTo方法是
 
-```java
+```Java
 int compareTo(String other)
 ```
 
 Employee类实现`Comparable<Employee>`，它的compareTo方法可以这样写：
 
-```java
+```Java
 public class Employee implements Comparable<Employee> {
   ...
   public int compareTo(Employee other) {
@@ -242,7 +242,7 @@ public interface Comparator<T> {
 
 比较字符串长度的实现
 
-```java
+```Java
 class LenthComparator implements Comparator<String> {
   public int compare(String first, String second) {
     return first.lenth() - second.lenth()
@@ -252,7 +252,7 @@ class LenthComparator implements Comparator<String> {
 
 实例
 
-```java
+```Java
 Comparator<String> comp = new LenthComparator();
 if (comp.compare(words[i],words[j]) > 0)
 ```
@@ -263,7 +263,7 @@ if (comp.compare(words[i],words[j]) > 0)
 
 Runable接口用来定义任务。比如我们想把特定的任务丢给一个单独的线程去做。
 
-```java
+```Java
 class HelloTask implements Runnable {
   public void run {
     // how to run
@@ -281,9 +281,9 @@ thread.start();
 
 在GUI中，当用户单击按钮、选择菜单项、拖动滑块等操作时，我们必须指定需要执行的行为。这种行为称为`回调`。
 
-在JAVA GUI类库中，用接口来回调。如在JavaFX中，报告事件的接口：
+在Java GUI类库中，用接口来回调。如在JavaFX中，报告事件的接口：
 
-```java
+```Java
 public interface EventHandler<T> {
   void handle (T event);
 }
@@ -291,7 +291,7 @@ public interface EventHandler<T> {
 
 一个CancelAction类实现上面的接口，指定按钮单击事件的行为ActionEvent，然后创建该类的对象。
 
-```java
+```Java
 class CancelAction implements EventHandler<ActionEvent> {
   public void handle (ActionEvent event) {
     System.out.println("Oh shit!");
@@ -319,7 +319,7 @@ cancelButton.setOnAction(new CancelAction());
 
 ## 什么时候使用接口，什么时候使用抽象类
 
-如果你想实现多继承，那么就用接口，java不支持多继承，但是可以实现多个接口
+如果你想实现多继承，那么就用接口，Java不支持多继承，但是可以实现多个接口
 
 接口主要用于模块与模块之间的调用
 
