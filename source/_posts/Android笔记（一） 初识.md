@@ -21,9 +21,9 @@ tags: Android
 
 > 2010年末数据显示，仅正式推出两年的Android操作系统在市场占有率上已经超越称霸逾十年的诺基亚Symbian系统，成为全球第一大智能手机操作系统。
 
-> 在2014年Google I/O开发者大会上Google宣布过去30天里有10亿台活跃的安卓设备，相较于2013年6月则是5.38亿[18]。
+> 在2014年Google I/O开发者大会上Google宣布过去30天里有10亿台活跃的安卓设备，相较于2013年6月则是5.38亿。
 
-> 2017年3月，Android全球网络流量和设备超越Microsoft Windows，正式成为全球第一大操作系统[19]。
+> 2017年3月，Android全球网络流量和设备超越Microsoft Windows，正式成为全球第一大操作系统。
 
 > 2017年8月，Android O发布。
 
@@ -53,13 +53,19 @@ tags: Android
 
 # Android 系统架构
 
-Android系统架构可以分为四层，分别是：
+Android系统架构可以分为五层，分别是：
 
-* `Linux内核层`，为硬件提供了底层驱动，如显示驱动，照相机驱动，音频驱动，蓝牙驱动等。
-* `系统运行库层`， 通过C/C++库来为Android系统提供主要的特性支持。如SQLite库提供数据库支持，OpenGL/ES库提供3D绘图支持，Webkit库提供浏览器内核支持等。以及，Android Runtime，提供了一些核心库，允许开发者使用JAVA、Kotlin编写Android应用。
-* `应用框架层`提供了构建应用程序时需要的API。
+
+* **应用层（System app）**，所有安装在手机上的app都是应用层的，包括系统自带app和第三方开发的app。
+* **应用框架层（JAVA API Framework）**，提供了构建应用程序时需要的API。
+* **系统运行库（Native C/C++ Libraries） 和 Android Runtime**， 通过C/C++库来为Android系统提供主要的特性支持。如SQLite库提供数据库支持，OpenGL/ES库提供3D绘图支持，Webkit库提供浏览器内核支持等。Android Runtime是Android的核心库，为Android应用跨平台使用提供的可靠方案，每个app都会有自己独立的运行空间和虚拟机。允许开发者使用JAVA、Kotlin编写Android应用。
+* **硬件抽象层（Hardware Abstraction Layer, HAL）** 主要与manufacture和chip vendor相关，manufacture提供HAL的实现以及各种硬件设备的驱动和集成chip vendor提供的firmware。
+* **Linux内核层（Linux Kernel）**，为硬件提供了底层驱动，如显示驱动，照相机驱动，音频驱动，蓝牙驱动等。
 
 ![Android Framework](../../../../images/Learn_Android/Android_Framework.png)
+
+对于Framework的一些知识点：
+
 > 隐藏在每个应用后面的是一系列的服务和系统, 其中包括；
 
  >a. `丰富而又可扩展的视图（Views）`，可以用来构建应用程序， 它包括列表（lists），网格（grids），文本框（text boxes），按钮（buttons）， 甚至可嵌入的web浏览器。
@@ -71,10 +77,6 @@ Android系统架构可以分为四层，分别是：
  >d. `通知管理器（Notification Manager）`使得应用程序可以在状态栏中显示自定义的提示信息。
 
  >e. `活动管理器（Activity Manager）`用来管理应用程序生命周期并提供常用的导航回退功能。
-
-* `应用层`，所有安装在手机上的app都是应用层的，包括系统自带app和第三方开发的app。
-
-
 
 ---
 

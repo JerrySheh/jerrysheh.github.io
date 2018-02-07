@@ -1,7 +1,7 @@
 ---
 title: Java String 浅析
 comments: true
-categories: Java
+categories: JAVA
 tags: Java
 abbrlink: 689b9445
 date: 2018-02-05 00:27:20
@@ -29,7 +29,8 @@ date: 2018-02-05 00:27:20
 
 ```java
 /*
- * 初始化一个新创建的 String 对象，使其表示一个与参数相同的字符序列；换句话说，新创建的字符串是该参数字符串的副本。
+ * 初始化一个新创建的 String 对象，使其表示一个与参数相同的字符序列；
+ * 换句话说，新创建的字符串是该参数字符串的副本。
  */
 String(String original) {
   ...
@@ -130,5 +131,5 @@ public delete(int start, int end)
 
 取代
 ```java
-*	`replace(int start, int end, String str)`
+replace(int start, int end, String str)
 ```

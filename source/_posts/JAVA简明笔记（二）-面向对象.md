@@ -1,8 +1,8 @@
 ---
-title: JAVA简明笔记（二） 面向对象
+title: Java简明笔记（二） 面向对象
 comments: true
 categories: JAVA
-tags: JAVA
+tags: Java
 abbrlink: ba7990ce
 date: 2018-01-18 22:31:07
 ---
@@ -12,7 +12,7 @@ date: 2018-01-18 22:31:07
 
 本章要点：
 * Mutator方法改变对象的状态，Accessor方法不改变对象状态；
-* JAVA中，变量不持有对象，只能持有对象的引用；
+* Java中，变量不持有对象，只能持有对象的引用；
 * 实例变量和方法实现是在类的内部声明的；
 * 实例方法是通过对象调用的，通过this引用可访问该对象；
 * 构造函数和类名相同。一个类可以有多个构造函数（Overload,重载）；
@@ -20,7 +20,7 @@ date: 2018-01-18 22:31:07
 * 类是按包的形式来组织的。使用import声明，这样程序中就不必使用包名；
 * 类可以嵌套在其他类中；
 * 内部类是非静态嵌套类。它的实例有个外部类对象的引用，这个外部类构建了内部类；
-* javadoc工具处理源代码文件，根据声明和程序员提供的注释产生HTML文件。
+* Javadoc工具处理源代码文件，根据声明和程序员提供的注释产生HTML文件。
 
 
 <!-- more -->
@@ -36,9 +36,9 @@ date: 2018-01-18 22:31:07
 * `Mutator`方法和`Accessor`方法
 > 如果一个方法改变了调用它的对象，我们就说这是一个`Mutator`方法（更改器），反之如果不改变调用自己的对象，它就是`Accessor`方法 （访问器）。比如plusDays方法如果改变Date对象的状态，不返回结果，就是`Mutator`方法，如果plusDays不改变Date对象而是返回一个新构造的LocalDate对象，就是`Accessor`方法。
 
-* JAVA中，变量只能持有对象的引用。引用是与实现相关的一种定位对象的方式。
+* Java中，变量只能持有对象的引用。引用是与实现相关的一种定位对象的方式。
 * 在类的实例上运行的方法称为`实例方法`。
-* JAVA中，所有没有被声明为`static`的方法都是实例方法。
+* Java中，所有没有被声明为`static`的方法都是实例方法。
 
 ---
 
@@ -46,7 +46,7 @@ date: 2018-01-18 22:31:07
 
 * 在对象上调用方法时，this引用指向该对象。this清晰地区分了局部变量和实例变量。带有this的是实例对象。
 
-```java
+```Java
 public void raiseSalary(double byPercent){
   double raise = this.salary * byPercent / 100;
   this.salary += raise;
@@ -55,7 +55,7 @@ public void raiseSalary(double byPercent){
 
 * 不想给参数起不同的名称时，也可使用this
 
-```java
+```Java
 public void setSalary(double salary){
   this.salary = salary;
 }
@@ -66,11 +66,11 @@ public void setSalary(double salary){
 ## 值传递
 
 * 当你将对象传递给方法，方法获得该对象引用的拷贝。
-* JAVA中，所有参数，对象引用以及基本类型值都是值传递。
+* Java中，所有参数，对象引用以及基本类型值都是值传递。
 
 下面的例子无法工作，因为sales被复制进x,然后x增加，然而x只是局部变量，这并不更改sales
 
-```java
+```Java
 // 无法工作
 public void increaseRandomly(double x){
   double amount = x * generator.nextDouble();
@@ -82,7 +82,7 @@ boss.increaseRandomly(sales);
 
 同样的，不可能写出一个方法将对象引用修改成其他东西。下面的例子中，引用fred被复制进变量e，然后e被设置成不同的引用。当方法退出时，e退出作用域，fred一点都没改变。
 
-```java
+```Java
 //无法工作
 public class EvilManager{
   ...
@@ -103,7 +103,7 @@ boss.replaceWithZombie(fred);
 * 构造函数可以重载。
 * 如果有多个构造函数，将共有代码放在其中一个构造函数里，然后在其他构造函数可以调用另一个构造函数，这时候调用要使用this。且只能作为构造函数方法体的第一条语句。
 
-```java
+```Java
 public Employee (double salary){
   this ("", salary);  //调用构造函数 Employee (String, salary)
   ...                 //其他内容
@@ -121,7 +121,7 @@ public Employee (double salary){
 
 下面的例子中，方法可能修改friends引用的数组列表，但是它们不能用其他对象替代。特别是，friends不能变成null。
 
-```java
+```Java
 public class Person{
   private final ArrayList<Person> friends = new ArrayList<>();
   //可以给该数组列表添加元素

@@ -54,12 +54,12 @@ date: 2017-10-29 16:52:43
 * JAVA虚拟机(JVM，Java Virtual Machine)
 * 嵌套 (nest)
 * 转义符(Escape sequence)
-* 断言(assert )
+* 断言(assert)
 * 缓冲区(buffers)
 * 泛型(Generic type)
 * 收缩变换(narrowing conversion)
-
 * 宽松变换(widening conversion)
+
 * 图形用户接口 (GUI，Graphical User Interface)
 * 运行时类型识别(RTTI, Run-Time Type Identification)
 * 异常处理器(Exception Handler)
@@ -68,6 +68,8 @@ date: 2017-10-29 16:52:43
 * 截断（truncate）
 * 转换（cast）
 
+* 函数式编程（Functional Programming）
+
 ---
 
 # 组成原理
@@ -75,6 +77,7 @@ date: 2017-10-29 16:52:43
 * 主存(Main Memory, MM)
 * 存储器地址寄存器(Memory Address Register，MAR)
 * 存储器数据寄存器(Memory Data Register，MDR)
+
 * 中央处理器(Central Processsing Unit, CPU)
 * 算数逻辑单元(Arthmetic Logic Unit, ALU)
 * 控制单元(Control Unit, CU)
@@ -83,6 +86,12 @@ date: 2017-10-29 16:52:43
 * 输入输出设备(Input/Output Equipment)
 * 基本输入输出系统(Basic Input Output System,BIOS)
 * 通用串行总线(Universal Serial Bus,USB)
+
+---
+
+# 操作系统
+
+* 硬件抽象层（Hardware Abstraction Layer, HAL）
 
 ---
 
@@ -111,6 +120,7 @@ date: 2017-10-29 16:52:43
 
 * 布局（layout）
 * 视图（view）
+* 广播接收器（Broadcast Receiver）
 * 内容提供器（Content Providers）
 * 内边距（padding）
 * 外边距（margin）

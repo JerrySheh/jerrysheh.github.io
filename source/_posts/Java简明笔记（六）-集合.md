@@ -1,7 +1,7 @@
 ---
 title: Java简明笔记（六） 集合
 comments: true
-categories: Java
+categories: JAVA
 tags: Java
 abbrlink: f85bb872
 date: 2018-02-04 22:43:40
