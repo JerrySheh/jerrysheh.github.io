@@ -57,17 +57,26 @@ sudo apt-get install git
 sudo npm install hexo -g
 ```
 
-## 4. 在合适的位置新建一个目录，并在这个目录下打开终端
+## 4. 配置 git SSH key
 
-## 5. 配置 git SSH key
+如果是第一次在这台电脑用git，需要先添加 user.name 和 user.email
 
-详见：[教程](https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001374385852170d9c7adf13c30429b9660d0eb689dd43a000)
+可参考我之前写的 [git 备忘](https://jerrysheh.github.io/post/9f9a74a3.html)
+
+然后再配置SSH key
+
+参考：[配置SSH key详细教程](https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001374385852170d9c7adf13c30429b9660d0eb689dd43a000)
+
+## 5. 在合适的位置新建一个目录，并在这个目录下打开终端
+
 
 ## 6. 克隆原始文件（stat）分支到本地
 
 ```
 git clone git@github.com:JerrySheh/JerrySheh.github.io.git -b stat blog
 ```
+
+这里的 stat 是远程分支名字， blog是新建名为blog的文件夹并把这个分支clone到这个文件夹里
 
 ## 7. 切换到克隆生成的目录
 
@@ -84,6 +93,14 @@ npm install hexo-deployer-git
 ```
 
 注意：不需要 hexo init ！
+
+* 这里有一个坑
+
+由于Ubuntu下已经有一个名叫node的库，因此Node.js在ubuntu下默认叫nodejs，需要额外处理一下
+
+```
+sudo ln -s /usr/bin/nodejs /usr/bin/node
+```
 
 ## 9. 尝试修改些什么，然后执行
 
