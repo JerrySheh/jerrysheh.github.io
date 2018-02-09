@@ -1,46 +1,74 @@
 ---
-title: Program English
-tags: English
-abbrlink: 95617eea
-date: 2017-10-29 16:52:43
+title: ComputerScienceEnglishQuickCheck
+date: 2018-02-09 23:37:23
+comments: false
 ---
 
-技术英语记录
 
+<div align = "center">技术英语快速查阅</div>
 
 <!-- more -->
 
-
-# 面向对象
+# 基本编程
 
 * 变量(variable)
+* 常量(constant)
 * 声明(declare)
 * 数组(array)
 * 初始化(initialize)
+* 参数(argument)
+* 垃圾回收(garbage collection)
+
+* 嵌套 (nest)
+* 转义符(Escape sequence)
+* 断言(assert)
+
+
+# 面向对象（Object Oriented, OO）
+
+
 * 对象(Object)
 * 域(field)
 * 方法(method)
 * 实例(instance)
 
-
 * 类(class)
 * 衍生类(derived class)
 * 基类(base class)
 * 抽象类(abstract class)
+
 * 构造器(constructor)
 * 封装(encapsulation)
 * 接口(interface)
 * 实现(implementation)
 
-
-* 容器(container) //容器是用对象封装的数据结构
-* 参数(argument)
 * 继承(inheritance)
 * 组合(composition)
 * 多态(polymorphism)
 * 不可变对象(immutable object)
-* 垃圾回收(garbage collection)
 
+
+---
+
+# 集合（collection）
+
+* 容器(container) //容器是用对象封装的数据结构
+* 集合类工具（collections）
+* 列表（list）
+* 元组（set），或者tuple
+* 映射（map），或者称字典（dict）
+* 迭代器（iterator）
+* 可迭代的（iterrable）
+
+---
+
+# 数据结构（data structure）
+
+* 链表(linked list)
+* 二叉树(Binary Tree)
+* 左子树(left subtree)
+* 排序（sort）
+* 排序序列（sequence）
 
 ---
 
@@ -50,18 +78,13 @@ date: 2017-10-29 16:52:43
 
 ---
 
+
 # 其他
-* JAVA虚拟机(JVM，Java Virtual Machine)
-* 嵌套 (nest)
-* 转义符(Escape sequence)
-* 断言(assert)
+
 * 缓冲区(buffers)
 * 泛型(Generic type)
 * 收缩变换(narrowing conversion)
 * 宽松变换(widening conversion)
-
-* 图形用户接口 (GUI，Graphical User Interface)
-* 运行时类型识别(RTTI, Run-Time Type Identification)
 * 异常处理器(Exception Handler)
 * 闭包(closure)
 * 减去(substract)
@@ -69,6 +92,10 @@ date: 2017-10-29 16:52:43
 * 转换（cast）
 
 * 函数式编程（Functional Programming）
+
+* JAVA虚拟机(JVM，Java Virtual Machine)
+* 图形用户接口 (GUI，Graphical User Interface)
+* 运行时类型识别(RTTI, Run-Time Type Identification)
 
 ---
 
@@ -89,13 +116,14 @@ date: 2017-10-29 16:52:43
 
 ---
 
-# 操作系统
+# 操作系统(Operating System)
 
 * 硬件抽象层（Hardware Abstraction Layer, HAL）
+* 解释器(interpreter)
 
 ---
 
-# 计算机网络
+# 计算机网络(network)
 
 * 主机（host）
 * 端系统（end system）

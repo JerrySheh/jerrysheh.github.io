@@ -1,6 +1,6 @@
 ---
 title: gcc编译基本操作
-categories: 技术&技巧
+categories: linux
 tags:
   - C/C++
   - linux
