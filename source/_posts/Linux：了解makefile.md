@@ -1,6 +1,6 @@
 ---
 title: 了解makefile
-categories: Linux
+categories: linux
 tags:
   - C/C++
   - Linux

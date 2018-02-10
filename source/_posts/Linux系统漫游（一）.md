@@ -1,7 +1,7 @@
 ---
 title: Linux系统漫游（一）
 comments: true
-categories: Linux
+categories: linux
 tags: Linux
 abbrlink: 4f4dc2a9
 date: 2018-02-09 18:11:46

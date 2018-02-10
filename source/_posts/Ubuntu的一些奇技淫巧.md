@@ -1,6 +1,6 @@
 ---
 title: Ubuntu的一些奇技淫巧
-categories: Linux
+categories: linux
 tags:
   - Linux
 abbrlink: 2656dc91
