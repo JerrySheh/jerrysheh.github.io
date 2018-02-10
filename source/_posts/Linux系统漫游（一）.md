@@ -1,13 +1,15 @@
 ---
-title: Linux系统漫游
+title: Linux系统漫游（一）
 comments: true
-categories: linux
-tags: linux
+categories: Linux
+tags: Linux
 abbrlink: 4f4dc2a9
 date: 2018-02-09 18:11:46
 ---
 
-用了好久的 Linux 系统了，然而却没有从头开始好好系统地认识过 Linux，这一篇，就从以下几个方面，漫游式地重新梳理一下关于 Linux 的知识。
+用了好久的 Linux 系统了，然而却没有从头开始好好系统地认识过 Linux，这两篇，就从以下几个方面，漫游式地重新梳理一下关于 Linux 的知识。
+
+本篇：
 
 * Linux简介与版本
 * 从开机到启动
@@ -16,8 +18,17 @@ date: 2018-02-09 18:11:46
 * 标准输入、标准输出、标准错误、重定向
 * 管道
 * Linux 架构
-* Linux 进程（todo）
-* Linux 信号（todo）
+
+[下一篇](https://jerrysheh.github.io/post/9cf7e81b.html)：
+
+* 进程
+* 信号
+* 从程序到进程
+* 进程间关系
+* 进程间通信
+* 并发与同步
+
+
 
 ![Linux](http://s1.51cto.com/wyfs02/M00/6F/E0/wKioL1WsnI_D5yoXAACw18CAdYo720.jpg-wh_651x-s_997345474.jpg)
 
@@ -35,19 +46,19 @@ PC平台比较流行的 Linux厂商版本 可以分为两类：
 
 * **Redhat系列**：包括面向企业的Red Hat Enterprise、由社区维护的Fedora和CentOS等，该系列 Linux版本 的软件安装包以rpm结尾。
 
-* **Debian系列**：包括完全免费的 Debian 和 继承自 Debian 且界面友好的 Ubuntu ，以及继承自 Ubuntu 但提供了更加丰富的预装应用的Mint，还有预装了许多网络安全、渗透相关工具的kali linux。 国产做得比较优秀的深度（Deepin）也是属于Debian系列的。这一类 Linux版本 的软件安装包以deb结尾。。
+* **Debian系列**：包括完全免费的 Debian 和 继承自 Debian 且界面友好的 Ubuntu ，以及继承自 Ubuntu 但提供了更加丰富的预装应用的Mint，还有预装了许多网络安全、渗透相关工具的kali Linux。 国产做得比较优秀的深度（Deepin）也是属于Debian系列的。这一类 Linux版本 的软件安装包以deb结尾。。
 
 > `个人用户安装建议`
 
-> 如果只是为了体验一下 Linux 系统，推荐安装有强大的社区支持的 Ubuntu，不想太折腾也可以尝试 Deepin；如果是为了稳定建站等希望有持续的技术支持，但不愿意频繁升级的，可以试试 CentOS ；如果想学习黑客知识、网络安全等，推荐 kali linux。
+> 如果只是为了体验一下 Linux 系统，推荐安装有强大的社区支持的 Ubuntu，不想太折腾也可以尝试 Deepin；如果是为了稳定建站等希望有持续的技术支持，但不愿意频繁升级的，可以试试 CentOS ；如果想学习黑客知识、网络安全等，推荐 kali Linux。
 
-此外，还有一些小众的 linux 发行版就不介绍了。总而言之， Linux 的发行版本非常多。
+此外，还有一些小众的 Linux 发行版就不介绍了。总而言之， Linux 的发行版本非常多。
 
 <!-- more -->
 
 ![Torvalds](https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Linus_Torvalds.jpeg/330px-Linus_Torvalds.jpeg)
 
-上图就是 Linux Kernel 的最初创始人 Linus Torvalds
+上图就是 Linux Kernel 的最初创始人 Linus Torvalds，关于 linus 的介绍，可看[Linus，一生只为寻找欢笑](https://zhuanlan.zhihu.com/mactalk/19796979)
 
 ---
 
@@ -154,7 +165,7 @@ cat < a.txt | wc
 
 注：本小节摘自 [Vamei 的博客](http://www.cnblogs.com/vamei/archive/2012/09/19/2692452.html)
 
-![架构](https://pic002.cnblogs.com/images/2012/413416/2012092023590167.jpg)
+![架构](../../../../images/Linux_structure.jpg)
 
 根据上图，我们从内到外，逐一分析！
 
@@ -190,13 +201,11 @@ UNIX的一条哲学是`让每个程序尽量独立的做好一个小的功能`�
 
 最后，我们进入一般的应用。应用是一个程序，它可以
 
-直接调用系统函数
-调用库函数
-运行shell脚本
+* 直接调用系统函数
+* 调用库函数
+* 运行shell脚本
 这些应用可以由多种语言开发。最常见的是C语言。
 
 ---
 
-# Linux 进程
-
-todo
+由于篇幅原因，这一篇先介绍到这里，[下一篇](https://jerrysheh.github.io/post/9cf7e81b.html)继续介绍进程、信号、并发等知识。
