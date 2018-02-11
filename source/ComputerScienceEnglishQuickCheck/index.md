@@ -70,6 +70,9 @@ comments: false
 * 排序（sort）
 * 排序序列（sequence）
 
+* 栈（stack）
+* 堆（heap）
+
 ---
 
 # Web
@@ -97,6 +100,7 @@ comments: false
 * 图形用户接口 (GUI，Graphical User Interface)
 * 运行时类型识别(RTTI, Run-Time Type Identification)
 * 可移植操作系统接口（POSIX,Portable Operating System Interface）
+* 统一可扩展固件接口（UEFI，Unified Extensible Firmware Interface）
 
 ---
 
@@ -144,6 +148,16 @@ comments: false
 # IO编程
 
 * 文本流(byte stream)
+
+# 多线程
+
+* 并发(concunrrency)
+* 竞争条件(race condition)
+* 原子操作(atomic operation)
+* 同步(synchronization)
+* 互斥锁(mutex)
+* 条件变量(condition variable)
+* 读写锁(reader-writer lock)
 
 ---
 

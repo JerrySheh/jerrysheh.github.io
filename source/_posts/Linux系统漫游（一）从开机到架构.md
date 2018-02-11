@@ -1,5 +1,5 @@
 ---
-title: Linux系统漫游（一）
+title: Linux系统漫游（一）从开机到架构
 comments: true
 categories: linux
 tags: Linux
@@ -62,7 +62,7 @@ PC平台比较流行的 Linux厂商版本 可以分为两类：
 
 发一张仅供娱乐的图片。
 
-![](../../../../images/linux_versions.jpg)
+![](../../../../images/Linux/linux_versions.jpg)
 
 
 
@@ -76,19 +76,23 @@ PC平台比较流行的 Linux厂商版本 可以分为两类：
 
 当我们打开计算机电源，计算机会自动从主板的BIOS(Basic Input/Output System)读取其中所存储的程序。这一程序通常知道一些直接连接在主板上的硬件(硬盘，网络接口，键盘，串口，并口)。现在大部分的BIOS允许你从软盘、光盘或者硬盘中选择一个来启动计算机。
 
+> 随着计算机的发展，传统的BIOS被新的UEFI BIOS替代。UEFI的全称是Unified Extensible Firmware Interface，意即统一可扩展固件接口。UEFI做了很多对传统BIOS的改进。
+
 下一步，计算机将从你所选择的存储设备中读取起始的512个字节(bytes)。如果我们从光盘启动的话，那么计算机就会读取光盘最开始的512个字节。这512个字节叫做`主引导记录MBR (master boot record)`。MBR会告诉电脑从该设备的某一个分区(partition)来装载`引导加载程序(boot loader)`。引导加载程序储存有操作系统(OS)的相关信息，比如操作系统名称，操作系统内核所在位置等。`常用的引导加载程序有GRUB和LILO。`
+
+> 随着计算机的发展，逐渐出现了GPT来代替MBR。GPT的全称是Globally Unique Identifier Partition Table，意即GUID分区表，它的推出是和UEFI BIOS相辅相成的，鉴于MBR的磁盘容量和分区数量已经不能满足硬件发展的需求，GPT首要的任务就是突破了2.2T分区的限制，最大支持18EB的分区。
 
 随后，引导加载程序会帮助我们加载内核(kernel)。内核实际上是一个用来操作计算机的程序，它是计算机操作系统的内核，主要的任务是管理计算机的硬件资源，充当软件和硬件的接口。操作系统上的任何操作都要通过内核传达给硬件。Windows和Linux各自有自己内核。狭义的操作系统就是指内核，广义的操作系统包括内核以及内核之上的各种应用。
 
 实际上，我们可以在多个分区安装引导加载程序，每个引导加载程序对应不同的操作系统，在读取MBR的时候选择我们想要启动的引导加载程序。这就是多操作系统的原理。
 
-小结：BIOS -> MBR -> 引导加载程序 -> 内核
+小结：BIOS -> MBR（GPT）-> boot loader -> kernel
 
 ## 内核
 
 如果我们加载的是Linux内核，Linux内核开始工作。内核会首先预留自己运行所需的内存空间，然后通过`驱动程序(driver)`检测计算机硬件。这样，操作系统就可以知道自己有哪些硬件可用。随后，内核会启动一个init进程。它是Linux系统中的1号进程。到此，内核就完成了在计算机启动阶段的工作，交接给init来管理。
 
-小结: 内核 -> init process
+小结: kernel -> init process
 
 ## init process
 
@@ -171,7 +175,7 @@ cat < a.txt | wc
 
 注：本小节摘自 [Vamei 的博客](http://www.cnblogs.com/vamei/archive/2012/09/19/2692452.html)
 
-![架构](../../../../images/Linux_structure.jpg)
+![架构](../../../../images/Linux/Linux_structure.jpg)
 
 根据上图，我们从内到外，逐一分析！
 
