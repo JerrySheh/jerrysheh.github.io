@@ -9,7 +9,7 @@ date: 2017-09-12 20:14:40
 
 接触linux越久，掉进莫名其妙的坑里就越多，于是我决定每遇到一个坑就记录下来，这样以后再踩的时候不至于爬不起来。
 
-Ubuntu的一些奇技淫巧
+Ubuntu的一些使用技巧
 
 目前 get 的有：
 1. 调整鼠标速度
@@ -17,6 +17,7 @@ Ubuntu的一些奇技淫巧
 3. 系统更新提示 /boot 空间不足的解决办法
 4. 更改国内源，提高下载速度
 5. Xshell5 Ubuntu系统的VPS服务器跟本地电脑互传文件
+6. 编辑菜单
 
 <!-- more -->
 
@@ -94,43 +95,7 @@ sudo cp /etc/apt/sources.list /etc/apt/sources.list.old
 sudo gedit /etc/apt/source.list
 ```
 
-## 3. 添加以下其中一个国内源并覆盖原内容
-
-东北大学
-```
-deb-src http://mirror.neu.edu.cn/ubuntu/ xenial main restricted #Added by software-properties
-deb http://mirror.neu.edu.cn/ubuntu/ xenial main restricted
-deb-src http://mirror.neu.edu.cn/ubuntu/ xenial restricted multiverse universe #Added by software-properties
-deb http://mirror.neu.edu.cn/ubuntu/ xenial-updates main restricted
-deb-src http://mirror.neu.edu.cn/ubuntu/ xenial-updates main restricted multiverse universe #Added by software-properties
-deb http://mirror.neu.edu.cn/ubuntu/ xenial universe
-deb http://mirror.neu.edu.cn/ubuntu/ xenial-updates universe
-deb http://mirror.neu.edu.cn/ubuntu/ xenial multiverse
-deb http://mirror.neu.edu.cn/ubuntu/ xenial-updates multiverse
-deb http://mirror.neu.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse
-deb-src http://mirror.neu.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse #Added by software-properties
-deb http://archive.canonical.com/ubuntu xenial partner
-deb-src http://archive.canonical.com/ubuntu xenial partner
-deb http://mirror.neu.edu.cn/ubuntu/ xenial-security main restricted
-deb-src http://mirror.neu.edu.cn/ubuntu/ xenial-security main restricted multiverse universe #Added by software-properties
-deb http://mirror.neu.edu.cn/ubuntu/ xenial-security universe
-deb http://mirror.neu.edu.cn/ubuntu/ xenial-security multiverse
-```
-
-清华大学
-```
-# deb cdrom:[Ubuntu 16.04 LTS _Xenial Xerus_ - Release amd64 (20160420.1)]/ xenial main restricted
-deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted
-deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted
-deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial universe
-deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates universe
-deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial multiverse
-deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates multiverse
-deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse
-deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted
-deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security universe
-deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security multiverse
-```
+## 3. 添加以下国内源并覆盖原内容
 
 阿里云（推荐）
 ```
@@ -192,3 +157,14 @@ sudo apt-get lrzsz
 如果没有使用`sudo`，可能导致卡在上传中。
 
 比如，要把VPS当前目录下的 gf.jpg 文件下载到本地电脑，直接`rz gf.jpg`
+
+
+---
+
+# 六、编辑开始菜单
+
+```
+sudo apt install alacarte
+```
+
+然后直接在Ubuntu终端输入命令alacarte。可以任意增、改、隐藏、显示菜单，但无法删除菜单，即使拥有root权限。
