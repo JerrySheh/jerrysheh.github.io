@@ -1,7 +1,7 @@
 ---
 title: Ubuntu 下配置 shadowsock-qt
-categories: 技术&技巧
-tags: linux
+categories: linux
+tags: Linux
 abbrlink: 879f3462
 date: 2017-09-12 10:40:00
 updated: 2017-09-12 10:40:00

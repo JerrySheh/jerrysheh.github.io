@@ -1,13 +1,13 @@
 ---
 title: Ubuntu的一些奇技淫巧
-categories: 技术&技巧
+categories: linux
 tags:
-  - linux
+  - Linux
 abbrlink: 2656dc91
 date: 2017-09-12 20:14:40
 ---
 
-接触linux越久，掉进莫名其妙的坑里就越多，于是我决定每遇到一个坑就记录下来，这样以后再踩的时候不至于爬不起来。
+接触Linux越久，掉进莫名其妙的坑里就越多，于是我决定每遇到一个坑就记录下来，这样以后再踩的时候不至于爬不起来。
 
 Ubuntu的一些使用技巧
 
@@ -58,15 +58,15 @@ Ubuntu 系统更新的时候，有时候会提示 /boot 空间不足，原因是
 ## 1. 查看旧版本内核
 
 ```
-dpkg --get-selections|grep linux
+dpkg --get-selections|grep Linux
 ```
 
-看到带有 linux-image-x.x.x的就是旧版本。
+看到带有 Linux-image-x.x.x的就是旧版本。
 
 ## 2. 删除
 
 ```
-sudo apt-get remove linux-image-(版本号)
+sudo apt-get remove Linux-image-(版本号)
 ```
 
 ## 3. 删除不干净的可以使用以下命令

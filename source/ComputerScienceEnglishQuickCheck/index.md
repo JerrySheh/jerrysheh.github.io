@@ -101,6 +101,8 @@ comments: false
 
 # 组成原理
 
+* 指令 (instruction)
+
 * 主存(Main Memory, MM)
 * 存储器地址寄存器(Memory Address Register，MAR)
 * 存储器数据寄存器(Memory Data Register，MDR)

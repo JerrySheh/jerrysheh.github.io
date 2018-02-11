@@ -3,7 +3,7 @@ title: gcc编译基本操作
 categories: linux
 tags:
   - C/C++
-  - linux
+  - Linux
 abbrlink: bbe22ae6
 date: 2017-11-21 08:10:47
 ---
@@ -14,7 +14,7 @@ date: 2017-11-21 08:10:47
 * `mystrlen.h`: 该算法的头文件。
 * `test.c`: main函数，里面有一些字符串需要调用上面的算法来计算长度
 
-那么在 linux 下，如何用 gcc 把 mystrlen.c 编译成动态链接库，方便 test.c 去使用呢 ？
+那么在 Linux 下，如何用 gcc 把 mystrlen.c 编译成动态链接库，方便 test.c 去使用呢 ？
 
 
 ---
