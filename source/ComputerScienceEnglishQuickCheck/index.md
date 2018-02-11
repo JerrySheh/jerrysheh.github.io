@@ -96,6 +96,7 @@ comments: false
 * JAVA虚拟机(JVM，Java Virtual Machine)
 * 图形用户接口 (GUI，Graphical User Interface)
 * 运行时类型识别(RTTI, Run-Time Type Identification)
+* 可移植操作系统接口（POSIX,Portable Operating System Interface）
 
 ---
 

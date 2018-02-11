@@ -42,6 +42,12 @@ date: 2018-02-09 18:11:46
 
 广义的 Linux 指的是以 Linux kernel 为基础的包括操作系统和各种应用在内的各个Linux版本(distribution)。
 
+<!-- more -->
+
+![Torvalds](https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Linus_Torvalds.jpeg/330px-Linus_Torvalds.jpeg)
+
+上图就是 Linux Kernel 的最初创始人 Linus Torvalds，关于 linus 的介绍，可看[Linus，一生只为寻找欢笑](https://zhuanlan.zhihu.com/mactalk/19796979)
+
 PC平台比较流行的 Linux厂商版本 可以分为两类：
 
 * **Redhat系列**：包括面向企业的Red Hat Enterprise、由社区维护的Fedora和CentOS等，该系列 Linux版本 的软件安装包以rpm结尾。
@@ -54,11 +60,11 @@ PC平台比较流行的 Linux厂商版本 可以分为两类：
 
 此外，还有一些小众的 Linux 发行版就不介绍了。总而言之， Linux 的发行版本非常多。
 
-<!-- more -->
+发一张仅供娱乐的图片。
 
-![Torvalds](https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Linus_Torvalds.jpeg/330px-Linus_Torvalds.jpeg)
+![](../../../../images/linux_versions.jpg)
 
-上图就是 Linux Kernel 的最初创始人 Linus Torvalds，关于 linus 的介绍，可看[Linus，一生只为寻找欢笑](https://zhuanlan.zhihu.com/mactalk/19796979)
+
 
 ---
 
