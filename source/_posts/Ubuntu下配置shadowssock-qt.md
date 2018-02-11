@@ -13,8 +13,8 @@ updated: 2017-09-12 10:40:00
 
 ```
 sudo add-apt-repository ppa:hzwhuang/ss-qt5
-sudo apt-get update
-sudo apt-get install shadowsocks-qt5
+sudo apt update
+sudo apt install shadowsocks-qt5
 ```
 
 

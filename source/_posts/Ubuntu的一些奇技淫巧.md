@@ -18,6 +18,7 @@ Ubuntu的一些使用技巧
 4. 更改国内源，提高下载速度
 5. Xshell5 Ubuntu系统的VPS服务器跟本地电脑互传文件
 6. 编辑菜单
+7. 终端使用SS，查公有ip
 
 <!-- more -->
 
@@ -168,3 +169,23 @@ sudo apt install alacarte
 ```
 
 然后直接在Ubuntu终端输入命令alacarte。可以任意增、改、隐藏、显示菜单，但无法删除菜单，即使拥有root权限。
+
+---
+
+# 七、终端使用SS，并查公有ip
+
+首先根据[这篇文章](https://jerrysheh.github.io/post/879f3462.html)配置好SS软件。
+
+然后在终端中
+
+```
+export ALL_PROXY=socks5://127.0.0.1:1080
+```
+
+* 注意: 该命令仅对本终端一次性有效
+
+查看公有ip
+
+```
+curl ipinfo.io/ip
+```
