@@ -84,6 +84,8 @@ comments: false
 
 # 其他
 
+* 并行（parallel）
+
 * 缓冲区(buffers)
 * 泛型(Generic type)
 * 收缩变换(narrowing conversion)
