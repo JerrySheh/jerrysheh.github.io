@@ -53,7 +53,7 @@ String(String original) {
 String fs;
 fs = String.format("浮点型变量为%f, 整型变量为%d, 字符串变量为%s", floatVar, intVar, stringVar);
 
-String hello
+String hello;
 hello = String.format("Hello, %s. Next year you will be %d.", name, age);
 ```
 

@@ -160,6 +160,10 @@ if (empl instanceof Manager) {
 
 Object是Java中所有类的父类。Object类有几个重要的方法。
 
+## clone方法
+
+保护方法，实现对象的浅复制，只有实现了Cloneable接口才可以调用该方法，否则抛出CloneNotSupportedException异常
+
 
 ## ToString方法
 
@@ -184,6 +188,43 @@ equals方法用于判断一个对象是否与另一个对象相等。注意，�
 * 对于基本数据类型，用“==”，但是在double中，如果担心正负无穷大或NaN，用`Double.equals`。
 * 对于对象，如果担心对象为null，用`Object.equals(x, y)`，如果x为空，返回false。而如果你常规的用`x.equals(y)则会抛出异常。`
 
+## wait方法
+
+使当前线程等待该对象的锁，当前线程必须是该对象的拥有者，也就是具有该对象的锁。wait()方法一直等待，直到获得锁或者被中断。wait(long timeout)设定一个超时间隔，如果在规定时间内没有获得锁就返回。
+
+调用该方法后当前线程进入睡眠状态，直到以下事件发生：
+
+1. 其他线程调用了该对象的notify方法
+2. 其他线程调用了该对象的notifyAll方法
+3. 其他线程调用了interrupt中断该线程
+4. 时间间隔到了
+
+此时该线程就可以被调度了，如果是被中断的话就抛出一个InterruptedException异常
+
+
 ## hashCode方法
 
 哈希码是个来源于对象的整数。哈希码应该是杂乱无序的，如果x和y是两个不相等的对象，他们的`hashCode`方法很可能不同。
+
+>  hashcode的作用。
+
+> hashCode用于返回对象的散列值，用于在散列函数中确定放置的桶的位置。
+
+> 1、hashCode的存在主要是用于查找的快捷性，如Hashtable，HashMap等，hashCode是用来在散列存储结构中确定对象的存储地址的；
+
+> 2、如果两个对象相同，就是适用于equals(java.lang.Object) 方法，那么这两个对象的hashCode一定要相同；
+
+> 3、如果对象的equals方法被重写，那么对象的hashCode也尽量重写，并且产生hashCode使用的对象，一定要和equals方法中使用的一致，否则就会违反上面提到的第2点；
+
+> 4、两个对象的hashCode相同，并不一定表示两个对象就相同，也就是不一定适用于equals(java.lang.Object) 方法，只能够说明这两个对象在散列存储结构中，如Hashtable，他们“存放在同一个篮子里”。
+
+
+## getClass方法
+
+final方法，获得运行时类型
+
+## notify
+唤醒在该对象上等待的某个线程
+
+## notifyAll
+唤醒在该对象上等待的所有线程

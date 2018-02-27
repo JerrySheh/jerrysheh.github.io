@@ -270,9 +270,11 @@ class HelloTask implements Runnable {
   }
 }
 
+{
 Runnable task = new HelloTask();
 Thread thread = new Thread(task);
 thread.start();
+}
 ```
 
 这样，run方法就在一个单独的线程中去执行了，当前线程可以做别的事。
@@ -300,14 +302,19 @@ class CancelAction implements EventHandler<ActionEvent> {
 
 Button cancelButton = new Button("Cancel!");
 cancelButton.setOnAction(new CancelAction());
-
 ```
 
 ---
 
-# 接口和抽象类的区别
+# 接口(Interface)和抽象类(abstract class)的区别
 
-接口可以看做是抽象类的一种更抽象化，接口是对动作(行为)的抽象，抽象类是对类的抽象。简单来说，就是接口注重的是方法，而抽象类注重的是属性和方法。
+接口是对动作(行为)的抽象，表示的是"like-a"关系。
+
+抽象类是对类的抽象，表示的是"is-a"关系。
+
+接口注重的是方法，而抽象类注重属性和方法。
+
+
 
 抽象类|接口
 ---|---

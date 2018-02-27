@@ -91,7 +91,7 @@ try后面接资源，在正常执行完之后或者当发生异常时，try-with
 
 如果没有 try-catch的话，如果其中一个line抛出异常，那么所有的line的out.close()不能被正常执行，导致out结果丢失。
 
-```java
+```
 ArrayList<String> lines ...;
 try (PrintWriter out = new PrintWriter("output.txt")) {
   for (String line:lines ) {
@@ -105,6 +105,20 @@ try (PrintWriter out = new PrintWriter("output.txt")) {
 ```
 
 更多关于异常的内容 异常重抛和链接、堆栈踪迹、Objects.requireNonNull方法见书p186
+
+---
+
+# try里有return，finally还执行么？
+
+答案：执行，并且finally的执行早于try里面的return
+
+结论：
+* 不管有没有出现异常，finally块中代码`都会执行`；
+* 当try和catch中有return时，finally仍然会执行；
+* finally是在return后面的表达式运算后执行的（此时并没有返回运算后的值，而是先把要返回的值保存起来，不管finally中的代码怎么样，返回的值都不会改变，任然是之前保存的值），所以函数返回值是在finally执行前确定的；
+* finally中最好不要包含return，否则程序会提前退出，返回值不是try或catch中保存的返回值。
+
+> 一句话总结: 先执行return后面的表达式，把结果保存起来，但不返回，然后执行finally，最后才返回。不要在finally中包含return。
 
 ---
 

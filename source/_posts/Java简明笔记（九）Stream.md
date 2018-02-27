@@ -21,7 +21,14 @@ tags: Java
 
 # Stream
 
-Java 中的 Stream 提供了数据视图，让你可以在比集合类更高的概念层上指定操作。使用 Stream，只需要指定做什么，而不是怎么做。你只需要将操作的调度执行留给实现。
+Java 中的 Stream 提供了数据源，让你可以在比集合类更高的概念层上指定操作。使用 Stream，只需要指定做什么，而不是怎么做。你只需要将操作的调度执行留给实现。
+
+简单地说，流就是一组数据，经过某种操作，产生我们所需的新流。
+
+<!-- more -->
+
+流的来源，可以是集合，数组，I/O channel， 生成器（generator）等。
+聚合操作类似SQL语句一样的操作， 比如filter, map, reduce, find, match, sorted等。
 
 ## 从迭代到 Stream 操作
 
@@ -49,7 +56,7 @@ try {
 
 ```java
 try {
-    String contents = new String(readAllBytes((Paths.get("alice"))), StandardCharsets.UTF_8);
+    String contents = new String(readAllBytes((Paths.get("alice.txt"))), StandardCharsets.UTF_8);
     List<String> words = Arrays.asList(contents.split("\\PL+"));
     long count1 = words.stream().filter(w -> w.length() > 12).count();
 } catch (IOException e){
@@ -57,18 +64,53 @@ try {
 }
 ```
 
+* `words.stream()`创建的是串行流，`words.parallelStream()`创建的是并行流。
+
 只需要一行，就把过滤字母长度大于12的单词和统计实现出来了。
 
 Stream就是这样遵循“做什么，而不是怎么去做”的原则。
 
 ---
 
-# 创建 Stream
+# 聚合操作
+
+简单介绍filter, map, reduce, find, match, sorted
+
+* **filter**: 过滤符合的条件,如`.filter(w -> w.length() > 5)`
+* **map**：用于映射每个元素到对应的结果，如`.map( i -> i*i)`
+* **reduce**：把结果继续和序列的下一个元素做累积计算
+* **find**：查找
+* **match**：匹配
+* **sorted**：排序
+
+
+关于聚合操作，可参考： [runoob.com](http://www.runoob.com/java/java8-streams.html)
+
+一个例子: 将`alice.txt`的内容读入 String， 以非字母为分隔符存入 List， 通过流取前20个值，过滤出这20个值长度大于5的，并排序，最后存到新的 List 里
+
+```java
+public static void streamTest() {
+    try {
+        String contents = new String(readAllBytes((Paths.get("alice.txt"))), StandardCharsets.UTF_8);
+        List<String> words = Arrays.asList(contents.split("\\PL+"));
+        List<String> newwords = words.stream().limit(20).filter(w -> w.length() > 5).sorted().collect(Collectors.toList());
+        System.out.println(newwords);
+    } catch (IOException e) {
+        System.out.println("IO problem");
+    };
+}
+```
 
 ---
 
-# filter、map和 flatMap 方法
+# 规约方法（reduction）
 
----
+有时候我们使用聚合操作，操作完成后还是一个流。但有时会转换成非流值，我们把转换完毕后是非流值的方法称为规约方法。
 
-未完待续
+比如上面例子的`.count()`，就把流转换成了数字，`.collect(Collectors.toList()`转换成 List 集合， `.max()`和`.min()`转换成流中最大或最小的值。`findFirst()`返回非空集合的第一个值，`findAny()`返回任何符合的值。`anyMatch()`、`noneMatch()`和`allMatch()`返回匹配。
+
+例子：流中是否有以Q开头的元素？有返回True，没有返回False
+
+```java
+boolean aWordStartWithQ = words.parallel().anyMatch( s -> s.startWith("Q"));
+```

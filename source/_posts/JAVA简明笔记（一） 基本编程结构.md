@@ -12,11 +12,126 @@ date: 2017-11-05 22:40:39
 
 <!-- more -->
 
+# 数据类型
+
+九种基本数据类型
+
+基本类型	|大小(字节)	|默认值	|封装类
+---|---
+byte|	1|	(byte)0|	Byte
+short|	2|	(short)0	|Short
+int|	4	|0	|Integer
+long|	8	|0L|	Long
+float|	4|	0.0f	|Float
+double|	8|	0.0d	|Double
+boolean|	-	|false	|Boolean
+char|	2|	\u0000(null)	|Character
+void	|-	|-	|Void
+
 ---
 
-# 第一章：基本编程结构
+# 拆箱和装箱
+
+## 什么是装箱？
+
+一般我们要创建一个类的对象实例的时候，我们会这样：
+```java
+Class a = new Class(parameter);
+```
+
+当我们创建一个Integer对象时，却可以这样：
+ ```java
+ Integer i = 100; (注意：不是 int i = 100; )
+ ```
+
+实际上，执行上面那句代码的时候，系统为我们执行了：
+```java
+Integer i = Integer.valueOf(100);
+```
+
+这就是基本数据类型的`自动装箱`功能。
+
+同理，拆箱就是把基本数据类型从Integer对象取出的过程。
+
+## 基本数据类型与对象的差别
+
+基本数据类型不是对象，也就是使用int、double、boolean等定义的变量、常量。
+基本数据类型没有可调用的方法。
+
+比如，
+
+`int t = 1；`   ，  t.  后面没有方法。
+
+`Integer t =1；` ， t.  后面就有很多方法可让你调用了。
 
 ---
+
+# equals() 和 "=="
+
+equals() 比较的是两个对象的值（内容）是否相同。
+
+"==" 比较的是两个对象的引用（内存地址）是否相同，也用来比较两个基本数据类型的变量值是否相等。
+
+前面说过，int 的自动装箱，是系统执行了 `Integer.valueOf(int i)`，看看Integer.java的源码：
+
+```java
+public static Integer valueOf(int i) {
+    if(i >= -128 && i <= IntegerCache.high)　　// 没有设置的话，IngegerCache.high 默认是127
+        return IntegerCache.cache[i + 128];
+    else
+        return new Integer(i);
+}
+```
+
+对于–128到127（默认是127）之间的值，`Integer.valueOf(int i)` 返回的是缓存的Integer对象！！！
+
+
+所以下面的现象也就不难理解了：
+
+```java
+//在-128~127 之外的数
+Integer i1 =200;  
+Integer i2 =200;          
+System.out.println("i1==i2: "+(i1==i2));   // 输出 false
+
+
+// 在-128~127 之内的数
+Integer i3 =100;  
+Integer i4 =100;  
+System.out.println("i3==i4: "+(i3==i4));  // 输出 true
+```
+
+---
+
+# 增强 for 循环 (forEach)
+
+语法
+```Java
+int sum = 0;
+for ( int n : numbers){
+  sum += 0;
+}
+```
+
+## foreach与正常for循环效率对比
+
+循环ArrayList时，普通for循环比foreach循环花费的时间要少一点；循环LinkList时，普通for循环比foreach循环花费的时间要多很多。
+
+当将循环次数提升到一百万次的时候，循环ArrayList，普通for循环还是比foreach要快一点；但是普通for循环在循环LinkList时，程序直接卡死。
+
+结论：
+
+需要循环数组结构的数据时，建议使用普通for循环，因为for循环采用下标访问，对于数组结构的数据来说，采用下标访问比较好。
+
+需要循环链表结构的数据时，一定不要使用普通for循环，这种做法很糟糕，数据量大的时候有可能会导致系统崩溃。
+
+原因：foreach使用的是迭代器
+
+
+---
+
+# 零碎知识
+
 * 最小整数：Integer.MIN_VALUE
 * 最大整数：Integer.MAX_VALUE
 * long不够用，用BigInteger类
@@ -31,6 +146,7 @@ date: 2017-11-05 22:40:39
 * 用 `if (Double.isNaN(x))`来检查 `x` 是否为 NaN，但不可以用`if (x == Double.NaN)`，因为NaN都是彼此不同的
 * 浮点数不适合金融计算，用BigDecimal类
 * `BigDecimal.ValueOf(n,e);`，其中n是一个整数数，e是小数位，如(588888,3)，就是 588.888
+
 * Java不允许对象直接使用操作符，所以BigDecimal和BigInteer类需要用方法
 
 ```Java
@@ -62,24 +178,8 @@ BigDecimal next = bd.multiply(bd.add(BigDecimal.valueOf(l)));
 * 在32位的int类型中，1<<35的结果跟 1<<3 相同
 
 ---
-字符串
 
-* `String name = String.join("-","hello","and","again"); `，输出 hello-and-again 。 第一个参数是连接符，第二到n个参数是需要连接的字符串
-* `str.substring(7,12)`提取子字符串，如`Hello, World!` 第7（包括）到第12（不包括）位，即`World`这个单词。
-* `str.split(" ")`，以空格为分隔符，将子字符串提取出来。最终结果为一个字符串数组。
-* `str.equals("World")`，判断相等。
-* 不要用 `==` 符号来判断字符串相等！！在Java虚拟机中，每个文字串只有一个实例，`"World" == "World"` 确实会返回真，但是如果前后比较的字符串是用分割提取等方法获取到的，它将会被存入一个新的对象当中，这时用==判断会出现假，因为不是同一个对象。
-* `String middlename = null;` ，测试一个字符串对象是否为null，可以用`==`。
-* null说明该变量没有引用任何对象。空字符串 `""`是长度为零的字符串， null不是字符串
-
-* `if ("World".equals(location))` 是个好习惯， 把文字串放在前面
-* `equalsIgnoreCase`方法，不考虑大小写比较字符串，`myStr.equalsIgnoreCase("world");`
-* 数字转字符串，`str = Integer.toString(n,2)`，如果n是42，则把42转为二进制字符串 “101010”，第二个参数默认为10进制，范围在[2,36]
-* 字符串转数字，`n = Integer.parseInt(str，2)`
-
----
-
-格式化输出
+# 格式化输出
 
 * `System.out.printf("%8.2f", 1000.0 / 3.0)`, %8.2f指明输出的浮点数宽度为8，精度为小数点后两位。
 * `System.out.printf("Hello, %s. Next year you will be %d.", name, age)`
@@ -87,7 +187,7 @@ BigDecimal next = bd.multiply(bd.add(BigDecimal.valueOf(l)));
 
 ---
 
-数组
+# 数组
 
 * 声明一个有100个元素的字符串数组 `String[] names = new String[100];`
 * new构造数组时的默认值：数字（0）， Boolean（flase）, 对象（空引用）
@@ -107,28 +207,9 @@ String first = friends.get(0);
 friends.set(1, "Mary");
 ```
 
-* 装箱和拆箱
-
-```Java
-
-ArrayList<Integer> numbers = new ArrayList<>();
-numbers.add(42);
-int first = numbers.get(0);
-
-```
-
-* 增强 for 循环
-
-```Java
-
-int sum = 0;
-for ( int n : numbers){
-  sum += 0;
-}
-
-```
-
 ---
+
+# 可变长参数
 
 * 可变长参数的声明：... 如 `public static double average(double... values)`
 * 可变参数必须是方法的最后一个参数
