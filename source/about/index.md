@@ -17,3 +17,5 @@ comments: false
 <div align = "center">[我的博客标签](https://jerrysheh.github.io/tags/)</div>
 
 <div align = "center">[技术英语查阅](https://jerrysheh.github.io/ComputerScienceEnglishQuickCheck/)</div>
+
+<div align = "center">[日常英语查阅](https://jerrysheh.github.io/DailyEnglishQuickCheck/)</div>

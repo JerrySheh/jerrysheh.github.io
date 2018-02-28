@@ -1,9 +1,10 @@
 ---
 title: Java简明笔记（十） 输入与输出
 comments: true
-date: 2018-02-27 15:06:51
 categories: JAVA
 tags: Java
+abbrlink: 85d8e3e2
+date: 2018-02-27 15:06:51
 ---
 
 # 文本输入和输出
