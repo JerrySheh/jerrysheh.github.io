@@ -8,5 +8,10 @@ comments: false
 
 <!-- more -->
 
-任意地（arbitrarily）
-推断（inferred）
+ A|B
+---|---
+任意地（arbitrarily）| determine（确定）
+推断（inferred）| incremental（递增的）
+侵入的（invasive）|
+意图、打算（intend）|
+提炼（refine）|

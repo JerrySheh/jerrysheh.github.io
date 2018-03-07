@@ -1,9 +1,10 @@
 ---
 title: Linux内核模块编程（一）HelloWorld
 comments: true
-date: 2018-03-07 13:03:26
 categories: linux
 tags: Linux
+abbrlink: 75b0adbf
+date: 2018-03-07 13:03:26
 ---
 
 # 微内核和宏内核

@@ -33,6 +33,8 @@ makefile的规范：
 目标 : 依赖
 (tab)命令
 
+* 注意，命令前一定要是 TAB，不能是四个空格
+
 make的执行:
 make  默认搜索当前目录下的makefile，或者Makefile文件,可以指定特殊的makefile文件，比如
 `make  -f  makefile_xxxx(文件名)`
@@ -70,6 +72,10 @@ clean :
 ## 二、常量替换类似于C语言的宏定义
 
 为了方便，我们可以这样写makefile：
+
+在前面使用编程语言的赋值语句`=`，定义变量
+
+在使用变量的地方用`$(var)`的方式表示
 
 ```
 cc 		= gcc
@@ -120,7 +126,7 @@ clean :
 
 ## 四、shell + 隐式规则
 
-结合shell命令，使用函数完成makefile，使其能够自动寻找目录下h文件和c文件，同时把c文件替换成o文件共object常量使用
+结合shell命令，使用函数完成makefile，使其能够自动寻找目录下h文件和c文件，同时把c文件替换成o文件共object常量使用。
 
 ```
 cc = gcc
@@ -139,6 +145,15 @@ clean:
 	-rm -rf $(objects) $(target)
 ```
 
+或者是需要目录的地方可以用 shell 语句找出目录
+
+```
+obj-m = hello.o
+all:
+    make -C /lib/modules/$(shell uname -r)/build/ M=$(PWD) modules
+clean:
+    make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+```
 
 ---
 

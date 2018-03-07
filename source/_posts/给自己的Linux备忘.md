@@ -39,6 +39,7 @@ whatis ls	| 显示ls命令的作用
 man ls	| 显示ls命令的手册（space翻页 j下行 k上行 /关键字搜索 n下一个关键字 shift+n上一个关键字）
 tar -zcvf xxxx.tar.gz  /home/test | 压缩
 tar -zxvf xxxx.tar.gz -C /tmp    | 解压
+uname -a | 查看内核信息
 
 
 

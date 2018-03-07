@@ -84,6 +84,8 @@ comments: false
 
 # 其他
 
+* 伪代码（pseudo code）
+
 * 并行（parallel）
 * 解析（parse）
 
