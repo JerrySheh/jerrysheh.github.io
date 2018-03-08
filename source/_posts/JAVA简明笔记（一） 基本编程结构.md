@@ -105,11 +105,20 @@ System.out.println("i3==i4: "+(i3==i4));  // 输出 true
 
 # 增强 for 循环 (forEach)
 
-语法
+两个例子：
+
+如果 `numbers` 是一个 int[] 数组列表，则使用 forEach 输出所有int
 ```Java
 int sum = 0;
 for ( int n : numbers){
   sum += 0;
+}
+```
+
+如果 `friends` 是一个 String[] 数组列表，则使用 forEach 输出所有String
+```java
+for (String name : friends) {
+  System.out.println(name);
 }
 ```
 

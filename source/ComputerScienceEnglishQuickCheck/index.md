@@ -85,8 +85,6 @@ comments: false
 # 其他
 
 * 伪代码（pseudo code）
-
-* 并行（parallel）
 * 解析（parse）
 
 * 缓冲区(buffers)
@@ -159,6 +157,7 @@ comments: false
 # 多线程
 
 * 并发(concunrrency)
+* 并行（parallel）
 * 竞争条件(race condition)
 * 原子操作(atomic operation)
 * 同步(synchronization)
