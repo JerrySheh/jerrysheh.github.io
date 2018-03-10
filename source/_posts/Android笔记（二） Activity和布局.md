@@ -219,6 +219,92 @@ public class MainActivity extends AppCompatActivity {
 
  ---
 
+# 在Activity中使用Toast和Menu
+
+## 使用Toast
+
+Toast是一种显示在屏幕下方的提示，我们经常可以看到有时候app会提醒你没有联网，或者再按一次返回键退出应用之类，这些提醒在短时间内消失，不会打扰用户。
+
+![Toast](../../../../images/Learn_Android/Toast.png)
+
+假设我们已经在 xml 里添加了一个 button
+
+然后转到MainActivity.java，重写`onCreate`方法
+
+```java
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+   super.onCreate(savedInstanceState);
+   setContentView(R.layout.activity_main);
+   Button buttonOK = (Button) findViewById(R.id.toast_button);
+   buttonOK.setOnClickListener(new View.OnClickListener() {
+       @Override
+       public void onClick(View view) {
+           Toast.makeText(MainActivity.this, "yeah, you click it", Toast.LENGTH_SHORT).show();
+       }
+   });
+}
+```
+
+* 先实例化一个Button类型的变量 buttonOK，用`findViewById`指向button的ID
+* 调用buttonOK的`setOnClickListener`，传入一个点击事件监听器
+* 重写监听器的`onClick`方法为调用Toast.makeText
+* Toast.makeText有3个参数，第一个是活动本身，第二个是提示内容，第三个是Toast的长度
+* 最后`.show()` 让Toast显示出来
+
+<!-- more -->
+
+## 使用Menu
+
+在 res 新建文件夹 menu ， 在 menu里面新建 MenuResource file， 命名为 menu.xml，内容如下
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+   <item
+       android:id="@+id/add_item"
+       android:title="Add"
+       />
+   <item
+       android:id="@+id/remove_item"
+       android:title="Remove"/>
+</menu>
+```
+
+这样我们就布局了两个按钮，一个 add ， 一个 remove
+
+然后在 MainActivity.java 里 重写`onCreateOptionsmenu`方法和`onOptionItemSelected`方法，如下
+
+```java
+@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+   getMenuInflater().inflate(R.menu.main, menu);
+   return true;
+}
+
+@Override
+public boolean onOptionsItemSelected(MenuItem item) {
+   switch (item.getItemId()) {
+       case R.id.add_item:
+           Toast.makeText(this, "added", Toast.LENGTH_SHORT).show();
+           break;
+       case R.id.remove_item:
+           Toast.makeText(this,"removed",Toast.LENGTH_SHORT).show();
+           break;
+       default:
+           Toast.makeText(this,"nothing", Toast.LENGTH_SHORT).show();
+
+   }
+   return true;
+}
+```
+
+`onCreateOptionsmenu`方法根据R.menu.main找到我们的布局
+
+`onOptionsItemSelected`方法根据id定义了每个按键按下后的动作
+
+ ---
+
 # 实践：从界面到逻辑
 
 现在我们有很多个String，我们想把这些 String 放到一个activity里，然后在 Android 设备上显示出来。由于 String 很多，一屏不够显示，因此需要实现可以滑动屏幕上下滚动的功能。

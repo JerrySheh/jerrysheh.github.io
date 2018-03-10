@@ -176,7 +176,9 @@ public class MainActivity extends AppCompatActivity {
 * `MainActivity`继承自`AppCompatActivity`，让这个活动支持系统版本向下兼容。
 > `Activity`是 Android 系统提供的一个活动基类，我们项目中所有的活动都必须继承它或者它的子类。`AppCompatActivity`是`Activity`的子类。
 
-* `onCreate`方法第二行调用了`setContentView()`，参数指向了`layout.activity_main`。不妨打开activity_main.xml看看。
+* `onCreate`方法第二行调用了`setContentView()`，参数指向了`layout.activity_main`。也就是说，`setContentView()`方法将我们的`activity_main.xml`和`MainActivity.java`关联了起来。
+
+不妨打开activity_main.xml看看。
 
 ## activity_main.xml
 

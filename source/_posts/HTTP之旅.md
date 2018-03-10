@@ -7,20 +7,23 @@ abbrlink: 1707ee78
 date: 2018-03-08 11:54:26
 ---
 
+参考书籍：《计算机网络：自顶向下方法》
+
 # 简介
 
 一个 Web 应用程序，首先接触的是应用层协议是`超文本传输协议（HyperText Transfer Protocol，HTTP）`，HTTP由两个程序实现：一个客户端、一个服务器。HTTP的连接模型大概为：客户端向服务器发起`请求（request）`，服务器收到请求后，进行`响应（response）`，并返回响应的内容。
 
 ## web 对象
 
-一般来说，一个 Web page（页面）是由很多对象组成的。对象可以是 html 页面，可以是图片，可以是嵌入的视频，还可以是java小程序。比如我们访问 Google.com ，这个 page 是由 Google 提供的一个基本 html 页面，以及搜索框上面大大的 logo 图片组成。
+一般来说，一个 Web page（页面）是由很多对象组成的。对象可以是 html 页面，可以是图片，可以是嵌入的视频，还可以是java小程序。比如我们访问 Google.com ，这个 page 是由 Google 提供的一个基本 html 页面，以及搜索框上面大大的 logo 图片(以及其他对象)组成。
 
 ![Google](../../../../images/networking/google.png)
 
 
  这个 html 页面是一个对象（通常为index.html）， 这个 logo 图片也是一个对象。这些对象都存储在服务器上面。
 
- 实际上对象一般都可以通过 URL 寻址，比如这张图的URL地址就是https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png(复制这个网址到浏览器，可以看到Google的图片，但是你之所以打不开是因为Google被￥@#￥墙了)
+ 实际上对象一般都可以通过 URL 寻址，比如这张图的URL地址就是
+  https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png (复制这个网址到浏览器，可以看到Google的图片，但是你之所以打不开是因为Google被￥@#￥墙了)
 
 而 HTTP ， 就定义了客户端如何向服务器请求 Web page 的方式。HTTP使用TCP作为支撑运输协议，所以不用担心请求的过程数据在中途丢失或出错的问题。
 
@@ -129,7 +132,7 @@ cookie技术有 4 个组件：
 
 `Web 缓存器（Web cache）`，或者叫`代理服务器（proxy server）`。用于存放真实服务器上面的一些对象。提高用户访问速度。
 
-比如说，我们访问 www.somesite.com/campus.gif， 如果对方服务器有配置代理服务器，则我们的请求会首先发给代理服务器，代理服务器检查自己有没有这个文件，如果有，直接response 给客户，如果没有，代理服务器向真实服务器请求这个文件，获取到以后先自己复制一份，然后发送给客户。
+比如说，我们访问 www.somesite.com/campus.gif ， 如果对方服务器有配置代理服务器，则我们的请求会首先发给代理服务器，代理服务器检查自己有没有这个文件，如果有，直接response 给客户，如果没有，代理服务器向真实服务器请求这个文件，获取到以后先自己复制一份，然后发送给客户。
 
 这样做的好处就是降低了服务器的压力（因为服务器除了存储对象还有其他事要干，资源获取这种简单的活就交给代理服务器去干了）。同时，也有利于提高用户访问速度。
 
