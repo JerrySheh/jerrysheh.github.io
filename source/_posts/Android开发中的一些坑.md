@@ -1,9 +1,10 @@
 ---
 title: Android开发中的一些坑
 comments: true
-date: 2018-03-10 14:06:25
 categories: Android
 tags: Android
+abbrlink: cc537ae4
+date: 2018-03-10 14:06:25
 ---
 
 # 运行时权限在部分Android手机上无效
