@@ -19,6 +19,7 @@ Ubuntu的一些使用技巧
 5. Xshell5 Ubuntu系统的VPS服务器跟本地电脑互传文件
 6. 编辑菜单
 7. 终端使用SS，查公有ip
+8. 管理ppa源
 
 <!-- more -->
 
@@ -188,4 +189,22 @@ export ALL_PROXY=socks5://127.0.0.1:1080
 
 ```
 curl ipinfo.io/ip
+```
+
+---
+
+# 八、管理ppa源
+
+Ubuntu 软件仓库十分方便，但是有一些软件是在第三方库里的，因此我们要添加相应的ppa源，才能用 apt install
+
+```
+sudo add-apt-repository ppa:ownername/projectname
+sudo apt update
+sudo apt install something
+```
+
+有些库我们已经不需要了，用文本编辑器修改`/etc/apt/sources.list.d/`文件夹下对应的.list即可
+
+```
+sudo rm /etc/apt/sources.list.d/xxxxxx.list
 ```
