@@ -59,7 +59,7 @@ Ubuntu 系统更新的时候，有时候会提示 /boot 空间不足，原因是
 ## 1. 查看旧版本内核
 
 ```
-dpkg --get-selections|grep Linux
+dpkg --get-selections|grep linux
 ```
 
 看到带有 Linux-image-x.x.x的就是旧版本。
