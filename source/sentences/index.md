@@ -39,9 +39,9 @@ type: about
 
 {% note success %}
 
-For those of you who could not attend, I would like to share these words from my own lecture with you: **Remember to look up at the stars and not down at your feet. Be curious and however difficult life may seem, there is always something you can do and succeed at.** -- Stephen William Hawking
+For those of you who could not attend, I would like to share these words from my own lecture with you: **Remember to look up at the stars and not down at your feet. Be curious and however difficult life may seem, there is always something you can do and succeed at.** 
 
-记住要仰望星空，不要低头看脚下。无论生活如何艰难，请保持一颗好奇心。你总会找到自己的路和属于你的成功。————斯蒂芬·霍金
+-- Stephen William Hawking
 
 {% endnote %}
 
@@ -55,13 +55,6 @@ For those of you who could not attend, I would like to share these words from my
 
 {% endnote %}
 
-### 02-26
-
-{% note warning %}
-
-心情不好的时候就少听悲伤的歌，饿了就自己找吃的，怕黑就开灯，想要的就自己赚钱买，即使生活给了你百般阻挠，也没必要用矫情放大自己的不容易。改变不了的事就别太在意，留不住的人就试着学会放弃，受了伤的心就尽力自愈，除了生死，都是小事，别为难自己了。
-
-{% endnote %}
 
 ### 02-21
 
@@ -102,7 +95,7 @@ don't judge
 
 另外，有时候听到一句喜欢好像还更心动些，全世界都是张口就来的“爱你么么哒”和“我爱你比心”，一句羞涩的“我喜欢你啊”弄不好藏着更多的爱意。
 
-大千世界，万千境遇，感情更是说不清道不明，没有必要强行定义。爱是浓烈，爱是淡然，爱是巨浪，爱是暗涌，爱是奋不顾身，爱是瞻前顾后，爱是每天说爱你，爱是从不说爱你，爱是你满世界疯狂找那个人的消息，爱是你不愿看那个人的任何消息，爱可能是任何样子，不要让死板的句子成为你人生的标尺。
+**大千世界，万千境遇，感情更是说不清道不明，没有必要强行定义。** 爱是浓烈，爱是淡然，爱是巨浪，爱是暗涌，爱是奋不顾身，爱是瞻前顾后，爱是每天说爱你，爱是从不说爱你，爱是你满世界疯狂找那个人的消息，爱是你不愿看那个人的任何消息，爱可能是任何样子，**不要让死板的句子成为你人生的标尺。**
 
 ——韩寒
 

@@ -23,6 +23,8 @@ Ubuntu的一些使用技巧
 9. 安装 jdk 1.8
 10. 更改 root 账户密码
 11. apt安装不成功，每次 apt install 都报错
+12. 使用openssh远程连接
+13. ROOT账户没有环境变量
 
 <!-- more -->
 
@@ -290,4 +292,24 @@ sudo apt install openssh-server
 
 这样就可以在 win10 用 Xshell 连接虚拟机开多个终端了。
 
-## 使用
+---
+
+# 十三、ROOT账户没有环境变量
+
+在/root/.bashrc文件尾部添加：
+```
+source /etc/profile
+```
+
+保存后执行：
+```
+./root/.bashrc
+```
+
+如果提示没有权限
+
+```
+chmod +x ./root/.bashrc
+```
+
+就ok了
