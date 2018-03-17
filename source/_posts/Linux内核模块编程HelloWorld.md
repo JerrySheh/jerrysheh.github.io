@@ -1,5 +1,5 @@
 ---
-title: Linux内核模块编程（一）HelloWorld
+title: Linux内核模块编程 HelloWorld
 comments: true
 categories: linux
 tags: Linux

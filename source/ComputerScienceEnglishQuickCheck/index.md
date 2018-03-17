@@ -81,11 +81,20 @@ comments: false
 
 ---
 
+# Hadoop
+
+* 数据集（data-set）
+* 块（chunks）
+* 调度（scheduling）
+
+---
+
 
 # 其他
 
 * 伪代码（pseudo code）
 * 解析（parse）
+
 
 * 缓冲区(buffers)
 * 泛型(Generic type)

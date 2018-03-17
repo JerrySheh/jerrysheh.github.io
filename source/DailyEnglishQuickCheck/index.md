@@ -10,8 +10,8 @@ comments: false
 
  A|B
 ---|---
-任意地（arbitrarily）| determine（确定）
-推断（inferred）| incremental（递增的）
-侵入的（invasive）|
-意图、打算（intend）|
-提炼（refine）|
+任意地（arbitrarily）| 确定（determine）
+推断（inferred）| 递增的（incremental）
+侵入的（invasive）| 废止、清除（invalidate）
+意图、打算（intend）|模糊地（ambiguous）
+提炼（refine）|熟悉（get a flavour for）

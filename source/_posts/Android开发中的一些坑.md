@@ -54,7 +54,7 @@ public void onRequestPermissionsResult(int requestCode, String permissions[], in
 
 # Android Device Monitor 打不开的问题
 
-![](https://images2017.cnblogs.com/blog/1123188/201710/1123188-20171021145523693-750693630.png)
+![](../../../../images/Learn_Android/monitor_error.png)
 
 
 查看Log：C:\Users\Jerrysheh\AppData\Local\Android\Sdk\tools\lib\monitor-x86_64\configuration\1520661867795.log

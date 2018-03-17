@@ -33,6 +33,18 @@ type: about
 
 # 2018
 
+## 3月
+
+### 03-14
+
+{% note success %}
+
+For those of you who could not attend, I would like to share these words from my own lecture with you: **Remember to look up at the stars and not down at your feet. Be curious and however difficult life may seem, there is always something you can do and succeed at.** -- Stephen William Hawking
+
+记住要仰望星空，不要低头看脚下。无论生活如何艰难，请保持一颗好奇心。你总会找到自己的路和属于你的成功。————斯蒂芬·霍金
+
+{% endnote %}
+
 ## 2月
 
 ### 02-28

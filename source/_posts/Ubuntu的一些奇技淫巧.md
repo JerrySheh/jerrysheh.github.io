@@ -20,6 +20,9 @@ Ubuntu的一些使用技巧
 6. 编辑菜单
 7. 终端使用SS，查公有ip
 8. 管理ppa源
+9. 安装 jdk 1.8
+10. 更改 root 账户密码
+11. apt安装不成功，每次 apt install 都报错
 
 <!-- more -->
 
@@ -208,3 +211,83 @@ sudo apt install something
 ```
 sudo rm /etc/apt/sources.list.d/xxxxxx.list
 ```
+
+---
+
+# 九、如何正确地在Ubuntu 16.04 安装 JDK1.8
+
+其实很简单
+
+添加ppa源
+```
+sudo apt install python-software-properties
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt update
+```
+
+如果第二行提示`add-apt-repository: command not found`，安装一些包即可
+```
+sudo apt-get install software-properties-common python-software-properties  
+```
+安装jdk8
+```
+sudo apt-get install oracle-java8-installer
+```
+
+如果你有其他版本的 jdk， 更改默认
+```
+sudo update-alternatives --config java
+```
+
+输出
+```
+* 0            /usr/lib/jvm/java-7-oracle/jre/bin/java          1062      auto mode
+  1            /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java  1061      manual mode
+  2            /usr/lib/jvm/java-8-oracle/jre/bin/java          1062      manual mode
+
+Press enter to keep the current choice[*], or type selection number:
+```
+
+选择想默认使用的版本即可
+
+---
+
+# 十、更改 root 账户密码
+
+```
+sudo passwd root
+```
+
+---
+
+# 十一、apt安装不成功，每次 apt install 都报错
+
+oracle-java7-installer安装不成功，清除缓存，不要每次 apt install 都报错
+
+```
+sudo rm /var/lib/dpkg/info/oracle-java7-installer*
+
+sudo apt-get purge oracle-java7-installer*
+
+sudo rm /etc/apt/sources.list.d/*java*
+
+sudo apt-get update
+```
+
+---
+
+# 十二、使用openssh远程连接
+
+查看是否已经安装openssh （如果装了，应该输出不止一个ssh）
+```
+ps -ef | grep ssh
+```
+
+安装
+```
+sudo apt install openssh-server
+```
+
+这样就可以在 win10 用 Xshell 连接虚拟机开多个终端了。
+
+## 使用
