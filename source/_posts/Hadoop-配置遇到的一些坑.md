@@ -7,9 +7,7 @@ abbrlink: a44bfe3f
 date: 2018-03-15 22:20:00
 ---
 
-
-
----
+> 温馨提示：点击页面右下角按钮，打开目录。
 
 # 一、 Connection refused
 
@@ -70,7 +68,7 @@ hadoop namenode -format
 hadoopstart-all.sh
 ```
 
-然后 jps， namenode 和 datanode 应该都出来了
+然后输入 jps， namenode 和 datanode 应该都出来了
 
 ---
 
@@ -93,17 +91,17 @@ bin/hdfs dfs -mkdir input
 
 ![dfs](../../../../images/hadoop/dfs.png)
 
-发现了吗？ -mkdir /user 和 -mkdir /user/<username> 是在根目录下创建 user 文件夹，然后在 user 文件夹里创建 username 文件夹， 这没有问题。
+发现了吗？ -mkdir /user 和 -mkdir /user/\<username> 是在根目录下创建 user 文件夹，然后在 user 文件夹里创建 username 文件夹， 这没有问题。
 
 但是创建 input 文件夹的时候， 前面没有 /
 
 意味着，是在默认的 username 文件夹里面创建了这个 input ！
 
-也就是， input 的实际位置在 /user/<username>/input
+也就是， input 的实际位置在 /user/\<username>/input
 
-打开 web UI 看一下
+打开 web UI ( 127.0.0.1:8088 )看一下
 
-![dfs](../../../../images/hadoop/dfs.png)
+![dfs](../../../../images/hadoop/dfs_2.png)
 
 果然如此
 
@@ -128,16 +126,18 @@ Error: JAVA_HOME is incorrectly set.
 
 解决办法：
 
-方法1.用路径替代符
+* 方法1：用路径替代符
+  ```
+  C:\PROGRA~1\Java\jdk1.8.0_91
+  ```
 
-C:\PROGRA~1\Java\jdk1.8.0_91
+  `PROGRA~1`  ===== `C:\Program Files` 目录的dos文件名模式下的缩写
+  长于8个字符的文件名和文件夹名，都被简化成前面6个有效字符，后面~1，有重名的就 ~2,~3,
 
-PROGRA~1  ===== C:\Program Files 目录的dos文件名模式下的缩写
-长于8个字符的文件名和文件夹名，都被简化成前面6个有效字符，后面~1，有重名的就 ~2,~3,
-
-方法2.用引号括起来
-
-"C:\Program Files"\Java\jdk1.8.0_91
+* 方法2：用引号括起来
+  ```
+  "C:\Program Files"\Java\jdk1.8.0_91
+  ```
 
 ---
 
@@ -216,7 +216,7 @@ java.lang.ClassNotFoundException: org.apache.hadoop.conf.Configuration
 input/ output/
 ```
 
-Main class 填你的main程序所在的 class ， 可以输入前几个字母然后 IDEA 会自动帮我们检索
+Main class 填你的main程序所在的 class ，可以输入前几个字母然后 IDEA 会自动帮我们检索
 
 然后在项目目录下，新建一个文件夹 input ， 往里面放你输入的数据（比如 mydata.log），可以放多个文件
 
@@ -230,13 +230,13 @@ http://blog.csdn.net/songhaifengshuaige/article/details/79575308
 
 环境变量
 
-HADOOP_CLASS， 设置为 C:\hadoop-3.0.0 （根据你的目录）
-Paht， 添加 %HADOOP_HOME%\bin 和 %HADOOP_HOME%\sbin
+HADOOP_HOME， 设置为 `C:\hadoop-3.0.0` （根据你的目录）
+Path， 添加`%HADOOP_HOME%\bin` 和 `%HADOOP_HOME%\sbin`
 
-然后先启动 start-dfs.cmd 和 start-yarn.cmd
+然后先启动 `start-dfs.cmd` 和 `start-yarn.cmd`
 
-`jps`命令，看看 datanode 和 namenode 启动没，确保集群环境启动了
+输入`jps`命令，看看 datanode 和 namenode 启动没，确保集群环境启动了
 
-然后把 C:\hadoop-3.0.0\etc\hadoop\ 里面的配置文件 （几个dfs、core、mapred、yarn相关的 xml 文件），放到 项目 src/main/resource 里面
+然后把 `C:\hadoop-3.0.0\etc\hadoop\` 里面的配置文件 （几个dfs、core、mapred、yarn相关的 xml 文件），放到 项目 src/main/resource 里面
 
-然后运行
+然后运行。DONE！

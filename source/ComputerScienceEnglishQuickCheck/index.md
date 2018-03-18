@@ -188,3 +188,9 @@ comments: false
 * 垂直（vertical）
 * 水平（horizontal）
 * 方向（orientation）
+
+
+___
+
+* 查询（query）
+* 注入（inject）
