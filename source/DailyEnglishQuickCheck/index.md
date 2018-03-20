@@ -26,3 +26,4 @@ zh|en|en explain
 生态系统|ecosystem|a biological community of interacting organisms and their physical environment.
 尺寸|dimension|an aspect or feature of a situation, problem, or thing.
 所有权|proprietary|of or relating to an owner or ownership. / an owner; proprietor.
+图表|schema|a representation of a plan or theory in the form of an outline or model.
