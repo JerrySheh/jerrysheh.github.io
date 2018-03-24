@@ -31,7 +31,7 @@ JDBC (Java DataBase Connection) 指的就是通过Java访问数据库。
 Connection c = DriverManager.getConnection(url,user,psw);
 ```
 
-`getConnection`方法接收三个参数，连接地址，用户名、密码。
+`getConnection`方法接收三个参数，连接地址，用户名、密码。或者接收一个参数连接地址，该连接地址里已经URL构造了用户名和密码。
 
 <!-- more -->
 

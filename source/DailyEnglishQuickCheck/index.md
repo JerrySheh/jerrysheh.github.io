@@ -15,7 +15,7 @@ comments: false
 侵入的（invasive）| 废止、清除（invalidate）
 意图、打算（intend）|模糊地（ambiguous）
 提炼（refine）|熟悉（get a flavour for）
-一堆、一些（a bunch of）|
+一堆、一些（a bunch of）|企业（corporate）
 
 ---
 
