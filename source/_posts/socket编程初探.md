@@ -50,7 +50,7 @@ int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 ```
 
 参数|内容|描述
----|---
+---|---|---
 1|sockfd|socket描述字
 2|addr|指向要绑定给sockfd的协议地址的指针，这个地址结构根据地址创建socket时的地址协议族的不同而不同
 3|addrlen|地址的长度
@@ -60,7 +60,7 @@ ipv4地址结构的具体实现
 
 ```c
 struct sockaddr_in {
-    sa_family_t    sin_family; / address family: AF_INET
+    sa_family_t    sin_family; // address family: AF_INET
     in_port_t      sin_port;   // port in network byte order
     struct in_addr sin_addr;   // internet address
 };
