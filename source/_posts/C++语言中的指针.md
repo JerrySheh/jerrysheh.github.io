@@ -52,7 +52,9 @@ p是一个指针，P为0x7ffe09031b1c
 
 在这个例子中，我们用 `int *p`来定义指针，这时候`p`是一个指针。`&ival`的意思是取`int`型变量`ival`的地址。
 
-而在输出的时候，`*p`是指针指向的变量。仅在指针确实指向了某个对象，即指针确实有效的情况下，`*p`才适用。
+而在输出的时候，`*p`是指针指向的变量，也就是说，`*`号在这里成了解引用符号。仅在指针确实指向了某个对象，即指针确实有效的情况下，`*p`才适用。
+
+> 理解的关键：在定义阶段， 用`int *p`用来定义指针。在操作阶段，`*p`是解引用。
 
 <!-- more -->
 
@@ -216,3 +218,63 @@ answer2:300
 * `->` 间接成员访问操作符
 
 实质上两种方式是等价的。
+
+---
+
+# 结构体和指针
+
+## 定义结构体
+
+在C语言中，我们可以这样定义结构体：
+
+```C
+//方法一：
+struct student{
+    short age;
+    char name[MAXNAME];
+    long phoneNumber;
+};
+
+struct student s1;  // s1是student类型的一个实例
+
+//方法二：
+typedef struct student{
+    short age;
+    char name[MAXNAME];
+    long phoneNumber;
+}STUDENT;
+
+STUDENT s2; // s2是student类型的一个实例
+```
+
+可见，用方法二比较方便一点。
+
+## 用指针访问结构体成员
+
+```
+typedef struct{
+    short age;
+    char name[MAXNAME];
+    long phoneNumber;
+}STUDENT;
+
+STUDENT s2; // s2是student类型的一个实例
+
+student *ps = &s2;
+ps->age = 6;
+printf("%d\n",s2.age);
+```
+
+如果要给结构体的 name[MAXNAME] 赋值，下面的做法是错误的
+
+```C
+ps->name = "jerry";
+```
+
+应该用strcpy函数。
+
+```
+char *name = "jerry";
+strcpy(ps->name, name);
+printf("%s\n",stu1.name);
+```

@@ -85,6 +85,12 @@ Hadoop 自带一个分布式文件系统，称为 HDFS。
 
 ## HDFS 的基本操作
 
+必须先启用 HDFS 之后才能进行操作。
+
+```
+./sbin/start-hdfs.sh
+```
+
 将本地文件上传到 hdfs 上（原路径只能是一个文件）
 ```
 hdfs dfs -copyFromLocal /local/data /hdfs/data
