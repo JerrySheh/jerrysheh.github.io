@@ -23,6 +23,8 @@ comments: false
 * 转义符(Escape sequence)
 * 断言(assert)
 
+* 转换（convert）
+
 
 # 面向对象（Object Oriented, OO）
 
@@ -94,6 +96,7 @@ comments: false
 
 * 伪代码（pseudo code）
 * 解析（parse）
+* 兼容性（Compatibility）
 
 
 * 缓冲区(buffers)
@@ -135,10 +138,23 @@ comments: false
 
 ---
 
-# 操作系统(Operating System)
+# 操作系统(Operating System)与并发编程
 
 * 硬件抽象层（Hardware Abstraction Layer, HAL）
 * 解释器(interpreter)
+* 阻塞（block）
+* 挂起（suspend）
+* 信号量（Semaphores）
+
+* 并发(concunrrency)
+* 并行（parallel）
+* 竞争条件(race condition)
+* 原子操作(atomic operation)
+
+* 同步(synchronization)
+* 互斥(mutex)
+* 条件变量(condition variable)
+* 读写锁(reader-writer lock)
 
 ---
 
@@ -163,19 +179,6 @@ comments: false
 
 ---
 
-# 多线程
-
-* 并发(concunrrency)
-* 并行（parallel）
-* 竞争条件(race condition)
-* 原子操作(atomic operation)
-* 同步(synchronization)
-* 互斥锁(mutex)
-* 条件变量(condition variable)
-* 读写锁(reader-writer lock)
-
----
-
 # Android
 
 * 布局（layout）
@@ -190,7 +193,9 @@ comments: false
 * 方向（orientation）
 
 
-___
+---
+
+# 数据库
 
 * 查询（query）
 * 注入（inject）
