@@ -64,8 +64,8 @@ teacher YangLiang = new teacher();
 
 在 Java 中，获取类对象有三种方法
 1. Class.forName
-2. Hero.class
-3. new Hero().getClass()
+2. student.class
+3. new student().getClass()
 
 通常一个JVM下，只会有一个ClassLoader，因此一种类，只会有一个类对象存在。所以以上三种方式取出来的类对象，都是一样的。
 
@@ -208,7 +208,7 @@ public static void main(String[] args) throws Exception{
 
 反射机制可以用来创建对象，修改对象属性的值，调用对象的方法。
 
-但是这些我们传统java编程也能做到，为什么要用反射呢？
+但是这些我们传统java面向对象编程也能做到，为什么要用反射呢？
 
 通常来说，需要在学习了 Spring 的依赖注入，反转控制之后，才会对反射有更好的理解。在此之前，我们可以举个栗子简单说明一下反射的强大功能。
 

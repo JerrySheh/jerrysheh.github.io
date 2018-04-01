@@ -41,6 +41,8 @@ public void service (ServletRequest req, ServletResponse resp) {
 
 那么要怎么改呢？
 
+<!-- more -->
+
 在 java.util.concurrent.atomic 包中包含了一些原子变量类，可以提供原子操作。即把 count 的类型从 `long` 改为 `Atomiclong`。
 
 ```java

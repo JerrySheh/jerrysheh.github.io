@@ -17,6 +17,8 @@ comments: false
 提炼（refine）|熟悉（get a flavour for）
 一堆、一些（a bunch of）|企业（corporate）
 分号（Semicolons）|限制（restrictions）
+省略（omitted ）|明确地（explicitly）
+晦涩的（obscure）|
 
 ---
 

@@ -16,7 +16,7 @@ Ubuntu的一些使用技巧
 2. 解决双系统时间不同步的问题
 3. 系统更新提示 /boot 空间不足的解决办法
 4. 更改国内源，提高下载速度
-5. Xshell5 Ubuntu系统的VPS服务器跟本地电脑互传文件
+5. 利用 Xshell / SSH 在远程和本地之间传文件
 6. 编辑菜单
 7. 终端使用SS，查公有ip
 8. 管理ppa源
@@ -134,12 +134,16 @@ sudo apt-get update
 
 ---
 
-# 五. 利用Xshell5 本地电脑和远程VPS服务器互传文件
+# 五. 利用 Xshell / SSH 在远程和本地之间传文件
 
-购买了一台VPS，传文件还需要架设ftp服务器，实在是懒，找到一个用 Xshell5 传文件的方法，基本满足日常试用啦
+~~购买了一台VPS，传文件还需要架设ftp服务器，实在是懒~~ 找到一个用 Xshell 传文件的方法，基本满足日常试用啦。
+
+2018.4.1 更新：后来发现 SSH 居然可以传文件！ 方法写在下面
 
 
-## 1. 本地电脑端
+## 使用 Xshell
+
+### 本地
 
 打开 Xshell5 -- 文件 -- 属性 -- 文件传输 -- 使用下列下载路径
 
@@ -147,7 +151,7 @@ sudo apt-get update
 
 加载路径选择一个文件夹，这是从本地电脑上传文件到VPS默认打开的路径
 
-## 2. VPS端
+## 远程
 
 ```
 sudo apt-get lrzsz
@@ -165,6 +169,31 @@ sudo apt-get lrzsz
 
 比如，要把VPS当前目录下的 gf.jpg 文件下载到本地电脑，直接`rz gf.jpg`
 
+## 使用 SSH
+
+### SSH登录
+
+```
+ssh jerry@97.64.28.1 -p22
+```
+
+这里的 jerry 是你 VPS 的用户名， 97.64.28.1 是 VPS 公网IP地址 ， -p22 指 SSH 的22端口
+
+### SSH本地传文件到远程
+
+```
+scp /path/filename jerry@servername:/path/
+```
+
+例如scp /var/www/test.php root@192.168.0.101:/var/www/ 把本机/var/www/目录下的test.php文件上传到192.168.0.101这台服务器上的/var/www/目录中
+
+### SSH从远程下载文件到本地
+
+```
+scp username@servername:/path/filename /var/www/local_dir（本地目录）
+```
+
+例如 scp root@192.168.0.101:/var/www/test.txt 把192.168.0.101上的/var/www/test.txt 的文件下载到/var/www/local_dir（本地目录）
 
 ---
 
