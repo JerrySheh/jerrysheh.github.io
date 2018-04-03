@@ -10,7 +10,11 @@ date: 2018-04-02 11:07:25
 
 JavaScript用于网页和用户之间的交互，比如提交的时候，进行用户名是否为空的判断。
 
-完整的javascript由语言基础，BOM(浏览器对象模型)和DOM组成。
+完整的 Javascript 由以下三个部分组成
+- 语言基础
+- BOM(Browser Object Model 浏览器对象模型)
+- DOM（Document Object Model 文档对象模型）
+
 
 
 ---
@@ -118,6 +122,10 @@ print("world");
 第一句话
 第二句话
 ```
+
+
+
+> 在写前端文件的时候，通常把 JavaScript 脚本写在最后面，以提高网页的加载速度。当需要在加载时立即执行 JavaScript 代码，可以用 `onload="jfun()"` 属性。其中 `jfun()` 是 JS 函数名称。
 
 ## 语句
 
