@@ -74,7 +74,7 @@ public static void main(String[] args) {
     //定义一个文件目录
     File folder = new File("D:\\Documents");
 
-    //列出目录下的所以子文件和子目录，存入File[]数组
+    //列出目录下的所有子文件和子目录，存入File[]数组
     File[] foldersAndFiles = folder.listFiles();
     long length = 0;
     String name = "";
@@ -216,3 +216,25 @@ private static void writeByte (File parentFolder) throws NullPointerException, I
 如果我们自己从硬盘中读取或写入数据，每次都要读写磁盘。如果读写的频率比较高的时候，其性能表现不佳。为了解决这一问题，Java提供了`BufferedReader`和`BufferedWriter`两个缓存流。
 
 当我们要从硬盘读数据的时候，`BufferedReader`缓存流会先从硬盘中一次性读取较多的数据，然后我们的Java程序直接按需从缓存里取出。这样就不用每次都跟硬盘打交道了。
+
+利用 BufferedWriter 写数据到文件例子
+
+1. new 一个 `BufferedWriter`，参数里面 new 一个 `FileWriter`
+2. 用 `foreach` 循环，遍历集合
+3. 如果有必要，做一下类型转换
+4. 写数据，写分隔符
+5. 刷新
+
+```java
+try (BufferedWriter bw = new BufferedWriter(new FileWriter("data.txt"))) {
+    for (double dd:
+         randomNumberList) {
+        String s = String.valueOf(dd); //类型转换
+        bw.write(s);
+        bw.write(",");
+        bw.flush();
+    }
+} catch (IOException e){
+    e.printStackTrace();
+}
+```

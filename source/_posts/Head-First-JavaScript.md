@@ -131,7 +131,21 @@ print("world");
 
 跟Java类似， JavaScript也支持 **条件语句**、**循环语句**、**try-catch语句**
 
-其中循环语句还支持 forEach 循环 ， continue、break 什么的当然也是存在的啦
+其中循环语句还支持 forEach 循环。 但是跟 Java 的 forEach 有点不一样
+
+```javascript
+var strs = ["America","Greece","Britain","Canada","China","Egypt"];
+var count = 0;
+for (var str in strs) {
+    if (strs[str].match("a") != null) {
+        count++;
+    }
+}
+```
+
+这里的str，是strs的下标，因此要表达数组的每个元素，用`strs[str]`
+
+continue、break 什么的当然也是存在的啦
 
 
 

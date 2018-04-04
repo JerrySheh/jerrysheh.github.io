@@ -208,7 +208,10 @@ HTML是由一套标记标签 （markup tag）组成，通常就叫标签。
 
 `<input>`标签中的 type 属性，设置为 text 是文本框， password 是密码框
 
-### 有初始值的文本框
+- 属性`disabled="disabled"`可以让文本框只输出，不能输入
+- 属性`id='id'`可以给这个标签添加唯一id号
+
+## 有初始值的文本框
 
 ```html
 <input type="text" value="666">
@@ -217,7 +220,22 @@ HTML是由一套标记标签 （markup tag）组成，通常就叫标签。
 效果： <input type="text" value="666">
 </div>
 
-### 有提示语的文本框（HTML5 only）
+### 获取文本框的值
+
+```JavaScript
+document.getElementById(id).value;
+```
+
+> 如果需要类型转换，对整体做 parseInt(); 方法
+
+### 给文本框赋值
+
+```JavaScript
+var d = 66;
+document.getElementById(id).value = d;
+```
+
+## 有提示语的文本框（HTML5 only）
 
 ```html
 <input type="text" placeholder="请输入账号">
@@ -226,7 +244,7 @@ HTML是由一套标记标签 （markup tag）组成，通常就叫标签。
 效果： <input type="text" placeholder="请输入账号">
 </div>
 
-### 密码框
+## 密码框
 
 ```html
 <input type="password">
@@ -234,7 +252,6 @@ HTML是由一套标记标签 （markup tag）组成，通常就叫标签。
 <div align="center">
 效果：<input type="password" value="666666">
 </div>
-
 
 ---
 

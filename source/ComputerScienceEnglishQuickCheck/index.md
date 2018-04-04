@@ -199,3 +199,12 @@ comments: false
 
 * 查询（query）
 * 注入（inject）
+
+---
+
+# 进制转换
+
+* 十进制（Decimal）
+* 二进制（Binary）
+* 八进制（Octal）
+* 十六进制（Hexadecimal）

@@ -194,6 +194,30 @@ BigDecimal next = bd.multiply(bd.add(BigDecimal.valueOf(l)));
 * `System.out.printf("Hello, %s. Next year you will be %d.", name, age)`
 * `String.format("Hello, %s. Next year you will be %d.", name, age);`
 
+
+# 类型转换
+
+## String 转 其他
+
+* `Integer.parseInt(Str);`
+
+## 其他 转 String
+
+* `String.ValueOf(num);`取数字的值，转换为字符串，比如 3.10 转换为 "3.1"
+* `Integer.toString(num);`
+
+## 使用 DecimalFormat 类
+
+* `df.format(num)`，将数字格式化为字符串
+
+```java
+double d = 3.10;
+DecimalFormat df = new DecimalFormat("0.00"); // 预定格式
+String s = df.format(d);                      // 把 3.10 格式化，返回 String
+
+// s = "3.10"
+```
+
 ---
 
 # 数组
