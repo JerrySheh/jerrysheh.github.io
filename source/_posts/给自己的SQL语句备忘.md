@@ -77,6 +77,7 @@ SELECT * FROM Persons WHERE FirstName = 'Thomas' AND LastName='Carter'
 SELECT Company, OrderNumber FROM Orders ORDER BY Company,OrderNumber
 ```
 假设这是一个记录公司订购了多少数量的物品的表，Google公司订购了两次，先以 A - G - I 升序排列，然后在相同值Google的两次订购中以数字升序排列
+
 Company|OrderNumber
 ---|---
 **A** pple|4698

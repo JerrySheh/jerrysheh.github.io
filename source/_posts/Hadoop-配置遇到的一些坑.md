@@ -105,6 +105,14 @@ bin/hdfs dfs -mkdir input
 
 果然如此
 
+另，
+```
+hdfs dfs -ls .   /*表示当前用户目录*/
+hdfs dfs -ls /   /*表示根目录*/
+```
+
+* 使用 `hdfs dfs -ls .` 的时候， HDFS 上的 username 必须和你本地linux系统的 username 一致！否则会显示没有该目录或文件。
+
 ---
 
 # 四、Windows 环境下 JAVA_HOME 路径不对

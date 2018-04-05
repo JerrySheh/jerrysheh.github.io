@@ -74,6 +74,7 @@ comments: false
 
 * 栈（stack）
 * 堆（heap）
+* 有向无环图（Directed Acyclic Graph, DAG）
 
 ---
 
@@ -83,7 +84,7 @@ comments: false
 
 ---
 
-# Hadoop
+# 大数据
 
 * 数据集（data-set）
 * 块（chunks）
@@ -116,6 +117,7 @@ comments: false
 * 运行时类型识别(RTTI, Run-Time Type Identification)
 * 可移植操作系统接口（POSIX,Portable Operating System Interface）
 * 统一可扩展固件接口（UEFI，Unified Extensible Firmware Interface）
+* REPL（Read-Eval-Print Loop，交互式解释器）
 
 ---
 
@@ -170,6 +172,7 @@ comments: false
 * 应用程序编程接口 (API，Application Programming Interface)
 * 面向连接的(connection-oriented)
 * 广播（Broadcast）
+* 通用网关接口（Common Gateway Interface， CGI）
 
 ---
 
