@@ -27,11 +27,7 @@ date: 2018-01-18 22:31:07
 
 ---
 
-# 第二章：面向对象
-
----
-
-## 对象和方法
+# 对象和方法
 
 * `Mutator`方法和`Accessor`方法
 > 如果一个方法改变了调用它的对象，我们就说这是一个`Mutator`方法（更改器），反之如果不改变调用自己的对象，它就是`Accessor`方法 （访问器）。比如plusDays方法如果改变Date对象的状态，不返回结果，就是`Mutator`方法，如果plusDays不改变Date对象而是返回一个新构造的LocalDate对象，就是`Accessor`方法。
@@ -42,7 +38,7 @@ date: 2018-01-18 22:31:07
 
 ---
 
-## this
+# this
 
 * 在对象上调用方法时，this引用指向该对象。this清晰地区分了局部变量和实例变量。带有this的是实例对象。
 
@@ -63,7 +59,7 @@ public void setSalary(double salary){
 
 ---
 
-## 值传递
+# 值传递
 
 * 当你将对象传递给方法，方法获得该对象引用的拷贝。
 * Java中，所有参数，对象引用以及基本类型值都是值传递。
@@ -96,7 +92,7 @@ boss.replaceWithZombie(fred);
 
 ---
 
-## 构造函数
+# 构造函数
 
 * 构造函数的名称与类名称相同。并且不返回任何类型！
 * 构造函数没有返回类型，如果你不小心加了void，那这是一个名称跟类名相同的方法，不是构造函数。
@@ -115,7 +111,7 @@ public Employee (double salary){
 
 ---
 
-## final
+# final
 
 * 当使用可修改对象的引用时，fianl修饰符只是声明该引用永不改变。修改对象自身是完全合法的。
 
@@ -131,7 +127,7 @@ public class Person{
 
 ---
 
-## static
+# static
 
 * 如果在类中将变量声明为static，那么该变量属于类，而不是属于对象。
 * 静态常量用static final，如: ` public static final double PI = 3.14159265358979323846;`
@@ -141,4 +137,75 @@ public class Person{
 
 ---
 
-* 嵌套类：把一个类放进另一个类内部。
+# 内部类
+
+Java 中的内部类分为
+- 非静态内部类
+- 静态内部类
+- 匿名类
+- 本地类
+
+## 非静态内部类
+
+即在类里面嵌套另一个类，内部类可以直接访问外部类 private 实例属性。
+
+实例化方法：
+
+```
+内部类名 实例名 = 外部类实例名.new 内部类名();
+```
+
+## 静态内部类
+
+与非静态内部类不同，静态内部类水晶类的实例化 不需要一个外部类的实例为基础，可以直接实例化
+
+实例化方法：
+```
+内部类名 实例名 = new 内部类名();
+```
+
+## 匿名类
+
+通常情况下，要使用一个接口或者抽象类，都必须创建一个子类，有的时候，为了快速使用，直接实例化一个抽象类，并“当场”实现其抽象方法。这就是匿名类。
+
+简单地说，匿名类就是声明一个类的同时实例化它。
+
+- 匿名类可以用 lambda 表达式替代。
+- 在匿名类中使用外部的局部变量，外部的局部变量必须修饰为final （但 jdk 1.8 以后不用声明为 final， jdk 会为你加）
+
+
+```java
+class jump implements Runnable {
+    public void run(){
+        System.out.println("jump now");
+    }
+}
+
+public class test {
+    public static void main(String[] args) {
+        //不使用匿名类
+        Runnable r = new jump();
+        Thread t1 = new Thread(r);
+        t1.start();
+
+        //使用匿名类
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("swim now");
+            }
+        }).start();
+
+        //使用 lambda 表达式
+        new Thread( () -> System.out.println("go away now")).start();
+    }
+}
+
+```
+
+## 本地类
+
+本地类可以理解为有名字的匿名类
+
+与内部类不一样的是，内部类必须声明在成员的位置，即与属性和方法平等的位置。
+本地类和匿名类一样，直接声明在代码块里面，可以是主方法，for循环里等等地方

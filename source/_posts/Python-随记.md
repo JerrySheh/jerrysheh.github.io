@@ -4,7 +4,7 @@ comments: true
 categories: Python
 tags: Python
 abbrlink: f9031a66
-date: 2018-04-05 17:27:36
+date: 2018-04-04 17:27:36
 ---
 
 # Python 程序入口
@@ -21,6 +21,8 @@ date: 2018-04-05 17:27:36
 
 这句话的意思就是，当模块被直接运行时，`dosomething()`块将被运行，当模块是被导入时，`dosomething()`块不被运行。
 
+<!-- more -->
+
 ## -m 参数
 
 `python xxx.py` 与 `python -m xxx.py` ，这两种运行 Python 程序的方式的不同点在于，一种是直接运行，一种是当做模块来运行。
@@ -31,8 +33,6 @@ date: 2018-04-05 17:27:36
 参考：
 
 - [Python 中的 if \_\_name__ == '\_\_main__' 该如何理解](http://blog.konghy.cn/2017/04/24/python-entry-program/)
-
-<!-- more -->
 
 ---
 

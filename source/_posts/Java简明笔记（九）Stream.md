@@ -101,6 +101,23 @@ public static void streamTest() {
 }
 ```
 
+另一个例子：为每个订单加上12%的税
+
+```java
+// 不使用lambda表达式
+List costBeforeTax = Arrays.asList(100, 200, 300, 400, 500);
+for (Integer cost : costBeforeTax) {
+    double price = cost + .12*cost;
+    System.out.println(price);
+}
+
+// 使用lambda表达式
+List costBeforeTax = Arrays.asList(100, 200, 300, 400, 500);
+costBeforeTax.stream().map((cost) -> cost + .12*cost).forEach(System.out::println);
+```
+
+可见 Lambda 表达式非常地优雅。
+
 ---
 
 # 规约方法（reduction）

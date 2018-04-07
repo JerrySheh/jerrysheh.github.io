@@ -56,15 +56,87 @@ Runnable task = () -> { for (int i = 0; i < 100; i++) do(); };
 
 ---
 
+# 实际例子
+
+## 替代匿名类
+
+```java
+class jump implements Runnable {
+    public void run(){
+        System.out.println("jump now");
+    }
+}
+
+public class test {
+    public static void main(String[] args) {
+        //不使用匿名类
+        Runnable r = new jump();
+        Thread t1 = new Thread(r);
+        t1.start();
+
+        //使用匿名类
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("swim now");
+            }
+        }).start();
+
+        //使用 lambda 表达式
+        new Thread( () -> System.out.println("go away now")).start();
+    }
+}
+
+```
+
+## 事件处理
+
+```java
+// Java 8之前：
+JButton show =  new JButton("Show");
+show.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+    System.out.println("Event handling without lambda expression is boring");
+    }
+});
+
+// Java 8方式：
+show.addActionListener((e) -> {
+    System.out.println("Light, Camera, Action !! Lambda expressions Rocks");
+});
+```
+
+## 对列表进行迭代
+
+```java
+// Java 8之前：
+List features = Arrays.asList("Lambdas", "Default Method", "Stream API", "Date and Time API");
+for (String feature : features) {
+    System.out.println(feature);
+}
+
+// Java 8之后：
+List features = Arrays.asList("Lambdas", "Default Method", "Stream API", "Date and Time API");
+features.forEach(n -> System.out.println(n));
+
+// 使用Java 8的方法引用更方便，方法引用由::双冒号操作符标示，
+// 看起来像C++的作用域解析运算符
+features.forEach(System.out::println);
+```
+
+
+---
+
 # 操作符 「::」 和方法引用
 
 在学习lambda表达式之后，我们通常使用lambda表达式来创建匿名方法。然而，有时候我们仅仅是调用了一个已存在的方法。如下：
-```
+```java
 Arrays.sort(stringsArray,(s1,s2)->s1.compareToIgnoreCase(s2));
 ```
 
 在Java8中，我们可以直接通过方法引用来简写lambda表达式中已经存在的方法。这种特性就叫方法引用：
-```
+```java
 Arrays.sort(stringsArray, String::compareToIgnoreCase);
 ```
 

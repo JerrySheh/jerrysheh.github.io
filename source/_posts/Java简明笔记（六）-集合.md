@@ -297,6 +297,39 @@ Collections是针对集合类的一个帮助类，提供了操作集合的工具
 
 ---
 
+# 将数组转换为列表
+
+使用 `Arrays.asList()`方法将数组转换为列表
+
+* 该方法**不适用**于基本数据类型（byte,short,int,long,float,double,boolean），但支持它们的包装类
+* 该方法将数组与列表链接起来，当更新其中之一时，另一个自动更新
+* 不支持add和remove方法
+
+```java
+String[] s = {"aa","bb","cc"};
+        List<String> strlist = Arrays.asList(s);
+        strlist.forEach(n-> System.out.println(n));
+        for(String str:strlist){
+            System.out.println(str);
+        }
+```
+
+在 jdk 1.8 以上，可以用 lambda 替代 foreach 循环
+
+```java
+strlist.forEach(n-> System.out.println(n));
+```
+
+甚至可以
+
+```java
+strlist.forEach(System.out::println);
+```
+
+见 [Lambda表达式](../post/68278ec8.html)
+
+---
+
 # 简要介绍其他集合
 
 ## Properties

@@ -4,57 +4,18 @@ comments: true
 categories: 大数据
 tags: 大数据
 abbrlink: bcfe91a1
-date: 2018-04-05 16:09:20
+date: 2018-04-06 01:52:20
 ---
 
-在实际应用中，大数据处理主要包括：
-- 复杂的批量数据处理（数十分钟 - 几小时）
-- 基于历史数据的交互式查询（数十秒 - 几分钟）
-- 基于实时流的数据处理 （数百毫秒 - 几秒）
-
-Spark 的设计遵循“一个软件栈满足不同的应用场景”，有一套完整的生态系统。包括内存计算框架、SQL即时查询、实时流式计算、机器学习和图计算等。Spark可以部署在 YARN 资源管理器上，提供一站式的大数据解决方案。
+使用Spark Streaming 进行实时流计算，主要运用 DStream 编程模型。这种模型包括 **输入**、**转换**和**输出** 三个部分。这一篇主要介绍三种简单的输入。[下一篇](../post/76774483.html)将会介绍高级数据源和转换，输出部分。
 
 <!-- more-->
-
-# Spark 基本概念
-
-* **RDD**：弹性分布式数据集（Resilient Distributed Dataset），分布式内存的一个抽象概念，提供了一种高度受限的内存模型。
-* **DAG**：有向无环图（Directed Acyclic Graph, DAG），反映RDD之间的依赖关系。
-* **Executor**：运行在工作节点（Worker Node）上的一个进程，负责运行任务，为应用程序存储数据。
-* **应用**：用户编写的 Spark 程序
-* **任务**：运行在 Executor 上的工作单元
-* **作业**：一个作业包含多个RDD以及作用域相应RDD的各种操作
-* **阶段**：是作业的基本调度单位，一个作业分为多组任务，每组任务被称为“阶段”，或者“任务集”。
-
-在 Spark 中，一个应用（Application）由一个任务控制节点（Driver）和若干个作业（Job）构成，一个作业由多个阶段（Stage）构成，一个阶段由多个任务（Task）组成。
-
----
-
-# Spark 生态系统组件
-
-- **Spark Core**：内存计算、任务调度、部署模式、故障恢复、存储管理等，主要面向批数据处理
-- **Spark SQL**：允许开发者直接处理RDD，也可查询 Hive、Hbase等外部数据源。统一处理数据关系表和RDD，开发者无需自己编写Spark程序，即可用 SQL 命令查询。
-- **Spark Streaming**： 实时流处理。支持多种数据输入源，如 Kafka、Flume、HDFS 或 TCP套接字。
-- **MLlib（机器学习）**：提供机器学习算法实现，包括聚类、分类、回归、协同过滤。
-- **GraphX（图计算）**
-
-无论哪个组件，都可以用 Core 的API处理问题。
-
----
-
-# Spark 三种部署方式
-
-* **standalone**
-* **Spark on Mesos**（官方推荐）
-* **Spark on YARN**
-
----
 
 # Spark Streaming 简介
 
 Spark Streaming是 Spark 的实时计算框架，为Spark提供了可扩展、高吞吐、容错的流计算能力。支持多种数据输入源，如 Kafka、Flume、HDFS 或 TCP套接字。
 
-![输入输出](http://dblab.xmu.edu.cn/blog/wp-content/uploads/2016/11/%E5%9B%BE10-19-Spark-Streaming%E6%94%AF%E6%8C%81%E7%9A%84%E8%BE%93%E5%85%A5%E3%80%81%E8%BE%93%E5%87%BA%E6%95%B0%E6%8D%AE%E6%BA%90.jpg)
+![输入输出](http://spark.apache.org/docs/latest/img/streaming-arch.png)
 
 ## 基本原理
 
@@ -72,6 +33,8 @@ DStream是 Spark Streaming 的编程模型，DStream 的操作包括 **输入**�
 ---
 
 # Spark Streaming编程步骤
+
+> Spark Streaming 应用程序可以用 Scala、Java、Python来编写， 官方提供了一种叫 pyspark 的命令行环境，使用 Scala 语言来编写。但是我们一般是在 IDE 里编写独立的应用程序。
 
 编写 Spark Streaming 程序的基本步骤是：
 
@@ -93,6 +56,8 @@ conf.setMaster('local[2]')  # 表示运行在本地模式下，并且启动2个�
 conf.setAppName('TestDStream')
 sc = SparkContext(conf = conf)
 ```
+
+> pyspark 默认有 sc，那么如何开 local[2] ? 答案：`spark-submit --master local[4] your_file.py`
 
 要运行一个Spark Streaming程序，首先要生成一个StreamingContext对象
 
@@ -134,7 +99,7 @@ Time: 2018-04-05 23:45:30
 
 可以发现，程序每隔10秒监听一次。但是没有把 logdir 目录下的 log1.txt 和 log2.txt 这两个文件中的内容读取出来。原因是，监听程序只监听目录下在程序**启动后新增的文件**，不会去处理历史上已经存在的文件。
 
-现在，用 vim 在 logdir 目录里新增一个 log3.txt ，并写入 heelo， 保存。
+现在，用 vim 在 logdir 目录里新增一个 log3.txt ，并写入 hello， 保存。
 
 过一会儿，就能发现屏幕中输出了 log3.txt 里面的信息。
 
