@@ -265,6 +265,16 @@ JavaRDD<Integer> distData = sc.parallelize(data, 2); //设置2个分区
 
 ---
 
+# 共享变量和累加器
+
+Spark在集群的多个不同节点的多个任务上并行运行一个函数时，它会把函数中涉及到的每个变量，在每个任务上都生成一个副本。但是我们有时候需要在多个任务之间，或者在任务（Task）和任务控制节点（Driver Program）之间共享变量。
+
+Spark提供了两种类型的变量：`广播变量（broadcast variables）`和`累加器（accumulators）`。广播变量用来把变量在所有节点的内存之间进行共享。累加器则支持在所有不同节点之间进行累加计算（比如计数或者求和）。
+
+- 使用`SparkContext.broadcast(v)`来从一个普通变量v中创建一个广播变量
+- 一个数值型的累加器，可以通过调用`SparkContext.longAccumulator()`或者`SparkContext.doubleAccumulator()`来创建
+---
+
 参考：
 
 - [厦门大学数据库实验室](http://dblab.xmu.edu.cn/blog/1312-2/)

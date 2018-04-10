@@ -141,3 +141,13 @@ cookie技术有 4 个组件：
 使用代理服务器有一个问题，那就是代理服务器缓存的对象，也可能是旧的。比如今天缓存了一张图片，明天真实服务器修改了这张图片，后天有一个浏览器请求这张图片。如果代理服务器直接发给客户，不就发了旧版本吗？
 
 解决方案是条件 GET 方法， 这个 GET 方法 由代理服务器向真实服务器 发出，其中包括 `If-Modified-Since`首部行，如果与服务器上的一致，则证明是最新的，否则，从服务器请求最新的文件过来。
+
+---
+
+# URL 和 URI 的区别
+
+URI = Universal Resource Identifier 统一资源标志符
+URL = Universal Resource Locator 统一资源定位符
+URN = Universal Resource Name 统一资源名称
+
+也就是说，URI分为三种，URL or URN or （URL and URI）

@@ -52,12 +52,18 @@ import java.sql.*;
 public class go {
     public static void main(String[] args) throws SQLException {
         String base_url = "jdbc:mysql://127.0.0.1:3306/";
-        String table_name = "class_info";
+        String DB_name = "class_info";
         String Encoding = "UTF-8";
         String user = "root";
         String psw = "9501";
         String SSL = "false";
-        String url = String.format("%s%s?characterEncoding=%s&user=%s&password=%s&useSSL=%s",base_url,table_name,Encoding,user,psw,SSL);
+        String url = String.format("%s \
+                                   %s  \
+        ?characterEncoding=%s          \
+        &user=%s                       \
+        &password=%s                   \
+        &useSSL=%s"                    \
+        ,base_url,DB_name,Encoding,user,psw,SSL);
 
         Connection c = DriverManager.getConnection(url,user,psw);
         System.out.println("连接成功：" + c);

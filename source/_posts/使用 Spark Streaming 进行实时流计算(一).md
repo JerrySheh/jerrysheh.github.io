@@ -34,7 +34,7 @@ DStream是 Spark Streaming 的编程模型，DStream 的操作包括 **输入**�
 
 # Spark Streaming编程步骤
 
-> Spark Streaming 应用程序可以用 Scala、Java、Python来编写， 官方提供了一种叫 pyspark 的命令行环境，使用 Scala 语言来编写。但是我们一般是在 IDE 里编写独立的应用程序。
+> Spark Streaming 应用程序可以用 Scala、Java、Python来编写， 官方提供了一种叫 spark-shell 的命令行环境，使用 Scala 语言来编写，或者使用 python 语言的 pyspark。但是我们一般是在 IDE 里编写独立的应用程序。
 
 编写 Spark Streaming 程序的基本步骤是：
 
