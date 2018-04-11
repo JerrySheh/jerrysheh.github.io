@@ -1,9 +1,10 @@
 ---
 title: Head First JavaScript
 comments: true
-categories: 前端
+categories: Java Web
 tags:
   - JavaScript
+  - Web
 abbrlink: 21eaf7cd
 date: 2018-04-02 11:07:25
 ---
@@ -15,7 +16,7 @@ JavaScript用于网页和用户之间的交互，比如提交的时候，进行�
 - BOM(Browser Object Model 浏览器对象模型)
 - DOM（Document Object Model 文档对象模型）
 
-
+<!-- more -->
 
 ---
 

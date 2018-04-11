@@ -1,9 +1,10 @@
 ---
 title: Head First HTML
 comments: true
-categories: 前端
+categories: Java Web
 tags:
   - HTML
+  - Web
 abbrlink: 65acdb59
 date: 2018-04-02 10:05:16
 ---
@@ -11,6 +12,8 @@ date: 2018-04-02 10:05:16
 HTML是`HyperText Markup Language 超文本标记语言`的缩写。
 
 HTML是由一套标记标签 （markup tag）组成，通常就叫标签。
+
+<!-- more -->
 
 # 基本元素
 
@@ -50,8 +53,6 @@ HTML是由一套标记标签 （markup tag）组成，通常就叫标签。
 
 <h1 align="center">居中标题</h1>
 ```
-
-<!-- more -->
 
 ## 图片元素
 

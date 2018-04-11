@@ -204,7 +204,12 @@ JSTL库用得比较多的有 core 和 fmt
 
 ## JavaBean
 
-JavaBean是一种标准
+Java语言欠缺属性、事件、多重继承功能。所以，如果要在Java程序中实现一些面向对象编程的常见需求，只能手写大量胶水代码。Java Bean正是编写这套胶水代码的惯用模式或约定。这些约定包括getXxx、setXxx、isXxx、addXxxListener、XxxEvent等。遵守上述约定的类可以用于若干工具或库。
+
+
+> 参考：[Zhihu](https://www.zhihu.com/question/19773379/answer/31625054)
+
+简单地说，JavaBean是一种标准：
 1. 提供无参public的构造方法(默认提供)
 2. 每个属性，都有public的getter和setter
 3. 如果属性是boolean,那么就对应is和setter方法
