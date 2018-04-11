@@ -61,8 +61,6 @@ hello = String.format("Hello, %s. Next year you will be %d.", name, age);
 
 # String 的几个用法
 
-这些用法在 [Java简明笔记（一）](https://jerrysheh.github.io/post/b3088ac5.html)中提及过，转抄如下
-
 * `String name = String.join("-","hello","and","again"); `，输出 hello-and-again 。 第一个参数是连接符，第二到n个参数是需要连接的字符串
 
 * `str.substring(7,12)`提取子字符串，如`Hello, World!` 第7（包括）到第12（不包括）位，即`World`这个单词。
@@ -71,13 +69,13 @@ hello = String.format("Hello, %s. Next year you will be %d.", name, age);
 
 * `str.equals("World")`，判断相等。
 
-* 不要用 `==` 符号来判断字符串相等！！在Java虚拟机中，每个文字串只有一个实例，`"World" == "World"` 确实会返回真，但是如果前后比较的字符串是用分割提取等方法获取到的，它将会被存入一个新的对象当中，这时用==判断会出现假，因为不是同一个对象。
+* 上面那条是不好的习惯，好的习惯是把文字串放在前面：`if ("World".equals(location))` ，这样可以避免某些空指针异常
 
-* `String middlename = null;` ，测试一个字符串对象是否为null，可以用`==`。
+* 不要用 `==` 符号来判断字符串相等！！在Java虚拟机中，每个文字串只有一个实例，`"World" == "World"` 确实会返回真，但是如果前后比较的字符串是用分割提取等方法获取到的，它将会被存入一个新的对象当中，这时用`==`判断会出现假，因为不是同一个对象。
 
-* null说明该变量没有引用任何对象。空字符串 `""`是长度为零的字符串， null不是字符串
+* `String middlename == null;` ，测试一个字符串对象是否为null，可以用`==`。
 
-* `if ("World".equals(location))` 是个好习惯， 把文字串放在前面
+* null不是字符串，null说明该变量没有引用任何对象。而空字符串 `""`是长度为零的字符串，
 
 * `equalsIgnoreCase`方法，不考虑大小写比较字符串，`myStr.equalsIgnoreCase("world");`
 
@@ -126,7 +124,7 @@ public delete(int start, int end)
 
 将 int 参数的字符串表示形式插入此序列中。
 ```java
-`public insert(int offset, int i)`
+public insert(int offset, int i)
 ```
 
 取代
