@@ -26,6 +26,7 @@ public class Entry {
     private int key;
     private String value;
 
+    // 构造函数：int 类型的 key， String 类型的 value
     public Entry(int key, String value) {
       this.key = key;
       this.value = value;
@@ -38,9 +39,13 @@ public class Entry {
 
 在这个类中，我们用 int 类型来存储 key 值， 用 String 类型来存储 value 值。
 
-现在，老板要求我们的不仅要有存储字符串类型的类，还要有存储其他类型的，那我们要写很多个类似上面的类，只是把`private String value`和`private int key;`改成别的类型吗？ 8种基本数据类型或许可以，但是存储的是抽象数据类型呢？我们不可能所有类型都写一个对应的类。
+现在，老板要求，除了 int 类型的 key 和 String 类型的 value之外，还得提供其他类型的 key 和 value 。 比如 double 类型的 key， boolean 类型的value。
 
-解决这个问题，我们可以用 Java 泛型。 只写一个类，实例化的时候再写明是什么类型就好了。这就是泛型类。
+那我们要写很多个类似上面的类，只是把`private int key;`和`private String value` 改成`private boolean value`和`private double key;`吗？
+
+8种基本数据类型或许可以这么干，但是存储的是抽象数据类型呢？我们不可能所有类型都写一个对应的类。
+
+为了解决这个问题，我们可以用 Java 泛型： 只写一个类，实例化的时候再写明是什么类型就好了。这就是泛型类。
 
 <!-- more -->
 

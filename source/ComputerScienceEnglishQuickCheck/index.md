@@ -98,6 +98,7 @@ comments: false
 * 伪代码（pseudo code）
 * 解析（parse）
 * 兼容性（Compatibility）
+* 分配（allocates）
 
 
 * 缓冲区(buffers)

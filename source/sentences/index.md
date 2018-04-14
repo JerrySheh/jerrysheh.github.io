@@ -5,9 +5,17 @@ comments: false
 type: about
 ---
 
-<br />
-
 ![lalala](../../../../images/lalala.jpg)
+
+<div align="center">
+<h2>
+ don’t care about the audience of your blog, just write.
+</h2>
+</div>
+
+
+
+
 
 <!-- more -->
 
@@ -34,6 +42,16 @@ type: about
 # 2018
 
 ## 4月
+
+### 04-13
+
+{% note success %}
+
+虽然现在已经是太空时代了，人类可以搭乘太空船到达月球，但却没办法看穿每个人心里的宇宙。
+
+——《大佛普拉斯》
+
+{% endnote %}
 
 ### 04-02
 
@@ -63,7 +81,7 @@ type: about
 
 {% note danger %}
 
-愿有前程可奔赴、亦有岁月可回首。
+愿有前程可奔赴，亦有岁月可回首。
 
 {% endnote %}
 
