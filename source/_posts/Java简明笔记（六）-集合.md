@@ -25,7 +25,11 @@ Java API 提供了常用数据结构和算法的实现，以及组织数据结�
 
 通俗的说，集合就是一个放数据的容器，准确的说是放数据对象引用的容器。
 
-Java集合主要可以划分为四个部分：List、Set、Map、工具类（Iterator迭代器、Enumeration枚举类、Arrays和VCollections）。
+Java集合主要可以划分为四个部分：
+- List
+- Set
+- Map
+- 工具类（Iterator迭代器、Enumeration枚举类、Arrays和VCollections）。
 
 java的集合类主要由两个接口派生而来，Collection和Map，这两个是集合框架的根接口，这两个接口又包含了一些子接口或实现类。如下图所示是Collectio集合体系和Map集合体系的框架图。
 
@@ -299,7 +303,7 @@ Collections是针对集合类的一个帮助类，提供了操作集合的工具
 
 # 将数组转换为列表
 
-使用 `Arrays.asList()`方法将数组转换为列表
+使用 `Arrays.asList()`方法将数组转换为列表（注意是 Arrays, 不是 Array）
 
 * 该方法**不适用**于基本数据类型（byte,short,int,long,float,double,boolean），但支持它们的包装类
 * 该方法将数组与列表链接起来，当更新其中之一时，另一个自动更新

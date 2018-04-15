@@ -47,11 +47,19 @@ date: 2018-04-15 00:19:08
 
 ## IoC （Inversion Of Control，反转控制）
 
-简单地说，以前我们通过 new 构造方法来创建对象，现在变成交由 Spring 帮我们创建对象。那 Spring 是如何帮我们创建对象的呢？ 事实上，它是通过一种叫 `DI （依赖注入，Dependency Inject）`的技术实现的。简单地说DI可以拿到的对象的属性。
+在设计一辆车的时候，如果我们先设计轮子、再根据轮子设计底盘、再根据地盘设计车身，这是一种自底向上的设计思想。但是，假若未来某一天需要改造一下轮子（比如由直径30cm改成40cm），那么底盘、车身不得不相应地进行改动。在大型的软件工程中，这种做法几乎是不可维护的，因为一个类可能作为其他上百个类的底层，我们不可能一一去修改。
 
-Spring 通过配置 xml 文档或者 @ 注解 的方式帮我们注入对象，我们得到对象后直接就可以使用，而无需手动构造然后调用各种 setter 方法。
+`反转控制`其实是一种依赖倒置原则的设计思想。也就是反过来，让底层依赖上层。具体的做法就是使用 `DI （依赖注入，Dependency Inject）`，DI把底层类作为参数传给上层，实现上层对下层的控制。（包括可以使用 构造函数传递、Setter传递、接口传递）
 
-IoC 背后的原理，其实就是 [Java 的反射机制](../post/e753fbbb.html)
+采用依赖倒置原则的设计之后，会产生一个问题，假设我们要调用一个上层，由于上层需要接受下层作为参数，我们必须在构造上层前构造下层，这样我们的代码中就会写很多 new 。
+
+这时候`反转控制容器（IoC Container）`出现了，这个容器可以自动对我们的代码进行初始化，而我们要做的，只是维护一个 Configuration， 具体到 Spring 中，我们可以通过配置 xml 文档或者 @ 注解 的方式让 Spring 帮我们注入对象，我们得到对象后直接就可以使用，而不需要了解注入过程层层依赖的细节。
+
+事实上，IoC远没有这么简单，上面的例子只是一个通俗的解释。还需要进一步地查阅文献才能理解Ioc。这里权当抛砖引玉。
+
+- 以上例子，来自 [知乎:Spring IoC有什么好处呢？
+](https://www.zhihu.com/question/23277575/answer/169698662)
+- IoC 背后的Java原理，其实就是 [Java 的反射机制](../post/e753fbbb.html)
 
 ## AOP（Aspect Oriented Program，面向切面编程）
 
@@ -67,6 +75,152 @@ AOP 的好处是降低程序的耦合性。
 
 ---
 
-# SpringBoot
+# Spring Boot
+
+在 Spring MVC 框架中，我们不得不进行大量的配置， 而在 Spring Boot 快速框架中，很多配置框架都帮你做好。拿来即用。
+
+---
+
+# IDEA Spring Boot 实战
+
+## 创建工程
+
+在 IDEA 中，创建一个新的Spring Initalizr工程, Type 选择 Maven， 组件选择 Web ， IDEA 会自动帮我们新建一个基于 Maven 的 Spring Boot 工程。
+
+看一下 pom.xml 大概长这样
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>jerrysheh</groupId>
+    <artifactId>springboot-demo</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>springboot-demo</name>
+    <description>Demo project for Spring Boot</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.1.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+```
+
+## java代码
+
+在src/main/java/Example.java里面，应该已经有类似下面这样的代码了，如果没有，需要手动添加。
+
+```java
+import org.springframework.boot.*;
+import org.springframework.boot.autoconfigure.*;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@EnableAutoConfiguration
+public class Example {
+
+	@RequestMapping("/")
+	String home() {
+		return "Hello World!";
+	}
+
+	public static void main(String[] args) throws Exception {
+		SpringApplication.run(Example.class, args);
+	}
+
+}
+```
+
+然后运行一下， 登录 127.0.0.1:8080， 竟然已经能看到 Hello World 了，我们还没有进行 project structure 以及 Tomcat 配置呢 ？ 这是什么操作？
+
+事实上， Spring Boot 已经内置了这些配置，拿来即用。
+
+### 代码解析
+
+以`@`开头的是注解。注解既方便我们阅读，也让框架识别某些代码的角色。
+
+- `@RestController`：是`@ResponseBody`和`@Controller`的缩写，它表明我们的 Example 类是一个 Web Controller（控制器），当有 Web Request 进来的时候，Spring 会进行相应。
+- `@RequestMapping`：表示路由路径映射，比如`@RequestMapping("/hello")`，就映射到 127.0.0.1:8080/hello 。
+- `@EnableAutoConfiguration`：让 Spring Boot 根据你的依赖信息自动进行配置，例如我们在 pom.xml 中添加了`spring-boot-starter-web`，Spring Boot会认为你正在开发的是 Web 应用，因此进行 Web 的配置。
+
+> 注意：如果不用`@RestController`而仅用`@Controller`的话，需要在每一个映射路径方法下添加`@ResponseBody`注解。
+
+## 打包 jar
+
+确保 pom.xml 里面有
+
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+    </plugins>
+</build>
+```
+
+然后执行以下语句进行打包。
+
+```
+mvn package
+```
+
+## 热部署
+
+在 pom.xml 里面添加以下语句即可热部署，也就是我们修改了代码之后无需重启工程，即可看到效果。
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-devtools</artifactId>
+    <optional>true</optional> <!-- 这个需要为 true 热部署才有效 -->
+</dependency>
+
+<plugin>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-maven-plugin</artifactId>
+    <configuration>
+        <!-- 没有该配置，devtools 不生效 -->
+        <fork>true</fork>
+    </configuration>
+</plugin>
+```
+
+---
 
 未完待续

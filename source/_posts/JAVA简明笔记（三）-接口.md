@@ -194,7 +194,7 @@ public class Employee implements Persons, Identified {
 ```
 ---
 
-# Java标准类库的四个使用接口情况
+# Java标准类库的四个使用接口
 
 ## Comparable接口
 
@@ -230,15 +230,53 @@ public class Employee implements Comparable<Employee> {
 * 如果返回负整数，有可能溢出，导致结果变成一个大正整数，用`Interger.compare`方法解决。
 * 比较浮点数时，应该用静态方法`Double.compare`，不能用两数之差。
 
+### 实现了Comparable后，如何使用？
+
+我们的 Employee 类实现了 Comparable 接口，说明这个类的不同实例之间是可以比较的，比较的方法如下
+
+```java
+Employee s1 = new Employee(18,"Xiaoming");
+Employee s2 = new Employee(20,"Luohao");
+s1.compareTo(s2);
+```
+
+可以将这些实例放到一个数组中，然后用`Arrays.sort()`进行排序。
+
+```java
+// 一个Employee数组
+Employee[] eArr = {e1,e2,e3};
+
+// 对Employee数组进行排序，如何排序？根据上面我们写的compareTo方法
+Arrays.sort(eArr);
+
+//遍历输出
+for (Employee ei:
+     eArr) {
+    System.out.println(ei.getID());
+}
+```
+
 ## Comparator接口
 
-如果我们要比较的是String字符串的长度，而不是大小。无法用Comparable接口的compareTo来实现。这时候就需要Comparator接口。
+我们比较字符串的时候，通常是
+
+```java
+String s1 = "hello";
+String s2 = "world";
+s1.compare(s2);
+```
+
+这样会以首字母大小顺序对 s1,s2 进行比较。
+
+但如果我们要比较的是字符串的长度，而不是根据首字母。就无法用Comparable接口的compareTo方法来实现。这时候就需要Comparator接口：
 
 ```
 public interface Comparator<T> {
   int compare(T first, T second)
 }
 ```
+
+我们可以写一个类，叫`LenthComparator`，这个类实现了 `Comparator<>` 接口。 然后重写`compare`方法。
 
 比较字符串长度的实现
 
@@ -250,14 +288,50 @@ class LenthComparator implements Comparator<String> {
 }
 ```
 
-实例
+然后对这个类进行实例化，再应用在两个字符串中，这样就实现了对字符串的长度的比较。
 
 ```Java
 Comparator<String> comp = new LenthComparator();
-if (comp.compare(words[i],words[j]) > 0)
+if (comp.compare(words[i],words[j]) > 0){
+    //...
+}
 ```
 
 可以看到，这种调用是compare对象上的调用，而不是字符串自身。
+
+### 扩展
+
+当我们要对某个对象数组（比如student对象）进行排序的时候，不按comparable实现的比较方法来排序，而是要以另一种方式排序。这时候`Arrays.sort()`提供第二个参数，是一个 Comparator，意思是：以第二个参数（Comparator）制定的规则来对第一个参数（数组）进行排序。
+
+```java
+student[] sArr = {s1,s2,s3};
+Arrays.sort(sArr, new Comparator<student>(){
+    @Override
+    public int compare(student o1, student o2) {
+        return o1.getAge() - o2.getAge();
+    }
+});
+```
+
+这样的代码比较啰嗦，我们可以用 lambda 表达式替代：
+
+```java
+// lambda 表达式会自动进行类型判断
+Arrays.sort(sArr, (o1,o2)->(o1.getAge() - o2.getAge()));
+```
+
+> 如果你要比较的不是数组，而是一个集合，用`Collections.sort`代替`Arrays.sort`
+
+```java
+// 第一种写法，IDEA会提示你可以用方法引用替代
+Collections.sort(studentList, ((o1, o2) -> o1.getAge() - o2.getAge()));
+
+// 用方法引用，IDEA会提示你可以用 实例.sort 替代
+Collections.sort(studentList, Comparator.comparing(student::getAge));
+
+// 完美
+studentList.sort(Comparator.comparing(student::getAge));
+```
 
 ## Runable接口
 

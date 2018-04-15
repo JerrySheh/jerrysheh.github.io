@@ -28,6 +28,8 @@ date: 2018-03-04 23:43:38
 
 Tomcat 就是一个常用的 Web 服务器。
 
+> 事实上，我们的 Web 应用要运行起来，是需要部署在应用服务器上而不是Web服务器。浏览器要访问我们的 Web 应用，需要通过 Http 协议访问 Web 服务器。 只不过， Tomcat 即是应用服务器，但也具有web服务器的功能，所以直接访问也可以。然而，在实际的生产环境中，由于负载均衡，cdn加速等原因，我们还是需要在应用服务器的前端再加一个web服务器来提高访问效率，常用的有Nginx,Apache这样的服务器。
+
 ---
 
 # Servlet
@@ -223,6 +225,45 @@ response.sendRedirect("fail.html");
 ```
 
 - 用户看到的网址变为 127.0.0.1:8080/fail.html
+
+## Web.xml
+
+在项目中有一个 Web.xml 文件，这个文件是一些配置参数。
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>JspDemo</display-name>
+  <welcome-file-list>
+    <welcome-file>login.jsp</welcome-file>
+  </welcome-file-list>
+  <context-param>  
+    <param-name>database_driver</param-name>  
+    <param-value>com.mysql.jdbc.Driver</param-value>
+  </context-param>
+  <context-param>  
+    <param-name>database_url</param-name>  
+    <param-value>jdbc:mysql://localhost:3306/sms?serverTimezone=GMT%2B8&amp;characterEncoding=UTF-8</param-value>
+  </context-param>
+  <context-param>  
+    <param-name>database_user</param-name>  
+    <param-value>root</param-value>
+  </context-param>
+  <context-param>  
+    <param-name>database_pwd</param-name>  
+    <param-value>123456</param-value>
+  </context-param>
+</web-app>
+```
+
+然后我们可以在 Java 中取出这些参数
+
+```java
+this.driver = request.getSession().getServletContext().getInitParameter("database_driver");
+this.url = request.getSession().getServletContext().getInitParameter("database_url");
+this.user = request.getSession().getServletContext().getInitParameter("database_user");
+this.pwd = request.getSession().getServletContext().getInitParameter("database_pwd");
+```
 
 ---
 
