@@ -329,8 +329,22 @@ Collections.sort(studentList, ((o1, o2) -> o1.getAge() - o2.getAge()));
 // 用方法引用，IDEA会提示你可以用 实例.sort 替代
 Collections.sort(studentList, Comparator.comparing(student::getAge));
 
-// 完美
+// fine
 studentList.sort(Comparator.comparing(student::getAge));
+```
+
+### 继续扩展
+
+```java
+//按照名字进行排序
+Arrays.sort(arr, Comparator.comparing(Person::getName));
+
+//按照名字长度进行排序
+Arrays.sort(arr,Comparator.comparing(Person::getName,(s,t)->Integer.compare(s.length(),t.length())));
+Arrays.sort(arr,Comparator.comparingInt(p->p.getName().length()));
+
+//先按照名字进行排序,如果名字相同,再按照地址比较
+Arrays.sort(arr,Comparator.comparing(Person::getName).thenComparing(Person::getAddress));
 ```
 
 ## Runable接口

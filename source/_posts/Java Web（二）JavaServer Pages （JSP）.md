@@ -118,6 +118,77 @@ JSP 就是干这个事的！
 
 然后访问 http://127.0.0.1/getCookie.jsp ，可以看到name:Gareen，这就是setCookie.jsp中设置的Cookie
 
+## setSession
+
+会话指的是从用户打开浏览器访问一个网站开始，无论在这个网站中访问了多少页面，点击了多少链接，都属于同一个会话。 直到该用户关闭浏览器为止，都属于同一个会话。
+
+setSession.jsp
+
+```
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" import="javax.servlet.http.Cookie"%>
+
+<%
+   session.setAttribute("name", "teemo");
+%>
+
+<a href="getSession.jsp">跳转到获取session的页面</a>
+```
+
+- 用 `session.setAttribute("name", "wtf");` 来保存数据，其中第一个参数是键，第二个参数是值
+
+## getSession
+
+getSession.jsp
+
+```
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" import="javax.servlet.http.Cookie"%>
+
+<%
+    String name = (String)session.getAttribute("name");
+%>
+
+session中的name: <%=name%>
+```
+
+- 用`session.getAttribute("name");`获取数据，参数是键，不是值。
+
+效果是，在getSession.jsp页面显示如下内容
+
+session中的name: wtf
+
+---
+
+# 如果浏览器关闭了 Cookie
+
+如果浏览器把cookie功能关闭，那么服务端就无法获取jsessionid,每一次访问，都会生成一个新的session对象。
+
+为了解决这个问题，可以使用
+
+```
+response.encodeURL("getSession.jsp"))
+```
+
+于是 getSession.jsp 这个页面的URL就会被转换成
+
+```
+getSession.jsp;jsessionid=22424AEA86ADBE89F335EEB649D997A8
+```
+
+通过这个方式，提交jsessionid到服务器。 服务器根据这个jsessionid匹配到对应的session. 与session相关的功能，就可以正常工作了。
+
+```
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" import="javax.servlet.http.Cookie"%>
+
+<%
+   session.setAttribute("name", "teemo");
+%>
+
+<a href="<%=response.encodeURL("getSession.jsp")%>">跳转到获取session的页面</a>
+```
+
 ---
 
 # 作用域

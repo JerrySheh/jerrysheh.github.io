@@ -225,16 +225,88 @@ private static void writeByte (File parentFolder) throws NullPointerException, I
 4. 写数据，写分隔符
 5. 刷新
 
+### 完整例子
+
+- 产生5555个随机数
+- 写入到文件data.txt中
+- 从文件data.txt中读取这5555个随机数，写入到data2.txt中
+
+
+randomDoubleNumber.java
 ```java
-try (BufferedWriter bw = new BufferedWriter(new FileWriter("data.txt"))) {
-    for (double dd:
-         randomNumberList) {
-        String s = String.valueOf(dd); //类型转换
-        bw.write(s);
-        bw.write(",");
-        bw.flush();
+package com.jerrysheh;
+
+import java.math.BigDecimal;
+
+public class randomDoubleNumber {
+
+    // 产生 range 以内的随机数
+    public static double getRandomDoubleNumber(int range){
+        BigDecimal b = new BigDecimal(Math.random() * range);
+        return b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
-} catch (IOException e){
-    e.printStackTrace();
 }
+```
+
+test.java
+```java
+import java.io.*;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+public class main {
+    public static void main(String[] args){
+        ArrayList<Double> l = addDataToList(new ArrayList<>());
+        writeToFile(l);
+        readFromFileAndWrite(l);
+    }
+
+    // 添加随机数数据
+    public static ArrayList<Double> addDataToList(ArrayList<Double> randomNumberList){
+        double d;
+        for (int i = 0; i < 5555; i++) {
+            d = com.jerrysheh.randomDoubleNumber.getRandomDoubleNumber(1000);
+            randomNumberList.add(d);
+        }
+        return randomNumberList;
+    }
+
+    // 数据写入文件
+    public static void writeToFile(List<Double> randomNumberList){
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data.txt"))) {
+            for (double dd:
+                    randomNumberList) {
+                String s = df.format(dd);
+                bw.write(s);
+                bw.write(",");
+                bw.flush();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    //文件读取数据，写入另一文件
+    public static void readFromFileAndWrite(List<Double> randomNumberList){
+        try(
+                BufferedReader br = new BufferedReader(new FileReader("data.txt"));
+                BufferedWriter bw = new BufferedWriter(new FileWriter("data2.txt"))
+        ){
+            String s = br.readLine();
+            String ss[] = s.split(",");
+            for (String each:
+                 ss) {
+                bw.write(each);
+                bw.write("\r\n");
+                bw.flush();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+}
+
 ```

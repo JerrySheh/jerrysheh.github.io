@@ -288,6 +288,14 @@ date(yyyymmdd)|日期
 CREATE DATABASE mydb
 ```
 
+- 在 MYSQL 中， 也可以用 `CREATE SCHEMA mydb`
+
+摘自MYSQL 5.0官方文档：
+
+> CREATE DATABASE creates a database with the given name.
+To use this statement, you need the CREATE privilege for the database.
+CREATE SCHEMA is a synonym for CREATE DATABASE as of MySQL 5.0.2.
+
 ## CREATE TABLE
 
 创建表
