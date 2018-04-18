@@ -120,11 +120,9 @@ print("world");
 
 输出
 ```
-第一句话
-第二句话
+hello
+world
 ```
-
-
 
 > 在写前端文件的时候，通常把 JavaScript 脚本写在最后面，以提高网页的加载速度。当需要在加载时立即执行 JavaScript 代码，可以用 `onload="jfun()"` 属性。其中 `jfun()` 是 JS 函数名称。
 
@@ -353,3 +351,7 @@ alert("您输入的用户名是:" + name);
 <br>
 <button onclick="p()">请输入用户名</button>
 ```
+
+---
+
+[下一篇](../post/f75e92e9.html)介绍Javascript中的DOM（文档对象模型）

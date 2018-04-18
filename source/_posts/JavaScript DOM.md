@@ -1,5 +1,5 @@
 ---
-title: DOM
+title: JavaScript DOM
 comments: true
 abbrlink: f75e92e9
 date: 2018-04-16 12:22:19
@@ -15,6 +15,8 @@ tags:
 - DOM（Document Object Model 文档对象模型）
 
 这一篇主要讲讲 DOM ，DOM 其实就是把 html 里面的各种数据当作对象进行操作的一种思路。
+
+<!--more-->
 
 ---
 
@@ -59,45 +61,6 @@ tags:
     </tr>
 </table>
 ```
-
-效果:
-<script>
-    function deleteRow(link) {
-        var c = confirm("确定删除吗？");
-        if (!c) return;
-
-        var table = document.getElementById("nameTable");
-        var td = link.parentNode;
-        var tr = td.parentNode;
-        var index = tr.rowIndex;
-        table.deleteRow(index);
-    }
-</script>
-
-<table border="1" id="nameTable">
-    <tr>
-        <td>名字</td>
-        <td>操作</td>
-    </tr>
-    <tr>
-        <td>Jerry</td>
-        <td>
-            <a href="#" onclick="deleteRow(this)">删除</a>
-        </td>
-    </tr>
-    <tr>
-        <td>Calm</td>
-        <td>
-            <a href="#" onclick="deleteRow(this)">删除</a>
-        </td>
-    </tr>
-    <tr>
-        <td>Superman</td>
-        <td>
-            <a href="#" onclick="deleteRow(this)">删除</a>
-        </td>
-    </tr>
-</table>
 
 - 通过`document.getElementById("nameTable")`获取到这张表
 - link就是this，通过`link.parentNode`和`td.parentNode`获取到所在的这一行
@@ -158,8 +121,8 @@ tags:
 </script>
 
 <form method="get" action="https://www.google.com" onsubmit="return login()">
-    账号：<input type="text" name="name" id="name" > <br/>
-    密码：<input type="password" name="password"  id="password" > <br/>
+    账号：<input type="text" name="name" id="name" >
+    密码：<input type="password" name="password"  id="password" >
     <input type="submit" value="登录">
     <input type="reset" value="重置">
 </form>

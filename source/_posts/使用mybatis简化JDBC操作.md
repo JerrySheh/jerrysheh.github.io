@@ -10,7 +10,7 @@ tags:
  - SQL
 ---
 
-在 [Java简明笔记（十三）JDBC](../post/f07211ef.html) 中，我们使用 JDBC 来操作数据库，并把查询到的数据库信息进行 java 对象的映射（ORM），但是 JDBC 是使用是十分繁琐的，除了需要自己写SQL之外，还必须操作Connection, Statment, ResultSet，显得繁琐和枯燥。
+在 [Java简明笔记（十三）JDBC](../post/f07211ef.html) 中，我们使用 JDBC 来操作数据库，并把查询到的数据库信息进行 java 对象的映射（ORM），但是 JDBC 的使用是十分繁琐的，除了需要自己写SQL之外，还必须操作Connection, Statment, ResultSet，显得繁琐和枯燥。
 
 于是我们对 JDBC 进行封装，以简化数据库操作。mybatis就是这样的一个框架。
 
@@ -61,7 +61,11 @@ pom.xml
 
 ## 准备实体类 Category
 
-这个类用来映射数据库信息为java对象的 （表category_ -> java的category对象）注意，这个对象要和数据库信息对应上，比如表category_有id和name，这个category就要有 `int id` 和 `String name`。
+这个类用来映射数据库信息为java对象
+
+（表category_ -> java的category对象）
+
+注意：这个对象要和数据库信息对应上，比如表category_有id和name，这个category就要有 `int id` 和 `String name`。
 
 src/main/java/com.jerrysheh.pojo/Category.java
 ```java
@@ -399,11 +403,11 @@ Product.xml 修改后：
 
 ## 接口
 
-提供一个接口，其实就是把 xml 搬到注解上来。
+提供一个接口，其实就是把 xml 搬到这个接口上来。
 
 com.jerrysheh.mapper.CategoryMapper.java
 ```java
-package com.how2java.mapper;
+package com.jerrysheh.mapper;
 
 import java.util.List;
 
@@ -411,7 +415,6 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-
 import com.jerrysheh.pojo.Category;
 
 public interface CategoryMapper {
@@ -444,8 +447,123 @@ mybatis-config.xml 的 `<mappers>` 字段，添加注解类
 </mappers>
 ```
 
-测试类跟上面是一样的CRUD操作
+## 测试类Test.java
+
+```java
+//实例化一个 mapper
+CategoryMapper categoryMapper = session.getMapper(CategoryMapper.class);
+
+//获取 id 号为8的对象
+Category c = categoryMapper.get(8);
+System.out.println(c.getName());
+```
+
+- mapper对象有add、get、update、delete等方法。
+
+## xml VS 注解
+
+```java
+// xml 配置，是用 session.方法 的方式，传入 xml 的 id 和 对象
+session.insert("addCategory",c);
+
+// 注解方式，是先通过 session 获取一个 mapeer
+// 然后通过 mapeer 来操作
+m = session.getMapper(class);
+m.get(8);
+
+```
+---
+
+# 动态SQL
+
+虽然我们使用了注解，但是还是在注解接口CategoryMapper中使用了原生 SQL 语句
+
+
+```java
+@Insert(" insert into category_ ( name ) values (#{name}) ")
+public int add(Category category);
+```
+
+其实，我们可以提供一个类，专门用来生成SQL语句
+
+CategoryDynaSqlProvider.java
+
+```java
+package com.jerrysheh.mapper;
+import org.apache.ibatis.jdbc.SQL;
+
+public class CategoryDynaSqlProvider {
+    public String list() {
+        return new SQL()
+                .SELECT("*")
+                .FROM("category_")
+                .toString();
+
+    }
+    public String get() {
+        return new SQL()
+                .SELECT("*")
+                .FROM("category_")
+                .WHERE("id=#{id}")
+                .toString();
+    }
+
+    public String add(){
+        return new SQL()
+                .INSERT_INTO("category_")
+                .VALUES("name", "#{name}")
+                .toString();
+    }
+    public String update(){
+        return new SQL()
+                .UPDATE("category_")
+                .SET("name=#{name}")
+                .WHERE("id=#{id}")
+                .toString();
+    }
+    public String delete(){
+        return new SQL()
+                .DELETE_FROM("category_")
+                .WHERE("id=#{id}")
+                .toString();
+    }
+}
+```
+
+然后修改我们的CategoryMapper接口
+
+```java
+package com.jerrysheh.mapper;
+
+import com.jerrysheh.pojo.Category;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
+
+public interface CategoryMapper {
+
+    @InsertProvider(type=CategoryDynaSqlProvider.class,method="add")
+    public int add(Category category);
+
+    @DeleteProvider(type=CategoryDynaSqlProvider.class,method="delete")
+    public void delete(int id);
+
+    @SelectProvider(type=CategoryDynaSqlProvider.class,method="get")
+    public Category get(int id);
+
+    @UpdateProvider(type=CategoryDynaSqlProvider.class,method="update")
+    public int update(Category category);
+
+    @SelectProvider(type=CategoryDynaSqlProvider.class,method="list")
+    public List<Category> list();
+}
+```
+
+这样就可以动态生成SQL语句了
+
+- 注解中的 `type=` 填入我们的动态生成SQL类CategoryDynaSqlProvider.class
+- `method=`填入CategoryDynaSqlProvider类里的方法
 
 ---
 
-未完待续（一对多查询、动态SQL、相关概念）
+未完待续（一对多查询、相关概念）

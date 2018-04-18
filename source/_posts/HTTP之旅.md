@@ -151,3 +151,19 @@ URL = Universal Resource Locator 统一资源定位符
 URN = Universal Resource Name 统一资源名称
 
 也就是说，URI分为三种，URL or URN or （URL and URI）
+
+---
+
+# HTTP 中 URL 的参数
+
+登录知乎`https://www.zhihu.com/`，搜索“Spring”，回车。会发现，浏览器的地址变成了
+
+```
+https://www.zhihu.com/search?type=content&q=Spring
+```
+
+其中， `?type=content&q=Spring`部分就是参数。
+
+参数由 ? 开头，每个参数形如 name=value 的形式，多个参数用 & 符号连接。
+
+HTTP参数实际上可以认为是一种用户的输入，根据不同的用户输入，服务器经过处理后返回不同的输出
