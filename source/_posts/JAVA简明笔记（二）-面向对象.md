@@ -27,6 +27,12 @@ date: 2018-01-18 22:31:07
 
 ---
 
+# 面向对象的三个特征
+
+封装、继承、多态
+
+---
+
 # 对象和方法
 
 * `Mutator`方法和`Accessor`方法
@@ -40,7 +46,9 @@ date: 2018-01-18 22:31:07
 
 # this
 
-* 在对象上调用方法时，this引用指向该对象。this清晰地区分了局部变量和实例变量。带有this的是实例对象。
+## 表示实例变量
+
+ 在对象上调用方法时，this引用指向该对象。this清晰地区分了局部变量和实例变量。带有this的是实例对象。
 
 ```Java
 public void raiseSalary(double byPercent){
@@ -49,12 +57,24 @@ public void raiseSalary(double byPercent){
 }
 ```
 
-* 不想给参数起不同的名称时，也可使用this
+不想给参数起不同的名称时，也可使用this
 
 ```Java
 public void setSalary(double salary){
   this.salary = salary;
 }
+```
+
+## 构造函数
+
+一个类可以有多个构造函数，一个构造函数可以调用另一个构造函数，用this。且只能写在第一行。
+
+```java
+public Employee (double salary){
+    this("", salary);
+    //...
+}
+
 ```
 
 ---
@@ -102,7 +122,7 @@ boss.replaceWithZombie(fred);
 ```Java
 public Employee (double salary){
   this ("", salary);  //调用构造函数 Employee (String, salary)
-  ...                 //其他内容
+  //...                 //其他内容
 }
 ```
 
@@ -134,6 +154,54 @@ public class Person{
 * 静态方法是指可以不用运行在对象上的方法。
 * 静态方法常见的使用：`工厂方法`，也就是返回一个类的新实例的静态方法。
 
+---
+
+# 多态
+
+多态就是**事物在运行过程中存在不同的状态。**
+
+## 三个前提
+- 有继承关系
+- 子类要重写父类的方法
+- 父类引用指向子类对象
+
+## 例子
+
+例如有 Cat 类继承了 Animal 类 ，并重写了 `eat()`、`sleep()` 方法(sleep是静态方法)，并增加了一个 Animal 没有的 `CatchMouse()` 方法。
+
+然后在测试类中实例化
+```java
+// 这个语句在堆内存中开辟了子类(Cat)的对象，并把栈内存中的父类(Animal)的引用指向了这个Cat对象
+Animal am = new Cat();
+
+//调用实例方法
+am.eat();
+
+//调用静态方法
+am.sleep();
+```
+
+可以发现，实例方法 `am.eat()` 输出的是 Cat 类重写后的方法，而静态方法`am.sleep()` 输出的是 Animal 类的方法（尽管 Cat 也重写了 sleep 方法，但运行时不被识别）
+
+## 弊端
+
+假如我们要执行父类没有而子类特有的`CatchMouse()`方法。
+
+```java
+am.CatchMouse();
+```
+
+结果却编译报错了。
+
+可见，多态**不能使用子类特有的成员属性和子类特有的成员方法。**
+
+那怎么办呢？ 这时候就要用到`向下转型`。
+
+```java
+Cat ca = (Cat) am;
+
+ca.CatchMouse();
+```
 
 ---
 

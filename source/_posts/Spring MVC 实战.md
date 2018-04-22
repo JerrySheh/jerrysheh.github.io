@@ -91,6 +91,7 @@ public class AppController {
 
 > Thymeleaf 遇到没有闭合的HTML标签会报错，可以在 application.properties 文件增加一行 `spring.thymeleaf.mode=LEGACYHTML5` 以支持HTML5
 
+
 在 HTML中引入 CSS和 JavaScript
 
 ```html
@@ -166,6 +167,7 @@ public class EditPetForm {
 <span th:text="${createdTime}">
 ```
 
+
 在HTML中增加命令空间，避免IDE错误提示
 
 ```html
@@ -175,9 +177,36 @@ public class EditPetForm {
 </html>
 ```
 
-Thymeleaf的具体用法，改日再另开一篇。
+在Thymeleaf添加 `${param}` 变量后，需要在 Controller 做一些工作
 
-未完待续
+```java
+@GetMapping(value = "/bookList")
+public String getBookList(ModelMap map){
+    map.addAttribute("bookList", bookService.findAll());
+    return "bookList";
+}
+```
+
+这样就会把 `bookService.findAll()` 的结果（ `List<book>` 类型）传给 bookList.html
+
+
+在 bookList.html 用 `th:each`遍历这个 List
+```html
+<thead>
+<tr>
+    <th>书籍编号</th>
+    <th>书名</th>
+    <th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr th:each="book: ${bookList}">
+    <th scope="row" th:text="${book.id}"></th>
+    <td th:text="${book.bookName}"> 书名</td>
+    <td th:text="${book.bookDescription}">简介</td>
+</tr>
+</tbody>
+```
 
 ---
 
@@ -186,6 +215,24 @@ Thymeleaf的具体用法，改日再另开一篇。
 在项目 resource 目录下，修改`application.properties`文件。
 
 ```
-servert.port = 8089
+## 服务器配置
+server.port = 8089
 server.context-path=/test
+
+## 数据源配置
+spring.datasource.url=jdbc:mysql://localhost:3306/springbootdb?useUnicode=true&characterEncoding=utf8
+spring.datasource.username=root
+spring.datasource.password=123456
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+
+## Mybatis 配置（仅xml方式）
+mybatis.typeAliasesPackage=org.spring.springboot.domain
+mybatis.mapperLocations=classpath:mapper/*.xml
+
+## thymeleaf 配置
+spring.thymeleaf.suffix=.html
+spring.thymeleaf.prefix=classpath:templates
+spring.thymeleaf.encoding=UTF-8
+spring.thymeleaf.cache=false
+spring.thymeleaf.mode=LEGACYHTML5
 ```

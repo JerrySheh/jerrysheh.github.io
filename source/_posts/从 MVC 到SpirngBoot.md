@@ -39,9 +39,9 @@ date: 2018-04-15 00:19:08
 
 # Spring
 
-前面提到`Spring MVC`是Java Web开发中对Servlet进行封装的框架。实际上，Spring是一个大家族，它是一个基于IoC和AOP的结构J2EE系统的框架。
+前面提到`Spring MVC`是Java Web开发中对Servlet进行封装的框架。实际上，Spring是一个大家族，它是一个基于IoC和AOP结构的 J2EE 框架。
 
-其中最主要的包括Spring Framework（包括了IoC, AOP, MVC以及Testing）, Spring Data, Spring Security, Spring Batch等等，以及快速框架Spring Boot。他们都是为了解决特定的事情而产生的。
+其中最主要的包括Spring Framework（包括了IoC, AOP, MVC以及Testing）, Spring Data, Spring Security, Spring Batch等等。他们都是为了解决特定的事情而产生的。
 
 但是在学习这些框架前，有必要先弄清楚 Spring 最核心的两个概念：`IoC` 和 `AOP`。
 
@@ -154,23 +154,26 @@ AOP 的好处是允许我们把遍布应用各处的功能分离出来形成可�
 在src/main/java/Example.java里面，应该已经有类似下面这样的代码了，如果没有，需要手动添加。
 
 ```java
-import org.springframework.boot.*;
-import org.springframework.boot.autoconfigure.*;
-import org.springframework.web.bind.annotation.*;
+@SpringBootApplication
+public class ToywebApplication {
 
+    public static void main(String[] args) {
+        SpringApplication.run(ToywebApplication.class, args);
+    }
+}
+```
+
+然后写一个类
+
+HelloController.java
+```java
 @RestController
-@EnableAutoConfiguration
-public class Example {
+public class HelloController {
 
-	@RequestMapping("/")
-	String home() {
-		return "Hello World!";
-	}
-
-	public static void main(String[] args) throws Exception {
-		SpringApplication.run(Example.class, args);
-	}
-
+    @GetMapping("/")
+    public String hello(){
+        return "Hello World";
+    }
 }
 ```
 
@@ -178,15 +181,13 @@ public class Example {
 
 事实上， Spring Boot 已经内置了这些配置，拿来即用。
 
-### 代码解析
+## 排除自动配置
 
-以`@`开头的是注解。注解既方便我们阅读，也让框架识别某些代码的角色。
+在 Spring Initalizr 的时候，如果我们点多了组件，有可能会导致启动失败，这时候在`@SpringBootApplication`注解后添加排除项即可。
 
-- `@RestController`：是`@ResponseBody`和`@Controller`的缩写，它表明我们的 Example 类是一个 Web Controller（控制器），当有 Web Request 进来的时候，Spring 会进行相应。
-- `@RequestMapping`：表示路由路径映射，比如`@RequestMapping("/hello")`，就映射到 127.0.0.1:8080/hello 。
-- `@EnableAutoConfiguration`：让 Spring Boot 根据你的依赖信息自动进行配置，例如我们在 pom.xml 中添加了`spring-boot-starter-web`，Spring Boot会认为你正在开发的是 Web 应用，因此进行 Web 的配置。
-
-> 注意：如果不用`@RestController`而仅用`@Controller`的话，需要在每一个映射路径方法下添加`@ResponseBody`注解。
+```java
+@SpringBootApplication (exclude= {DataSourceAutoConfiguration.class})
+```
 
 ## 打包 jar
 

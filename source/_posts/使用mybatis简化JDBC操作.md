@@ -10,7 +10,7 @@ tags:
  - SQL
 ---
 
-在 [Java简明笔记（十三）JDBC](../post/f07211ef.html) 中，我们使用 JDBC 来操作数据库，并把查询到的数据库信息进行 java 对象的映射（ORM），但是 JDBC 的使用是十分繁琐的，除了需要自己写SQL之外，还必须操作Connection, Statment, ResultSet，显得繁琐和枯燥。
+在 [Java简明笔记（十三）JDBC](../post/f07211ef.html) 中，使用 JDBC 来操作数据库，并把查询到的数据库信息进行 java 对象的映射（ORM），但是 JDBC 的使用是十分繁琐的，除了需要自己写SQL之外，还必须操作Connection, Statment, ResultSet，显得繁琐和枯燥。
 
 于是我们对 JDBC 进行封装，以简化数据库操作。mybatis就是这样的一个框架。
 
@@ -72,12 +72,12 @@ src/main/java/com.jerrysheh.pojo/Category.java
 package com.jerrysheh.pojo;
 
 public class Category {
-    private int id;
+    private Long id;
     private String name;
-    public int getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public String getName() {
@@ -126,7 +126,7 @@ public class Category {
 
 ## 创建配置文件 Category.xml
 
-在包 com.jerrysheh.pojo 下创建 Category.xml
+在包 com.jerrysheh.pojo 下创建 Category.xml (如果不想配置烦人的 xml，可以直接看下面的注解方式)
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -186,7 +186,7 @@ public class Test {
 
 # 使用 mybatis 增删查改
 
-修改 Category.xml 文件，添加增删查改的SQL语句
+修改 Category.xml 文件，添加增删查改的SQL语句(如果不想配置烦人的 xml，可以直接看下面的注解方式)
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -435,6 +435,8 @@ public interface CategoryMapper {
     public List<Category> list();
 }
 ```
+
+> 在SpringBoot集成Mybatis的时候，一般把这个接口放在 DAO 包， 在接口前面使用 `@Mapper` 注解，之后这个接口在编译时会生成相应的实现类。需要注意的是：这个接口中不可以定义同名的方法，因为会生成相同的id，也就是说这个接口是不支持重载的
 
 ## 配置文件 mybatis-config.xml
 

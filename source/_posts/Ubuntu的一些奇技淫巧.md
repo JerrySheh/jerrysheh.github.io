@@ -25,6 +25,7 @@ Ubuntu的一些使用技巧
 11. apt安装不成功，每次 apt install 都报错
 12. 使用openssh远程连接
 13. ROOT账户没有环境变量
+14. 如何正确地配置环境变量
 
 <!-- more -->
 
@@ -342,3 +343,36 @@ chmod +x ./root/.bashrc
 ```
 
 就ok了
+
+---
+
+# 十四、如何正确地配置环境变量
+
+```shell
+#Java env.
+export JAVA_HOME=/your_Java_home
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export PATH=$JAVA_HOME/bin:/usr/local/protobuf/bin:$PATH
+
+#Scala env.
+export SCALA_HOME=/your_Scala_home
+export PATH=$SCALA_HOME/bin:$PATH
+
+#Spark env.
+export SPARK_HOME=/your_Spark_home
+export PATH=$SPARK_HOME/bin:$PATH
+
+#Python env.
+export PYTHONPATH=/your_python_home
+
+#Hadoop env.
+export HADOOP_HOME=/your_hadoop_home
+export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+export PATH=$PATH:$HADOOP_HOME/bin
+export HADOOP_HOME_WARN_SUPPRESS=not_null
+
+#Mahout env.
+export MAHOUT_HOME=/your_Mahout_home
+export MAHOUT_CONF_DIR=$MAHOUT_HOME/conf
+export PATH=$MAHOUT_HOME/conf:$MAHOUT_HOME/bin:$PATH
+```
