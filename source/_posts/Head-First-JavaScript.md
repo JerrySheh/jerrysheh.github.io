@@ -35,6 +35,7 @@ JavaScript 必须写在 `<script>` 里
   </head>
 </html>
 ```
+> 在文档加载结束后使用 document.write，会覆盖整个HTML的内容
 
 也可以在HTML中引用 .js 文件
 
@@ -70,6 +71,14 @@ null	| 空对象/对象不存在
 - JavaScript 中单引号和双引号都表示字符串
 - JavaScript 中，即使是基本数据类型，也有属性和方法
 - 当不确定某个变量是什么类型的时候，可以用使用typeof来进行判断数据类型
+
+JavaScript中的变量类型是动态的
+
+```JavaScript
+var x                // x 为 undefined
+var x = 6;           // x 为数字
+var x = "Bill";      // x 为字符串
+```
 
 <!-- more -->
 
@@ -125,6 +134,8 @@ world
 ```
 
 > 在写前端文件的时候，通常把 JavaScript 脚本写在最后面，以提高网页的加载速度。当需要在加载时立即执行 JavaScript 代码，可以用 `onload="jfun()"` 属性。其中 `jfun()` 是 JS 函数名称。
+
+- 当不想让函数继续执行下去时，可以直接写`return ;`
 
 ## 语句
 
@@ -250,6 +261,20 @@ for / for in|	遍历一个数组
 方法 random|	随机数
 
 ## 自定义对象
+
+### 直接定义对象
+
+```javascript
+var person={
+firstname : "Bill",
+lastname  : "Gates",
+id        :  5566
+};
+
+var n = person.name; // n是 ”Gates
+```
+
+### 函数封装对象
 
 ```JavaScript
 function Hero(name){

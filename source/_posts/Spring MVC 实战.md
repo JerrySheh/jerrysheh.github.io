@@ -30,7 +30,7 @@ tags:
 
 ## 返回字符串
 
-- `@ResponseBody`：直接将函数的返回值传回到浏览器端显示。
+- `@ResponseBody`：返回的是数据（Data），而不是试图（View）。如果数据是 Java 对象而不是字符串或基本数据类型，那么返回的就是 json 格式的。
 
 ```java
 @Controller

@@ -23,7 +23,7 @@ A|B
 省略（omitted ）|明确地（explicitly）
 晦涩的（obscure）|后悔（regret）
 优缺点（strengths and flaws）|场景（scenarios）
-特权（privilege）
+特权（privilege）|检索（retrieves）
 
 ---
 
