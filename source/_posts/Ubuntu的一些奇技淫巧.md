@@ -261,9 +261,16 @@ sudo apt update
 ```
 sudo apt-get install software-properties-common python-software-properties  
 ```
+
 安装jdk8
 ```
 sudo apt-get install oracle-java8-installer
+```
+
+如果提示没有公钥，添加对应的公钥
+
+```
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C2518248EEA14886
 ```
 
 如果你有其他版本的 jdk， 更改默认
