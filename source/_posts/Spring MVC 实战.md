@@ -177,7 +177,7 @@ public class EditPetForm {
 </html>
 ```
 
-在Thymeleaf添加 `${param}` 变量后，需要在 Controller 做一些工作
+首先需要在 Controller 做一些工作
 
 ```java
 @GetMapping(value = "/bookList")
@@ -187,26 +187,32 @@ public String getBookList(ModelMap map){
 }
 ```
 
-这样就会把 `bookService.findAll()` 的结果（ `List<book>` 类型）传给 bookList.html
+这个 Controller 接收一个 ModelMap ，`map.addAttribute()`的第一个参数是属性名字，第二个参数是属性值，这个值就是 `bookService.findAll()`的返回结果。
 
+这样就会把 `bookService.findAll()` 的结果（ `List<book>` 类型，在`addAttribute`方法里面刚刚给它命名为`bookList`了）传给 bookList.html
 
-在 bookList.html 用 `th:each`遍历这个 List
 ```html
-<thead>
-<tr>
-    <th>书籍编号</th>
-    <th>书名</th>
-    <th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr th:each="book: ${bookList}">
-    <th scope="row" th:text="${book.id}"></th>
-    <td th:text="${book.bookName}"> 书名</td>
-    <td th:text="${book.bookDescription}">简介</td>
-</tr>
-</tbody>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>博客</th>
+        <th>标题</th>
+        <th>内容</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="blog: ${blogList}">
+        <th scope="row" th:text="${blog.blogId}"></th>
+        <td th:text="${blog.blogTitle}"> </td>
+        <td th:text="${blog.blogContent}"></td>
+    </tr>
+    </tbody>
+</table>
 ```
+
+用`th:each`来遍历这个 List<book>
+
+
 
 ---
 

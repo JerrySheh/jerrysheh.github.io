@@ -41,7 +41,21 @@ type: about
 
 # 2018
 
-## 4月
+### 04-28
+
+{% note default %}
+
+Rarely can a response make somthing better, what makes something better is connection.
+
+{% endnote %}
+
+### 04-24
+
+{% note primary %}
+
+谁会想到，恰恰是那个最沉默最古怪的少年，心里藏匿着最真挚的深情呢？
+
+{% endnote %}
 
 ### 04-13
 

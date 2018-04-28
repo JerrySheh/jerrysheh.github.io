@@ -78,3 +78,15 @@ pom.xml 添加如下代码，更改到 1.8 即可
 ```
 
 ---
+
+# IDEA导入SSM工程，404
+
+2018版本的IDEA导入SSM工程可能导致部署后出现404错误。
+
+解决办法：
+
+File -> Settings -> Build,Execution,Deployment -> Build Tools -> Maven -> Importing
+
+取消`Store generated project files externally`选项即可
+
+---
