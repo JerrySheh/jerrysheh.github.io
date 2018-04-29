@@ -80,21 +80,10 @@ Servlet是一个供其他Java程序（Servlet引擎）调用的Java类，它不�
 4. Edit Configurations，配置 Tomcat 服务器
 5. Deployment 选择 Artifacts
 
-### 从 Eclipse 导入工程到IDEA
-
-0. IDEA 选择 import  ，选择项目下的 .project 文件
-1. 随便打开一个 Java 类，右上角出现 Setup SDK，选择你的JDK版本
-2. Project Structure -> Modules -> Dependencies，把红色的删掉，然后点"+" -> Jars ，添加 WEB-INF 下面的jar包。再点"+" -> Libraries -> Application Libraries， 选择 Tomcat
-3. Project Structure -> Facets -> "+"号 -> Web -> OK -> 上面的 Path 改为 web.xml 所在路径，下面的 Web Resource Directory 改为 WebContent 文件夹所在路径
-4. 点击右下角 Create Artifacts，点击 Apply，OK
-5. Edit Configurations，添加Tomcat服务器
-6. Deployment选项卡，点 + ，选择 Artifacts，Apply，OK
-
-若遇到问题可以参考：
+遇到问题可参考：
 
 - [IntelliJ IDEA 构建maven，并用Maven创建一个web项目](https://www.cnblogs.com/Wenlawliety/p/6606614.html)
 - [IntelliJ idea 2017创建Web项目后web文件夹下没有WEB-INF的解决方法](http://blog.csdn.net/xwx617/article/details/79269939)
-- [IntelliJ使用指南—— 导入Eclipse的Web项目](https://blog.csdn.net/qq_15096707/article/details/51464073)
 
 ## 后端：GET
 
