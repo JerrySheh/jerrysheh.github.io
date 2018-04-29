@@ -15,6 +15,40 @@ tags:
 
 ---
 
+# Spring MVC 的开发步骤和执行流程
+
+
+## 开发步骤
+
+虽然我们会用 Spring Boot 来构建应用，省去很多配置。但是还是得了解一下没有 Spting Boot 的时候，MVC应用的开发步骤。
+
+1. 在 web.xml 定义前端控制器 DispatchServlet 来拦截用户请求。
+2. 如果要用到 post 请求，则要定义包含表单提交的视图页面（JSP或Thymeleaf）
+3. 使用@Controller注解，定义处理用户请求的 Handle 类（在早期的Spring版本中是实现 Controller 接口）
+
+> 在 Spring MVC 框架中，控制器实际上由两部分组成：前端控制器DispatchServlet，用于拦截所有用户请求和处理通用代码，控制器Controller实现实际的业务逻辑。
+
+4. 配置 Handle，即哪个请求对应哪个Controller处理。推荐使用注解。
+5. 编写视图资源（如果要传数据给视图，用模型（Model）对象）
+
+## 执行流程
+
+![mvc](../../../../images/Webapp/Springmvc.png)
+
+1. 用户请求统一被前端控制器 DispatchServlet 捕获。
+2. DispatchServlet 解析URL，得到URI，由Handle Mapping获得该Handle的所有相关对象，封装成HandleExcutionChain对象返回。
+3. DispatchServlet根据获得的 Handle，选择一个合适的 HandleAdapter。（HandleAdapter用来处理多种Handle,简单地说，就是让Adapter去调用 Handle 实际处理的方法，比如我们编写的 hello 方法。）
+4. 提取请求中的Model数据，开始执行Handle（Controller）
+
+> 在填充 Handle 传入参数的过程中，Spring帮我们做了很多工作，包括：消息转换（json/xml -> 对象）、数据转换（String -> Integer）、数据格式化、数据验证等。
+
+5. Handle执行完以后，向 DispatchServlet 返回一个 ModelAndView对象
+6. DispatchServlet 根据 ModelAndView 对象，选择一个合适的 ViewResolver
+7. ViewResolver解析完之后，返回 View 给 DispatchServlet
+8. DispatchServlet 返回 View 给客户端
+
+---
+
 # 配置注解
 
 - `@SpringBootApplication`：表示这是一个Spring Boot应用程序，它其实包含了`@ComponentScan`、`@Configuration`和`@EnableAutoConfiguration`等多个注解。
@@ -49,7 +83,10 @@ public class IndexController {
 }
 ```
 
-- `@RequestMapping`： 浏览器请求映射路由，可以标记在类上
+- `@RequestMapping`： 浏览器请求映射路由，可以标记在方法上，也可以标记在类上。（详细用法可参考[CSDN](https://blog.csdn.net/walkerjong/article/details/7994326)）
+
+事实上，`@RequestMapping`可以细分为以下几个Mapping：
+
 - `@GetMapping`： 浏览器 GET 方法请求映射路由
 - `@PutMapping`
 - `@PostMapping`
@@ -153,6 +190,23 @@ public class EditPetForm {
 - 当URL需要对资源或者资源列表进行过滤、筛选时，用`@RequestParam`
 
 例如用/blogs?state=publish而不是/blogs/state/publish来表示处于发布状态的博客文章
+
+## 其他注解
+
+- `@RequestHeader`：获得请求头信息，作为方法参数
+
+```java
+@RequestMapping("/requestheaderTest")
+public void requestheaderTest(
+              @RequestHeader("User-Agent") String userAgent,
+              @RequestHeader("Accept") String[] accepts) {
+  // do something
+}
+```
+
+- `@CookieValue`：获取Cookie信息，作为方法参数
+- `@SessionAttributes`：允许我们有选择地指定 Model 中那些属性转存到 HttpSession 中。，一般注解在类上。
+- `@ModelAttribute`：将请求参数绑定到 Model 对象
 
 ---
 
