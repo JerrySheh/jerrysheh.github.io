@@ -25,11 +25,10 @@ tags:
 1. 在 web.xml 定义前端控制器 DispatchServlet 来拦截用户请求。
 2. 如果要用到 post 请求，则要定义包含表单提交的视图页面（JSP或Thymeleaf）
 3. 使用@Controller注解，定义处理用户请求的 Handle 类（在早期的Spring版本中是实现 Controller 接口）
-
-> 在 Spring MVC 框架中，控制器实际上由两部分组成：前端控制器DispatchServlet，用于拦截所有用户请求和处理通用代码，控制器Controller实现实际的业务逻辑。
-
 4. 配置 Handle，即哪个请求对应哪个Controller处理。推荐使用注解。
 5. 编写视图资源（如果要传数据给视图，用模型（Model）对象）
+
+> 在 Spring MVC 框架中，控制器实际上由两部分组成：前端控制器 DispatchServlet，用于拦截所有用户请求和处理通用代码，控制器 Controller 实现实际的业务逻辑。
 
 ## 执行流程
 
@@ -39,13 +38,12 @@ tags:
 2. DispatchServlet 解析URL，得到URI，由Handle Mapping获得该Handle的所有相关对象，封装成HandleExcutionChain对象返回。
 3. DispatchServlet根据获得的 Handle，选择一个合适的 HandleAdapter。（HandleAdapter用来处理多种Handle,简单地说，就是让Adapter去调用 Handle 实际处理的方法，比如我们编写的 hello 方法。）
 4. 提取请求中的Model数据，开始执行Handle（Controller）
-
-> 在填充 Handle 传入参数的过程中，Spring帮我们做了很多工作，包括：消息转换（json/xml -> 对象）、数据转换（String -> Integer）、数据格式化、数据验证等。
-
 5. Handle执行完以后，向 DispatchServlet 返回一个 ModelAndView对象
 6. DispatchServlet 根据 ModelAndView 对象，选择一个合适的 ViewResolver
 7. ViewResolver解析完之后，返回 View 给 DispatchServlet
 8. DispatchServlet 返回 View 给客户端
+
+> 在第4步填充 Handle 传入参数的过程中，Spring帮我们做了很多工作，包括：消息转换（json/xml -> 对象）、数据转换（String -> Integer）、数据格式化、数据验证等。
 
 ---
 
@@ -221,7 +219,6 @@ public void requestheaderTest(
 <span th:text="${createdTime}">
 ```
 
-
 在HTML中增加命令空间，避免IDE错误提示
 
 ```html
@@ -236,6 +233,17 @@ public void requestheaderTest(
 ```java
 @GetMapping(value = "/bookList")
 public String getBookList(ModelMap map){
+    List<book> bl = bookService.findAll();
+    map.addAttribute("bookList", bl);
+    return "bookList";
+}
+```
+
+也可以简化为
+
+```java
+@GetMapping(value = "/bookList")
+public String getBookList(ModelMap map){
     map.addAttribute("bookList", bookService.findAll());
     return "bookList";
 }
@@ -244,6 +252,12 @@ public String getBookList(ModelMap map){
 这个 Controller 接收一个 ModelMap ，`map.addAttribute()`的第一个参数是属性名字，第二个参数是属性值，这个值就是 `bookService.findAll()`的返回结果。
 
 这样就会把 `bookService.findAll()` 的结果（ `List<book>` 类型，在`addAttribute`方法里面刚刚给它命名为`bookList`了）传给 bookList.html
+
+> 在Servlet编程中，如果希望在页面中动态渲染信息，一般需要往HttpRequest中添加属性，然后在JSP中获取。其实Model的属性实际上也是放在HttpRequest的属性中，但是Spring MVC提供了更高层的抽象，帮你屏蔽了HttpRequest，你看到的只有直接以MVC中M（即Model）。
+
+
+
+在模板中用`th:each`来遍历这个 List<book>
 
 ```html
 <table class="table table-striped">
@@ -264,9 +278,97 @@ public String getBookList(ModelMap map){
 </table>
 ```
 
-用`th:each`来遍历这个 List<book>
+有时候我们会想点击某个标题跳转到详细页面，用`th:href`属性
+
+```html
+<a href="#" th:href="@{'/blogs/'+${blog.id}}" th:text="${blog.title}"></a>
+```
+
+## ModelMap 和 ModelAndView 区别
+
+在控制器方法中，我们传入了一个 ModelMap 参数，或者 ModelAndView 。区别如下：
+
+- ModelMap的实例是spirng mvc框架自动创建并作为控制器方法参数传入，用户无需自己创建。
+
+```java
+public String xxxxmethod(String someparam,ModelMap model)
+{
+     //省略方法处理逻辑若干
+     //将数据放置到ModelMap对象model中,第二个参数可以是任何java类型
+      model.addAttribute("key",someparam);
+         ......
+     //返回跳转地址
+      return "path:handleok";
+}
+```
+
+- ModelAndView的实例是由用户手动创建的，这也是和ModelMap的一个区别。
+
+```java
+public ModelAndView xxxxmethod(String someparam)
+{
+     //省略方法处理逻辑若干
+      //构建ModelAndView实例，并设置跳转地址
+      ModelAndView view = new ModelAndView("path:handleok");
+      //将数据放置到ModelAndView对象view中,第二个参数可以是任何java类型
+      view.addObject("key",someparam);
+    ......
+     //返回ModelAndView对象view
+      return view;
+}
+```
+
+---
+
+# 从模板接收数据
 
 
+当用户进入 /create 路由，会跳转到创建博客的页面，`createBlog()`方法给前端传入了一个 blog 对象
+
+```java
+/**
+ * 添加博客
+ */
+@GetMapping(value = "/create")
+public String createBlog(Blog blog){
+    return BLOG_CREATE_PAGE;
+}
+```
+
+创建博客页面有一个表单（form），表单提交数据
+
+```html
+<form role="form" method='post' action="#" th:action="@{/blog/create/post}" th:object="${blog}" >
+    <div class="form-group">
+        <label for="blogTitle">微博标题</label>
+        <input type="text" class="form-control" id="blogTitle" th:field="*{blogTitle}" placeholder="输入文章标题">
+    </div>
+    <div class="form-group">
+        <label for="blogContent">微博内容</label>
+        <textarea class="form-control" rows="10" id="blogContent" th:field="*{blogContent}" placeholder="输入文章内容"></textarea>
+    </div>
+    <div align="center" class="form-group">
+        <button type="submit" class="btn btn-default">提交</button>
+    </div>
+</form>
+```
+
+- `th:action="@{/blog/create/post}"`表示要提交的路由
+- `th:object="${blog}"`表示接收从刚刚的路由传入的对象
+- `th:field="*{blogTitle}"`和 `th:field="*{blogContent}"`表示当按下提交按钮，这两个输入框的内容将会绑定为 blog 对象的 blogTitle属性 和 blogContent 属性。然后传回给后端。
+
+```java
+/**
+ * 处理添加请求
+ */
+@PostMapping(value = "/create/post")
+public String postBlog(@ModelAttribute(value="blog") Blog blog){
+    blogService.addBlog(blog.getBlogTitle(),blog.getBlogContent());
+    return "redirect:/blog/";
+}
+```
+
+后端接收 blog 对象，进行处理。
 
 ---
 

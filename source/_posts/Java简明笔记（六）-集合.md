@@ -149,13 +149,12 @@ map的一个实现是`Hashtable`，线程安全，速度快。底层是哈希表
 
 map的另一个实现是`HashMap`，线程不安全，速度慢。底层也是哈希表数据结构。是不同步的。允许null作为键，null作为值。替代了Hashtable.
 
-| Hashtable | HashMap     |
-| :------------- | :------------- |
-| 线程安全       | 线程不安全       |
+Hashtable | HashMap    
+---|---
+线程安全 | 线程不安全   
 哈希表|哈希表
 同步|不同步
 不允许null|允许null
-
 
 还有一种`LinkedHashMap`，可以保证HashMap集合有序。存入的顺序和取出的顺序一致。
 
@@ -228,7 +227,7 @@ for (String name :
 * 无法用来进行ArrayList的初始化
 * 无法得知当前是第几个元素了，当需要只打印单数元素的时候，就做不到了。必须再自定下标变量。
 
-## ArrayList和Iterator的实际例子
+## ArrayList 和 Iterator 的实际例子
 
 ArrayList和Iterator的例子，要求初始化50个 hero，名字为 hero0,hero1,hero2...hero50， 然后删除 hero8,hero16,hero24...
 
@@ -245,7 +244,9 @@ public static void main(String[] args) {
 
     System.out.println(groupName);
 
-    Iterator<String> iter = groupName.iterator(); //迭代groupName的迭代器
+    //迭代groupName的迭代器
+    Iterator<String> iter = groupName.iterator();
+
     List<String> waitToRemove = new ArrayList<>();
 
     //开始迭代，把8的倍数记录下来
@@ -275,6 +276,13 @@ public static void main(String[] args) {
 Collection是集合类的上级接口，子接口主要有Set 和List、Map。
 
 Collections是针对集合类的一个帮助类，提供了操作集合的工具方法：一系列静态方法实现对各种集合的搜索、排序、线程安全化等操作。
+
+例如，对List进行反转：
+
+```java
+List<Blog> blogList = blogService.findAll();
+Collections.reverse(blogList);
+```
 
 ---
 

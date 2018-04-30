@@ -21,6 +21,8 @@ JSON 的优点：
 - 结构简单
 - 易于解析
 
+<!--more-->
+
 ---
 
 # JavaScript Json语法

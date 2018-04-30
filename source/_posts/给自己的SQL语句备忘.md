@@ -98,6 +98,7 @@ INSERT INTO Persons VALUES('Jerry',"Sheh","Guangdong","China")
 ```
 
 那么在 Persons 表的最后一行会新增如下
+
 Firstname|LastName|Province|Country
 ---|---|---|---
 Jerry|Sheh|Guangdong|China
