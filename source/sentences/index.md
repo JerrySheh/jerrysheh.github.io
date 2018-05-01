@@ -41,19 +41,23 @@ type: about
 
 # 2018
 
+## 5月
+
+### 05-01
+
+{% note danger %}
+
+享受当下又有什么不好，结果固然重要，但比起快乐，它犹为渺小
+
+{% endnote %}
+
+## 4月
+
 ### 04-28
 
 {% note default %}
 
 Rarely can a response make somthing better, what makes something better is connection.
-
-{% endnote %}
-
-### 04-24
-
-{% note primary %}
-
-谁会想到，恰恰是那个最沉默最古怪的少年，心里藏匿着最真挚的深情呢？
 
 {% endnote %}
 
@@ -115,7 +119,7 @@ Rarely can a response make somthing better, what makes something better is conne
 
 很多具体的搜索技术很快会从独门绝技都普及，再到落伍，追求「术」的人一辈子工作很辛苦。只有掌握了搜索的本质和精髓才能永远游刃有余。
 
-很多希望我介绍「术」的人是想走捷径，但是真正做好一件事没有捷径，离不开一万小时的专业训练和努力。
+很多希望我介绍「术」的人是想走捷径，**但是真正做好一件事没有捷径，离不开一万小时的专业训练和努力。**
 
 ——吴军《数学之美》
 

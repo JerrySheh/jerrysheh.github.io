@@ -41,21 +41,23 @@ Class a = new Class(parameter);
 
 当我们创建一个Integer对象时，却可以这样：
  ```java
- Integer i = 100; (注意：不是 int i = 100; )
+ Integer i = 100; //(注意：不是 int i = 100; )
  ```
 
 实际上，执行上面那句代码的时候，系统为我们执行了：
+
 ```java
 Integer i = Integer.valueOf(100);
 ```
 
 这就是基本数据类型的`自动装箱`功能。
 
-同理，拆箱就是把基本数据类型从Integer对象取出的过程。
+同理，拆箱就是把基本数据类型从 Integer 对象取出的过程。
 
 ## 基本数据类型与对象的差别
 
 基本数据类型不是对象，也就是使用int、double、boolean等定义的变量、常量。
+
 基本数据类型没有可调用的方法。
 
 比如，
