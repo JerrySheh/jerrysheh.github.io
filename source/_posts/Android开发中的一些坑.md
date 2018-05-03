@@ -7,6 +7,25 @@ abbrlink: cc537ae4
 date: 2018-03-10 14:06:25
 ---
 
+# Gradle 加载慢的问题
+
+第一次加载项目很慢一直显示`Building “XXXX” Gradle project info`
+
+解决办法：
+
+打开{your project}/gradle/wrapper/gradle-wrapper.properties
+
+查看distributionUrl中 gradle 版本
+
+去 https://services.gradle.org/distributions/ 下载相应版本的Gradle（官网地址：https://gradle.org/install）
+
+放到以下目录即可
+
+- Linux：`~/.gradle/wrapper/dists`
+- Windows：`C:\users\{user name}\.gradle\wrapper\dists`
+
+---
+
 # 运行时权限在部分Android手机上无效
 
 ## 问题

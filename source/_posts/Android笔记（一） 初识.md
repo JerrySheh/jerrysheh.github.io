@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
 
 Android程序设计讲究逻辑和视图分离，所以逻辑代码写在MainActivity.java中，视图界面写在activity_main.xml中。在逻辑代码中的活动，需要先到AndroidManifest.xml进行注册。
 
-* 方便的是，当我们写出一个Activity，Android Studio会自动帮我们注册。如果你用的是Eclipse或其他IDE，可能要手动进行注册。
+> 方便的是，当我们创建一个新的 Activity，Android Studio会自动帮我们注册。如果你用的是 Eclipse 或其他IDE，可能要手动进行注册。
 
 ---
 

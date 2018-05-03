@@ -25,6 +25,10 @@ A|B
 优缺点（strengths and flaws）|场景（scenarios）
 特权（privilege）|检索（retrieves）
 
+A|B
+---|---
+无穷（infinite）|plain(普通的)
+
 ---
 
 zh|en|en explain

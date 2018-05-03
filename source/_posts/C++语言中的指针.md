@@ -278,3 +278,46 @@ char *name = "jerry";
 strcpy(ps->name, name);
 printf("%s\n",stu1.name);
 ```
+
+## 结构体偏移量问题
+
+假设现在有一个结构体
+
+```
+struct fun{
+    int a;
+    int b;
+    char c;
+};
+```
+
+我们已知道结构体成员 c 的地址，如何求结构体的起始地址呢？
+
+答案就是：`(char *) & ((struct fun*)0)->c`
+
+```
+int main(){
+    //实例化一个结构体变量
+    struct fun domain;
+
+    //结构体起始地址
+    printf("iic:%u\n",&domain);
+
+    //结构体成员 c 的地址
+    printf("char c:%u\n", &(domain.c));
+
+    //偏移量
+    printf("sub: %d\n\n", (char *) & ((struct fun*)0)->c);
+
+    return 0;
+}
+```
+
+输出：
+
+```
+jerrysheh@ubuntu:~$ ./fun
+fun:-1838605600
+char c:-1838605592
+sub: 8
+```

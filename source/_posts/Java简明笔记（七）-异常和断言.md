@@ -58,7 +58,7 @@ public void write (Object obj, String filename) throws IOException, ReflectiveOp
 
 # 异常捕获
 
-示例1 : 基本结构
+## 示例1：可以捕获多个异常
 
 ```java
 try {
@@ -74,7 +74,8 @@ try {
 }
 ```
 
-示例2：多个捕获共享一个handler
+## 示例2：多个捕获共享一个handler
+
 ```java
 try {
   //statements
@@ -85,11 +86,11 @@ try {
 }
 ```
 
-示例3：
+## 示例3：带资源的异常捕获（try-with-resource）
 
-try后面接资源，在正常执行完之后或者当发生异常时，try-with-resources语句会自动关闭资源。这样我们不用写`out.close()`，但却能够保证每个资源的`out.close()`都会被触发。
+try后面接资源，在正常执行完之后或者当发生异常时，try-with-resources语句会自动关闭资源。
 
-如果没有 try-catch的话，如果其中一个line抛出异常，那么所有的line的out.close()不能被正常执行，导致out结果丢失。
+这样我们不用写`out.close()`，但却能够保证每个资源的`out.close()`都会被触发。
 
 ```
 ArrayList<String> lines ...;
@@ -103,6 +104,10 @@ try (PrintWriter out = new PrintWriter("output.txt")) {
   //statements
 }
 ```
+
+如果没有 try-catch 的话，如果其中一个 line 抛出异常，那么所有的 line 的 `out.close()` 不能被正常执行，导致out结果丢失。
+
+如果用常规的 try-catch 语句，如果要打开两个资源，那么就要嵌套 try-catch 了。try-with-resources的一个好处在于只需要写一个 try-catch 语句。
 
 更多关于异常的内容 异常重抛和链接、堆栈踪迹、Objects.requireNonNull方法见书p186
 

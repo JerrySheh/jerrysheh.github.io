@@ -16,14 +16,14 @@ Intent 是一个消息传递对象。它是 Android 程序中各组件之间进�
 ## Intent 的基本使用场景
 
 - **启动 Activity**：
-  Activity 表示应用中的一个屏幕。通过将 Intent 传递给 startActivity()，您可以启动新的 Activity 实例。Intent 描述了要启动的 Activity，并携带了任何必要的数据。
+  Activity 表示应用中的一个屏幕。通过将 Intent 传递给 `startActivity()`，您可以启动新的 Activity 实例。Intent 描述了要启动的 Activity，并携带了任何必要的数据。
 
-  如果您希望在 Activity 完成后收到结果，请调用 startActivityForResult()。在 Activity 的 onActivityResult() 回调中，您的 Activity 将结果作为单独的 Intent 对象接收。
+  如果希望在 Activity 完成后收到结果，请调用 `startActivityForResult()`。在 Activity 的 `onActivityResult()` 回调中，您的 Activity 将结果作为单独的 Intent 对象接收。
 
 - **启动服务**：
-  Service 是一个不使用用户界面而在后台执行操作的组件。通过将 Intent 传递给 startService()，您可以启动服务执行一次性操作（例如，下载文件）。Intent 描述了要启动的服务，并携带了任何必要的数据。
+  Service 是一个不使用用户界面而在后台执行操作的组件。通过将 Intent 传递给 `startService()`，您可以启动服务执行一次性操作（例如，下载文件）。Intent 描述了要启动的服务，并携带了任何必要的数据。
 
-  如果服务旨在使用客户端-服务器接口，则通过将 Intent 传递给 bindService()，您可以从其他组件绑定到此服务。
+  如果服务旨在使用客户端-服务器接口，则通过将 Intent 传递给 `bindService()`，您可以从其他组件绑定到此服务。
 
 - **传递广播**：
   广播是任何应用均可接收的消息。系统将针对系统事件（例如：系统启动或设备开始充电时）传递各种广播。通过将 Intent 传递给 sendBroadcast()、sendOrderedBroadcast() 或 sendStickyBroadcast()，您可以将广播传递给其他应用。
@@ -127,7 +127,7 @@ buttonIntent.setOnClickListener(new View.OnClickListener() {
 
 ## 调用浏览器和拨号
 
-new 一个 Intnet对象后， 用 intent.setData 方法可以调用其他程序
+new 一个 Intnet 对象后， 用 `intent.setData(uri)` 方法可以调用其他程序
 
 比如调用浏览器打开 github
 
@@ -157,7 +157,7 @@ new 一个 Intnet对象后， 用 intent.setData 方法可以调用其他程序
     </intent-filter>
 </activity>
 ```
-这样,你的app可以响应知乎网站的浏览器调用
+这样, 你的app可以响应知乎网站的浏览器调用
 
 ---
 

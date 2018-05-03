@@ -7,12 +7,12 @@ date: 2017-09-24 14:28:00
 updated: 2017-09-25 15:40:00
 ---
 
-# 给自己的 Linux 备忘
 Linux 学习任重而道远，此文记录了我在 Linux 学习中需要知道或反复查阅使用的命令、表达式等内容，持续更新。
 
 
 <!-- more -->
-## 常用命令
+
+# 常用命令
 
 命令	| 说明
 ---|---
@@ -40,18 +40,52 @@ man ls	| 显示ls命令的手册（space翻页 j下行 k上行 /关键字搜索 
 tar -zcvf xxxx.tar.gz  /home/test | 压缩
 tar -zxvf xxxx.tar.gz -C /tmp    | 解压
 zip -r mydata.zip mydata | 把 mydata 文件夹压缩
-unzip mydata.zip -d mydatabak | 解压 mydata.zip 
+unzip mydata.zip -d mydatabak | 解压 mydata.zip
 uname -a | 查看内核信息
 ll -h| 显示文件夹内文件详细信息
 
+## 关于 ls -l 命令
+
+终端输入`ls -l`
+
+返回
+
+```
+total 8
+drwxrwxr-x 2 jerrysheh jerrysheh 4096 Mar 27 11:59 download
+drwxr-xr-x 3 root      root      4096 Apr 30 10:26 www
+```
+
+## total
+
+total 是所列出内容的磁盘占用空间总和值（kbytes）。
+
+> 对于“占”的理解：数据在存放过程中占据的block的大小。比如，1个block占用4k，那8.7k数据，要用3个bolck来存储，也就占用12k空间。
+
+## 每一行第一个字符
+
+字符|含义
+---|---
+d|目录（dirtectory）
+-|普通文件
+c|字符设备文件(character)
+l|链接文件
+b|块设备文件(block)
+p|命令管道文件，与shell编程有关
+s|sock文件，与shell编程有关
+
+块设备文件：
+
+> 块设备文件(block)，一般置于/dev目录下，设备文件是普通文件和程序访问硬件设备的入口，是很特殊的文件。没有文件大小，只有一个主设备号和一个辅设备号。一次传输数据为一整块的被称为块设备，如硬盘、光盘等。最小数据传输单位为一个数据块(通常一个数据块的大小为512字节)
+
+字符设备文件(character):
+
+> 一般置于/dev目录下，一次传输一个字节的设备被称为字符设备，如键盘、字符终端等，传输数据的最小单位为一个字节。
 
 
-> FBI WARNING ！！！ 千万不要用下面这个命令。
+---
 
-> `$rm -rf /`
-
-***
-## Linux 通配表达式
+# Linux 通配表达式
 
 Linux 通配表达式 与 正则表达式 相类似，但语法有所不同。
 
