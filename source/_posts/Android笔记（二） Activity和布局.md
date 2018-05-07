@@ -219,6 +219,31 @@ public class MainActivity extends AppCompatActivity {
 
  ---
 
+# 资源
+
+每个 Android 项目都包含一个 res 目录。这是放置图片、字符串和布局等的地方。
+
+## 在 XML 和 Java 中使用资源
+
+在上一篇中提到，`setContentView(R.layout.activity_main)`表示 java 引用了 activity_main.xml 这个xml资源。
+
+可以 res/value/string 中声明一些资源文件，如
+
+```xml
+<resources>
+    <string name="app_name">Github Query</string>
+</resources>
+```
+
+然后在java中
+
+```java
+// myString 的值为 app_name
+String myString = getString(R.string.app_name);
+```
+
+ ---
+
 # 在Activity中使用Toast和Menu
 
 ## 使用Toast
@@ -262,6 +287,7 @@ protected void onCreate(Bundle savedInstanceState) {
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
    <item
+       android:orderInCategory="1"
        android:id="@+id/add_item"
        android:title="Add"
        />
@@ -270,6 +296,12 @@ protected void onCreate(Bundle savedInstanceState) {
        android:title="Remove"/>
 </menu>
 ```
+
+- 使用 `android:orderInCategory="1"` 来对菜单项进行排序
+- 使用 `app:showAsAction="ifRoom"` 固定到顶栏而不是右上角三个点里面
+
+> 如果顶栏空间不够，这个item依然会显示到三个点里面进去。使用 app: 而不是 android: 的原因是兼容低版本Android 
+
 
 这样我们就布局了两个按钮，一个 add ， 一个 remove
 

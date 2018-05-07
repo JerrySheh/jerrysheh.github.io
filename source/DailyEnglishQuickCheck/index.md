@@ -16,18 +16,20 @@ comments: false
 意图、打算（intend）|模糊地（ambiguous）
 提炼（refine）|熟悉（get a flavour for）
 
+
 A|B
 ---|---
-一堆、一些（a bunch of）|企业（corporate）
+一堆、一些（a bunch of）|胜利（triumph）
 分号（Semicolons）|限制（restrictions）
-省略（omitted ）|明确地（explicitly）
+省略（omitted）|明确地（explicitly）
 晦涩的（obscure）|后悔（regret）
 优缺点（strengths and flaws）|场景（scenarios）
 特权（privilege）|检索（retrieves）
 
 A|B
 ---|---
-无穷（infinite）|plain(普通的)
+无穷（infinite）|普通的（plain）
+分隔符（delimiter）|企业（corporate）
 
 ---
 
