@@ -14,10 +14,8 @@ Linux 学习任重而道远，此文记录了我在 Linux 学习中需要知道�
 
 # 常用命令
 
-命令	| 说明
+常规命令	| 说明
 ---|---
-ls	| 显示当前目录下文件
-ls -a	| 显示当前目录包括隐藏的文件
 mkdir	myweb| 创建目录
 mkdir -p myweb/www/static | 创建多级目录
 rmdir	| 删除空目录
@@ -27,6 +25,11 @@ echo	| 创建带有内容的文件（见标准输出）
 cat	| 查看文件内容（当文件太大无法一页展示时，用more）
 more | 多屏查看文件内容 （ space-翻页 回车-下一行 q-退出）
 less | 多屏可滚动查看文件内容 （space-翻页 回车-下一行 q-退出 up/down-上下滚动 居然还可以用鼠标666）
+whatis ls	| 显示ls命令的作用
+man ls	| 显示ls命令的手册（space翻页 j下行 k上行 /关键字搜索 n下一个关键字 shift+n上一个关键字）
+
+文件系统命令	| 说明
+---|---
 cd	| 切换目录
 cp a.txt b.txt	| 拷贝. 在工作目录下，将a.txt复制到文件b.txt
 mv a.txt c.txt	| 重命名 a.txt 为 c.txt
@@ -35,14 +38,21 @@ rm	| 删除文件
 rm -r	| 删除包括子目录和子文件 （-r 表示 recursive，递归）
 rm -f	| 强制删除
 apropos -e “list directory contents”	| 精确反查带有”“list directory contents”功能的命令
-whatis ls	| 显示ls命令的作用
-man ls	| 显示ls命令的手册（space翻页 j下行 k上行 /关键字搜索 n下一个关键字 shift+n上一个关键字）
+ll -h| 显示文件夹内文件详细信息
+ls	| 显示当前目录下文件
+ls -a	| 显示当前目录包括隐藏的文件
+
+压缩命令	| 说明
+---|---
 tar -zcvf xxxx.tar.gz  /home/test | 压缩
 tar -zxvf xxxx.tar.gz -C /tmp    | 解压
 zip -r mydata.zip mydata | 把 mydata 文件夹压缩
 unzip mydata.zip -d mydatabak | 解压 mydata.zip
+
+系统相关命令	| 说明
+---|---
+shutdown now| 关机  
 uname -a | 查看内核信息
-ll -h| 显示文件夹内文件详细信息
 
 ## 关于 ls -l 命令
 

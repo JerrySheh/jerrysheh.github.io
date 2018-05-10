@@ -165,3 +165,156 @@ BagOfPrimitives obj2 = gson.fromJson(json, BagOfPrimitives.class);
 
 - 数组、集合等其余转换可参考 [UserGuide](https://github.com/google/gson/blob/master/UserGuide.md)
 - 一篇不错的参考博客：[CSDN](https://blog.csdn.net/u014242422/article/details/53414212)
+
+---
+
+# 使用 Gson 解析嵌套的json对象
+
+##　序列化（Serialization）
+
+所谓序列化指的是将　Java 对象　映射成　json 数据。
+
+首先由一个java类 UserNested，里面包含另一个java类 UserAddress
+
+```java
+// UserNested.java
+public class UserNested {
+    String name;
+    String email;
+    boolean isDeveloper;
+    int age;
+    UserAddress userAddress;
+}
+
+// UserAddress.java
+public class UserAddress {
+    String street;
+    String houseNumber;
+    String city;
+    String country;
+}
+```
+
+使用 Gson
+
+test.java
+
+```java
+// 内部对象
+UserAddress userAddress = new UserAddress(
+    "Main Street",
+    "42A",
+    "Magdeburg",
+    "Germany"
+);
+
+// 外部对象
+ UserNested userObject = new UserNested(
+    "Norman",
+    "norman@futurestud.io",
+    true,
+    22,
+    userAddress
+);
+
+Gson gson = new Gson();
+String userWithAddressJson = gson.toJson(userObject);
+```
+
+输出结果：
+
+```json
+{
+    "age": 22,
+    "email": "jerrysheh@gmail.com",
+    "isDeveloper": true,
+    "name": "jerry",
+
+    "userAddress": {
+        "city": "Magdeburg",
+        "country": "Germany",
+        "houseNumber": "42A",
+        "street": "Main Street"
+    }
+}
+```
+
+
+Gson 中只能根据 "{}" 标志来创建一个新对象。
+
+
+
+## 反序列化（deserialization）
+
+反序列化就是把 json 数据 映射成 java 对象
+
+原始数据
+
+```json
+{
+    "name": "Future Studio Steak House",
+    "owner": {
+        "name": "Christian",
+        "address": {
+            "city": "Magdeburg",
+            "country": "Germany",
+            "houseNumber": "42A",
+            "street": "Main Street"
+        }
+    },
+    "cook": {
+        "age": 18,
+        "name": "Marcus",
+        "salary": 1500
+    },
+    "waiter": {
+        "age": 18,
+        "name": "Norman",
+        "salary": 1000
+    }
+}
+```
+
+手动创建相匹配的 javabean
+
+```java
+// resuaurant.java
+public class Restaurant {
+    String name;
+
+    Owner owner;
+    Cook cook;
+    Waiter waiter;
+}
+
+// Owner.java
+public class Owner {
+    String name;
+
+    UserAddress address;
+}
+
+// Cook.java
+public class Cook {
+    String name;
+    int age;
+    int salary;
+}
+
+// Waiter.java
+public class Waiter {
+    String name;
+    int age;
+    int salary;
+}
+```
+
+转化
+
+```java
+String restaurantJson = "{ 'name':'Future Studio Steak House', 'owner':{ 'name':'Christian', 'address':{ 'city':'Magdeburg', 'country':'Germany', 'houseNumber':'42', 'street':'Main Street'}},'cook':{ 'age':18, 'name': 'Marcus', 'salary': 1500 }, 'waiter':{ 'age':18, 'name': 'Norman', 'salary': 1000}}";
+
+Gson gson = new Gson();
+
+Restaurant restaurantObject = gson.fromJson(restaurantJson, Restaurant.class);
+```
