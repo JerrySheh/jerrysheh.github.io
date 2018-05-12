@@ -43,6 +43,20 @@ type: about
 
 ## 5月
 
+### 05-09
+
+{% note success %}
+
+ **...then work which one hopes may be of some use; then rest, nature, books, music, love for one's neighbor -- such is my idea of happiness.**  
+
+ —— 《Family Happiness and Other Stories》Leo Tolstoy
+
+ 做一份真正有用的工作，然后休息、享受自然、读书、音乐、爱周围的人。这就是我对幸福的诠释。
+
+> 句子出自列夫托尔斯泰的《家挺与幸福》，在电影《荒野求生》（Into the wild）中被引用。
+
+{% endnote %}
+
 ### 05-06
 
 {% note info %}
@@ -50,8 +64,6 @@ type: about
 在普通的一天里有所期待，本来就是给自己挖的一个坑。
 
 {% endnote %}
-
-
 
 ### 05-05
 

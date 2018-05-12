@@ -70,6 +70,8 @@ android:margin|外边距
 
 更多控件请查阅：[官方文档](https://developer.android.com/reference/android/widget/package-summary.html?hl=zh-cn)
 
+> 关于颜色，可以到 [Materia Design](https://material.io/design/color/#tools-for-picking-colors)官网选取颜色
+
 ## 几种基本布局
 
 ### 线性布局（LinearLayout）
@@ -111,6 +113,40 @@ android:margin|外边距
 一种依靠相对关系排列的布局。
 
 控件可以用`android:layout_above="@id/other_widget"`之类的语句来定位。
+
+相对布局属性：
+
+相对控件属性|描述
+---|---
+android:layout_above|位于给定DI控件之上
+android:layout_below |位于给定DI控件之下
+android:layout_toLeftOf |位于给定控件左边
+android:layout_toRightOf |位于给定控件右边
+android:layout_alignLeft |左边与给定ID控件的左边对齐
+android:layout_alignRight |右边与给定ID控件的右边对齐
+android:layout_alignTop |上边与给定ID控件的上边对齐
+android:layout_alignBottom |底边与给定ID控件的底边对齐
+android:layout_alignBaseline|对齐到控件基准线
+
+相对父容器属性|描述
+---|---
+android:layout_alignParentLeft|相对于父靠左
+android:layout_alignParentTop|相对于父靠上
+android:layout_alignParentRight|相对于父靠右
+android:layout_alignParentBottom|相对于父靠下
+android:layout_centerInParent|相对于父即垂直又水平居中
+android:layout_centerHorizontal|相对于父即水平居中
+android:layout_centerVertical|相对于父即处置居中
+
+版本4.2以上相对布局新属性|描述
+---|---
+android:layout_alignStart|将控件对齐给定ID控件的头部
+android:layout_alignEnd|将控件对齐给定ID控件的尾部
+android:layout_alignParentStart|将控件对齐到父控件的头部
+android:layout_alignParentEnd|将控件对齐到父控件的尾部
+
+- 官方 guide ： https://developer.android.com/guide/topics/ui/layout/relative
+- 官方 doc： https://developer.android.com/reference/android/widget/RelativeLayout
 
 ### 帧布局（FrameLayout）
 
@@ -277,6 +313,40 @@ protected void onCreate(Bundle savedInstanceState) {
 * Toast.makeText有3个参数，第一个是活动本身，第二个是提示内容，第三个是Toast的长度
 * 最后`.show()` 让Toast显示出来
 
+###  Toast单例
+
+如果点击很多次按钮，会创建很多个 Toast 重叠在一起，可以封装成工具类，使之只有一个实例
+
+```java
+public class ToastUtil {
+
+    private static Toast toast;
+
+    /**
+     * 显示Toast
+     * @param context 上下文
+     * @param content 要显示的内容
+     */
+    public static void showToast(Context context, String content) {
+        if (toast == null) {
+            toast = Toast.makeText(context, content, Toast.LENGTH_SHORT);
+        } else {
+            toast.setText(content);
+        }
+        toast.show();
+    }
+
+    /**
+     * 显示Toast
+     * @param context 上下文
+     * @param resId 要显示的资源id
+     */
+    public static void showToast(Context context, int resId) {
+        showToast(context, (String) context.getResources().getText(resId));
+    }
+}
+```
+
 <!-- more -->
 
 ## 使用Menu
@@ -300,7 +370,7 @@ protected void onCreate(Bundle savedInstanceState) {
 - 使用 `android:orderInCategory="1"` 来对菜单项进行排序
 - 使用 `app:showAsAction="ifRoom"` 固定到顶栏而不是右上角三个点里面
 
-> 如果顶栏空间不够，这个item依然会显示到三个点里面进去。使用 app: 而不是 android: 的原因是兼容低版本Android 
+> 如果顶栏空间不够，这个item依然会显示到三个点里面进去。使用 app: 而不是 android: 的原因是兼容低版本Android
 
 
 这样我们就布局了两个按钮，一个 add ， 一个 remove

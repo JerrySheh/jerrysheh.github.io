@@ -34,9 +34,9 @@ Adapter 用于在必要时将某些数据源与 View 绑定，同时向 Recycler
 
 0. 添加 recyclerView 的依赖
 1. 在 layout 中创建一个 RecyclerView
-2. 创建 list 项目列表
-3. 创建 ViewHolder
-4. 添加 RecyclerView adaptor
+2. 创建单个 item 的layout resource file
+3. 创建 Adapter 类，实现内部类AdapterHolder
+4. 重写 Adapter 的三个方法
 5. 添加 Layout Manager
 
 ---
@@ -47,11 +47,11 @@ Adapter 用于在必要时将某些数据源与 View 绑定，同时向 Recycler
 
 ```
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
 }
 ```
+
+> 注意: 在新版本的 Gradle 中， compile 命令已经变更为 implementation ，或者 API
 
 ---
 
@@ -60,17 +60,20 @@ dependencies {
 ## 添加 recyclerView
 
 ```xml
+<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- A RecyclerView with some commonly used attributes -->
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_numbers"
+        android:id="@+id/news_recycler_view"
+        android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"/>
 
-    </android.support.v7.widget.RecyclerView>
+
 </FrameLayout>
 ```
 
@@ -82,30 +85,56 @@ number_list_item.xml
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tv_item_number"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|start"
-        android:fontFamily="monospace"
-        android:textSize="42sp"
-        android:text="#42" />
+        card_view:cardBackgroundColor="#FFFFFF"
+        card_view:cardCornerRadius="8dp"
+        card_view:cardUseCompatPadding="true"
+        android:layout_gravity="center">
 
-</FrameLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/news_photo"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:layout_alignParentTop="true"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/news_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/news_photo"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
 ```
+
+以上布局为一个 CardView 里面有一个 ImageView 和 TextView
 
 ---
 
 # 创建 Adapter 类
 
-当 RecyclerView 需要显示内容的时候，它首先会去找 Adapter 问应该显示哪些 items ，然后 RecyclerView 要求 Adapter 创建 ViewHolder 对象。 **ViewHolder 的作用是将 xml 中的内容映射成 View 对象，它决定如何显示单个item**。ViewHolder 将在 `onCreateViewHolder()`方法中被实例化。 之后，在 `onBindViewHolder()` 方法中填充每个项的数据。
+当 RecyclerView 需要显示内容的时候，它首先会去找 Adapter 问应该显示哪些 items ，然后 RecyclerView 要求 Adapter 创建 ViewHolder 对象。
 
-具体来说，Adapater主要做以下几件事:
+具体来说，Adapter主要做以下几件事:
 
 - 为每个 RecyclerView 项目创建 ViewHolder 对象。
 - 将数据来源的数据与每个项目绑定
@@ -118,61 +147,71 @@ Adapter 类需要我们重写三个方法：
 - `onBindViewHolder()`：数据源与View进行绑定的时候调用
 - `getItemCount()`：返回计数器表示第几个 item
 
-在写这三个方法前，我们先定义一个内部类作为 ViewHolder，然后重写三个方法
+在写这三个方法前，我们先定义一个内部类作为 ViewHolder：
 
-1. 定义一个内部类 NumberViewHolder 继承自 RecyclerView.ViewHolder
-2. 当内部类被构造的时候，将 R.id.tv_item_number 赋给 listItemNumberView
-3. 将数字下标跟listItemNumberView显示的文字绑定
+ **ViewHolder 的作用是将 xml 中的内容映射成 View 对象，它决定如何显示单个item**。
+
+ViewHolder 将在 `onCreateViewHolder()`方法中被实例化。之后，在 `onBindViewHolder()` 方法中填充每个项的数据。
 
 ```java
-public class GreenAdapter extends RecyclerView.Adapter<GreenAdapter.NumberViewHolder> {
+// 自定义 ViewHolder 类
+static class NewsViewHolder extends RecyclerView.ViewHolder{
+    CardView cardView;
+    ImageView newsImage;
+    TextView newsTitle;
 
-    private static final String TAG = GreenAdapter.class.getSimpleName();
+    // 构造器
+    NewsViewHolder(final View itemView){
+        super(itemView);
+        cardView = itemView.findViewById(R.id.card_view);
+        newsImage = itemView.findViewById(R.id.news_photo);
+        newsTitle = itemView.findViewById(R.id.news_title);
 
-    private int mNumberItems;
+        // 设置标题背景为半透明
+        newsTitle.setBackgroundColor(Color.argb(20, 0, 0, 0));
+    }
+}
+```
 
-    public GreenAdapter(int numberOfItems) {
-        mNumberItems = numberOfItems;
+然后重写 Adapter 的三个方法
+
+```java
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
+
+    private List<News> newsList;
+    private Context context;
+
+    // 构造器
+    NewsAdapter(List<News> newsList, Context context) {
+        this.newsList = newsList;
+        this.context = context;
+    }
+
+    // 自定义 ViewHolder 类
+    // 代码在上面
+    // 此处省略
+
+    @NonNull
+    @Override
+    public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(context).inflate(R.layout.news_item, parent, false);
+        return new NewsViewHolder(v);
     }
 
     @Override
-    public NumberViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        Context context = viewGroup.getContext();
-        int layoutIdForListItem = R.layout.number_list_item;
-        LayoutInflater inflater = LayoutInflater.from(context);
-        boolean shouldAttachToParentImmediately = false;
+    public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
+        News oneNews = newsList.get(position);
+        holder.newsTitle.setText(oneNews.getTitle());
+        Glide.with(context).load("https://jerrysheh.github.io/images/Learn_Android/Android.jpg").into(holder.newsImage);
 
-        View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
-        NumberViewHolder viewHolder = new NumberViewHolder(view);
-
-        return viewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(NumberViewHolder holder, int position) {
-        Log.d(TAG, "#" + position);
-        holder.bind(position);
     }
 
     @Override
     public int getItemCount() {
-        return mNumberItems;
-    }
-
-    class NumberViewHolder extends RecyclerView.ViewHolder{
-
-        TextView listItemNumberView;
-
-        NumberViewHolder(View itemView){
-            super(itemView);
-            listItemNumberView = (TextView) itemView.findViewById(R.id.tv_item_number);
-        }
-
-        void bind(int listIndex){
-            listItemNumberView.setText(String.valueOf(listIndex));
-        }
+        return newsList.size();
     }
 }
+
 ```
 
 ---
@@ -190,36 +229,44 @@ MainActivity.java
 ```java
 public class MainActivity extends AppCompatActivity {
 
-    //一个常量，表示列表项个数
-    private static final int NUM_LIST_ITEMS = 100;
-
-    GreenAdapter mAdapter;
-    RecyclerView mNumberList;
+    NewsAdapter mAdapter;
+    RecyclerView mRecyclerView;
+    List<News> newsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mNumberList = (RecyclerView) findViewById(R.id.rv_numbers);
+        newsList = new ArrayList<>();
+        String url = "https://jerrysheh.github.io/images/Learn_Android/Android.jpg";
+        for (int i = 1; i < 11; i++) {
+            newsList.add(new News(String.valueOf(i), url));
+        }
+
+        mRecyclerView = findViewById(R.id.news_recycler_view);
 
         // 实例化一个 LinearLayoutManager
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
         // 实例化一个 Adapter
-        mAdapter = new GreenAdapter(NUM_LIST_ITEMS);
+        mAdapter = new NewsAdapter(newsList, this);
 
-        // RecyclerView 设置 LayoutManager 并优化
-        mNumberList.setLayoutManager(layoutManager);
-        mNumberList.setHasFixedSize(true);
-        mNumberList.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setAdapter(mAdapter);
+
     }
+
 }
+
 ```
 
 ---
 
 # 实现点击事件
+
+> 其实可以在 RecyclerView 里嵌套 CardView， CardView 自带点击事件，就可以不用自己实现了。
 
 ## Adapter类添加点击监听接口
 

@@ -321,3 +321,29 @@ fun:-1838605600
 char c:-1838605592
 sub: 8
 ```
+
+---
+
+# 链表和指针
+
+定义一个链表
+
+```C
+//定义链表中的节点  
+typedef struct node{  
+   int data;            //链表中的数据  
+   struct node * p_next;//指向下一节点的指针  
+}Node,*pNode;  
+```
+
+顺序遍历链表
+
+```C
+void TraverseList(pNode h){  
+  pNode p = h->p_next;
+  while(p!=NULL){  
+    printf("%d\n",p->data);  
+    p = p->p_next;  
+  }  
+}  
+```

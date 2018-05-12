@@ -246,7 +246,7 @@ Gson 中只能根据 "{}" 标志来创建一个新对象。
 
 ## 反序列化（deserialization）
 
-反序列化就是把 json 数据 映射成 java 对象
+反序列化就是把 **json 数据** 映射成 **java 对象**
 
 原始数据
 
@@ -309,6 +309,8 @@ public class Waiter {
 }
 ```
 
+> 其实可以用内部类的形式，这样只需要写一个 bean，更加简明。 **注意**：如果使用内部类，需要声明为 static ，否则 Gson 无法解析。
+
 转化
 
 ```java
@@ -318,3 +320,19 @@ Gson gson = new Gson();
 
 Restaurant restaurantObject = gson.fromJson(restaurantJson, Restaurant.class);
 ```
+
+---
+
+# 使用 IDEA / Android Studio 的 GsonFormat 插件
+
+使用 GsonFormat 插件，可以快速根据 json内容 生成 javabean
+
+项目地址：https://github.com/zzz40500/GsonFormat
+
+## 使用方法
+
+1. 在 IDEA 中， file -> setting -> plugins -> 搜索 "GsonFormat" -> 安装并重启IDE
+2. 创建一个装javabean的包（必须），然后创建一个javabean类
+3. Alt + S， 或者 Alt + Insert，选择 GsonFormat
+4. 复制粘贴你的 json ，点击右上角 format 进行排版
+5. 点击

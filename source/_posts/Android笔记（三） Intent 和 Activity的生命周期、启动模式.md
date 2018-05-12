@@ -220,6 +220,38 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 }
 ```
 
+## 使用 intent 传递对象
+
+上面的 intent 只能传 String， 如果我们有一个 javabean 对象需要传递，怎么做呢？
+
+首先将实体类（bean）实现  Serializable 接口。**注意:** 如果 bean 里面嵌套了 bean，内部类也要声明为实现 Serializable 接口。
+
+```java
+public class bean implements Serializable {
+    int a;
+    int b;
+    String c;
+    Heybean d;
+    public static class Heybean implements Serializable {
+        ...
+    }
+}
+```
+
+传递 activity
+
+```java
+Intent intent = new Intent(context, DetailActivity.class);
+intent.putExtra("name",detailbean);
+context.startActivity(intent);
+```
+
+接收 activity
+
+```java
+Bean detailBean = (Bean) getIntent().getSerializableExtra("name");
+```
+
 ---
 
 # Activity的生命周期

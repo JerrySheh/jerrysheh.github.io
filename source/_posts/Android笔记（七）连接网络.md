@@ -15,7 +15,7 @@ date: 2018-05-04 16:10:43
 
 这里的参数就是 type 为 content， q 为 Android 。
 
-现在，我们要打造一个功能，用户在 EditText 上输入 Android ， 我们的app 可以构造出 `https://www.zhihu.com/search?type=content&q=Android` 这样的 URL 出来。 并对该地址进行 HTTP 访问，然后获取 Respinse 结果。
+现在，我们要打造一个功能，用户在 EditText 上输入 Android ， 我们的app 可以构造出 `https://www.zhihu.com/search?type=content&q=Android` 这样的 URL 出来。 并对该地址进行 HTTP 访问，然后获取 Response 结果。
 
 以下将以 Github 的 API 为例
 
@@ -233,7 +233,7 @@ public class GithubQueryTask extends AsyncTask<URL, Void, String>{
 因为GithubQueryTask是一个继承于AsyncTask的类，使用 new 语句来启动后台
 
 ```java
-new GithubQueryTask.execute(githubSearchUrl);
+new GithubQueryTask().execute(githubSearchUrl);
 ```
 
 效果：
