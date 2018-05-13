@@ -335,4 +335,4 @@ Restaurant restaurantObject = gson.fromJson(restaurantJson, Restaurant.class);
 2. 创建一个装javabean的包（必须），然后创建一个javabean类
 3. Alt + S， 或者 Alt + Insert，选择 GsonFormat
 4. 复制粘贴你的 json ，点击右上角 format 进行排版
-5. 点击
+5. 点击确定即自动生成 bean

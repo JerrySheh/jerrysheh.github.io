@@ -1,6 +1,6 @@
 ---
 title: Java简明笔记（九）Stream
-comments: true
+comments: false
 abbrlink: 372345f
 date: 2018-02-26 00:07:29
 categories: JAVA
