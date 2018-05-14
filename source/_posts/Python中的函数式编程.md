@@ -118,3 +118,18 @@ sorted(['bob', 'about', 'Zoo', 'Credit'], key=str.lower)
 # 返回函数
 
 在 Python 高阶函数中，可以把函数作为结果值返回。
+
+
+```python
+def addx(x):
+   def adder (y): return x + y
+   return adder
+
+add8 = addx(8)
+add9 = addx(9)
+
+print add8(100)
+print add9(100)
+```
+
+## 闭包
