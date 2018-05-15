@@ -23,6 +23,27 @@ SQL 包含 `DML （数据操作语言）` 和 `DDL（数据定义语言）`。
 * 服务器端脚本语言（PHP、ASP.NET、Java EE等）
 * 前端语言（HTML/CSS）
 
+<!--more-->
+
+---
+
+# 如何导入数据库文件
+
+假设我们已经有了一个数据库脚本， projectDB.sql，如何导入到MySQL？
+
+方法一：直接通过 mysql 命令运行
+
+```
+mysql -u root -p123456 --port 3306 < /home/jerrysheh/projectDB.sql
+```
+
+方法二：登录 mysql 后使用 source 命令
+
+```
+mysql>source /home/jerrysheh/projectDB.sql
+```
+
+
 ---
 
 # 单表操作
