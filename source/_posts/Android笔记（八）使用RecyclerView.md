@@ -14,7 +14,7 @@ tags: Android
 - ScrollView是一次性将内容绘制完毕，如果数据量很大，会导致内存消耗。
 - 无法通过点击 String[] 里面的某一个 String 进入详细页面
 
-于是我们引入了 RecyclerView 。想象一下，我们平时刷微博、刷知乎，随着我们不断地向下刷，数据是动态加载出来的。 这就是RecyclerView。
+于是我们引入了 RecyclerView 。想象一下，我们平时刷微博、刷知乎，随着我们不断地向下刷，数据是动态加载出来的。 这就是RecyclerView。 当然，如果在 RecyclerView 里面嵌套 CardView 就能显示很丰富的内容了。
 
 <!--more-->
 
