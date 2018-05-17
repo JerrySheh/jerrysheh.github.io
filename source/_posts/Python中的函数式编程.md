@@ -14,7 +14,30 @@ tags: Python
 
 ---
 
-# 高阶函数
+# 高阶函数概念
+
+在 Python 中，`abs(-10)`用于取绝对值， 其中，-10 是参数，abs 是函数本身，`abs()`才是函数调用。我们可以把函数本身作为变量，赋值给另一变量。
+
+如假设我们定义`f = abs`，现在，`f(-10)` 和 `abs(-10)` 完全一样。
+
+既然函数本身可以作为变量赋值，那么它就可以作为参数，传给另一个函数。 如
+
+```python
+def add(x, y, f):
+    return f(x) + f(y)
+
+f = abs
+add(-5, 6, f)
+```
+
+当我们调用` add()` 的时候， 把 `f()` 传递了进去。
+
+像这样，如果有一个函数，它可以接收另一个函数作为参数，这种函数就称之为`高阶函数（Higher-order function）`。
+
+
+---
+
+# Python内置的高阶函数
 
 ## map
 
@@ -119,17 +142,128 @@ sorted(['bob', 'about', 'Zoo', 'Credit'], key=str.lower)
 
 在 Python 高阶函数中，可以把函数作为结果值返回。
 
-
 ```python
-def addx(x):
-   def adder (y): return x + y
-   return adder
-
-add8 = addx(8)
-add9 = addx(9)
-
-print add8(100)
-print add9(100)
+def lazy_sum(*args):
+    def sum():
+        ax = 0
+        for n in args:
+            ax = ax + n
+        return ax
+    return sum
 ```
 
+当我们调用 `lazy_sum()` 时，返回的是 `sum()` 函数，而不是一个具体的数据类型。
+
 ## 闭包
+
+在函数中定义另一函数，内部函数可以引用外部函数的参数和局部变量。当外部函数返回内部函数时，相关的参数和变量都保存在返回的内部函数中。这种程序结构，称为`闭包`。
+
+---
+
+# 匿名函数
+
+在使用 `map()` 函数的时候，我们传入一个函数参数和一个`Iterable`。我们还要特地去定义传入的函数，比如：
+
+```python
+def f(x):
+    return x * x
+
+map(f(x), [1, 2, 3, 4, 5, 6, 7, 8, 9])
+```
+
+我们可以使用 lambda 表达式，直接表示 f(x) ，而不用特地去定义。
+
+```python
+map(lambda x: x * x, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+```
+
+这就是匿名函数和lambda表达式的用法。
+
+---
+
+# 装饰器（Decorator）
+
+## 函数对象
+
+在 Python 中，函数是对象，可以赋值给变量
+
+```python
+def now():
+    print("2018-05-17")
+
+myfun = now
+
+# 可以通过 __name__ 属性获取函数的名字
+now.__name__
+myfun.__name__
+```
+
+## 装饰器
+
+现在，我们要在调用 now() 函数前，执行日志打印，但又不希望修改 `now()` 函数的内容。这时候可以用`装饰器（Decorator）`。
+
+在代码运行期间动态增加功能的方式就是 Decorator，本质上 Decorator 就是一个返回函数的高阶函数。
+
+```python
+def log(func):
+    def wrapper(*args, **kw):
+        print('call %s():' % func.__name__)
+        return func(*args, **kw)
+    return wrapper
+
+def now():
+    print('2018-05-17')
+
+now = log(now)
+
+now()
+```
+
+我们把 `now()` 函数作为参数，传给 `log()` 函数，然后`log()` 函数返回一个内部函数 wrapper。 而 wrapper 在返回前打印了日志，然后返回了传进去的 `now()` 函数。
+
+现在， now 这个变量保存了 wrapper() 函数。（注意：wrapper并没有执行，只是保存了状态）
+
+最后，我们调用 `now()`，`now()` 执行刚刚保存的 wrapper() ，也就是打印日志，然后返回 now() 本身，也就是打印`2018-05-17`。
+
+所以，我们最后看到的结果是：
+
+```
+call now():
+2018-05-17
+```
+
+这就实现了我们想要的功能：在调用 now() 函数前，执行日志打印。
+
+事实上，为了方便，我们可以用 `@log` 来修饰函数 ，如
+
+```python
+@log
+def now():
+    print('2015-3-25')
+```
+
+等同于
+
+```python
+def now():
+    print('2018-05-17')
+
+now = log(now)
+```
+
+用装饰器装饰过后的函数， `__name__` 会变成装饰函数的内部函数，以这个例子为例， `now.__name__` 从 `now` 变成了 `wrapper`。所以我们要在装饰器函数里把原始函数的 __name__ 属性复制到 `wrapper()` 内部函数中。
+
+你可能马上想到用`wrapper.__name__ = func.__name__`，事实可以直接`@functools.wraps(func)`。
+
+一个完整的Decorator：
+
+```python
+import functools
+
+def log(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kw):
+        print('call %s():' % func.__name__)
+        return func(*args, **kw)
+    return wrapper
+```
