@@ -108,7 +108,7 @@ public class LoggingWidget extends Widget{
 
 # 对象的共享
 
-我们不仅希望一个线程正在访问某对象状态时，另一个线程参与了修改，还希望确保一个线程修改了对象状态后，其他线程能够看到其中的变化。
+我们不仅希望**能够防止**一个线程正在访问某对象状态时，另一个线程同时在修改该状态，还希望能够确保一个线程修改了对象状态后，其他线程能够及时看到发生的状态变化。
 
 ## 可见性和失效数据
 
@@ -121,8 +121,6 @@ public class LoggingWidget extends Widget{
 ## volatile
 
 Java 中的 volatile 变量可以被看作是一种 “程度较轻的 synchronized”，与 synchronized 块相比，volatile 变量所需的编码较少，并且运行时开销也较少，但是它所能实现的功能也仅是synchronized 的一部分。
-
-
 
 当变量声明为 volatile 类型后，编译器和运行时会注意到这是个共享变量，就不会将该变量的操作与其他内存操作一起重排序。因此在读取 volatile 变量时总会返回最新的值。
 
@@ -146,19 +144,24 @@ volatile boolean asleep;
 
 在构造方法中启动一个线程，this引用会被新创建的线程共享，此时还没构造完毕，因此会导致线程安全问题。
 
-好的做法是，等构造方法返回时，this引用才逸出。在构造方法中创建一个线程，然后通过一个start()方法来启动线程。
+好的做法是，等构造方法返回时，this引用才逸出。在构造方法中创建一个线程，然后通过一个 `start()` 方法来启动线程。
+
+> 不要在构造过程中使 this 引用逸出。 如果想在构造函数中注册一个事件监听或者启动线程，好的办法是使用静态工厂方法（私有构造函数+公共工厂方法）。
 
 ## 线程封闭
 
 不共享数据是避免使用同步最好的办法。这称为线程封闭（Thread Confinement）。线程封闭的例子有 JDBC 中的 Connection 对象。
 
+线程封闭包括 Ad-hoc 、 栈封闭、 ThreadLocal类。 这里只探讨ThreadLocal。
+
 ## ThreadLocal 类
 
 在单线程 JDBC 程序中，我们通常在程序启动时初始化一个 Connection 连接，从而避免在调用每个方法时都传递一个 Connection 对象。
 
-在多线程 JDBC 程序中，我们希望每个线程建立自己的Connection对象连接，不互相干扰。可以通过 ThreadLocal来解决。
+在多线程 JDBC 程序中，我们希望每个线程建立自己的 Connection 对象连接，不互相干扰。可以通过 ThreadLocal来解决。
 
 ```java
+// 使用ThreadLocal封闭
 private static ThreadLocal<Connection> connectionHolder =
                                new ThreadLocal<Connection>(){
     public Connection initValue(){
@@ -166,15 +169,62 @@ private static ThreadLocal<Connection> connectionHolder =
     }
 };
 
+// 获取一个连接
 public static Connection getConnection(){
   return connectionHolder.get();
 }
 ```
 
+ThreadLocal提供了一些比如set、get等来访问接口和方法，每个使用该变量的线程都有一份独立的副本，线程之间互不影响。
+
+ThreadLocal对象常用于防止对可变的单实例变量（singeton）或全局变量进行共享。
+
 ---
 
-# 对象组合
+# 安全发布
 
-未完待续
+由 Holder 这么一个类
 
-（参考：[操作系统漫游（二）进程](../post/be1528d7.html)）
+```java
+public class Holder {
+    private int n;
+
+    public Holder(int n){
+        this.n = n;
+    }
+
+    public void assertSanity(){
+        if (n != n) {
+            thorw new AssertionError("statement false")
+        }
+    }
+}
+
+假设线程1对Holder类进行了发布
+
+```java
+public Holder holder;
+
+public void initialize(){
+    holder = new Holder(42);
+}
+```
+
+然后线程2调用assertSanity()方法，很有可能出现 n != n，抛出 AssertionError 。因为线程1的发布，没有使用同步对其他线程可见。
+
+## 安全地发布
+
+要安全地发布一个对象，对象的引用和对象的状态必须同时对其他线程可见。
+
+一般可以通过以下几种方式：
+- 在静态初始化函数中初始化一个对象的引用
+- 将对象的引用保存到 volatile 类型的域或者 AtomicReferance 对象中
+- 将对象的引用保存到某个正确构造的 final 类型域中
+- 将对象的引用保存到一个由锁保护的域中
+
+---
+
+
+参考：
+
+- [操作系统漫游（二）进程](../post/be1528d7.html)
