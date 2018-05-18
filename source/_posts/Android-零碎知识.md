@@ -193,22 +193,25 @@ String imageUrl = imageList.get(position);
 Glide.with(context).load(imageUrl).into(new SimpleTarget<Drawable>() {
     @Override
     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-        int height = resource.getIntrinsicHeight();
-        if (height < 500){
-            holder.detialImage.setScaleType(CENTER_CROP);
-        } else {
-            holder.detialImage.setScaleType(FIT_XY);
-        }
 
+        // 获取到图片的高
+        int height = resource.getIntrinsicHeight();
+
+        // do more things
+
+        // 把图片显示到 detialImageView 里面
         holder.detialImage.setImageDrawable(resource);
     }
 });
 }
 ```
 
-如果需要高级功能，需要写一个类继承AppGlideModule
+如果需要高级功能(placeholder、firCenter之类，具体见官方文档)，需要写一个类继承AppGlideModule
 
 ```java
+import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.module.AppGlideModule;
+
 @GlideModule
 public final class MyAppGlideModule extends AppGlideModule {
     // 无需写任何代码

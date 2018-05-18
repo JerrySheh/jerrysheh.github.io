@@ -241,6 +241,8 @@ new GithubQueryTask().execute(githubSearchUrl);
 ![network](../../../../images/Learn_Android/network.jpg)
 
 
+- 源码：[优达学城](https://github.com/udacity/ud851-Exercises/tree/student/Lesson02-GitHub-Repo-Search)
+
 ---
 
 - 扩展：使用 okhttp 框架：http://square.github.io/okhttp/

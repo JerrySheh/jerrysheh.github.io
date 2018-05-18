@@ -147,6 +147,28 @@ Mar  7 12:56:41 ubuntu kernel: [ 1170.100760] Hello World
 
 可以使用`tail -f /var/log/kern.lo`来动态监控内核的输出
 
+## 作为字符型驱动
+
+
+在 insmod 的时候把设备的主设备号打印出来。
+
+如果要把内核模块作为字符型驱动设备，首先
+
+```
+tail -f /var/log/messgaes
+```
+
+查看设备的主设备号，比如是 254
+
+然后创建目录和节点
+
+```
+mkdir /dev/demo
+mknod /dev/demo/newdev c 254 0
+```
+
+这样就创建了一个虚拟的字符型驱动设备。
+
 ---
 
 
