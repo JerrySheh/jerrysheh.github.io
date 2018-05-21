@@ -50,10 +50,18 @@ tar -zxvf xxxx.tar.gz -C /tmp    | 解压
 zip -r mydata.zip mydata | 把 mydata 文件夹压缩
 unzip mydata.zip -d mydatabak | 解压 mydata.zip
 
-系统相关命令	| 说明
+系统相关	| 说明
 ---|---
 shutdown now| 关机  
 uname -a | 查看内核信息
+
+用户相关(root)	| 说明
+---|---
+useradd jerry| 创建 jerry 用户
+passwd jerry | 给 jerry 用户设置密码
+userdel jerry| 删除 jerry 用户
+
+---
 
 ## 关于 ls -l 命令
 
