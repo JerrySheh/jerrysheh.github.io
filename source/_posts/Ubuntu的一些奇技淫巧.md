@@ -175,10 +175,12 @@ sudo apt-get lrzsz
 ### SSH登录
 
 ```
-ssh jerry@97.64.28.1 -p22
+ssh jerry@97.61.22.1 -p22
 ```
 
-这里的 jerry 是你 VPS 的用户名， 97.64.28.1 是 VPS 公网IP地址 ， -p22 指 SSH 的22端口
+这里的 jerry 是你 VPS 的用户名， 97.61.22.1 是 VPS 公网IP地址 ， -p22 指 SSH 的22端口
+
+> 如果报 WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED！ 错误，是因为服务器可能重装了系统，用 `ssh-keygen -R [server ip]` 来更新 ssh-key
 
 ### SSH本地传文件到远程
 
