@@ -17,6 +17,10 @@ comments: false
 * 数组(array)
 * 初始化(initialize)
 * 参数(argument)
+* 参数(parameter)
+
+> parameter是指函数定义中参数（形参），而argument指的是函数调用时的实际参数（实参）。
+
 * 垃圾回收(garbage collection)
 
 * 嵌套 (nest)
@@ -24,6 +28,13 @@ comments: false
 * 断言(assert)
 
 * 转换（convert）
+* 集成（integrate）
+* 样式（pattern）
+* 属性（attribute）
+* 属性（property）
+* 提示（prompt）
+
+* 可擦除的（erasable）
 
 
 # 面向对象（Object Oriented, OO）
@@ -81,6 +92,15 @@ comments: false
 # Web
 
 * Deploy (部署)
+* template（模板）
+* render（渲染）
+* validate（验证）
+
+---
+
+# 数据库
+
+* column（列）
 
 ---
 
@@ -174,6 +194,10 @@ comments: false
 * 面向连接的(connection-oriented)
 * 广播（Broadcast）
 * 通用网关接口（Common Gateway Interface， CGI）
+
+* request（请求）
+* response（响应）
+
 
 ---
 

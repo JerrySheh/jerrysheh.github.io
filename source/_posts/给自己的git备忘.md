@@ -14,14 +14,19 @@ updated: 2017-09-04 17:04:01
 * git撤销
 * 连接到github
 
+<!-- more -->
+
 ---
 
 # git使用流程
 
+## 初始化
 
 于一个目录下，初始化git
 
 `git init`
+
+## add
 
 新建/修改文件后，把修改内容 add 到 git 上面
 
@@ -38,24 +43,48 @@ updated: 2017-09-04 17:04:01
  >`git add -A `
   是上面两个功能的合集（git add --all的缩写）
 
-提交到仓库
+
+## commit 提交到仓库
 
 `git commit -m "modified"`
 
-关联一个远程仓库
+---
 
+# 关联和同步
+
+## 关联远程仓库
 
 `git remote add origin git@github.com:JerrySheh/repository_name.git`
 
-推送到远程
+## 推送到远程
+
+第一次推送，加 -u 参数
 
 `git push origin branch_name`
+
+## 同步
 
 如果远程已经有文件，需要先pull
 
 `git pull origin master`
 
-<!-- more -->
+## 从远程仓库克隆
+
+`git clone git@github.com:jerrysheh/helloworld`
+
+---
+
+## diff
+
+`git diff  filepath` 工作区与暂存区比较
+
+`git diff HEAD filepath` 工作区与HEAD ( 当前工作分支) 比较
+
+`git diff --staged` 或 `--cached  filepath` 暂存区与HEAD比较
+
+`git diff branchName filepath`  当前分支的文件与branchName 分支的文件进行比较
+
+`git diff commitId filepath` 与某一次提交进行比较
 
 ---
 
