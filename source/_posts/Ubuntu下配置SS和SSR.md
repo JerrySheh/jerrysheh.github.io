@@ -19,6 +19,14 @@ sudo apt update
 sudo apt install shadowsocks-qt5
 ```
 
+> 对于 UBuntu 18.04
+
+> ppa:hzwhuang/ss-qt5 并没有18.04版本的源，所以再执行update时会出现
+
+> E: 仓库 “http://ppa.launchpad.net/hzwhuang/ss-qt5/ubuntu bionic Release” 没有 Release 文件 的错误。
+
+> 这时，只要编辑 /etc/apt/sources.list.d/hzwhuang-ubuntu-ss-qt5-bionic.list 文件，将bionic (18.04版本代号)改成xenial（16.04版本代号）。
+
 ## 配置
 
 添加服务器地址、密码、连接方式。 gui友好界面。
@@ -36,7 +44,6 @@ sudo apt install shadowsocks-qt5
 
 ### 第二步
 
-0.
 1. 选择 autoswitch
 2. 规则列表设置选择 Autoproxy
 3. 规则列表网址如下

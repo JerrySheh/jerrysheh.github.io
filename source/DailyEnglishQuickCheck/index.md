@@ -30,6 +30,8 @@ A|B
 ---|---
 无穷（infinite）|普通的（plain）
 分隔符（delimiter）|企业（corporate）
+压缩（deflated）| 容错（fault-tolerant）
+操纵（manipulated）
 
 ---
 
