@@ -1,5 +1,5 @@
 ---
-title: 快学 Scala
+title: Scala 入门
 comments: true
 categories: 大数据
 tags: 大数据
