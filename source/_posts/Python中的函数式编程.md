@@ -30,10 +30,24 @@ f = abs
 add(-5, 6, f)
 ```
 
-当我们调用` add()` 的时候， 把 `f()` 传递了进去。
+当我们调用` add()` 的时候， 把函数`f`本身传递了进去。
 
 像这样，如果有一个函数，它可以接收另一个函数作为参数，这种函数就称之为`高阶函数（Higher-order function）`。
 
+
+---
+
+#  Iterable 和 Iterator
+
+可以直接作用于 for 循环的对象统称为`可迭代对象（Iterable）`。
+
+可以被 `next()` 函数调用并不断返回下一个值的对象称为`迭代器（Iterator）`。
+
+Python的 Iterator 对象表示的是一个数据流，Iterator对象可以被 `next()` 函数调用并不断返回下一个数据，直到没有数据时抛出 StopIteration 错误。
+
+可以把这个数据流看做是一个有序序列，**但我们却不能提前知道序列的长度**，只能不断通过 `next()` 函数实现按需计算下一个数据，**所以 Iterator 的计算是惰性的**，只有在需要返回下一个数据时它才会计算。
+
+list、dict、str等数据类型不是 Iterator，因为他们的长度是可知的。
 
 ---
 
@@ -41,7 +55,7 @@ add(-5, 6, f)
 
 ## map
 
-map 函数接收两个参数，一个是函数，一个是`Iterable`。
+map 函数接收两个参数，一个是函数，一个是`Iterable`。返回一个`Iterator`。
 
 举个例子：
 
@@ -61,9 +75,11 @@ print(list(r))
 
 [1,2,3,4,5] 是一个可迭代对象，map会将函数pow分别作用于其中的每一个元素。结果r是一个`Iterator`。
 
+
+
 ## reduce
 
-reduce函数能把结果继续和序列的下一个元素做累积计算。
+reduce函数能把结果继续和序列的下一个元素做累积计算。结果就是计算的结果。
 
 ```python
 from functools import reduce
@@ -91,9 +107,11 @@ reduce的执行过程：
 
 ## filter
 
-`filter()`函数用于过滤序列。和map()类似，filter()也接收一个函数和一个序列。
+`filter()`函数用于过滤序列。和`map()`类似，`filter()`也接收一个函数和一个序列。
 
 但是`filter()`把传入的函数依次作用于每个元素，然后根据返回值是 `True` 还是 `False` 决定保留还是丢弃该元素。其作用是筛选。
+
+`filter()`返回的也是一个`Iterator`。
 
 ```python
 def is_odd(n):
@@ -152,7 +170,7 @@ def lazy_sum(*args):
     return sum
 ```
 
-当我们调用 `lazy_sum()` 时，返回的是 `sum()` 函数，而不是一个具体的数据类型。
+当我们调用 `lazy_sum()` 时，返回的是 `sum` 函数本身，而不是一个具体的数据类型。
 
 ## 闭包
 

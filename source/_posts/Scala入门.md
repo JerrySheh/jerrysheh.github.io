@@ -2,12 +2,14 @@
 title: Scala 入门
 comments: true
 categories: 大数据
-tags: 大数据
+tags:
+- 大数据
+- Scala
 abbrlink: b8de25eb
 date: 2018-04-08 22:25:59
 ---
 
-Scala运行于JVM上，并兼容现有的Java程序，Scala代码可以调用Java方法，访问Java字段，继承Java类和实现Java接口。在面向对象方面，Scala是一门非常纯粹的面向对象编程语言，也就是说，在Scala中，每个值都是对象，每个操作都是方法调用。
+Scala运行于JVM上，并兼容现有的Java程序，Scala代码可以调用Java方法，访问Java字段，继承Java类和实现Java接口。在面向对象方面，Scala是一门非常纯粹的面向对象编程语言，也就是说，在Scala中，**每个值都是对象，每个操作都是方法调用。**
 
 <!-- more -->
 
@@ -27,7 +29,7 @@ Scala运行于JVM上，并兼容现有的Java程序，Scala代码可以调用Jav
 # Scala中object与class的区别
 
 * 在Scala中,类名可以和对象名为同一个名字,该对象称为该类的伴生对象,类和伴生对象可以相互访问他们的私有属性,但是它们必须在同一个源文件中
-* 类只会被编译,不能直接执行,类的声明和主构造器在一起被声明,在一个类中,主构造器只有一个.
+* **类只会被编译,不能直接执行**,类的声明和主构造器在一起被声明,在一个类中,主构造器只有一个.
 * 类和它的伴生对象可以相互访问其私有成员
 * class和object的一个差别是,单例对象不带参数,而类可以.因为你不能用new关键字实例化一个单例对象,你没有机会传递给它参数
 * 每个单例对象都被作为由一个静态变量指向的虚构类.
@@ -75,35 +77,6 @@ myNum : Double = 9.99
 
 类似于 fori， Range可以支持创建不同数据类型的数值序列，包括Int、Long、Float、Double、Char、BigInt和BigDecimal等。
 
-## for循环
-
-语法： `for (变量<-表达式) 语句块`
-
-> “变量<-表达式”被称为“生成器（generator）
-
-实例
-
-```scala
-for (i <- 1 to 5) println(i)            // 输出 1 2 3 4 5
-for (i <- 1 to 5 by 2) println(i)       // 输出 1 3 5
-for (i <- 1 to 5 if i%2==0) println(i)  // 输出 2 4
-```
-
-实例2
-
-```scala
-for (i <- 1 to 5; j <- 1 to 3) println(i*j)
-```
-
-for推导式
-
-```scala
-for (i <- 1 to 5 if i%2==0) yield i
-```
-
-通过for循环遍历一个或多个集合，对集合中的元素进行“推导”，从而计算得到新的集合，用于后续的其他处理。
-
-上面的语句会生成一个 IndexedSeq[Int] ， 内容为 Vector(2, 4)
 
 ## 读写文件
 
@@ -128,6 +101,55 @@ object Fun extends App{
 
 ---
 
+# 控制结构
+
+## if语句
+
+跟 Java 类似，但是声明变量的时候可以用 if 赋值给变量。
+
+```scala
+val x = 5
+val a = if (x > 0) 1 else -1
+```
+
+## while 和 do-while
+
+同 Java
+
+## for循环
+
+语法： `for (变量<-表达式) 语句块`
+
+> “变量<-表达式”被称为“生成器（generator）
+
+实例
+
+```scala
+for (i <- 1 to 5) println(i)            // 输出 1 2 3 4 5
+for (i <- 1 to 5 by 2) println(i)       // 输出 1 3 5
+for (i <- 1 to 5 if i%2==0) println(i)  // 输出 2 4
+```
+
+实例2
+
+```scala
+for (i <- 1 to 5; j <- 1 to 3) println(i*j)
+```
+
+### for推导式
+
+```scala
+for (i <- 1 to 5 if i%2==0) yield i
+```
+
+通过 for 循环遍历一个或多个集合，对集合中的元素进行“推导”，从而计算得到新的集合，用于后续的其他处理。
+
+上面的语句会生成一个 IndexedSeq[Int] ， 内容为 Vector(2, 4)
+
+> 针对每一次 for 循环的迭代, yield 会产生一个值，被循环记录下来 (内部实现上，像是一个缓冲区)。当循环结束后, 会返回所有 yield 的值组成的集合。返回集合的类型与被遍历的集合类型是一致的。
+
+---
+
 # 数据结构
 
 ## 数组
@@ -140,6 +162,9 @@ val myStrArr = Array("BigData","Hadoop","Spark")
 ## 列表(list)
 
 列表中的元素类型必须相同
+
+
+### 构建列表
 
 ```scala
 val intList = List(1,2,3)
@@ -154,7 +179,7 @@ val t = intList.tail
 val anotherList = 0::intList
 ```
 
-构建列表另一种方法
+### 构建列表另一种方法
 
 ```scala
 val intList = 1::2::3::Nil
@@ -167,10 +192,21 @@ val intList3 = intList1:::intList2
 - Nil表示空列表
 - 可以用 `intList.sum` 对列表元素求和
 
+### List的遍历
+
+使用 map 来遍历
+
+```scala
+var temp = intList4.map(x => x)
+println(temp.mkString(","))
+```
+
+> mkString方法把一个 Iterator 转化为一个字符串
+
 
 ## 元组(tuple)
 
-元组是不同类型的值的聚集。可以包含不同类型元素
+元组是的**值的聚集**。可以包含不同类型元素。
 
 ```scala
 val tuple = ("BigData",2015,45.0)
@@ -180,7 +216,7 @@ val tuple = ("BigData",2015,45.0)
 
 ## 集(set)
 
-集(set)是不重复元素的集合。集包括可变集和不可变集，默认创建的是不可变集，通常我们使用不可变集。
+集(set)是**不重复**元素的集合。集包括可变集和不可变集，默认创建的是不可变集，通常我们使用不可变集。
 
 ```scala
 var mySet = Set("Hadoop","Spark")
@@ -188,7 +224,7 @@ mySet += "Scala"  //向mySet中增加新的元素
 println(mySet.contains("Scala")) //返回 true
 ```
 
-- 虽然可变集和不可变集都有添加或删除元素的操作，但是，二者有很大的区别。对不可变集进行操作，会产生一个新的集，原来的集并不会发生变化。 而对可变集进行操作，改变的是该集本身，
+> 虽然可变集和不可变集都有添加或删除元素的操作，但是，二者有很大的区别。对不可变集进行操作，会产生一个新的集，原来的集并不会发生变化。而对可变集进行操作，改变的是该集本身，
 
 ## 映射(Map)
 
@@ -225,7 +261,9 @@ name + = ("SDU"->"Shandong University","WHU"->"Wuhan University") //同时添加
 for ( (k,v) <- name) println(v) // 输出 Jerry Calm Superman
 ```
 
-### 迭代器
+---
+
+# 迭代器
 
 迭代器（Iterator）不是一个集合，但是，提供了访问集合的一种方法。
 
@@ -235,7 +273,7 @@ for ( (k,v) <- name) println(v) // 输出 Jerry Calm Superman
 - `next`可以返回迭代器的下一个元素
 - `hasNext`用于检测是否还有下一个元素。
 
-#### while循环遍历迭代器
+## while循环遍历迭代器
 
 ```scala
 val iter = Iterator("Hadoop","Spark","Scala")
@@ -248,7 +286,7 @@ while (iter.hasNext) {
 - `iter.next`和`iter.next()`都是可以的，但是，`hasNext`后面不能加括号
 - 上述操作执行结束后，迭代器会移动到末尾，就不能再使用了
 
-#### for循环遍历迭代器
+## for循环遍历迭代器
 
 ```scala
 val iter = Iterator("Hadoop","Spark","Scala")
@@ -264,18 +302,94 @@ for (elem <- iter) {
 ```scala
 class Counter {
     private var value = 0
-    def increment(): Unit = { value += 1} //大括号和返回类型可以去掉
+
+    //大括号和返回类型可以省略
+    def increment(): Unit = { value += 1}
     def current(): Int = {value}
 }
 
+// 创建一个myCounter对象
 val myCounter = new Counter
-myCounter.increment() //或者也可以不用圆括号，写成myCounter.increment
+
+//调用对象方法
+//或者也可以不用圆括号，写成myCounter.increment
+myCounter.increment()
 ```
 
+- 用`def`来声明方法
 - `Unit`是 `increment()`方法的返回类型
+
+## 构造器
+
+跟Java构造方法不同，Scala的主构造器是整个类体。需要在类名称后面罗列出构造器所需的所有参数，这些参数被编译成字段，字段的值就是创建对象时传入的参数的值。
+
+```scala
+class Counter(val name: String, val mode: Int) {
+    //value用来存储计数器的起始值
+    private var value = 0
+    def increment(step: Int): Unit = { value += step}
+    def current(): Int = {value}
+    def info(): Unit = {printf("Name:%s and mode is %d\n",name,mode)}
+}
+
+object MyCounter{
+    def main(args:Array[String]){       
+        val myCounter = new Counter("Timer",2)
+
+        //显示计数器信息
+        myCounter.info  
+
+        //设置步长
+        myCounter.increment(1)  
+
+        //显示计数器当前值
+        printf("Current Value is: %d\n",myCounter.current)
+    }
+}
+```
 
 ---
 
 # 函数式编程
 
-未完待续
+- 见另一篇：[Scala中的函数式编程](../post/bcfc34da.html)
+
+---
+
+# 执行Scala
+
+## 使用shell命令
+
+```shell
+scala TestCounter.scala
+```
+
+## 使用Scala解释器
+
+终端输入 scala 进入 Scala解释器
+
+```
+scala> :load /usr/local/scala/mycode/TestCounter.scala
+```
+
+- 用`:quit`退出 Scala 解释器
+
+
+---
+
+# 在 IntelliJ IDEA 中使用 Scala
+
+1. 在插件中安装 Scala 插件 （Setting - Plugins - 搜索Scala）
+2. 重启 IDEA
+3. 新建一个 Scala Project
+4. new 一个 Scala Class，kind 选择 Object
+5. 输入helloworld代码，运行
+
+```scala
+object hello {
+  def main(args: Array[String]): Unit = {
+    val str = "Hello"
+    println(str)
+  }
+}
+```

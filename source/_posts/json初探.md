@@ -332,7 +332,7 @@ Restaurant restaurantObject = gson.fromJson(restaurantJson, Restaurant.class);
 ## 使用方法
 
 1. 在 IDEA 中， file -> setting -> plugins -> 搜索 "GsonFormat" -> 安装并重启IDE
-2. 创建一个装javabean的包（必须），然后创建一个javabean类
+2. 创建一个装 javabean 的包（必须），然后创建一个 javabean 类 (包名和类名可随意取)
 3. Alt + S， 或者 Alt + Insert，选择 GsonFormat
 4. 复制粘贴你的 json ，点击右上角 format 进行排版
 5. 点击确定即自动生成 bean
