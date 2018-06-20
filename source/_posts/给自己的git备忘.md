@@ -167,3 +167,13 @@ ERROR: Hi Jerrysheh! You’ve successfully authenticated, but GitHub does not pr
 ```
 
 测试成功就可以push code和 git clone 之类的操作了。
+
+---
+
+# 其他
+
+LF will be replaced by CRLF
+
+```
+git config –global core.autocrlf false //禁用自动转换
+```
