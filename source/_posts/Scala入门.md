@@ -29,7 +29,7 @@ Scala运行于JVM上，并兼容现有的Java程序，Scala代码可以调用Jav
 # Scala中object与class的区别
 
 * 在Scala中,类名可以和对象名为同一个名字,该对象称为该类的伴生对象,类和伴生对象可以相互访问他们的私有属性,但是它们必须在同一个源文件中
-* **类只会被编译,不能直接执行**,类的声明和主构造器在一起被声明,在一个类中,主构造器只有一个.
+* **class只会被编译,不能直接执行，而object可以运行**,类的声明和主构造器在一起被声明,在一个类中,主构造器只有一个.
 * 类和它的伴生对象可以相互访问其私有成员
 * class和object的一个差别是,单例对象不带参数,而类可以.因为你不能用new关键字实例化一个单例对象,你没有机会传递给它参数
 * 每个单例对象都被作为由一个静态变量指向的虚构类.
@@ -76,6 +76,20 @@ myNum : Double = 9.99
 ## Range
 
 类似于 fori， Range可以支持创建不同数据类型的数值序列，包括Int、Long、Float、Double、Char、BigInt和BigDecimal等。
+
+用法 ：
+
+```scala
+// 1-5的序列，包含5
+1 to 5
+1.to(5)
+
+// 1-5的序列，不包含5
+1 until 5
+
+// 0.5-5.9的序列，步长0.8
+0.5f to 5.9f by 0.8f
+```
 
 
 ## 读写文件
@@ -194,10 +208,28 @@ val intList3 = intList1:::intList2
 
 ### List的遍历
 
-使用 map 来遍历
+#### 使用 for 遍历
 
 ```scala
-var temp = intList4.map(x => x)
+val list = List(1,3,5,7)
+for (elem <- list) println(elem)
+```
+
+#### 使用 foreach 遍历
+
+```scala
+val list = List(1,3,5,7)
+list.foreach(elem => println(elem))
+
+// 可化简为：
+list.foreach(println)
+```
+
+#### 使用 map 来遍历
+
+```scala
+val list = List(1,3,5,7)
+var temp = list.map(x => x)
 println(temp.mkString(","))
 ```
 
@@ -206,7 +238,7 @@ println(temp.mkString(","))
 
 ## 元组(tuple)
 
-元组是的**值的聚集**。可以包含不同类型元素。
+元组是 **值的聚集**。可以包含不同类型元素。
 
 ```scala
 val tuple = ("BigData",2015,45.0)
@@ -216,7 +248,7 @@ val tuple = ("BigData",2015,45.0)
 
 ## 集(set)
 
-集(set)是**不重复**元素的集合。集包括可变集和不可变集，默认创建的是不可变集，通常我们使用不可变集。
+集(set)是 **不重复** 元素的集合。集包括可变集和不可变集，默认创建的是不可变集，通常我们使用不可变集。
 
 ```scala
 var mySet = Set("Hadoop","Spark")
@@ -253,12 +285,15 @@ name + = ("TJU"->"Tianjin University") //添加一个新元素
 name + = ("SDU"->"Shandong University","WHU"->"Wuhan University") //同时添加两个新元素
 ```
 
-### 循环遍历映射
+### 遍历映射
 
 语法：`for ((k,v) <- 映射) 语句块`
 
 ```scala
-for ( (k,v) <- name) println(v) // 输出 Jerry Calm Superman
+val name = Map("J" -> "Jerry", "C" -> "Calm","S"->"Superman")
+
+// 输出 Jerry Calm Superman
+for ( (k,v) <- name) println(v)
 ```
 
 ---
@@ -297,58 +332,47 @@ for (elem <- iter) {
 
 ---
 
-# 类和对象
+# 模式匹配
+
+类似于 switch-case 语句
+
+## 简单匹配
 
 ```scala
-class Counter {
-    private var value = 0
-
-    //大括号和返回类型可以省略
-    def increment(): Unit = { value += 1}
-    def current(): Int = {value}
+val colorNum = 1
+val colorStr = colorNum match {
+    case 1 => "red"
+    case 2 => "green"
+    case 3 => "yellow"
+    case _ => "Not Allowed"
 }
-
-// 创建一个myCounter对象
-val myCounter = new Counter
-
-//调用对象方法
-//或者也可以不用圆括号，写成myCounter.increment
-myCounter.increment()
+println(colorStr)
 ```
 
-- 用`def`来声明方法
-- `Unit`是 `increment()`方法的返回类型
+- 模式匹配中可以使用变量
 
-## 构造器
-
-跟Java构造方法不同，Scala的主构造器是整个类体。需要在类名称后面罗列出构造器所需的所有参数，这些参数被编译成字段，字段的值就是创建对象时传入的参数的值。
+## 类型匹配
 
 ```scala
-class Counter(val name: String, val mode: Int) {
-    //value用来存储计数器的起始值
-    private var value = 0
-    def increment(step: Int): Unit = { value += step}
-    def current(): Int = {value}
-    def info(): Unit = {printf("Name:%s and mode is %d\n",name,mode)}
-}
-
-object MyCounter{
-    def main(args:Array[String]){       
-        val myCounter = new Counter("Timer",2)
-
-        //显示计数器信息
-        myCounter.info  
-
-        //设置步长
-        myCounter.increment(1)  
-
-        //显示计数器当前值
-        printf("Current Value is: %d\n",myCounter.current)
+for (elem <- List(9,12.3,"Spark","Hadoop",'Hello)){
+    val str  = elem match{
+        case i: Int => i + " is an int value."
+        case d: Double => d + " is a double value."
+        case "Spark"=> "Spark is found."
+        case s: String => s + " is a string value."
+        case _ => "This is an unexpected value."
     }
-}
+println(str)   
 ```
 
 ---
+
+# 类和对象
+
+- 见另一篇：[Scala中的类与对象](../post/230ce50d.html)
+
+---
+
 
 # 函数式编程
 
