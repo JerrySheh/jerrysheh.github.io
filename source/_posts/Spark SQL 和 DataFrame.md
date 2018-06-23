@@ -1,5 +1,5 @@
 ---
-title: Spark编程入门（三）DataFrame
+title: Spark SQL 和 DataFrame
 comments: true
 categories: 大数据
 tags: 大数据
@@ -7,9 +7,20 @@ abbrlink: 21c6c0f6
 date: 2018-06-04 00:00:00
 ---
 
+# RDD 和 DataFrame 的区别
+
 RDD 是弹性分布式数据集，其本质是 Dataset。Dataset 可以从 JVM 对象中构建 （例如 rating 对象，即 javabean ），然后通过 map、flatMap、filter 等方法转换来操作。
 
-而 DataFrame 是数据集中的每一列。这个概念跟关系型数据库中的 表（table）类似，但它比表拥有更多的优化。DataFrame 可以从结构化的数据文件（structured data files）、Hive中的表、外部数据库或者**已存在的RDD**中构建。
+为了更好地读写数据以及使用类似SQL语句一样简单地操作，Spark SQL 提供了 DataFrame (其前身是SchemaRDD)。
+
+![sparksql](../../../../images/hadoop/sparksql.jpg)
+
+DataFrame 能够让你知道数据集中的每一行和列。这个概念跟关系型数据库中的表（table）类似，但是比表更强大。如下图：
+
+![dataframes](../../../../images/hadoop/DataFrame-RDD.jpg)
+
+
+DataFrame 可以从结构化的数据文件（structured data files）、Hive中的表、外部数据库或者**已存在的RDD**中构建。
 
 在 Java 中，使用 `Dataset<Row>` 来表示 DataFrame。
 

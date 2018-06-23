@@ -170,6 +170,67 @@ ERROR: Hi Jerrysheh! You’ve successfully authenticated, but GitHub does not pr
 
 ---
 
+# fork
+
+一般如果要参与开源项目，都是先 fork 别人的项目到自己的github，然后通过 `git clone` 自己的仓库克隆到本地进行修改。修改完毕后，通过`pull request`向原作者提交合并申请。
+
+但是我们 fork 了别人的项目之后， 原作者 commit 了新内容， 我们 fork 的项目并不会更新。解决办法为：在本地建立两个库的中介，把两个远程库都clone到本地，然后拉取原项目更新到本地，合并更新，最后push到你的github。
+
+流程如下：
+
+```
+git clone https://我们fork的地址.git
+```
+
+cd 进入该目录，`git remote -v`，可以看到只有两条我们自己的。
+
+```
+git remote add nsd https://原作者的地址.git  
+```
+
+再次`git remote -v`，可以看到多出来两条。
+
+> nsd 只是一个别名，可以任意取
+
+把原作者的更新 fetch 到本地
+
+```
+git fetch hunter
+```
+
+查看分支
+
+```
+git branch -av
+```
+
+可以看到，出现一条 `remotes/nsd/master xxxxx` 的更新
+
+合并
+
+```
+git checkout master
+git merge nsd/master
+```
+
+如果有冲突，需要丢掉本地分支
+
+```
+git reset –hard hunter/master
+```
+
+这时你的当前本地的项目变成和原作者的主项目一样了，可以把它提交到你的GitHub库
+
+```
+$ git commit -am ‘更新到原作者的主分支’
+$ git push origin
+$ git push -u origin master -f –强制提交
+```
+
+- 参考：https://www.jianshu.com/p/633ae5c491f5
+
+---
+
 # 其他
 
 LF will be replaced by CRLF

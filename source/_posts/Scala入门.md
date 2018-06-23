@@ -9,7 +9,13 @@ abbrlink: b8de25eb
 date: 2018-04-08 22:25:59
 ---
 
-Scala运行于JVM上，并兼容现有的Java程序，Scala代码可以调用Java方法，访问Java字段，继承Java类和实现Java接口。在面向对象方面，Scala是一门非常纯粹的面向对象编程语言，也就是说，在Scala中，**每个值都是对象，每个操作都是方法调用。**
+Scala是一门现代的多范式编程语言，平滑地集成了 **面向对象** 和 **函数式语言** 的特性，旨在以简练、优雅的方式来表达常用编程模式。
+
+Scala运行于JVM上，并兼容现有的Java程序，Scala代码可以调用Java方法，访问Java字段，继承Java类和实现Java接口。
+
+在面向对象方面，Scala是一门非常纯粹的面向对象编程语言，也就是说，在Scala中，**每个值都是对象，每个操作都是方法调用。** 在函数式方面，函数是一等公民，可以像操作其他数据类型那样操作函数。
+
+![vczh](../../../../images/vczh_scala.png)
 
 <!-- more -->
 
@@ -17,7 +23,7 @@ Scala运行于JVM上，并兼容现有的Java程序，Scala代码可以调用Jav
 
 # Scala与Java的区别
 
-* 在Scala中声明private变量,Scala编译器会自动生成get,set方法
+* 在Scala中声明 private 变量,Scala编译器会自动生成get,set方法
 * 在Scala中变量需要初始化
 * 在Scala中没有静态修饰符,在object下的成员全部都是静态的,如果在类中声明了与该类相同的名字的object则该object是该类的"伴生对象"
 * 可以理解为Scala把类中的static集中放到了object对象中,伴生对象和类文件必须是同一个源文件,可以用伴生对象做一些初始化操作.
@@ -44,9 +50,9 @@ Scala运行于JVM上，并兼容现有的Java程序，Scala代码可以调用Jav
 
 Scala的数据类型包括：Byte、Char、Short、Int、Long、Float、Double和Boolean
 
-在Scala中，这些类型都是“类”，并且都是包scala的成员
+在Scala中，这些类型都是“类”，并且都是包scala中的成员
 
-对于字符串，Scala用java.lang.String类来表示字符串
+对于字符串，Scala用 java.lang.String 类来表示字符串
 
 ## 声明变量
 
