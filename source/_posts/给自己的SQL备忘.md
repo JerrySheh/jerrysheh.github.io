@@ -1,5 +1,5 @@
 ---
-title: 给自己的SQL语句备忘
+title: 给自己的SQL备忘
 comments: true
 categories: 技术&技巧
 tags: SQL
@@ -27,6 +27,53 @@ SQL 包含 `DML （数据操作语言）` 和 `DDL（数据定义语言）`。
 
 ---
 
+# Ubuntu 18.04 安装 Mysql
+
+## 卸载和安装
+
+干净卸载后安装
+
+```
+sudo apt-get --purge remove mysql-server mysql-common mysql-client
+sudo apt-get install mysql-server mysql-common mysql-client
+```
+
+设置 root 密码
+
+```
+mysqladmin -u root password your-new-password
+sudo /etc/init.d/mysql restart
+```
+
+## 安装完毕后发现没有登录权限
+
+```
+ERROR 1045: Access denied for user: 'root@localhost' (Using
+password: YES)
+```
+
+首先无密码登录
+
+```
+sudo mysql -u root
+```
+
+
+然后查看当前用户，删除后重新创建 ROOT 账户，并授权
+
+```
+mysql> SELECT User,Host FROM mysql.user;
+
+mysql> DROP USER 'root'@'localhost';
+
+mysql> CREATE USER 'root'@'%' IDENTIFIED BY '123456';
+
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+
+mysql> FLUSH PRIVILEGES;
+```
+---
+
 # 如何导入数据库文件
 
 假设我们已经有了一个数据库脚本， projectDB.sql，如何导入到MySQL？
@@ -40,6 +87,7 @@ mysql -u root -p123456 --port 3306 < /home/jerrysheh/projectDB.sql
 方法二：登录 mysql 后使用 source 命令
 
 ```
+mysql>use <database-name>
 mysql>source /home/jerrysheh/projectDB.sql
 ```
 

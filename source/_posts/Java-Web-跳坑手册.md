@@ -105,3 +105,19 @@ File -> Settings -> Build,Execution,Deployment -> Build Tools -> Maven -> Import
 取消`Store generated project files externally`选项即可
 
 ---
+
+
+# BeanFactory not initialized
+
+从 github 获取其他人拷贝项目过来，Tomcat 无法运行，报错如下：
+
+```
+BeanFactory not initialized or already closed - call ‘refresh’ before accessing beans via the ApplicationContext
+```
+
+原因： 没有设置 resource 目录 
+
+解决办法：
+
+1. 右键 resource 目录， 选择 mark Directory as ... 选择 test resource derectory
+2. rebuild
