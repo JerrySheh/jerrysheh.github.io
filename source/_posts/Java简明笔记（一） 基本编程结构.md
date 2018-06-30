@@ -28,6 +28,12 @@ boolean|	-	|false	|Boolean
 char|	2|	\u0000(null)	|Character
 void	|-	|-	|Void
 
+注：
+- 在数字后面加L后缀即表示long类型（如 `400000000L`），在数字前面类型转换即可表示Byte或short类型 （如 `(byte)127`）
+- 在浮点数后面f后缀表示float，否则默认为double
+
+> 关于 void，有些书认为不属于基本数据类型，虽然 Java api 中并未说明，但有些书籍如《Thinking in Java》将其也划进去。
+
 ---
 
 # 拆箱和装箱
@@ -58,48 +64,46 @@ Integer i = Integer.valueOf(100);
 
 基本数据类型不是对象，也就是使用int、double、boolean等定义的变量、常量。
 
-基本数据类型没有可调用的方法。
-
-比如，
+基本数据类型没有可调用的方法。比如：
 
 `int t = 1；`   ，  t.  后面没有方法。
 
-`Integer t =1；` ， t.  后面就有很多方法可让你调用了。
+`Integer t = 1；` ， t.  后面就有很多方法可让你调用了。
 
 ---
 
 # equals() 和 "=="
 
-equals() 比较的是两个对象的值（内容）是否相同。
-
-"==" 比较的是两个对象的引用（内存地址）是否相同，也用来比较两个基本数据类型的变量值是否相等。
+- **`equals()`**：比较的是两个对象的值（内容）是否相同。
+- **`==`**：比较的是两个对象的引用（内存地址）是否相同，也用来比较两个基本数据类型的变量值是否相等。
 
 前面说过，int 的自动装箱，是系统执行了 `Integer.valueOf(int i)`，看看Integer.java的源码：
 
 ```java
 public static Integer valueOf(int i) {
-    if(i >= -128 && i <= IntegerCache.high)　　// 没有设置的话，IngegerCache.high 默认是127
+    // 没有设置的话，IngegerCache.high 默认是127
+    if(i >= -128 && i <= IntegerCache.high)　　
         return IntegerCache.cache[i + 128];
     else
         return new Integer(i);
 }
 ```
 
-对于–128到127（默认是127）之间的值，`Integer.valueOf(int i)` 返回的是缓存的Integer对象！！！
+对于–128到127（默认是127）之间的值，`Integer.valueOf(int i)` 返回的是 **缓存的Integer对象！！！**
 
 
 所以下面的现象也就不难理解了：
 
 ```java
 //在-128~127 之外的数
-Integer i1 =200;  
-Integer i2 =200;          
+Integer i1 = 200;  
+Integer i2 = 200;          
 System.out.println("i1==i2: "+(i1==i2));   // 输出 false
 
 
 // 在-128~127 之内的数
-Integer i3 =100;  
-Integer i4 =100;  
+Integer i3 = 100;  
+Integer i4 = 100;  
 System.out.println("i3==i4: "+(i3==i4));  // 输出 true
 ```
 
@@ -126,7 +130,8 @@ for (String name : friends) {
 
 ## foreach与正常for循环效率对比
 
-循环ArrayList时，普通for循环比foreach循环花费的时间要少一点；循环LinkList时，普通for循环比foreach循环花费的时间要多很多。
+- 循环ArrayList时，普通for循环比foreach循环花费的时间要少一点；
+- 循环LinkList时，普通for循环比foreach循环花费的时间要多很多。
 
 当将循环次数提升到一百万次的时候，循环ArrayList，普通for循环还是比foreach要快一点；但是普通for循环在循环LinkList时，程序直接卡死。
 
@@ -136,22 +141,19 @@ for (String name : friends) {
 
 需要循环链表结构的数据时，一定不要使用普通for循环，这种做法很糟糕，数据量大的时候有可能会导致系统崩溃。
 
-原因：foreach使用的是迭代器
-
+原因：**foreach使用的是迭代器**
 
 ---
 
 # 零碎知识
 
-* 最小整数：Integer.MIN_VALUE
-* 最大整数：Integer.MAX_VALUE
-* long不够用，用BigInteger类
-* long加L后缀（`400000000L`），Byte和short用类型转换`(byte)127`
+* 最小整数：`Integer.MIN_VALUE`
+* 最大整数：`Integer.MAX_VALUE`
+* long不够用，用 BigInteger 类
 * 1_000_000 = 1000000，编译器会自动删掉下划线（方便阅读）
 
 ---
 
-* float有F后缀，没有F后缀默认为double
 * `Double.POSITIVE_INFINITY`表示无穷大，`Double.NEGATIVE_INFINITY`表示负无穷大
 * `Double.NaN`表示非数值
 * 用 `if (Double.isNaN(x))`来检查 `x` 是否为 NaN，但不可以用`if (x == Double.NaN)`，因为NaN都是彼此不同的
@@ -174,7 +176,6 @@ BigDecimal next = bd.multiply(bd.add(BigDecimal.valueOf(l)));
 
 ---
 
-* 定义枚举类型`enum Weekday {MON, TUE, WED, THU, FRI, SAT, SUN};`，然后初始化它，`Weekday startDay = Weekday.MON;`
 * 17/5 的结果是3， 而 17.0/5 的结果是3.4
 * 整数除以零会导致异常，浮点数除以零会产生无限值或NaN
 * 负数慎用 %
@@ -196,6 +197,7 @@ BigDecimal next = bd.multiply(bd.add(BigDecimal.valueOf(l)));
 * `System.out.printf("Hello, %s. Next year you will be %d.", name, age)`
 * `String.format("Hello, %s. Next year you will be %d.", name, age);`
 
+---
 
 # 类型转换
 
@@ -213,11 +215,13 @@ BigDecimal next = bd.multiply(bd.add(BigDecimal.valueOf(l)));
 * `df.format(num)`，将数字格式化为字符串
 
 ```java
-double d = 3.10;
-DecimalFormat df = new DecimalFormat("0.00"); // 预定格式
-String s = df.format(d);                      // 把 3.10 格式化，返回 String
+double d = 3.1;
 
-// s = "3.10"
+// 预定格式
+DecimalFormat df = new DecimalFormat("0.00");
+
+// 把 3.10 格式化，返回 String，s = "3.10"
+String s = df.format(d);
 ```
 
 ---

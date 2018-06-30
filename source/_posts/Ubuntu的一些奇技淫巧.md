@@ -26,6 +26,7 @@ Ubuntu的一些使用技巧
 12. 使用openssh远程连接
 13. ROOT账户没有环境变量
 14. 如何正确地配置环境变量
+15. Ubuntu出现了内部错误
 
 <!-- more -->
 
@@ -385,3 +386,16 @@ export MAHOUT_HOME=/your_Mahout_home
 export MAHOUT_CONF_DIR=$MAHOUT_HOME/conf
 export PATH=$MAHOUT_HOME/conf:$MAHOUT_HOME/bin:$PATH
 ```
+
+---
+
+# Ubuntu出现了内部错误
+
+从 14.04 到 16.04 到 18.04 ，无论哪个版本动不动就报错，临时解决办法：
+
+```
+cd /var/crash/
+sudo rm *
+```
+
+删除错误日志，这样下次开机不会继续报错。但这不代表系统就没错误了，下次遇到奇奇怪怪的问题是还是会报错。几乎无解。

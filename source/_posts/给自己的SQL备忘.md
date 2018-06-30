@@ -61,7 +61,7 @@ sudo mysql -u root
 
 然后查看当前用户，删除后重新创建 ROOT 账户，并授权
 
-```
+```sql
 mysql> SELECT User,Host FROM mysql.user;
 
 mysql> DROP USER 'root'@'localhost';
@@ -74,23 +74,46 @@ mysql> FLUSH PRIVILEGES;
 ```
 ---
 
+# 修改ROOT密码
+
+## 方法1： 用SET PASSWORD命令
+
+```sql
+MySQL -u root
+mysql> SET PASSWORD FOR 'root'@'localhost' = PASSWORD('newpass');
+```
+
+## 方法2：用mysqladmin
+
+```sql
+mysqladmin -u root password "newpass"
+```
+
+如果root已经设置过密码，采用如下方法
+
+```sql
+mysqladmin -u root password oldpass "newpass"
+```
+
+---
+
 # 如何导入数据库文件
 
 假设我们已经有了一个数据库脚本， projectDB.sql，如何导入到MySQL？
 
 方法一：直接通过 mysql 命令运行
 
-```
+```sql
 mysql -u root -p123456 --port 3306 < /home/jerrysheh/projectDB.sql
 ```
 
 方法二：登录 mysql 后使用 source 命令
 
+```sql
+mysql>create database <database-name>;
+mysql>use <database-name>;
+mysql>source /home/jerrysheh/projectDB.sql;
 ```
-mysql>use <database-name>
-mysql>source /home/jerrysheh/projectDB.sql
-```
-
 
 ---
 

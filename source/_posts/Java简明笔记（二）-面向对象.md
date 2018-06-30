@@ -277,3 +277,59 @@ public class test {
 
 与内部类不一样的是，内部类必须声明在成员的位置，即与属性和方法平等的位置。
 本地类和匿名类一样，直接声明在代码块里面，可以是主方法，for循环里等等地方
+
+
+---
+
+# 枚举类的用法
+
+## 例子一
+
+定义了一个枚举类，成员 `KBMH("hello")` ，如果括号里面是 String 的话，下面相应的要定义一个 `String ID` 。
+
+```java
+public enum ComicTypeEnum {
+    KBMH("/category/weimanhua/kbmh"),        // 恐怖漫画
+    GSMH("/category/weimanhua/gushimanhua"),  // 故事漫画
+    QQMH("/category/weimanhua/qiqumanhua"),   // 奇趣漫画
+    GXMH("/category/weimanhua/gaoxiaomanhua"); // 搞笑漫画
+
+    String ID;
+
+    ComicTypeEnum(String ID){
+        this.ID = ID;
+    }
+
+    public String getID() {
+        return ID;
+    }
+}
+```
+
+使用：
+
+```java
+String storyComic = ComicTypeEnum.GSMH.getID();
+```
+
+## 例子二
+
+定义枚举类型：
+
+```java
+enum Weekday {
+    MON,
+    TUE,
+    WED,
+    THU,
+    FRI,
+    SAT,
+    SUN
+};
+```
+
+使用：
+
+```java
+Weekday startDay = Weekday.MON;
+```
