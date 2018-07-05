@@ -100,7 +100,88 @@ var gareen = $.parseJSON(s3);
 
 ---
 
-# Java中使用 json
+# 从前端发送 Json 数据到后台
+
+可以使用 Ajax 提交 json 数据到后台
+
+前端 category.html，放在 templates 文件夹里面
+
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JSON学习</title>
+    <!-- 菜鸟教程 -->
+    <script src="http://how2j.cn/study/jquery.min.js"></script>
+</head>
+
+<body>
+<!-- 一个表单-->
+<form>
+    id：<input type="text" id="id" value="123"/><br/>
+    名称：<input type="text" id="name" value="category xxx"/><br/>
+    <input type="button" value="提交" id="sender">
+</form>
+
+<div id="messageDiv"></div>
+
+
+<script>
+    $('#sender').click(function () {
+        var id = document.getElementById('id').value;
+        var name = document.getElementById('name').value;
+        var category = {"name": name, "id": id};
+
+        //使用 JSON.stringify() 来将一个JSON对象转换成了一串字符串
+        var jsonData = JSON.stringify(category);
+        var page = "category";
+
+        //在AJAX中，我们设置了 dataType 和 contentType 来告知后台我们传输的是一个JSON数据
+        $.ajax({
+            type: "put",
+            url: page,
+            data: jsonData,
+            dataType: "json",
+            contentType: "application/json;charset=UTF-8",
+            success: function (result) {
+            }
+        });
+        alert("提交成功，请在springboot控制台查看服务端接收到的数据");
+
+    });
+</script>
+</body>
+</html>
+```
+
+后台 Springboot
+
+```java
+@Controller
+public class categoryController {
+
+    //用于访问 http://127.0.0.1:8080/category
+    @GetMapping("/category")
+    public String Category() {
+        return "category";
+    }
+
+   // 用于在 http://127.0.0.1:8080/category 点击表单的提交按钮
+    @PutMapping("/category")
+    public void addCategory(@RequestBody Manager manager) throws Exception {
+        System.out.println("springboot接受到浏览器以JSON格式提交的数据：" + manager.getAge() + manager.getName());
+    }
+}
+```
+
+效果：
+
+![json](../../../../images/json.png)
+
+---
+
+# Java中使用 json 库
 
 Java中处理 json 格式的数据可以用 `orj.json` 包 或者 net.sf.json-lib 的 `json-lib` 包，但是提供的方法还是比较基础的。
 
