@@ -569,3 +569,63 @@ public interface CategoryMapper {
 ---
 
 未完待续（一对多查询、相关概念）
+
+---
+
+# Spring boot 集成 Mybatis 简明过程
+
+ - 创建一个 Spring Initalizr 工程，依赖选择 web、MySQL、Mybatis
+ - 在application.properties填入以下内容
+
+ ```
+ spring.datasource.url=jdbc:mysql://127.0.0.1:3306/neu?characterEncoding=UT F-8&useSSL=false
+ spring.datasource.username=root
+ spring.datasource.password=YourPassword
+ spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+ ```
+
+- 创建pojo包，创建Student实体类，跟数据库对应
+
+```java
+public class Student {
+    Integer id;
+    String name;
+    String major;
+    Integer grade;
+
+    // 省略 getter setter
+}
+```
+
+- 创建mapper包，创建StudentMapper接口
+
+```java
+@Mapper
+public interface StudentMapper {
+
+    @Select("SELECT * FROM student")
+    List<Student> findAll();
+}
+```
+
+- 创建Controller包，创建StudentController
+
+```java
+@RestController
+public class StudentController {
+
+    @Autowired
+    StudentMapper studentMapper;
+
+    @GetMapping("/listStudent")
+    public void listStudent(){
+        List<Student> studentList = studentMapper.findAll();
+        for (Student student:
+             studentList) {
+            System.out.println(student.getName());
+        }
+    }
+}
+```
+
+这样，运行后访问 `127.0.0.1:8080/listStudent` ，可看到控制台输出数据库查到的所有 student 名字。
