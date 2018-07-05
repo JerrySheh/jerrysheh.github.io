@@ -1,9 +1,10 @@
 ---
 title: 使用RESTful风格开发Java Web
 comments: true
-date: 2018-07-05 16:16:42
 categories: Java Web
 tags: Java Web
+abbrlink: 3479b7db
+date: 2018-07-05 16:16:42
 ---
 
 # 什么是RESTful风格？

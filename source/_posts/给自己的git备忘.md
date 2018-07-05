@@ -235,6 +235,8 @@ $ git push -u origin master -f –强制提交
 
 LF will be replaced by CRLF
 
+禁用自动转换即可
+
 ```
-git config –global core.autocrlf false //禁用自动转换
+git config –global core.autocrlf false
 ```
