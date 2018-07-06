@@ -48,7 +48,7 @@ DELETE | 删除(Delete)
 
 这就变成了使用同一个 URL ，通过约定不同的 HTTP 方法来实施不同的业务，这就是 RESTful 风格所做的事情了。
 
-![RESTful](../../../../images/RESTful.png)
+![RESTful](../../../../images/Webapp/RESTful.png)
 
 ---
 
