@@ -177,7 +177,7 @@ public class categoryController {
 
 效果：
 
-![json](../../../../images/json.png)
+![json](../../../../images/Webapp/json.png)
 
 ---
 

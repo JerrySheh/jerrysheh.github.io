@@ -39,6 +39,12 @@ date: 2018-04-15 00:19:08
 
 # Spring
 
+<div align="center">
+
+![Spring](https://spring.io/img/homepage/icon-spring-framework.svg)
+
+</div>
+
 前面提到`Spring MVC`是Java Web开发中对Servlet进行封装的框架。实际上，Spring是一个大家族，它是一个基于IoC和AOP结构的 J2EE 框架。
 
 其中最主要的包括Spring Framework（包括了IoC, AOP, MVC以及Testing）, Spring Data, Spring Security, Spring Batch等等。他们都是为了解决特定的事情而产生的。
@@ -58,7 +64,6 @@ date: 2018-04-15 00:19:08
 事实上，DI远没有这么简单，上面的例子只是为了帮助理解的一个通俗解释，并不严谨，譬如说《敏捷软件开发》第11章提到：
 
 > 依赖倒置原则
-
 > a.高层模块不应该依赖于底层模块，二者都应该依赖于抽象。
 > b.抽象不应该依赖于细节，细节应该依赖于抽象。
 
@@ -86,7 +91,16 @@ AOP 的好处是允许我们把遍布应用各处的功能分离出来形成可�
 
 # Spring Boot
 
-在 Spring MVC 框架中，我们不得不进行大量的配置， 而在 Spring Boot 快速框架中，很多配置框架都帮你做好。拿来即用。
+<div align="center">
+
+![boot](../../../../images/webApp/SpringBootLogo.png)
+
+</div>
+
+在 Spring MVC 框架中，我们不得不进行大量的配置， 而在 Spring Boot 快速框架中，很多配置框架都帮你做好，拿来即用。
+
+- Spring Boot使用 “习惯优于配置” （项目中存在大量的配置，此外还内置一个习惯性的配置）的理念让你的项目快速运行起来。
+- Spring Boot并不是什么新的框架，而是默认配置了很多框架的使用方式，就像 Maven 整合了所有的 jar 包一样，Spring Boot 整合了所有框架。
 
 ---
 
@@ -95,6 +109,8 @@ AOP 的好处是允许我们把遍布应用各处的功能分离出来形成可�
 ## 创建工程
 
 在 IDEA 中，创建一个新的Spring Initalizr工程, Type 选择 Maven， 组件选择 Web ， IDEA 会自动帮我们新建一个基于 Maven 的 Spring Boot 工程。
+
+> 或者通过 https://start.spring.io/ 初始化工程
 
 看一下 pom.xml 大概长这样
 
@@ -177,9 +193,16 @@ public class HelloController {
 }
 ```
 
-然后运行一下， 登录 127.0.0.1:8080， 竟然已经能看到 Hello World 了，我们还没有进行 project structure 以及 Tomcat 配置呢 ？ 这是什么操作？
+然后运行一下， 登录 127.0.0.1:8080， 竟然已经能看到 Hello World 了，我们还没有进行 project structure 以及 Tomcat 配置呢 ？ 事实上， Spring Boot 已经内置了这些配置，拿来即用。
 
-事实上， Spring Boot 已经内置了这些配置，拿来即用。
+- `@RestController` 注解是 `@Controller` 和 `@ResponseBody` 的合体
+- `@SpringBootApplication` 是 Spring Boot 的核心注解，它是一个组合注解，该注解组合了：`@Configuration`、`@EnableAutoConfiguration`、`@ComponentScan`
+
+## 配置文件
+
+ Spring Boot 的配置文件为 application.properties 或 application.yml，放置在【src/main/resources】目录或者类路径的 /config 下。
+
+ ![prop](../../../../images/webApp/Springbootprop.png)
 
 ## 排除自动配置
 
@@ -233,4 +256,4 @@ mvn package
 
 ---
 
-关于 Spring Boot 的更多内容，放到下一篇说。
+参考：[Spring Boot【快速入门】](https://www.cnblogs.com/wmyskxz/p/9010832.html)

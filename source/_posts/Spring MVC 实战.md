@@ -177,17 +177,15 @@ public class EditPetForm {
 
 ## 如何选择
 
-两种方式都能获取用户输入
-
-- 通过@PathVariable，例如/blogs/1
-- 通过@RequestParam，例如blogs?blogId=1
+两种方式都能获取用户输入：
+- 通过`@PathVariable`，例如/blogs/1
+- 通过`@RequestParam`，例如blogs?blogId=1
 
 建议：
-
 - 当URL指向的是某一具体业务资源（或者资源列表），例如博客、用户时，使用`@PathVariable`
 - 当URL需要对资源或者资源列表进行过滤、筛选时，用`@RequestParam`
 
-例如用/blogs?state=publish而不是/blogs/state/publish来表示处于发布状态的博客文章
+例如用`/blogs?state=publish`而不是`/blogs/state/publish`来表示处于发布状态的博客文章
 
 ## 其他注解
 
@@ -208,9 +206,15 @@ public void requestheaderTest(
 
 ---
 
-# 模板渲染
+# 使用Thymeleaf模板渲染
 
-## 使用Thymeleaf
+<div align="center">
+
+![thy](https://raw.githubusercontent.com/thymeleaf/thymeleaf-dist/master/src/artwork/thymeleaf%202016/thymeleaf_logo_white.png)
+
+</div>
+
+## 后台发送数据给模板引擎
 
 使用`Thymeleaf`作为模板引擎，在需要动态获取的地方用Thymeleaf标签替代。如
 
@@ -255,8 +259,6 @@ public String getBookList(ModelMap map){
 
 > 在Servlet编程中，如果希望在页面中动态渲染信息，一般需要往HttpRequest中添加属性，然后在JSP中获取。其实Model的属性实际上也是放在HttpRequest的属性中，但是Spring MVC提供了更高层的抽象，帮你屏蔽了HttpRequest，你看到的只有直接以MVC中M（即Model）。
 
-
-
 在模板中用`th:each`来遍历这个 List<book>
 
 ```html
@@ -284,44 +286,7 @@ public String getBookList(ModelMap map){
 <a href="#" th:href="@{'/blogs/'+${blog.id}}" th:text="${blog.title}"></a>
 ```
 
-## ModelMap 和 ModelAndView 区别
-
-在控制器方法中，我们传入了一个 ModelMap 参数，或者 ModelAndView 。区别如下：
-
-- ModelMap的实例是spirng mvc框架自动创建并作为控制器方法参数传入，用户无需自己创建。
-
-```java
-public String xxxxmethod(String someparam,ModelMap model)
-{
-     //省略方法处理逻辑若干
-     //将数据放置到ModelMap对象model中,第二个参数可以是任何java类型
-      model.addAttribute("key",someparam);
-         ......
-     //返回跳转地址
-      return "path:handleok";
-}
-```
-
-- ModelAndView的实例是由用户手动创建的，这也是和ModelMap的一个区别。
-
-```java
-public ModelAndView xxxxmethod(String someparam)
-{
-     //省略方法处理逻辑若干
-      //构建ModelAndView实例，并设置跳转地址
-      ModelAndView view = new ModelAndView("path:handleok");
-      //将数据放置到ModelAndView对象view中,第二个参数可以是任何java类型
-      view.addObject("key",someparam);
-    ......
-     //返回ModelAndView对象view
-      return view;
-}
-```
-
----
-
-# 从模板接收数据
-
+## 从前端模板接收数据
 
 当用户进入 /create 路由，会跳转到创建博客的页面，`createBlog()`方法给前端传入了一个 blog 对象
 
@@ -369,6 +334,44 @@ public String postBlog(@ModelAttribute(value="blog") Blog blog){
 ```
 
 后端接收 blog 对象，进行处理。
+
+- 更多关于Thymeleaf的内容：[使用Thymeleaf模板引擎](../post/7c6dd7fa.html)
+
+---
+
+# ModelMap 和 ModelAndView 区别
+
+在控制器方法中，我们传入了一个 ModelMap 参数，或者 ModelAndView 。区别如下：
+
+- ModelMap的实例是spirng mvc框架自动创建并作为控制器方法参数传入，用户无需自己创建。
+
+```java
+public String xxxxmethod(String someparam,ModelMap model)
+{
+     //省略方法处理逻辑若干
+     //将数据放置到ModelMap对象model中,第二个参数可以是任何java类型
+      model.addAttribute("key",someparam);
+         ......
+     //返回跳转地址
+      return "path:handleok";
+}
+```
+
+- ModelAndView的实例是由用户手动创建的，这也是和ModelMap的一个区别。
+
+```java
+public ModelAndView xxxxmethod(String someparam)
+{
+     //省略方法处理逻辑若干
+      //构建ModelAndView实例，并设置跳转地址
+      ModelAndView view = new ModelAndView("path:handleok");
+      //将数据放置到ModelAndView对象view中,第二个参数可以是任何java类型
+      view.addObject("key",someparam);
+    ......
+     //返回ModelAndView对象view
+      return view;
+}
+```
 
 ---
 

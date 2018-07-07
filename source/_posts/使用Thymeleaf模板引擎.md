@@ -1,24 +1,46 @@
 ---
 title: 使用Thymeleaf模板引擎
 comments: true
-date: 2018-07-06 11:35:48
 categories: Java Web
 tags: Java Web
+abbrlink: 7c6dd7fa
+date: 2018-07-06 11:35:48
 ---
 
 # 什么是 Thymeleaf
 
+<div align="center">
+
+![thy](https://raw.githubusercontent.com/thymeleaf/thymeleaf-dist/master/src/artwork/thymeleaf%202016/thymeleaf_logo_white.png)
+
+</div>
+
 - 官方网站: https://www.thymeleaf.org/
 - 官方文档：https://www.thymeleaf.org/documentation.html
-- 官方定义：Thymeleaf is a modern server-side Java template engine for both web and standalone environments.
 
-简单地讲，Thymeleaf 是一种现代的Java服务器端模板引擎。可以达到和JSP一样的效果，但是比起JSP 对于前端测试更加友好。
 
-JSP需要运行起来才能看到效果，而 Thymeleaf 本身就是 html格式，无需服务器也能看到效果。
+Thymeleaf的官方定义为
 
-Thymeleaf 跟 JSP 一样，就是运行之后，就得到纯 HTML了。 区别在与，不运行之前， thymeleaf 也是纯html，所以 thymeleaf 不需要服务端的支持，就能够被以 html 的方式打开，这样就方便前端人员独立设计与调试。
+> Thymeleaf is a modern server-side Java template engine for both web and standalone environments。
+
+简单地讲，Thymeleaf 是一种现代的Java服务器端模板引擎。可以达到和JSP一样的效果，但是比起JSP对于前端测试更加友好。JSP需要运行起来才能看到效果，而 Thymeleaf 本身就是html格式，无需服务器也能看到效果。
 
 <!-- more-->
+
+---
+
+# Spring Boot 集成 Thymeleaf 简明过程
+
+在 Spring Initalizr 过程中选择 Thymeleaf 组件，然后在工程templates目录下创建 html 文件即可
+
+如果 Spring Initalizr 过程中忘记添加，可以在 pom.xml 下面添加依赖：
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-thymeleaf</artifactId>
+</dependency>
+```
 
 ---
 
