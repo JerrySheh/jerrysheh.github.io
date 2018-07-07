@@ -92,7 +92,7 @@ public class Category {
 
 ## 创建配置文件 mybatis-config.xml
 
-在 src/main/java 目录下 创建mybatis-config.xml,填入以下内容：
+在 src/main/java 目录下 创建mybatis-config.xml,填入以下内容： （如果使用SpringBoot，则免此配置）
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -148,17 +148,6 @@ public class Category {
 
 Test.java
 ```java
-package com.jerrysheh.pojo;
-
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
 public class Test {
     public static void main(String[] args) throws IOException {
         String resource = "mybatis-config.xml";
@@ -170,7 +159,6 @@ public class Test {
         for (Category c : cs) {
             System.out.println(c.getName());
         }
-
     }
 }
 ```
@@ -180,7 +168,7 @@ public class Test {
 2. Mybatis从数据库中找来数据(通过mybatis-config.xml 定位哪个数据库，通过Category.xml执行对应的select语句)
 3. 基于Category.xml把返回的数据库记录封装在Category对象中
 4. 把多个Category对象装在一个Category集合中
-5. 返回一个Category集合
+5. 返回一个Category对象的集合
 
 ---
 
@@ -578,7 +566,7 @@ public interface CategoryMapper {
  - 在application.properties填入以下内容
 
  ```
- spring.datasource.url=jdbc:mysql://127.0.0.1:3306/neu?characterEncoding=UT F-8&useSSL=false
+ spring.datasource.url=jdbc:mysql://127.0.0.1:3306/neu?characterEncoding=UTF-8&useSSL=false
  spring.datasource.username=root
  spring.datasource.password=YourPassword
  spring.datasource.driver-class-name=com.mysql.jdbc.Driver
@@ -598,6 +586,8 @@ public class Student {
 ```
 
 - 创建mapper包，创建StudentMapper接口
+
+> 在Spirngboot的SpringBootApplication类中，添加`@MapperScan("io.jerrysheh.student.mapper")`注解，即可不用在 mapper 包下面的每一个接口都注解Mapper了。
 
 ```java
 @Mapper
