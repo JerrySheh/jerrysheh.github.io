@@ -1,5 +1,5 @@
 ---
-title: Spring MVC 实战
+title: Spring（三）Spring MVC
 comments: true
 abbrlink: 1459f5bc
 date: 2018-04-18 17:09:56
@@ -208,11 +208,7 @@ public void requestheaderTest(
 
 # 使用Thymeleaf模板渲染
 
-<div align="center">
-
 ![thy](https://raw.githubusercontent.com/thymeleaf/thymeleaf-dist/master/src/artwork/thymeleaf%202016/thymeleaf_logo_white.png)
-
-</div>
 
 ## 后台发送数据给模板引擎
 

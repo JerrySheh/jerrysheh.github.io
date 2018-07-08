@@ -1,5 +1,5 @@
 ---
-title: 从 MVC 到SpirngBoot
+title: Spring（一）从 传统Java Web到SpirngBoot
 comments: true
 categories: Java Web
 tags:
@@ -8,6 +8,10 @@ tags:
 abbrlink: 6200df85
 date: 2018-04-15 00:19:08
 ---
+
+# 从 MVC 结构到框架
+
+## 传统 Model-View-Controller 架构
 
 在谈[Spring](https://spring.io/) 和 [SpringBoot](https://projects.spring.io/spring-boot/) 之前，先来看看典型的Java Web应用架构以及框架的来源：
 
@@ -37,40 +41,58 @@ date: 2018-04-15 00:19:08
 
 ---
 
-# Spring
+# Spring Framework
 
-<div align="center">
+<div align="center">![Spring](https://spring.io/img/homepage/icon-spring-framework.svg)</div>
 
-![Spring](https://spring.io/img/homepage/icon-spring-framework.svg)
+## 简介
 
-</div>
+前面提到`Spring MVC`是Java Web开发中对Servlet进行封装的框架。实际上，Spring是一个大家族，它是一个轻量级的 DI / IoC 和 AOP 容器的开源框架，来源于 Rod Johnson 在其著作《Expert one on one J2EE design and development》中阐述的部分理念和原型衍生而来。
 
-前面提到`Spring MVC`是Java Web开发中对Servlet进行封装的框架。实际上，Spring是一个大家族，它是一个基于IoC和AOP结构的 J2EE 框架。
+Spring Framework包括以下几大部分：
 
-其中最主要的包括Spring Framework（包括了IoC, AOP, MVC以及Testing）, Spring Data, Spring Security, Spring Batch等等。他们都是为了解决特定的事情而产生的。
+![Framework](../../../../images/webApp/SpringFramework.png)
 
-但是在学习这些框架前，有必要先弄清楚 Spring 最核心的两个概念：`IoC` 和 `AOP`。
+- **Data Access/Integration** : 包含有JDBC、ORM、OXM、JMS和Transaction模块。
+- **Web**：包含了Web、Web-Servlet、WebSocket、Web-Porlet模块。
+- **AOP模块**：提供了一个符合AOP联盟标准的面向切面编程的实现。
+- **Core Container(核心容器)**：包含有Beans、Core、Context和SpEL模块。
+- **Test模块**：支持使用JUnit和TestNG对Spring组件进行测试。
+
+但是在学习这些前，有必要先弄清楚 Spring 最核心的两个概念：`IoC` 和 `AOP`。
 
 ## IoC （Inversion of Control，反转控制）
 
 在设计一辆车的时候，如果我们先设计轮子、再根据轮子设计底盘、再根据底盘设计车身，这是一种自底向上的设计思想。但是，假若未来某一天需要改造一下轮子（比如由直径30cm改成40cm），那么底盘、车身不得不相应地进行改动。在大型的软件工程中，这种做法几乎是不可维护的，因为一个类可能作为其他上百个类的底层，我们不可能一一去修改。
 
+### 依赖注入
+
 `反转控制`其实是一种依赖倒置原则的设计思想。也就是反过来，让底层依赖上层。具体的做法就是使用 `DI （依赖注入，Dependency Inject）`，DI把底层类作为参数传给上层，实现上层对下层的控制。（包括可以使用 构造函数传递、Setter传递、接口传递）使用DI的一个好处是，让互相协作的软件组件保持松耦合。
+
+### 反转控制容器
 
 采用依赖倒置原则的设计之后，会产生一个问题，假设我们要调用一个上层，由于上层需要接受下层作为参数，我们必须在构造上层前构造下层，这样我们的代码中就会写很多 new 。
 
 这时候`反转控制容器（IoC Container）`出现了，这个容器可以自动对我们的代码进行初始化，而我们要做的，只是维护一个 Configuration， 具体到 Spring 中，我们可以通过 xml 配置、 @ 注解 或 Java配置（推荐）的方式让 Spring 帮我们注入对象(Spring 容器通过 `bean 工厂` 和 `应用上下文` 两种类型来实现)，我们得到对象后直接就可以使用，而不需要了解注入过程层层依赖的细节。
 
-事实上，DI远没有这么简单，上面的例子只是为了帮助理解的一个通俗解释，并不严谨，譬如说《敏捷软件开发》第11章提到：
+简单地说，就是当我们要使用某个对象，只需要从 Spring 容器中获取需要使用的对象，不关心对象的创建过程，把创建对象的控制权反转给了Spring框架，而 Spring 容器是通过 DI，在创建对象的过程中将对象依赖属性（简单值，集合，对象）通过配置设值给该对象。
 
-> 依赖倒置原则
-> a.高层模块不应该依赖于底层模块，二者都应该依赖于抽象。
-> b.抽象不应该依赖于细节，细节应该依赖于抽象。
+![IoC](../../../../images/webApp/SpringIOC.png)
 
-而上面的例子并没有依赖于抽象。但我们这里先不讨论依赖关系该如何组织。现阶段所要理解的是，DI是组装应用对象的一种方式，我们无需知道依赖来自何处或者依赖的实现方式。
+### IoC 是如何实现的
 
-- 以上例子，来自 [知乎:Spring IoC有什么好处呢？
+如果我们自己来实现这个依赖注入的功能，我们怎么来做？无外乎：
+
+1. 读取标注或者配置文件，看看 bean 依赖的是哪个Source，拿到类名
+2. 使用反射的API，基于类名实例化对应的对象实例
+3. 将对象实例，通过构造函数或者 setter，传递给 bean
+
+我们发现其实自己来实现也不是很难，Spring实际也就是这么做的。这么看的话其实IoC就是一个工厂模式的升级版！当然要做一个成熟的IoC框架，还是非常多细致的工作要做，Spring不仅提供了一个已经成为业界标准的Java IoC框架，还提供了更多强大的功能
+
+参考：
+- [知乎:Spring IoC有什么好处呢？
 ](https://www.zhihu.com/question/23277575/answer/169698662)
+- [Spring学习(1)——快速入门](https://www.cnblogs.com/wmyskxz/p/8820371.html)
 - IoC 背后的Java原理，其实就是 [Java 的反射机制](../post/e753fbbb.html)
 
 ## AOP（Aspect Oriented Program，面向切面编程）
@@ -91,22 +113,16 @@ AOP 的好处是允许我们把遍布应用各处的功能分离出来形成可�
 
 # Spring Boot
 
-<div align="center">
-
-![boot](../../../../images/webApp/SpringBootLogo.png)
-
-</div>
+<div align="center">![boot](../../../../images/webApp/SpringBootLogo.png)</div>
 
 在 Spring MVC 框架中，我们不得不进行大量的配置， 而在 Spring Boot 快速框架中，很多配置框架都帮你做好，拿来即用。
 
 - Spring Boot使用 “习惯优于配置” （项目中存在大量的配置，此外还内置一个习惯性的配置）的理念让你的项目快速运行起来。
 - Spring Boot并不是什么新的框架，而是默认配置了很多框架的使用方式，就像 Maven 整合了所有的 jar 包一样，Spring Boot 整合了所有框架。
 
----
+## IDEA Spring Boot 实战
 
-# IDEA Spring Boot 实战
-
-## 创建工程
+### 创建工程
 
 在 IDEA 中，创建一个新的Spring Initalizr工程, Type 选择 Maven， 组件选择 Web ， IDEA 会自动帮我们新建一个基于 Maven 的 Spring Boot 工程。
 
@@ -165,7 +181,7 @@ AOP 的好处是允许我们把遍布应用各处的功能分离出来形成可�
 </project>
 ```
 
-## java代码
+### java代码
 
 在src/main/java/Example.java里面，应该已经有类似下面这样的代码了，如果没有，需要手动添加。
 
@@ -179,9 +195,7 @@ public class ToywebApplication {
 }
 ```
 
-然后写一个类
-
-HelloController.java
+然后写一个类：HelloController.java
 ```java
 @RestController
 public class HelloController {
@@ -193,18 +207,18 @@ public class HelloController {
 }
 ```
 
-然后运行一下， 登录 127.0.0.1:8080， 竟然已经能看到 Hello World 了，我们还没有进行 project structure 以及 Tomcat 配置呢 ？ 事实上， Spring Boot 已经内置了这些配置，拿来即用。
+直接运行， 访问`127.0.0.1:8080`， 竟然已经能看到 Hello World 了，我们还没有进行 project structure 以及 Tomcat 配置呢 ？ 事实上， Spring Boot 已经内置了这些配置，拿来即用。
 
 - `@RestController` 注解是 `@Controller` 和 `@ResponseBody` 的合体
 - `@SpringBootApplication` 是 Spring Boot 的核心注解，它是一个组合注解，该注解组合了：`@Configuration`、`@EnableAutoConfiguration`、`@ComponentScan`
 
-## 配置文件
+### 配置文件
 
  Spring Boot 的配置文件为 application.properties 或 application.yml，放置在【src/main/resources】目录或者类路径的 /config 下。
 
  ![prop](../../../../images/webApp/Springbootprop.png)
 
-## 排除自动配置
+### 排除自动配置
 
 在 Spring Initalizr 的时候，如果我们点多了组件，有可能会导致启动失败，这时候在`@SpringBootApplication`注解后添加排除项即可。
 
@@ -212,7 +226,7 @@ public class HelloController {
 @SpringBootApplication (exclude= {DataSourceAutoConfiguration.class})
 ```
 
-## 打包 jar
+### 打包 jar
 
 确保 pom.xml 里面有
 
@@ -233,7 +247,7 @@ public class HelloController {
 mvn package
 ```
 
-## 热部署
+### 热部署
 
 在 pom.xml 里面添加以下语句即可热部署，也就是我们修改了代码之后无需重启工程，即可看到效果。
 
@@ -254,6 +268,5 @@ mvn package
 </plugin>
 ```
 
----
-
-参考：[Spring Boot【快速入门】](https://www.cnblogs.com/wmyskxz/p/9010832.html)
+参考：
+- [Spring Boot【快速入门】](https://www.cnblogs.com/wmyskxz/p/9010832.html)

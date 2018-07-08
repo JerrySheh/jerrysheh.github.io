@@ -1,5 +1,5 @@
 ---
-title: 使用Thymeleaf模板引擎
+title: Spring（五）使用 Thymeleaf 模板引擎
 comments: true
 categories: Java Web
 tags: Java Web

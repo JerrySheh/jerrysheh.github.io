@@ -1,5 +1,5 @@
 ---
-title: 使用RESTful风格开发Java Web
+title: Spring（四）使用 RESTful 风格
 comments: true
 categories: Java Web
 tags: Java Web
@@ -8,6 +8,12 @@ date: 2018-07-05 16:16:42
 ---
 
 # 什么是RESTful风格？
+
+<div align="center">
+
+![RESTful](http://www.runoob.com/wp-content/uploads/2015/07/restful.gif)
+
+</div>
 
 REST是 REpresentational State Transfer 的缩写（一般中文翻译为表述性状态转移），REST 是一种体系结构，而 HTTP 是一种包含了 REST 架构属性的协议，为了便于理解，我们把它的首字母拆分成不同的几个部分：
 
@@ -18,6 +24,8 @@ REST是 REpresentational State Transfer 的缩写（一般中文翻译为表述�
 简单地说，REST 就是**将资源的状态以适合客户端或服务端的形式从服务端转移到客户端（或者反过来）** 。
 
 在 REST 中，资源通过 URL 进行识别和定位，然后通过行为(即 HTTP 方法)来定义 REST 来完成怎样的功能。
+
+<!--more-->
 
 ## 实例说明
 
