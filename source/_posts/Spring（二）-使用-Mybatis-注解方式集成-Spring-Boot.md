@@ -254,12 +254,51 @@ public interface CategoryMapper {
 
 ---
 
-# \@Results结果映射
+# @Results结果映射
 
-可以使用`@Results`注解将指定的数据库列与指定JavaBean属性映射起来。
+如果 javabean 的属性字段 跟 数据库字段一一对应，名字保持一致，则直接可以：
 
+```java
+@Select("select *from Demo where id=#{id}")  
+public Demo selectById(int id);  
+```
+
+但如果不对应，就要用`@Result`修饰返回的结果集，而`@Results`注解将指定的数据库列与指定JavaBean属性映射起来。
+
+```java
+@Select("SELECT * FROM `wx_message_config` WHERE `content_key_words` IS NOT NULL AND LENGTH(content_key_words) > 0")
+@Results({
+        @Result(property = "msgType", column = "msg_type"),
+        @Result(property = "eventType", column = "event_type"),
+        @Result(property = "eventKey",column = "event_key"),
+        @Result(property = "contentKeyWords",column = "content_key_words")
+})
+List<WxMessageConfig> queryAllKeyWords();
+
+@Select("SELECT * FROM `wx_message_config` WHERE `id` = #{id}")
+@Results({
+        @Result(property = "msgType", column = "msg_type"),
+        @Result(property = "eventType", column = "event_type"),
+        @Result(property = "eventKey",column = "event_key"),
+        @Result(property = "contentKeyWords",column = "content_key_words")
+})
+WxMessageConfig queryKwById(int id);
+```
 
 这样会导致写很多重复内容，可以用 `@ResultMap(“id”) `
+
+```java
+@Select("SELECT id, name, password FROM user WHERE id = #{id}")
+@Results(id = "userMap", value = { @Result(column = "id", property = "id", javaType = Integer.class),
+        @Result(column = "name", property = "name", javaType = String.class),
+        @Result(column = "password", property = "password", javaType = String.class) })
+User findById(Integer id);
+
+@Select("SELECT * FROM user")
+@ResultMap("userMap")
+List<User> fingAll();
+```
+
 
 ---
 

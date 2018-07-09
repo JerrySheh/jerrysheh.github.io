@@ -7,23 +7,18 @@ abbrlink: 7c6dd7fa
 date: 2018-07-06 11:35:48
 ---
 
-# 什么是 Thymeleaf
-
-<div align="center">
-
 ![thy](https://raw.githubusercontent.com/thymeleaf/thymeleaf-dist/master/src/artwork/thymeleaf%202016/thymeleaf_logo_white.png)
 
-</div>
-
-- 官方网站: https://www.thymeleaf.org/
-- 官方文档：https://www.thymeleaf.org/documentation.html
-
+# 什么是 Thymeleaf
 
 Thymeleaf的官方定义为
 
 > Thymeleaf is a modern server-side Java template engine for both web and standalone environments。
 
 简单地讲，Thymeleaf 是一种现代的Java服务器端模板引擎。可以达到和JSP一样的效果，但是比起JSP对于前端测试更加友好。JSP需要运行起来才能看到效果，而 Thymeleaf 本身就是html格式，无需服务器也能看到效果。
+
+- 官方网站: https://www.thymeleaf.org/
+- 官方文档：https://www.thymeleaf.org/documentation.html
 
 <!-- more-->
 

@@ -7,13 +7,9 @@ abbrlink: 3479b7db
 date: 2018-07-05 16:16:42
 ---
 
-# 什么是RESTful风格？
-
-<div align="center">
-
 ![RESTful](http://www.runoob.com/wp-content/uploads/2015/07/restful.gif)
 
-</div>
+# 什么是RESTful风格？
 
 REST是 REpresentational State Transfer 的缩写（一般中文翻译为表述性状态转移），REST 是一种体系结构，而 HTTP 是一种包含了 REST 架构属性的协议，为了便于理解，我们把它的首字母拆分成不同的几个部分：
 
@@ -58,11 +54,81 @@ DELETE | 删除(Delete)
 
 ![RESTful](../../../../images/Webapp/RESTful.png)
 
+> 图片引自 how2j.cn
+
 ---
 
 # Springboot 实战
 
-未完待续
+RESTful API设计
+
+请求类型|URL|说明
+---|---|---
+GET|/students|查询所有学生
+POST|/students|创建一个学生
+GET|/students/{id}|根据id查询一个学生
+PUT|/students/{id}|根据id更新一个学生
+DELETE|/students/{id}|根据id删除一个学生
+
+实体类 Student.java
+
+```java
+public class Student {
+    Integer id;
+    String name;
+    String number;
+    String major;
+    Integer grade;
+    // 省略 setter getter
+}
+```
+
+控制器
+
+```java
+@RestController
+@RequestMapping(value = "/students")
+public class StudentAPIController {
+
+    @Autowired
+    StudentMapper studentMapper;
+
+    // 查询所有学生
+    @GetMapping("/")
+    public List<Student> getStudentList(){
+        return studentMapper.findAll();
+    }
+
+    // 增加学生
+    @PostMapping("/")
+    public Student addStudent(@ModelAttribute Student student){
+        studentMapper.addStudent(student);
+        return student;
+    }
+
+    // 查询学生
+    @GetMapping("/{id}")
+    public Student getStudent(@PathVariable Integer id){
+        return studentMapper.findById(id);
+    }
+
+    // 删除学生
+    @DeleteMapping("/{id}")
+    public String deleteStudent(@PathVariable Integer id){
+        studentMapper.deleteById(id);
+        return "redirect:/";
+    }
+
+    // 更新学生
+    @PutMapping("/{id}")
+    public Student updateStudent(@PathVariable Integer id, @ModelAttribute Student student){
+        studentMapper.updateStudent(student);
+        return student;
+    }
+
+}
+```
+
 
 ---
 
