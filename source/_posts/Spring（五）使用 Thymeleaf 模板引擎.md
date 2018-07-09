@@ -90,16 +90,16 @@ findStudent.html，放在 templates 目录下
 m.addAttribute("student", s);
 ```
 
-在 Thymeleaf 中：
+在 Thymeleaf 中直接取属性
 
 ```html
 <p th:text="${s.name}" ></p>
 ```
 
-或者
+或者也可以取方法
 
 ```html
-<p th:text="${currentProduct.getName()}" ></p>
+<p th:text="${s.getName()}" ></p>
 ```
 
 或者用`th:object`先给出对象，再用`*{}`的方式取出属性

@@ -7,9 +7,9 @@ abbrlink: e753fbbb
 date: 2018-03-31 21:20:17
 ---
 
-Java 是完全面向对象语言。事实上，我们创建的每一个类，其实也是对象。称为`类对象`。
+Java 是完全面向对象语言。事实上，我们创建的每一个类，其实也是对象，称为`类对象`。类对象提供了类的元信息，比如这个类有几种构造方法，有多少个属性，有哪些普通方法等。
 
-类对象提供了类的信息，比如这个类有几种构造方法，有多少个属性，有哪些普通方法等。
+![meta](../../../../images/Java/metaobject.png)
 
 ---
 
@@ -54,7 +54,7 @@ teacher YangLiang = new teacher();
 
 然后，我们说 student 和 teacher 都是一个类，他们的区别在于，有不同的属性和方法。
 
-所谓类对象，就是用于描述这种类，都有什么属性，什么方法的
+所谓类对象，就是用于描述这种类，都有什么属性，什么方法的对象。
 
 <!-- more -->
 
@@ -151,7 +151,7 @@ public static void main(String[] args) {
 | 只能获取public，包括继承来的字段 | 可以获取包括private在内的所有字段，但不能获取继承来的字段 |
 
 
-* getDeclaredField 这里只能获取到private的字段，但并不能访问该private字段的值,除非加上 `setAccessible(true)`
+> getDeclaredField 这里只能获取到private的字段，但并不能访问该private字段的值,除非加上 `setAccessible(true)`
 
 ## 通过反射机制调用方法
 
@@ -282,7 +282,22 @@ public class Test {
 
 事实上，这就是 Spring 框架的最基本原理了。
 
-
 ---
 
+# 补充：类装载器 ClassLoader
+
+ClassLoader用于寻找字节码文件，并构造出类在 JVM 内部表示对象的组件。在Java中，ClassLoader把一个类装入JVM的步骤如下：
+
+1. **装载**：查找和导入Class文件
+2. **链接**：执行**校验**（检查载入的Class文件正确性）、**准备**（给类的静态变量分配存储空间）和**解析**（将符号引用转化成直接引用）。
+3. **初始化**：对类的静态变量和静态代码块进行初始化
+
+![classloader](../../../../images/Java/classloader.png)
+
+JVM从安全角度考虑，装载类时，使用了“全盘负责委托机制”：
+
+- **全盘负责**：当一个 ClassLoader装载一个类时，该类所依赖及引用的类也由该 ClassLoader 载入。
+- **委托机制**：先委托父装载器寻找目标类，找不到时才从自己的类路径找。
+
+---
 本篇参考教程：[how2j - 反射机制 ](http://how2j.cn/k/reflection/reflection-usage/1111.html?p=35599)

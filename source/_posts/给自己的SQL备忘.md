@@ -395,11 +395,11 @@ CREATE SCHEMA is a synonym for CREATE DATABASE as of MySQL 5.0.2.
 ```SQL
 CREATE TABLE Persons
 (
-  Id_p int,
+  Id_p int AUTO_INCREMENT,
   LastName varchar(255),
   FirstName varchar(255),
   Address Varchar(255),
-)
+) DEFAULT CHARSET=utf8;
 ```
 
 ## 约束
@@ -454,8 +454,6 @@ ALTER table Persons
 ---
 
 ## CREATE INDEX 创建索引
-
-
 
 ```sql
 CREATE UNIQUE INDEX index_name
