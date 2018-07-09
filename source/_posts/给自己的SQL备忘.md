@@ -298,7 +298,7 @@ SELECT * FROM Persons Where LastName BETWEEN 'Adams' AND 'Carter'
 
 ## AS
 
-假设有两个表， `Persons`表 和 `Product_Orders`表， 给他们指定别名为`p`和`po`，列出`John Adams`的所以订单
+假设有两个表， `Persons`表 和 `Product_Orders`表， 给他们指定别名为`p`和`po`，列出`John Adams`的所有订单
 
 ```SQL
 SELECT Po.OrderID, P.LastName, p.FirstName
