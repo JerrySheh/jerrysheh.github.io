@@ -20,8 +20,6 @@ tags:
 
 ## 开发步骤
 
-虽然我们会用 Spring Boot 来构建应用，省去很多配置。但是还是得了解一下没有 Spting Boot 的时候，MVC应用的开发步骤。
-
 1. 在 web.xml 定义前端控制器 DispatcherServlet 来拦截用户请求。
 2. 如果要用到 post 请求，则要定义包含表单提交的视图页面（JSP或Thymeleaf）
 3. 使用@Controller注解，定义处理用户请求的 Handle 类（在早期的Spring版本中是实现 Controller 接口）
