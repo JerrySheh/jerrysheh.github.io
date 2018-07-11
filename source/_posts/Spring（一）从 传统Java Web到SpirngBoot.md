@@ -51,7 +51,7 @@ date: 2018-04-15 00:19:08
 
 Spring Framework包括以下几大部分：
 
-![Framework](../../../../images/webApp/SpringFramework.png)
+![Framework](../../../../images/Webapp/SpringFramework.png)
 
 - **Data Access/Integration** : 包含有JDBC、ORM、OXM、JMS和Transaction模块。
 - **Web**：包含了Web、Web-Servlet、WebSocket、Web-Porlet模块。
@@ -83,7 +83,7 @@ Spring Framework包括以下几大部分：
 
 简单地说，就是当我们要使用某个对象，只需要从 Spring 容器中获取需要使用的对象，不关心对象的创建过程，把创建对象的控制权反转给了Spring框架，而 Spring 容器是通过 DI，在创建对象的过程中将对象依赖属性（简单值，集合，对象）通过配置设值给该对象。
 
-![IoC](../../../../images/webApp/SpringIOC.png)
+![IoC](../../../../images/Webapp/SpringIOC.png)
 
 ### IoC 是如何实现的
 
@@ -119,7 +119,7 @@ AOP 的好处是允许我们把遍布应用各处的功能分离出来形成可�
 
 # Spring Boot
 
-<div align="center">![boot](../../../../images/webApp/SpringBootLogo.png)</div>
+<div align="center">![boot](../../../../images/Webapp/SpringBootLogo.png)</div>
 
 在 Spring MVC 框架中，我们不得不进行大量的配置， 而在 Spring Boot 快速框架中，很多配置框架都帮你做好，拿来即用。
 
@@ -222,7 +222,7 @@ public class HelloController {
 
  Spring Boot 的配置文件为 application.properties 或 application.yml，放置在【src/main/resources】目录或者类路径的 /config 下。
 
- ![prop](../../../../images/webApp/Springbootprop.png)
+ ![prop](../../../../images/Webapp/Springbootprop.png)
 
 ### 排除自动配置
 
