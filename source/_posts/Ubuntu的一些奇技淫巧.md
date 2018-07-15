@@ -156,7 +156,7 @@ sudo apt-get update
 ## 远程
 
 ```
-sudo apt-get lrzsz
+sudo apt-get install lrzsz
 ```
 
 上传使用命令：

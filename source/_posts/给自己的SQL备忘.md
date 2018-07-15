@@ -177,6 +177,16 @@ Company|OrderNumber
 **G** oogle|**6953**
 **I** BM|3552
 
+例2：
+
+```SQL
+SELECT * FROM product ORDER BY id DESC LIMIT 2
+```
+
+从商品表中根据id倒序取出前2个
+
+- MySql 是没有 top 关键字的，用 LIMIT 来完成相同功能。
+
 ---
 
 

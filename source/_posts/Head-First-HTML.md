@@ -376,6 +376,12 @@ jerry<input type="checkbox" name="Ojbk" value="jerry" > &nbsp; calm<input type="
 
 * 如果要提交图片，把 input 标签的type属性改为 image
 
+## 表单中 id 跟 name 的区别
+
+name是传到服务器被服务器识别的
+
+id是HTML中该元素的唯一标识
+
 ---
 
 # 文本域
