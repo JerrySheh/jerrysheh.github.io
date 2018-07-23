@@ -377,6 +377,36 @@ alert("您输入的用户名是:" + name);
 <button onclick="p()">请输入用户名</button>
 ```
 
+## Location
+
+Location 对象包含有关当前 URL 的信息。
+
+
+```html
+<script>
+// url的值为当前URL
+var url = location.href
+
+// 跳转到谷歌
+location.href = "https://www.google.com"
+</script>
+```
+
+参考：
+
+- [Location 对象](http://www.w3school.com.cn/jsref/dom_obj_location.asp)
+
+---
+
+# 日期格式化函数
+
+```JavaScript
+getDate:function (strDate) {
+    var d = new Date(strDate);
+    return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+}
+```
+
 ---
 
 [下一篇](../post/f75e92e9.html)介绍Javascript中的DOM（文档对象模型）

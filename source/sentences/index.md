@@ -38,6 +38,37 @@ type: about
 
 # 2018
 
+## 7月
+
+### 07-23
+
+{% note primary %}
+
+有的人浅薄，有的人金玉其表败絮其中。有一天,你会遇到一个彩虹般绚烂的人，当你遇到这个人后，会觉得其他人都只是浮云而已。
+
+——《怦然心动》
+
+Bryce's grandfather says about Juli, \"Some of us get dipped in flat, some in satin, some in gloss.... But every once in a while you find someone who's iridescent, and when you do, nothing will ever compare.
+
+——《Flipped》
+
+{% endnote %}
+
+
+
+### 07-21
+
+{% note success %}
+
+人们声称的最美好的岁月其实都是最痛苦的，只是事后回忆起来的时候才那么幸福。
+
+——白岩松
+
+{% endnote %}
+
+
+
+
 ## 6月
 
 ### 06-19

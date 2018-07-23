@@ -14,7 +14,7 @@ tags:
 
 # 使用注解替代xml
 
-在 [使用 Mybatis 简化 JDBC 操作](../post/f251f1b.html) 中，通过配置 xml 的方式来进行增删查改，其实，还可以用注解的方式使用 Mybatis，更加方便。
+在 [使用 Mybatis 简化 JDBC 操作](../post/f251f1b.html) 中，通过配置 xml 的方式来进行增删查改，其实，在Spring Boot中推荐使用注解的方式使用 Mybatis，更加方便。
 
 ---
 
@@ -56,6 +56,15 @@ public interface CategoryMapper {
 ```
 
 > 在 Spring 集成 Mybatis 的时候，一般把这个接口放在 DAO 包（或者是 Mapper包），在接口前面使用 `@Mapper` 注解，之后这个接口在编译时会生成相应的实现类。需要注意的是：这个接口中不可以定义同名的方法，因为会生成相同的id，也就是说这个接口是不支持重载的。
+
+如果传入多个参数，需要使用 `@Param` 注解。
+
+```java
+// 修改密码
+@Update("update user set password=#{password} WHERE id=#{id}")
+void updatePassword(@Param("password") String password, @Param("id") Integer id);
+
+```
 
 ## 提供配置文件 mybatis-config.xml
 
@@ -299,8 +308,85 @@ User findById(Integer id);
 List<User> fingAll();
 ```
 
-
 ---
 
+# 一对多查询
 
-未完待续
+假设有一张 商品表 和 一张 图片表， 一个商品对应多张图片
+
+![](../../../../images/Webapp/mybatis2.png)
+
+![](../../../../images/Webapp/mybatis3.png)
+
+那么如何取出一个商品，包含商品的所有属性，以及对应的所有图片呢？
+
+## 实体类
+
+商品的所有字段，同时，要添加一个 `List<String>` 表示多张图片的集合
+
+```java
+public class Product {
+    private Integer id;
+    private Integer user_id;
+    private String name;
+    private String price;
+    private Date gmt_create;
+    private String description;
+    private Integer cate_id;
+    private Integer number;
+
+    // 关键！
+    private List<String> link;
+
+    // 省略 getter setter
+}
+```
+
+图片的所有属性，用 String 表示图片地址
+
+```java
+public class Image {
+    private Integer id;
+    private Integer product_id;
+    private String link;
+}
+```
+
+## Mapper接口
+
+在图片的Mapper接口中，根据商品id找到对应的所有图片
+
+```java
+// 根据商品id找图片
+@Select("SELECT link from image WHERE product_id = #{product_id}")
+List<String> getImageLinksByProductId(Integer product_id);
+```
+
+在商品的Mapper接口中，通过 `@Results` 和 `@Many` 来进行关联
+
+```java
+// 取出在售的所有商品，最新的排前面
+@Select("select * from product WHERE number > 0 ORDER BY id DESC")
+@Results({
+        // 这里要对id进行限定，否则 id 会为 null
+        @Result(property = "id", column = "id"),
+
+        // 将 image 的 link 和 product 的 id 绑定，通过 @Many 查询 返回 List
+        @Result(property = "link", column = "id", javaType = List.class, many = @Many(select = "com.zsc.tradeplatform.mapper.ImageMapper.getImageLinksByProductId")),
+})
+List<Product> getAll();
+```
+
+## 控制器
+
+```java
+@ResponseBody
+@GetMapping("/api/product")
+    public List<Product> getAllProduct(){
+        return productService.getAllProduct();
+    }
+```
+
+访问 `127.0.0.1:8080/api/product` 查看结果
+
+![](../../../../images/Webapp/mybatisOneToManyResult.png)

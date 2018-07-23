@@ -369,6 +369,67 @@ public ModelAndView xxxxmethod(String someparam)
 
 ---
 
+# @ModelAttribute与@RequestBody的区别
+
+- **@RequestBody**: 用于接收json，如ajax请求的data参数，在接收后直接转换成Pojo。支持 POST、PUT 等多种HTTP方法。
+- **@ModelAttribute**: 在 GET 请求中，用于直接接收URL的参数，如url?id=123&name=456 在接收后直接转换成Pojo。 在 POST 请求中， 用于接收POST提交的内容。
+
+注： GET 请求参数还可用 `@RequestParam` 来获取。
+
+```java
+/**
+ *  添加商品
+ * @param product
+ * @return
+ */
+@PutMapping("")
+public Integer addProduct(@RequestBody Product product){
+    productService.addProduct(product);
+    return product.getId();
+}
+```
+
+
+---
+
+# 使用 PageHelper 分页
+
+添加分页依赖
+
+pom.xml
+
+```xml
+<dependency>
+    <groupId>com.github.pagehelper</groupId>
+    <artifactId>pagehelper-spring-boot-starter</artifactId>
+    <version>1.2.5</version>
+</dependency>
+```
+
+控制器
+
+```java
+/**
+ *  获取某个分类下所有在售商品
+ * @param cateId 分类ID
+ * @return
+ */
+@GetMapping(value = "{cate_id}/product")
+@ResponseBody
+public PageInfo<Product> getProductByCateId(@PathVariable(value = "cate_id") Integer cateId,
+                                        @RequestParam(value = "start", defaultValue = "1") int start,
+                                        @RequestParam(value = "size", defaultValue = "9") int size){
+    PageHelper.startPage(start,size,"id desc");
+    List<Product> products = categoryService.getProductByCateId(cateId);
+    PageInfo<Product> page = new PageInfo<>(products);
+    return page;
+}
+```
+
+
+
+---
+
 # 全局配置
 
 在项目 resource 目录下，修改`application.properties`文件。

@@ -13,6 +13,8 @@ updated: 2017-09-04 17:04:01
 * git分支管理
 * git撤销
 * 连接到github
+* fork
+* IDEA git项目颜色含义
 
 <!-- more -->
 
@@ -240,3 +242,14 @@ LF will be replaced by CRLF
 ```
 git config –global core.autocrlf false
 ```
+
+---
+
+# IDEA git项目颜色含义
+
+- 绿色： 创建了仓库没有的新文件，还未提交
+- 蓝色： 仓库已有的文件，被修改了，还未提交
+- 红色： 没有添加到版本控制的文件（包括 ignore 的）
+
+参考：
+- [IntelliJ IDEA 中git的使用图文教程](https://www.jb51.net/article/135583.htm)

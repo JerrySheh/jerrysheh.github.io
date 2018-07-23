@@ -7,6 +7,8 @@ date: 2018-07-11 15:15:47
 tags:
 ---
 
+![apache2](https://www.apache.org/img/asf_logo.png)
+
 # 安装
 
 ```shell
@@ -15,7 +17,7 @@ sudo apt-get install apache2
 
 然后访问 127.0.0.1 或者该服务器的公网ip ，即可看到 apache2 的主页面
 
-![apache2](../../../../images/linux/Apache2.png)
+![welcome](../../../../images/Linux/Apache2Welcome.png)
 
 
 <!--more-->
