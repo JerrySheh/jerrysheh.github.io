@@ -27,6 +27,7 @@ Ubuntu的一些使用技巧
 13. ROOT账户没有环境变量
 14. 如何正确地配置环境变量
 15. Ubuntu出现了内部错误
+16. Ubuntu/Debian 完全卸载Mysql
 
 <!-- more -->
 
@@ -399,3 +400,15 @@ sudo rm *
 ```
 
 删除错误日志，这样下次开机不会继续报错。但这不代表系统就没错误了，下次遇到奇奇怪怪的问题是还是会报错。几乎无解。
+
+---
+
+# 完全卸载 Mysql
+
+```
+sudo apt-get purge mysql-server mysql-common mysql-client
+sudo rm -rf /etc/mysql
+sudo rm -rf /var/lib/mysql
+sudo rm -rf /var/log/mysql
+sudo rm -rf /var/run/mysqld
+```
