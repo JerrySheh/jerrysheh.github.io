@@ -16,17 +16,13 @@ comments: false
 * 声明(declare)
 * 数组(array)
 * 初始化(initialize)
-* 参数(argument)
-* 参数(parameter)
-
-> parameter是指函数定义中参数（形参），而argument指的是函数调用时的实际参数（实参）。
+* 参数(argument) - 函数调用时的实际参数（实参）
+* 参数(parameter) - 函数定义中参数（形参）
 
 * 垃圾回收(garbage collection)
-
 * 嵌套 (nest)
 * 转义符(Escape sequence)
 * 断言(assert)
-
 * 转换（convert）
 * 集成（integrate）
 * 样式（pattern）
@@ -77,15 +73,21 @@ comments: false
 
 # 数据结构（data structure）
 
+* 数组（array）
 * 链表(linked list)
+
 * 二叉树(Binary Tree)
 * 左子树(left subtree)
+
 * 排序（sort）
-* 排序序列（sequence）
+* 序列（sequence）
 
 * 栈（stack）
 * 堆（heap）
+
 * 有向无环图（Directed Acyclic Graph, DAG）
+
+* 遍历（traversing）
 
 ---
 
@@ -104,7 +106,9 @@ comments: false
 
 # 数据库
 
-* column（列）
+* 列（column）
+* 查询（query）
+* 注入（inject）
 
 ---
 
@@ -224,13 +228,6 @@ comments: false
 * 水平（horizontal）
 * 方向（orientation）
 
-
----
-
-# 数据库
-
-* 查询（query）
-* 注入（inject）
 
 ---
 
