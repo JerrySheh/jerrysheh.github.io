@@ -96,6 +96,10 @@ comments: false
 * render（渲染）
 * validate（验证）
 
+* SPA（Single Page web Application，单页面 Web 应用）
+* SOA（Service-Oriented Architecture，面向服务的架构）
+* SOE（Search Engine Optimization，搜索引擎优化）
+
 ---
 
 # 数据库
