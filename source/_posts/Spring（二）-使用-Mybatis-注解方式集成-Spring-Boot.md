@@ -36,6 +36,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import com.jerrysheh.pojo.Category;
 
+@Repository
 public interface CategoryMapper {
 
     @Insert(" insert into category_ ( name ) values (#{name}) ")

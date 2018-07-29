@@ -9,17 +9,25 @@ date: 2018-07-05 16:16:42
 
 ![RESTful](http://www.runoob.com/wp-content/uploads/2015/07/restful.gif)
 
-# 什么是RESTful风格？
+# 什么是 RESTful ？
 
-REST是 REpresentational State Transfer 的缩写（一般中文翻译为表述性状态转移），REST 是一种体系结构，而 HTTP 是一种包含了 REST 架构属性的协议，为了便于理解，我们把它的首字母拆分成不同的几个部分：
+REST这个词由 Roy Thomas Fielding 在他2000年的博士论文中提出。全称是 Representational State Transfer ，这个词省略了主语 Resource，因此翻译成中文是：资源表述性状态转化。
 
-- 表述性（REpresentational）： REST 资源实际上可以用各种形式来进行表述，包括 XML、JSON 甚至 HTML——最适合资源使用者的任意形式；
-- 状态（State）： 当使用 REST 的时候，我们更关注资源的状态而不是对资源采取的行为；
-- 转义（Transfer）： REST 涉及到转移资源数据，它以某种表述性形式从一个应用转移到另一个应用。
+## 资源（Resource）
 
-简单地说，REST 就是**将资源的状态以适合客户端或服务端的形式从服务端转移到客户端（或者反过来）** 。
+之前在 [HTTP之旅](../post/1707ee78.html) 一文中提到过，一个 Web 页面包含了很多对象，这些对象可以是 html ，可以是 JSON、XML，或者可以是图片、嵌入的视频，还可以是java小程序等等。这些对象都可以称为资源。我们通过 `统一资源定位符（URI）`去定位资源。
 
-在 REST 中，资源通过 URL 进行识别和定位，然后通过行为(即 HTTP 方法)来定义 REST 来完成怎样的功能。
+## 表述性（REpresentational）
+
+正如上面提到的，资源可以用各种形式来进行表述，我们可以使用最适合资源使用者的任意形式来表述资源。资源具体呈现出来的形式，就是资源的表述性（REpresentational）。
+
+## 状态转化（State Transfer）
+
+HTTP协议是无状态协议。这意味着，资源的所有的状态都保存在服务器端。因此，如果客户端想要操作服务器，必须通过某种手段，让服务器端发生"状态转化"（State Transfer）。
+
+客户端用到的手段，只能是HTTP协议。具体来说，就是HTTP协议里面，四个表示操作方式的动词：GET、POST、PUT、DELETE。它们分别对应四种基本操作：GET用来获取资源，POST用来新建资源（也可以用于更新资源），PUT用来更新资源，DELETE用来删除资源。
+
+简单总结：资源通过 URL 进行识别和定位，然后通过行为(即 HTTP 方法)来定义应该完成怎样的功能。
 
 <!--more-->
 
@@ -129,9 +137,11 @@ public class StudentAPIController {
 }
 ```
 
-
 ---
 
 参考
+
 - http://www.cnblogs.com/wmyskxz/p/9104368.html
 - http://blog.didispace.com/springbootrestfulapi/
+- [理解RESTful架构](http://www.ruanyifeng.com/blog/2011/09/restful.html)
+- [RESTful API 设计指南](http://www.ruanyifeng.com/blog/2014/05/restful_api.html)

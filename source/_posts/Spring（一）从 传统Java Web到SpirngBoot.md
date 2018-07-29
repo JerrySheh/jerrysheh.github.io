@@ -18,9 +18,9 @@ date: 2018-04-15 00:19:08
 ![MVC](../../../../images/Webapp/MVC.jpg)
 
 1. Web浏览器发送HTTP请求到服务端，被Controller(Servlet)获取并进行处理（例如参数解析、请求转发）
-2. Controller(Servlet)调用核心业务逻辑——Model部分
-3. Model进行数据库存取操作，并将操作结果返回给Model
-4. Controller(Servlet)将业务逻辑处理结果交给View（JSP），动态输出HTML内容
+2. Controller 调用核心业务逻辑——Model部分
+3. Model进行数据库存取操作，并将操作结果返回
+4. Controller 将业务逻辑处理结果交给View（JSP），动态输出HTML内容
 5. 动态生成的HTML内容返回到浏览器显示
 
 我们可以把 Servlet 中经常要实现的功能封装起来并提供一层公共抽象，这样我们只要编写简单的POJO代码或者实现一些接口，就能完成复杂的Web请求后端逻辑。
@@ -35,19 +35,17 @@ date: 2018-04-15 00:19:08
 
 ![MVC](../../../../images/Webapp/MVC2.jpg)
 
-而 `Hibernate` 和 `MyBatis` 就是这样的 ORM 框架。
-
-可见，框架是为了方便我们站在更高级的角度去开发而产生的。
+`Hibernate` 和 `MyBatis` 就是这样的 ORM 框架。
 
 ---
 
 # Spring Framework
 
-<div align="center">![Spring](https://spring.io/img/homepage/icon-spring-framework.svg)</div>
+![Spring](https://spring.io/img/homepage/icon-spring-framework.svg)
 
 ## 简介
 
-前面提到`Spring MVC`是Java Web开发中对Servlet进行封装的框架。实际上，Spring是一个大家族，它是一个轻量级的 DI / IoC 和 AOP 容器的开源框架，来源于 Rod Johnson 在其著作《Expert one on one J2EE design and development》中阐述的部分理念和原型衍生而来。
+前面提到`Spring MVC`是Java Web开发中对Servlet进行封装的框架。实际上，Spring是一个大家族，它是一个轻量级的 DI / IoC 和 AOP 容器的开源框架，来源于 Rod Johnson 在其著作《Expert one on one J2EE design and development》中阐述的部分理念和原型。
 
 Spring Framework包括以下几大部分：
 
@@ -119,10 +117,11 @@ AOP 的好处是允许我们把遍布应用各处的功能分离出来形成可�
 
 # Spring Boot
 
-<div align="center">![boot](../../../../images/Webapp/SpringBootLogo.png)</div>
+![boot](../../../../images/Webapp/SpringBootLogo.png)
 
-在 Spring MVC 框架中，我们不得不进行大量的配置， 而在 Spring Boot 快速框架中，很多配置框架都帮你做好，拿来即用。
+在 Spring MVC 框架中，我们不得不进行大量的配置，而在 Spring Boot 快速框架中，很多配置框架都帮你做好，拿来即用。
 
+注意：
 - Spring Boot使用 “习惯优于配置” （项目中存在大量的配置，此外还内置一个习惯性的配置）的理念让你的项目快速运行起来。
 - Spring Boot并不是什么新的框架，而是默认配置了很多框架的使用方式，就像 Maven 整合了所有的 jar 包一样，Spring Boot 整合了所有框架。
 
@@ -189,7 +188,7 @@ AOP 的好处是允许我们把遍布应用各处的功能分离出来形成可�
 
 ### java代码
 
-在src/main/java/Example.java里面，应该已经有类似下面这样的代码了，如果没有，需要手动添加。
+在src/main/java/Example.java里面，应该已经有类似下面这样的代码了。
 
 ```java
 @SpringBootApplication
@@ -201,7 +200,8 @@ public class ToywebApplication {
 }
 ```
 
-然后写一个类：HelloController.java
+写一个类：HelloController.java
+
 ```java
 @RestController
 public class HelloController {
@@ -226,7 +226,7 @@ public class HelloController {
 
 ### 排除自动配置
 
-在 Spring Initalizr 的时候，如果我们点多了组件，有可能会导致启动失败，这时候在`@SpringBootApplication`注解后添加排除项即可。
+在 Spring Initalizr 的时候，如果我们点多了组件，有可能会导致启动失败，这时候在`@SpringBootApplication`注解后添加排除项即可。或者在 pom.xml 中去除多余组件。
 
 ```java
 @SpringBootApplication (exclude= {DataSourceAutoConfiguration.class})
@@ -247,10 +247,24 @@ public class HelloController {
 </build>
 ```
 
-然后执行以下语句进行打包。
+执行以下语句进行打包。
 
 ```
 mvn package
+```
+
+### 运行
+
+将打包的 jar 拷贝到 linux 服务器上， 执行以下命令即可启动
+
+```
+java -jar spring-boot01-1.0-SNAPSHOT.jar
+```
+
+但是这样命令行一退出程序也跟着退出了，可以使用以下命令，将 log 输入到文件，保持程序在后台运行。
+
+```
+java -jar spring-boot01-1.0-SNAPSHOT.jar > log.file 2>&1 &
 ```
 
 ### 热部署
@@ -274,5 +288,9 @@ mvn package
 </plugin>
 ```
 
+---
+
 参考：
 - [Spring Boot【快速入门】](https://www.cnblogs.com/wmyskxz/p/9010832.html)
+- [Spring官方教程：Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
+- [how2j：SPRINGBOOT入门](http://how2j.cn/k/springboot/springboot-eclipse/1640.html#nowhere)

@@ -65,6 +65,13 @@ vim /etc/apache2/sites-available/000-default.conf
 
 DocumentRoot 对应的值就是默认的目录了，可以任由我们修改。
 
+
+修改端口号
+
+```
+vim /etc/apache2/ports.conf
+```
+
 修改完配置文件后记得重启服务
 
 ```
