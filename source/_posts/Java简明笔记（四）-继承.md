@@ -43,9 +43,9 @@ public class Manager extends Employee {
 <!-- more -->
 ---
 
-# 方法覆盖（重写）
+# 方法覆盖（Override，重写）
 
-`Employee`类有个`setSalary`方法，返回员工的总薪水。对于管理层来说，除了工资外，还有奖金，于是`Employee`的`setSalary`方法不适用，我们需要重写。这个过程就叫方法覆盖。
+`Employee`类有个`setSalary`方法，返回员工的总薪水。对于管理层来说，除了工资外，还有奖金，于是`Employee`的`setSalary`方法不适用，我们需要重写。这个过程就叫方法覆盖（重写）。
 
 ```Java
 
@@ -98,7 +98,13 @@ public boolean workdsFor (Employee supervisor){
 }
 ```
 
-* 注意，重写方法参数类型不能改，但是返回类型可以改。
+## Override 和 Overload 的区别
+
+Override 是方法重写，子类对父类方法的重写。**需要注意的是，重写方法参数类型不能改，但是返回类型可以改。**
+
+Overload 是方法重载，同一个类中可以有多个名称相同但参数个数、类型或顺序不同的方法。**但是函数的返回值不同不构成重载**。
+
+重写和重载都不要求返回类型，因为 Java 中调用函数并不需要强制赋值。
 
 ---
 
@@ -138,7 +144,7 @@ empl.setBonus(10010); //编译报错
 ```Java
 Employee empl = new Manager(...);
 
-//如果empl不是Manager类型，则类型转换
+//如果empl不是Manager引用，则类型转换
 if (empl instanceof Manager) {
   Manager mgr = (Manager)empl;
   mgr.setBonus(10010);
@@ -151,7 +157,6 @@ if (empl instanceof Manager) {
 
 * final方法不能被覆盖，final类不能被继承。
 * abstract方法没有实现，abstract类不能被实例化。
-
 * Java中，类比接口优先（class win）。因此一个类继承了另一个类，又实现了某个接口，碰巧父类和接口有同名方法。这时，默认为父类的实现。
 
 ---

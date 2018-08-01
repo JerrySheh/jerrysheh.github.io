@@ -6,18 +6,16 @@ abbrlink: b3088ac5
 date: 2017-11-05 22:40:39
 ---
 
-
-《Core Java for the Impatient》简明笔记。
-
-
-<!-- more -->
+![java](../../../../images/Java/java.jpg)
 
 # 数据类型
 
-九种基本数据类型
+在 Java 中，数据类型分为两类：**基本数据类型（primitive type）** 和 **引用类型（reference type）**。
+
+## 九种基本数据类型
 
 基本类型	|大小(字节)	|默认值	|封装类
----|---
+---|---|---|---
 byte|	1|	(byte)0|	Byte
 short|	2|	(short)0	|Short
 int|	4	|0	|Integer
@@ -28,11 +26,12 @@ boolean|	-	|false	|Boolean
 char|	2|	\u0000(null)	|Character
 void	|-	|-	|Void
 
-注：
+
 - 在数字后面加L后缀即表示long类型（如 `400000000L`），在数字前面类型转换即可表示Byte或short类型 （如 `(byte)127`）
 - 在浮点数后面f后缀表示float，否则默认为double
+- 关于 void，有些书认为不属于基本数据类型，虽然 Java api 中并未说明，但有些书籍如《Thinking in Java》将其也划进去。
 
-> 关于 void，有些书认为不属于基本数据类型，虽然 Java api 中并未说明，但有些书籍如《Thinking in Java》将其也划进去。
+<!-- more -->
 
 ---
 
@@ -77,7 +76,7 @@ Integer i = Integer.valueOf(100);
 - **`equals()`**：比较的是两个对象的值（内容）是否相同。
 - **`==`**：比较的是两个对象的引用（内存地址）是否相同，也用来比较两个基本数据类型的变量值是否相等。
 
-前面说过，int 的自动装箱，是系统执行了 `Integer.valueOf(int i)`，看看Integer.java的源码：
+前面说过，int 的自动装箱，是系统执行了 `Integer.valueOf(int i)`，看看Integer.java的源码（在IDEA中，按住Ctrl键，鼠标点击 Integer）：
 
 ```java
 public static Integer valueOf(int i) {

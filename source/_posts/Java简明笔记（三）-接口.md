@@ -194,7 +194,7 @@ public class Employee implements Persons, Identified {
 ```
 ---
 
-# Java标准类库的四个使用接口
+# Java标准类库的四个常用接口
 
 ## Comparable接口
 
@@ -408,7 +408,7 @@ cancelButton.setOnAction(new CancelAction());
 ---|---
 可以有构造函数|不可以有构造函数
 可以有普通成员变量|没有普通成员变量，只能有常量
-可以有普通方法和抽象方法|只能有抽象方法
+可以有实现方法和抽象方法|有抽象方法，可以有静态方法（java8），如果方法被default修饰就可以实现（java8）
 一个类只能继承一个抽象类|接口可以有多个实现
 成员变量可以是各种类型的|成员变量只能是public static final类型
 

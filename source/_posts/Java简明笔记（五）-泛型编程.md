@@ -41,9 +41,7 @@ public class Entry {
 
 现在，老板要求，除了 int 类型的 key 和 String 类型的 value之外，还得提供其他类型的 key 和 value 。 比如 double 类型的 key， boolean 类型的value。
 
-那我们要写很多个类似上面的类，只是把`private int key;`和`private String value` 改成`private boolean value`和`private double key;`吗？
-
-8种基本数据类型或许可以这么干，但是存储的是抽象数据类型呢？我们不可能所有类型都写一个对应的类。
+我们不可能写很多个相似的类，只是换一下类型。8种基本数据类型或许可以这么干，但是存储的是抽象数据类型呢？我们不可能所有类型都写一个对应的类。
 
 为了解决这个问题，我们可以用 Java 泛型： 只写一个类，实例化的时候再写明是什么类型就好了。这就是泛型类。
 
@@ -116,4 +114,4 @@ public static <T extends AutoCloseable> void closeAll(ArrayList<T> elems) throws
 
 # 类型变异和通配符
 
-todo..
+// TODO 遇到相关问题时再补充
