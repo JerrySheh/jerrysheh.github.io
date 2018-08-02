@@ -126,7 +126,7 @@ am.CatchMouse();
 ```java
 Animal am = new Cat();
 
-//如果 am 不是 Cat 引用，则类型转换
+//如果 am 可以向下转型为 Cat 类，则类型转换
 if (am instanceof Cat) {
     Cat ca = (Cat) am;
     ca.CatchMouse();

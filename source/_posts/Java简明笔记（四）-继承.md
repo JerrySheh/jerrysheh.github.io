@@ -144,7 +144,7 @@ empl.setBonus(10010); //编译报错
 ```Java
 Employee empl = new Manager(...);
 
-//如果empl不是Manager引用，则类型转换
+//如果 empl 可以向下转型为 Manager，则类型转换
 if (empl instanceof Manager) {
   Manager mgr = (Manager)empl;
   mgr.setBonus(10010);
