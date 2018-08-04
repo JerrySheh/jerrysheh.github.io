@@ -59,22 +59,21 @@ Integer i = Integer.valueOf(100);
 
 同理，拆箱就是把基本数据类型从 Integer 对象取出的过程。
 
-## 基本数据类型与对象的差别
+## 基本数据类型与引用类型的区别
 
-基本数据类型不是对象，也就是使用int、double、boolean等定义的变量、常量。
+基本数据类型不是对象，也就是使用int、double、boolean等定义的变量、常量。基本数据类型没有可调用的方法，而引用类型有方法。比如：
 
-基本数据类型没有可调用的方法。比如：
-
-`int t = 1；`   ，  t.  后面没有方法。
-
-`Integer t = 1；` ， t.  后面就有很多方法可让你调用了。
+```java
+int t = 1;    // t. 后面没有方法
+Integer u = 1;// u. 后面就有很多方法可让你调用了
+```
 
 ---
 
 # equals() 和 "=="
 
 - **`equals()`**：比较的是两个对象的值（内容）是否相同。
-- **`==`**：比较的是两个对象的引用（内存地址）是否相同，也用来比较两个基本数据类型的变量值是否相等。
+- **`==`**：比较的是两个引用所指的对象（或者说内存地址）是否相同，也用来比较两个基本数据类型的变量值是否相等。
 
 前面说过，int 的自动装箱，是系统执行了 `Integer.valueOf(int i)`，看看Integer.java的源码（在IDEA中，按住Ctrl键，鼠标点击 Integer）：
 
@@ -136,9 +135,8 @@ for (String name : friends) {
 
 结论：
 
-需要循环数组结构的数据时，建议使用普通for循环，因为for循环采用下标访问，对于数组结构的数据来说，采用下标访问比较好。
-
-需要循环链表结构的数据时，一定不要使用普通for循环，这种做法很糟糕，数据量大的时候有可能会导致系统崩溃。
+- 需要循环数组结构的数据时，建议使用普通for循环，因为for循环采用下标访问，对于数组结构的数据来说，采用下标访问比较好。
+- 需要循环链表结构的数据时，一定不要使用普通for循环，这种做法很糟糕，数据量大的时候有可能会导致系统崩溃。
 
 原因：**foreach使用的是迭代器**
 
@@ -146,55 +144,59 @@ for (String name : friends) {
 
 # 零碎知识
 
-* 最小整数：`Integer.MIN_VALUE`
-* 最大整数：`Integer.MAX_VALUE`
-* long不够用，用 BigInteger 类
-* 1_000_000 = 1000000，编译器会自动删掉下划线（方便阅读）
+## 数学运算相关
 
----
+1. 最小整数：`Integer.MIN_VALUE`
+2. 最大整数：`Integer.MAX_VALUE`
+3. long不够用，用 BigInteger 类
+4. 1_000_000 = 1000000，编译器会自动删掉下划线（方便阅读）
+5. `Double.POSITIVE_INFINITY`表示无穷大，`Double.NEGATIVE_INFINITY`表示负无穷大
+6. `Double.NaN`表示非数值
+7. 用 `if (Double.isNaN(x))`来检查 `x` 是否为 NaN，但不可以用`if (x == Double.NaN)`，因为NaN都是彼此不同的
+8. 浮点数不适合金融计算，用BigDecimal类
+9. `BigDecimal.ValueOf(n,e);`，其中n是一个整数数，e是小数位，如(588888,3)，就是 588.888
+10. 17/5 的结果是3， 而 17.0/5 的结果是3.4
+11. 整数除以零会导致异常，浮点数除以零会产生无限值或NaN
+12. 负数慎用 %
+13. Math类让算数运算更安全（p15）
+14. `Math.round`方法获得数字四舍五入的整数，`int n = (int) Math.round(x)`，若x=3.75，则n=4
+15. `( n!=0 && s+(100-s) / n ) < 50`，第二个条件除数等于零可能会报错，但第一个条件排除了这种可能性，所以第一个条件满足时，第二个条件不予评估，也就不会发生错误
+16. `time < 12 ? "am" : "pm"`， 若time<12，结果为am，否则为pm
+17. ` n & 0xF`的结果为n的最低四位
+18.  在32位的int类型中，1<<35的结果跟 1<<3 相同
+19.  Java不允许对象直接使用操作符，所以BigDecimal和BigInteer类需要用方法
 
-* `Double.POSITIVE_INFINITY`表示无穷大，`Double.NEGATIVE_INFINITY`表示负无穷大
-* `Double.NaN`表示非数值
-* 用 `if (Double.isNaN(x))`来检查 `x` 是否为 NaN，但不可以用`if (x == Double.NaN)`，因为NaN都是彼此不同的
-* 浮点数不适合金融计算，用BigDecimal类
-* `BigDecimal.ValueOf(n,e);`，其中n是一个整数数，e是小数位，如(588888,3)，就是 588.888
+ ```Java
+ BigDecimal next = bd.multiply(bd.add(BigDecimal.valueOf(l)));
+ ```
 
-* Java不允许对象直接使用操作符，所以BigDecimal和BigInteer类需要用方法
-
-```Java
-BigDecimal next = bd.multiply(bd.add(BigDecimal.valueOf(l)));
-```
-
----
+## 变量相关
 
 * 最好每个变量名都有各自单独的声明
-* 变量名建议用驼峰式命名，如 CountOfInvalidInputs
+* 变量名建议用驼峰式命名，如 countOfInvalidInputs
 * 刚好正在首次需要变量的前一刻声明
 * 常量用大写字母，如`DAYS_PRE_WEEK = 7;`
 * 在其他类中使用Calendar类的常量，只需要前面加上类名，如`Calendar.DAYS_PRE_WEEK`
 
 ---
 
-* 17/5 的结果是3， 而 17.0/5 的结果是3.4
-* 整数除以零会导致异常，浮点数除以零会产生无限值或NaN
-* 负数慎用 %
-* Math类让算数运算更安全（p15）
-
----
-
-* `Math.round`方法获得数字四舍五入的整数，`int n = (int) Math.round(x)`，若x=3.75，则n=4
-* `( n!=0 && s+(100-s) / n ) < 50`，第二个条件除数等于零可能会报错，但第一个条件排除了这种可能性，所以第一个条件满足时，第二个条件不予评估，也就不会发生错误
-* `time < 12 ? "am" : "pm"`， 若time<12，结果为am，否则为pm
-* ` n & 0xF`的结果为n的最低四位
-* 在32位的int类型中，1<<35的结果跟 1<<3 相同
-
----
-
 # 格式化输出
 
-* `System.out.printf("%8.2f", 1000.0 / 3.0)`, %8.2f指明输出的浮点数宽度为8，精度为小数点后两位。
-* `System.out.printf("Hello, %s. Next year you will be %d.", name, age)`
-* `String.format("Hello, %s. Next year you will be %d.", name, age);`
+## 使用 %0.0 输出浮点数
+
+%8.2f指明输出的浮点数宽度为8，精度为小数点后两位。
+
+```java
+// 输出：333.33
+System.out.printf("%8.2f", 1000.0 / 3.0);
+```
+
+## 使用 %s 输出字符串，%d 输出纯数字
+
+```java
+System.out.printf("Hello, %s. Next year you will be %d.", name, age);
+String.format("Hello, %s. Next year you will be %d.", name, age);
+```
 
 ---
 
@@ -202,16 +204,26 @@ BigDecimal next = bd.multiply(bd.add(BigDecimal.valueOf(l)));
 
 ## String 转 其他
 
-* `Integer.parseInt(Str);`
+```java
+Integer.parseInt(Str);
+```
 
 ## 其他 转 String
 
-* `String.ValueOf(num);`取数字的值，转换为字符串，比如 3.10 转换为 "3.1"
-* `Integer.toString(num);`
+
+
+```java
+//取数字的值，转换为字符串，比如 3.10 转换为 "3.1"
+//如果要格式化为 "3.10"，应该用下面的 DecimalFormat 类
+String.ValueOf(num);
+
+// Integer 转 String
+Integer.toString(num);
+```
 
 ## 使用 DecimalFormat 类
 
-* `df.format(num)`，将数字格式化为字符串
+将数字格式化为字符串
 
 ```java
 double d = 3.1;
@@ -227,14 +239,40 @@ String s = df.format(d);
 
 # 数组
 
-* 声明一个有100个元素的字符串数组 `String[] names = new String[100];`
-* new构造数组时的默认值：数字（0）， Boolean（flase）, 对象（空引用）
-* 构造数组时，需要知道数组的长度，一旦构造出来长度便不能改变。在许多实际应用中很不方便。所以需要 Java.util 包中的 ArrayList 类来根据需求随时增长或者缩减数组的长度。
-* ArrayList是泛型类
-* == 和 != 比较的是对象引用，而不是对象的内容。所以不要用 `if (numbers.get(i) == numbers.get(j))`，要用 equals
+## 声明数组
+
+```java
+//声明一个有100个元素的字符串数组
+String[] names = new String[100];
+```
+
+使用 new 构造数组时的默认值：数字（0）， Boolean（flase）, 对象（空引用）
+
+## 遍历数组
+
+```java
+// 使用 stream 遍历
+Arrays.stream(names).forEach(System.out::println);
+```
+
+## 数组元素比较
+
+== 和 != 比较的是对象引用，而不是对象的内容。所以比较数组不同下标元素内容是否相同时，不要用 == 应该用 **equals**。
+
+```java
+// DON'T
+if (numbers.get(i) == numbers.get(j));
+
+// DO
+if (numbers.get(i).equals(numbers.get(j)));
+```
+
+
+## 使用 ArrayList 代替数组
+
+构造数组时，需要知道数组的长度，一旦构造出来长度便不能改变。在许多实际应用中很不方便。所以需要 Java.util 包中的 ArrayList 类来根据需求随时增长或者缩减数组的长度。ArrayList是泛型类。
 
 ```Java
-
 ArrayList<String> friends;
 friend = new ArrayList<>();
 friend.add("Peter");
@@ -245,19 +283,54 @@ String first = friends.get(0);
 friends.set(1, "Mary");
 ```
 
+## 二维数组
+
+```java
+// 初始化二维数组
+Integer[][] num = new Integer[2][3];
+
+// 另一种初始化
+int[][] numbers = {
+        {1,2,3},
+        {4,5,6}
+};
+
+// 遍历 fori 二维数组
+for (int i = 0; i <numbers.length ; i++) {
+    for (int j = 0; j <numbers[i].length ; j++) {
+        System.out.print(numbers[i][j] + " ");
+    }
+    System.out.println();
+}
+
+// 使用 foreach 遍历二维数组
+for (int[] number : numbers) {
+    for (int aNumber : number) {
+        System.out.print(aNumber + " ");
+    }
+    System.out.println();
+}
+```
+
+遍历结果输出：
+
+```
+1 2 3
+4 5 6
+```
+
 ---
 
 # 可变长参数
 
-* 可变长参数的声明：... 如 `public static double average(double... values)`
-* 可变参数必须是方法的最后一个参数
+## 使用 ... 声明可变长参数
 
 ```Java
-
 public static double average(double... values) {
   double sum = 0;
   for(double v: values) sum+= v;
   return values.length == 0 ? 0 : sum / values.length;
 }
-
 ```
+
+**注意**：可变参数必须是方法的最后一个参数
