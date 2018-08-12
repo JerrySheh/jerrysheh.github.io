@@ -60,7 +60,13 @@ GC把以下几种对象称为 GC Roots：
 
 GC Roots并不包括堆中对象所引用的对象！这样就不会出现循环引用。
 
-## 回收过程
+## 如何回收
+
+### finalize() 方法
+
+Object 类中定义的方法，Java 中允许使用 `finalize()` 方法在垃圾收集器将对象从内存中清除出去之前做必要的清理工作。这个方法是由垃圾收集器在销毁对象时调用的，通过重写 `finalize()` 方法可以整理系统资源或者执行其他清理工作。
+
+### 回收过程
 
 1. 判断该对象是否 Override 了 `finalize()` 方法，若有 Override，将 `finalize()` 扔进F-Queue队列中；若无 Override，直接释放对象内存；
 2. 执行F-Queue队列中的 `finalize()` 方法；

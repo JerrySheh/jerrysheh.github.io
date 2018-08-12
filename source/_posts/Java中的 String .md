@@ -251,6 +251,12 @@ System.out.println(s);
 
 输出：` hello world，I am Jerry.`
 
+#### 扩展： String 的 “+” 和 StringBuffer的 append
+
+问: 有没有哪种情况用 + 做字符串连接比调用 StringBuffer / StringBuilder 对象的 append 方法性能更好？
+
+答：如果连接后得到的字符串在 **静态存储区中是早已存在的**，那么用+做字符串连接是优于 StringBuffer / StringBuilder 的 append 方法的。
+
 ### 使用 reverse 进行反转
 
 
