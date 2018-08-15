@@ -7,26 +7,6 @@ abbrlink: ba7990ce
 date: 2018-01-18 22:31:07
 ---
 
-
-《Core Java for the Impatient》简明笔记。
-
-本章要点：
-* Mutator方法改变对象的状态，Accessor方法不改变对象状态；
-* Java中，变量不持有对象，只能持有对象的引用；
-* 实例变量和方法实现是在类的内部声明的；
-* 实例方法是通过对象调用的，通过this引用可访问该对象；
-* 构造函数和类名相同。一个类可以有多个构造函数（Overload,重载）；
-* 静态变量不属于任何对象。静态方法不是通过对象调用的；
-* 类是按包的形式来组织的。使用import声明，这样程序中就不必使用包名；
-* 类可以嵌套在其他类中；
-* 内部类是非静态嵌套类。它的实例有个外部类对象的引用，这个外部类构建了内部类；
-* Javadoc工具处理源代码文件，根据声明和程序员提供的注释产生HTML文件。
-
-
-<!-- more -->
-
----
-
 # Java 创建对象的过程
 
 在 Java 中把内存大致分为四块区域：
@@ -53,6 +33,113 @@ Person p2 = p;
 我们创建了一个新的引用 p2， p2 跟 p 一样，都是保存在栈中，也指向了 Person 对象。当我们改变 p2 的状态， p 也会跟着改变，因为他们指向同一个对象。
 
 ![new](../../../../images/Java/newperson.png)
+
+---
+
+# 类块加载顺序
+
+在一个类中，可能存在：
+
+- **静态块**：用static申明，JVM加载类时执行，仅执行一次（**注意**：如果在静态块中声明了变量，如 `int a = 1;`, 它是一个局部变量，在该静态块执行结束后就会失效）
+- **构造块**：类中直接用{}定义，每一次创建对象时执行
+
+在有继承关系的类中，加载顺序如下：
+1. 父类静态块
+2. 子类静态块
+3. 父类构造块
+4. 父类构造方法
+5. 子类构造块
+6. 子类构造方法
+
+注意：如果 main 在该类下，JVM先加载类，然后才会执行 main() 方法
+
+## 示例一
+
+```java
+public class Go {
+
+    {
+        System.out.println("blockA");
+    }
+
+    static {
+        System.out.println("blockB");
+    }
+
+    public static void main(String[] args) {
+
+    }
+}
+```
+
+输出结果：
+
+```
+blockB
+```
+
+main方法什么都不做，但是当我们执行时这个空的main方法，Go类会被JVM加载，因此输出静态块 `blockB`。
+
+## 示例二
+
+```java
+public class Go {
+
+    public static Go t1 = new Go();
+
+    {
+        System.out.println("blockA");
+    }
+
+    static {
+        System.out.println("blockB");
+    }
+
+    public static void main(String[] args) {
+
+    }
+}
+```
+
+输出:
+```
+blockA
+blockB
+```
+
+main()依然什么都不做，但是在JVM加载Go类时（只会加载一次），第一行 new 一个新的 Go 对象，new 的时候调用了构造快，因此输出 `blockA`，之后，Go类继续加载，执行静态块，输出 `blockB`。
+
+## 示例三
+
+```java
+public class Go {
+
+    public static Go t1 = new Go();
+
+    {
+        System.out.println("blockA");
+    }
+
+    static {
+        System.out.println("blockB");
+    }
+
+    public static void main(String[] args) {
+        Go t2 = new Go();
+    }
+}
+```
+
+输出：
+```
+blockA
+blockB
+blockA
+```
+
+JVM加载Go类时（只会加载一次），第一行 new 一个新的 Go 对象，new 的时候调用了构造快，因此输出 `blockA`，之后，Go类继续加载，执行静态块，输出 `blockB`。
+
+然后 main 方法执行，new 一个 Go，调用构造块，再次输出`blockA`。
 
 ---
 
@@ -99,14 +186,18 @@ Person p2 = p;
 // 这个语句在堆内存中开辟了子类(Cat)的对象，并把栈内存中的父类(Animal)的引用指向了这个Cat对象
 Animal am = new Cat();
 
-//调用实例方法
+//调用实例方法，调的是 Cat 的方法
 am.eat();
 
-//调用静态方法
-am.sleep();
+//调用静态方法，调的是 Animal 的方法
+am.sleep(); // 不建议
+
+Animal.sleep(); // 建议
 ```
 
-可以发现，实例方法 `am.eat()` 输出的是 Cat 类重写后的方法，而静态方法`am.sleep()` 输出的是 Animal 类的方法（尽管 Cat 也重写了 sleep 方法，但运行时不被识别）
+可以发现，实例方法 `am.eat()` 输出的是 Cat 类重写后的方法，而静态方法`am.sleep()` 输出的是 Animal 类的方法（尽管 Cat 也写了同名的 sleep 方法，但这不算 Override，运行时不被识别）
+
+**引申**：有趣的是，当我们用对象实例去调用静态方法，如`am.sleep();`，IDEA会给我们一个提示：Static member 'Test.Animal.sleep()' accessed via instance reference 。意思是说，建议我们使用 `Animal.sleep()` 来调用静态方法而不要用 `am.sleep()`。此外，使用静态变量也应如此。
 
 ### 多态的弊端
 
@@ -141,6 +232,15 @@ if (am instanceof Cat) {
 
 ---
 
+# public、protected、private
+
+- **public**：所有类可以访问
+- **protected**： 子类可以访问（无论是不是在同一个包中）
+- **private**： 只有自己能访问
+- **不修饰(friendly)**：同一个包内可访问
+
+---
+
 # 对象和方法
 
 ##  Mutator 方法 和 Accessor 方法
@@ -152,6 +252,12 @@ if (am instanceof Cat) {
 * Java中，变量只能持有对象的引用。引用是与实现相关的一种定位对象的方式。
 * 在类的实例上运行的方法称为`实例方法`。
 * Java中，所有没有被声明为`static`的方法都是实例方法。
+
+---
+
+# 局部变量和类变量
+
+类中的变量可以不用初始化，使用相应类型的默认值即可，方法中的定义的局部变量必须初始化，否则编译不通过。
 
 ---
 
@@ -236,6 +342,7 @@ boss.replaceWithZombie(fred);
 * 构造函数没有返回类型，如果你不小心加了void，那这是一个名称跟类名相同的方法，不是构造函数。
 * 构造函数可以重载。
 * 如果有多个构造函数，将共有代码放在其中一个构造函数里，然后在其他构造函数可以调用另一个构造函数，这时候调用要使用this。且只能作为构造函数方法体的第一条语句。
+- 构造函数不能被static、final、synchronized、abstract、native修饰，但可以被public、private、protected修饰；
 
 ```Java
 public Employee (double salary){
@@ -251,9 +358,27 @@ public Employee (double salary){
 
 # static
 
-如果在类中将变量声明为static，那么该变量属于类，而不是属于对象，它在所有的实例中的值是一样的。
+## static方法
 
-如果将方法声明为static，该方法就是静态方法，即可以不用运行在对象上的方法。
+如果将方法声明为static，该方法就是静态方法，即可以不用运行在对象上的方法。**静态方法没有 this 指针**。
+
+静态方法要调用实例方法必须先 new 对象，但可以直接调用其他静态方法（包括其他类的静态方法）。
+
+## static变量（类变量）
+
+如果在类中将变量声明为static，那么该变量属于类，而不是属于对象，它在所有的实例中的值是一样的
+
+<font color="red">注意：static静态变量只能在类主体中定义，不能在方法里面定义(无论是静态方法还是实例方法)<font>
+
+像下面这样是错误的：
+
+```java
+public static void main(String[] args) {
+    // 错误，static不能用在方法里面
+    // 无论是静态方法还是实例方法都不可以
+    static int a = 10;
+}
+```
 
 ## 静态变量和实例变量的区别
 
@@ -273,7 +398,15 @@ public Employee (double salary){
 
 # final
 
-## final 修饰变量（就是常量）
+## final 修饰类
+
+表示该类不能被继承。此时和 abstract 是反义词。
+
+## final 修饰方法
+
+表示方法不能被 Override(覆盖)。
+
+## final 修饰变量
 
 通常用 `static final` 修饰一个变量，这样这个变量就是常量，如:
 
@@ -293,13 +426,19 @@ public class Person{
 }
 ```
 
-## final 修饰方法
+---
 
-表示方法不能被 Override(覆盖)。
+# abstract
 
-## final 修饰类
+abstract指的是抽象，即没有实现，也不能被实例化。此外，接口属于特殊的 abstract 类，也是 abstract 类。
 
-表示该类不能被继承。此时和 abstract 是反义词。
+## abstract 修饰类
+
+抽象类。抽象类中可以有抽象方法，也可以有实现方法。抽象类可以有 `private` 变量。但最好不要这么干。因为实现类继承了将会无法使用。
+
+## abstract 修饰方法
+
+抽象方法。abstract 方法必须在 abstract 类或接口中。
 
 ---
 
@@ -431,3 +570,28 @@ enum Weekday {
 ```java
 Weekday startDay = Weekday.MON;
 ```
+
+---
+
+# 面向对象的五个基本原则
+
+## 单一职责原则（Single-Resposibility Principle）
+
+一个类，最好只做一件事，只有一个引起它的变化。单一职责原则可以看做是低耦合、高内聚在面向对象原则上的引申，将职责定义为引起变化的原因，以提高内聚性来减少引起变化的原因。
+
+
+## 开放封闭原则（Open-Closed principle）
+
+软件实体应该是可扩展的，而不可修改的。也就是，对扩展开放，对修改封闭的。
+
+## Liskov替换原则（Liskov-Substituion Principle）
+
+子类必须能够替换其基类。这一思想体现为对继承机制的约束规范，只有子类能够替换基类时，才能保证系统在运行期内识别子类，这是保证继承复用的基础。
+
+## 依赖倒置原则（Dependecy-Inversion Principle）
+
+依赖于抽象。具体而言就是高层模块不依赖于底层模块，二者都同依赖于抽象；抽象不依赖于具体，具体依赖于抽象。
+
+## 接口隔离原则（Interface-Segregation Principle）
+
+使用多个小的专门的接口，而不要使用一个大的总接口

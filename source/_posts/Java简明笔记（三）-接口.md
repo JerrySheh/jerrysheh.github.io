@@ -7,20 +7,6 @@ categories: JAVA
 tags: Java
 ---
 
-《Core Java for the Impatient》简明笔记。
-
-本章要点：
-
-* 接口指定了一组实现类必须提供的方法
-* 接口是任何实现该接口的父类。因此，可以将类的实例赋值给接口类型的变量。
-* 接口可以包含静态方法。接口中的所有变量默认是 static final 的。
-* 接口可以包含默认方法，实现类可以继承或覆盖该默认方法。
-* Comparable和Comparator接口是用来比较对象的。
-
-<!-- more -->
-
----
-
 # 什么是接口
 
 假设有一种整数序列服务，这种服务可以计算前n个整数的平均值。就像这样：
@@ -67,6 +53,8 @@ public interface IntSequence{
 ```
 
 * 接口中所有的方法默认为public
+
+<!-- more -->
 
 ---
 
@@ -157,13 +145,27 @@ if (sequence instanceof DigitSequence) {
 
 ---
 
-# 静态方法和默认方法
+# 接口中可以有哪些方法修饰符？
 
-* 接口可以有静态方法（Java 8新特性）
+Java8 的接口方法可以有如下方法定义：
 
-## 默认方法和作用
+public, abstract, default, static，strictfp
 
-* 可以给接口一个默认实现（默认方法），用`default`修饰。
+## public
+
+接口中所有的方法都是`public`的，不可以是 protected 或者 private。
+
+## 接口中写 abstract 有什么意义？
+
+其实接口中所有的方法都是 `public abstract` 的（静态方法除外），不写也默认是 abstract。只是可以省略而已。写了也不会错。
+
+## static
+
+接口可以有静态方法（Java 8新特性），但必须提供实现。
+
+## default （默认方法）
+
+可以给接口一个默认实现（默认方法），用`default`修饰。（Java 8新特性）
 
 ```Java
 public interface IntSequence {
@@ -176,25 +178,31 @@ public interface IntSequence {
 }
 ```
 
-* 默认方法的一个重要用途：接口演化
+默认方法的一个重要用途：**接口演化**
 
-> 有一个旧接口，一个类实现了这个接口。新版Java中对旧接口增加了一个方法，那么这个类就无法编译了，因为这个类没有实现新增加的方法。这时，如果新增加的方法设为默认方法。那么在类的实例中调用这个方法时，执行的是接口的默认方法，即使这个类没有该方法也得以编译和运行。
+有一个旧接口，一个类实现了这个接口。新版Java中对旧接口增加了一个方法，那么这个类就无法编译了，因为这个类没有实现新增加的方法。这时，如果新增加的方法设为默认方法。那么在类的实例中调用这个方法时，执行的是接口的默认方法，即使这个类没有该方法也得以编译和运行。
 
-## 解决冲突
+### 解决冲突
 
 * 如果一个类实现了两个接口，其中一个接口有默认方法，另一个接口有同名同参数的方法（默认或非默认），那么编译器会报错。可以用`父类.super.方法()`来决定要执行哪个方法。
 
 ```Java
-//返回Identified接口的getID，而不是Persons接口的
+//返回 Identified 接口的 getID，而不是 Persons 接口的
 public class Employee implements Persons, Identified {
   public int getID() {
     return Identified.super.getID();
   }
 }
 ```
+
+## strictfp
+
+strictfp, 即 strict float point (精确浮点)，这个用得比较少，暂时不深入研究。
+
+
 ---
 
-# Java标准类库的四个常用接口
+# Java标准类库的几个常用接口
 
 ## Comparable接口
 
@@ -367,6 +375,18 @@ thread.start();
 
 这样，run方法就在一个单独的线程中去执行了，当前线程可以做别的事。
 
+## Serializable 标记接口
+
+## 什么是序列化
+
+对象流是指将对象的内容进行流化。之后，我们就可以对流化后的对象进行读写操作或网络传输。序列化就是一种用来处理对象流的机制，为了解决在对对象流进行读写操作时所引发的问题。
+
+## Serializable 接口的作用
+
+将需要被序列化的类实现 Serializable 接口，该接口没有需要实现的方法，**implements Serializable 只是为了标注该对象是可被序列化的**。
+
+之后，使用一个输出流(如：FileOutputStream)来构造一个 ObjectOutputStream(对象流) 对象，接着，使用 ObjectOutputStream 对象的 writeObject(Object obj) 方法就可以将参数为obj的对象写出(即保存其状态)，要恢复的话则用输入流。
+
 ## UI回调
 
 在GUI中，当用户单击按钮、选择菜单项、拖动滑块等操作时，我们必须指定需要执行的行为。这种行为称为`回调`。
@@ -402,15 +422,12 @@ cancelButton.setOnAction(new CancelAction());
 
 接口注重的是方法，而抽象类注重属性和方法。
 
-
-
 抽象类|接口
 ---|---
-可以有构造函数|不可以有构造函数
+可以有构造函数|没有构造函数
 可以有普通成员变量|没有普通成员变量，只能有常量
 可以有实现方法和抽象方法|有抽象方法，可以有静态方法（java8），如果方法被default修饰就可以实现（java8）
 一个类只能继承一个抽象类|接口可以有多个实现
-成员变量可以是各种类型的|成员变量只能是public static final类型
 
 ## 什么时候使用接口，什么时候使用抽象类
 

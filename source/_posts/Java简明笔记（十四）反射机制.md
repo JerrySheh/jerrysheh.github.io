@@ -73,7 +73,15 @@ teacher YangLiang = new teacher();
 Class pClass = Class.forname("student"); //获取一个 student 类的类对象
 ```
 
-> 获取类对象的时候，类属性会被初始化。
+获取类对象的时候，类属性会被初始化。
+
+第三种方法：
+
+```java
+new student().getClass();
+```
+
+`getClass()` 是 Object 类的方法，返回的是运行时的类的名字（包名+类名），如果要返回父类，用 `getClass().getSuperclass()` 
 
 ---
 

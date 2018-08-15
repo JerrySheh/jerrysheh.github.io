@@ -118,6 +118,21 @@ public class SimpleApp {
 }
 ```
 
+## 配置运行环境
+
+点击edit configuration，在左侧点击该项目。在右侧 VM options中 输入`-Dspark.master=local`，指示本程序本地单线程运行。
+
+spark 支持的 master URL 有：
+- local 本地单线程
+- local[K] 本地多线程（指定K个内核）
+- local[*] 本地多线程（指定所有可用内核）
+- spark://HOST:PORT 连接到指定的 Spark standalone cluster master，需要指定端口。
+- mesos://HOST:PORT 连接到指定的 Mesos 集群，需要指定端口。
+- yarn-client 客户端模式 连接到 YARN 集群。需要配置 HADOOP_CONF_DIR。
+- yarn-cluster 集群模式 连接到 YARN 集群。需要配置 HADOOP_CONF_DIR。
+
+配置完以后，就可以直接在 IDEA 运行，开发阶段不必打包后在命令行运行。
+
 ## 打包
 
 ### 使用 mvn 命令打包
@@ -157,3 +172,13 @@ Lines with a: 46, Lines with b: 23
 ```
 
 这样，一个简单的 spark 应用程序就运行成功了。
+
+## 只输出 WARN 和 ERROR 不输出 INFO
+
+把 SPARK_HOME/conf 下的 log4j.properties.template 复制到 工程 Resource Root 下面（我这里是 Scala 包），重命名为 log4j.properties 。 打开，修改其中的 
+
+```
+log4j.rootCategory=INFO, console
+```
+
+将 INFO 改成 WARN 或者 ERROR 即可

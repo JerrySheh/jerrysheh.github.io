@@ -7,24 +7,11 @@ abbrlink: 2fJava80
 date: 2018-01-23 18:14:26
 ---
 
-《Core Java for the Impatient》简明笔记。
-
-本章要点：
-
-* 子类可以继承或者覆盖父类的方法。
-* 使用关键字`super`来调用父类方法或者构造函数。
-* final方法不能被覆盖，final类不能被继承。
-* abstract方法没有实现，abstract类不能被实例化。
-* 子类方法可以访问子类的受保护成员，但仅适用于同一个子类的对象。
-* 所有类都是Object的子类，Object提供了toString、equals、hashCode、clone等方法。
-
----
-
 # 什么是继承
 
 继承是在现有的类的基础上创建新类的过程。继承一个类，你也就重用了它的方法，而且还可以添加新的方法和域。
 
-举个例子。
+举个例子：员工有薪水，管理者有薪水+奖金， 管理者继承员工，增加 bounus 字段和 setBonus 方法即可。这种情况就是管理者类继承了员工类。
 
 ```Java
 public class Manager extends Employee {
@@ -45,25 +32,25 @@ public class Manager extends Employee {
 
 # 方法覆盖（Override，重写）
 
-`Employee`类有个`setSalary`方法，返回员工的总薪水。对于管理层来说，除了工资外，还有奖金，于是`Employee`的`setSalary`方法不适用，我们需要重写。这个过程就叫方法覆盖（重写）。
+`Employee`类有个`getSalary`方法，返回员工的总薪水。对于管理层来说，除了工资外，还有奖金，于是`Employee`的`getSalary`方法不适用，我们需要重写。这个过程就叫方法覆盖（重写）。
 
 ```Java
 
 public class Manager extends Employee {
-  ...
+  //...
 
+  @Override
   public double getSalary() {
     return super.getSalary() + bonus;
   }
 }
 ```
 
-* `super.getSalary()` 是`Employee`类的方法。也就是说，我们可以用`super`来调用父类方法。方法覆盖之后还是可以调用父类方法。
+`super.getSalary()` 是 Employee 类的方法。也就是说，我们可以用 `super` 来调用父类方法。**方法覆盖之后还是可以调用父类方法。**
 
+## 重写一个方法，必须匹配准确的参数类型
 
-注意，重写一个方法，必须匹配准确的参数类型。
-
-假如Employee类有一个方法
+假如 Employee 类有一个方法
 
 ```Java
 public boolean workdsFor (Employee supervisor){
@@ -71,9 +58,10 @@ public boolean workdsFor (Employee supervisor){
 }
 ```
 
-我们现在要在`Manager`类重写这个方法，如果我们这样写：
+我们现在要在`Manager`类重写这个方法，如果我们在 Manager 类这样写：
 
 ```Java
+@Override
 public boolean workdsFor (Manager supervisor){
   ...
 }
@@ -84,19 +72,13 @@ public boolean workdsFor (Manager supervisor){
 正确的重写应该是：
 
 ```Java
+@Override
 public boolean workdsFor (Employee supervisor){
   ...
 }
 ```
 
 因此，为了避免发生这样的失误，最好在我们重写方法的前面加上`@Override`，以注明这是一个重写方法，当我们失误参数写错时，编译器会报错。
-
-```Java
-@Override
-public boolean workdsFor (Employee supervisor){
-  ...
-}
-```
 
 ## Override 和 Overload 的区别
 
@@ -108,13 +90,17 @@ Overload 是方法重载，同一个类中可以有多个名称相同但参数�
 
 ---
 
-# 子类构造函数
+# 初始化：子类构造函数调用父类构造函数
 
-Manager的构造函数不能访问Employee的私有变量，所以我们要用`super`调用父类的构造函数来初始化。
+Manager的构造函数不能访问Employee的私有变量，所以我们要用`super`关键字调用父类的构造函数来初始化。
 
 ```Java
+// 子类构造方法
 public Manager (String name, double salary) {
+
+  // 调用父类构造方法
   super(name, salary);
+
   bonus = 0;
 }
 ```
@@ -122,7 +108,7 @@ public Manager (String name, double salary) {
 
 # 父类赋值
 
-在Java中，将一个子类对象赋给父类变量是可以的。Java有动态查找，即使是Employee类型，执行的时候还是会执行Manager的方法。
+在 Java 中，将一个子类对象赋给父类变量是可以的。Java有动态查找（多态），即使是 Employee 类型，执行的时候还是会执行 Manager 的方法。
 
 ```Java
 Manager boss = new Manager(...);
@@ -146,36 +132,57 @@ Employee empl = new Manager(...);
 
 //如果 empl 可以向下转型为 Manager，则类型转换
 if (empl instanceof Manager) {
-  Manager mgr = (Manager)empl;
+  Manager mgr = (Manager) empl;
   mgr.setBonus(10010);
+}
+```
+
+参考：[Java简明笔记（二） 面向对象](../post/ba7990ce.html)
+
+---
+
+# final、abstract、interface
+
+* final方法不能被覆盖，final类不能被继承。
+* abstract方法没有实现，abstract类不能被实例化。
+* Java中，**类比接口优先（class win）**。因此一个类继承了另一个类，又实现了某个接口，碰巧父类和接口有同名方法。这时，默认为父类的实现。<font color="red"> 注意：声明一个类时，先 extends，再 implements，否则编译错误 </font>
+
+```java
+public class A extends B implements C {
+  //...
 }
 ```
 
 ---
 
-## final、abstract、interface
-
-* final方法不能被覆盖，final类不能被继承。
-* abstract方法没有实现，abstract类不能被实例化。
-* Java中，类比接口优先（class win）。因此一个类继承了另一个类，又实现了某个接口，碰巧父类和接口有同名方法。这时，默认为父类的实现。
-
----
-
 # 终极父类：Object
 
-Object是Java中所有类的父类。Object类有几个重要的方法。
+Object 是 Java 中所有类的父类。Object类有几个重要的方法：
 
 ## clone方法
 
-保护方法，实现对象的浅复制，只有实现了Cloneable接口才可以调用该方法，否则抛出CloneNotSupportedException异常
+```java
+protected Object clone()
+```
+
+用于创建并返回此对象的一个副本，实现对象的浅复制。**注意**：只有实现了 Cloneable 接口才可以调用该方法，否则抛出 CloneNotSupportedException 异常。
 
 
 ## ToString方法
 
-许多toString方法都采用一种格式： 类名称后面跟中括号，里面是实例变量。如
-调用Point类的toString将会输出：`Java.awt.Point[x=10, y=20]`
+```java
+public String toString()
+```
 
-所以，在我们的Employee方法中，可以重写toString为
+用于返回该对象的字符串表示。许多 toString 方法都采用一种格式： 类名后面跟中括号，里面是实例变量。
+
+例如： Point 类的 toString 输出：
+
+```java
+Java.awt.Point[x=10, y=20]
+```
+
+所以，在我们的Employee方法中，可以重写 toString 为
 
 ```java
 public String toString() {
@@ -183,19 +190,32 @@ public String toString() {
 }
 ```
 
-* 打印多维数组用 Array.deepToString
+提示：打印多维数组用 `Array.deepToString` 方法。
 
 ## equals方法
 
-equals方法用于判断一个对象是否与另一个对象相等。注意，判断的是对象引用是否相同。
+```java
+public boolean equals(Object obj)
+```
 
+用于判断一个对象是否与另一个对象相等。注意，判断的是对象引用是否相同。
+
+提示：
 * 一般情况下，我们不需要重写equals方法。
 * 对于基本数据类型，用“==”，但是在double中，如果担心正负无穷大或NaN，用`Double.equals`。
-* 对于对象，如果担心对象为null，用`Object.equals(x, y)`，如果x为空，返回false。而如果你常规的用`x.equals(y)则会抛出异常。`
+* 对于对象，如果担心对象为null，用`Object.equals(x, y)`，如果x为空，返回false。而如果你常规的用`x.equals(y)`则会抛出异常。
 
 ## wait方法
 
-使当前线程等待该对象的锁，当前线程必须是该对象的拥有者，也就是具有该对象的锁。wait()方法一直等待，直到获得锁或者被中断。wait(long timeout)设定一个超时间隔，如果在规定时间内没有获得锁就返回。
+```java
+public void wait()
+public void wait(long timeout)
+public void wait(long timeout, int nanos)
+```
+
+用于让当前线程等待，直到其他线程调用此对象的 `notify()` 方法或 `notifyAll()` 方法。
+
+`wait()` 使当前线程等待该对象的锁。当前线程必须是该对象的拥有者，也就是具有该对象的锁。`wait()` 方法一直等待，直到获得锁或者被中断。`wait(long timeout)` 设定一个超时间隔，如果在规定时间内没有获得锁就返回。
 
 调用该方法后当前线程进入睡眠状态，直到以下事件发生：
 
@@ -204,32 +224,59 @@ equals方法用于判断一个对象是否与另一个对象相等。注意，�
 3. 其他线程调用了interrupt中断该线程
 4. 时间间隔到了
 
-此时该线程就可以被调度了，如果是被中断的话就抛出一个InterruptedException异常
+此时该线程就可以被调度了，如果是被中断的话就抛出一个 InterruptedException 异常。
 
 
 ## hashCode方法
 
-哈希码是个来源于对象的整数。哈希码应该是杂乱无序的，如果x和y是两个不相等的对象，他们的`hashCode`方法很可能不同。
+```java
+public int hashCode()
+```
 
->  hashcode的作用。
+哈希码是个来源于对象的整数。哈希码应该是杂乱无序的，如果 x 和 y 是两个不相等的对象，他们的`hashCode`方法很可能不同。
 
-> hashCode用于返回对象的散列值，用于在散列函数中确定放置的桶的位置。
+### 引申：hashcode的作用
 
-> 1、hashCode的存在主要是用于查找的快捷性，如Hashtable，HashMap等，hashCode是用来在散列存储结构中确定对象的存储地址的；
+hashCode用于返回对象的散列值，用于在散列函数中确定放置的桶的位置。
 
-> 2、如果两个对象相同，就是适用于equals(java.lang.Object) 方法，那么这两个对象的hashCode一定要相同；
+1. hashCode的存在主要是用于查找的快捷性，如Hashtable，HashMap等，hashCode是用来在散列存储结构中确定对象的存储地址的；
+2. 如果两个对象相同，就是适用于equals(java.lang.Object) 方法，那么这两个对象的hashCode一定要相同；
+3. 如果对象的equals方法被重写，那么对象的hashCode也尽量重写，并且产生hashCode使用的对象，一定要和equals方法中使用的一致，否则就会违反上面提到的第2点；
+4. 两个对象的hashCode相同，并不一定表示两个对象就相同，也就是不一定适用于equals(java.lang.Object) 方法，只能够说明这两个对象在散列存储结构中，如Hashtable，他们“存放在同一个篮子里”。
 
-> 3、如果对象的equals方法被重写，那么对象的hashCode也尽量重写，并且产生hashCode使用的对象，一定要和equals方法中使用的一致，否则就会违反上面提到的第2点；
-
-> 4、两个对象的hashCode相同，并不一定表示两个对象就相同，也就是不一定适用于equals(java.lang.Object) 方法，只能够说明这两个对象在散列存储结构中，如Hashtable，他们“存放在同一个篮子里”。
+参考：[数据结构（六）查找——哈希函数和哈希表](../post/c61c7436.html)
 
 
 ## getClass方法
 
-final方法，获得运行时类型
+```java
+public final native Class< ? > getClass()
+```
 
-## notify
+native方法，也是 final 方法，用于返回此 Object 的运行时类型。
+
+## notify方法
+
+```java
+public void notify()
+```
+
 唤醒在该对象上等待的某个线程
 
-## notifyAll
+`notify()`是对对象锁的唤醒操作。但有一点需要注意的是：`notify()` 调用后，并不是马上就释放对象锁的，而是在相应的 `synchronized(){}` 语句块执行结束，自动释放锁后，JVM会在 `wait()` 对象锁的线程中随机选取一线程，赋予其对象锁，唤醒线程，继续执行。这样就提供了在线程间同步、唤醒的操作。
+
+## notifyAll方法
+
+```java
+public void notifyAll()
+```
+
 唤醒在该对象上等待的所有线程
+
+## finalize方法
+
+```java
+protected void finalize()
+```
+
+当垃圾回收器确定不存在对该对象的更多引用时，由对象的垃圾回收器调用此方法。见 [Java虚拟机（四）垃圾回收策略](../post/2191536a.html)。

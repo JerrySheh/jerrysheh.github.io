@@ -199,15 +199,17 @@ login.html
 
 登录成功或是失败后，分别会跳转到不同的页面。 跳转分为`服务端跳转`和`客户端跳转`。
 
-### 服务端跳转
+### 服务端跳转(forward)
+
+forward 是服务器请求资源,服务器直接访问目标地址的URL,把那个URL的响应内容读取过来,然后把这些内容再发给浏览器.浏览器根本不知道服务器发送的内容从哪里来的,所以它的地址栏还是原来的地址。<font color="red"> 因此，用户看到的网址没有变化 </font>。 在这个过程中，控制权并没有转交给另一服务器对象。
 
 ```java
 request.getRequestDispatcher("success.html").forward(request, response);
 ```
 
-- 用户看到的网址没有变化
+### 客户端跳转(redirect)
 
-### 客户端跳转
+redirect是服务端根据逻辑,发送一个状态码,告诉浏览器重新去请求那个地址.所以地址栏显示的是新的URL.
 
 ```java
 response.sendRedirect("fail.html");
@@ -320,8 +322,5 @@ response.setHeader("pragma","no-cache");
 ## 标记接口
 
 在Java中，把没有定义任何方法和常量的接口称之为标记接口，经常看到的一个最典型的标记接口就是"Serializable"，这个接口也是没有定义任何方法和常量的，标记接口在Java中有什么用呢？主要作用就是给某个对象打上一个标志，告诉JVM，这个对象可以做什么，比如实现了"Serializable"接口的类的对象就可以被序列化，还有一个"Cloneable"接口，这个也是一个标记接口，在默认情况下，Java中的对象是不允许被克隆的，就像现实生活中的人一样，不允许克隆，但是只要实现了"Cloneable"接口，那么对象就可以被克隆了。
-
-
-
 
 ---

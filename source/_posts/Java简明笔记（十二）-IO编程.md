@@ -206,6 +206,8 @@ private static void writeByte (File parentFolder) throws NullPointerException, I
 
 继承于`InputStream`和`OutputStream`的实现类可以让我们很方便的读写字节。但是，我们很多文件都是 Unicode 字符编码的，不是单个的字节。因此，Java又定义了`Reader`和`Writer`两个抽象类，专门处理 Unicode 字符。
 
+<font color="red"> 因此，在 Java 中， Stream 结尾的都是字节流， reader 或 writer结尾都是字符流。 两者的区别是：读写的时候一个是按字节读写，一个是按字符。</font>
+
 相比字节，我们更感兴趣的是数字、字符串和对象，而不是一个一个的字节。Java 当然也提供了很多让我们读取常用格式的数据，而不仅仅是字节！
 
 

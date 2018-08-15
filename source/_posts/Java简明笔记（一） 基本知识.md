@@ -35,10 +35,17 @@ boolean|	-	|false	|Boolean
 char|	2|	\u0000(null)	|Character
 void	|-	|-	|Void
 
+### 注意点
 
 - 在数字后面加L后缀即表示long类型（如 `400000000L`），在数字前面类型转换即可表示Byte或short类型 （如 `(byte)127`）
 - 在浮点数后面f后缀表示float，否则默认为double
 - 关于 void，有些书认为不属于基本数据类型，虽然 Java api 中并未说明，但有些书籍如《Thinking in Java》将其也划进去。
+
+### 计算时需要注意的
+
+Java中的 byte，short，char 进行计算时都会提升为 int 类型。
+
+int < long < float < double， 如果有一个操作数是 double 型，计算结果是double型。
 
 <!-- more -->
 

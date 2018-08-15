@@ -9,7 +9,7 @@ date: 2018-02-05 00:27:20
 
 # String 的本质
 
-在 java.lang.String 类的源码中，可以发现 String 内部维护的是一个 char 数组。同时可以发现，String类被 `final` 修饰，即不可变的。
+在 Java8 中，分析 java.lang.String 类的源码中，可以发现 String 内部维护的是一个 char 数组。同时可以发现，String类被 `final` 修饰，即不可变的。
 
 ```java
 public final class String
@@ -20,6 +20,29 @@ public final class String
     //...
 }
 ```
+
+在 Java9 中，将 char 数组优化成了 byte 数组。
+
+```java
+private final byte value[];
+```
+
+## 为什么要将 char[] 改成 byte[] ？
+
+char 占用16位，即两字节。每个 byte 占用8位，即1字节。如果我们要存储字符A，则为0x00 0x41，用 char 的话，前面的一个字节空间浪费了。
+
+## 为什么要设计成不可变类 ？
+
+不可变类有一些优点，比如因为它的对象是只读的，所以 **多线程并发访问也不会有任何问题**。当然也有一些缺点，比如每个不同的状态都要一个对象来代表，可能会造成性能上的问题。所以 Java 标准类库还提供了一个可变版本，即 StringBuffer。
+
+具体到 String 类中，原因如下：
+
+1. **字符串常量池的需要**
+ 维护一个字符串池，可以节省 堆内存空间。不同的字符串变量都指向池中的同一个字符串。
+2. **线程安全考虑**
+3. **类加载器要用到字符串**，不可变性提供了安全性，以便正确的类被加载。
+4. **支持hash映射和缓存**
+ 因为字符串是不可变的，所以在它创建的时候hashcode就被缓存了，不需要重新计算。这就使得字符串很适合作为Map中的键，字符串的处理速度要快过其它的键对象。这就是HashMap中的键往往都使用字符串。
 
 <!-- more -->
 
@@ -70,6 +93,36 @@ String str=new String("abc");
 String类会先去字符串池寻找`"abc"`，发现`"abc"`不存在，于是创建`"abc"`这个对象，然后把`"abc"`作为构造方法的参数，传给String构造器`new String("abc")`相当于新创建了参数字符串的副本，于是又创建了一个对象。
 
 只是，第一个`"abc"`对象存在于字符串池当中，第二个跟其他对象一样存在于内存的堆当中。
+
+---
+
+# String 的 “+” 号是怎么连接字符串的 ？
+
+当我们在程序中输入：
+
+```java
+public static void main(String[] args) {
+  String hello = "hello";
+  String world = "world";
+  String hw = hello + world;
+}
+```
+
+编译之后，如果我们把 .class 文件反编译回 .java 文件，可以看到代码变成了：
+
+```java
+public static void main(String[] args) {
+  String hello = "hello";
+  String world = "world";
+  String hw = (new StringBuilder()).append(hello).append(world).toString();
+}
+```
+
+编译器自动引入了一个 java.lang.StringBuilder 类。虽然我们在源代码中并没有使用 StringBuilder 类，但是编译器却自作主张地使用了它，因为它更高效。这就是所谓的编译器优化。
+
+如果字符串操作比较简单，那就可以信赖编译器，它会为你合理地构造最终的字符串结果。**但如果你还使用循环，多次地改变字符串的内容，那就更适合StringBuilder对象。**
+
+参考：[Java学习笔记（3）—— String类详解](https://www.jianshu.com/p/e494552f2cf0)
 
 ---
 
@@ -137,6 +190,18 @@ public boolean equals(Object anObject) {
     return false;
 }
 ```
+
+从源码中可以知道，类型不同是返回 false 的，因此考虑下面的例子：
+
+```java
+String s = "hello";
+String t = "hello";
+char c[] = {'h', 'e', 'l', 'l', 'o'};
+```
+
+显然，`s==t`和 `s.equals(t)` 返回 true ，因为 s 和 t 都指向了同一个 String 常量池里面的常量，类型相同且值相同。但是，`t.equals(c)` 返回 false ， 因为类型不同。
+
+引申，在 Java 9 中， String 的实现已经从 char[] 变成 byte[] 了。因此就更应该是 false 了。
 
 ## 字符串比较的几点建议
 
@@ -244,7 +309,7 @@ StringBuffer有跟String类似的方法：
 
 ```java
 StringBuffer s = new StringBuffer("hello world，");
-s.append("I am");
+s.append("I am ");
 s.append("Jerry.");
 System.out.println(s);
 ```
@@ -297,3 +362,10 @@ System.out.println(s);
 ```java
 replace(int start, int end, String str)
 ```
+
+---
+
+参考：
+
+- [互联网面试笔记
+](https://www.bookstack.cn/read/note-of-interview/java-base.md)
