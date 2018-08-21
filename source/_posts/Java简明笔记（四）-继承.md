@@ -35,7 +35,6 @@ public class Manager extends Employee {
 `Employee`类有个`getSalary`方法，返回员工的总薪水。对于管理层来说，除了工资外，还有奖金，于是`Employee`的`getSalary`方法不适用，我们需要重写。这个过程就叫方法覆盖（重写）。
 
 ```Java
-
 public class Manager extends Employee {
   //...
 
@@ -82,9 +81,9 @@ public boolean workdsFor (Employee supervisor){
 
 ## Override 和 Overload 的区别
 
-Override 是方法重写，子类对父类方法的重写。**需要注意的是，重写方法参数类型不能改，但是返回类型可以改。**
+Override 是方法重写，子类对父类方法的重写。**需要注意的是，重写方法参数类型不能改，但是返回类型可以改（比父类是更小或相等）。**
 
-Overload 是方法重载，同一个类中可以有多个名称相同但参数个数、类型或顺序不同的方法。**但是函数的返回值不同不构成重载**。
+Overload 是方法重载，同一个类中可以有多个名称相同但参数个数、类型或顺序不同的方法。**与函数的返回类型无关** 。
 
 重写和重载都不要求返回类型，因为 Java 中调用函数并不需要强制赋值。
 
@@ -104,6 +103,7 @@ public Manager (String name, double salary) {
   bonus = 0;
 }
 ```
+
 ---
 
 # 父类赋值
@@ -157,7 +157,10 @@ public class A extends B implements C {
 
 # 终极父类：Object
 
-Object 是 Java 中所有类的父类。Object类有几个重要的方法：
+Object 是 Java 中所有类的父类。可以把任何一种数据类型的变量赋给 Object 类型的变量（基本数据类型也可以，会自动装箱）。
+
+
+Object类有几个重要的方法：
 
 ## clone方法
 
@@ -195,42 +198,81 @@ public String toString() {
 ## equals方法
 
 ```java
-public boolean equals(Object obj)
+public boolean equals(Object obj) {
+    return (this == obj);
+}
 ```
 
 用于判断一个对象是否与另一个对象相等。注意，判断的是对象引用是否相同。
 
+考虑下面的例子：
+
+```java
+public static void main(String[] args) {
+Object o = new Object();
+Object oo = new Object();
+System.out.println(o.equals(oo)); // 输出：false
+
+String s = new String("aaa");
+String ss = new String("aaa");
+System.out.println(s.equals(ss)); // 输出：true
+}
+```
+
+为什么同样是 new 对象， 两个 Object 返回 false， 两个 String 却返回 true 呢？ 原因是：String 重写了 equal() 方法，不是用 == 来判断的，而是比较值。具体看：[探究 String 类 equals 方法源码](../post/689b9445#%E6%8E%A2%E7%A9%B6-String-%E7%B1%BB-equals-%E6%96%B9%E6%B3%95%E6%BA%90%E7%A0%81)
+
 提示：
 * 一般情况下，我们不需要重写equals方法。
-* 对于基本数据类型，用“==”，但是在double中，如果担心正负无穷大或NaN，用`Double.equals`。
+* 对于基本数据类型，用“==”，但是在 double 中，如果担心正负无穷大或NaN，用`Double.equals`。
 * 对于对象，如果担心对象为null，用`Object.equals(x, y)`，如果x为空，返回false。而如果你常规的用`x.equals(y)`则会抛出异常。
+* equals 方法的注释中提示我们，如果重写了 equals 方法，最好也重写 hashcode 方法。
 
 ## wait方法
 
 ```java
-public void wait()
-public void wait(long timeout)
-public void wait(long timeout, int nanos)
+public final void wait() throws InterruptedException
+public final native void wait(long timeout) throws InterruptedException
+public final void wait(long timeout, int nanos) throws InterruptedException
 ```
 
-用于让当前线程等待，直到其他线程调用此对象的 `notify()` 方法或 `notifyAll()` 方法。
+wait方法用于让当前线程等待，直到其他线程调用此对象的 `notify()` 方法或 `notifyAll()` 方法。
 
-`wait()` 使当前线程等待该对象的锁。当前线程必须是该对象的拥有者，也就是具有该对象的锁。`wait()` 方法一直等待，直到获得锁或者被中断。`wait(long timeout)` 设定一个超时间隔，如果在规定时间内没有获得锁就返回。
+`wait()` 使当前线程等待该对象的锁。当前线程必须是该对象的拥有者，也就是具有该对象的锁。`wait()` 方法一直等待，直到获得锁或者被中断。
 
-调用该方法后当前线程进入睡眠状态，直到以下事件发生：
+`wait(long timeout)` 设定一个超时间隔，如果在规定时间内没有获得锁就返回（继续执行后面的代码），不会抛超时异常。
 
-1. 其他线程调用了该对象的notify方法
-2. 其他线程调用了该对象的notifyAll方法
-3. 其他线程调用了interrupt中断该线程
+调用`wait(long timeout)`后当前线程进入睡眠状态，直到以下事件发生：
+
+1. 其他线程调用了该对象的 notify 方法
+2. 其他线程调用了该对象的 notifyAll 方法
+3. 其他线程调用了 interrupt 中断该线程
 4. 时间间隔到了
 
 此时该线程就可以被调度了，如果是被中断的话就抛出一个 InterruptedException 异常。
+
+## notify方法
+
+```java
+public final native void notify();
+```
+
+唤醒在该对象上等待的某个线程
+
+`notify()`是对对象锁的唤醒操作。但有一点需要注意的是：`notify()` 调用后，并不是马上就释放对象锁的，而是在相应的 `synchronized(){}` 语句块执行结束，自动释放锁后，JVM会在 `wait()` 对象锁的线程中随机选取一线程，赋予其对象锁，唤醒线程，继续执行。这样就提供了在线程间同步、唤醒的操作。
+
+## notifyAll方法
+
+```java
+public final native void notifyAll();
+```
+
+唤醒在该对象上等待的所有线程
 
 
 ## hashCode方法
 
 ```java
-public int hashCode()
+public native int hashCode();
 ```
 
 哈希码是个来源于对象的整数。哈希码应该是杂乱无序的，如果 x 和 y 是两个不相等的对象，他们的`hashCode`方法很可能不同。
@@ -250,33 +292,17 @@ hashCode用于返回对象的散列值，用于在散列函数中确定放置的
 ## getClass方法
 
 ```java
-public final native Class< ? > getClass()
+public final native Class<?> getClass();
 ```
 
 native方法，也是 final 方法，用于返回此 Object 的运行时类型。
 
-## notify方法
-
-```java
-public void notify()
-```
-
-唤醒在该对象上等待的某个线程
-
-`notify()`是对对象锁的唤醒操作。但有一点需要注意的是：`notify()` 调用后，并不是马上就释放对象锁的，而是在相应的 `synchronized(){}` 语句块执行结束，自动释放锁后，JVM会在 `wait()` 对象锁的线程中随机选取一线程，赋予其对象锁，唤醒线程，继续执行。这样就提供了在线程间同步、唤醒的操作。
-
-## notifyAll方法
-
-```java
-public void notifyAll()
-```
-
-唤醒在该对象上等待的所有线程
-
 ## finalize方法
 
 ```java
-protected void finalize()
+protected void finalize() throws Throwable {
+  // 没有任何东西
+}
 ```
 
 当垃圾回收器确定不存在对该对象的更多引用时，由对象的垃圾回收器调用此方法。见 [Java虚拟机（四）垃圾回收策略](../post/2191536a.html)。

@@ -7,28 +7,13 @@ abbrlink: f85bb872
 date: 2018-02-04 22:43:40
 ---
 
-《Core Java 10th》和《Core Java for the Impatient》简明笔记。
-
-Java API 提供了常用数据结构和算法的实现，以及组织数据结构和算法的框架。这一篇，主要介绍如何使用列表（List）、集（Set）、映射（Map）和其他集合。
-
-本章要点：
-* Collection接口为所有集合类提供了共同方法（映射除外，映射是通过Map接口）
-* 列表是一个有序集合，其中的每个元素都有一个整数索引
-* 集（set）针对高效包含测试进行过优化。Java提供了HashSet和TreeSet实现
-* Collection接口和Collections类提供了很多有用的算法：设置操作、查询、排序、打乱原先元素等
-
-<!-- more -->
-
----
-
 # 集合和集合框架
 
 ## 集合是什么？
 
-通俗的说，集合就是一个放数据的容器，准确的说是放数据对象引用的容器。
+集合就是一个放数据的容器，准确的说是放数据对象引用的容器。
 
 Java集合主要可以划分为三个部分：
-
 1. Collection（包含 List 和 Set ）
 2. Map （键值对）
 3. 工具类（Iterator迭代器、Enumeration枚举类、Arrays和VCollections）
@@ -61,12 +46,22 @@ Collections工具类包含很多额外的可在集合上操作的算法，你可
 
 List 指有序的集合，List类是一个抽象类。
 
-实现类 `ArrayList` 和 `LinkedList` 实现了 List 接口。所以我们平时用的时候，要指定是`ArrayList` 还是 `LinkedList`。
+实现类 ArrayList 和 LinkedList 实现了 List 接口。所以我们平时用的时候，要指定是 ArrayList 还是 LinkedList。
 
 > 我应该用 ArrayList 还是 LinkedList ？
 > **链表插入操作很快，但遍历很慢**。因此当应用需要有序集合时，用 ArrayList 可能会更好。但是注意， ArrayList 和 LinkedList 都是线程不安全的。
 
 ## ArrayList
+
+ArrayList的声明
+
+```java
+//这种是默认创建大小为10的数组，每次扩容大小为1.5倍
+ArrayList list=new ArrayList();   
+
+//这种是指定数组大小的创建，没有扩充
+ArrayList list=new ArrayList(20);  
+```
 
 ArrayList使用示例：
 
@@ -115,7 +110,7 @@ public static void main(String[] args) {
 
 ```java
 List<String> staff = new LinkedList<>();
-staff.add(" Amy");
+staff.add("Amy");
 staff.add("Bob");
 staff.add("Carl");
 
@@ -135,17 +130,15 @@ lIter.add("jerry"); // insert jerry at 2nd position
 
 ### 为什么这里用 ListIterator ，而不是Iterator
 
-使用 Iterator 可以对集合进行遍历，但是却**不能在遍历过程做增删改**，会抛出ConcurrentModificationException。
-
-原因是 Iterator 是适用于包括无序集合Set在内的所有集合类的，因此不提供`.add()`方法。而子接口 ListIterator，仅仅在 List 集合能用。它提供了 `.add()` 方法，就可以在中间进行插入操作了。
+原因是 Iterator 是适用于包括无序集合 Set 在内的所有集合类的，因此不提供`.add()`方法。而子接口 ListIterator，仅仅在 List 集合能用。它提供了 `.add()` 方法，就可以在中间进行插入操作了。
 
 ### ListIterator 和 Iterator 的区别：
 
-1. 使用范围不同，Iterator可以应用于所有的集合，Set、List和Map和这些集合的子类型。而ListIterator只能用于List及其子类型。
-2. ListIterator有add方法，可以向List中添加对象，而Iterator不能。
-3. ListIterator和Iterator都有hasNext()和next()方法，可以实现顺序向后遍历，但是ListIterator有hasPrevious()和previous()方法，可以实现逆向（顺序向前）遍历。Iterator不可以。
-4. ListIterator可以定位当前索引的位置，nextIndex()和previousIndex()可以实现。Iterator没有此功能。
-5. 都可实现删除操作，但是ListIterator可以实现对象的修改，set()方法可以实现。Iterator仅能遍历，不能修改。
+1. 使用范围不同，Iterator 可以应用于所有的集合，Set、List 和 Map 和这些集合的子类型。而 ListIterator 只能用于 List 及其子类型。
+2. ListIterator 有 add 方法，可以向 List 中添加对象，而 Iterator 不能。
+3. ListIterator 和 Iterator 都有 hasNext() 和 next() 方法，可以实现顺序向后遍历，但是 ListIterator 有 hasPrevious() 和 previous() 方法，可以实现逆向（顺序向前）遍历。Iterator 不可以。
+4. ListIterator 可以定位当前索引的位置，nextIndex() 和 previousIndex() 可以实现。Iterator 没有此功能。
+5. 都可实现删除操作。但是 ListIterator set() 方法可以实现对象的修改。Iterator 仅能遍历，不能修改。
 
 
 ## ArrayList、LinkedList、Vector的区别
@@ -153,7 +146,7 @@ lIter.add("jerry"); // insert jerry at 2nd position
 ### ArrayList 和 Vector
 
 **相同点**：Arraylist和Vector是采用数组方式存储数据。
-**不同点**: Vector由于使用了synchronized方法-线程安全，所以性能上比ArrayList要差。但是ArrayList是线程不安全的。
+**不同点**：Vector由于使用了synchronized方法-线程安全，所以性能上比 ArrayList 要差。但是 ArrayList 是线程不安全的。
 
 ### ArrayList 和 LinkedList
 
@@ -164,7 +157,7 @@ lIter.add("jerry"); // insert jerry at 2nd position
 
 # 无序集合——Set
 
-Set 中元素是无序的，且不允许重复的元素，只能用 Iterator 迭代器取出 Set 中的元素。 Set的 `add` 方法首先在集合中查找要添加的对象，如果不存在就将这个对象添加进去。
+Set 中元素是无序的，且不允许重复的元素，<font color="red"> 只能用 Iterator 迭代器取出 Set 中的元素。</font> Set的 `add` 方法首先在集合中查找要添加的对象，如果不存在就将这个对象添加进去。
 
 HashSet 和 TreeSet 实现了 Set 接口，但都是线程不安全的。它们的底层数据结构是 **哈希表**。
 
@@ -220,6 +213,10 @@ Map map = Collections.synchronizeMap(hashMap);
 ### 2. HashMap
 
 Map的另一个实现是`HashMap`，线程不安全，速度快。底层也是 **哈希表** 数据结构（即链表+数组，但在Java8中又加入了红黑树）。是不同步的。允许null作为键和值。替代了Hashtable。
+
+#### 为什么要 java8 要加入红黑树？
+
+HashMap使用 **链地址法** 来解决冲突的。但是使用链地址法会导致 ge t的效率从o（1）降至o（n），所以在 Java8 中，链表长度超过阈值（8）时，将链表转换为红黑树，这样大大减少了查找时间。
 
 HashMap例子
 
@@ -304,11 +301,62 @@ for (String name :
     System.out.println(name);
 }
 ```
-当然 foreach 也有缺点：
+不过 foreach 也有缺点：
 * 无法用来进行ArrayList的初始化
 * 无法得知当前是第几个元素了，当需要只打印单数元素的时候，就做不到了。必须再自定下标变量。
 
-## ArrayList 和 Iterator 的实际例子
+## 遍历过程修改集合内容
+
+使用 Iterator 可以对集合进行遍历，但是却**不能在遍历过程对原集合做增、删、改**，会抛出 ConcurrentModificationException。
+
+```java
+while(it.hasNext()){  
+    String str = it.next();
+    if(str.equals("abc")){
+        // 错误，抛出Concurrent Modification Exception
+        list.remove(str);  
+    }  
+ }
+```
+
+要对集合进行增删改操作，必须在 Iterrator 对象上操作，而不是原集合 List 上操作，因此，修改如下：
+
+```java
+while(it.hasNext()){  
+    String str = it.next();
+    if(str.equals("abc")){
+        // 正确
+        it.remove();  
+    }  
+ }
+```
+
+
+## 快速失败（fail—fast）和 安全失败（fail—safe）
+
+### fail—fast
+
+在用迭代器遍历一个集合对象时，如果遍历过程中对集合对象的内容进行了修改（增加、删除、修改），则会抛出Concurrent Modification Exception。
+
+原理：迭代器在遍历时直接访问集合中的内容，并且在遍历过程中使用一个 modCount 变量。集合在被遍历期间如果内容发生变化，就会改变 modCount 的值。每当迭代器使用 hasNext()/next() 遍历下一个元素之前，都会检测 modCount 变量是否为 expectedmodCount 值，是的话就返回遍历；否则抛出异常，终止遍历。
+
+**注意**：这里异常的抛出条件是检测到 `modCount！=expectedmodCount` 这个条件。如果集合发生变化时修改modCount值刚好又设置为了expectedmodCount值，则异常不会抛出。**因此，不能依赖于这个异常是否抛出而进行并发操作的编程，这个异常只建议用于检测并发修改的bug。**
+
+场景：java.util 包下的集合类都是快速失败（fail—fast）的，不能在多线程下发生并发修改（迭代过程中被修改）。
+
+
+
+### fail—safe
+
+采用安全失败（fail—safe）机制的集合容器，在遍历时不是直接在集合内容上访问的，而是先复制原有集合内容，在拷贝的集合上进行遍历。
+
+原理：由于迭代时是对原集合的拷贝进行遍历，所以在遍历过程中对原集合所作的修改并不能被迭代器检测到，所以不会触发Concurrent Modification Exception。
+
+缺点：基于拷贝内容的优点是避免了Concurrent Modification Exception，但同样地，迭代器并不能访问到修改后的内容，即：迭代器遍历的是开始遍历那一刻拿到的集合拷贝，在遍历期间原集合发生的修改迭代器是不知道的。
+
+场景：java.util.concurrent包下的容器都是安全失败（fail—safe），可以在多线程下并发使用，并发修改。
+
+## ArrayList 使用 Iterator 的实际例子
 
 ArrayList和Iterator的例子，要求初始化50个 hero，名字为 hero0,hero1,hero2...hero50， 然后删除 hero8,hero16,hero24...
 

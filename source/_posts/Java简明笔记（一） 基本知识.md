@@ -1,5 +1,5 @@
 ---
-title: Java简明笔记（一） 基本知识
+title: Java简明笔记（一） 基础知识
 categories: JAVA
 tags: Java
 abbrlink: b3088ac5
@@ -41,11 +41,72 @@ void	|-	|-	|Void
 - 在浮点数后面f后缀表示float，否则默认为double
 - 关于 void，有些书认为不属于基本数据类型，虽然 Java api 中并未说明，但有些书籍如《Thinking in Java》将其也划进去。
 
-### 计算时需要注意的
+## 数据类型转换
+
+数据类型转换分为 **自动转换** 和 **强制转换**。
+
+### 自动转换
+
+程序在执行过程中 “悄然” 进行的转换，不需要用户提前声明，**一般是从位数低的类型向位数高的类型转换**。
 
 Java中的 byte，short，char 进行计算时都会提升为 int 类型。
 
 int < long < float < double， 如果有一个操作数是 double 型，计算结果是double型。
+
+```java
+byte b = 1;
+short s = 2;
+int i = b + s; // b 和 s 会自动转换为 int
+
+double d = i + 3.0; // i 会被自动转换为 double
+```
+
+### 强制转换
+
+必须在代码中声明，转换顺序不受限制。使用 括号（） 来声明要转换的类型。
+
+```java
+Person p = new Student();
+Student s = (Student) p;
+```
+
+## 基本数据类型的 ++ 操作
+
+```java
+public static void main(String[] args) {
+    int i = 0;
+    int j = i++;
+    System.out.println("i: " + i);
+    System.out.println("j: "+ j);
+
+    int m = 0;
+    int n = ++m;
+    System.out.println("m: " + m);
+    System.out.println("n: "+ n);
+}
+```
+
+输出：
+```
+i: 1
+j: 0
+m: 1
+n: 1
+```
+
+这个例子中，`i++` 先把 i 的值赋给 j，然后 i 自增。
+
+`++m`，先把 m + 1 的值赋给 n， 然后 m 自增。
+
+也就是说，无论是 `i++` 还是 `++i` ，都是先赋值，后自增。
+
+## 左移右移
+
+- `<<`表示左移位
+- `>>`表示带符号右移位
+- `>>>`表示无符号右移
+
+没有 <<< 运算符
 
 <!-- more -->
 
@@ -75,6 +136,10 @@ Integer i = Integer.valueOf(100);
 
 同理，拆箱就是把基本数据类型从 Integer 对象取出的过程。
 
+可以把任何一种数据类型的变量赋给 Object 类型的变量。基本类型也是可以的，会自动装箱。
+
+基本数据类型的包装类，即 Integer、Double、Float 等，都继承于 Number 类。
+
 ## 基本数据类型与引用类型的区别
 
 基本数据类型不是对象，也就是使用int、double、boolean等定义的变量、常量。基本数据类型没有可调用的方法，而引用类型有方法。比如：
@@ -88,8 +153,26 @@ Integer u = 1;// u. 后面就有很多方法可让你调用了
 
 # equals() 和 "=="
 
-- **`equals()`**：比较的是两个对象的值（内容）是否相同。
-- **`==`**：比较的是两个引用所指的对象（或者说内存地址）是否相同，也用来比较两个基本数据类型的变量值是否相等。
+- **equals()**：比较的是两个对象的值（内容）是否相同。
+- **==**：比较的是两个引用所指的对象（或者说内存地址）是否相同，也用来比较两个基本数据类型的变量值是否相等。
+
+```java
+public static void main(String[] args) {
+    int i = 5;
+    long j = 5L;
+    // 虽然类型不一样，但基本数据类型是可以比较的，返回 true
+    System.out.println( i == j );
+
+    Integer ii = 5;
+    Long jj = 5L;
+    // 编译错误，无法比较
+    System.out.println( ii == jj );
+
+    // 类型不一样，返回 false
+    System.out.println( ii.equals(jj));
+
+}
+```
 
 前面说过，int 的自动装箱，是系统执行了 `Integer.valueOf(int i)`，看看Integer.java的源码（在IDEA中，按住Ctrl键，鼠标点击 Integer）：
 
@@ -334,6 +417,8 @@ for (int[] number : numbers) {
 1 2 3
 4 5 6
 ```
+
+**注意**：二维数组的声明中， [][] 其中第一个括号必须有值。代表的是在该二维数组中有多少个一维数组。
 
 ---
 

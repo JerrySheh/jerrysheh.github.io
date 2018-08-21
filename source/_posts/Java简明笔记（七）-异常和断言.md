@@ -9,7 +9,7 @@ date: 2018-02-06 00:03:34
 
 # 异常处理
 
-在Java异常处理中，一个方法可以通过`抛出(throw)`异常来发出一个严重问题的信号。调回链中的某个方法，负责`捕获（catch）并处理`异常。
+在Java异常处理中，一个方法可以通过`抛出(throw)`异常来发出一个严重问题的信号。调回链中的某个方法，负责`捕获（catch）并处理`异常。捕获到的异常不仅可以在当前方法中处理，还可以将异常抛给调用它的上一级方法来处理。
 
 异常处理的根本优点是：将错误检测和错误处理的过程解耦（拆分）。
 
@@ -116,6 +116,14 @@ try (PrintWriter out = new PrintWriter("output.txt")) {
 
 ---
 
+# Throw 和 Throws 的区别
+
+Throws 写在方法后面，表示这个方法可能向上抛出的异常。
+
+Thorw 写在程序里面，直接抛出异常。注意，抛出后程序便不再往下执行。这一点跟 try-catch 语句不一样， catch 捕获异常并处理过后，程序还会往下执行，而 throw 是向上一级调用栈抛出，本身程序不再继续执行。
+
+---
+
 # try里有return，finally还执行么？
 
 答：执行，并且 finally 的执行早于 try 里面的 return  
@@ -126,6 +134,8 @@ try (PrintWriter out = new PrintWriter("output.txt")) {
 * finally中最好不要包含return，否则程序会提前退出，返回值不是try或catch中保存的返回值。
 
 一句话总结: **先执行return后面的表达式，把结果保存起来，但不返回，然后执行finally，最后才返回。不要在finally中包含return，更不要在 finally 修改返回值。**
+
+若是在try语句块或catch语句块中执行到 System.exit(0) 语句，则直接退出程序。
 
 ---
 

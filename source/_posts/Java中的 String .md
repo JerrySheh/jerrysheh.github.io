@@ -287,6 +287,16 @@ n = Integer.parseInt(str，2)
 
 这实际上是`Integer`的方法而不是`String`的方法。这个例子将字符串 str 转化成二进制的 Integer 。
 
+## 使用 replace 和 replaceAll 取代
+
+```java
+public String replace(char oldChar, char newChar)
+public String replaceAll(String regex, String replacement)
+```
+
+注意，replaceAll 方法的第一个参数是一个正则表达式
+
+
 ---
 
 # StringBuffer 和 StringBuilder

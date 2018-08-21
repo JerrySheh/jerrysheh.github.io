@@ -7,8 +7,6 @@ abbrlink: 727d207c
 date: 2018-03-01 00:29:51
 ---
 
-// TODO 线程的方法 join 等
-
 # 进程和线程
 
 进程（Process）：一个操作系统任务就是一个进程。可以理解成正在进行中的程序。
@@ -36,6 +34,22 @@ JAVA线程的五种状态
 图片出处见水印
 
 <!-- more -->
+
+## 线程不同生命周期的方法
+
+![thread_status](../../../../images/Java/thread_status.png)
+
+注意:
+- `wait()` 方法会释放CPU执行权 和 占有的锁。
+- `yield()` 方法仅释放CPU执行权，锁仍然占用，线程会被放入就绪队列，会在短时间内再次执行。
+- `sleep(long)` 方法仅释放CPU使用权，锁仍然占用；线程被放入超时等待队列，与 yield 相比，它会使线程较长时间得不到运行。
+- wait 和 notify 必须配套使用，即必须使用同一把锁调用。
+- wait 和 notify 必须放在一个同步块中。
+- 调用 wait 和 notify 的对象必须是他们所处同步块的锁对象。
+
+参考：[终极父类：Object](../post/2fJava80.html#wait%E6%96%B9%E6%B3%95)
+
+---
 
 # 线程的创建
 
@@ -121,6 +135,35 @@ public class TestThread {
 采用实现 Runnable、Callable 接口的方式创见多线程时，线程类只是实现了 Runnable 接口或 Callable 接口，还可以继承其他类。
 
 使用继承 Thread 类的方式创建多线程时，编写简单，如果需要访问当前线程，则无需使用 `Thread.currentThread() `方法，直接使用 this 即可获得当前线程。
+
+---
+
+# join：让线程串行执行
+
+有时候，我们开了两个线程，但是又想让两个线程串行执行（线程A执行完才执行B），可以用 `join()` 方法。
+
+join方法属于Thread类，通过一个thread对象调用。当在线程B中执行 `threadA.join()` 时，线程B将会被阻塞(底层调用wait方法)，等到 threadA 线程运行结束后才会返回 join 方法。
+
+```java
+public static void main(String[] args){
+
+    // 开启一条线程
+    Thread t = new Thread(new Runnable(){
+        public void run(){
+            // doSometing
+        }
+    }).start();
+
+    // 主线程调用join，等待t线程执行完毕
+    try{
+        t.join();
+    }catch(InterruptedException e){
+        // 中断处理……
+    }
+}
+```
+
+被等待的那条线程可能会执行很长时间，因此join函数会抛出InterruptedException。当调用threadA.interrupt()后，join函数就会抛出该异常。
 
 ---
 

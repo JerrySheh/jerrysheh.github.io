@@ -11,6 +11,12 @@ Java 是完全面向对象语言。事实上，我们创建的每一个类，其
 
 ![meta](../../../../images/Java/metaobject.png)
 
+Java反射机制主要提供了以下功能：
+- 在运行时判断任意一个对象所属的类；
+- 在运行时构造任意一个类的对象；
+- 在运行时判断任意一个类所具有的成员变量和方法；
+- 在运行时调用任意一个对象的方法；生成动态代理。
+
 ---
 
 # 普通对象 VS 类对象
@@ -81,7 +87,7 @@ Class pClass = Class.forname("student"); //获取一个 student 类的类对象
 new student().getClass();
 ```
 
-`getClass()` 是 Object 类的方法，返回的是运行时的类的名字（包名+类名），如果要返回父类，用 `getClass().getSuperclass()` 
+`getClass()` 是 Object 类的方法，返回的是运行时的类的名字（包名+类名），如果要返回父类，用 `getClass().getSuperclass()`
 
 ---
 

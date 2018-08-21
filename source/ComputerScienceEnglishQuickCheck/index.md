@@ -187,6 +187,8 @@ comments: false
 * 条件变量(condition variable)
 * 读写锁(reader-writer lock)
 
+* 线程局部存储(thread local storage, TLS)
+
 ---
 
 # 计算机网络(network)
