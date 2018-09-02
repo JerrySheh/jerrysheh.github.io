@@ -264,6 +264,25 @@ WHERE city LIKE '%N'
 
 * `%`定义了通配符， `N%`表示以N开头， `%g`表示以g结尾，`%lon%`表示包含lon
 
+模糊查询例子：
+
+选出商品表中，标签包含 “爱情” 的
+```SQL
+SELECT * FROM product WHERE tags like '%爱情%'
+```
+
+## DISTINCT
+
+去重。
+
+例子：
+
+从交易表中找出所有不一样的用户
+
+```SQL
+SELECT DISTINCT userId FROM rate
+```
+
 ### SQL 通配符
 
 * **`%`** ：代替一个或多个字符

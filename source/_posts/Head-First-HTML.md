@@ -396,3 +396,23 @@ def
 </textarea>
 ```
 <textarea cols="15" rows="4">hello world, and hello again</textarea>
+
+---
+
+# 如何去除两个紧邻元素的空格？
+
+当我们想让两张图片紧挨着，如：
+
+```html
+<img id="1" src="../static/icon/star_hollow_hover.png">
+<img id="2" src="../static/icon/star_hollow_hover.png">
+```
+
+却发现中间多了一个空格。去除方法是：在父div上添加`font-size: 0`
+
+```html
+<div id="img_group" style="font-size: 0;">
+    <img id="1" src="../static/icon/star_hollow_hover.png">
+    <img id="2" src="../static/icon/star_hollow_hover.png">
+</div>
+```

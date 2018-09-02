@@ -173,6 +173,14 @@ public class StudentController {
 
 ---
 
+# 井字符和美元符的区别
+
+\#相当于对数据加上双引号，$相当于直接显示数据
+
+\#方式能够很大程度防止sql注入。$方式无法防止Sql注入。
+
+---
+
 # 动态SQL
 
 虽然我们使用了注解，但是还是在注解接口CategoryMapper中使用了原生 SQL 语句。

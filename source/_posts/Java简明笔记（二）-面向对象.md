@@ -250,7 +250,7 @@ if (am instanceof Cat) {
 
 # 局部变量和类变量
 
-类中的变量可以不用初始化，使用相应类型的默认值即可，方法中的定义的局部变量必须初始化，否则编译不通过。
+类中的变量可以不用初始化，使用相应类型的默认值即可，方法中的定义的局部变量必须初始化，否则调用的时候，会导致编译不通过。
 
 ```java
 public class Main {
@@ -264,9 +264,9 @@ public class Main {
         Main m = new Main();
         System.out.println(m.i);
 
-        // 方法中定义的变量，必须赋初值，否则编译报错
-        int k;   // 报错
-        System.out.println(k);
+        // 方法中定义的变量，必须赋初值，否则调用时编译报错
+        int k;   // 这一步是允许的
+        System.out.println(k); // 报错
     }
 }
 ```

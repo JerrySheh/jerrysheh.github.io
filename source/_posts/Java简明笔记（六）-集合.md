@@ -103,6 +103,7 @@ public static void main(String[] args) {
 | toArray  | 转换为数组 |
 |  addAll | 把另一个容器所有对象都加进来 |
 | clear | 清空 |
+| subList | 取子列表 list1 = list2.subList(start, end);
 
 ## LinkedList
 
@@ -152,6 +153,14 @@ lIter.add("jerry"); // insert jerry at 2nd position
 
 **相同点**：ArrayList 和 LinkedList 在末尾插入都很快。
 **不同点**：LinkedList使用 **双向链表** 实现存储，按序号索引数据需要进行向前或向后遍历，插入数据时只需要记录本项前后项即可，因此在中间插入数据较快。ArrayList遍历十分快，LinkedList中间插入特别快。
+
+## List 如何去重
+
+JAVA 8 使用 Stream:
+
+```java
+list = list.stream().distinct().collect(Collectors.toList());
+```
 
 ---
 

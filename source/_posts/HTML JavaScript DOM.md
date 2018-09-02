@@ -88,6 +88,12 @@ document.getElementById("image").src="landscape.jpg";
 
 > onmousedown, onmouseup 以及 onclick 构成了鼠标点击事件的所有部分。首先当点击鼠标按钮时，会触发 onmousedown 事件，当释放鼠标按钮时，会触发 onmouseup 事件，最后，当完成鼠标点击时，会触发 onclick 事件。
 
+改变元素的 class
+
+```JavaScript
+document.getElementById("btn_1").className = 'btn btn-light btn-margin';
+```
+
 ---
 
 # 删除前提示

@@ -87,6 +87,10 @@ Overload 是方法重载，同一个类中可以有多个名称相同但参数�
 
 重写和重载都不要求返回类型，因为 Java 中调用函数并不需要强制赋值。
 
+Overload 和 Overwrite 都与访问控制符（public private protected）无关！但一般不做修改。
+
+
+
 ---
 
 # 初始化：子类构造函数调用父类构造函数
