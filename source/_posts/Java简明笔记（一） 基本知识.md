@@ -37,8 +37,8 @@ void	|-	|-	|Void
 
 ### 注意点
 
-- 在数字后面加L后缀即表示long类型（如 `400000000L`），在数字前面类型转换即可表示Byte或short类型 （如 `(byte)127`）
-- 在浮点数后面f后缀表示float，否则默认为double
+- 在数字后面加 L 后缀即表示long类型（如 `400000000L`），在数字前面类型转换即可表示Byte或short类型 （如 `(byte)127`）
+- 在浮点数后面加 f 后缀表示 float，否则默认为double
 - 关于 void，有些书认为不属于基本数据类型，虽然 Java api 中并未说明，但有些书籍如《Thinking in Java》将其也划进去。
 
 ## 数据类型转换
@@ -47,7 +47,7 @@ void	|-	|-	|Void
 
 ### 自动转换
 
-程序在执行过程中 “悄然” 进行的转换，不需要用户提前声明，**一般是从位数低的类型向位数高的类型转换**。
+程序在执行过程中 “悄然” 进行的转换，不需要用户提前声明，<font color="red">一般是从位数低的类型向位数高的类型转换。</font>
 
 Java中的 byte，short，char 进行计算时都会提升为 int 类型。
 
@@ -136,17 +136,17 @@ Integer i = Integer.valueOf(100);
 
 同理，拆箱就是把基本数据类型从 Integer 对象取出的过程。
 
-可以把任何一种数据类型的变量赋给 Object 类型的变量。基本类型也是可以的，会自动装箱。
+可以把任何一种数据类型的变量赋给 Object 类型的变量。<font color="red">基本类型也是可以的，会自动装箱。</font>
 
 基本数据类型的包装类，即 Integer、Double、Float 等，都继承于 Number 类。
 
 ## 基本数据类型与引用类型的区别
 
-基本数据类型不是对象，也就是使用int、double、boolean等定义的变量、常量。基本数据类型没有可调用的方法，而引用类型有方法。比如：
+基本数据类型不是对象，没有可调用的方法，而引用类型有方法。比如：
 
 ```java
 int t = 1;    // t. 后面没有方法
-Integer u = 1;// u. 后面就有很多方法可让你调用了
+Integer u = 1;// u. 后面就有很多方法可以调用了
 ```
 
 ---
@@ -154,7 +154,7 @@ Integer u = 1;// u. 后面就有很多方法可让你调用了
 # equals() 和 "=="
 
 - **equals()**：比较的是两个对象的值（内容）是否相同。
-- **==**：比较的是两个引用所指的对象（或者说内存地址）是否相同，也用来比较两个基本数据类型的变量值是否相等。
+- **==**：比较的是两个引用所指的对象（或者说内存地址）是否相同，<font color="red">也用来比较两个基本数据类型的变量值是否相等。</font>
 
 ```java
 public static void main(String[] args) {
@@ -165,7 +165,7 @@ public static void main(String[] args) {
 
     Integer ii = 5;
     Long jj = 5L;
-    // 编译错误，无法比较
+    // 编译错误，类型不一样，无法比较
     System.out.println( ii == jj );
 
     // 类型不一样，返回 false
@@ -262,8 +262,8 @@ for (String name : friends) {
 15. `( n!=0 && s+(100-s) / n ) < 50`，第二个条件除数等于零可能会报错，但第一个条件排除了这种可能性，所以第一个条件满足时，第二个条件不予评估，也就不会发生错误
 16. `time < 12 ? "am" : "pm"`， 若time<12，结果为am，否则为pm
 17. ` n & 0xF`的结果为n的最低四位
-18.  在32位的int类型中，1<<35的结果跟 1<<3 相同
-19.  Java不允许对象直接使用操作符，所以BigDecimal和BigInteer类需要用方法
+18.  在 32 位的 int 类型中，1<<35 的结果跟 1<<3 相同
+19.  Java不允许对象直接使用加减乘除等操作符，所以 BigDecimal 和 BigInteer 类需要用方法
 
  ```Java
  BigDecimal next = bd.multiply(bd.add(BigDecimal.valueOf(l)));
@@ -275,7 +275,7 @@ for (String name : friends) {
 * 变量名建议用驼峰式命名，如 countOfInvalidInputs
 * 刚好正在首次需要变量的前一刻声明
 * 常量用大写字母，如`DAYS_PRE_WEEK = 7;`
-* 在其他类中使用Calendar类的常量，只需要前面加上类名，如`Calendar.DAYS_PRE_WEEK`
+* 在其他类中使用 Calendar 类的常量，只需要前面加上类名，如`Calendar.DAYS_PRE_WEEK`
 
 ---
 
@@ -309,15 +309,13 @@ Integer.parseInt(Str);
 
 ## 其他 转 String
 
-
-
 ```java
 //取数字的值，转换为字符串，比如 3.10 转换为 "3.1"
 //如果要格式化为 "3.10"，应该用下面的 DecimalFormat 类
-String.ValueOf(num);
+String n = String.ValueOf(num);
 
 // Integer 转 String
-Integer.toString(num);
+String s = Integer.toString(num);
 ```
 
 ## 使用 DecimalFormat 类

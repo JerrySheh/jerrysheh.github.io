@@ -42,6 +42,24 @@ Spark 的设计遵循“一个软件栈满足不同的应用场景”，有一�
 
 ---
 
+# Spark 的安装
+
+在 Spark 官网下载 tgz 压缩包
+
+```
+wget http://mirrors.tuna.tsinghua.edu.cn/apache/spark/spark-2.3.1/spark-2.3.1-bin-hadoop2.7.tgz
+```
+
+* 注：以上是 2.3.1 版本的清华大学镜像，最新版本在 [spark 官网](https://spark.apache.org/downloads.html) 找
+
+将 spark 解压到当前目录
+
+```
+tar -zxvf spark-2.3.1-bin-hadoop2.7.tgz -C .
+```
+
+---
+
 # Spark 三种部署方式
 
 * **standalone**
@@ -125,7 +143,7 @@ public class SimpleApp {
 spark 支持的 master URL 有：
 - local 本地单线程
 - local[K] 本地多线程（指定K个内核）
-- local[*] 本地多线程（指定所有可用内核）
+- local[\*] 本地多线程（指定所有可用内核）
 - spark://HOST:PORT 连接到指定的 Spark standalone cluster master，需要指定端口。
 - mesos://HOST:PORT 连接到指定的 Mesos 集群，需要指定端口。
 - yarn-client 客户端模式 连接到 YARN 集群。需要配置 HADOOP_CONF_DIR。
@@ -155,6 +173,23 @@ mvn package
 
 使用 IDEA 打包的方法可以参考：[利用开发工具IntelliJ IDEA编写Spark应用程序](http://dblab.xmu.edu.cn/blog/1327/)
 
+如果需要 sql 驱动，可以这样写：
+
+```java
+// 从数据库读 DataFrame
+def readFromMySQL(spark: SparkSession, tableName:String): DataFrame = {
+    val prop=new java.util.Properties
+    prop.setProperty("driver", "com.mysql.cj.jdbc.Driver")
+    prop.setProperty("user","root")
+    prop.setProperty("password","YOURPASSWORD")
+
+    val df = spark.read.jdbc(jdbcURL, tableName, prop)
+    df
+}
+```
+
+这样当提交到 spark-submit 的时候会读取你的驱动，否则报 Driver not found
+
 ## 运行
 
 在 spark 安装目录下
@@ -175,7 +210,7 @@ Lines with a: 46, Lines with b: 23
 
 ## 只输出 WARN 和 ERROR 不输出 INFO
 
-把 SPARK_HOME/conf 下的 log4j.properties.template 复制到 工程 Resource Root 下面（我这里是 Scala 包），重命名为 log4j.properties 。 打开，修改其中的 
+把 SPARK_HOME/conf 下的 log4j.properties.template 复制到 工程 Resource Root 下面（我这里是 Scala 包），重命名为 log4j.properties 。 打开，修改其中的
 
 ```
 log4j.rootCategory=INFO, console

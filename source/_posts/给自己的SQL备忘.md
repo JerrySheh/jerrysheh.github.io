@@ -27,7 +27,9 @@ SQL 包含 `DML （数据操作语言）` 和 `DDL（数据定义语言）`。
 
 ---
 
-# Ubuntu 18.04 安装 Mysql
+# Ubuntu 18.04 安装 Mysql 5.7
+
+注：如果要安装 Mysql 8.0 ，可以参考 [官方文档](https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/)
 
 ## 卸载和安装
 
@@ -72,6 +74,21 @@ mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
 
 mysql> FLUSH PRIVILEGES;
 ```
+
+## 允许远程访问
+
+打开 /etc/mysql/mysql.conf.d/mysqld.cnf 文件
+
+```
+sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
+```
+
+注释掉下面这一行
+
+```
+bind-address = 127.0.0.1
+```
+
 ---
 
 # 修改ROOT密码
@@ -114,6 +131,36 @@ mysql>create database <database-name>;
 mysql>use <database-name>;
 mysql>source /home/jerrysheh/projectDB.sql;
 ```
+
+## 解决导入慢的问题
+
+当数据库非常大（>100M）时，导入时间可能要花费几小时，优化方式如下：
+
+假设要讲A数据库的数据导入到B数据库
+
+1、首先确定目标库(B)的参数值，登录数据库B，执行以下命令
+
+```
+mysql>show variables like 'max_allowed_packet';
+mysql>show variables like 'net_buffer_length';
+```
+
+2、根据参数值，在A数据库中使用 mysqldump 命令，如：
+
+```
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysqldump.exe -uroot -p mall  -e --max_allowed_packet=67108864 --net_buffer_length=16384 > mall.sql
+```
+
+各个参数的意思：
+
+- **-e**： 使用包括几个VALUES列表的多行INSERT语法;
+- **--max_allowed_packet=XXX**：客户端/服务器之间通信的缓存区的最大大小;
+- **--net_buffer_length=XXX**：TCP/IP和套接字通信缓冲区大小,创建长度达net_buffer_length的行。
+
+注意：max_allowed_packet和net_buffer_length不能比目标数据库的设定数值 大，否则可能出错。
+
+3、登录数据库B，执行 source 命令导入
+
 
 ---
 

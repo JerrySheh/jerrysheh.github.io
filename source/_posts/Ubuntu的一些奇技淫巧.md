@@ -256,7 +256,7 @@ sudo rm /etc/apt/sources.list.d/xxxxxx.list
 
 添加ppa源
 ```
-sudo apt install python-software-properties
+sudo apt install software-properties-common
 sudo add-apt-repository ppa:webupd8team/java
 sudo apt update
 ```
@@ -271,7 +271,7 @@ sudo apt-get install software-properties-common python-software-properties
 sudo apt-get install oracle-java8-installer
 ```
 
-如果提示没有公钥，添加对应的公钥
+如果提示没有公钥，添加对应的公钥（deeepin系统会有这个问题）
 
 ```
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C2518248EEA14886
