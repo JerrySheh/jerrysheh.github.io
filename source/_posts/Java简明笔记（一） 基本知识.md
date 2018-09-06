@@ -136,6 +136,19 @@ Integer i = Integer.valueOf(100);
 
 同理，拆箱就是把基本数据类型从 Integer 对象取出的过程。
 
+考虑下面这个例子：
+
+```java
+int i02 = 59;
+Integer i04 = new Integer(59);
+
+System.out.println(i02 == i04); // 输出 true
+```
+
+输出 true 是因为，虽然 i04 是对象，但是跟基本数据类型比较时，会自动拆箱。
+
+### 数据类型 -> Object
+
 可以把任何一种数据类型的变量赋给 Object 类型的变量。<font color="red">基本类型也是可以的，会自动装箱。</font>
 
 基本数据类型的包装类，即 Integer、Double、Float 等，都继承于 Number 类。
@@ -173,6 +186,8 @@ public static void main(String[] args) {
 
 }
 ```
+
+
 
 前面说过，int 的自动装箱，是系统执行了 `Integer.valueOf(int i)`，看看Integer.java的源码（在IDEA中，按住Ctrl键，鼠标点击 Integer）：
 

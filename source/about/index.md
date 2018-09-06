@@ -19,5 +19,3 @@ comments: false
 <div align = "center">[技术英语查阅](../ComputerScienceEnglishQuickCheck/)</div>
 
 <div align = "center">[日常英语查阅](../DailyEnglishQuickCheck/)</div>
-
-<div align = "center">[每日一题](../DailyQuestion/)</div>

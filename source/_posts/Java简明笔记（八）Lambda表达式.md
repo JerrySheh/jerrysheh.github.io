@@ -206,6 +206,36 @@ for (int i=0 ; i < n ; i++ ) {
 
 # 高阶函数
 
-处理或返回函数的函数称为`高阶函数`。
+处理或返回函数的函数称为 **高阶函数**。
 
-往后学习到的时候再补充。
+## 返回函数的方法
+
+`Arrays.sort()`有第二个参数让我们以某种方式排序
+
+升序排序
+
+```java
+Arrays.sort(sArr, (o1,o2) -> (o1.compareTo(o2)));
+```
+
+降序排序
+
+```java
+Arrays.sort(sArr, (o1,o2) -> ( -1 * o1.compareTo(o2)));
+```
+
+这样比较麻烦，怎么办呢？可以写一个产生比较器的方法：
+
+```java
+public static Comparator<String> compraeInDirection(int direction) {
+    return (x,y) -> direction * x,compareTo(y);
+}
+```
+
+这个方法返回了一个 lambda 表达式，决定了是采用升序排序还是降序排序。
+
+当需要降序排序的时候，直接：
+
+```java
+Arrays.sort(sArr, compraeInDirection(-1));
+```

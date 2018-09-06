@@ -241,7 +241,7 @@ String name = String.join("-","hello","and","again");
 
 输出 hello-and-again 。 第一个参数是连接符，第二到n个参数是需要连接的字符串
 
-## 使用 substring 提取字串
+## 使用 substring 提取子串
 
 ```java
 String str = "Hello, World!";

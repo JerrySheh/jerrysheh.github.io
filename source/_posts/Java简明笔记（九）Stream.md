@@ -40,9 +40,16 @@ Java 中的 Stream 提供了数据源，让你可以在比集合类更高的概�
 
 ```java
 try {
+    // 读文件，放到 String 里
     String contents = new String(readAllBytes((Paths.get("alice"))), StandardCharsets.UTF_8);
+
+    // 以非字母为分隔符
     List<String> words = Arrays.asList(contents.split("\\PL+"));
+
+    //计数器
     int count = 0;
+
+    // 在 List 里面迭代，如果找到长度＞12的，计数器+1
     for (String w :
             words) {
         if (w.length() > 12) count++;
@@ -56,8 +63,13 @@ try {
 
 ```java
 try {
+    // 读文件，放到 String 里
     String contents = new String(readAllBytes((Paths.get("alice.txt"))), StandardCharsets.UTF_8);
+
+    // 以非字母为分隔符
     List<String> words = Arrays.asList(contents.split("\\PL+"));
+
+    // 把 List 转换成 流，用 flilter 方法对流的每一个元素进行判断，筛选出＞12的，并计数
     long count1 = words.stream().filter(w -> w.length() > 12).count();
 } catch (IOException e){
     System.out.println("IO problem");

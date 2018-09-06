@@ -14,12 +14,17 @@ date: 2018-02-27 15:06:51
 对于较短的文本，我们可以直接把文本存到一个String里
 
 ```java
+// 整个文本
 String contents = new String(readAllBytes((Paths.get("alice.txt"))), StandardCharsets.UTF_8);
+
+// 以非字母为分隔符，变成一个个单词
+List<String> words = Arrays.asList(contents.split("\\PL+"));
 ```
 
-如果想按行读取，可以存到 List 集合里，集合的每一个元素代表每一行的一个String
+如果想按行读取，可以读文件并存到 List 集合里，集合的每一个元素代表每一行的一个String
 
 ```java
+// 按行读取
 List<String> lines = Files.readAllLines(path, charset);
 ```
 

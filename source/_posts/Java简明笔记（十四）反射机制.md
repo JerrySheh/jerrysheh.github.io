@@ -313,5 +313,7 @@ JVM从安全角度考虑，装载类时，使用了“全盘负责委托机制�
 - **全盘负责**：当一个 ClassLoader装载一个类时，该类所依赖及引用的类也由该 ClassLoader 载入。
 - **委托机制**：先委托父装载器寻找目标类，找不到时才从自己的类路径找。
 
+关于类加载器，可参考: [Java虚拟机（一）JVM 基础和类的加载](https://jerrysheh.github.io/post/3ebede8.html)
+
 ---
 本篇参考教程：[how2j - 反射机制 ](http://how2j.cn/k/reflection/reflection-usage/1111.html?p=35599)

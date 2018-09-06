@@ -222,7 +222,7 @@ public class HelloController {
 
  Spring Boot 的配置文件为 application.properties 或 application.yml，放置在【src/main/resources】目录或者类路径的 /config 下。
 
- ![prop](../../../../images/Webapp      /Springbootprop.png)
+ ![prop](../../../../images/Webapp/Springbootprop.png)
 
 ### 排除自动配置
 
@@ -265,6 +265,29 @@ java -jar spring-boot01-1.0-SNAPSHOT.jar
 
 ```
 java -jar spring-boot01-1.0-SNAPSHOT.jar > log.file 2>&1 &
+```
+
+这种方式看似脱离终端了，但是实际上还是受终端影响，当 SSH 退出时终端关闭，项目也会跟着关闭。
+
+因此好的办法是将其写入到 shell 脚本中
+
+
+```
+vim run.sh
+```
+
+在 run.sh 里面输入
+```shell
+#!/bin/bash
+java -jar spring-boot01-1.0-SNAPSHOT.jar > log.file 2>&1 &
+
+```
+
+run.sh添加执行权限，再执行
+
+```
+chmod +x run.sh
+./run.sh
 ```
 
 ### 热部署

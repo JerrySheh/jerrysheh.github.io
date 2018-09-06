@@ -208,6 +208,7 @@ private static void writeByte (File parentFolder) throws NullPointerException, I
 
 <font color="red"> 因此，在 Java 中， Stream 结尾的都是字节流， reader 或 writer结尾都是字符流。 两者的区别是：读写的时候一个是按字节读写，一个是按字符。</font>
 
+
 相比字节，我们更感兴趣的是数字、字符串和对象，而不是一个一个的字节。Java 当然也提供了很多让我们读取常用格式的数据，而不仅仅是字节！
 
 
@@ -226,6 +227,14 @@ private static void writeByte (File parentFolder) throws NullPointerException, I
 3. 如果有必要，做一下类型转换
 4. 写数据，写分隔符
 5. 刷新
+
+注意，**FileWrite 接收第二个参数，为 true 时，不覆盖原有内容**。否则原有内容会被覆盖。
+
+```java
+// 文件读写
+FileWriter fw = new FileWriter("C:\\Users\\JerrySheh\\exception.dat" , true);
+BufferedWriter bw = new BufferedWriter(fw);
+```
 
 ### 完整例子
 
@@ -251,6 +260,7 @@ public class randomDoubleNumber {
 ```
 
 test.java
+
 ```java
 import java.io.*;
 import java.text.DecimalFormat;

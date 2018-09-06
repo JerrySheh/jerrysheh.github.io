@@ -141,7 +141,7 @@ if (empl instanceof Manager) {
 }
 ```
 
-参考：[Java简明笔记（二） 面向对象](../post/ba7990ce.html)
+参考：[Java简明笔记（二） 面向对象](../post/ba7990ce.html#多态)
 
 ---
 
