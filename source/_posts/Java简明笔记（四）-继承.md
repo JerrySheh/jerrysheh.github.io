@@ -231,6 +231,18 @@ System.out.println(s.equals(ss)); // 输出：true
 * 对于对象，如果担心对象为null，用`Object.equals(x, y)`，如果x为空，返回false。而如果你常规的用`x.equals(y)`则会抛出异常。
 * equals 方法的注释中提示我们，如果重写了 equals 方法，最好也重写 hashcode 方法。
 
+### 什么时候需要重写 equals，什么时候需要重写 hashcode ？
+
+默认的，在 Object 类中比较的是两个对象的地址(==) ，地址相同，即同一个对象， equals 返回真。 但是，当某些类我们希望只要某个或某些属性相同，就说他们是 equal 的，这时候就需要重写 equals 。
+
+例如 String ，可能 new 了两个 String 对象，但是存的都是一样的字符数组。他们的地址是不一样的，但是我们也说是 equals 的。
+
+什么时候需要重写 hashcode ?
+
+当重写了 equals 的时候，也必须重写 hashcode。 以免发生 equals 为真，hashcode 却为假的情况。这违背了 hashcode 的性质。
+
+举例来说，HashSet 会用 hashcode 方法得到 hash 值，并以这个 hash 值决定存入 HashSet 的位置。当我们想用 HashSet 存储对象时，两个 equals 的对象都被存入了 HashSet ，这跟 HashSet 储存不重复元素的原则不符。
+
 ## wait方法
 
 ```java
@@ -270,7 +282,7 @@ public final native void notify();
 public final native void notifyAll();
 ```
 
-唤醒在该对象上等待的所有线程
+唤醒在该对象上等待的所有线程。
 
 
 ## hashCode方法
@@ -308,5 +320,7 @@ protected void finalize() throws Throwable {
   // 没有任何东西
 }
 ```
+
+一般不要使用finalize，最主要的用途是回收特殊渠道申请的内存。Java程序有垃圾回收器，所以一般情况下内存问题不用程序员操心。但有一种JNI(Java Native Interface)调用non-Java程序（C或C++），finalize()的工作就是回收这部分的内存。
 
 当垃圾回收器确定不存在对该对象的更多引用时，由对象的垃圾回收器调用此方法。见 [Java虚拟机（四）垃圾回收策略](../post/2191536a.html)。
