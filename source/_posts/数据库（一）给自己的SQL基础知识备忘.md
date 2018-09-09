@@ -1,7 +1,7 @@
 ---
-title: 给自己的SQL备忘
+title: 数据库（一）给自己的SQL基础知识备忘
 comments: true
-categories: 技术&技巧
+categories: 数据库
 tags: SQL
 abbrlink: f95479c9
 date: 2018-03-21 21:45:47
@@ -202,6 +202,12 @@ SELECT * FROM Persons WHERE city = 'Beijing'
 语法：从表里中选择 FirstName 是'Thomas' 并且 LastName 是 'Carter' 的行
 ```SQL
 SELECT * FROM Persons WHERE FirstName = 'Thomas' AND LastName='Carter'
+```
+
+当既有 AND 又有 OR 的时候，SQL 默认先执行 AND，如果要让 OR 先执行，用括号括起来即可。
+
+```SQL
+SELECT * FROM product WHERE (id > 3000 OR id < 1000 ) AND price > 50;
 ```
 
 ---
@@ -444,6 +450,31 @@ numeric(size,d)|小数
 char(size)|固定字符串
 varchar(size)|可变长字符串
 date(yyyymmdd)|日期
+
+---
+
+# MySQL 函数
+
+## Concat
+
+用来拼接字段
+
+```sql
+SELECT Concat( name, '(', age ,")")
+FROM People
+WHERE age > 18
+```
+
+输出：
+```
+小明（18）
+小白（20）
+Jerry（23）
+```
+
+## Upper
+
+转换成大写
 
 ---
 

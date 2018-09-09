@@ -13,7 +13,7 @@ Java NIO， N 可以理解为 New ，也可以理解为 Non-blocking ，是 Java
 
 ## 面向 Channels 和 Buffers
 
-普通的IO，面向的是 byte streams（字节流，如FileOutputStream） 和 character streams（字符流，如FileReader），但是 NIO 面向的是 channels 和 buffers 。数据总是从 channel 读进 buffer 里，然后 Java 从 buffer 取出使用，或者从 buffer 写到 channel 里面，传输到外界。
+普通的IO，面向的是 byte streams（字节流，如FileOutputStream） 和 character streams（字符流，如FileReader），但是 NIO 面向的是 channels 和 buffers 。对于 Channel 来说，数据总是从 channel 写进 buffer 里，然后 Java 从 buffer 取出使用，或者 channel 读 buffer 里的数据，传输到外界。
 
 ![channel_buffer](../../../../images/Java/channel_buffer.png)
 
@@ -40,7 +40,7 @@ Channel 有点像流（Stream），在 Java NIO 中，有以下几种 channel：
 
 ## Non-blocking IO
 
-一个线程，可以让 channel 把数据读进 buffer 中，当 channel 正在读的时候，线程可以做其他事。一旦数据已经读进 buffer 了，线程可以回来处理这些数据。 写的情况也是类似。
+一个线程，可以让 channel 把数据读进 buffer 中（是 buffer 在读不是 channel 在读），当 channel 正在读的时候，线程可以做其他事。一旦数据已经读进 buffer 了，线程可以回来处理这些数据。 写的情况也是类似。
 
 
 ## Selectors
@@ -140,7 +140,7 @@ rewind 可以让 position 变为 0， 好让你重新读刚刚读过的数据，
 
 clear清除整个缓冲区，compact只清除已经读过的部分。如果你有一些数据还没读，使用 compact， compact 会把未读的数据放到起始位置，然后把 position 放到最后一个数据的右边。
 
-![selectors](../../../../images/Java/compact.png.png)
+![selectors](../../../../images/Java/compact.png)
 
 
 ## mark() 和 reset()
@@ -162,3 +162,15 @@ channel "gathers" 是指，多个 buffer 把数据写进一个 Channel。
 ---
 
 未完待续
+
+
+
+---
+
+# 什么时候用 NIO，什么时候用传统 IO ？
+
+NIO可以只使用一个（或几个）单线程管理多个通道（网络连接或文件），但付出的代价是解析数据可能会比从一个阻塞流中读取数据更复杂。
+
+如果需要管理同时打开的成千上万个连接，这些连接每次只是发送少量的数据，例如聊天服务器，实现NIO的服务器可能是一个优势。同样，如果你需要维持许多打开的连接到其他计算机上，如P2P网络中，使用一个单独的线程来管理你所有出站连接，NIO可能是一个优势。
+
+如果你只有少量的连接但是每个连接都占有很高的带宽，同时发送很多数据，传统的IO会更适合。

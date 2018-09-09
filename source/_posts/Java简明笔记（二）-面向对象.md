@@ -567,7 +567,7 @@ final com.jerrysheh.Outter this$0;
 public com.jerrysheh.Outter$Inner(com.jerrysheh.Outter);
 ```
 
-也就是说，内部类对象被构造的时候，自动传入了一个外部类对象的引用，因此可以在成员内部类中随意访问外部类的成员。
+也就是说，<font color="red">内部类对象被构造的时候，自动传入了一个外部类对象的引用，因此可以在成员内部类中随意访问外部类的成员。</font>
 
 ## 为什么局部内部类和匿名内部类只能访问局部final变量？
 
