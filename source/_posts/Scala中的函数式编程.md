@@ -3,7 +3,7 @@ title: Scala中的函数式编程
 comments: true
 abbrlink: bcfc34da
 date: 2018-06-10 15:47:29
-categories: 大数据
+categories: Scala
 tags:
 - 大数据
 - Scala
@@ -12,8 +12,8 @@ tags:
 Scala是一门多范式编程语言，混合了 **面向对象编程** 和 **函数式编程** 的风格。
 
 > 在大数据处理中为什么要函数式编程？
-
-> 函数式编程可以较好满足分布式并行编程的需求。函数式编程的一个重要特性就是**值不可变性**，这对于编写可扩展的并发程序而言可以带来巨大好处。因为它避免了对公共的可变状态进行同步访问控制的复杂问题。
+>
+> 函数式编程的一个重要特性就是**值不可变性**，这对于编写可扩展的并发程序而言可以带来巨大好处。因为它避免了对公共的可变状态进行同步访问控制的复杂问题。简单地说，我们完全不需要进行传统并发编程里面的同步、加锁等操作。
 
 <!-- more -->
 
@@ -21,15 +21,11 @@ Scala是一门多范式编程语言，混合了 **面向对象编程** 和 **函
 
 # 函数字面量
 
-在面向过程和面向对象编程中，数据包括：类型 + 值。
-
-在函数式编程中，函数是头等公民。函数可以跟其他数据类型一样，进行传递和操作。函数的使用跟其他数据类型没什么区别。
-
-因此，函数也包括 类型 + 值， 而函数的值，就是所谓的函数字面量。
+在面向过程和面向对象编程中，数据包括：**类型** + **值**。在函数式编程中，函数也可以跟其他数据类型一样，进行传递和操作。函数的使用跟其他数据类型没什么区别。函数也包括 **类型** + **值**。函数的值，就是函数字面量。
 
 ## 函数的类型
 
-如下一个函数
+考虑下面的例子
 
 ```scala
 def counter(value: Int): Int = {
@@ -37,13 +33,13 @@ def counter(value: Int): Int = {
  }
 ```
 
-输入一个 Int， 输出一个 Int ，因此它的类型是：`Int => Int`
+输入一个 Int， 输出一个 Int ，因此这个函数的类型是：`Int => Int`
 
 ## 函数的值
 
-把类型声明部分去掉，就是函数的值了。
+把函数的类型声明部分（def counter）去掉，剩下的就是函数的值了。
 
-在上面的例子中，输入 value， 输出 value+1 ，因此它的值是：
+在上面的例子中，输入 value， 输出 value+1 ，因此这个函数的值是：
 
 ```scala
 (value) => {value += 1}
@@ -63,15 +59,15 @@ val num: Int = 5
 val counter: Int => Int = { (value) => value += 1}
 ```
 
-这样就定义了一个 counter 函数，输入 Int 类型的 value，输出 Int 类型的 value + 1
+1. 我们定义了一个 counter 函数。
+2. 这个函数的类型是`Int => Int`，输入一个 Int，输出一个 Int
+3. 这个函数的值是`value => value +=1 `，输入一个 value，输出 value + 1
 
 ---
 
 # Lambda表达式与闭包
 
-像 `(参数) => 表达式` 这样的定义形式，我们称之为 Lambda 表达式。其实就是用了函数式的方法定义函数。
-
-例如：
+像 `(参数) => 表达式` 这样的定义形式，我们称之为 Lambda 表达式。其实就是用函数式的方法定义函数。例如：
 
 ```scala
 val myNumFunc: Int => Int = (num: Int) => num * 2
@@ -152,18 +148,18 @@ sum 函数的参数是 `（Int=>Int, Int, Int）`， 结果是 `Int`， 因此�
 object Run {
   def main(args: Array[String]): Unit = {
 
-    val numberList = List(-3, -5, 1, 9, 6, -99)
+    val list = List(-3, -5, 1, 9, 6, -99)
 
-    val numberList2 = numberList.filter(x=>x > 0)
-    println(numberList2)
+    val list2 = rList.filter(x=>x > 0)
+    println(list2)
 
-    val numberList3 = numberList.filter(_ > 0)
-    println(numberList3)
+    val list3 = List.filter(_ > 0)
+    println(list3)
 
   }
 }
 ```
-numberList2 和 numberList3 完全一样。也就是说在这个例子中，`x=>x` 和 `_` 完全一样。即把List中的每一个元素作为 x 传入。
+list2 和 list3 完全一样。也就是说，在这个例子中，`x => x` 和 `_` 完全一样。即把 List 中的每一个元素作为 x 传入。
 
 ---
 
@@ -218,7 +214,14 @@ println(numberList2)
 
 输出：-91
 
-- `reduce` 包括 `reduceLeft` 和 `reduceRight`
+### reduceLeft 和 reduceRight
+
+```scala
+val a = List(1,7,2,9)
+val a1 = a.reduceLeft(_ - _)  //      ((1-7) - 2) - 9 = -17
+
+val a4 = a.reduceRight(_ - _)//     1 - (7 - (2-9) ) = -13
+```
 
 ## fold
 

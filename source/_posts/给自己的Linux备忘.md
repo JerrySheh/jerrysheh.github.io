@@ -29,7 +29,6 @@ more | 多屏查看文件内容 （ space-翻页 回车-下一行 q-退出）
 less | 多屏可滚动查看文件内容 （space-翻页 回车-下一行 q-退出 up/down-上下滚动 居然还可以用鼠标666）
 whatis ls	| 显示ls命令的作用
 man ls	| 显示ls命令的手册（space翻页 j下行 k上行 /关键字搜索 n下一个关键字 shift+n上一个关键字）
-curl -o video.mp4 http:www.example.com/video.mp4 | 下载网络文件
 
 ## 文件系统命令
 
@@ -46,6 +45,7 @@ apropos -e “list directory contents”	| 精确反查带有”“list director
 ll -h| 显示文件夹内文件详细信息
 ls	| 显示当前目录下文件
 ls -a	| 显示当前目录包括隐藏的文件
+curl -o video.mp4 http:www.example.com/video.mp4 | 下载网络文件
 
 ## 压缩命令
 

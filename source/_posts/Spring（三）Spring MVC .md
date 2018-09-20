@@ -15,33 +15,50 @@ tags:
 
 ---
 
-# Spring MVC 的开发步骤和执行流程
+# Spring MVC 的执行流程
 
+在 Spring MVC 框架中，控制器实际上由两部分组成：
 
-## 开发步骤
-
-1. 在 web.xml 定义前端控制器 DispatcherServlet 来拦截用户请求。
-2. 如果要用到 post 请求，则要定义包含表单提交的视图页面（JSP或Thymeleaf）
-3. 使用@Controller注解，定义处理用户请求的 Handle 类（在早期的Spring版本中是实现 Controller 接口）
-4. 配置 Handle，即哪个请求对应哪个Controller处理。推荐使用注解。
-5. 编写视图资源（如果要传数据给视图，用模型（Model）对象）
-
-> 在 Spring MVC 框架中，控制器实际上由两部分组成：前端控制器 DispatcherServlet，用于拦截所有用户请求和处理通用代码，控制器 Controller 实现实际的业务逻辑。
-
-## 执行流程
+1. **前端控制器（DispatcherServlet）**：用于拦截所有用户请求和处理通用代码
+2. **控制器（Controller）**： 实现实际的业务逻辑。
 
 ![mvc](../../../../images/Webapp/Springmvc.png)
 
-1. 用户请求统一被前端控制器 DispatcherServlet 捕获。
-2. DispatcherServlet 解析URL，得到URI，由Handle Mapping获得该Handle的所有相关对象，封装成HandleExcutionChain对象返回。
-3. DispatcherServlet根据获得的 Handle，选择一个合适的 HandleAdapter。（HandleAdapter用来处理多种Handle,简单地说，就是让Adapter去调用 Handle 实际处理的方法，比如我们编写的 hello 方法。）
-4. 提取请求中的Model数据，开始执行Handle（Controller）
-5. Handle执行完以后，向 DispatcherServlet 返回一个 ModelAndView对象
-6. DispatcherServlet 根据 ModelAndView 对象，选择一个合适的 ViewResolver
-7. ViewResolver解析完之后，返回 View 给 DispatcherServlet
-8. DispatcherServlet 返回 View 给客户端
+## 1. DispatcherServlet
 
-> 在第4步填充 Handle 传入参数的过程中，Spring帮我们做了很多工作，包括：消息转换（json/xml -> 对象）、数据转换（String -> Integer）、数据格式化、数据验证等。
+用户请求统一被前端控制器 DispatcherServlet 捕获。DispatcherServlet 解析URL，得到URI，这个 URI 会被交给 Handle Mapping（处理器映射）。
+
+## 2. Handle Mapping
+
+Handle Mapping 会根据请求所携带的 URL 信息来进行决策，获取该 Handle 的所有相关对象，封装成 HandleExcutionChain 对象返回，DispatcherServlet 根据获得的 Handle，选择一个合适的 HandleAdapter。
+
+## 3. Handle
+
+HandlerAdapter 是处理器适配器，Spring MVC通 过HandlerAdapter 来实际调用处理函数。简单地说，就是让 HandlerAdapter 去调用 Handle 实际处理的方法，比如我们编写的 hello 方法。
+
+```java
+public ModelAndView handleRequest(javax.servlet.http.HttpServletRequest httpServletRequest, javax.servlet.http.HttpServletResponse httpServletResponse) throws Exception {
+    // 处理逻辑
+    ....
+}
+```
+
+一般，Controller 是 Handler，但 Handler 不一定是 Controller。
+
+> 填充 Handle 传入参数的过程中，Spring帮我们做了很多工作，包括：消息转换（json/xml -> 对象）、数据转换（String -> Integer）、数据格式化、数据验证等。
+
+## 4. ModelAndView
+
+Handle 处理完毕之后，会返回一个 Model， 仅仅有 Model 是不够的，用户看到一般是 View，因此把 Model 返回给 DispatcherServlet。
+
+## 5. View Resolver
+
+DispatcherServlet 会根据传过来的 Model，通过视图解析器（View Resolver）匹配一个适当的视图实现。
+
+## 6. View
+
+视图使用 Model 数据渲染出结果，这个输出结果会通过响应对象传递给客户端。
+
 
 ---
 

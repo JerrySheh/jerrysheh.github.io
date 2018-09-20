@@ -200,6 +200,22 @@ TreeSet通过compareTo或者compare方法中的来保证元素的唯一性。元
 
 Queue会记住插入顺序，但只能在尾端插入，头端删除。Deque有两个尾端，头尾都可以插入和删除。上面提到的 LinkedList 就实现了 Deque 接口，是双向链表。
 
+Queue接口的 `add(E e)`方法 和 `offer(E e)`方法都是往队列里添加元素，但二者对插入失败时的处理不同，前者在插入失败时抛出异常让你处理，后则则直接返回false。但在优先队列里这两者无区别，都是调用 offer。
+
+## PriorityQueue 优先队列
+
+PrioriryQueue是 Queue 接口的一个队列实现类。PriorityQueue的排序是基于堆排序的。不允许空值。PrioriryQueue的 add 方法和 offer 方法是一样的。
+
+```java
+Queue<Integer> p =  new PriorityQueue<>(10 , (o1,o2) -> o2 - o1));
+p.offer(5);  // 往堆里添加元素
+p.offer(8);
+p.peek();  // 获取堆顶但不删除
+p.pool();  // 获取堆顶并删除
+```
+
+PriorityQueue构造器支持两个参数，第一个参数是优先队列的大小，第二个参数是一个 Comparator 比较器，可以自己实现比较方法。JDK1.8 可以用 lambda 表达式替代匿名类。
+
 ---
 
 # 键值对集合——Map

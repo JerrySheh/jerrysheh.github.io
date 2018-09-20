@@ -73,6 +73,11 @@ comments: false
 
 # 数据结构（data structure）
 
+* 前驱（predecessor）
+* 后继（successor）
+* 前缀（prefix）
+* 后缀（suffix）
+
 * 数组（array）
 * 链表(linked list)
 

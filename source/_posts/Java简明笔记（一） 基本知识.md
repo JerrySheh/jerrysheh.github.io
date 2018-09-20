@@ -35,8 +35,6 @@ boolean|	-	|false	|Boolean
 char|	2|	\u0000(null)	|Character
 void	|-	|-	|Void
 
-### 注意点
-
 - 在数字后面加 L 后缀即表示long类型（如 `400000000L`），在数字前面类型转换即可表示Byte或short类型 （如 `(byte)127`）
 - 在浮点数后面加 f 后缀表示 float，否则默认为double
 - 关于 void，有些书认为不属于基本数据类型，虽然 Java api 中并未说明，但有些书籍如《Thinking in Java》将其也划进去。
@@ -396,6 +394,16 @@ friends.set(1, "Mary");
 ```
 
 ## 二维数组
+
+在 Java 中，二维数组的每一个元素都是一个一维数组。
+
+当我们声明一个二维数组：
+
+```java
+Integer[][] num = new Integer[2][3];
+```
+
+也就声明了这个二维数组里面有 2 个一维数组，这 2 个一维数组里面每个一维数组都有 3 个元素。
 
 ```java
 // 初始化二维数组

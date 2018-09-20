@@ -278,9 +278,9 @@ s1.compare(s2);
 
 但如果我们要比较的是字符串的长度，而不是根据首字母。就无法用Comparable接口的compareTo方法来实现。这时候就需要Comparator接口：
 
-```
+```java
 public interface Comparator<T> {
-  int compare(T first, T second)
+  int compare(T first, T second);   
 }
 ```
 
