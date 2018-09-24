@@ -243,6 +243,10 @@ Map的另一个实现是`HashMap`，线程不安全，速度快。底层也是 *
 
 HashMap使用 **链地址法** 来解决冲突的。但是使用链地址法会导致 ge t的效率从o（1）降至o（n），所以在 Java8 中，链表长度超过阈值（8）时，将链表转换为红黑树，这样大大减少了查找时间。
 
+hashMap的 Hash 过程
+
+![hashMap](../../../../images/Java/hashMap.png)
+
 HashMap例子
 
 ```java
