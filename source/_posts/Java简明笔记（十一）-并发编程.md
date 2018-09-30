@@ -1,5 +1,5 @@
 ---
-title: Java简明笔记（十一） 并发编程
+title: Java简明笔记（十一） 并发编程艺术
 comments: true
 categories: JAVA
 tags: Java
@@ -7,398 +7,58 @@ abbrlink: 727d207c
 date: 2018-03-01 00:29:51
 ---
 
-# 进程和线程
+# 问题的来源
 
-进程（Process）：一个操作系统任务就是一个进程。可以理解成正在进行中的程序。
+最开始的时候，计算机都只有一个 CPU 并且一次只能执行一个程序。后来出现了 **多任务（multitasking）** 使得计算机可以同时执行多个程序，但这并不是真正的“同时”，只是把 CPU 分成多个时间片，由操作系统去调度切换。再之后出现了 **多线程（multithreading）** 使得在一个程序里面可以同时执行线程，就像你有多个 CPU 在执行同一个程序一样。在单 CPU 的计算机中，多线程的“同时”并不是“同时”，但现代计算机一般都是多核 CPU，意味着不同的线程可以被不同的 CPU 核心同时执行，是真正的同时。
 
-线程（Thread）：在一个进程内部要同时运行多个“子任务”，这些“子任务”称为线程。
+![multithreading](http://tutorials.jenkov.com/images/java-concurrency/java-concurrency-tutorial-introduction-1.png)
 
-简单地说，一条线程指的是进程中一个单一顺序的控制流，而一个进程中可以并发多个线程，每条线程并行执行不同的任务。
-
-多进程和多线程的本质区别在于，每个进程拥有自己的一套变量，而线程却共享数据。
-
-关于进程的概念，可参考[操作系统漫游（二）进程](../post/be1528d7.html)
-
-# 线程的生命周期
-
-JAVA线程的五种状态
-1. 创建状态
-2. 就绪状态：调用 start 方法，但未设置成当前线程，或者在线程运行后从等待或者睡眠中回来时
-3. 运行状态：就绪 -> 当前
-4. 阻塞状态：正在运行 -> 暂停。如等待某事件发生
-5. 死亡状态： run方法结束后，或调用了stop方法
-
-
-![pic](http://www.runoob.com/wp-content/uploads/2014/01/java-thread.jpg)
-
-图片出处见水印
+如果一个线程在读一块内存区域的同时，另一个线程在往里面写，那么这块区域的值是什么？或者两个线程同时写一块内存区域，它的值又是什么？假如我们没有对这些可能出现的结果进行防范，那么结果将是不可预测的。什么情况都可能发生。因此，我们需要在一些共享资源上做一些措施，例如内存、文件、数据库等。
 
 <!-- more -->
 
-## 线程不同生命周期的方法
+---
 
-![thread_status](../../../../images/Java/thread_status.png)
+# 多线程的利弊
 
-注意:
-- `wait()` 方法会释放CPU执行权 和 占有的锁。
-- `yield()` 方法仅释放CPU执行权，锁仍然占用，线程会被放入就绪队列，会在短时间内再次执行。
-- `sleep(long)` 方法仅释放CPU使用权，锁仍然占用；线程被放入超时等待队列，与 yield 相比，它会使线程较长时间得不到运行。
-- wait 和 notify 必须配套使用，即必须使用同一把锁调用。
-- wait 和 notify 必须放在一个同步块中。
-- 调用 wait 和 notify 的对象必须是他们所处同步块的锁对象。
+## 利
 
-参考：[终极父类：Object](../post/2fJava80.html#wait%E6%96%B9%E6%B3%95)
+1. **更好的资源利用**：多线程程序在一个线程加载 IO 的同时，另一个线程可以处理已经加载完毕的 IO，以节省时间。
+2. **简化程序设计**：单线程程序，既要负责加载IO，又要负责处理。多线程程序，可以让一个线程专门加载，另一个线程专门处理。程序逻辑更加清晰。
+3. **更加高效的程序**：当一个请求进来时，处理请求可能需要耗费一些时间。单线程程序这时候就无法接收新的请求了，而多线程程序一个线程负责接收请求，每次收到请求都开一个专门的线程去处理，实现了多请求。
+
+## 弊
+
+1. **更加复杂的设计**：多线程有时候会让程序变得更加复杂（complex）。
+2. **上下文切换消耗**：CPU从一个线程切换到另一个线程时，要先保存上一个线程的 local data，程序指针等。这会带来一些消耗。
+3. **提高资源消耗**：多线程本身需要一些内存用于存储其 local stack，这可能消耗一些内存资源。不要以为它很小，实际上可能比你想象的多。
 
 ---
 
-# 线程的创建
+# 并发模型（Concurrency Models）
 
-## 方式一：实现 Runnable 方法 （推荐）
+并发模型指的是线程如何在系统中协同完成一项工作。不同的并发系统可以用不同的并发模型来实现。
 
-1. 重写接口 run 方法
-2. 创建重写后的Runnable实例 r
-3. 创建线程实例，传入 r
-4. 调用线程对象的 start 方法
+## 并发模型和分布式系统的相似性
 
-```java
-public class myRun implements Runnable {
-    public void run(){
-      //doing something
-    }
-}
+值得一提的是，本文中涉及的并发系统模型跟分布式系统（distributed systems）十分相似。例如，并发系统中是不同的线程之间互相通讯（communicate），而分布式系统是不同的进程之间互相通讯（这些进程可能在不同的计算机上）。进程和线程在某些时候十分相似，这也是为什么不同的并发模型往往看起来都很像分布式系统架构。此外，分布式系统需要面临网络请求可能失败、远程计算机或进程可能挂掉等问题，在并发系统中也会遇到类似 CPU 故障、网卡故障、硬盘故障等问题，这些故障发生的概率很低，但理论上确实存在。
 
-public class helloworld {
-    public static void main(String[] args){
-      Runnable r = new myRun();
-      Thread t1 = new Thread(r);
-      Thread t2 = new Thread(r);
-      t1.start();
-      t2.start();
-    }
-}
-```
+正因为并发模型和分布式系统十分相似，因此他们之间有些设计思想是相通的。例如，并发里面用于分配 workers （threads）的模型，就类似于分布式系统的负载均衡（load balancing in distributed systems）。
 
-**注意**：
- 1. 如果需要共享数据，只需要一个 r 实例，不要创建多个 r 实例。
- 2. 调用线程的`run`方法并不会启动线程，只是当前线程去执行`run`方法而已！
+## 模型1：并行 Workers
 
-## 方式二：继承 Thead 类 （不推荐）
+![parallel workers](http://tutorials.jenkov.com/images/java-concurrency/concurrency-models-1.png)
 
-不推荐的原因是：如果一个类继承Thread，则不适合资源共享。但是如果实现了Runable接口的话，则很容易的实现资源共享。
+在这个模型中，每一个 Worker（Thread）都由 delegator 来委派。每一个 Worker 都完成一个完整的工作。例如，在一个车间工厂，一辆车从零到一都只由一个 Worker 来完成。
 
-步骤:
-1. 定义一个类继承 Thread 类
-2. 重写 Thread 类的 run 方法
-3. 创建 Thead 类的子类对象创建线程
-4. 调用 start 方法开启线程 并调用线程的任务 run 方法执行
+这种模型在 Java 中用得非常多。在 java.util.concurrent 包中，许多的并发工具都是用这个模型来设计的。在 J2EE 应用服务器中也能看到这种模型的影子。
 
-```java
-//步骤一：定义一个类继承 Thread 类
-class ThreadDemo extends Thread {
-   private Thread t;
+### 并行 Workers 的优缺点
 
-     //步骤二：重写 Thread 类的 run 方法
-   public void run(){
-     //doing something
-   }
-}
+优点很明显，例如一个多线程爬虫可以同时爬取多个页面，你只需要多开几个线程，就可以得到明显的效率提升。而这种模型也潜在着一些缺点。首先是共享区域，多个 workers 可能经常需要访问一片共享数据，包括内存和数据库。这导致了三个问题。
 
-public class TestThread {
+![](http://tutorials.jenkov.com/images/java-concurrency/concurrency-models-2.png)
 
-  public static void main(String args[]) {
-     //步骤三：创建 Thead 类的子类对象创建线程
-     ThreadDemo T1 = new ThreadDemo();
-     //步骤四：调用 start 方法开启线程
-     T1.start();
-
-
-     ThreadDemo T2 = new ThreadDemo();
-     T2.start();
-  }   
-}
-```
-
-## 方式三：通过 Callable 和 Future 创建线程 （不推荐）
-
-这种方式使用得比较少。
-
-1. 创建 Callable 接口的实现类，并实现 call() 方法，该 call() 方法将作为线程执行体，并且有返回值。
-2. 创建 Callable 实现类的实例，使用 FutureTask 类来包装 Callable 对象，该 FutureTask 对象封装了该 Callable 对象的 call() 方法的返回值。
-3. 使用 FutureTask 对象作为 Thread 对象的 target 创建并启动新线程。
-4. 调用 FutureTask 对象的 get() 方法来获得子线程执行结束后的返回值。
-
-
----
-
-# 比较创建线程的三种方式
-
-采用实现 Runnable、Callable 接口的方式创见多线程时，线程类只是实现了 Runnable 接口或 Callable 接口，还可以继承其他类。
-
-使用继承 Thread 类的方式创建多线程时，编写简单，如果需要访问当前线程，则无需使用 `Thread.currentThread() `方法，直接使用 this 即可获得当前线程。
-
----
-
-# join：让线程串行执行
-
-有时候，我们开了两个线程，但是又想让两个线程串行执行（线程A执行完才执行B），可以用 `join()` 方法。
-
-join方法属于Thread类，通过一个thread对象调用。当在线程B中执行 `threadA.join()` 时，线程B将会被阻塞(底层调用wait方法)，等到 threadA 线程运行结束后才会返回 join 方法。
-
-```java
-public static void main(String[] args){
-
-    // 开启一条线程
-    Thread t = new Thread(new Runnable(){
-        public void run(){
-            // doSometing
-        }
-    }).start();
-
-    // 主线程调用join，等待t线程执行完毕
-    try{
-        t.join();
-    }catch(InterruptedException e){
-        // 中断处理……
-    }
-}
-```
-
-被等待的那条线程可能会执行很长时间，因此join函数会抛出InterruptedException。当调用threadA.interrupt()后，join函数就会抛出该异常。
-
----
-
-# 线程的优先级
-
-Java 线程的优先级是一个整数，取值范围是 1 （Thread.MIN_PRIORITY ） - 10 （Thread.MAX_PRIORITY ）。
-
-默认情况下，每一个线程都会分配一个优先级 NORM_PRIORITY（5）。
-
-不要太过于依赖线程优先级，因为线程优先级并不能保证线程执行的顺序，而且非常依赖于平台。
-
----
-
-# 线程同步和安全问题
-
-多个线程共享对一个数据的存取，就会产生`竞争条件（race condition）`
-
-如果一个线程在操作共享数据的时候，其他线程参与了运算，就会产生线程安全问题。
-
-## 解决办法一：Syncchronized
-
-将操作共享数据的代码封装在Syncchronized里，一个线程在操作它的时候，其他线程禁止参与。
-
-```java
-Object obj = new Object(); //不要放在run()里面
-
-Syncchronized(obj){
-	Code
-}
-```
-
-* obj是任意对象
-
-找到安全隐患所在位置，加入同步代码块
-
-必须有多个线程并使用同一个锁
-
-或者可以在方法修饰符加入同步关键字 `synchronized`
-
-```java
-Public synchronized void add(int num){
-  //...
-}
-```
-
-## 解决办法二：ReentrantLock
-
-在类中声明锁
-```java
-private Lock lock = new ReentrantLock();
-```
-
-然后在安全隐患位置加入 lock 和 unlock
-
-```java
-private void ticketSelling() {
-    lock.lock();
-    try {
-      //do something
-    } catch (InterruptedException e) {
-        System.out.println("InterruptedException problem");
-    } finally {
-        lock.unlock();
-    }
-}
-```
-
-* **注意**： `lock.lock();` 后面接 try 语句， `lock.unlock();`写在 finally里
-
-## 什么时候使用sync，什么时候使用Lock ？
-
-《java核心技术 卷I 第九版》给我们的建议是：
-
-* 最好都不使用，在许多情况下用 java.util.concurrent 包中的一种机制，它会为你处理所有的加锁。如`阻塞队列`（见下文）。
-* 如果不是很复杂的竞争情况，尽量用Syncchronized
-* 如果比较特殊（比如两个线程可同时读一个文件，但不可一读一写或者同时写等情况），用Lock/condition
-
-延伸阅读：[Syncchronized 和 Lock的区别](https://www.cnblogs.com/nsw2018/p/5821738.html)
-
-
-
----
-
-# 售票例子
-
-假设有 3 个售票厅共同售卖 100 张票，售票厅售卖票的步骤如下：
-
-1. 判断是否有余票
-2. 若有余票，售出，总票数-1
-3. 若无余票，提示无票
-
-我们用 3 个线程来表示 3 个售票厅，由于线程是并发执行的，想象一个场景：
-
-当剩下最后一张票时，线程1判断有余票，然后进入第二个步骤，此时，线程3恰好 在执行判断余票步骤，由于线程1还没执行 “总票数-1” 这个步骤，于是线程3也判断有余票。之后，线程1执行 “总票数-1” ，总票数为0，但是此时线程3紧接其后也执行了总票数-1，于是导致余票为 -1 的情况。
-
-> 还有一种可能是卖了100次，余票却还有1的情况。从操作系统的角度理解，语句 `ticket--`不是一条语句，而是三条。分别为：从内存中读到CPU，在CPU进行减1，写入内存。当线程一对变量ticket减1的时候，线程二执行了从内存中读到CPU，即把CPU寄存器的值又改回未修改前，之后，线程一执行写到内存，此时ticket一点没变，线程二再执行写到内存，ticket减1。可见，两个线程操作，ticket只减了一次。
-
-myRun.java
-```java
-public class myRun implements Runnable {
-    private int ticketNumber = 100;
-    private static int soldTicketNumber = 0;
-
-    public void run(){
-        try {
-            while ( ticketSelling()){
-                Thread.sleep(0);
-            }
-        } catch (InterruptedException e) {
-            System.out.println("problem");
-        }
-
-        }
-
-    private boolean ticketSelling() {
-        if (ticketNumber > 0){
-
-            try {
-                Thread.sleep(30);
-            } catch (InterruptedException e) {
-                System.out.println("problem");
-            }
-
-            System.out.printf("%s号售票厅售出票号为%d的票，余票%d\n",Thread.currentThread().getName(),++soldTicketNumber,--ticketNumber);
-            return true;
-        } else {
-            return false;
-        }
-    }
-}
-```
-
-main.java
-```java
-public class helloworld {
-    public static void main(String[] args){
-        myRun sellStation = new myRun();
-        Thread t = new Thread(sellStation);
-        Thread t2 = new Thread(sellStation);
-        Thread t3 = new Thread(sellStation);
-        t.start();
-        t2.start();
-        t3.start();
-    }
- }
-```
-
-输出
-
-```
-Thread-1号售票厅售出票号为1的票，余票99
-Thread-2号售票厅售出票号为3的票，余票98
-Thread-0号售票厅售出票号为2的票，余票99
-Thread-1号售票厅售出票号为4的票，余票97
-Thread-2号售票厅售出票号为5的票，余票96
-Thread-0号售票厅售出票号为6的票，余票95
-Thread-2号售票厅售出票号为7的票，余票94
-Thread-1号售票厅售出票号为8的票，余票93
-Thread-0号售票厅售出票号为9的票，余票92
-Thread-0号售票厅售出票号为10的票，余票91
-Thread-1号售票厅售出票号为11的票，余票90
-Thread-2号售票厅售出票号为12的票，余票89
-...
-Thread-2号售票厅售出票号为89的票，余票12
-Thread-1号售票厅售出票号为91的票，余票10
-Thread-0号售票厅售出票号为90的票，余票11
-Thread-1号售票厅售出票号为92的票，余票9
-Thread-2号售票厅售出票号为93的票，余票8
-Thread-0号售票厅售出票号为92的票，余票9
-Thread-1号售票厅售出票号为94的票，余票7
-Thread-0号售票厅售出票号为95的票，余票6
-Thread-2号售票厅售出票号为96的票，余票5
-Thread-0号售票厅售出票号为97的票，余票4
-Thread-1号售票厅售出票号为98的票，余票3
-Thread-2号售票厅售出票号为99的票，余票2
-Thread-0号售票厅售出票号为100的票，余票1
-Thread-1号售票厅售出票号为101的票，余票0
-Thread-2号售票厅售出票号为102的票，余票-1
-```
-
-可以看到，余票出现了-1的现象。
-
-稍作修改，把会影响线程资源的代码放到 `synchronized`里，或者给方法加上`synchronized`修饰符。
-
-```java
-private synchronized boolean ticketSelling() {
-    if (ticketNumber > 0){
-
-        try {
-            Thread.sleep(30);
-        } catch (InterruptedException e) {
-            System.out.println("problem");
-        }
-
-        System.out.printf("%s号售票厅售出票号为%d的票，余票%d\n",Thread.currentThread().getName(),++soldTicketNumber,--ticketNumber);
-        return true;
-    } else {
-        return false;
-    }
-}
-```
-
-输出
-
-```
-Thread-0号售票厅售出票号为1的票，余票99
-Thread-2号售票厅售出票号为2的票，余票98
-Thread-1号售票厅售出票号为3的票，余票97
-Thread-1号售票厅售出票号为4的票，余票96
-Thread-2号售票厅售出票号为5的票，余票95
-Thread-0号售票厅售出票号为6的票，余票94
-Thread-2号售票厅售出票号为7的票，余票93
-Thread-1号售票厅售出票号为8的票，余票92
-Thread-2号售票厅售出票号为9的票，余票91
-Thread-0号售票厅售出票号为10的票，余票90
-Thread-2号售票厅售出票号为11的票，余票89
-...
-Thread-2号售票厅售出票号为89的票，余票11
-Thread-2号售票厅售出票号为90的票，余票10
-Thread-2号售票厅售出票号为91的票，余票9
-Thread-0号售票厅售出票号为92的票，余票8
-Thread-2号售票厅售出票号为93的票，余票7
-Thread-1号售票厅售出票号为94的票，余票6
-Thread-2号售票厅售出票号为95的票，余票5
-Thread-2号售票厅售出票号为96的票，余票4
-Thread-0号售票厅售出票号为97的票，余票3
-Thread-0号售票厅售出票号为98的票，余票2
-Thread-2号售票厅售出票号为99的票，余票1
-Thread-2号售票厅售出票号为100的票，余票0
-```
-
----
-
-# 避免同步: 阻塞队列
-
-比如在售票例子中，每个售票厅售出票的时候，不是直接操作「总票数 -1」，而是把 -1 这个指令插入到一个队列中，交由专门的一个线程去做，只有特定的线程才能访问并修改总票数，这样就不需要同步了。
-
-这里只给出一个思路，不深入探讨。
+1. **可见性问题**：当一个线程改动了这片共享区域的数据，要确保另一个线程能够及时的看到改变（改变应该及时放进主存里，而不是在执行当前线程的 CPU 的临时寄存器）
+2. **竞争条件**：许多并发数据结构是阻塞的，也就是说，一次只能有一个或少量线程能够访问。这会导致多线程去争夺这个资源。高争夺导致了共享数据结构一定程度上的序列化执行，而不是并发执行。即使现代非阻塞并发算法能够减少竞争，但是这些算法通常是难以实现的。
+3. **死锁**：
