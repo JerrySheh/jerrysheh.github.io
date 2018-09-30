@@ -51,10 +51,10 @@ curl -o video.mp4 http:www.example.com/video.mp4 | 下载网络文件
 
 压缩命令	| 说明
 ---|---
-tar -zcvf xxxx.tar.gz  /home/test | 压缩
-tar -zxvf xxxx.tar.gz -C /tmp    | 解压
-zip -r mydata.zip mydata | 把 mydata 文件夹压缩
-unzip mydata.zip -d mydatabak | 解压 mydata.zip
+tar -zcvf xxxx.tar.gz  /home/test | 压缩 -z 有gzip属性的，，-c 压缩 -v 显示过程，-f 档案名（必须）
+tar -zxvf xxxx.tar.gz -C /tmp    | 解压， -x 解压 ， 其他参数同上
+zip -r mydata.zip mydata | 把 mydata 文件夹压缩 -r 递归（包括子目录）
+unzip mydata.zip -d mydatabak | 解压 mydata.zip， -d 解压到指定目录
 
 ## 系统相关
 

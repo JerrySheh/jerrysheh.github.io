@@ -248,3 +248,30 @@ Path， 添加`%HADOOP_HOME%\bin` 和 `%HADOOP_HOME%\sbin`
 然后把 `C:\hadoop-3.0.0\etc\hadoop\` 里面的配置文件 （几个dfs、core、mapred、yarn相关的 xml 文件），放到 项目 src/main/resource 里面
 
 然后运行。DONE！
+
+
+---
+
+# 七、Spark standalone 模式集群配置
+
+记得关防火墙
+
+```
+service iptables status
+service iptables stop
+```
+
+有一个WARN，提示你本地ip是127.0.0.1，应该该到 172.x.x.x 或 192.x.x.x ，否则局域网机器访问不到。
+
+```
+cp ./conf/spark-env.sh.template ./conf/spark-env.sh
+vim ./conf/spark-env.sh
+```
+
+添加
+
+```
+SPARK_LOCAL_IP=172.x.x.x
+SPARK_MASTER_HOST=172.x.x.x
+SPARK_EXECUTOR__MEMORY=16G
+```
