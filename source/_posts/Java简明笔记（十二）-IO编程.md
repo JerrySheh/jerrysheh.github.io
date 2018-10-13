@@ -261,7 +261,7 @@ public class randomDoubleNumber {
 
 test.java
 
-```java
+```
 import java.io.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -322,5 +322,133 @@ public class main {
 }
 ```
 
-
 ---
+
+# 序列化
+
+## 什么是序列化（Serialization）？
+
+变量从内存中变成可存储或传输的过程称之为序列化（或持久化）。序列化之后，就可以把序列化后的内容写入磁盘，或者通过网络传输到别的机器上。
+
+## Java中的序列化
+
+在 Java 中，java.io.Serializable 是一个标记接口。要序列化一个对象，只需要实现该接口。但是，对象中并不是所有字段都可以被序列化，使用时需要注意。
+
+当然，也有一些字段本身是可以被序列化的，但是我们不希望它被序列化，这时可以使用 `transient` 关键字让它不被序列化。
+
+### 一个支持序列化的类
+
+```java
+public class Employee implements java.io.Serializable
+{
+   public String name;
+   public String address;
+   public transient int SSN;
+   public int number;
+   public void mailCheck()
+   {
+      System.out.println("Mailing a check to " + name
+                           + " " + address);
+   }
+}
+```
+
+在 Java 中，我们使用  ObjectOutputStream 类来将一个对象转换成输出流。它的 `writeObject(Object x)` 方法用于序列化一个对象，并将它发送到输出流。
+
+### 序列化过程
+
+```java
+public class SerializeDemo
+{
+   public static void main(String [] args)
+   {
+      Employee e = new Employee();
+      e.name = "Reyan Ali";
+      e.address = "Phokka Kuan, Ambehta Peer";
+      e.SSN = 11122333;
+      e.number = 101;
+      try
+      {
+         FileOutputStream fileOut =
+         new FileOutputStream("/tmp/employee.ser");
+         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+         out.writeObject(e);
+         out.close();
+         fileOut.close();
+         System.out.printf("Serialized data is saved in /tmp/employee.ser");
+      }catch(IOException i)
+      {
+          i.printStackTrace();
+      }
+   }
+}
+```
+
+Java约定序列化的文件后缀名为 .ser ，我们将该对象存入磁盘/tmp/employee.ser文件中
+
+### 反序列化过程
+
+```java
+public class DeserializeDemo
+{
+   public static void main(String [] args)
+   {
+      Employee e = null;
+      try
+      {
+
+         // 创建一个文件输入流
+         FileInputStream fileIn = new FileInputStream("/tmp/employee.ser");
+
+         // 创建一个对象输入流，传入文件输入流对象
+         ObjectInputStream in = new ObjectInputStream(fileIn);
+
+         // 从对象输入流中获取序列化的数据
+         e = (Employee) in.readObject();
+
+         in.close();
+         fileIn.close();
+      }catch(IOException i)
+      {
+         i.printStackTrace();
+         return;
+      }catch(ClassNotFoundException c)
+      {
+         System.out.println("Employee class not found");
+         c.printStackTrace();
+         return;
+      }
+    }
+}
+```
+
+此时，Employee对象即被“复活”了。但是注意，变量SSN是 transient 的，因此不会被还原。
+
+## 为什么一个类实现了Serializable接口，它就可以被序列化？
+
+查看ObjectOutputStream的源码，可以看到，其writeObject0方法中，是通过判断该类是否可以转型为 String、Enum 或 Serializable 来为其决定进行何种序列化方式的。实现Serializable接口就勇 writeOrdinaryObject 方式。
+
+如果该类没有实现 Serializable 接口，就抛出 NotSerializableException
+
+```java
+private void writeObject0(Object obj, boolean unshared) throws IOException {
+      ...
+    if (obj instanceof String) {
+        writeString((String) obj, unshared);
+    } else if (cl.isArray()) {
+        writeArray(obj, desc, unshared);
+    } else if (obj instanceof Enum) {
+        writeEnum((Enum) obj, desc, unshared);
+    } else if (obj instanceof Serializable) {
+        writeOrdinaryObject(obj, desc, unshared);
+    } else {
+        if (extendedDebugInfo) {
+            throw new NotSerializableException(cl.getName() + "\n"
+                    + debugInfoStack.toString());
+        } else {
+            throw new NotSerializableException(cl.getName());
+        }
+    }
+    ...
+}
+```

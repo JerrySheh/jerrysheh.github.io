@@ -132,16 +132,16 @@ public static str1 = "jerry";
 
 直接满足初始化的这4个条件的情况叫做**主动引用**；间接满足上述初始化过程的情况叫做**被动引用**。下文有举例。
 
-## 全盘负责委托机制
+## 全盘负责双亲委派机制
 
 类加载器 ClassLoader 是具有层次结构的，也就是父子关系。
 
 ![classloader](../../../../images/Java/classloader.png)
 
-JVM装载类时，使用了“全盘负责委托机制”：
+JVM装载类时，使用了“全盘负责委托机制”，或者叫“双亲委派模型”：
 
-- **全盘负责**：当一个 ClassLoader 装载一个类时，该类所依赖及引用的类也由该 ClassLoader 载入。
-- **委托机制**：先委托父装载器寻找目标类，找不到时才从自己的类路径找。
+- **全盘负责**：当一个ClassLoader装载一个类时，除非显示地使用另一个ClassLoader，则该类所依赖及引用的类也由这个ClassLoader载入。
+- **双亲委派**：加载一个类时，先委托父装载器寻找目标类，找不到时才从自己的类路径找。
 
 举个栗子，像 java.lang.Object 这些存放在 rt.jar 中的类，无论使用哪个类加载器加载，最终都会委派给最顶端的 RootClassLoader 加载，从而使得不同加载器加载的 Object 类都是同一个。之所以这样设计，是从安全角度考虑的，试想如果有人恶意编写了一个 java.lang.String 类并装载到 JVM 中，我们使用 String 的时候就可能执行了恶意的 String 而不是 Java 提供的 Stirng。有了全盘负责委托机制，java.lang.String 永远是由 RootClassLoader 来加载，避免了上述安全隐患。
 

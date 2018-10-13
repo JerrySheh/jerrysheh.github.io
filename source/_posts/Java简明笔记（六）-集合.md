@@ -235,19 +235,29 @@ HashMap hashMap = new HashMap();
 Map map = Collections.synchronizeMap(hashMap);
 ```
 
-### 2. HashMap
+### 2. HashMap （jdk 1.8实现）
 
-Map的另一个实现是`HashMap`，线程不安全，速度快。底层也是 **哈希表** 数据结构（即链表+数组，但在Java8中又加入了红黑树）。是不同步的。允许null作为键和值。替代了Hashtable。
+Map的另一个实现是`HashMap`，线程不安全，速度快。其底层也是 **哈希表** 数据结构（即链表+数组，在Java8中又加入了红黑树）。是不同步的。允许null作为键和值。替代了Hashtable。
 
 #### 为什么要 java8 要加入红黑树？
 
-HashMap使用 **链地址法** 来解决冲突的。但是使用链地址法会导致 ge t的效率从o（1）降至o（n），所以在 Java8 中，链表长度超过阈值（8）时，将链表转换为红黑树，这样大大减少了查找时间。
+HashMap使用 **链地址法** 来解决冲突。但是使用链地址法会导致 get 的效率从o（1）降至o（n），所以在 Java8 中，链表长度超过阈值（8）时，将链表转换为红黑树，这样大大减少了查找时间。
 
-hashMap的 Hash 过程
+#### hashMap的 Hash 过程
 
 ![hashMap](../../../../images/Java/hashMap.png)
 
-HashMap例子
+#### hashMap的 put 过程
+
+1. 确定要存入的桶。先使用 hash() 函数获取该对象的 hash 值，高16位和低16位异或后跟 Entry对象数组大小-1 进行与操作，得到应该存入数组的下标。
+2. 链表插入。假如该位置为空，就将value值插入，如果该下标不为空，则要遍历该下标上面的对象，使用equals方法进行判断，如果遇到equals()方法返回真则进行替换，否则将其插入。
+
+#### hashMap的 get 过程
+
+1. 根据 key 对象的 hash 值找到 Entry 对象数组的对应下标。
+2. 判断Entry的 key 和 给定的 key 是否相同（equals或==），以及 hash 是否也相同，如果不是，访问链表下一个 Entry ，如果是，返回 Entry 的 value，如果遍历完了也没有，返回 null
+
+#### HashMap的使用例子
 
 ```java
 Map<String, Integer> counts = new HashMap();
@@ -269,16 +279,11 @@ counts.merge(word, 1, Integer::sum);
 
 ### 3. ConcurrentHashMap
 
-`ConcurrentHashMap` 结合了 HashMap 和 HashTable 二者的优势。HashMap 没有考虑同步，HashTable 考虑了同步的问题。但是 HashTable 在每次同步执行时都要锁住整个结构。 ConcurrentHashMap 锁的方式是稍微细粒度的。 ConcurrentHashMap 将 hash 表分为 16 个桶（默认值），诸如get,put,remove 等常用操作只锁当前需要用到的桶。
-
-#### ConcurrentHashMap的具体实现（JDK1.7）
-
-1. 该类包含两个静态内部类 HashEntry 和 Segment ；前者用来封装映射表的键值对，后者用来充当锁的角色；
-2. Segment 是一种可重入的锁 ReentrantLock，每个 Segment 守护一个 HashEntry 数组里得元素，当对 HashEntry 数组的数据进行修改时，必须首先获得对应的 Segment 锁。
+ConcurrentHashMap 是线程安全的 hashMap，其底层也是 哈希表（数组+链表） + 红黑树 实现。
 
 #### ConcurrentHashMap 如何保证线程安全？
 
-JDK1.8 的 ConcurrentHashMap 采用CAS+Synchronized保证线程安全。 JDK1.7 及以前采用segment的分段锁机制实现线程安全，其中segment继承自ReentrantLock，因此采用Lock锁来保证线程安全。
+JDK1.8 的 ConcurrentHashMap 采用 CAS（compare and swap）+ Synchronized 保证线程安全。 JDK1.7 及以前采用segment的分段锁机制实现线程安全，其中 segment 继承自ReentrantLock，因此采用Lock锁来保证线程安全。
 
 ## 4. LinkedHashMap
 

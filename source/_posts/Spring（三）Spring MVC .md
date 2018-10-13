@@ -384,6 +384,11 @@ public ModelAndView xxxxmethod(String someparam)
 }
 ```
 
+ModelAndView 实际上包含了两个 object ：
+
+1. **Model**：用于渲染页面的 k-v 键值对数据
+2. **View**：填充了Model里面的数据的页面模板
+
 ---
 
 # @ModelAttribute与@RequestBody的区别
