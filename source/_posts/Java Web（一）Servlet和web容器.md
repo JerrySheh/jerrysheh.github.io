@@ -10,21 +10,21 @@ date: 2018-03-04 23:43:38
 ---
 
 
-`Servlet`是任何Java EE Web应用程序的一个关键组件，是一个用于接受和响应HTTP请求的Java类，可以简单地理解为是服务器端处理数据的java小程序。
+Servlet 是任何Java EE Web应用程序的一个关键组件，它是一个用于接受和响应 HTTP 请求的Java类，可以简单地理解为是服务器端处理数据的java程序。
 
-`web容器`，是帮助我们管理着servlet的东西，我们只需要将重心专注于业务逻辑。
+Web容器是帮助我们管理 Servlet 的东西，我们只需要将重心专注于业务逻辑。
 
 <!-- more -->
 
 # Web容器 - Tomcat
 
-不管什么Web资源，想被远程计算机访问，都必须有一个与之对应的`网络通信程序`，当用户来访问时，这个网络通信程序读取Web资源数据，并把数据发送给来访者。
+无论何种 Web 资源，想被远程计算机访问，都必须有一个与之对应的网络通信程序，当用户来访问时，这个网络通信程序读取 Web 资源数据，并把数据发送给来访者。
 
 ![](../../../../images/Webapp/webServer.png)
 
-`Web服务器`就是一个网络通信程序，它用于完成底层网络通迅。
+Web服务器就是一个网络通信程序，它用于完成底层网络通迅。
 
-使用Web服务器，Web应用的开发者只需要关注web资源怎么编写，而不需要关心资源如何发送到客户端手中，从而极大的减轻了开发者的开发工作量。
+使用 Web 服务器，Web 应用的开发者只需要关注 Web 资源怎么编写，而不需要关心资源如何发送到客户端手中，从而极大的减轻了开发者的开发工作量。
 
 Tomcat 就是一个常用的 Web 服务器。
 
@@ -38,7 +38,7 @@ Tomcat 就是一个常用的 Web 服务器。
 1. 编写一个Java类，实现servlet接口。
 2. 把开发好的Java类部署到web服务器中。
 
-按照一种约定俗成的称呼习惯，通常我们也把实现了servlet接口的java程序，称之为Servlet。
+按照一种约定俗成的称呼习惯，通常我们也把实现了Servlet接口的java程序，称之为Servlet。
 
 ## Servlet的运行过程
 
@@ -61,9 +61,9 @@ Servlet是一个供其他Java程序（Servlet引擎）调用的Java类，它不�
 
 针对客户端的多次Servlet请求，通常情况下，**服务器只会创建一个Servlet实例对象**，也就是说Servlet实例对象一旦创建，它就会驻留在内存中，为后续的其它请求服务，直至web容器退出，servlet实例对象才会销毁。
 
-在Servlet的整个生命周期内，Servlet的**init方法只被调用一次**。而对一个Servlet的每次访问请求都导致Servlet引擎调用一次servlet的service方法。对于每次访问请求，Servlet引擎都会创建一个新的`HttpServletRequest`请求对象和一个新的`HttpServletResponse`响应对象，然后将这两个对象作为参数传递给它调用的Servlet的service()方法，service方法再根据请求方式分别调用doXXX方法。
+在Servlet的整个生命周期内，Servlet的 **init方法只被调用一次**。而对一个Servlet的每次访问请求都导致Servlet引擎调用一次servlet的service方法。对于每次访问请求，Servlet引擎都会创建一个新的`HttpServletRequest`请求对象和一个新的`HttpServletResponse`响应对象，然后将这两个对象作为参数传递给它调用的Servlet的service()方法，service方法再根据请求方式分别调用doXXX方法。
 
-如果在`<servlet>`元素中配置了一个`<load-on-startup>`元素，那么WEB应用程序在启动时，就会装载并创建Servlet的实例对象、以及调用Servlet实例对象的`init()`方法。
+如果在`<servlet>`元素中配置了一个`<load-on-startup>`元素，那么 Web 应用程序在启动时，就会装载并创建Servlet的实例对象、以及调用Servlet实例对象的`init()`方法。
 
 ---
 
@@ -322,5 +322,3 @@ response.setHeader("pragma","no-cache");
 ## 标记接口
 
 在Java中，把没有定义任何方法和常量的接口称之为标记接口，经常看到的一个最典型的标记接口就是"Serializable"，这个接口也是没有定义任何方法和常量的，标记接口在Java中有什么用呢？主要作用就是给某个对象打上一个标志，告诉JVM，这个对象可以做什么，比如实现了"Serializable"接口的类的对象就可以被序列化，还有一个"Cloneable"接口，这个也是一个标记接口，在默认情况下，Java中的对象是不允许被克隆的，就像现实生活中的人一样，不允许克隆，但是只要实现了"Cloneable"接口，那么对象就可以被克隆了。
-
----

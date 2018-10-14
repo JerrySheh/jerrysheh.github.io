@@ -38,32 +38,40 @@ public ModelAndView login(LoginData loginData) {
 
 # 从基本的 Servlet 谈起
 
-一个 Spring MVC 应用运行后，当我们在浏览器访问 http://localhost:8080/ 时，发生了什么？我们知道，Spring Boot 内置了一个 Tomcat，而 Tomcat 作为应用服务器，它是一个 Servlet 容器，自然所有发送给 Tomcat 的 HTTP 请求都会被 Java Servlet 进行处理。因此，不难想到，Spring Web 应用程序的入口，就是一个 Servlet ！
+一个 Spring MVC 应用运行后，当我们在浏览器访问 http://localhost:8080/ 时，发生了什么？我们知道，Spring Boot 内置了一个 Tomcat，而 Tomcat 作为应用服务器，它是一个 Servlet 容器，所有发送给 Tomcat 的 HTTP 请求都会被 Java Servlet 进行处理。
 
-Servlet 简单地说是 Java Web 应用的核心组件。一个 HTTP servlet 用于处理接收、处理一个 HTTP 请求，并进行响应。从 Servlet 3.0 API 起，除了支持 XML 配置之外，还支持 Java 配置的方式。
+Servlet 是 Java Web 应用的核心组件。一个 HTTP servlet 用于处理接收、处理一个 HTTP 请求，并进行响应。
+
+我们自然会猜想，Spring Web 应用程序的入口，应该是一个 Servlet，事实也确实如此。
 
 ---
 
-# 心脏 - DispatcherServlet
+# DispatcherServlet
 
-对于开发者来说，我们关心的是业务逻辑，而不是繁琐无聊的样板代码，什么是样板代码呢？例如：
+DispatcherServlet 就是 Spring Web 应用程序的入口，它就是一个servlet。
 
-- 将一个 HTTP 请求映射到到一个处理该请求的方法
-- 将 HTTP request的 data 和 header 转换为 DTO（data transfer objects ）或者 实体类（domain objects）
-- model-view-controller 之间的相互联系
-- 将处理完毕的 DTO 或 实体类转换成 HTTP 的 response 返回
+## 为什么需要 DispatcherServlet
 
-而 Spring DispatcherServlet 为我们做了这些工作。DispatcherServlet 是可扩展的，允许我们为许多任务修改或添加适配器（adapters），例如：
+对于我们开发者来说，我们关心的是业务逻辑，而不是繁琐无聊的样板代码，什么是样板代码呢？例如：
 
-- 将一个 HTTP 请求映射到到一个可以处理该请求的方法或类（这部分在 HandlerMapping 接口）
-- 用特定的模式来处理特定的请求，像常规的 Servlet，复杂的 MVC 工作流，或者 POJO bean 里的方法（这部分在 HandlerAdapter 接口）
+- 将一个 HTTP request 映射到一个处理该 request 的方法
+- 将 HTTP request 的 data 和 header 转换为 DTO（data transfer objects ）或者 实体类（domain objects）
+- model-view-controller 之间的相互连接
+- 将处理完毕的 DTO 或 实体类转换回 HTTP 的 response
+
+我们需要框架来帮我们简化这些繁琐的工作，而 Spring 的 DispatcherServlet 正是干这件事的。
+
+同时，DispatcherServlet 是可扩展的，它允许我们为许多任务添加适配器（adapters），例如：
+
+- 将一个 HTTP request映射到到一个可以处理该 request 的方法或类（这部分在 HandlerMapping 接口）
+- 对不同的 request 做不同的处理，包括常规的 Servlet，复杂的 MVC 工作流，或者 POJO bean 里的方法（这部分在 HandlerAdapter 接口）
 - 根据不同的模板引擎做不同的处理（这部分在 ViewResolver 接口）
 - 解析多请求，例如多文件上传，或者你自己写的MultipartResolver解析器
-- 解析 cookie、session、 Accept HTTP header 等
+- 解析 cookie、session、 Accept HTTP header 等（叫做locale）
 
 ---
 
-# 处理 HTTP 请求的过程
+# 处理 HTTP request的过程
 
 DispatcherServlet 的继承关系：
 
@@ -83,7 +91,6 @@ public abstract void service(ServletRequest req, ServletResponse res)
 HttpServlet是专注于 HTTP 请求的 Servlet。它是一个抽象类，其中的 service() 方法用于区分不同的 HTTP 方法（如 GET、POST）
 
 ```java
-
 protected void service(HttpServletRequest req, HttpServletResponse resp)
     throws ServletException, IOException {
     String method = req.getMethod();
@@ -102,9 +109,7 @@ protected void service(HttpServletRequest req, HttpServletResponse resp)
 
 ## HttpServletBean
 
-HttpServletBean 是在继承链中 Spring 能够感知的类。它从 web.xml 或 WebApplicationInitializer 获取初始化参数，并注入到 Servlet bean 属性当中。
-
-当发出 HTTP 请求，则会针对这些特定的 HTTP 请求决定调用doGet（），doPost（）等方法。
+HttpServletBean 是 Spring 能够感知的类。它从 web.xml 或 WebApplicationInitializer 等配置文件中获取初始化参数，并注入到 Servlet bean 属性当中，可以理解成为 DispatcherServlet 进行初始化。
 
 ## FrameworkServlet
 
@@ -118,9 +123,9 @@ FrameworkServlet 实现了 ApplicationContextAware 接口，在 Web context（�
 
 ### 1.统一请求的处理（Unifying the Request Processing）
 
-DispatcherServlet 用于统一请求的处理。如果说，HttpServlet.service()提供了一个底层的视角来区分HTTP请求的方法，那对 Spring MVC 来说，这些方法只是一个参数罢了。
+DispatcherServlet 用于统一所有请求的处理。如果说，HttpServlet.service()提供了一个底层的视角来区分HTTP请求的方法，那对 Spring MVC 来说，这些方法只是一个参数罢了。
 
-而对于 FrameworkServlet 来说，一个用途在于将处理逻辑返回给 processRequest() 方法，之后又调用 doService() 方法。
+在 HttpServlet 中区分了很多 HTTP 方法，但在 FrameworkServlet 中这些方法又被统一到 processRequest() 方法进行处理，之后才是 doService() 做具体的业务服务。
 
 ```java
 @Override
@@ -138,7 +143,7 @@ protected final void doPost(HttpServletRequest request,
 
 ### 2.扩展请求（Enriching the Request）
 
-最终，DispatcherServlet 实现了 doService() 方法，它不仅仅处理 web context，还包括 locale resolver，theme resolver, theme source 等等。
+之后，DispatcherServlet 实现了 doService() 方法，它不仅仅处理 web context，还包括 locale resolver，theme resolver, theme source 等等。
 
 ```java
 request.setAttribute(WEB_APPLICATION_CONTEXT_ATTRIBUTE,
@@ -167,7 +172,7 @@ request.setAttribute(OUTPUT_FLASH_MAP_ATTRIBUTE, new FlashMap());
 
 Dispatch()方法最主要的用途是寻找适合的 handler，handler 可以是任意 Object 而不局限于某些接口。这意味着 Spring 需要为 handler 找到合适的适配器（adapter），从而知道如何与 handler “沟通”。
 
- Spring 用 HandlerMapping 接口来找到与 request 匹配的 handler，HandlerMapping 有多种不同的实现。例如，SimpleUrlHandlerMapping  就能够根据 URL 找到合适的处理这个 request 的 bean 。
+Spring 用 HandlerMapping 接口来找到与 request 匹配的 handler，HandlerMapping 有多种不同的实现。例如，SimpleUrlHandlerMapping  就能够根据 URL 找到合适的处理这个 request 的 bean 。
 
 ```
 /welcome.html=ticketController
@@ -190,6 +195,9 @@ ModelAndView handle(HttpServletRequest request,
                     Object handler) throws Exception;
 ```
 
+> 问：HandlerMapping不是已经可以帮助我们匹配到具体的handle（或者说控制器）了吗?为什么还需要HandlerAdapter？
+
+> 答：这是因为使用了 **适配器模式**， 有很多种控制器(Controller) 一种是带 `@Controller` 注解的， 还有一种是写一个servlet 当做controller, 所以用适配器做适配，HandlerAdapter 有几个子类，每个子类都是适配某一种类型的控制器，有了 HandlerAdapter，你只需要调用 handle 方法，屏蔽了不一致的细节，否则在DispatcherServlet里面要写很多if else if else。
 
 事实上，有多种 handler 类型。例如，SimpleControllerHandlerAdapter 处理一个  Spring MVC controller 的实例:
 

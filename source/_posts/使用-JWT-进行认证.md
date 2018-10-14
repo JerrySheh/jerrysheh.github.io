@@ -301,7 +301,7 @@ axios.get("/api/user/profile",{
 
 之后在这台电脑上的每一次请求 header 都会自动携带 Authorization 字段。直到 token 过期才需要重新登录。或者，你可以用 sessionStorage 。
 
-注意：鼠标点击跳转页面会自动携带 header，但是如果要发起 ajax 请求，必须在方法参数里手动带上 Authorization
+注意：每次发起 ajax 请求，必须在方法参数里手动带上 Authorization
 
 ### 退出登录
 
