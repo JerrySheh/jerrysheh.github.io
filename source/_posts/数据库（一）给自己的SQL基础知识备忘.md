@@ -11,17 +11,33 @@ date: 2018-03-21 21:45:47
 
 # SQL简介
 
-SQL （Structured Query Language） 结构化查询语言，是一种大小写不敏感的标准语言。
+SQL （Structured Query Language，结构化查询语言）是一种大小写不敏感的标准语言，用于帮助我们访问数据库。
 
-SQL 包含 `DML （数据操作语言）` 和 `DDL（数据定义语言）`。
+SQL 包含两大部分 DML 和 DDL 两部分。
 
-* DML有：SELECT、UPDATE、DELETE、INSERT INTO等
-* DDL有：CREATE DATABASE、ALTER DATABASE、CREATE TABLE、CREATE INDEX等
+## DML（data manipulation language，数据操作语言）
 
-在网站中，通常包括：
-* RDBMS（关系型数据库管理系统）数据库程序（SQL Server、mySQL等）
-* 服务器端脚本语言（PHP、ASP.NET、Java EE等）
-* 前端语言（HTML/CSS）
+DML包括：
+- **SELECT**：从数据库表中获取数据
+- **UPDATE**： 更新数据库表中的数据
+- **DELETE**：从数据库表中删除数据
+- **INSERT INTO**：向数据库表中插入数据
+- ...
+
+## DDL（data definition language，数据定义语言）。
+
+DDL包括：
+- **CREATE DATABASE**：创建新数据库
+- **ALTER DATABASE**：修改数据库
+- **CREATE TABLE**：创建新表
+- **ALTER TABLE**：变更数据库表
+- **DROP TABLE**：删除数据库表
+- **CREATE INDEX**：创建索引
+- **DROP INDEX**：删除索引
+
+## RDBMS
+
+RDBMS（Relational Database Management System，关系型数据库管理系统）是将数据组织为相关的行和列的系统，其数据存储在被称为表（tables）的数据库对象中。表是相关的数据项的集合，它由列和行组成。常见的RDBMS有 MS SQL Server、MySQL、Oracle 等
 
 <!--more-->
 
@@ -164,11 +180,12 @@ C:\Program Files\MySQL\MySQL Server 8.0\bin>mysqldump.exe -uroot -p mall  -e --m
 
 ---
 
-# 单表操作
+# SQL的单表操作
 
 ## SELECT
 
-语法：从表里选择列
+从表里选择列
+
 ```SQL
 SELECT column FROM table
 
@@ -177,34 +194,38 @@ SELECT LastName,Address FROM Persons
 
 ---
 
-语法：从表里选择列（不出现重复值）
+## DISTINCT
+
+从表里选择列（不出现重复值）
+
 ```SQL
 SELECT DISTINCT column FROM table
 ```
-
-<!-- more -->
 
 ---
 
 ## WHERE
 
-语法：从表里中选择 city 列等于 Beijing 的所有行
+从表里中选择 city 列等于 Beijing 的所有行
+
 ```SQL
 SELECT * FROM Persons WHERE city = 'Beijing'
 ```
 
-> 这里是使用**单引号**，但是大部分数据库也接受双引号。如果是数值类型，不要加引号！
+WHERE 语句中，`<>`或`!=`都可表示不等于，除了`=`、`>`、`<`、`>=`、`<=`之外，还可以用 `BETWEEN`（表示某个范围） 和 `LIKE`（搜索某种模式）。
+
+**注意**：这里是使用 **单引号**，但是大部分数据库也接受双引号。如果是数值类型，不要加引号！
 
 ---
 
 ## AND、OR
 
-语法：从表里中选择 FirstName 是'Thomas' 并且 LastName 是 'Carter' 的行
+从表里中选择 FirstName 是'Thomas' 并且 LastName 是 'Carter' 的行
 ```SQL
 SELECT * FROM Persons WHERE FirstName = 'Thomas' AND LastName='Carter'
 ```
 
-当既有 AND 又有 OR 的时候，SQL 默认先执行 AND，如果要让 OR 先执行，用括号括起来即可。
+**注意**：当既有 AND 又有 OR 的时候，SQL 默认先执行 AND，如果要让 OR 先执行，用括号括起来即可。
 
 ```SQL
 SELECT * FROM product WHERE (id > 3000 OR id < 1000 ) AND price > 50;
@@ -212,12 +233,14 @@ SELECT * FROM product WHERE (id > 3000 OR id < 1000 ) AND price > 50;
 
 ---
 
-## ORDER BY 升序排列
+## ORDER BY 排列
 
-* ASC 升序（小→大）
+* ASC 升序（小→大）（默认）
 * DESC 降序（大→小）
 
-优先以Company升序排列，然后以OrderNumber升序排列
+例1：
+
+优先以 Company 升序排列，然后以 OrderNumber 升序排列
 ```SQL
 SELECT Company, OrderNumber FROM Orders ORDER BY Company,OrderNumber
 ```
@@ -232,20 +255,19 @@ Company|OrderNumber
 
 例2：
 
+从商品表中根据id倒序取出前2个
+
 ```SQL
 SELECT * FROM product ORDER BY id DESC LIMIT 2
 ```
-
-从商品表中根据id倒序取出前2个
 
 - MySql 是没有 top 关键字的，用 LIMIT 来完成相同功能。
 
 ---
 
-
 ## INSERT INTO
 
-### 顺序插入
+### 顺序依次插入
 
 往 Person 表的1、2、3、4列依次填入值
 ```SQL
@@ -260,18 +282,26 @@ Jerry|Sheh|Guangdong|China
 
 ### 指定列插入
 
+往 Person 表的 LastName 列插入 Wilson，Age列插入 18
 
 ```SQL
 INSERT INTO Persons(LastName, Age) VALUES ('Wilson', 18)
 ```
 
+Firstname|LastName|Province|Country|Age
+---|---|---|---|---|---
+ | |Wilson| | |18
+
 ---
 
 ## UPDATE
 
-修改Address列和City列
+修改 Persons表 中 LastName 是 Wilson 的 Address列 和 City列
+
 ```SQL
-UPDATE Persons SET Address='Xueyuan Road',City='Zhongshan' WHERE LastName='Wilson'
+UPDATE Persons
+SET Address='Xueyuan Road',City='Zhongshan'
+WHERE LastName='Wilson'
 ```
 
 ---
@@ -279,11 +309,14 @@ UPDATE Persons SET Address='Xueyuan Road',City='Zhongshan' WHERE LastName='Wilso
 ## DELETE
 
 删除某行
+
 ```SQL
-DELETE FROM Persons WHERE LastName='Wilson'
+DELETE FROM Persons
+WHERE LastName='Wilson'
 ```
 
 删除所有行（表并没有被删除，结构、属性、索引都是完整的）
+
 ```SQL
 DELETE * FROM table
 ```
@@ -292,15 +325,23 @@ DELETE * FROM table
 
 ## TOP
 
+显示前多少条
+
 ```SQL
-# 显示前2条
+# 显示前 2 条
 SELECT TOP 2 * FROM Persons
 
-# 显示前50%
+# 显示前50%，PERCENT表示百分比
 SELECT TOP 50 PERCENT * FROM Persons
 ```
 
-* SQL Server可用，其他SQL待验证
+* SQL Server可用，MySQL 用 limit 代替，其他SQL待验证
+
+```sql
+# 显示前 2 条
+SELECT * FROM Persons
+LIMIT 2
+```
 
 ---
 
@@ -322,18 +363,6 @@ WHERE city LIKE '%N'
 选出商品表中，标签包含 “爱情” 的
 ```SQL
 SELECT * FROM product WHERE tags like '%爱情%'
-```
-
-## DISTINCT
-
-去重。
-
-例子：
-
-从交易表中找出所有不一样的用户
-
-```SQL
-SELECT DISTINCT userId FROM rate
 ```
 
 ### SQL 通配符
