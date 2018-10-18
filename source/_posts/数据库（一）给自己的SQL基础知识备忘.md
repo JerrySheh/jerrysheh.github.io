@@ -351,18 +351,22 @@ LIMIT 2
 
 ```SQL
 SELECT * FROM Persons
-WHERE city LIKE '%N'
+WHERE city
+LIKE '%N'
 ```
 
 同理，`NOT LIKE`是不包含
 
-* `%`定义了通配符， `N%`表示以N开头， `%g`表示以g结尾，`%lon%`表示包含lon
+符号 `%` 定义了通配符：`N%`表示以N开头， `%g`表示以g结尾，`%lon%`表示包含lon
 
 模糊查询例子：
 
 选出商品表中，标签包含 “爱情” 的
+
 ```SQL
-SELECT * FROM product WHERE tags like '%爱情%'
+SELECT * FROM product
+WHERE tags
+like '%爱情%'
 ```
 
 ### SQL 通配符
@@ -374,20 +378,27 @@ SELECT * FROM product WHERE tags like '%爱情%'
 
 选取 c 开头，然后一个任意字符，然后 r，然后任意字符，最后 er
 ```SQL
-SELECT * FROM Persons Where LastName LIKE `c_r_er`
+SELECT * FROM Persons
+Where LastName
+LIKE `c_r_er`
 ```
 
 选取以 A 或者 L 或者 N 开头
 ```SQL
-SELECT * FROM Persons Where LastName LIKE `[ALN]%`
+SELECT * FROM Persons
+Where LastName
+LIKE `[ALN]%`
 ```
 ---
 
 ## IN
 
-用于在 WHERE 中 规定多个值
+在 Persons 表中选取姓氏为 Adams 和 Carter 的人
+
 ```sql
-SELECT * FROM Persons Where LastName IN ('Adams','Carter')
+SELECT * FROM Persons
+Where LastName
+IN ('Adams','Carter')
 ```
 
 ---
@@ -396,32 +407,43 @@ SELECT * FROM Persons Where LastName IN ('Adams','Carter')
 
 选取介于两个值之间的数据范围 （数值、文本、日期）
 ```sql
-SELECT * FROM Persons Where LastName BETWEEN 'Adams' AND 'Carter'
+SELECT * FROM Persons
+Where LastName
+BETWEEN 'Adams' AND 'Carter'
 ```
 
 * `NOT BETWEEN`，不在某范围内
-
 * 不同数据库 BETWEEN...AND... 包括的范围可能不一样
 
 ---
 
 # 多表操作
 
-## AS
+## ALIAS （AS）
 
-假设有两个表， `Persons`表 和 `Product_Orders`表， 给他们指定别名为`p`和`po`，列出`John Adams`的所有订单
+ALIAS 用于给列名或表名指定“别名”。
 
 ```SQL
-SELECT Po.OrderID, P.LastName, p.FirstName
-FROM Persons AS p, Product_Orders AS po
-WHERE p.LastName = 'Adams' AND p.FirstName = 'John'
+SELECT o.OrderId, p.LastName
+FROM Persons AS p, Orders AS o
+WHERE p.LastName = "Adams"
 ```
+
+如果不用别名的话
+
+```SQL
+SELECT Orders.OrderId, Persons.LastName
+FROM Persons, Orders
+WHERE Persons.LastName = "Adams"
+```
+
+可见，别名使查询程序更易阅读和书写
 
 ---
 
 ## JOIN
 
-将Persons表和Orders表的  Id_p 列关联起来
+将 Persons表 和 Orders表 的 Id_p 列关联起来
 
 ```sql
 SELECT Persons.LastName, Persons.FirstName, Orders.OrderNo
@@ -431,11 +453,24 @@ ON Person.Id_p = Orders.Id_p
 ORDER BY Person.LastName
 ```
 
-* **INNER JOIN**：内连接
-* **JOIN**：如果表中有至少一个匹配，则返回这（些）行
+* **JOIN** 或 **INNER JOIN**：有匹配时才显示
 * **LEFT JOIN**：即使右表没有匹配，也从左表返回所有行
 * **RIGHT JOIN**：即使左表没有匹配，也从右表返回所有行
 * **FULL JOIN** ：必须左右表都有匹配才返回行
+
+注意：MySQL不支持 FULL JOIN，可以用 `UNION` 联合 LEFT JOIN 和 RIGHT JOIN，如果需要重复行，用 `UNION ALL`
+
+```sql
+SELECT p.FirstName, p.LastName, o.OrderNo
+FROM persons AS p
+LEFT JOIN Orders AS o
+ON p.Id_p = o.Id_p
+UNION
+SELECT p.FirstName, p.LastName, o.OrderNo
+FROM persons AS p
+RIGHT JOIN Orders AS o
+ON p.Id_p = o.Id_p
+```
 
 ---
 
@@ -444,6 +479,7 @@ ORDER BY Person.LastName
 合并两个或多个 SELECT 语句的结果集
 
 合并两个表的员工名字，如果名字一样，只出现一次
+
 ```SQL
 SELECT E_Name FROM Employees_China
 UNION
@@ -451,6 +487,34 @@ SELECT E_Name FROM Employees_USA
 ```
 
 * 不要去重，可以用 `UNION ALL`
+
+---
+
+# GROUP BY
+
+根据一个或多个列对结果集进行分组
+
+```SQL
+SELECT Customer,SUM(OrderPrice) FROM Orders
+GROUP BY Customer
+```
+
+有了 GROUP BY 之后 ，SUM 是以 Customer 分组，对每一组的OrderPrice记录进行计算，而不是表中全部的OrderPrice记录。
+
+---
+
+# HAVING
+
+HAVING 通常与 GROUP BY 和 函数 一起使用。
+
+找出成绩全部大于80分的学生学号
+
+```sql
+SELECT number
+FROM grade
+GROUP BY number
+HAVING MIN(grade.grade > 80)
+```
 
 ---
 
@@ -605,4 +669,50 @@ ON table_name(column_name)
 ```sql
 ALTER TABLE table_name
 ADD column_name datatype
+```
+
+---
+
+# 实战
+
+有两张表，学生表和成绩表。
+
+![](../../../../images/SQL/student_grade.png)
+
+找出所有科目成绩都大于 80 分的学生名字
+
+方法一：用 HAVING + 函数
+
+1. 先用 join 把两张表连起来
+2. 用 group by 分组，分组条件是 分数大于 80
+```SQL
+SELECT s.name
+FROM student AS s
+JOIN grade AS g ON s.number = g.number
+GROUP BY s.`name`
+HAVING MIN(grade) > 80
+```
+
+方法二：用 WHERE + NOT IN
+
+```SQL
+SELECT DISTINCT s.name
+FROM student AS s
+JOIN grade AS g
+ON s.number = g.number
+WHERE s.number
+NOT IN
+(SELECT g.number
+FROM grade AS g
+WHERE g.grade < 80)
+```
+
+求所有人成绩的平均分
+
+```SQL
+SELECT s.name AS name, AVG(g.grade) AS avg
+FROM student AS s
+JOIN grade AS g
+ON s.number = g.number
+GROUP BY s.name
 ```
