@@ -1,5 +1,5 @@
 ---
-title: 数据库（二）高性能MySQL
+title: 数据库（二）MySQL必知必会概念
 comments: true
 categories: 数据库
 tags: SQL
@@ -114,7 +114,7 @@ CREATE INDEX indexName ON mytable(username(length));
 CREATE UNIQUE INDEX indexName ON mytable(username(length))
 ```
 
-### 组合索引
+### 组合索引（多列索引）
 
 在表中的多个字段组合上创建的索引，只有在查询条件中使用了这些字段的左边字段时，索引才会被使用，使用组合索引时遵循最左前缀集合。
 
@@ -155,112 +155,15 @@ MySQL中的空间数据类型有四种：
 3. WHERE 条件用不到的字段不需要索引
 4. 过滤性不好的字段不适合使用索引，例如0/1，男/女
 
-## 如何创建高性能的索引
+## 索引的底层实现
 
-### 1.独立的列
-
-对于独立的列来说，要创建高效索引，必须满足：索引列不能是表达式的一部分，也不能是函数的参数。例如：
-
-```sql
-// 使用了表达式，索引失效
-SELECT actor_id FROM sakila.actor WHERE actor_id + 1 = 5;
-
-SELECT ... WHERE TO_DAYS(CURRENT_DATE) - TO_DAYS(DATE_COL) <= 10;
-```
-
-应该养成简化 WHERE 条件的习惯，**始终将索引列放在比较符号的一侧**。
-
-### 2.前缀索引
-
-有时候要索引很长的字符列，这会让索引变得很大且慢。一种解决办法是在索引上再建哈希索引。但还可以用 **前缀索引** 来解决。
-
-前缀索引，顾名思义，只索引字符串的前面一部分，例如，对于数据`University`，我们可以建立索引`Uni`。但这样会降低 **索引的选择性**，<font color="red">索引选择性是指不重复的索引值 和 表记录数的比值</font>。选择性越高，说明索引越多。唯一索引的选择性是1，因此性能最高。
-
-在 MySQL 里面，BLOB、TEXT 和 很长的 VARCHAR 必须使用前缀索引。
-
-查看前缀为3的情况
-
-```sql
-SELECT COUNT(*) AS cnt, LEFT(city, 3) AS pref
-FROM city_demo
-GROUP BY pref
-ORDER BY cnt DESC LIMIT 10;
-```
-
-那索引前缀多长比较合适呢？诀窍是，**前缀应该足够长，使得选择性接近于整个列，但不能太长（以便节约空间）**。
-
-计算完整列的选择性方法：
-```sql
-SELECT COUNT(DISTINCT city) / COUNT(*) FROM city_demo;
-```
-
-假如计算出来结果是 0.0312，那么选择性接近 0.0312 的前缀就差不多了。
-
-测试各个前缀的选择性：
-
-```sql
-SELECT COUNT(DISTINCT LEFT(city, 3)) AS sel3,
-       COUNT(DISTINCT LEFT(city, 4)) AS sel4,
-       COUNT(DISTINCT LEFT(city, 5)) AS sel5
-FROM city_demo;
-```
-
-当我们找到一个合适的前缀，比如是5，用下面的方式来创建前缀为5的前缀索引：
-
-```sql
-ALTER TABLE city_demo ADD KEY (city(5));
-```
-
-#### 前缀索引的缺点
-
-无法使用前缀索引做 GROUP BY 和 ORDER BY 和 覆盖扫描。
-
-### 3.多列索引
-
-常见多列索引的错误有：为每一列创建独立的索引，或者按照错误的顺序创建索引。
-
-那什么是正确的顺序呢？一个经验法则是：**当不需要考虑排序和分组时，将选择性最高的列放在最前面**。
-
-一个简单的例子
-
-```sql
-SELECT * FROM payment WHERE staff_id = 2 AND customer_id = 584;
-```
-
-创建索引时，是应该创建 (staff_id, customer_id) 还是 (customer_id,staff_id) ？这取决于哪一列的选择性更高。但这也不是绝对的，还要考虑WHERE 子句中的排序、分组、范围条件等其他因素。
-
-### 4.聚簇索引
-
-聚簇指的是：数据行和相邻的键值紧凑地存储在一起。当表有聚簇索引时，数据行存放在索引的叶子页。InnoDB的实现是，通过主键聚集数据，被索引的列就是主键列。
-
-InnoDB支持聚簇索引，而MyISAM不支持，使用了聚簇索引和非聚簇索引的存储方式区别可见下面“索引的底层实现”的图。
-
-如果没有主键，InnoDB会选择一个非空索引代替，如果没有这样的索引，就隐式创建一个。
-
-聚簇索引优点：
-
-- 把相关数据保存在一起
-- 数据访问更快
-- 使用覆盖索引扫描的查询可以直接使用页节点中的主键值
-
-聚簇索引缺点：
-
-- 聚簇索引提高了I/O密集型应用的性能，但如果数据全部在内存中，那就没有优势
-- 插入速度严重依赖于插入顺序
-- 更新列代价高
-- 页分裂问题，占用更多磁盘空间
-- 全表扫描更慢
-- 二级索引较大，访问要2次
-
-#### 索引的底层实现
-
-##### MyISAM 索引实现
+### MyISAM 索引实现
 
 MyISAM索引使用了 B+Tree 作为索引结构，叶子结点的 data 域<font color="red">存放的是数据记录的地址</font>。MyISAM中索引检索的算法为首先按照B+Tree搜索算法搜索索引，如果指定的Key存在，则取出其data域的值，然后以data域的值为地址，读取相应数据记录。主索引和辅助索引的存储结构没有任何区别。
 
 ![MyISAM_index](../../../../images/SQL/MyISAM_index.png)
 
-##### InnoDB 索引实现
+### InnoDB 索引实现
 
 虽然InnoDB也使用B+Tree作为索引结构，但具体实现方式却与MyISAM截然不同。
 
@@ -270,10 +173,6 @@ InnoDB的数据文件本身就是索引文件。<font color="red">MyISAM索引�
 
 
 ![InnoDB_index](../../../../images/SQL/InnoDB_index.png)
-
-### 5.覆盖索引
-
-正如聚簇索引中你看到的，索引本身是可以包含数据本身的，这样我们就不必回表查询，直接在索引拿到数据就行了。如果一个索引包含（覆盖）所有需要查询的字段的值，我们就称之为“覆盖索引”，覆盖索引也不一定是聚簇索引，在MySQL中，只有 B Tree 索引能做覆盖索引。
 
 
 ## 什么时候索引会失效？
@@ -469,95 +368,3 @@ MVCC的好处是读操作简单，性能好，不足是需要额外的存储空�
 MVCC 只在提交读（READ COMMITTED）和可重复读（REPEATABLE READ）两个隔离级别下工作。
 
 ---
-
-# MySQL Schema与数据类型优化
-
-原则：
-- **更小**：如果只要存0-200，tinyint unsigned比 int 好）
-- **简单**：用内建类型表示时间而不是varchar
-- **避免NULL**：有 NULL 的列使得索引、索引统计和值比较更加复杂。虽然调优时把NULL改NOT NULL性能提升较小，但是如果要在列上建索引，就应该避免 NULL
-
-## CHAR 和 VARCHAR
-
-- **CHAR**：定长字符串。会截断末尾的空格。适合存储较短的字符串或所有值长度接近。
-- **VARCHAR**：可变长字符串。需要用1或2个额外字节记录字符串的长度。VARCHAR虽然节省空间性能较好，但UPDATE时由于长度的改变需要额外的工作。适用场景：字符串的最大长度比平均长度大很多，列很少更新。
-
-需要注意的是，VARCHAR(5)和VARCHAR(200)存储 'hello'的空间开销是一样的，但是更长的列会消耗更多的内存，所以最好根据需要来分配。
-
-## BLOB 和 TEXT
-
-BLOB 和 TEXT 都是设计用来存储很大的字符串数据的，但 BLOB 采用二进制存储，TEXT采用字符方式存储。
-
-跟其他类型不一样的是，当 BLOB 或 TEXT 值太大时，InnoDB会用专门的“外部”存储区来存储。每个值只需要在行内用1-4个字节存储指针，然后指向外部真正存储的区域。
-
-- **BLOB**：二进制数据，没有排序规则，没有字符集
-- **TEXT**：字符数据，有排序规则和字符集
-
-在 MEMORY 存储引擎中不支持 BLOB 和 TEXT，如果使用到了，将不得不转换成 MyISAM 磁盘临时表，这将带来很大的开销。MEMORY中最好避免使用 BLOB 和 TEXT。
-
-## 枚举类代替字符串
-
-有时候可以用枚举类代替不重复的字符串。其内部是用整数实际存储的，而不是字符串。因此避免往里面插入常量（如'1','2'）避免混乱。但是也有缺点，添加或删除字符串需要用 `ALTER TABLE`，因此对于一些未来可能会改变的字符串，使用枚举是不明智的。
-
-```sql
-CREATE TABLE enum_test(
-  e ENUM('fish','apple','dog') NOT NULL
-);
-INSERT INTO enum_test(e) VALUES ('fish', 'dog', 'apple');
-```
-
-## DATETIME 和 TIMESTAMP
-
-- **DATETIME**：能保存1001年-9999年，精度为秒。将日期和时间封装到 YYYYMMDDHHMMSS 格式的整数中，与时区无关。使用8个字节的存储空间。
-- **TIMESTAMP**：能保存1970-2038年，只使用4个字节，存储的是1970年1月1日到现在的秒数，时区相关。
-
-## 其他
-
-- MySQL 把 bit 当作字符串，而不是数字
-- MySQL 内部使用整数存储 ENUM 和 SET 类型，比较时转换成字符串
-- 应该用无符号整数存储IP地址，MySQL提供 `INET_ATON()` 和 `INET_NTOA()` 函数在整数和字符串表示方法之间转换
-
----
-
-# MySQL 查询优化
-
-## 查询慢的原因
-
-1. **查询了不需要的记录**。一个典型的错误是先 SELECT 查出所有结果集，然后获取前面的 N 行后关闭结果。这样 N 行后面的数据就是不需要的数据，MySQL会把时间浪费在这上面。最好的解决办法是用 limit N，这样MySQL只会去找 N 行而不是所有。
-2. **多表关联时返回全部列**。比如 `SELECT * FROM xxx join yyy ON ...`，其实可以用 `SELECT sakila.actor.* FROM sakila join yyy ON ... `，只取关键的列。
-3. **总是取出全部列**。`SELECT *`的做法在数据库的角度是不考虑周全的，但是有时候从开发的角度看却能简化开发，因为能提高相同代码片段的复用性。
-4. **重复查询相同的数据**。需要多次重复查询的数据，最好第一次查询后缓存起来，可以使用 redis 等。
-
-## 切分查询
-
-一次大查询（例如删除旧的数据）可能需要一次锁住很多数据，占满整个事务日志、耗尽系统资源、阻塞很多其他重要的查询。可以把大查询切分成很多个小查询。
-
-```sql
-// 原始 大查询
-DELETE FROM messages WHERE created < DATE_SUB(NOW(), INTERVEL 3 MONTH);
-
-// 切分 小查询
-rows_affected = 0;
-do {
-    rows_affected = do_query(
-      "DELETE FROM messages WHERE created < DATE_SUB(NOW(), INTERVEL 3 LIMIT 10000"
-    )
-} while rows_affected > 0;
-```
-
-## 分解关联查询
-
-高性能应用都会对关联查询进行分解，先对每一个表进行单表查询，再将结果在应用程序进行关联。
-
-```sql
-// 分解前
-SELECT * FROM tag
-  JOIN tag_post ON tag_post.tag_id = tag.id
-  JOIN post ON tag_post.post_id = post.id
-WHERE tag.tag = 'mysql';
-
-//分解后
-SELECT * FROM tag WHERE tag = 'mysql';
-SELECT * FROM tag_post WHERE tag_id = 1234;
-SELECT * FROM post WHERE post.id in (123,456,7897,9090)
-```
