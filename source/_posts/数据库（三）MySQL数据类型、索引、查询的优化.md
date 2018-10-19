@@ -168,7 +168,9 @@ InnoDB支持聚簇索引，而MyISAM不支持，使用了聚簇索引和非聚�
 
 ### 5.覆盖索引
 
-正如聚簇索引中你看到的，索引本身是可以包含数据本身的，这样我们就不必回表查询，直接在索引拿到数据就行了。**如果一个索引包含（覆盖）所有需要查询的字段的值，我们就称之为覆盖索引**。覆盖索引也不一定是聚簇索引，在MySQL中，只有 BTree 索引能做覆盖索引。
+正如聚簇索引中你看到的，索引本身是可以包含数据本身的，这样我们就不必回表查询，直接在索引拿到数据就行了。想象一下，如果一本书需要知道第 11 章是什么标题，你会翻开第 11 章对应的那一页吗？目录浏览一下就好，这个目录就是起到覆盖索引的作用。
+
+**如果一个索引包含（覆盖）所有需要查询的字段的值，我们就称之为覆盖索引**。覆盖索引也不一定是聚簇索引，在MySQL中，只有 BTree 索引能做覆盖索引。
 
 ---
 
@@ -221,9 +223,11 @@ SELECT * FROM post WHERE post.id in (123,456,7897,9090)
 
 ### 优化COUNT()
 
-`COUNT()`有两种作用，第一个作用是如果在括号里指定列或表达式，则统计这个表达式有值的结果数（NULL是不被统计的）。第二个作用是统计结果集的行数。
+- 如果要统计所有行，用 `COUNT(*)` 而不是 `COUNT(col)` 。
+- `COUNT(col)`统计的是不为NULL的行
+- `COUNT(distinct col)`统计不为NULL且不重复的行
+- `COUNT(distinct col 1, col 2)` 如果其中一列全为 NULL ，那么即使另一列有不同的值，也返回为 0
 
-例如
 ```sql
 // 统计行数，假如该表有100行，返回100
 count(*);
@@ -251,16 +255,58 @@ FROM city WHERE id <= 5;
 - 确保 ON 或 USING 子句的列上有索引。也就是说，表A和表B用列c关联时，如果优化器的关联顺序是B、A，那只需要在 **第二张表**（A表） 的相应列上创建索引。
 - 确保 GROUP BY 和 ORDER BY 中的表达式 **只涉及到一个表中的列**，这样MySQL才有可能使用索引来优化这个过程。
 
-### 优化 GROUP BY 和 DISTINCT
+### 优化 GROUP BY
 
 MySQL在无法使用索引时，GROUP BY会用临时表或文件排序来做分组。在 GROUP BY 的时候，如果标识列（如用户id）和查找列（如用户名）是对应的，那用标识列做分组，效率会比查找列高，GROUP BY右表标识列比GROUP BY左表标识列高。
 
+如果不关心结果集的顺序，但GROUP BY默认会按分组的字段排序从而使用了文件排序功能，不需要的时候可以`ORDER BY NULL`。
+
 ### 优化 LIMIT 分页
 
-### 优化 SQL_CALC_FOUND_ROWS
+MySQL limit接收一个或两个参数，如
+
+```sql
+// 取出前18条记录
+SELECT ... limit 18;
+
+// 取出第50-53条记录
+SELECT ... limit 50,3
+```
+
+但有两个参数的时候，且第一个参数（偏移量）非常大，如 `limit 10000,30`，那MySQL需要查询 10030 条记录，然后抛弃前面 10000 条，返回最后30条。这样的代价是非常高的。
+
+一个优化思路是：**尽可能使用索引覆盖扫描，而不是查询所有的列，然后根据需要做一次关联操作再返回所需的列**。考虑下面的例子：
+
+```sql
+// 改写前
+SELECT film_id, description FROM sakila.film
+ORDER BY title
+LIMIT 50,5;
+
+// 改写后
+SELECT film.film_id, film.description FROM sakila.film
+  INNER JOIN (
+    SELECT film_id FROM sakila.film
+    ORDER BY title
+    LIMIT 50,5;
+  ) AS lim USING(film_id);
+```
+
+先快速定位需要获取的 id 段，然后再关联。
+
+```sql
+SELECT a.* FROM 表 1 a, (select id from 表 1 where 条件 LIMIT 100000,20 ) b
+where a.id=b.id
+```
+
+
 
 ### 优化 UNION
 
-### 静态查询分析
+MySQL 总是通过创建并填充临时表的方式来执行 UNION。除非确实需要消除重复的行，否则一定要使用 UNION ALL，没有 ALL 时 MySQL 会给临时表加 IDSTINCT 对数据做唯一性检查，这样做的代价非常高。
 
 ---
+
+参考：
+- 《高性能MySQL》
+- 《阿里巴巴Java开发手册》

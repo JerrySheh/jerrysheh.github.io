@@ -226,6 +226,9 @@ Integer i4 = 100;
 System.out.println("i3==i4: "+(i3==i4));  // 输出 true
 ```
 
+
+《阿里巴巴Java开发手册》中提到，对于 `Integer var =?` 在 -128 至 127 之间的赋值， Integer 对象是在IntegerCache.cache 产生，会复用已有对象，这个区间内的 Integer 值可以直接使用 == 进行判断，但是这个区间之外的所有数据，都会在堆上产生，并不会复用已有对象，这是一个大坑，因此<font color="red">推荐使用 equals 方法进行判断</font>。
+
 ---
 
 # 增强 for 循环 (forEach)
