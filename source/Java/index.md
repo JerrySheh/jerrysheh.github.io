@@ -351,3 +351,27 @@ CAS（Compare and swap）用于实现非阻塞并发算法。一个线程在修�
 解决安全性问题，可以用 synchronized 关键字， 或者 ReentrantLock 同步锁，Volatile用于解决可见性问题，Threadlocal类等。
 
 解决死锁问题，可以让线程一开始就持有所有需要的资源，但这样会造成资源浪费，变成一个性能问题。第二种方式是，当需要新的资源而不能满足时，必须先释放自己持有的锁。
+
+# 48. 写出单例模式
+
+单例模式是指一个类只能有一个对象实例。好的单例模式应该满足两点要求：**延时加载** 和 **线程安全**。
+
+静态内部类写法：
+1. 用静态内部类构造实例
+2. 构造函数私有
+
+```java
+public class Singleton{
+
+  private static class Holder{
+    private static Singleton singleton = new Singleton();
+  }
+
+  private Singleton();
+
+  public static Singleton get(){
+    return Holder.singleton;
+  }
+
+}
+```
