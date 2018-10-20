@@ -168,7 +168,6 @@ Integer u = 1;// u. 后面就有很多方法可以调用了
 List<Integer> list = new ArrayList<Integer>();
 ```
 
-
 ---
 
 # equals() 和 "=="
