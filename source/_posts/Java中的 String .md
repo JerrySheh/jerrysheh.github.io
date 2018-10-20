@@ -299,6 +299,21 @@ public String replaceAll(String regex, String replacement)
 
 ---
 
+# String 和 Char[] 之间的转换
+
+String的底层就是 Char数组（JDK1.9之后是 Byte 数组），转换方式如下：
+
+```java
+//将 String 转换为 char[]
+char[] cs = str.toCharArray();
+
+//将 char[] 转换为 String
+String str = String.valueOf(cs); // 方法一
+String str2 = new String(cs);   // 方法二
+```
+
+---
+
 # StringBuffer 和 StringBuilder
 
 当需要对字符串进行修改，可以使用 StringBuffer 和 StringBuilder 类。
