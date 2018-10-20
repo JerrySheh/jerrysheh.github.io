@@ -31,7 +31,7 @@ date: 2018-09-12 21:13:51
 
 什么时候自动装箱?
 
-直接赋值给 Integer，比如
+字面量直接赋值给 Integer，比如
 
 Integer i = 100
 
@@ -318,7 +318,7 @@ BufferedWriter 和 BufferedReader 缓存流。
 
 # 44. 垃圾回收算法
 
-针对新生代，很多被清理，用复制算法（Eden、Survior1、Survior2）
+针对新生代，很多被清理，用标记-清除法，但效率低。用复制算法较好（Eden、Survior1、Survior2）
 
 先只使用 Eden、Survior1，垃圾回收的时候，把幸存的复制到 Survior2，然后清空 Eden和Survior1，之后只使用 Eden、Survior2 。
 
@@ -351,3 +351,9 @@ CAS（Compare and swap）用于实现非阻塞并发算法。一个线程在修�
 解决安全性问题，可以用 synchronized 关键字， 或者 ReentrantLock 同步锁，Volatile用于解决可见性问题，Threadlocal类等。
 
 解决死锁问题，可以让线程一开始就持有所有需要的资源，但这样会造成资源浪费，变成一个性能问题。第二种方式是，当需要新的资源而不能满足时，必须先释放自己持有的锁。
+
+# 48. 基本数据类型及其包装类有什么区别？
+
+1. Java是一门纯粹的OO语言，但基本数据类型不是对象，为了让他们有对象的特征，Java设计了对应的包装类。包装类是对象，就要有对象的特征，有可调用的方法，而基本类型没有。
+2. 包装类可放入如HashMap、HashSet等集合中，基本数据类型不可以。但是存入时会被Java自动装箱。
+3. 基本数据类型初始化值为0（char为\u0000）,if 判断时要用 `if(i == 0)`，而包装类要用 `if(i==null)`
