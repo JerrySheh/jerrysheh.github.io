@@ -15,7 +15,7 @@ date: 2018-10-19 21:13:51
 
 ```java
 public class Singleton{
-  private static Holder{
+  private static class Holder{
     private static Singleton s = new Signleton();
   }
 
@@ -232,7 +232,7 @@ public static void main(String[] args) {
 
 # 思路
 
-逆向输出链表，自然会想到用后进先出的栈，可以遍历链表，把遍历的值依次写入栈，然后再出栈即可。
+逆向输出链表，自然会想到用后进先出的栈。先遍历链表，把遍历的值依次写入栈，然后再出栈即可。
 
 ```java
 private static void reversePrintByStack(ListNode node){
@@ -385,9 +385,6 @@ private static int getFib2(int n){
 
 两个指针解法：
 
-
-思路：
-
 ```
 前：
 6  7  8  9  10  1  2
@@ -526,3 +523,217 @@ private static int numberOf1(int n){
 ---
 
 # 21. 调整数组顺序使奇数位于偶数前面
+
+输入一个数组，写一个函数调整该数组的顺序，使得奇数在前，偶数在后。
+
+思路：两个指针，一个在前（A），一个在后（B）。A往后遍历，直到遇到偶数，B往前遍历，直到遇到奇数，交换AB。
+
+```java
+private static void adjust(int[] arr){
+
+    // left - 1 是因为稍后 ++left 会把 left 变大 1 ， right + 1 同理
+    int left =  0 - 1;
+    int right = arr.length - 1 + 1 ;
+
+    while (left < right){
+
+        //A往后遍历，直到遇到偶数
+        while ((arr[++left] % 2) != 0){
+            if (left > arr.length - 1) break;
+        }
+
+        //B往前遍历，直到遇到奇数
+        while ((arr[--right] % 2) == 0){
+            if (right <= 0) break;
+        }
+
+        // 交换
+        if (left < right){
+            Swap.swap(arr, left, right);
+        }
+
+    }
+
+    System.out.println(Arrays.toString(arr));
+}
+```
+
+---
+
+# 22. 链表中倒数第 k 个节点
+
+
+思路：两个指针，如求倒数第 3 个节点，A指针先走3步，然后B指针开始走，当A指针到尾的时候，B指针所指就是倒数第 k 个节点
+
+链表定义如下
+```java
+static class ListNode{
+    int value;
+    ListNode next = null;
+
+    ListNode(int val){
+        this.value = val;
+    }
+}
+```
+
+```
+2 → 88 → 60 → 21 → 6 → 13 → 78
+↑（B）    ↑（A）
+
+2 → 88 → 60 → 21 → 6 → 13 → 78
+                   ↑（B）    ↑（A）
+```
+
+实现：
+
+```java
+private static int printReciNode(ListNode head, int k){
+
+    if (k <= 0) return -1;
+
+    ListNode nodeA = head;
+    ListNode nodeB = head;
+
+    //A指针先走k步
+    for (int i = 0; i < k; i++) {
+        // 求倒数第3个节点，但万一链表只有 2 个节点呢？
+        if (nodeA.next == null){
+            return -1;
+        }
+        nodeA = nodeA.next;
+    }
+
+    // A、B都走，直到 A 到末尾
+    do {
+        nodeB = nodeB.next;
+    } while ((nodeA = nodeA.next) != null);
+
+    return nodeB.value;
+}
+```
+
+---
+
+# 23. 链表中环的入口节点
+
+如果一个链表中包含环，如何找出环的入口节点？
+
+两个指针，一个一次走一步，另一个一次走两步，如果快的指针追上了慢的指针，那链表就包含环。否则如果走得快的到了末尾（node.next = null）都没追上慢的，就不包括环。
+
+相遇节点就是入口节点。
+
+---
+
+# 24. 反转链表
+
+输入一个链表的头节点，反转该链表并输出反转后链表的头节点。
+
+```java
+private static ListNode reverse(ListNode head){
+
+    // 反转后的头节点
+    ListNode reverseHead = null;
+
+    ListNode pre = null;
+    ListNode current = head;
+
+    while (current != null){
+        ListNode next = current.next;
+
+        if (next == null){
+            reverseHead = current;
+        }
+
+        current.next = pre;
+        pre = current;
+        current = next;
+    }
+
+    return reverseHead;
+}
+```
+
+---
+
+# 25. 合并两个排序的链表
+
+合并两个递增排序的链表，新链表的节点依然是排序的
+
+```
+List1: 1 → 3 → 5 → 7
+
+List2：2 → 4 → 6 → 8
+
+合并后：1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
+```
+
+思路：递归法，如果 A值 小于 B值， merge节点为A， 然后继续比较 A.next 和 B ，反之 如果 B值 小于 A， merge节点为B，然后继续比较 A 和 B.next
+
+```java
+private static ListNode merge(ListNode A, ListNode B){
+
+    ListNode mergeHead;
+
+    if (A.value < B.value){
+        mergeHead = A;
+        mergeHead.next = merge(A.next, B);
+    } else {
+        mergeHead = B;
+        mergeHead.next = merge(A, B.next);
+    }
+
+    return mergeHead;
+}
+```
+
+---
+
+# 38. 字符串的排列
+
+输入一个字符串，打印该字符串的所有排列。如，输入 abc， 输出 abc, acb, bac, bca, cab, cba
+
+## 思路
+
+把字符串分为两部分，第一部分为首字符，第二部分为剩下的字符，首字符确定下来后，剩下的字符递归进行全排列。这样一趟完了之后。会发生：
+
+```
+a-bcd
+a-bdc
+a-cbd
+a-cdb
+a-dbc
+a-dcb
+```
+
+然后把首字符和第二个字符交换，进行第二趟递归全排列
+
+```
+b-acd
+b-adc
+b-cad
+b-cda
+b-dac
+b-dca
+```
+
+实现
+
+```java
+private static void permutation(String str, int start, int end){
+
+    if (end <= 1) return;
+
+    char[] cs = str.toCharArray();
+
+    if (start == end){
+        System.out.println(new String(cs));
+    } else {
+        for (int i = start; i <= end; i++) {
+            Swap.swap(cs, i, start);
+            permutation(String.valueOf(cs), start+1, end);
+            Swap.swap(cs, start, i);
+        }
+    }
+}
+```
