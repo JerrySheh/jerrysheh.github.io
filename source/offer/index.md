@@ -10,8 +10,7 @@ date: 2018-10-19 21:13:51
 
 # 2.实现 Singleton 模式
 
-1. 线程安全
-2. 构造函数私有
+两个关键点：线程安全和构造函数私有。由于静态内部类在类初始化时只会被加载一次，因此是线程安全的。
 
 ```java
 public class Singleton{
@@ -61,7 +60,7 @@ private static int isDuplicateEleByHashSet(int[] arr) {
 
 ## 思路三：arr[i] 交换到下标为 i 的地方
 
-在数组中，从 index = 0 开始，将arr[i] 交换到下标为 i 的地方，如果要交换的数字跟当前数字一样，说明是重复的。
+在数组中，从 index = 0 开始，将arr[i] 交换到下标为 i 的地方，如果要交换的数字跟当前数字一样，说明是重复的。尽管代码中有两个循环，但每个数字最多只要交换两次就能找到自己的位置，因此总的时间复杂度也是 O(n)。
 
 ```java
 public static int isDuplicateEle(int[] arr){
@@ -137,7 +136,8 @@ public static boolean find(int[][] arr, int target){
 
 ## 思路
 
-先计算原字符串空格数，如果有 n 个空格，那么新字符串长度应该是 原长度 + 2*n。用两个下标，一个是原字符串下标，一个是新字符串下标，依次从后往前拷贝，遇到空格时，依次赋值`0`、`2`、`%`，非空格直接拷贝原字符串内容。
+第一步：先计算原字符串空格数，如果有 n 个空格，那么新字符串长度应该是 原长度 + 2*n。
+第二步：用两个下标，一个是原字符串下标，一个是新字符串下标，依次从后往前拷贝，遇到空格时，依次赋值`0`、`2`、`%`，非空格直接拷贝原字符串内容。
 
 ```java
 private static String replace(String str){
@@ -623,6 +623,31 @@ private static int printReciNode(ListNode head, int k){
 
 相遇节点就是入口节点。
 
+```java
+// 只实现是否包含环
+private static boolean isCircle(ListNode head){
+
+    ListNode pointA = head;
+    ListNode pointB = head;
+
+    while (true){
+        pointA = pointA.next.next;
+        pointB = pointB.next;
+
+        if (pointA==null){
+            break;
+        }
+
+        if (pointA.value == pointB.value && pointA.next.equals(pointB.next)) {
+            return true;
+        }
+    }
+
+    return false;
+
+}
+```
+
 ---
 
 # 24. 反转链表
@@ -641,11 +666,14 @@ private static ListNode reverse(ListNode head){
     while (current != null){
         ListNode next = current.next;
 
+        // 如果 next 是空，说明到末尾了，是反转后的第一个元素
         if (next == null){
             reverseHead = current;
         }
 
+        // 掉头，反指
         current.next = pre;
+
         pre = current;
         current = next;
     }
@@ -684,6 +712,48 @@ private static ListNode merge(ListNode A, ListNode B){
     }
 
     return mergeHead;
+}
+```
+
+---
+
+# 30. 包含min函数的栈
+
+设计一个栈，除了可以 pop 和 push 之外，还能 getMin 获取栈中的最小值
+
+思路：用一个辅助栈，主栈入栈时，如果栈顶 < 要插入的值，辅助栈压入要插入的值，如果 栈顶 >= 要插入的值，辅助栈压入原来的值。
+
+```java
+class myStack{
+    Stack<Integer> stackA;
+    Stack<Integer> stackB;
+
+    public Integer pop(){
+        stackB.pop();
+        return stackA.pop();
+    }
+
+    public Integer push(Integer v){
+
+        if (stackA.isEmpty()){
+            stackB.push(v);
+        }
+
+        if (stackA.peek() >= v ){
+            stackB.push(stackB.peek());
+        }
+
+        if (stackA.peek() < v){
+            stackB.push(v);
+        }
+
+        return stackA.push(v);
+    }
+
+    public Integer getMin(){
+        return stackB.peek();
+    }
+
 }
 ```
 
@@ -737,3 +807,84 @@ private static void permutation(String str, int start, int end){
     }
 }
 ```
+
+---
+
+# 40. 最小的 k 个数
+
+输入 n 个整数，找出其中最小的 k 个数。
+
+## 思路一：用快排的 partition 函数
+
+因为 partition 函数本质上是将比参考元素大的放左边，比参考元素小的放右边。如果 partition 后参考元素的下标正好是 k ，那说明 k 左边的都是比 k 小的。这种解法时间复杂度只有 O(n)
+
+```java
+public static int[] partitionAndFind(int[] arr, int k){
+
+    if (k > arr.length){
+        return null;
+    }
+
+    int start = 0;
+    int end = arr.length - 1;
+    int index = QuickSort.partition(arr, start, end);
+
+    // 如果 partition 后下标大了，调小，否则调大
+    while (index != k-1){
+        if(index > k-1){
+            end = index - 1;
+        }else{
+            start = index + 1;
+        }
+        index = QuickSort.partition(arr,start, end);
+    }
+
+    int[] output = new int[k];
+    System.arraycopy(arr, 0, output, 0, k);
+
+    return output;
+}
+```
+
+# 思路二：优先队列（堆）或红黑树
+
+用一个大小为 k 的最大堆（本质是二叉树）作为数据容器 （也可以用红黑树作为数据容器），当容器未满，每次输入的数字直接加到堆里面，当容器已满，需要完成，判断堆顶（最大值）和即将添加的元素谁大，保留更小的。
+
+需要 O(logk)的时间完成删除及插入操作。对于大小为 n 的输入，找到最小的 k 个，时间复杂度是 O(nlogk)，但是这种解法适合海量数据。
+
+```java
+public static int[] heapAndFind(int[] arr, int k){
+    // o2 - o1， 最大堆， o1 - o2（默认） 最小堆
+    PriorityQueue<Integer> q = new PriorityQueue<>(k, (o1, o2) -> o2-o1);
+
+    for (int i = 0; i < arr.length; i++) {
+
+        // 如果容器未满，直接添加
+        if (!isFull(q, k)){
+            q.add(arr[i]);
+        } else { // 如果容器已满，将待添加元素和堆顶（最大值）比较，更小的放进堆里
+            if (arr[i] < q.peek()){
+                q.poll();
+                q.add(arr[i]);
+            }
+        }
+    }
+
+    // 一个新的数组用来存放结果
+    int[] output = new int[k];
+    for (int i = 0; i < k; i++) {
+        output[i] = q.poll();
+    }
+
+    return output;
+}
+
+// 优先队列（堆）是否满了
+private static boolean isFull(PriorityQueue q, int k){
+    return q.size() >= k;
+}
+```
+
+---
+
+#
