@@ -1,5 +1,5 @@
 ---
-title: Java简明笔记（九）Stream
+title: Java简明笔记（九）函数式编程和Stream
 comments: false
 abbrlink: 372345f
 date: 2018-02-26 00:07:29
@@ -9,13 +9,52 @@ tags: Java
 
 # 函数式编程
 
-在聊 Java 的 Stream（流）之前，先来谈谈什么是`函数式编程`。
+在聊 Java 的 Stream（流）之前，先来谈谈什么是函数式编程。
 
-我们平时所采用的`命令式编程`关心解决问题的步骤。你要做什么事情，你得把达到目的的步骤详细的描述出来，然后交给机器去运行。
+我们平时所采用的 **命令式编程**（OO也是命令式编程的一种）关心解决问题的步骤。你要做什么事情，你得把达到目的的步骤详细的描述出来，然后交给机器去运行。
 
 而函数式编程关心数据的映射，或者说，函数式编程关心类型（代数结构）之间的关系。这里的映射就是数学上“函数”的概念——一种东西和另一种东西之间的对应关系。函数式编程的思维就是如何将这个关系组合起来，用数学的构造主义将其构造出你设计的程序。
 
 用计算来表示程序, 用计算的组合来表达程序的组合。
+
+## 函数式编程思想
+
+函数式编程有三个关键点：
+1. **函数第一（Functions as first class objects）**：函数跟其他对象一样，一个引用变量可以指向一个函数，就像我们声明一个引用 s 指向一个字符串 String 一样。可惜的是，在 Java 中，函数不是第一的，但 Scala 里面是。
+2. **纯函数（Pure functions）**：函数内部不依赖于外部变量。
+3. **高阶函数（Higher order functions）**：函数可以作为参数传递进来，也可以作为返回值返回。在 Java 中，一个方法可以接受一个 lambda 表达式，也可以返回一个 lambda 表达式。
+
+纯函数的四个关键点：
+1. **无状态(No state)**：函数内部不能使用外部变量。
+2. **无副作用（No side effects）**：函数内部不能修改外部变量。
+3. **对象不可变（Immutable variables）**：使用不可变对象来避免副作用。如果要修改一个传进来的参数对象，那修改完毕后返回一个新的对象，而不是修改后的该对象本身。
+4. **递归（Favour recursion over looping）**：使用递归，而非循环。
+
+---
+
+# Java中的函数式接口
+
+只有一个未实现的抽象方法的接口称为函数式接口。static 和 default 不影响。之所以规定不能有多个抽象方法，是因为 lambda 表达式只能接受一个方法。
+
+```java
+// 函数式接口
+public interface MyInterface {
+    public void go();
+}
+
+// 函数式接口
+public interface MyInterface2 {
+    public void run();
+
+    public default void doIt() {
+        System.out.println("doing it");
+    }
+
+    public static void doItStatically() {
+        System.out.println("doing it statically");
+    }
+}
+```
 
 ---
 
@@ -152,3 +191,11 @@ Collectors实现了很多规约操作，例如
 
 1. `.collect(Collectors.toList()`把流转换成 List
 2. `.collect(Collectors.joining(",")`把流转换成以逗号分割的 String
+
+---
+
+参考：
+
+- 《写给大忙人看的Java核心技术》
+- [函数式编程](https://coolshell.cn/articles/10822.html)
+- [Java Functional Programming](http://tutorials.jenkov.com/java-functional-programming/index.html)

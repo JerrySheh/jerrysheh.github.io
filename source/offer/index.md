@@ -701,6 +701,10 @@ List2：2 → 4 → 6 → 8
 ```java
 private static ListNode merge(ListNode A, ListNode B){
 
+    if( A == null) {
+        return B;
+    } else if( B == null) return A;
+
     ListNode mergeHead;
 
     if (A.value < B.value){
