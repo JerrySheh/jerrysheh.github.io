@@ -1,11 +1,12 @@
 ---
 title: Java虚拟机（五）JVM参数和调优
 comments: true
-date: 2018-10-28 16:22:48
 categories: JAVA
 tags:
-- Java
-- JVM
+  - Java
+  - JVM
+abbrlink: a3255dff
+date: 2018-10-28 16:22:48
 ---
 
 # 本地线程分配缓冲（TLAB）
