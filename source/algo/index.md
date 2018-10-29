@@ -11,7 +11,7 @@ date: 2018-10-19 21:13:51
 选择排序是先遍历数组，找到最小的元素，放到前面。第二趟从第二个元素开始，找到次小元素，放到前面。每次都选出当前躺最小的元素，放到前面。
 
 ```java
-public static void sort(int[] arr){
+public static void selectSort(int[] arr){
     int size = arr.length;
     for (int i = 0; i < size; i++) {
         int min = i;
@@ -101,7 +101,7 @@ public static void quickSort(int[] arr, int low, int high){
 }
 ```
 
-快速排序和归并排序的时间复杂度都是 O(NlogN)
+快速排序和归并排序的时间复杂度都是 O(NlogN)，但是快速排序在最糟糕的情况下可能会是 O(n^2)。
 
 ---
 

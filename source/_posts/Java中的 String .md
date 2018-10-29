@@ -96,6 +96,30 @@ String类会先去字符串池寻找`"abc"`，发现`"abc"`不存在，于是创
 
 ---
 
+# String 的 intern 方法
+
+`String.intern()`是一个 native 方法。如果字符串常量池里面已经包含一个等于此 String 对象的字符串，则返回池中的这个字符串String对象，否则，先将该String对象包含的字符串添加进常量池，然后返回此String对象的引用。
+
+在 jdk 1.6 的实现里，intern会把首次出现的该实例内容复制进永久代里面的常量池，而在 jdk 1.7 以上的实现中，intern 方法只是在常量池记录首次出现该实例的引用，并不会把它复制一份。
+
+```java
+// base on jdk 1.8
+public static void main(String[] args) {
+
+    String str1 = new StringBuilder("oj").append("bk").toString();
+    // "ojbk"是首次出现，记录的是 str1 的引用，因此返回 true
+    System.out.println(str1.intern() == str1);
+
+
+    String str2 = new StringBuilder("ja").append("va").toString();
+    // "java"肯定在其他地方出现过了，记录的是别的引用，不是str2，因此返回 false
+    System.out.println(str2.intern() == str2);
+
+}
+```
+
+---
+
 # String 的 “+” 号是怎么连接字符串的 ？
 
 当我们在程序中输入：

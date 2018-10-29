@@ -4,7 +4,7 @@ comments: true
 categories: 数据库
 tags: SQL
 abbrlink: 2bb1b1ab
-date: 2018-10-18 20:37:38
+date: 2018-9-18 20:37:38
 ---
 
 在 MySQL 中，使用恰当的数据类型，以及合理使用索引和查询，能够提升不少性能。这一篇介绍一下这三种情况的优化。
@@ -269,7 +269,7 @@ MySQL limit接收一个或两个参数，如
 // 取出前18条记录
 SELECT ... limit 18;
 
-// 取出第50-53条记录
+// 取出第51-53条记录
 SELECT ... limit 50,3
 ```
 

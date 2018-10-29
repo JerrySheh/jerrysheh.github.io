@@ -15,13 +15,13 @@ date: 2018-10-11 21:13:51
 
 # 2. 什么是 Ioc ？
 
-Ioc（Inversion of Control）是控制反转，具体做法的依赖注入（DI，Dependency Inject）。即某一接口的实现类的选择控制权从调用类中移除，转交由第三方决定，当需要的时候，由第三方进行注入，而不由调用类 new，这就是反转控制。
+Ioc（Inversion of Control）是控制反转，具体做法的依赖注入（DI，Dependency Inject）。即 **某一接口的实现类的选择控制权从调用类中移除，转交由第三方决定**，当需要的时候，由第三方进行注入，而不由调用类 new，这就是反转控制。
 
-具体到Spring中，Spring提供了一个反转控制容器，当我们要使用某个对象，只需要从 Spring 容器中获取需要使用的对象，不关心对象的创建过程，把创建对象的控制权反转给了 Spring 框架，而 Spring 容器是通过 DI，在创建对象的过程中将对象依赖属性（简单值，集合，对象）通过配置设值给该对象。
+Spring 提供了一个反转控制容器，当我们要使用某个对象，只需要从 Spring 容器中获取需要使用的对象，不关心对象的创建过程，把创建对象的控制权反转给了 Spring 框架，而 Spring 容器是通过 DI，在创建对象的过程中将对象依赖属性（简单值，集合，对象）通过配置设值给该对象。
 
 # 3. Ioc是如何实现的?
 
-1. 读取标注或者配置文件，看看 bean 依赖的是哪个Source，拿到类名
+1. 读取注解或者配置文件，看看 bean 依赖的是哪个Source，拿到类名
 2. 使用反射的API，基于类名实例化对应的对象实例
 3. 将对象实例通过构造函数或者 setter，注入给 bean
 
@@ -39,13 +39,9 @@ Spring Boot使用 “习惯优于配置” （项目中存在大量的配置，�
 
 # 6. 什么是 Spring ？
 
-Spring Framework是一个大家族，它是一个轻量级的 DI / IoC 和 AOP 容器的开源框架。包含了许多模块。
+Spring 是一个开源框架大家族，包含很多子项目，例如 Spring Core、Spring data、Spring Web MVC 以及最新的 Spring Boot 和 Spirng Could。它的核心理念是 依赖注入 和 面向切面。
 
-1. Data Access/Integration : 包含有JDBC、ORM、OXM、JMS和Transaction模块。
-2. Web：包含了Web、Web-Servlet、WebSocket、Web-Porlet模块。
-3. AOP模块：提供了一个符合AOP联盟标准的面向切面编程的实现。
-4. Core Container(核心容器)：包含有Beans、Core、Context和SpEL模块。
-5. Test模块：支持使用JUnit和TestNG对Spring组件进行测试。
+传统的 Java 项目，类和类之间经常有依赖关系，一般调用类通过 new 关键字构造依赖类的实例。当工程变大，依赖关系会变得十分复杂，使项目难以维护。Spring 提供了依赖注入容器，相当于在 Java 类当中充当一个中间人，管理着类与类之间的依赖关系。
 
 # 7. 什么是 Spring Cloud ？
 
@@ -81,9 +77,20 @@ BeanFactory在启动的时候不会实例化Bean，getBean()的时候才会实�
 4. **constructor**：寻找有相同构造参数的 Bean 进行装配
 5. **autodetect**：先尝试以 constructor 的方法进行装配，失败后 byType 进行装配
 
-# 11 SpringMVC处理请求的流程
+# 11. SpringMVC处理请求的流程
 1. 用户发送请求，被DispatcherServlet拦截，DispatcherServlet收到请求之后自己不处理，而是交给其他的Handler进行处理
 2. DispatcherServlet初始化HandlerMapping，HandlerMapping会把请求映射成一个HandlerExecutionChain对象，这个对象包括一个Handler和多个Interceptor，然后把这个Handler适配成HandlerAdapter
 3. DispatcherServlet传过来的请求会和HandlerAdapter进行适配，先要进行一些数据转换，然后调用HandlerAdapter的handle()，返回一个ModelAndView对象
 4. mv.render()，通过ViewResolver进行渲染，把刚才HandlerAdapter返回的Model渲染到View上
 5. 最后进行请求的转发
+
+# 12. 什么是微服务？
+
+微服务是一个松耦合的分布式服务。微服务允许将一个大型的应用分解成许多独立的组件，每个组件单独部署。
+
+## 微服务有什么好处？
+
+- **职责明确**：细粒度组件，组件职责领域明确，并且可以完全独立部署
+- **组件复用**：一个微服务组件可以跨多个应用程序复用
+- **通信规范**：组件之间通过 HTTP 、JSON 进行轻量级通信
+- **底层透明**：一个服务的底层用什么技术实现并没有什么影响，不同的开发小组可以用不同的技术栈

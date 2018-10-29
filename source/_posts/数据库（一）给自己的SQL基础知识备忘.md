@@ -453,6 +453,15 @@ ON Person.Id_p = Orders.Id_p
 ORDER BY Person.LastName
 ```
 
+记住，SELECT 要选多个表而且有 JOIN 时， FROM 一个表， JOIN 一个表，不要都写在 FROM 里。
+
+```sql
+SELECT p.FirstName, p.LastName, a.City, a.State
+FROM Person as p
+LEFT JOIN Address as a
+ON p.PersonId = a.PersonId
+```
+
 * **JOIN** 或 **INNER JOIN**：有匹配时才显示
 * **LEFT JOIN**：即使右表没有匹配，也从左表返回所有行
 * **RIGHT JOIN**：即使左表没有匹配，也从右表返回所有行
