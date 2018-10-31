@@ -1,9 +1,10 @@
 ---
 title: Java并发编程之并发工具
 comments: true
-date: 2018-10-30 15:08:26
 categories: JAVA
 tags: Java
+abbrlink: a23f9c20
+date: 2018-10-30 15:08:26
 ---
 
 Java自带的平台类库里面包含了很多有用的工具，来帮助我们更好地处理并发问题。例如，线程安全的容器类、用于协调线程控制流的同步工具类。这一篇主要介绍一下这些工具。
@@ -51,6 +52,23 @@ for (int i=0; i < vector.size() ;i++ ) {
 
 同步容器简单粗暴地对公有方法加同步，实际上是强行将对容器状态的访问串行化了，这对并发性能带来了很大影响。在 Java 5 之后，增加了如 ConcurrentHashMap、ConcurrentLinkedQueue 这样的并发容器，天生为并发程序设计。在多线程中应该尽可能用并发容器，而不是同步容器。
 
-## ConcurrentHashMap
 
 未完待续
+
+## ConcurrentHashMap
+
+## CopyOnWriteArrayList
+
+## BlockingQueue（生产者消费者模式）
+
+---
+
+# 同步工具类
+
+## 闭锁
+
+## FutureTask
+
+## 信号量
+
+## 栅栏
