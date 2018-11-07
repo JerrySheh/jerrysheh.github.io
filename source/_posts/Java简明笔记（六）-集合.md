@@ -457,11 +457,10 @@ Collections.reverse(blogList);
 
 ---
 
-# 将 数组（Array） 转换为 ArrayList
+# 将 数组（Array） 转换为 集合（ArrayList）
 
 使用 `Arrays.asList()`方法将数组转换为ArrayList（注意是 Arrays, 不是 Array）
 
-原型：
 ```java
 // java.util.Arrays 源码第 3799 行
 public static <T> List<T> asList(T... a) {
@@ -471,10 +470,11 @@ public static <T> List<T> asList(T... a) {
 
 1. asList 方法 **不适用** 于基本数据类型（byte,short,int,long,float,double,boolean），但支持它们的包装类
 2. 该方法将数组与列表链接起来，当更新其中之一时，另一个自动更新
-3. 不支持add和remove方法
-4. 返回的是 `java.util.Arrays.ArrayList`，这是Arrays类的内部类，而不是集合里面的 `java.util.ArrayList`。
+3. 不支持add和remove，也就是说，转换后不能修改，只能读取
+4. 之所以会把原数组和转换后的集合链接起来，还不支持修改的原因是，**asList方法返回的是 Arrays 类的内部类 `java.util.Arrays.ArrayList`，而不是集合里面的 `java.util.ArrayList`**。
 
-示例：
+Arrays.asList方法使用示例：
+
 ```java
 String[] s = {"aa","bb","cc"};
         List<String> strlist = Arrays.asList(s);
@@ -488,15 +488,17 @@ String[] s = {"aa","bb","cc"};
 
 ```java
 strlist.forEach(n-> System.out.println(n));
-```
-
-甚至可以
-
-```java
 strlist.forEach(System.out::println);
 ```
 
-见 [Lambda表达式](../post/68278ec8.html)
+- lambda的知识可参考 [Lambda表达式](../post/68278ec8.html)
+
+如果你要“真正地”把数组转集合，而不是数组的内部类，应该这么做：
+
+```java
+Object[] arr = {obj1, obj2, obj3};
+List<Object> objectList = new java.util.ArrayList<Object>(Arrays.asList(arr));
+```
 
 ---
 

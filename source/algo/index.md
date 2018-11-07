@@ -245,7 +245,7 @@ private static void printPrime(int range){
 
 ---
 
-# 6. 给定一个 32 位有符号整数，将整数中的数字进行反转。
+# 6. [字符串]给定一个 32 位有符号整数，将整数中的数字进行反转。
 
 Leetcode 第七题
 
@@ -275,7 +275,7 @@ public int reverse(int n) {
 
 ---
 
-# 7. 回文数
+# 7. [字符串]回文数
 
 判断一个整数是否是回文数。回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。
 
@@ -297,3 +297,43 @@ private static boolean isPalindrome(int x) {
     return true;
 }
 ```
+
+---
+
+# 8. [排序] [位运算]文件排序
+
+编程珠玑开篇题目
+
+有一个电话簿文件，里面记录的都是7位数的电话号码（如 3485712），没有重复数字，请排序并输出。
+
+用一个容量为10000000的 boolean 数组，依次读取input.txt，并把对应的下标置为 true 。 例如读取到 1258021 ，就把 boolean[1258021] 置为 true 。然后遍历boolean数组，遇到 true 的把下标写入 output.txt
+
+```java
+private static void readAndSort() throws IOException {
+    // 初始化 boolean 数组
+    boolean[] set = new boolean[10000000];
+    for (int i = 0; i < set.length; i++) {
+        set[i] = false;
+    }
+
+    // 遍历输入文件
+    BufferedReader br = new BufferedReader(new FileReader("input.txt"));
+    String s;
+    while ( (s = br.readLine()) != null){
+        int index = Integer.parseInt(s);
+        set[index] = true;
+
+    // 输出
+    BufferedWriter bw = new BufferedWriter(new FileWriter("output.txt"));
+    for (int i = 0; i < set.length; i++) {
+        if (set[i]){
+            bw.write(Integer.valueOf(i).toString());
+            bw.write("\r\n");
+            bw.flush();
+        }
+    }
+
+}
+```
+
+---

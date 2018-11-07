@@ -24,8 +24,27 @@ date: 2018-09-12 21:13:51
 
 # 3. i++ 和 ++i
 
-- i++：先得到i，再把 i+1 赋给 i
-- ++i: 先得到i+1，再把 i+1 赋给 i
+i++ 是先把 i 压入操作栈，然后用 iinc 直接在局部变量表对 i 加一，再把操作栈顶赋给 a
+
+```
+a = i++
+
+0: iload_1
+1: iinc 1, 1
+4: istore_2
+```
+
+++i 是先用 iinc 直接在局部变量表对 i 加一，然后把 i 压入操作栈，再把操作栈顶赋给 a
+
+```
+a = ++i
+
+0: iinc 1,1
+3: iload_1
+4: istore_2
+```
+
+一般要对一个数进行修改，要先从局部变量表把数压入操作栈，修改完再赋值回去。但 iinc 这个指令比较特殊，直接在局部变量表里就可以+1操作。
 
 # 4. 拆箱和装箱
 
@@ -185,7 +204,7 @@ HashMap底层是使用 Node 对象数组存储的，Node 是一个单项的链�
 
 ## 扩容过程
 
-何时扩容？懒加载,首次调用put方法时，HashMap会发现table为空然后调用resize方法进行初始化（默认为16）。当添加完元素后，如果HashMap发现size（元素总数）大于threshold（阈值），则会调用resize方法进行扩容。
+何时扩容？懒加载,首次调用put方法时，HashMap会发现table为空然后调用resize方法进行初始化（默认为16）。当添加完元素后，如果HashMap发现size（元素总数）大于 threshold（阈值，默认16*0.75），则会调用resize方法进行扩容。
 
 如何扩容？table大小变为原来的两倍，也就是2的n次方变为2的n+1次方。之后对table进行调整：若元素hash值第N+1位为0：不需要进行位置调整，若元素hash值第N+1位为1：调整至原索引的两倍位置。
 
@@ -196,11 +215,11 @@ HashMap底层是使用 Node 对象数组存储的，Node 是一个单项的链�
 1. 最好不要用可变对象。如果一定要是可变对象，也要保证 hashcode 方法的结果不会变。因为 HashMap 的 get 方法是会去判断 hashcode 值，如果 hash 值变了，有可能就取不到。
 2. 使用不可变对象是明智的。
 
-# 23. ArrayList 和 LinkList 的区别 ？
+# 23. ArrayList 和 LinkedList 的区别 ？
 
 ArrayList 继承于 java.util.AbstractList<E> ，底层数组实现，遍历快，中间插入慢。因为数组的物理地址上是连续的，所以遍历快，插入的时候后面的元素都要响应地往后挪，带来额外的时间开销。ArrayList的扩容是 1.5 倍。
 
-LinkList 继承于 java.util.AbstractSequentialList<E> 底层链表实现，中间插入快，遍历慢。因为物理上不连续，直接把前一个元素指向插入元素，插入元素指向原来的后一个元素即可，所以插入快。但是获取第 n 个元素，要从1开始逐个访问，所以遍历比较慢。LinkList不需要扩容。
+LinkedList 继承于 java.util.AbstractSequentialList<E> 底层链表实现，中间插入快，遍历慢。因为物理上不连续，直接把前一个元素指向插入元素，插入元素指向原来的后一个元素即可，所以插入快。但是获取第 n 个元素，要从1开始逐个访问，所以遍历比较慢。LinkedList不需要扩容。
 
 # 24. Java.util.concurrent包（Java并发工具包）
 
@@ -235,7 +254,7 @@ Collection是集合类的上级接口，包含了 list、Set、Map 等子接口�
 
 # 30. StringBuffer 和 StringBuilder
 
- StringBuilder 比 StringBuffer 快，但涉及线程安全必须用StringBuffer。它们两者与 String 的不同点在于对象能被多次修改。
+StringBuilder 比 StringBuffer 快，但涉及线程安全必须用StringBuffer。StringBuffer通过 synchronized 保证线程安全。它们两者与 String 的不同点在于对象能被多次修改，而 String 是 final 的。
 
 # 31. Java中的异常
 
@@ -255,11 +274,18 @@ uncheckException 是可以通过优化程序逻辑来避免的，不应该捕获
 
 但是 finally 里有 return， 会提前返回
 
-# 33. 输入输出流？
+# 33. Java中的IO ？
 
-InputStream 和 OutputStream 处理字节流（一个字节8位bit）， reader 或 writer 处理字符流（Unicode 字符）
+普通IO：IO面向字节流和字符流
+1. InputStream 和 OutputStream 处理字节流（一个字节8位bit）
+2. reader 或 writer 处理字符流（Unicode 字符）
+3. BufferedWriter 和 BufferedReader 缓存流
 
-BufferedWriter 和 BufferedReader 缓存流。
+NIO：面向的是 channels 和 buffers
+
+## 什么时候用IO什么时候NIO？
+
+如果只有少量的连接，但是每个连接同时发送很多数据，用传统IO。如果有许多连接，但是每个连接都只发送少量数据，选择NIO。（如网络聊天室、P2P网络）
 
 # 34. 线程的三种创建方式？
 
@@ -267,18 +293,22 @@ BufferedWriter 和 BufferedReader 缓存流。
 2. 实现Runnable方法（推荐）
 3. 实现Callable方法
 
-# 35. 线程Thread类的 join 方法是干什么用的？
+## Runnable 和 Callable 创建线程有什么区别？
+
+第一，Callable 可以通过 call() 方法获取线程的返回值。第二 call() 方法可以抛出异常，主线程可以直接捕获子线程异常。但 Runnable 只能通过 setDefaultUncaughtExceptionHandler() 的方式来捕获。
+
+# 35. 线程 Thread 类的 join 方法是干什么用的？
 
 让线程串行执行。
 
 # 36. Java中线程同步有几种方式？
 
-1. synchronized 关键字，解决竞争条件问题（多个线程同时访问一段内存区域）
-2. Volatile 关键字，解决可见性问题（线程栈、CPU缓存），但不能保证原子性问题
-3. java.util.concurrent包下的Atomic原子类，无锁保证原子性。synchronized开销太大，性能会下降。多线程 i++ 问题Atomic已足够。
+1. synchronized ，解决竞争条件问题（多个线程同时访问一段内存区域），也可以解决可见性问题。
+2. Volatile ，解决可见性问题（线程栈、CPU缓存），但不能保证原子性问题
+3. java.util.concurrent包下的Atomic原子类，无锁保证原子性。多线程 i++ 问题 Atomic 已足够。
 4. ReentrantLock，是一个可重入、互斥、实现了Lock接口的锁。
 5. ThreadLocal类，线程局部变量。
-6. java.util.concurrent包下的阻塞队列
+6. java.util.concurrent包下的工具。例如阻塞队列（BlockingQueue），concurrentHashMap，CopyOnWriteArrayList ，栅栏、闭锁（Latch）、信号量
 
 # 37. JVM的组成？
 
@@ -290,7 +320,7 @@ BufferedWriter 和 BufferedReader 缓存流。
 # 38. 类加载器如何加载一个类？
 
 1. 加载（读取.class二进制字节流，转换成方法区动态数据结构，堆中创建对象）
-2. 链接（校验、解析（静态变量赋默认值）、准备（符号引用->直接引用））
+2. 链接（校验、准备（静态变量赋默认值）、解析（符号引用->直接引用））
 3. 初始化（静态变量赋初值）
 
 # 39. 什么时候初始化 ?
@@ -318,9 +348,9 @@ BufferedWriter 和 BufferedReader 缓存流。
 
 1. 程序计数器（线程隔离）
 2. 本地方法栈（线程隔离）
-3. 方法栈（线程隔离）
+3. Java虚拟机栈（线程隔离）
 4. 堆（线程共享）
-5. 方法区（线程共享）
+5. 方法区（线程共享）（JDK1.8升级为元空间）
 
 # 43. 什么是动态链接？
 
@@ -328,19 +358,17 @@ BufferedWriter 和 BufferedReader 缓存流。
 
 # 44. 垃圾回收算法
 
-针对新生代，很多被清理，用标记-清除法，但效率低。用复制算法较好（Eden、Survior1、Survior2）
+针对新生代，很多被清理，用标记-清除法，但效率低，碎片多。用复制算法较好（Eden、Survior1、Survior2）
 
-先只使用 Eden、Survior1，垃圾回收的时候，把幸存的复制到 Survior2，然后清空 Eden和Survior1，之后只使用 Eden、Survior2 。
+复制算法先只使用 Eden、Survior1，垃圾回收的时候，把幸存的复制到 Survior2，然后清空 Eden和Survior1，之后只使用 Eden、Survior2 。
 
-针对老年代，只有很少被清理，标记-整理算法。将所有废弃的对象做上标记，然后将所有未被标记的对象移到一边，最后清空另一边区域即可。
+针对老年代，只有很少被清理，标记-整理算法。从GC Roots出发标记存活的对象，移动到内存的一端，将另一端全部清除。
 
-# 45.Java IO 和 NIO
+# 45.哪些可以作为 GC-ROOT ？
 
-IO面向字节流和字符流，而NIO面向 channels 和 buffers 。
-
-有许多连接，但是每个连接都只发送少量数据，选择NIO。（如网络聊天室、P2P网络）
-
-如果只有少量的连接，但是每个连接同时发送很多数据，传统的IO会更适合。
+1. 类静态属性中引用的对象
+2. 常量引用的对象
+3. Java虚拟机栈和本地方法栈引用的对象
 
 # 46. 什么是CAS ？
 
@@ -460,13 +488,13 @@ static 只能用来修饰类的成员，所以顶级类不能用 static 修饰�
 
 # 58. concurrentHashMap
 
-concurrentHashMap是线程安全的 hashmap 。
+concurrentHashMap是线程安全的 hashmap 。在 jdk 1.7 采用分段锁保证线程安全和并发性能。但在 jdk 1.8 中改用 CAS + synchronized 控制。ConcurrentHashMap 迭代时不会抛出 `ConcurrentModificationException`，是 fail-safe 的。
 
 ---
 
 # 59. HashSet 的底层原理
 
-HashSet 本质上是一个 HashMap ，因为 Map 存储的是键值对，键不允许重复。所以 HashSet 存放的对象实际上是存放在 HashMap 的 Key 进去。然后 Value 部分用一个空对象代替。
+HashSet 本质上是一个 HashMap ，因为 Map 存储的是键值对，键不允许重复。所以 HashSet 存放的对象实际上是存放到 HashMap 的 Key 进去。然后 Value 部分用一个空对象代替。
 
 ```java
 private static final Object PRESENT = new Object();
@@ -477,3 +505,22 @@ private static final Object PRESENT = new Object();
 # 60. String.intern() 方法的作用
 
 `String.intern()`是一个 native 方法。如果字符串常量池里面已经包含一个等于此 String 对象的字符串，则返回池中的这个字符串String对象，否则，先将该String对象包含的字符串添加进常量池，然后返回此String对象的引用。
+
+---
+
+# 61. Java四种引用？
+
+后三种引用只是可以让开发者通过代码方式来决定对象回收时机。一般不需要做调整，JVM GC 会为我们做垃圾回收。
+
+1. **强引用**：new 对象，宁愿 OOM 也不回收
+2. **软引用**：内存快不够时回收
+3. **弱引用**：下一次GC就回收
+4. **虚引用**：对象被回收时我们会收到一个通知
+
+---
+
+# 62. CopyOnWriteArrayList ?
+
+替代了同步的List，采用写时复制技术。当对List内容进行修改时，复制原来的List。迭代的是原List，fail-safe，适合一写多读的场景。
+
+---

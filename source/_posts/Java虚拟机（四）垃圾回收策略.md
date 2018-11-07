@@ -65,7 +65,7 @@ objB = null;
 
 ### 可达性分析法(Reachability Analysis)
 
-GC把以下几种对象称为 GC Roots：
+GC把以下几种对象称为 GC-Roots：
 
 1. Java虚拟机栈所引用的对象(栈帧中局部变量表中引用类型的变量所引用的对象)
 2. 本地方法栈JNI(Native)所引用的对象
