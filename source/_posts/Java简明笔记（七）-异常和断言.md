@@ -139,6 +139,46 @@ Thorw 写在程序里面，直接抛出异常。注意，抛出后程序便不�
 
 ---
 
+# 使用Optional类解决空指针异常
+
+一个对象如果可能是null，我们通常要写类似下面的代码来避免空指针异常：
+
+```java
+if (obj == null){
+    // do something..
+}
+
+if (obj != null){
+    // go ahead..
+}
+```
+
+在 Java 8 中，我们有了更好的方法来判断空指针——Optional 类。它是一个可以为null的容器对象。如果值存在则 isPresent() 方法会返回true，调用 get() 方法会返回该对象。Optional 容器可以保存类型T的值，或者仅仅保存null。Optional提供很多有用的方法，这样我们就不用显式进行空值检测。
+
+java.util.Optional<T> 的声明如下：
+
+```java
+public final class Optional<T>
+extends Object{
+    //...
+}
+```
+
+用法：
+
+```java
+public User findUser(String email){
+    Optional<User> optUser = userRepository.findById(email); // returns java8 optional
+    if (optUser.isPresent()) {
+        return optUser.get();
+    } else {
+        // handle not found, return null or throw
+    }
+}
+```
+
+---
+
 # 断言（assert）
 
 断言机制允许我们在测试时加入检测条件，并且在生产代码中自动移除它们。在Java中，断言用于调试目的以验证内部假设。

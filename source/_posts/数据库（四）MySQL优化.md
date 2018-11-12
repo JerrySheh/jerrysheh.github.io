@@ -1,5 +1,5 @@
 ---
-title: 数据库（三）MySQL数据类型、索引、查询的优化
+title: 数据库（四）MySQL优化
 comments: true
 categories: 数据库
 tags: SQL

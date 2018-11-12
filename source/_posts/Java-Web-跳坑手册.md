@@ -115,9 +115,43 @@ File -> Settings -> Build,Execution,Deployment -> Build Tools -> Maven -> Import
 BeanFactory not initialized or already closed - call ‘refresh’ before accessing beans via the ApplicationContext
 ```
 
-原因： 没有设置 resource 目录 
+原因： 没有设置 resource 目录
 
 解决办法：
 
 1. 右键 resource 目录， 选择 mark Directory as ... 选择 test resource derectory
 2. rebuild
+
+---
+
+# SpringBoot集成JPA报错：No identifier specified for entity
+
+在 id 字段加 `@Id` 注解 和 `@GeneratedValue(strategy=GenerationType.IDENTITY)` 注解。
+
+```java
+@Entity
+@Data
+public class Message {
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    Integer id;
+
+    String message;
+    Date gmtCreate;
+    Date gmtModified;
+
+}
+```
+
+几种注解的区别：
+
+1. `@GeneratedValue(strategy = GenerationType.AUTO)`主键增长方式由数据库自动选择。
+2. `@GeneratedValue(strategy = GenerationType.IDENTITY)` 要求数据库选择自增方式，oracle不支持此种方式。
+3. `@GeneratedValue(strategy = GenerationType.SEQUENCE)` 采用数据库提供的sequence机制生成主键。mysql不支持此种方式。
+
+---
+
+```
+'findById(java.lang.Long)' in 'org.springframework.data.repository.CrudRepository' cannot be applied
+```

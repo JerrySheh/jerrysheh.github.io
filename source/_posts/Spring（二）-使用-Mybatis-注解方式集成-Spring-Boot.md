@@ -109,15 +109,15 @@ m.get(8);
 
 # Spring Boot 集成 Mybatis 简明过程
 
- - 创建一个 Spring Initalizr 工程，依赖选择 web、MySQL、Mybatis
- - 在application.properties填入以下内容
+- 创建一个 Spring Initalizr 工程，依赖选择 web、MySQL、Mybatis
+- 在application.properties填入以下内容
 
- ```
- spring.datasource.url=jdbc:mysql://127.0.0.1:3306/neu?characterEncoding=UTF-8&useSSL=false
- spring.datasource.username=root
- spring.datasource.password=YourPassword
- spring.datasource.driver-class-name=com.mysql.jdbc.Driver
- ```
+```
+spring.datasource.url=jdbc:mysql://127.0.0.1:3306/neu?characterEncoding=UTF-8&useSSL=false
+spring.datasource.username=root
+spring.datasource.password=YourPassword
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+```
 
 - 创建pojo包，创建Student实体类，跟数据库对应
 

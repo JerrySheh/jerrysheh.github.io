@@ -295,7 +295,7 @@ NIO：面向的是 channels 和 buffers
 
 ## Runnable 和 Callable 创建线程有什么区别？
 
-第一，Callable 可以通过 call() 方法获取线程的返回值。第二 call() 方法可以抛出异常，主线程可以直接捕获子线程异常。但 Runnable 只能通过 setDefaultUncaughtExceptionHandler() 的方式来捕获。
+第一，Callable 可以的 call() 方法可以获取线程的返回值，而 Runnable 的 run() 方法没有返回值。第二， call() 方法可以抛出异常，主线程可以直接捕获子线程异常。但 Runnable 只能通过 setDefaultUncaughtExceptionHandler() 的方式来捕获。第三，运行 Callable 任务可以拿到一个Future对象，表示异步计算的结果。它提供了检查计算是否完成的方法，以等待计算的完成，并检索计算的结果。通过Future对象可以了解任务执行情况，可取消任务的执行，还可获取执行结果。
 
 # 35. 线程 Thread 类的 join 方法是干什么用的？
 
@@ -524,3 +524,5 @@ private static final Object PRESENT = new Object();
 替代了同步的List，采用写时复制技术。当对List内容进行修改时，复制原来的List。迭代的是原List，fail-safe，适合一写多读的场景。
 
 ---
+
+# 63. Java 线程池submit和execute 的区别？

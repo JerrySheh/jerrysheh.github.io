@@ -94,3 +94,9 @@ BeanFactory在启动的时候不会实例化Bean，getBean()的时候才会实�
 - **组件复用**：一个微服务组件可以跨多个应用程序复用
 - **通信规范**：组件之间通过 HTTP 、JSON 进行轻量级通信
 - **底层透明**：一个服务的底层用什么技术实现并没有什么影响，不同的开发小组可以用不同的技术栈
+
+---
+
+# 13. 什么是REST
+
+REST（Representational State Transfer）省略了主语 Resource，翻译成中文是：资源表述性状态转移。简单地说，就是用 URI 来定位资源，用 http 方法（GET、POST、DELETE、PUT等动词）来表示行为，用 http 状态码来表示结果。
