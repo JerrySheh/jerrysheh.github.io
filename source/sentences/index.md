@@ -40,6 +40,38 @@ type: about
 
 ## 11月
 
+### 11-23
+
+{% note danger %}
+
+成长是一个很痛的词，当你成熟了，你不一定会得到什么，却一定会失去一些东西。
+
+——电影《前任3》
+
+{% endnote %}
+
+{% note danger %}
+
+知不足者，方知路远，知路远者，必勤慎独行。
+
+{% endnote %}
+
+### 11-22
+
+{% note default %}
+
+希望你快乐，但不要用力过猛；希望你进步，但不要矫枉过正。
+
+{% endnote %}
+
+### 11-20
+
+{% note primary %}
+
+The end is always good, if it is not good, it is not the end.
+
+{% endnote %}
+
 ### 11-11
 
 {% note success %}
@@ -60,7 +92,7 @@ type: about
 
 {% note primary %}
 
-Where there is a will，there is a way！！！
+Where there is a will，there is a way.
 
 {% endnote %}
 

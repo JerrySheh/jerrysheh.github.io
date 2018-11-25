@@ -41,7 +41,7 @@ date: 2018-03-01 00:29:51
 
 ## 并发模型和分布式系统的相似性
 
-本文涉及的并发系统模型跟分布式系统（distributed systems）十分相似。例如，并发系统中是不同的线程之间互相通讯（communicate），而分布式系统是不同的进程之间互相通讯（这些进程可能在不同的计算机上）。
+本文提及的并发系统模型跟分布式系统（distributed systems）十分相似。例如，并发系统是不同的线程之间互相通讯（communicate），而分布式系统是不同的进程之间互相通讯（这些进程可能在不同的计算机上）。
 
 进程和线程在某些时候十分相似，这也是为什么不同的并发模型往往看起来都很像分布式系统架构。分布式系统需要面临网络请求可能失败、远程计算机或进程可能挂掉等问题，在并发系统中也会遇到类似 CPU 故障、网卡故障、硬盘故障等问题，虽然这些故障发生的概率很低，但理论上确实存在。
 
@@ -115,7 +115,8 @@ class MyRunnable implements Runnable {
     }
 }
 
-Thread thread = new Thread(new MyRunnable()， “第二个参数指定线程名”);
+MyRunnable myRun = new MyRunnable();
+Thread thread = new Thread(myRun， “第二个参数指定线程名”);
 thread.start();
 
 // 暂停线程
@@ -134,8 +135,13 @@ Thread t = new Thread( ()-> System.out.println("do something"));
 ```
 
 <font color="red">特别提醒</font>：
-- 调用 .start() 方法才是启动线程，而调用 .run() 方法只是在当前线程上去执行 run 函数，并没有开启新线程。注意不要搞混。
-- .stop() 方法已经被标记为 deprecated。因为它无法保证被停止的线程的状态（有潜在的死锁危险）。正确停止线程的方式应该是给定一个 boolean 变量，在方法中将其置 false。可以在 run 方法中加入 while() 循环 ，当主线程将 boolean 置 false， 子线程的 while 不再执行，从而 run 方法结束，从而线程退出。
+- 调用 `.start()` 方法才是启动线程，而调用 .run() 方法只是在当前线程上去执行 run 函数，并没有开启新线程。注意不要搞混。
+- `.stop()` 方法已经被标记为 deprecated。因为它无法保证被停止的线程的状态，例如转账方法钱款已经转出，却还没有转入目标账户就被中止了。正确停止线程的方式应该是给定一个 boolean 变量，在方法中将其置 false。可以在 run 方法中加入 while() 循环 ，当主线程将 boolean 置 false， 子线程的 while 不再执行，从而 run 方法结束，从而线程退出。
+- `.suspend()`方法也被标记为 deprecated。因为可能导致死锁：被挂起的线程持有锁，等待恢复，而将其挂起的线程又在等待该锁，导致死锁。
+
+## 方式三：实现 Callable 方法(可回调)
+
+需结合 Future 和 线程池 使用。暂时跳过。
 
 ---
 
@@ -316,9 +322,109 @@ public class Calculator{
 
 ---
 
-# synchronized
+# 使用 Lock 类解决竞争条件问题
 
-synchronized用于解决竞争条件问题。
+![locks](../../../../images/Java/locks.png)
+
+在 java.util.concurrent.locks 包里面，有一些锁相关类，用于给程序代码加锁。当多个线程访问加锁代码时，只有一个线程能访问临界区。其中用得最多的是 ReentrantLock，需要注意的是，解锁操作最好放在 finally 块，这样抛出异常时也能正常解锁。此外，如果使用锁就不能用 try-with-resource 了。
+
+```java
+class Test{
+    // 声明一个锁对象
+    Lock lock = new ReentrantLock();
+
+    public void doSomething(){
+        // 在临界区加锁
+        lock.lock();
+        try{
+            // do something
+        } finally {
+            // 临界区结束释放锁
+            lock.unlock();
+        }
+    }
+
+}
+```
+
+ReentrantLock支持带参构造函数，表示一个公平锁。先申请锁的线程将会先得到执行。但也不是绝对的，因为调度器有可能选择忽略一个线程。使用公平锁比常规锁要慢，必要时才考虑使用。
+
+```java
+ReentrantLock(boolean fair);
+```
+
+## 条件对象
+
+有时候，一个线程拿到锁执行权，进入了临界区，却因为某些条件不满足而无法执行，这时候我们应该及时释放锁，直到条件满足了再重试。这个条件，我们就称为条件对象（或条件变量，conditional variable）。比如说，在银行系统中，一个线程获得了从A账户转出1000元的执行权，但是该线程进入到临界区时发现A账户余额不足1000，无法转账，此时应该释放锁，而不是阻塞死等。
+
+在 Java 中，Condition 类用来表示一个条件对象。
+
+```java
+class Bank{
+    Lock bankLock = new ReentrantLock();
+    private Condition sufficientFunds;
+
+    // 在构造器里实例化条件对象
+    public Bank(){
+       sufficientFunds = bankLock.newCondition();
+    }
+
+    // 转账
+    public void transfer(){
+       bankLock.lock();
+
+       // 余额不足，释放锁
+       while(accounts[from] < amount)
+           sufficientFunds.await();
+
+       // 余额充足，转账
+       // ...
+    }
+
+}
+```
+
+记住，永远用 while 来判断条件，而不是 if。如果条件满足，调用条件对象的 await() 方法，该线程即释放锁并挂起等待，直到另一个线程调用了 signal() 或 signalAll() 方法。
+
+## 使用读写锁
+
+当很多线程读取数据而很少线程修改数据时，可以考虑使用 ReentrantReadWriteLock（读写锁）。
+
+```java
+// 1. 声明一个读写锁
+private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+
+// 2.抽取读锁和写锁
+private Lock readLock = rwl.readLock();
+private Lock writeLock = rwl.writeLock();
+
+// 3. 读取方法加读锁
+public double getTotal(){
+    readLock.lock();
+    try{
+        // ...
+    } finally {
+        readLock.unlock();
+    }
+}
+
+// 4. 修改方法加写锁
+public void transfer(){
+    writeLock.lock();
+    try{
+        // ...
+    } finally {
+        writeLock.unlock();
+    }
+}
+
+```
+
+---
+
+# 使用 synchronized
+
+synchronized 也是用于解决竞争条件问题。但语法比 ReentrantLock 简单。
 
 ```java
 // 用于实例方法
@@ -332,7 +438,7 @@ public static synchronized void add(int value){
   }
 ```
 
-同步是一种高开销的操作，因此应该尽量减少同步的内容。把 synchronized 放在方法里，可能太过于粗粒度了，这样会损失一些并发性，synchronized 也可以单独放在临界区。缩小同步控制的范围。
+同步是一种高开销的操作，应该尽量减少同步的内容。把 synchronized 放在方法里，可能太过于粗粒度了，这样会损失一些并发性，synchronized 也可以单独放在临界区。缩小同步控制的范围。
 
 ```java
 // 用于部分临界区代码块
@@ -342,6 +448,45 @@ public void add(int value){
     }
 }
 ```
+
+跟 ReentrantLock 类似，当有条件对象不满足时，进入 synchronized 的线程也是需要立即释放锁并等待条件满足。synchronized 内置了一个条件对象，不用我们显式声明。我们直接在代码中调用 wait() 方法就可让当前线程等待，直到其他线程调用了 notify() 或 notifyAll() 。
+
+```java
+public synchronized void add(int value){
+    // 条件不满足，等待
+    while(accounts[from] < amount)
+        wait();
+
+    // 条件满足，执行业务
+    this.count -= value;
+}
+```
+
+---
+
+# 我该使用 synchronized 还是 ReentrantLock ？
+
+《Java核心技术》的作者 Cay S. Horstmann 给我们的建议是，最好两者都不要用，而是用 concurrent 包提供给我们的并发工具，如阻塞队列。当 concurrent 并发工具都不能满足时，才考虑用 synchronized 或 ReentrantLock。首选 synchronized 因为它编写简单，而且新版JDK自带锁优化能够减少一些锁开销。
+
+当你需要这三样功能之一时，才考虑用 ReentrantLock：
+1. 需要公平锁；
+2. 需要有多个条件对象；
+3. 线程尝试获得锁失败时可选择放弃而去做别的事情
+
+java.util.concurrent.locks.Lock
+
+```java
+// 尝试获得锁，成功返回true，失败返回false(根据返回值用if-else语句)
+boolean tryLock();
+
+// 在给定实践内不断尝试获得锁
+boolean tryLock(long time, TimeUtil unit);
+
+// 获得锁，但不确定地发生阻塞。如果线程被中断，抛出 InterruptedException
+void lockInterruptibly();
+```
+
+参考：《Java核心技术 卷I》第10版p654
 
 ---
 
@@ -372,35 +517,6 @@ Volatile 用于解决可见性问题，被 Volatile 关键字修饰的变量，�
 
 ---
 
-# ThreadLocal 类
-
-ThreadLocal 类可以让你创建一些变量，只能够在同一个线程里读写。其他线程看不到。
-
-```java
-// 声明一个 ThreadLocal 对象
-private ThreadLocal myThreadLocal = new ThreadLocal();
-
-// 也可以用泛型声明
-private ThreadLocal<String> myThreadLocal = new ThreadLocal<String>();
-
-// 往对象里放一些变量
-myThreadLocal.set("aStringValue");
-
-// 将 ThreadLocal 里存放的变量取出来
-String threadLocalValue = (String) myThreadLocal.get();
-
-// 在声明ThreadLocal对象时，即给初值
-private ThreadLocal myThreadLocal = new ThreadLocal<String>() {
-    @Override
-    protected String initialValue() {
-        return "This is the initial value";
-    }
-};    
-```
-
-除了 ThreadLocal 类之外，还有一个 InheritableThreadLocal 是可继承的 ThreadLocal ，只有声明的线程及其子线程可以使用 InheritableThreadLocal 里面存放的变量。
-
----
 
 # 线程通信（Signaling）
 

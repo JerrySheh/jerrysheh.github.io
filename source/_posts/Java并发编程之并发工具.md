@@ -11,6 +11,117 @@ Java自带的平台类库里面包含了很多有用的工具，来帮助我们�
 
 <!-- more -->
 
+# atomic原子类
+
+在 [Java并发编程之安全性](../post/b4ed848b.html) 就提到可以用 java.util.concurrent.atomic 包里面的原子类来提供原子操作。其本质是通过非阻塞并发算法（CAS）来保证原子性的。其中用得最多的就是 Atomiclong。
+
+![atomic](../../../../images/Java/atomic.png)
+
+## 原子类的更新问题
+
+当我们需要改变一个值，用 Atomiclong 的 incrementAndGet() 方法或者 set() 方法。
+
+```java
+private Atomiclong count = new AtomicLong(0);
+count.incrementAndGet();
+count.set(value);
+```
+
+当 value 是一个方法的返回值时，如`Math.max(count.get(), observed)` 选择两者中比较大的，这个操作也并不安全。正确的做法是：
+
+```java
+do{
+    oldValue = count.get();
+    newValue = Math.max(count.get(), observed);
+} while(!count.compareAndSet(oldValue,newValue))
+```
+
+在Java 8中，上述样板代码可以简化为：
+
+```java
+count.updateAndGet(x->Math.max(count.get(), observed));
+// or
+count.accumulateAndGet(observed, Math::max);
+```
+
+## 用 LongAdder 优化高并发性能问题
+
+如果在高并发情况下 Atomiclong 的 CAS 乐观锁需要太多次重试，这会带来一定的性能下降。Java 8 提供了 LongAdder 类。其思想跟JDK 1.7的 concurrenthashmap类似，采用分段的思想。LongAdder 内部包含多个值，每个线程只更新其中的一个，然后返回所有值的和。
+
+LongAdder 适用于统计求和计数的场景，例如计算qps。在高并发场景下，qps这个值会被多个线程频繁更新的，所以 LongAdder 很适合。但 LongAdder 并不能替代 Atomiclong。
+
+```java
+final LongAdder adder = new LongAdder();
+// thread 1
+adder.increment();
+
+// thread 2
+adder.increment();
+
+// main thread
+adder.sum();
+```
+
+LongAccumulator 将这种思想推广到任意的累加操作，而不仅仅是+1
+
+---
+
+# ThreadLocal 类
+
+java.lang.ThreadLocal<T> 类可以让你创建一些变量，只能够在同一个线程里读写。其他线程看不到。
+
+```java
+// 获取当前值，如果是第一次获取则调用 initialize 初始化
+T get()
+
+// 初始化
+protected initialize()
+
+// 为这个线程设置一个新值
+void set(T t)
+
+// 删除这个线程对应的值
+void remove();
+
+// (Java 8)创建一个线程局部变量，其初始值通过给定的 supplier 生成
+static <S> ThreadLocal<S> withInitial(Supplier<? extends S> supplier)
+```
+
+ThreadLocal简单例子
+
+```java
+// 声明一个 ThreadLocal 对象
+private ThreadLocal myThreadLocal = new ThreadLocal();
+
+// 也可以用泛型声明
+private ThreadLocal<String> myThreadLocal = new ThreadLocal<String>();
+
+// 往对象里放一些变量
+myThreadLocal.set("aStringValue");
+
+// 将 ThreadLocal 里存放的变量取出来
+String threadLocalValue = (String) myThreadLocal.get();
+
+// 在声明ThreadLocal对象时，即给初值，而不是第一次调用
+private ThreadLocal myThreadLocal = new ThreadLocal<String>() {
+    @Override
+    protected String initialValue() {
+        return "This is the initial value";
+    }
+};    
+```
+
+除了 ThreadLocal 类之外，还有一个 InheritableThreadLocal 是可继承的 ThreadLocal ，只有声明的线程及其子线程可以使用 InheritableThreadLocal 里面存放的变量。
+
+在 JDK 1.7 之后，还有一个 java.util.concurrent.ThreadLocalRandom 类。
+
+```java
+// 返回特定于当前线程的 Random 类实例
+static ThreadLocalRandom current()
+```
+
+---
+
 # 同步容器类
 
 同步容器类包括 Vector 和 Hashtable。它们实现线程安全的方式十分简单粗暴：对每个公有方法进行同步，使得每次只有一个线程能够访问容器的状态。这种线程安全方式对于容器自身来说是安全的，但在调用方可能会出现问题，因此使用时要注意调用方可能需要做一些额外的协调。例如：
@@ -79,6 +190,59 @@ public interface ConcurrentMap<K, V> extends Map<K, V> {
 }
 ```
 
+concurrentHashMap有两个带参构造器
+
+```java
+// initialCapacity - 初始容量（默认16）
+concurrentHashMap<K, V>(int initialCapacity);
+
+// loadactor - 如果每一个桶的平均负载超过这个值，会重新调整大小（默认0.75）
+// concurrencyLevel - 并发写线程的估计数
+concurrentHashMap<K, V>(int initialCapacity, float loadactor, int concurrencyLevel)
+```
+
+## 使用 concurrentHashMap 做词频统计的例子
+
+考虑下面的例子，我们需要在每次访问时将map里面的值+1，虽然concurrentHashMap内部是线程安全的，但是这段代码并非线程安全，另一个线程可能也正在更新数值。
+
+```java
+ConcurrentHashMap<String,Long> map = new ConcurrentHashMap();
+long oldValue = map.get(word);
+long newValue = oldValue == null ? 1 : oldValue+1;
+map.put(word, newValue);
+```
+
+一般的改进如下，用到了CAS的思想，使用 replace 方法，如果替换不成功就不断尝试。
+
+```java
+do {
+    oldValue = map.get(word);
+    newValue = oldValue == null ? 1 : oldValue+1;
+} while (!map.replace(word, oldValue, newValue));
+```
+
+但是我们太讨厌这样的样板代码了，进一步改进如下：
+
+```java
+// 把 Long 换成了 LongAdder
+ConcurrentHashMap<String,LongAdder> map = new ConcurrentHashMap();
+
+// 如果为空，新建
+map.putIfAbsent(word, new LongAdder());
+
+// 获取再+1
+map.get(word).increment();
+
+// 上面两句可以合并为一句
+map.putIfAbsent(word, new LongAdder()).increment();
+```
+
+Java 8 中，compute 方法传入一个 key 和一个计算新值的函数，用于完成原子更新，推荐使用：
+
+```java
+map.compute(word, (k,v)-> v == null? 1:v+1);
+```
+
 ## CopyOnWriteArrayList
 
 这是一个写入时复制（Copy-On-Write）并发容器，用于替代同步的List。在每次修改时，都会创建并重新发布一个新的容器副本。迭代器不会抛出`ConcurrentModificationException`，是 fail-safe 的。当迭代操作远远多于修改操作时，应该考虑使用Copy-On-Write容器。
@@ -88,9 +252,73 @@ public interface ConcurrentMap<K, V> extends Map<K, V> {
 
 BlockingQueue 是一个阻塞队列。其 put 方法将一个元素放进队列头端，如果队列已满，就一直阻塞，直到队列空出位置。同理，take 方法将从队列尾端取出一个元素，如果队列未空，就一直阻塞，直到队列有元素。BlockingQueue非常适合用来做生产者-消费者模式。其优点是，将生产数据的过程与使用数据的过程解耦。
 
-BlockingQueue 也提供了一个 offer 方法，如果数据不能添加进队列，返回一个失败状态。
+BlockingQueue 也提供了一个 offer 方法，如果数据不能添加进队列，返回一个失败状态。offer 方法可以带时间参数，表示在一段时间内尝试添加元素。poll 同理。
+
+```java
+boolean success = queue.offer(x, 100, TimeUnit.MILLSECONDS);
+```
 
 BlockingQueue的实现类有 LinkedBlockingQueue 和 ArrayBlockingQueue，以及按优先级排序的 PriorityBlockingQueue。还有一个比较特殊的 SynchronousQueue，它没有存储空间，只是维护一组线程。例如，一个线程 put 会被阻塞，直到另一个线程 take，才算成功交付。
+
+方法|正常动作|特殊情况动作
+---|---|---
+add|添加元素|队列满抛出 IllegalStateException
+offer|添加元素并返回true|队列满返回false
+put|添加元素|队列满阻塞
+element|返回队列头元素|队列空抛出NoSuchElementException
+peek|返回队列的头元素|队列空返回null
+poll|移出并返回队列头元素|队列空返回null
+remove|移出并返回队列头元素|队列空抛出NoSuchElementException
+take|移出并返回队列头元素|队列空阻塞
+
+---
+
+# Callable 和 Future
+
+Runnable 用于一个异步执行的任务，没有参数和返回值。Callable 与 Runnable 类似，区别是，Callable有返回值。参数类型就是返回值的类型。
+
+```java
+package java.util.concurrent;
+@FunctionalInterface
+public interface Callable<V> {
+    /**
+     * Computes a result, or throws an exception if unable to do so.
+     *
+     * @return computed result
+     * @throws Exception if unable to compute a result
+     */
+    V call() throws Exception;
+}
+```
+
+Future用来判断异步计算是否已完成以及帮助我们获取异步计算的结果。
+
+```java
+public interface Future<V> {
+    boolean cancel(boolean mayInterruptIfRunning);
+    boolean isCancelled();
+    boolean isDone();
+
+    // 调用 get 时，如果还没计算完，将阻塞
+    V get() throws InterruptedException, ExecutionException;
+
+    // 如果过了设定的时间还没计算完，抛出超时异常
+    V get(long timeout, TimeUnit unit)
+        throws InterruptedException, ExecutionException, TimeoutException;
+}
+```
+
+FutureTask是一个包装，可将 Callable 转换成 Future 和 Runnable，如：
+
+```java
+Callable<Integer> myCompute = ...;
+FutureTask<Integer> task = new FutureTask<Integer>(myCompute);
+
+Thread t = new Thread(task); // Runnable
+t.start();
+
+Integer result = task.get(); // Future
+```
 
 ---
 
@@ -109,10 +337,6 @@ BlockingQueue 阻塞队列不仅能作为保存对象的容器，而且能根据
 - 等待某个操作的参与者都就绪再继续执行（多人在线游戏）
 
 CountDownLatch 是一种闭锁的实现。包括一个计数器，一开始为正数，表示需要等待的事件数量。以及 countDown 方法，每当一个等待的事件发生了，计数器就减一。直到为零闭锁打开。如果计数器不为零，那 await 会一直阻塞直到计数器为零，或者等待中的线程中断，或者等待超时。
-
-## FutureTask
-
-待补充。
 
 ## 信号量（Semaphore）
 
