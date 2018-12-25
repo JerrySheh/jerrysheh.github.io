@@ -139,6 +139,33 @@ public class StudentAPIController {
 
 ---
 
+# 封装统一的返回样式
+
+在返回 REST 数据时，可能请求成功也可能失败，成功需要返回请求的信息，失败需要返回失败原因，如下：
+
+请求失败：
+
+```JSON
+{
+    statusCode: 401,
+    messages: "未登录",
+}
+```
+
+请求成功：
+
+```JSON
+{
+    statusCode: 200,
+    messages: "ok",
+    content: "response contents"
+}
+```
+
+
+
+---
+
 参考
 
 - http://www.cnblogs.com/wmyskxz/p/9104368.html

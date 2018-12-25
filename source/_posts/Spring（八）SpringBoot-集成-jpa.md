@@ -12,7 +12,7 @@ date: 2018-11-11 13:10:53
 
 # 什么是 JPA ？
 
-之前在 Spring Boot 工程中，一直用 Mybatis 注解方式作为持久层框架。但是 Mybatis 需要手写 SQL 语句，对于简单的项目稍显麻烦。最近发现了 JPA ，使用 JPA 我们几乎可以不用写一句 SQL 语句，非常适合 CURD 场景。JPA 是 Java Persistence API 的缩写。JPA 让我们的应用程序以统一的方式访问持久层。JPA 是 Hibernate 的一个抽象，是一种 ORM 规范，是可以理解为是 Hibernate 功能的一个子集。
+之前在 Spring Boot 工程中，一直用 Mybatis 注解方式作为持久层框架。但是 Mybatis 需要手写 SQL 语句，对于简单的项目稍显麻烦。最近发现了 JPA ，使用 JPA 我们几乎可以不用写一句 SQL 语句，非常适合 CURD 场景。JPA 是 Java Persistence API（Java持久化接口） 的缩写。JPA 让我们的应用程序以统一的方式访问持久层。JPA 是 Hibernate 的一个抽象，是一种 ORM 规范，是可以理解为是 Hibernate 功能的一个子集。
 
 
 <!-- more -->
@@ -34,7 +34,19 @@ date: 2018-11-11 13:10:53
 
 ## 2.新建实体类
 
-这里推荐一个插件 lombok，使用 lombok 我们可以直接用 `@Data` 注解替代 getter、setter 和 toString。之后，在实体类的主键字段添加`@Id`注解和`@GeneratedValue`注解。在 gmt_create 和 gmt_modified 字段添加时间注解，并用`@EntityListeners`监听，这样，我们可以不用在后面的代码中每次都添加修改时间。
+这里推荐一个插件 lombok，使用 lombok 我们可以直接用 `@Data` 注解替代 getter、setter 和 toString 方法。之后，在实体类的主键字段添加`@Id`注解和`@GeneratedValue`注解。在 gmt_create 和 gmt_modified 字段添加时间注解，并用`@EntityListeners`监听，这样，我们可以不用在后面的代码中每次都添加修改时间。
+
+在 IDEA 插件中搜索并安装 lombok，之后重启 IDEA，在 maven 中添加：
+
+```xml
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <optional>true</optional>
+</dependency>
+```
+
+pojo类
 
 ```java
 @Entity
@@ -54,6 +66,8 @@ public class Message {
     @LastModifiedDate
     Date gmtModified;
 
+    // 无需编写 getter setter toString
+
 }
 ```
 
@@ -65,27 +79,27 @@ public class Message {
 
 ## 3. 编写 JPA 接口
 
-接口里面什么都不用写，就已经有了 CURD 方法了。注意泛型参数应该为实体类跟主键的类型。
+接口里面什么都不用写，就已经有了 CURD 方法了。<font color="red">注意泛型参数应该为 **实体类** 和 **主键** 的类型</font>。
 
 ```java
 import io.jerrysheh.message_me.pojo.Message;
 import org.springframework.data.repository.CrudRepository;
 
-public interface MessageRepository extends CrudRepository<Message, Long>  {
+public interface MessageRepository extends CrudRepository<Message, Long>  { // 注意泛型参数
 
 }
 
 ```
 
-## 4. 测试
+## 4. save方法
 
-使用 save 方法来新增或更新一条记录， JPA会判断是否已经有该 id，如果没有则新增，如果有则更新。但是这里有一个坑，有时候一个对象我们只需要修改其中某一个字段，其他字段不变，但是修改时 JPA 会把不需要变的字段也修改为 null，解决办法是先取出该对象的所有字段，让他们不为null，再修改需要改动的字段。
+使用 save 方法来新增或更新一条记录，JPA会判断是否已经有该 id，如果没有则新增，如果有则更新。这里有一个坑，有时候一个对象我们只需要修改其中某一个字段，其他字段不变，但是修改时 JPA 会把不需要变的字段也修改为 null，解决办法是先取出该对象的所有字段，让他们不为null，再修改需要改动的字段。
 
 ```java
 @Test
 public void testAdd(){
     Message msg = new Message();
-    msg.setMessage("第一条心语");
+    msg.setMessage("第一条message");
     messageRepository.save(msg);
 }
 
@@ -99,6 +113,8 @@ public void testUpdate(){
     }
 }
 ```
+
+## 5. 
 
 ---
 

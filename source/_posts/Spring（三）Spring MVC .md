@@ -416,15 +416,18 @@ public Integer addProduct(@RequestBody Product product){
 
 # 使用 PageHelper 分页
 
+PageHelper 是 Mybatis 的一个分页插件。
+
+获取最新版本：https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter
+
 添加分页依赖
 
 pom.xml
-
 ```xml
 <dependency>
     <groupId>com.github.pagehelper</groupId>
     <artifactId>pagehelper-spring-boot-starter</artifactId>
-    <version>1.2.5</version>
+    <version>1.2.10</version>
 </dependency>
 ```
 
@@ -447,8 +450,6 @@ public PageInfo<Product> getProductByCateId(@PathVariable(value = "cate_id") Int
     return page;
 }
 ```
-
-
 
 ---
 
@@ -477,4 +478,8 @@ spring.thymeleaf.prefix=classpath:templates
 spring.thymeleaf.encoding=UTF-8
 spring.thymeleaf.cache=false
 spring.thymeleaf.mode=LEGACYHTML5
+
+# JPA 相关配置
+# 配置在日志中打印出执行的 SQL 语句信息
+spring.jpa.show-sql=true
 ```
