@@ -8,9 +8,10 @@ type: about
 ![lalala](../../../../images/lalala.jpg)
 
 <div align="center">
-<h1>
- don’t care about the audience of your blog, just write.
-</h1>
+<font size="5">
+ **don’t care about the audience of your blog,
+ JUST WRITE**
+</font>
 </div>
 
 
@@ -35,6 +36,21 @@ type: about
 -->
 
 <!-- more -->
+
+# 2019
+
+## 1月
+
+### 01-02
+
+{% note warning %}
+
+我在你们这个年纪，有段时间，远离人群，独自思索，我的人生到底应该怎样度过。某日，我偶然去图书馆，听到泰戈尔的演讲，而陪同在泰戈尔身边的人，是当时最出名的学者（梁思成、林徽因、梁启超、梅贻琦、王国维、徐志摩），这些人站在那里，自信而笃定，那种从容让我十分羡慕。而泰戈尔，正在讲“对自己的真实”有多么重要。**那一刻，我从思索生命意义的羞耻感中释放出来，原来这些卓越的人物，也认为花时间思考这些，谈论这些，是重要的**。今天，我把泰戈尔的诗介绍给你们，希望你们在今后的岁月里，不要放弃对生命的思索，对自己的真实。
+
+——《无问西东》
+
+{% endnote %}
+
 
 # 2018
 
@@ -248,7 +264,7 @@ Bryce's grandfather says about Juli, "Some of us get dipped in flat, some in sat
 
 {% endnote %}
 
-## 05-14
+### 05-14
 
 {% note danger %}
 
