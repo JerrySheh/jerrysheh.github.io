@@ -41,6 +41,17 @@ type: about
 
 ## 1月
 
+### 01-09
+
+{% note info %}
+
+其实说到酷这个词，你如果觉得一个人很酷，那他肯定是做了你想做却没做的事情，不管是因为你没有能力去做，还是没有胆和勇气去做。
+
+——知乎网友 思凡 在问题 [大学生在大学里做什么会被别人觉得很酷？](https://www.zhihu.com/question/304138765/answer/543439032)下的回答
+
+
+{% endnote %}
+
 ### 01-02
 
 {% note warning %}
@@ -76,6 +87,17 @@ type: about
 
 {% endnote %}
 
+### 12-22
+
+{% note warning %}
+
+「交往」这件事，不只是为了休息日能一起去哪玩，那只是附带的东西罢了。「互相支撑着对方的生活」才是交往的本质。比起在一起的时候，倒不如说不能在一起的时候，两人互相能成为对方的力量，这才是最重要的一点。
+
+**它是让人在工作很辛苦的时候，只要想起对方的脸，就能再努力一把的力量。**
+
+—— Twitter 网友 [Nanami_Kuriaki](https://twitter.com/Nanami_Kuriaki)
+
+{% endnote %}
 
 ### 12-16
 
@@ -89,18 +111,6 @@ type: about
 
 
 ## 11月
-
-### 11-25
-
-{% note warning %}
-
-即使我有非常多能患难的好朋友，我 **依然不会把生命依附在朋友身上**，不会认为开导我、帮助我是朋友的责任，更多时候，我相信他们也有自己的生活，我更多的是学习他们对生命的态度，感受他们的闪光点，自己也吸收发光。
-
-交朋友不是为了要个填补寂寞的玩伴、不是为了要个随时奉陪的心灵导师、不是为了急需时有个庇护所、也不是可以拿天秤秤谁该为谁做什么。**更多时候，是朋友活着的方式鼓舞了我，让我知道，我可以一样靠自己强大起来，自己就能为自己承担一切**。
-
-——伊能静
-
-{% endnote %}
 
 ### 11-23
 
@@ -166,6 +176,13 @@ Where there is a will，there is a way.
 
 {% endnote %}
 
+### 08-20
+
+{% note success %}
+
+你分享音乐，没几个人点开，你发了一组自拍却收到了很多赞。其实大家一直都在关心你的外在容貌，不关心你的喜好。正如廖一梅书中写到的那样：**人这一生，遇到性、遇到爱，都不稀罕，稀罕的是遇到了解。**
+
+{% endnote %}
 
 ## 7月
 
@@ -195,6 +212,16 @@ Bryce's grandfather says about Juli, "Some of us get dipped in flat, some in sat
 
 
 ## 6月
+
+### 06-20
+
+{% note default %}
+
+还不确定自己想做什么，至少先把目前能做到的做好。还不清楚自己适合什么样的伴，那就先懂得善待自己与身边的人，不要停止让自己变好。
+
+—— Twitter 网友 阿飞大叔
+
+{% endnote %}
 
 ### 06-19
 
@@ -392,7 +419,7 @@ Rarely can a response make somthing better, what makes something better is conne
 
 {% note success %}
 
-For those of you who could not attend, I would like to share these words from my own lecture with you: **Remember to look up at the stars and not down at your feet. Be curious and however difficult life may seem, there is always something you can do and succeed at.** 
+For those of you who could not attend, I would like to share these words from my own lecture with you: Remember to look up at the stars and not down at your feet. **Be curious and however difficult life may seem, there is always something you can do and succeed at.** 
 
 -- Stephen William Hawking
 
@@ -423,9 +450,7 @@ For those of you who could not attend, I would like to share these words from my
 
 {% note info %}
 
-世界上最没有用的东西是什么？
-
-没有实力只能去靠诚意表真心。
+世界上最没有用的东西是什么？没有实力只能去靠诚意表真心。
 
 但凡能拿出一丁点东西来，都比这玩意强。
 
@@ -468,7 +493,7 @@ don't judge
 
 {% note info %}
 
-有三件事具有生命的意义。它们是你生活当中所有事情的动机。第一是生存，第二是社会秩序，第三是娱乐。生活中所有的事情都是按这个顺序发展的，娱乐之后便一无所有。因此，从某种意义上来说，生活的意义就是要达到第三个阶段。你一旦达到了第三个阶段，就算成功了。但首先要越过前两个阶段。
+有三件事具有生命的意义。它们是你生活当中所有事情的动机。**第一是生存，第二是社会秩序，第三是娱乐**。生活中所有的事情都是按这个顺序发展的，娱乐之后便一无所有。因此，从某种意义上来说，生活的意义就是要达到第三个阶段。**你一旦达到了第三个阶段，就算成功了。但首先要越过前两个阶段。**
 
 ——Linus Torvalds 《Just for fun》
 
@@ -480,9 +505,7 @@ don't judge
 
 那些曾经不屑一顾的东西，最终还是要花更多的功夫去补上。
 
-不读书，往往看问题的角度比较单一。而读书，可以让一个人的思考更有深度。
-
-懂的东西越少，能与人交流的东西也就越少，聊天就有了很大的局限性。别人说的东西你完全不懂，天不聊死才怪。
+不读书，往往看问题的角度比较单一。而读书，可以让一个人的思考更有深度。懂的东西越少，能与人交流的东西也就越少，聊天就有了很大的局限性。别人说的东西你完全不懂，天不聊死才怪。
 
 ——知乎用户阿喵姐说在问题[经常看书的人和不看书的人有什么区别？](https://www.zhihu.com/question/64501030/answer/300103506)下的回答
 
@@ -516,6 +539,8 @@ don't judge
 
 人生实苦，但请你足够相信！
 
+——清华大学致魏祥的回信
+
 {% endnote %}
 
 
@@ -546,7 +571,9 @@ don't judge
 
 {% note danger %}
 
-当你踩着高跷的时候，哪里还顾得上什么体面
+当你踩着高跷的时候，哪里还顾得上什么体面。
+
+——《地球脉动2》
 
 {% endnote %}
 
