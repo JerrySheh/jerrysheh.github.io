@@ -5,17 +5,13 @@ type: "about"
 comments: false
 ---
 
-</br>
+<div align = "center">一个即将毕业的大四学生</div>
+<div align = "center">别人眼中的技术宅</div>
+<div align = "center">实际上只是个辣鸡</div>
 
+<div align = "center">
+如果你对我感兴趣或者想对我说任何话
+随时联系 [jerrysheh@gmail.com](mailto:jerrysheh@gmail.com)
+我会在看到以后回复你 </div>
 
-<div align = "center">一个大学生</div>
-
-<div align = "center"></div>
-
-</br>
-
-<div align = "center">[我的博客标签](../tags/)</div>
-
-<div align = "center">[技术英语查阅](../ComputerScienceEnglishQuickCheck/)</div>
-
-<div align = "center">[日常英语查阅](../DailyEnglishQuickCheck/)</div>
+</br></br>

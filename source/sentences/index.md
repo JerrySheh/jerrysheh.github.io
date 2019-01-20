@@ -41,6 +41,16 @@ type: about
 
 ## 1月
 
+### 01-20
+
+{% note success %}
+
+很多原因。看到一段话很喜欢，分享给你：when u stop being yourself in a relationship, and u start to change your habits, friends, tastes, etc. for someone... Be careful! Sth is not right.
+
+——XQT
+
+{% endnote %}
+
 ### 01-09
 
 {% note info %}
