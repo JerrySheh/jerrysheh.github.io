@@ -163,3 +163,33 @@ tuple 是另一种有序列表，中文叫元组。它也可以切片操作，�
 ```
 
 在这个例子中， t[0] 表示 tuple 的第一个元素，也就是 `'a'`， t[1] 表示 `'b'`， t[2]表示 `['A', 'B']`
+
+---
+
+# 连接数据库
+
+```python
+import pymysql
+
+
+connect = pymysql.connect(host="127.0.0.1", port=3306, user="root", passwd="YOURPASSWD", db="YOURDBNAME")
+
+cursor = connect.cursor()
+
+sql = "SELECT * FROM rate"
+
+cursor.execute(sql)
+results = cursor.fetchall()
+
+file = open("C:\\Users\\JerrySheh\\IdeaProjects\\mall\\dataset\\douban_large_clean.dat", "w")
+
+for row in results:
+    userid = str(row[0])
+    bookid = str(row[1])
+    rating = str(int(row[2]))
+    line = str(userid + "::" + bookid + "::" + rating + "\n")
+    print(line)
+    file.write(line)
+
+file.close()
+```

@@ -170,6 +170,17 @@ public String userProfile(@PathVariable String username) {
 
 > [a-z0-9_]+是一个正则表达式，表示只能包含小写字母、数字和下划线。
 
+当有多个路径变量时，用`@PathVariable(value = "..")`
+
+```java
+@PostMapping("api/rate/{userId}/{productId}/{rating}")
+public void rate(@PathVariable(value="userId") Integer userId,
+                 @PathVariable(value = "productId") Integer productId,
+                 @PathVariable(value = "rating") Integer rating){
+
+}
+```
+
 ## 使用 RequestParam 获取参数
 
 有时候我们需要处理 URL 中的参数 ，比如`127.0.0.1:8080/userinfo?key1=value1&key2=value2`
