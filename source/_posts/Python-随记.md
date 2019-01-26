@@ -30,6 +30,24 @@ date: 2018-04-04 17:27:36
 - 直接运行的时候，xxx.py 所在目录是 sys.path
 - 以模块运行的时候，当前工作路径是 sys.path
 
+## 直接参数
+
+有时候我们用命令行运行 python 程序，如：
+
+```
+python test.py jerry 20
+```
+
+这里的 jerry 和 20 都是参数，在 python 里面用 sys 模块来获取参数：
+
+```python
+import sys
+
+filename = sys.argv[0]  # test.py
+user = sys.argv[1]  # jerry
+age = sys.argv[2]  # 20
+```
+
 参考：
 
 - [Python 中的 if \_\_name__ == '\_\_main__' 该如何理解](http://blog.konghy.cn/2017/04/24/python-entry-program/)
