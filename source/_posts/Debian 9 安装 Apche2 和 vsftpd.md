@@ -41,15 +41,20 @@ vim /etc/apache2/apache2.conf
 在主配置文件里，修改以下内容为文件夹赋予打开的权限
 
 ```xml
+# 拒绝访问 / 目录
 <Directory />
  Options FollowSymLinks
  AllowOverride None
  Require all denied
 </Directory>
+
+# 不用改或注释掉
 <Directory /usr/share>
  AllowOverride None
  Require all granted
 </Directory>
+
+# 这里可以修改成自己想更改的目录
 <Directory /var/www/>
  Options Indexes FollowSymLinks
  AllowOverride None
@@ -59,6 +64,8 @@ vim /etc/apache2/apache2.conf
 
 ## 修改其他配置文件
 
+### 默认目录
+
 ```
 vim /etc/apache2/sites-available/000-default.conf
 ```
@@ -66,13 +73,21 @@ vim /etc/apache2/sites-available/000-default.conf
 DocumentRoot 对应的值就是默认的目录了，可以任由我们修改。
 
 
-修改端口号
+### 修改端口号
+
+```
+vim /etc/apache2/sites-available/000-default.conf
+```
+
+第一行 virtualport 记得改（默认80）
 
 ```
 vim /etc/apache2/ports.conf
 ```
 
-修改完配置文件后记得重启服务
+listen 端口号（默认80）
+
+修改完配置文件后重启服务
 
 ```
 sudo service apache2 restart
