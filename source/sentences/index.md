@@ -9,7 +9,9 @@ type: about
 
 <div align="center">
 <font size="5">
- **don’t care about the audience of your blog,
+ **don’t care about
+ the audience
+ of your blog,
  JUST WRITE**
 </font>
 </div>
@@ -40,6 +42,36 @@ type: about
 # 2019
 
 ## 2月
+
+### 02-18
+
+{% note info %}
+
+每当你想要批评别人的时候，一定要记住，并不是每个人都拥有你那样的优越条件。
+
+——《了不起的盖茨比》
+
+{% endnote %}
+
+### 02-06
+
+{% note warning %}
+
+后来我们才知道相见趁早，影响我们一生信念最重要的人经常很早就出现了。暂时打发时间却无法一起前进的人，他们会自动把自己淘汰在你的生命之外，直到某天重逢他们会喂你几只记忆的尘螨让你消化不良，或喷射出一束失而复得的电流让你感激天涯有知音。
+
+后来我们才知道相见恨晚，再欣赏彼此也已没有一起厮混到天光这样的馀裕，我们总是越忙越瞎、越瞎越忙，最后才明白相见本身已是宇宙为你精心过滤、最值得我们排除万难去履行的承诺。
+
+——Kay Chen（[安溥电子信](https://madmimi.com/p/2191cd?pact=837406-149625982-11458542407-9c5c5cd2a2241228d219b49b5008435d7a3b4817)提到的朋友）
+
+{% endnote %}
+
+### 02-03
+
+{% note danger %}
+
+在回答别人问题的时候。不一定要告诉他真实的答案。很多时候，告诉他一个符合他想象的答案，可能效果更好。**因为不是每一个人，都有勇气去接受他不懂的东西，愿意去理解他未知的领域。对绝大多数人来说，更倾向用已有的想法，去解释看到的一切**。
+
+{% endnote %}
 
 ### 02-01
 
@@ -216,14 +248,6 @@ Where there is a will，there is a way.
 
 ## 8月
 
-### 08-29
-
-{% note default %}
-
-你没在期待的时候，美好的感情就到来。
-
-{% endnote %}
-
 ### 08-20
 
 {% note success %}
@@ -326,8 +350,6 @@ Bryce's grandfather says about Juli, "Some of us get dipped in flat, some in sat
 （关于感情）让情感的流动跟着你们彼此的了解加深，信任加深进行下去，而不是，你单一地就疯狂迷恋对方了。那样的情感是不理智，不成熟，也是会伤害到彼此的。
 
 {% endnote %}
-
-
 
 ## 5月
 
