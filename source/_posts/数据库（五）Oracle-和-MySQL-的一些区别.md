@@ -13,7 +13,7 @@ date: 2019-03-03 20:41:48
 
 ## 整数
 
-在 Oracle 中，数字统一使用 NUMBER ，NUMBER(6) 最大值为 999999 ，NUMBER(6,2) 最大值为 9999.99
+在 Oracle 中，数字统一使用 NUMBER(m) ，NUMBER(6) 最大值为 999999 ，NUMBER(6,2) 最大值为 9999.99，如果不指定m值，直接写 NUMBER，则默认为浮点数。
 
 在 MySQL 中，整数分为 tinyint、smallint、mediumint、int 和 bigint 五种，区别如下：
 
@@ -29,7 +29,13 @@ date: 2019-03-03 20:41:48
 
 ## 小数
 
-MySQL的小数用 FLOAT 或 DOUBLE，但可能会损失精度，推荐用 DECIMAL 。DECIMAL(6,2) 最大值为 9999.99
+MySQL的小数不建议用 FLOAT 或 DOUBLE，会损失精度，推荐用 DECIMAL 。DECIMAL(6,2) 最大值为 9999.99
+
+## 时间
+
+在 Oracle 中，DATE 精确到秒，获取当前时间用 sysdate
+
+在 MySQL 中，DATETIME 精确到秒，而 DATE 只精确到天，获取当前时间用 CURRENT_TIMESTAMP 或 NOW()
 
 ## 结果字符集
 
@@ -43,21 +49,81 @@ MySQL的小数用 FLOAT 或 DOUBLE，但可能会损失精度，推荐用 DECIMA
 
 在 MySQL 中，只有 VARCHAR， MySQL里可以用双引号包起字符串。
 
-# 函数
-
-## 连接字符串
-
-在 Oracle中，连接字符串用 `||`。 如  `'%'||'es'||'%'`，表示任意字符串连接lib再连接任意字符串（fresh）。
-
-在 MySQL 中，连接字符串用 concat 函数。如 `concat('%', 'es','%')`。
-
-# 其他
-
-## 空字符
+## NULL和空字符
 
 在 Oracle 中，只有 NULL 的概念，没有空字符。
 
 在 MySQL 中，有 NULL，也有空字符。
+
+## default
+
+创建表结构时，Oracle 允许 default+函数
+
+MySQL 不允许 default+函数（时间函数除外），因此 `default user()` 是会报错的，解决这一问题只能用触发器，但在开发规范里面触发器是禁止使用的，只能在应用层添加。
+
+# 函数
+
+## 连接字符串
+
+在 Oracle 中，连接字符串用 `||`。 如  `'%'||'es'||'%'`，表示任意字符串连接lib再连接任意字符串（fresh）。
+
+在 MySQL 中，连接字符串用 concat 函数。如 `concat('%', 'es','%')`。
+
+## 子串函数
+
+在 Oracle 中，子串用 `SUBSTR('abcd', 2, 2)`
+
+在 MySQL 中，子串用 `substring('abcd',2, 2)`
+
+## 插入函数
+
+待补充
+
+## 时间转char
+
+在 Oracle 中，用 `to_char(time, format)`：
+
+```sql
+SELECT to_char(sysdate, 'yyyy-mm-dd') from dual;
+SELECT to_char(sysdate, 'hh24-mi-ss') from dual;
+```
+
+在 MySQL 中，用 `date_format(time, format)` 或 `time_format(time, format)`
+
+```sql
+SELECT date_format(now(), '%Y-%m-%d');
+SELECT time_format(now(), '%H-%i-%S');
+```
+
+## char 转时间
+
+在 Oracle 中，用 `to_date(str,format)`：
+
+```sql
+SELECT to_date(`2019-3-6`, 'yyyy-mm-dd')
+```
+
+在 MySQL中， 用 `str_to_date(str,format)`：
+
+```sql
+SELECT str_to_date('2019-3-6', '%Y-%m-%d')
+```
+
+---
+
+# 其他
+
+## 获取当前用户
+
+在 Oracle 中，用 USER 获取当前用户
+
+在 MySQL 中，用 user() 获取当前用户
+
+## 常量
+
+在 Oracle 中，有 CONSTANT 关键字，声明一个常量
+
+在 MySQL中，没有常量的概念
 
 # DDL
 
