@@ -13,7 +13,7 @@ date: 2019-03-03 20:41:48
 
 ## 整数
 
-在 Oracle 中，数字统一使用 NUMBER(m) ，NUMBER(6) 最大值为 999999 ，NUMBER(6,2) 最大值为 9999.99，如果不指定m值，直接写 NUMBER，则默认为浮点数。
+在 Oracle 中，数字统一使用 NUMBER(m) ，NUMBER(6) 最大值为 999999 ，NUMBER(6,2) 最大值为 9999.99，如果不指定m值，直接写 NUMBER，则默认为浮点数，精度根据实际情况。
 
 在 MySQL 中，整数分为 tinyint、smallint、mediumint、int 和 bigint 五种，区别如下：
 
@@ -27,21 +27,26 @@ date: 2019-03-03 20:41:48
 
 > 在 MySQL 中，int(4) 表示 zerofill 为 4，实际上是可以插入大于 4 位的数值比如 12345，只不过，当不足 4 位的时候，在左边会填充 0 ，例如对于 int(4)， 插入 123，显示的是 0123， 对于 int(5)，插入 123，显示的是 00123。
 
+
+<!-- more -->
+
 ## 小数
 
 MySQL的小数不建议用 FLOAT 或 DOUBLE，会损失精度，推荐用 DECIMAL 。DECIMAL(6,2) 最大值为 9999.99
+
+Oracle NUMBER(6,2) 最大值为 9999.99
 
 ## 时间
 
 在 Oracle 中，DATE 精确到秒，获取当前时间用 sysdate
 
-在 MySQL 中，DATETIME 精确到秒，而 DATE 只精确到天，获取当前时间用 CURRENT_TIMESTAMP 或 NOW()
+在 MySQL 中，DATETIME 精确到秒，而 DATE 只精确到天，获取当前时间用 CURRENT_TIMESTAMP 或 NOW() 或 sysdate()
 
 ## 结果字符集
 
 在 Oracle 中，用 ROWNUM 筛选结果集。但 ROWNUM 是一个伪列，即先有结果集，然后再筛选。在一个20行记录的表中，当我们想查询表的第11-20行记录，输入`select rownum,c1 from t1 where rownum > 10`，我们会得不到任何结果，因为 Oracle 会先筛选出第一条，发现 不满足 > 10，于是排除，将第二条记录放到 1 的位置，发现还是 不满足 > 10，以此类推，20条记录都被推到第一的位置，都不满足 > 10 的条件。简而言之，rownum 条件要包含到 1，否则永远查不到结果。
 
-在 MySQL 中，用 LIMIT 筛选结果集， LIMIT(10)筛选前 10 条，LIMIT(30,10)，从第31条开始，取10条（即31-40行记录）。
+在 MySQL 中，用 LIMIT 筛选结果集， LIMIT(10)筛选前 10 条，LIMIT(31,10)，从第31条开始，取10条（即31-40行记录）。
 
 ## 字符串
 
@@ -88,7 +93,7 @@ SELECT to_char(sysdate, 'yyyy-mm-dd') from dual;
 SELECT to_char(sysdate, 'hh24-mi-ss') from dual;
 ```
 
-在 MySQL 中，用 `date_format(time, format)` 或 `time_format(time, format)`
+在 MySQL 中，用 `date_format(time, format)`（可表示年月日时分秒多种格式） 或 `time_format(time, format)`（只可表示时分秒）
 
 ```sql
 SELECT date_format(now(), '%Y-%m-%d');
@@ -108,6 +113,24 @@ SELECT to_date(`2019-3-6`, 'yyyy-mm-dd')
 ```sql
 SELECT str_to_date('2019-3-6', '%Y-%m-%d')
 ```
+
+## 时间截取
+
+Oracle
+trunc
+
+MySQL
+DATE_FORMAT
+
+trunc(sysdate) -> CURDATE()  
+
+## 数字截取
+
+Oracle
+trunc
+
+MySQL
+cast ?
 
 ---
 
