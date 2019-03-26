@@ -9,7 +9,7 @@ date: 2019-03-03 20:41:48
 
 团队最近正在计划将项目从 Oracle 数据库迁移到 MySQL，特此整理一份 Oracle 字段、函数、建表语句的差异。
 
-# 字段
+# 字段差异
 
 ## 整数
 
@@ -42,11 +42,13 @@ Oracle NUMBER(6,2) 最大值为 9999.99
 
 在 MySQL 中，DATETIME 精确到秒，而 DATE 只精确到天，获取当前时间用 CURRENT_TIMESTAMP 或 NOW() 或 sysdate()
 
+虽然差异很小，但是 CURRENT_TIMESTAMP 和 NOW() 取的是本次查询开始的时间，而 sysdate() 取的是执行到 sysdate() 语句时动态的实时时间。
+
 ## 结果字符集
 
 在 Oracle 中，用 ROWNUM 筛选结果集。但 ROWNUM 是一个伪列，即先有结果集，然后再筛选。在一个20行记录的表中，当我们想查询表的第11-20行记录，输入`select rownum,c1 from t1 where rownum > 10`，我们会得不到任何结果，因为 Oracle 会先筛选出第一条，发现 不满足 > 10，于是排除，将第二条记录放到 1 的位置，发现还是 不满足 > 10，以此类推，20条记录都被推到第一的位置，都不满足 > 10 的条件。简而言之，rownum 条件要包含到 1，否则永远查不到结果。
 
-在 MySQL 中，用 LIMIT 筛选结果集， LIMIT(10)筛选前 10 条，LIMIT(31,10)，从第31条开始，取10条（即31-40行记录）。
+在 MySQL 中，用 LIMIT 筛选结果集， LIMIT(10)筛选前 10 条，LIMIT(31,10)，从第 31 条开始，取 10 条（即31-40行记录）。
 
 ## 字符串
 
@@ -66,7 +68,9 @@ Oracle NUMBER(6,2) 最大值为 9999.99
 
 MySQL 不允许 default+函数（时间函数除外），因此 `default user()` 是会报错的，解决这一问题只能用触发器，但在开发规范里面触发器是禁止使用的，只能在应用层添加。
 
-# 函数
+---
+
+# 函数差异
 
 ## 连接字符串
 
@@ -79,10 +83,6 @@ MySQL 不允许 default+函数（时间函数除外），因此 `default user()`
 在 Oracle 中，子串用 `SUBSTR('abcd', 2, 2)`
 
 在 MySQL 中，子串用 `substring('abcd',2, 2)`
-
-## 插入函数
-
-待补充
 
 ## 时间转char
 
@@ -108,7 +108,7 @@ SELECT time_format(now(), '%H-%i-%S');
 SELECT to_date(`2019-3-6`, 'yyyy-mm-dd')
 ```
 
-在 MySQL中， 用 `str_to_date(str,format)`：
+在 MySQL 中， 用 `str_to_date(str,format)`：
 
 ```sql
 SELECT str_to_date('2019-3-6', '%Y-%m-%d')
@@ -116,21 +116,43 @@ SELECT str_to_date('2019-3-6', '%Y-%m-%d')
 
 ## 时间截取
 
-Oracle
-trunc
+在 Oracle 中，sysdate在当天的零时零分零秒等于 `trunc(sysdate)` ， trunc 函数用来截取时间。
 
-MySQL
-DATE_FORMAT
+```sql
+# 当年的第一天
+trunc(sysdate, 'yy')
 
-trunc(sysdate) -> CURDATE()  
+# 当月的第一天
+trunc(sysdate, 'mm')
 
-## 数字截取
+# 本周的第一天（周日）
+trunc(sysdate, 'd')
 
-Oracle
-trunc
+# 当天（零时零分零秒）
+trunc(sysdate)
+```
 
-MySQL
-cast ?
+在 MySQL 中，只能用 DATE_FORMAT 函数来格式化时间。
+
+```sql
+SELECT date_format(now(), '%Y-%m-%d');
+```
+
+不过，如果要取当天，Oracle 里的 trunc(sysdate) 在 MySQL 可以直接写成 CURDATE()
+
+# 日期相加
+
+在 Oracle 中，当前时间的三个月后，写法为：
+
+```sql
+add_months(sysdate, 3)
+```
+
+在 MySQL 中，写法为：
+
+```sql
+date_add(now(), INTERVAL 3 montn)
+```
 
 ---
 
@@ -138,16 +160,55 @@ cast ?
 
 ## 获取当前用户
 
-在 Oracle 中，用 USER 获取当前用户
+在 Oracle 中，用 USER 获取当前数据库连接用户
 
-在 MySQL 中，用 user() 获取当前用户
+在 MySQL 中，用 user() 获取当前数据库连接用户
 
 ## 常量
 
 在 Oracle 中，有 CONSTANT 关键字，声明一个常量
 
-在 MySQL中，没有常量的概念
+在 MySQL 中，没有常量的概念
 
-# DDL
+## 约束
 
-未完待续
+在 Oracle 中，可以使用 check 约束某些值的范围，如 Y N
+
+在 MySQL 中，可以使用 check 约束，但没有任何效果，因为 MySQL 底层没有实现。一般这种检查在应用层做。
+
+## 计列
+
+在 Oracle 中，有时候用
+
+```sql
+SELECT rownum num FROM table
+```
+
+这样的语法来增加一行辅助列，并在后面 WHERE 用于限制结果集和分页。但在 MySQL 中，直接用 `LIMIT` 即可。
+
+当 MySQL 确实需要辅助计数列时，可以用以下语法
+
+```sql
+SELECT @rownum := @rownum +1 num
+FROM table t, (SELECT @rownum:=0) tt
+```
+
+## 左右连接
+
+在 Oracle 中，有时候会遇到
+
+```sql
+FROM table_a a,
+     table_b b,
+WHERE a.series = b.code(+)
+```
+
+实际上这是左右连接的特殊写法
+
+(+)符号放在非主表，上面的例子是左连接，在 MySQL 中只能用 JOIN 
+
+```sql
+FROM table_a a
+LEFT JOIN table_b b
+ON a.series = b.code
+```

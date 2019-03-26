@@ -1,5 +1,5 @@
 ---
-title: Spring（一）从 传统Java Web到SpirngBoot
+title: Spring（一）从传统Java Web到SpirngBoot
 comments: true
 categories: Java Web
 tags:
@@ -9,33 +9,33 @@ abbrlink: 6200df85
 date: 2018-04-15 00:19:08
 ---
 
-# 从 MVC 结构到框架
+# 从 MVC 结构到 Web 框架
+
+Java Web 技术日新月异，如今，我们开发 Java Web 项目都是靠框架快速搭建。然而，为什么需要框架？还得从传统的 MVC 结构说起。
 
 ## 传统 Model-View-Controller 架构
 
-在谈[Spring](https://spring.io/) 和 [SpringBoot](https://projects.spring.io/spring-boot/) 之前，先来看看典型的Java Web应用架构以及框架的来源：
+典型的Java Web应用架构如下：
 
 ![MVC](../../../../images/Webapp/MVC.jpg)
 
-1. Web浏览器发送HTTP请求到服务端，被Controller(Servlet)获取并进行处理（例如参数解析、请求转发）
-2. Controller 调用核心业务逻辑——Model部分
-3. Model进行数据库存取操作，并将操作结果返回
-4. Controller 将业务逻辑处理结果交给View（JSP），动态输出HTML内容
-5. 动态生成的HTML内容返回到浏览器显示
+1. 浏览器发送 HTTP 请求到服务端，被 Controller(Servlet) 获取并进行处理（参数解析、请求转发）
+2. Controller 调用核心业务逻辑 —— Model
+3. Model 进行数据库存取操作，并将操作结果返回
+4. Controller 将业务逻辑处理结果交给View（JSP），动态输出 HTML 内容
+5. 动态生成的 HTML 内容返回到浏览器显示
 
-我们可以把 Servlet 中经常要实现的功能封装起来并提供一层公共抽象，这样我们只要编写简单的POJO代码或者实现一些接口，就能完成复杂的Web请求后端逻辑。
+## 封装 Servlet
+
+在这个过程中，我们要操作 Servlet 写大量的功能代码，为了简化，我们可以把 Servlet 中经常要实现的功能封装起来并提供一层公共抽象，这样我们只要编写简单的 POJO 代码或者实现一些接口，就能完成复杂的 Web 请求的后端逻辑处理。 Spring MVC 就是这样的一个框架。它提供了一个DispacherServlet，我们只需实现 Spring MVC 提供的接口就可以完成复杂的操作，而不用写大量的 Servlet 代码。
 
 <!--more-->
 
-> POJO是Plain Old Java Object的缩写，是软件开发大师Martin Fowler提出的一个概念，指的是一个普通Java类。也就说，你随便编写一个Java类，就可以称之为POJO。之所以要提出这样一个专门的术语，是为了与基于重量级开发框架的代码相区分，比如EJB，我们编写的类一般都要求符合特定编码规范，实现特定接口、继承特定基类，而POJO则可以说是百无禁忌，灵活方便。
+## 封装 JDBC
 
-`Spring MVC`就是这样的一个框架。它提供了一个DispacherServlet（Spring MVC是以Servlet技术为基础的），我们只需实现Spring MVC提供的接口就可以完成复杂的操作。
-
-同理，我们可以对数据库操作也做一个封装，在 [Java JDBC 编程](https://jerrysheh.github.io/post/f07211ef.html) 中提到可以将对象和关系数据库进行映射，从而把操作数据库变成操作Java对象。这就是大名鼎鼎的 ORM 技术了。
+同理，操作数据库时要写很多 JDBC 样板代码，为什么不对数据库操作也做一个封装呢？在 [Java JDBC 编程](https://jerrysheh.github.io/post/f07211ef.html) 中提到，可以将对象和关系数据库进行映射，从而把操作数据库变成操作 Java 对象，这就是大名鼎鼎的 ORM（对象关系映射）技术了。Hibernate 和 MyBatis 就是这样的 ORM 框架。
 
 ![MVC](../../../../images/Webapp/MVC2.jpg)
-
-`Hibernate` 和 `MyBatis` 就是这样的 ORM 框架。
 
 ---
 
@@ -45,33 +45,25 @@ date: 2018-04-15 00:19:08
 
 ## 简介
 
-前面提到`Spring MVC`是Java Web开发中对Servlet进行封装的框架。实际上，Spring是一个大家族，它是一个轻量级的 DI / IoC 和 AOP 容器的开源框架，来源于 Rod Johnson 在其著作《Expert one on one J2EE design and development》中阐述的部分理念和原型。
+前面提到 Spring MVC 是 Java Web 开发中对 Servlet 进行封装的框架，专注于简化 Web MVC 开发流程。实际上，Spring 是一个大家族，它是一个轻量级的 DI / IoC 和 AOP 容器的开源框架，来源于 Rod Johnson 在其著作《Expert one on one J2EE design and development》中阐述的部分理念和原型。
 
 Spring Framework包括以下几大部分：
 
 ![Framework](../../../../images/Webapp/SpringFramework.png)
 
-- **Data Access/Integration** : 包含有JDBC、ORM、OXM、JMS和Transaction模块。
-- **Web**：包含了Web、Web-Servlet、WebSocket、Web-Porlet模块。
-- **AOP模块**：提供了一个符合AOP联盟标准的面向切面编程的实现。
-- **Core Container(核心容器)**：包含有Beans、Core、Context和SpEL模块。
-- **Test模块**：支持使用JUnit和TestNG对Spring组件进行测试。
-
-但是在学习这些前，有必要先弄清楚 Spring 最核心的两个概念：`IoC` 和 `AOP`。
+在学习这些之前，得先了解 Spring 最核心的两个概念：IoC 和 AOP。
 
 ## IoC （Inversion of Control，反转控制）
 
 反转控制其实是一种依赖倒置原则的设计思想。也就是让底层依赖上层。具体的做法就是使用 `DI （依赖注入，Dependency Inject）`，DI把底层类作为参数传给上层，实现上层对下层的控制。
 
-对于软件来说，某一接口的实现类的选择控制权从调用类中移除，转交由第三方决定，这就是反转控制。
-
-使用DI的一个好处是，让互相协作的软件组件保持松耦合。
+**对于软件来说，某一接口的实现类的选择控制权从调用类中移除，转交由第三方决定，这就是反转控制**。使用DI的一个好处是，让互相协作的软件组件保持松耦合。
 
 ### 反转控制容器
 
 采用依赖倒置原则的设计之后，会产生一个问题，假设我们要调用一个上层，由于上层需要接受下层作为参数，我们必须在构造上层前构造下层，这样我们的代码中就会写很多 new 。
 
-例如，service 是一个上层服务， mapper 是底层数据库交互。 如果一个 service 要调用多个 mapper 进行处理，就要写很多 new。不仅如此，由于 service 具有通用性，每一次用户请求到达服务器，都会调用 service，这时候重复 new 了非常多的 mapper，造成资源浪费。
+例如，service 是一个上层服务， mapper 是底层数据库交互。如果一个 service 要调用多个 mapper 进行处理，就要 new 很多不同的 mapper 实例。不仅如此，由于 service 具有通用性，每一次用户请求到达服务器，都会调用 service，这时候重复 new 了非常多功能相同的 mapper 实例，造成服务器资源浪费。
 
 ```java
 public service(){
@@ -82,9 +74,9 @@ public service(){
 }
 ```
 
-**反转控制容器（IoC Container）** 就说解决这一问题的。这个容器可以自动对我们的代码进行初始化，而我们要做的，只是维护一个 Configuration， 具体到 Spring 中，我们可以通过 xml 配置、 @ 注解 或 Java配置（推荐）的方式让 Spring 帮我们注入对象(Spring 容器通过 `bean 工厂` 和 `应用上下文` 两种类型来实现)，我们得到对象后直接就可以使用，而不需要了解注入过程层层依赖的细节。
+于是，我们想到能不能用一个工具，把这些实例都统一管理起来，当某个上层需要调用某个下层，就通过依赖注入的方式，把这个下层对象传递给上层。**反转控制容器（IoC Container）就是这样的工具**。这个容器可以自动对我们的代码进行初始化，而我们要做的，只是维护一个 Configuration， 具体到 Spring 中，我们可以通过 xml 配置、 注解 或 JavaConfig（推荐）的方式让 Spring 帮我们注入对象(Spring 容器通过 beanFactory 和 ApplicationContext 两种类型来实现)，我们得到对象后直接就可以使用，而不需要了解注入过程层层依赖的细节。
 
-这样，调用类对接口实现类的依赖关系变成了由第三方（容器或协作类）注入。其中，<font color="red">注入包括构造函数注入、Setter注入、接口注入。</font>
+这样，调用类对接口实现类的依赖关系变成了由第三方（容器）注入。在 Spring 中，注入包括构造函数注入、Setter注入、接口注入。
 
 ```java
 // 使用注解注入 mapper
@@ -108,11 +100,11 @@ public service(){
 
 如果我们自己来实现这个依赖注入的功能，我们怎么来做？无外乎：
 
-1. 读取标注或者配置文件，看看 bean 依赖的是哪个Source，拿到类名
-2. 使用反射的API，基于类名实例化对应的对象实例
+1. 读取标注或者配置文件，看看 bean 依赖的是哪个 Source，拿到类名
+2. 使用反射 API，基于类名实例化对应的对象实例
 3. 将对象实例，通过构造函数或者 setter，传递给 bean
 
-我们发现其实自己来实现也不是很难，Spring实际也就是这么做的。这么看的话其实IoC就是一个工厂模式的升级版！当然要做一个成熟的IoC框架，还是非常多细致的工作要做，Spring不仅提供了一个已经成为业界标准的Java IoC框架，还提供了更多强大的功能。
+我们发现其实自己来实现也不是很难，Spring 实际也就是这么做的。IoC 就是一个工厂模式的升级版！当然，要做一个成熟的IoC框架，还是非常多细致的工作要做，Spring 不仅提供了一个已经成为业界标准的 Java IoC 框架，还提供了更多强大的功能。
 
 参考：
 - [知乎:Spring IoC有什么好处呢？
@@ -122,13 +114,31 @@ public service(){
 
 ## AOP（Aspect Oriented Program，面向切面编程）
 
-在面向切面编程的思想里面，把功能分为 **核心业务功能** 和 **周边功能**。
+在面向切面编程的思想里面，把功能分为 **核心业务功能** 和 **周边功能**。所谓核心业务，包括登录，增加数据，删除数据等。所谓周边功能，包括性能统计，安全，日志，事务管理等等。
 
-所谓核心业务，包括登录，增加数据，删除数据等。所谓的周边功能，包括性能统计，日志，事务管理等等。
+在登录功能中，需要输出日志，增加数据、删除数据也都需要输出日志。于是，我们的代码可能就会变成：
 
-<font color="red"> 周边功能在Spring的面向切面编程AOP思想里，即被定义为切面。</font>
+```java
+public void login(){
 
-我们可以对核心业务功能和切面功能分别独立进行开发，然后把切面功能和核心业务功能 "编织" 在一起，这就叫 AOP。同样，“编织”的方式可以是 xml 或者 注解。
+  logger.info("before log..")
+  // login
+  // ...
+  logger.info("after log..")
+}
+
+public void insertData(){
+
+  logger.info("before log..")
+  // insert
+  // ...
+  logger.info("after log..")
+}
+```
+
+这些日志输出，真的是 login() 方法和 insertData() 方法需要做的事情吗？就像我们每个月用了多少电一样，难道要我们用户自己来记录用电量吗？这应该是电力公司该做的事情！
+
+于是，AOP 出现了。我们可以对核心业务功能和切面功能分别独立进行开发，然后把切面功能和核心业务功能 "编织" 在一起，这就叫 AOP。在 Spring AOP 中，“编织”的方式可以是 xml 或者 注解。周边功能在 Spring 的面向切面编程 AOP 思想里，即被定义为切面。
 
 AOP 的好处是允许我们把遍布应用各处的功能分离出来形成可重用的组件。
 
@@ -236,6 +246,7 @@ public class HelloController {
 
 直接运行， 访问`127.0.0.1:8080`， 竟然已经能看到 Hello World 了，我们还没有进行 project structure 以及 Tomcat 配置呢 ？ 事实上， Spring Boot 已经内置了这些配置，拿来即用。
 
+注解：
 - `@RestController` 注解是 `@Controller` 和 `@ResponseBody` 的合体
 - `@SpringBootApplication` 是 Spring Boot 的核心注解，它是一个组合注解，该注解组合了：`@Configuration`、`@EnableAutoConfiguration`、`@ComponentScan`
 

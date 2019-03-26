@@ -33,8 +33,8 @@ Person p2 = p;
 
 在一个类中，可能存在：
 
-- **静态块**：用static申明，JVM加载类时执行，仅执行一次（**注意**：如果在静态块中声明了变量，如 `int a = 1;`, 它是一个局部变量，在该静态块执行结束后就会失效）
-- **构造块**：类中直接用{}定义，每一次创建对象时执行
+- **静态块**：用 static{ } 声明，JVM 加载类时执行，仅执行一次（**注意**：如果在静态块中声明了变量，如 `int a = 1;`, 它是一个局部变量，在该静态块执行结束后就会失效）
+- **构造块**：类中直接用 { } 定义，每一次创建对象时执行
 
 在有继承关系的类中，加载顺序如下：
 1. 父类静态块
@@ -44,7 +44,7 @@ Person p2 = p;
 5. 子类构造块
 6. 子类构造方法
 
-注意：如果 main 在该类下，JVM先加载类，然后才会执行 main() 方法
+注意：如果 main 在该类下，JVM 先加载类，然后才会执行 main() 方法
 
 ## 示例一
 
@@ -130,7 +130,7 @@ blockB
 blockA
 ```
 
-JVM加载Go类时（只会加载一次），第一行 new 一个新的 Go 对象，new 的时候调用了构造快，因此输出 `blockA`，之后，Go类继续加载，执行静态块，输出 `blockB`。
+JVM 加载 Go类 时（只会加载一次），第一行 new 一个新的 Go 对象，new 的时候调用了构造快，因此输出 `blockA`，之后，Go类继续加载，执行静态块，输出 `blockB`。
 
 然后 main 方法执行，new 一个 Go，调用构造块，再次输出`blockA`。
 
@@ -147,11 +147,11 @@ JVM加载Go类时（只会加载一次），第一行 new 一个新的 Go 对象
 
 封装不仅仅是 private + getter/setter ，使用封装可以对 setter 进行更深层次的定制，例如你可以对执行方法的对象做规定，也可以对数据做一定的要求，还可以做类型转换等等。
 
-封装还有一个重要的意义，那就是我们可以对程序的正确性进行分析，并且将无意中破坏设计约束的条件变得更难。（Java并发编程实战p33）
-
 ### 为什么要使用封装？
 
 使用封装不仅仅安全，更可以简化操作。
+
+封装还有一个重要的意义，那就是我们可以对程序的正确性进行分析，并且将无意中破坏设计约束的条件变得更难。（《Java并发编程实战》p33）
 
 ## 继承
 
@@ -173,12 +173,12 @@ JVM加载Go类时（只会加载一次），第一行 new 一个新的 Go 对象
 
 ### 多态的例子
 
-例如有 Cat 类继承了 Animal 类 ，并重写了 `eat()`、`sleep()` 方法(sleep是静态方法)，并增加了一个 Animal 没有的 `CatchMouse()` 方法。
+例如有 Cat 类继承了 Animal 类 ，并重写了 `eat()`、`sleep()` 方法(sleep是静态方法，不属于重写，但我们假设 Cat类 也定义了这个方法)，并增加了一个 Animal 没有的 `CatchMouse()` 方法。
 
-然后在测试类中实例化：
+在测试类中实例化：
 
 ```java
-// 这个语句在堆内存中开辟了子类(Cat)的对象，并把栈内存中的父类(Animal)的引用指向了这个Cat对象
+// 这个语句在堆内存中开辟了子类(Cat)的对象，并把栈内存中的父类(Animal)引用指向了这个 Cat 对象
 Animal am = new Cat();
 
 //调用实例方法，调的是 Cat 的方法
@@ -192,7 +192,7 @@ Animal.sleep(); // 建议
 
 可以发现，实例方法 `am.eat()` 输出的是 Cat 类重写后的方法，而静态方法`am.sleep()` 输出的是 Animal 类的方法（尽管 Cat 也写了同名的 sleep 方法，但这不算 Override，运行时不被识别）
 
-**引申**：有趣的是，当我们用对象实例去调用静态方法，如`am.sleep();`，IDEA会给我们一个提示：Static member 'Test.Animal.sleep()' accessed via instance reference 。意思是说，建议我们使用 `Animal.sleep()` 来调用静态方法而不要用 `am.sleep()`。此外，使用静态变量也应如此。
+**扩展**：有趣的是，当我们用对象实例去调用静态方法，如`am.sleep();`，IDEA会给我们一个提示：Static member 'Test.Animal.sleep()' accessed via instance reference 。意思是说，建议我们使用 `Animal.sleep()` 来调用静态方法而不要用 `am.sleep()`。此外，使用静态变量也应如此。
 
 ### 多态的弊端
 
@@ -240,7 +240,7 @@ if (am instanceof Cat) {
 
 ##  Mutator 方法 和 Accessor 方法
 
-如果一个方法改变了调用它的对象，我们就说这是一个`Mutator`方法（更改器），反之如果不改变调用自己的对象，它就是`Accessor`方法 （访问器）。比如plusDays方法如果改变Date对象的状态，不返回结果，就是`Mutator`方法，如果plusDays不改变Date对象而是返回一个新构造的LocalDate对象，就是`Accessor`方法。
+如果一个方法改变了调用它的对象，我们就说这是一个`Mutator`方法（更改器），反之如果不改变调用自己的对象，它就是`Accessor`方法 （访问器）。比如 plusDays 方法如果改变 Date对象 的状态，不返回结果，就是`Mutator`方法，如果 plusDays 不改变 Date对象，而是返回一个新构造的 LocalDate对象，就是`Accessor`方法。
 
 ## 其他
 
@@ -279,7 +279,7 @@ public class Main {
 
 ## 用于表示实例变量
 
- 在对象上调用方法时，this引用指向该对象。this清晰地区分了局部变量和实例变量。带有this的是实例对象。
+在对象上调用方法时，this引用 指向该对象。this 清晰地区分了局部变量和实例变量。带有this的是实例对象。
 
 ```Java
 public void raiseSalary(double byPercent){
@@ -298,12 +298,13 @@ public void setSalary(double salary){
 
 ## 用于构造函数
 
-一个类可以有多个构造函数，一个构造函数可以调用另一个构造函数，用this。且只能写在第一行。
+一个类可以有多个构造函数。一个构造函数可以调用另一个构造函数，用this。且只能写在第一行。
 
 ```java
 public Employee (double salary){
+    // 调用另一个构造器
     this("", salary);
-    //...
+    // ...
 }
 ```
 
@@ -577,7 +578,7 @@ public com.jerrysheh.Outter$Inner(com.jerrysheh.Outter);
 
 但是复制过后会产生不一致的问题，也就是内部类的方法修改了 a ， 但是外部类的 a 没有改变。
 
-因此，Java 规定，只能访问 fianl ，以避免上述问题。
+因此，Java 规定，只能访问 final ，以避免上述问题。
 
 > 引申: Java是如何复制的 ？ 如果局部变量的值在编译期间就可以确定，则直接在匿名内部里面创建一个拷贝。如果局部变量的值无法在编译期间确定，则通过构造器传参的方式来对拷贝进行初始化赋值。
 

@@ -100,3 +100,25 @@ BeanFactory在启动的时候不会实例化Bean，getBean()的时候才会实�
 # 13. 什么是REST
 
 REST（Representational State Transfer）省略了主语 Resource，翻译成中文是：资源表述性状态转移。简单地说，就是用 URI 来定位资源，用 http 方法（GET、POST、DELETE、PUT等动词）来表示行为，用 http 状态码来表示结果。
+
+---
+
+# 14. AOP底层怎么实现？两种代理有什么区别？
+
+todo
+
+---
+
+# 15. SpringMVC启动会加装几种容器？他们的关系是怎样的？
+
+todo
+
+---
+
+# 16. SpringMVC 如何知道要加装的 Spring 配置在哪里？
+
+todo
+
+---
+
+# 17. 

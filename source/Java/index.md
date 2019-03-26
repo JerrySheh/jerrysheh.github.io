@@ -138,7 +138,7 @@ String 的 eauals 过程？
 
 但是复制过后会产生不一致的问题，也就是内部类的方法修改了 a ， 但是外部类的 a 没有改变。
 
-因此，Java 规定，只能访问 fianl ，以避免上述问题。
+因此，Java 规定，只能访问 final ，以避免上述问题。
 
 # 15. 接口中的方法有哪些修饰符？
 
@@ -216,10 +216,35 @@ table大小变为原来的两倍，也就是2的n次方变为2的n+1次方。之
 
 因为要保证table的长度为 2^n， 为什么 table 的长度要为 2^n ？ 因为这样可以均匀分布减少碰撞。计算 hash 的时候，hash值要跟 table长度-1 进行与操作, table长度为 2^n，也就是二进制100000， 2^n -1 也就是二进制 11111， 跟1与更不容易碰撞。
 
-# 22. HashMap 的 key 有什么要求？
+# 22. HashMap 的 key 有什么要求？key 可不可以为 null ？
 
 1. 最好不要用可变对象。如果一定要是可变对象，也要保证 hashcode 方法的结果不会变。因为 HashMap 的 get 方法是会去判断 hashcode 值，如果 hash 值变了，有可能就取不到。
 2. 使用不可变对象是明智的。
+
+## key 可不可以为 null，为 null 时怎么存储 ？
+
+可以。上源码。在 talbe[0] 链表中查找 key 为 null 的元素，如果找到，则将 value 重新赋值给这个元素的 value，并返回原来的value。
+
+如果上面for循环没找到则将这个元素添加到 talbe[0] 链表的表头。
+
+```java
+if (key == null)  
+    return putForNullKey(value);  
+
+private V putForNullKey(V value) {  
+    for (Entry<K,V> e = table[0]; e != null; e = e.next) {  
+        if (e.key == null) {  
+            V oldValue = e.value;  
+            e.value = value;  
+            e.recordAccess(this);  
+            return oldValue;  
+        }  
+    }  
+    modCount++;  
+    addEntry(0, null, value, 0);  
+    return null;  
+}
+```
 
 # 23. ArrayList 和 LinkedList 的区别 ？
 
@@ -496,6 +521,15 @@ static 只能用来修饰类的成员，所以顶级类不能用 static 修饰�
 
 concurrentHashMap是线程安全的 hashmap 。在 jdk 1.7 采用分段锁保证线程安全和并发性能。但在 jdk 1.8 中改用 CAS + synchronized 控制。ConcurrentHashMap 迭代时不会抛出 `ConcurrentModificationException`，是 fail-safe 的。
 
+## concurrentHashMap 的 key 能否为 null ？
+
+不能。因为当我们去 get(key) 的时候，无法判断是这个 key 没有做过映射，还是之前 put(key) 时 value 就是为 null。
+
+### 那为什么 HashMap 的 key 可以为 null？
+
+因为 HashMap 不是为多线程设计的，可以用 contains(key) 来判断 key 是否做过映射。而 concurrentHashMap 因为支持并发，在调用
+m.contains(key) 和 m.get(key) 时， m 的值可能被别的线程修改了。
+
 ---
 
 # 59. HashSet 的底层原理
@@ -532,3 +566,9 @@ private static final Object PRESENT = new Object();
 ---
 
 # 63. Java 线程池submit和execute 的区别？
+
+todo
+
+---
+
+# 64.

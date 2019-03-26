@@ -184,7 +184,7 @@ public interface IntSequence {
 
 ### 解决冲突
 
-* 如果一个类实现了两个接口，其中一个接口有默认方法，另一个接口有同名同参数的方法（默认或非默认），那么编译器会报错。可以用`父类.super.方法()`来决定要执行哪个方法。
+- 如果一个类实现了两个接口，其中一个接口有默认方法，另一个接口有同名同参数的方法（默认或非默认），那么编译器会报错。可以用`父类.super.方法()`来决定要执行哪个方法。
 
 ```Java
 //返回 Identified 接口的 getID，而不是 Persons 接口的
@@ -206,9 +206,7 @@ strictfp, 即 strict float point (精确浮点)，这个用得比较少，暂时
 
 ## Comparable接口
 
-如果一个类想启用对象排序，它应该实现Comparable接口。
-
-Comparable接口的一个技术要点：
+如果一个类想启用对象排序，它应该实现 Comparable 接口。
 
 ```Java
 public interface Comparable<T> {
@@ -216,7 +214,7 @@ public interface Comparable<T> {
 }
 ```
 
-String类实现`Comparable<String>`，它的compareTo方法是
+String类实现`Comparable<String>`，它的 compareTo 方法是
 
 ```Java
 int compareTo(String other)
