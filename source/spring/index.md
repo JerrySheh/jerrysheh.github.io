@@ -49,7 +49,7 @@ Spring Cloud是一套分布式服务治理的框架。可以理解成是一个�
 
 Spring Cloud + Spring Boot 非常适合做微服务架构，Boot的轻量级适合开发单个微服务，多个服务再统一在 Cloud 中注册。
 
-# 8. BeanFactory和ApplicationContext的区别
+# 8. BeanFactory 和 ApplicationContext 的区别
 
 一般称 BeanFactory 为 IoC 容器，而 ApplicationContext 为应用上下文。
 
@@ -57,9 +57,17 @@ BeanFactory 是解析、管理、实例化所有容器的 Bean 的入口，**面
 
 ApplicationContext **面向框架的开发者**，提供国际化支持、统一的资源文件读取方式、框架事件体系等。
 
-BeanFactory在启动的时候不会实例化Bean，getBean()的时候才会实例化。ApplicationContext在解析配置文件时会对配置文件所有对象都初始化。
+BeanFactory 在启动的时候不会实例化Bean，getBean() 的时候才会实例化。ApplicationContext在解析配置文件时会对配置文件所有对象都初始化（默认情况下）。
 
-# 9. Spring Bean的5种作用域
+# 9. Spring Bean的5种作用域(Scope)
+
+在 applicationContext.xml 中声明 scope:
+
+```xml
+<bean
+  id="hello" scope="singleton" class="io.jerrysheh.Hello">
+</bean>
+```
 
 1. **singleton**: 是 Spring Bean 的默认配置，这个 Bean 在 Spring 容器是 单例 的。
 2. **prototype**: 和 singleton 相反，为每个 Bean 请求提供一个 Bean 实例
@@ -78,6 +86,7 @@ BeanFactory在启动的时候不会实例化Bean，getBean()的时候才会实�
 5. **autodetect**：先尝试以 constructor 的方法进行装配，失败后 byType 进行装配
 
 # 11. SpringMVC处理请求的流程
+
 1. 用户发送请求，被DispatcherServlet拦截，DispatcherServlet收到请求之后自己不处理，而是交给其他的Handler进行处理
 2. DispatcherServlet初始化HandlerMapping，HandlerMapping会把请求映射成一个HandlerExecutionChain对象，这个对象包括一个Handler和多个Interceptor，然后把这个Handler适配成HandlerAdapter
 3. DispatcherServlet传过来的请求会和HandlerAdapter进行适配，先要进行一些数据转换，然后调用HandlerAdapter的handle()，返回一个ModelAndView对象
@@ -121,4 +130,61 @@ todo
 
 ---
 
-# 17. 
+# 17. Spring 容器创建对象的时机
+
+默认情况下，当我们启动 Spring applicationContext 时：
+
+```java
+ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+```
+
+applicationContext 会去寻找 applicationContext.xml 配置文件，里面有许多 <bean> 的定义，遇到 <bean> 时就创建对象。
+
+当我们给 bean 加上 `lazy-init="true"` 属性
+
+```xml
+<bean
+  id="hello" lazy-init="true" class="io.jerrysheh.Hello">
+</bean>
+```
+
+则在应用中，遇到 getBean 时才创建。
+
+```java
+Hello h = (Hello) context.getBean("hello");
+```
+
+---
+
+# 18. AutoWired 自动装配如果有多个符合的bean
+
+在 Service 层自动注入一个 Dao，通常：
+```java
+@Service
+public class PersonService{
+
+  @AutoWired
+  private PersonDao personDao;
+
+}
+```
+
+如果 PersonDao 有多个实现如何解决？
+
+第一种方法，改名字，改为实现类的名字。
+
+```java
+    @AutoWired
+    private PersonDao personMysqlDaoImpl;
+
+    @AutoWired
+    private PersonDao personOracleDaoImpl;
+```
+
+第二种方法，配合 `@Qualifier` 注解
+
+```java
+    @AutoWired
+    @Qualifier("personMysqlDaoImpl")
+    private PersonDao personDao;
+```

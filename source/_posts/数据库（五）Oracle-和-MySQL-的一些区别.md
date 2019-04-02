@@ -205,10 +205,42 @@ WHERE a.series = b.code(+)
 
 实际上这是左右连接的特殊写法
 
-(+)符号放在非主表，上面的例子是左连接，在 MySQL 中只能用 JOIN 
+(+)符号放在非主表，上面的例子是左连接，在 MySQL 中只能用 JOIN
 
 ```sql
 FROM table_a a
 LEFT JOIN table_b b
 ON a.series = b.code
+```
+
+## 更新或插入
+
+某些列值存在时则更新，不存在时则插入一条新记录。在 Oracle 中，用 `MERGE INTO` 语法。
+
+```sql
+MERGE INTO table
+USING dual
+ON ( .. = ..)
+WHEN MATCHED THEN
+...
+WHEN NOT MATCHED THEN
+...
+```
+
+在 MySQL 中，可以用 `REPLACE INTO`，但主键冲突或唯一索引冲突时，会删除原有数据，再插入。 或者用 `INSERT INTO ON DUPLICATE KEY UPDATE` ，在主键冲突或唯一索引冲突时更新原数据，否则插入。
+
+```sql
+INSERT INTO table
+(
+  ...,
+  ...,
+)
+VALUES
+(
+  ...,
+  ...,
+)
+ON DUPLICATE KEY UPDATE
+column1 = v1,
+column2 = v2
 ```

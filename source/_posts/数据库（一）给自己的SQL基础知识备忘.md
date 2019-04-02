@@ -682,7 +682,7 @@ ADD column_name datatype
 
 ---
 
-# 实战
+# 实战一
 
 有两张表，学生表和成绩表。
 
@@ -724,4 +724,29 @@ FROM student AS s
 JOIN grade AS g
 ON s.number = g.number
 GROUP BY s.name
+```
+
+---
+
+# 实战二
+
+查找表中多余的重复记录，重复记录是根据单个字段（peopleId）来判断
+
+```sql
+SELECT * FROM people
+WHERE peopleId IN (SELECT  peopleId  FROM  people  GROUP  BY      
+                  peopleId  HAVING  count(peopleId) > 1)
+```
+
+---
+
+# 实战三
+
+JOIN 两张表，右表只取一条记录
+
+```sql
+SELECT a.name b.num
+FROM lefttable as a
+JOIN (SELECT num FROM righttable GROUP BY num) as b
+ON a.name = b.num
 ```
