@@ -10,7 +10,9 @@ date: 2018-01-25 14:52:06
 
 # Activity
 
-Activity 是用户可以执行的单一任务。Activity 负责创建新的窗口供应用绘制和从系统中接收事件。Activity 是用 Java 编写的，扩展自 Activity 类。
+Activity 是用户可以执行的单一任务。负责创建新的窗口，供应用绘制和从系统中接收事件。
+
+Activity 是用 Java 编写的，扩展自 Activity 类。
 
 Activity 会创建视图来向用户显示信息，并使用户与 Activity 互动。视图是 Android UI 框架中的类。它们占据了屏幕上的方形区域，负责绘制并处理事件。Activity 通过读取 XML 布局文件确定要创建哪些视图（并放在何处）。这些 XML 文件存储在标记为 layouts 的 res 文件夹内。
 
@@ -263,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
 
 在上一篇中提到，`setContentView(R.layout.activity_main)`表示 java 引用了 activity_main.xml 这个xml资源。
 
-可以 res/value/string 中声明一些资源文件，如
+可以在 res/value/string 中声明一些资源文件，如
 
 ```xml
 <resources>
