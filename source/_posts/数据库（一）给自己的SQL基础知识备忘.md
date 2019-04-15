@@ -111,20 +111,20 @@ bind-address = 127.0.0.1
 
 ## 方法1： 用SET PASSWORD命令
 
-```sql
+```
 MySQL -u root
 mysql> SET PASSWORD FOR 'root'@'localhost' = PASSWORD('newpass');
 ```
 
 ## 方法2：用mysqladmin
 
-```sql
+```
 mysqladmin -u root password "newpass"
 ```
 
 如果root已经设置过密码，采用如下方法
 
-```sql
+```
 mysqladmin -u root password oldpass "newpass"
 ```
 
@@ -136,13 +136,13 @@ mysqladmin -u root password oldpass "newpass"
 
 方法一：直接通过 mysql 命令运行
 
-```sql
+```
 mysql -u root -p123456 --port 3306 < /home/jerrysheh/projectDB.sql
 ```
 
 方法二：登录 mysql 后使用 source 命令
 
-```sql
+```
 mysql>create database <database-name>;
 mysql>use <database-name>;
 mysql>source /home/jerrysheh/projectDB.sql;
@@ -200,6 +200,18 @@ SELECT LastName,Address FROM Persons
 
 ```SQL
 SELECT DISTINCT column FROM table
+```
+
+多列 DISTINCT
+
+```SQL
+SELECT DISTINCT column1, column2, column3 FROM table
+```
+
+这里的 DISTINCT 是 column1, column2, column3 组合起来的去重，相当于：
+
+```sql
+SELECT column1, column2, column3 FROM table group by column1, column2, column3
 ```
 
 ---
@@ -323,7 +335,7 @@ DELETE * FROM table
 
 ---
 
-## TOP
+## TOP / LIMIT
 
 显示前多少条
 
@@ -335,14 +347,23 @@ SELECT TOP 2 * FROM Persons
 SELECT TOP 50 PERCENT * FROM Persons
 ```
 
-* SQL Server可用，MySQL 用 limit 代替，其他SQL待验证
+* SQL Server 可用 TOP ，但 MySQL 不行，用 limit 代替。
 
 ```sql
 # 显示前 2 条
 SELECT * FROM Persons
 LIMIT 2
+
+# 从第 6+1 行开始，显示 2 条
+SELECT * FROM Persons
+LIMIT 6,2
+
+# 从第 6+1 行开始，显示 2 条
+SELECT * FROM Persons
+LIMIT 2 offset 6
 ```
 
+- **注意**：LIMIT 用 逗号 和 用 offset 是相反的。
 ---
 
 ## LIKE

@@ -286,18 +286,23 @@ SELECT ... limit 50,3
 一个优化思路是：**尽可能使用索引覆盖扫描，而不是查询所有的列，然后根据需要做一次关联操作再返回所需的列**。考虑下面的例子：
 
 ```sql
-// 改写前
+# 改写前
 SELECT film_id, description FROM sakila.film
 ORDER BY title
-LIMIT 50,5;
+LIMIT 50000,5;
 
-// 改写后
+# 改写后
 SELECT film.film_id, film.description FROM sakila.film
   INNER JOIN (
     SELECT film_id FROM sakila.film
     ORDER BY title
-    LIMIT 50,5;
+    LIMIT 50000,5;
   ) AS lim USING(film_id);
+
+# 另一种改写
+SELECT film_id, description FROM sakila.film
+WHERE film_id > 50000
+LIMIT 5
 ```
 
 先快速定位需要获取的 id 段，然后再关联。
