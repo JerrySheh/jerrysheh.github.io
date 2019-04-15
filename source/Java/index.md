@@ -65,7 +65,7 @@ int a = 5; Integer b = 50; a == b
 - Object类的 == 和 equals 没区别， equals 实际上判断的就是 ==
 - String类的 == 比较的是内存地址，equals比较的是值
 
-String 的 eauals 过程？
+String 的 equals 过程？
 
 1. 先比较 == ，如果相同返回 true， 不同继续判断
 2. 是否能转型为 String（instanceof操作符），不能直接返回 false
@@ -191,11 +191,11 @@ HashMap底层是使用 Node 对象数组存储的，Node 是一个单项的链�
 ## put() 过程
 
 1. 确定要存入的桶。先使用 hash() 函数获取该对象的 hash 值，高16位和低16位异或后跟 Node 对象数组大小-1 进行与操作，得到应该存入数组的下标。
-2. 链表插入。假如该位置为空，就将value值插入，如果该下标不为空，则要遍历该下标上面的对象，使用equals方法进行判断，如果遇到equals()方法返回真则进行替换，否则将其插入到链表尾部（JDK1.8, 低版本是）。、
+2. 链表插入。假如该位置为空，就将value值插入，如果该下标不为空，则要遍历该下标上面的对象，使用equals方法进行判断，如果遇到equals()方法返回真则进行替换，否则将其插入到链表尾部（JDK1.8）
 
 ### 为什么要将hash的高16位和低16位异或？
 
-**让高位也参与计算，减少某些数值的hash冲突**。例如，Float类型的 1f,2f,3f,4f 的 hash值 低16位全部都是0，只有高16位不同。因此采用异或让高位也参与计算。
+**让高位也参与计算，减少某些数值的hash冲突**。例如，Float类型的 1f, 2f ,3f ,4f 的 hash值 低16位全部都是0，只有高16位不同。因此采用异或让高位也参与计算。
 
 ## get() 过程
 
@@ -206,7 +206,7 @@ HashMap底层是使用 Node 对象数组存储的，Node 是一个单项的链�
 
 ### 何时扩容
 
-懒加载,首次调用put方法时，HashMap会发现table为空然后调用resize方法进行初始化（默认为16）。当添加完元素后，如果HashMap发现size（元素总数）大于 threshold（阈值，默认16*0.75），则会调用resize方法进行扩容。
+懒加载。首次调用 put方法 时，HashMap 会发现 table 为空，然后调用 resize方法 进行初始化（默认为16）。当添加完元素后，如果HashMap发现size（元素总数）大于 threshold（阈值，默认16*0.75），则会调用resize方法进行扩容。
 
 ### 如何扩容
 
@@ -214,7 +214,11 @@ table大小变为原来的两倍，也就是2的n次方变为2的n+1次方。之
 
 ### 为什么扩容是2倍，而不是1.5倍或3倍？
 
-因为要保证table的长度为 2^n， 为什么 table 的长度要为 2^n ？ 因为这样可以均匀分布减少碰撞。计算 hash 的时候，hash值要跟 table长度-1 进行与操作, table长度为 2^n，也就是二进制100000， 2^n -1 也就是二进制 11111， 跟1与更不容易碰撞。
+因为要保证table的长度为 2^n （即 2，4，8，16，32...）
+
+为什么 table 的长度要为 2^n ？
+
+均匀分布，减少碰撞。计算 hash 的时候，hash值要跟 table长度-1 进行与操作, table长度为 2^n，也就是二进制100000， 而 2^n -1 是二进制 11111， hash值跟 1 与，更不容易碰撞。
 
 # 22. HashMap 的 key 有什么要求？key 可不可以为 null ？
 
@@ -326,7 +330,11 @@ NIO：面向的是 channels 和 buffers
 
 ## Runnable 和 Callable 创建线程有什么区别？
 
-第一，Callable 可以的 call() 方法可以获取线程的返回值，而 Runnable 的 run() 方法没有返回值。第二， call() 方法可以抛出异常，主线程可以直接捕获子线程异常。但 Runnable 只能通过 setDefaultUncaughtExceptionHandler() 的方式来捕获。第三，运行 Callable 任务可以拿到一个Future对象，表示异步计算的结果。它提供了检查计算是否完成的方法，以等待计算的完成，并检索计算的结果。通过Future对象可以了解任务执行情况，可取消任务的执行，还可获取执行结果。
+第一，Callable 可以用 call() 方法可以获取线程的返回值，而 Runnable 的 run() 方法没有返回值。
+
+第二， call() 方法可以抛出异常，主线程可以直接捕获子线程异常。但 Runnable 只能通过 setDefaultUncaughtExceptionHandler() 的方式来捕获。
+
+第三，运行 Callable 任务可以拿到一个 Future 对象，表示异步计算的结果。它提供了检查计算是否完成的方法，以等待计算的完成，并检索计算的结果。通过 Future 对象可以了解任务执行情况，可取消任务的执行，还可获取执行结果。
 
 # 35. 线程 Thread 类的 join 方法是干什么用的？
 
@@ -527,8 +535,7 @@ concurrentHashMap是线程安全的 hashmap 。在 jdk 1.7 采用分段锁保证
 
 ### 那为什么 HashMap 的 key 可以为 null？
 
-因为 HashMap 不是为多线程设计的，可以用 contains(key) 来判断 key 是否做过映射。而 concurrentHashMap 因为支持并发，在调用
-m.contains(key) 和 m.get(key) 时， m 的值可能被别的线程修改了。
+因为 HashMap 不是为多线程设计的，可以用 contains(key) 来判断 key 是否做过映射。而 concurrentHashMap 因为支持并发，在调用 m.contains(key) 和 m.get(key) 时， m 的值可能被别的线程修改了。
 
 ---
 
@@ -567,8 +574,19 @@ private static final Object PRESENT = new Object();
 
 # 63. Java 线程池submit和execute 的区别？
 
-todo
+- **execute(Runnable x)**：没有返回值。可以执行任务，但无法判断任务是否成功完成。——实现Runnable接口
+- **submit(Runnable x)**：返回一个future。可以用这个future来判断任务是否成功完成。——实现Callable接口
+
+如果提交的任务不需要一个结果的话直接用execute()
 
 ---
 
-# 64.
+# 64. new 对象跟 clone() 的区别
+
+clone()与 new 都能创建对象。但 new 通过构造方法为对象赋初值，而 clone() 不会调用构造方法，只是把原有对象的属性复制给新对象。
+
+# 65. 什么是浅拷贝？什么是深拷贝？
+
+Object.clone() 是浅拷贝。如果一个对象里面包含引用类型，拷贝的只是值的地址，而没有在堆中开辟新的内存空间。
+
+如果我们重写clone()方法，对于引用类型成员变量，重新在堆中开辟新的内存空间。那就是深拷贝。

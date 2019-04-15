@@ -114,7 +114,17 @@ REST（Representational State Transfer）省略了主语 Resource，翻译成中
 
 # 14. AOP底层怎么实现？两种代理有什么区别？
 
-todo
+AOP底层实现是动态代理。
+
+## 什么是动态代理
+
+动态代理，即利用 Java 的反射技术(Java Reflection)，在运行时创建一个实现某些给定接口的新类（也称“动态代理类”）及其实例（对象）。代理的是接口(Interfaces)，不是类(Class)，更不是抽象类。
+
+动态代理用来解决一个接口的实现在编译时无法知道，需要在运行时才能实现的问题。也可以用来实现某些设计模式，如适配器(Adapter)或修饰器(Decorator)。以及实现面向切面编程：如AOP in Spring。
+
+## AOP底层的两种代理和区别？
+
+JDK动态代理 和 Cglib动态代理 。
 
 ---
 
