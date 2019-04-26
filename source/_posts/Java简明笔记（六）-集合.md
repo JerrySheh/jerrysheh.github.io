@@ -307,14 +307,15 @@ JDK1.8 的 ConcurrentHashMap 采用 CAS（compare and swap）+ Synchronized 保�
 
 每个集合都提供了某种顺序迭代元素的方式。
 
-Collection的父接口Iterable<T>定义了一个方法：
+Collection的父接口 Iterable<T> 定义了一个方法：
 
 ```java
 Iterator<T> Iterator()
 ```
 
-这个方法生成了一个迭代器。迭代器用来访问元素。
+这个方法生成一个迭代器，用来访问元素。
 
+## 迭代 List 和 Set
 
 在下面这个例子中，iter是一个迭代器，迭代的对象是 groupName ， while循环用来访问元素。
 
@@ -347,9 +348,23 @@ for (String name :
 * 无法用来进行ArrayList的初始化
 * 无法得知当前是第几个元素了，当需要只打印单数元素的时候，就做不到了。必须再自定下标变量。
 
+## 迭代 Map
+
+迭代 Map 稍微有点不同，需要先将 map 放到一个 set 里面。
+
+```java
+Map<String,Integer> map = new HashMap<String, Integer>();
+Set<Map.Entry<String, Integer>> entry = map.entrySet();
+Iterator<Map.Entry<String, Integer>> iter = enrty.iterator();
+
+while(iter.hasNext()){
+  Map.Entry<String, Integer> next = iter.next();
+}
+```
+
 ## 遍历过程修改集合内容
 
-使用 Iterator 可以对集合进行遍历，但是却**不能在遍历过程对原集合做增、删、改**，会抛出 ConcurrentModificationException。
+使用 Iterator 可以对集合进行遍历，但是 **不能在遍历过程对原集合做增、删、改**，会抛出 ConcurrentModificationException。
 
 ```java
 while(it.hasNext()){  
