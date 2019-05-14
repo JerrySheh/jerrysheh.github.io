@@ -123,7 +123,7 @@ atomic原子类底层是用非阻塞并发算法实现的。具体是用了 CAS 
 线程B：再次观察 V 的值，看看是不是预期值6，发现是，就把加一后的值 7 写回 V
 ```
 
-关于atomic原子类可参考另一篇：[Java并发编程之并发工具](../post/a23f9c20.html) 
+关于atomic原子类可参考另一篇：[Java并发编程之并发工具](../post/a23f9c20.html)
 
 ## 使用 加锁机制 解决原子性问题
 
@@ -374,6 +374,7 @@ public class Holder {
         }
     }
 }
+```
 
 假设线程1对Holder类进行了发布
 
@@ -385,7 +386,9 @@ public void initialize(){
 }
 ```
 
-然后线程2调用assertSanity()方法，很有可能出现 n != n，抛出 AssertionError 。因为线程1的发布，没有使用同步对其他线程可见。
+然后线程2调用`assertSanity()`方法，很有可能出现 n != n，抛出 AssertionError 。
+
+原因：存在可见性问题，线程1的 new 指令使 holder 对象开始构造，构造到一半时线程2即调用`assertSanity()`方法了,线程2看到的 holder 对象可能是一个空引用，或者是初始化了一半的值。
 
 ## 安全地发布
 
