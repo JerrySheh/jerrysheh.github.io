@@ -10,17 +10,13 @@ tags:
  - SQL
 ---
 
-在 [Java简明笔记（十三）JDBC](../post/f07211ef.html) 中，使用 JDBC 来操作数据库，并把查询到的数据库信息进行 java 对象的映射（ORM），但是 JDBC 的使用是十分繁琐的，除了需要自己写SQL之外，还必须操作Connection, Statment, ResultSet，显得繁琐和枯燥。
-
-于是我们对 JDBC 进行封装，以简化数据库操作。mybatis就是这样的一个框架。
-
 ![mybatis](http://www.mybatis.org/images/mybatis-logo.png)
+
+在 [Java简明笔记（十三）JDBC](../post/f07211ef.html) 中，使用 JDBC 来操作数据库，并把查询到的数据库信息进行 java 对象的映射（ORM），但是 JDBC 除了需要自己写SQL之外，还必须操作Connection, Statment, ResultSet，显得繁琐和枯燥。于是我们对 JDBC 进行封装，以简化数据库操作。mybatis就是这样的一个框架。
 
 以下简介摘自[官方文档](http://www.mybatis.org/mybatis-3/zh/index.html)：
 
 > MyBatis是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。MyBatis 可以使用简单的 XML 或注解来配置和映射原生信息，将接口和 Java 的 POJOs(Plain Old Java Objects,普通的 Java对象)映射成数据库中的记录。
-
-这一篇，就通过一个实战，了解一下 mybatis 的使用。
 
 <!--more-->
 
@@ -63,38 +59,22 @@ pom.xml
 
 ## 准备实体类 Category
 
-这个类用来映射数据库信息为java对象
+这个类用来映射数据库信息为java对象（数据库 category_ 表 -> java 的 category对象）
 
-（表category_ -> java的category对象）
-
-注意：这个对象要和数据库信息对应上，比如表category_有id和name，这个category就要有 `int id` 和 `String name`。
+注意：java对象要和数据库信息对应上。比如表category_有 `id` 和 `name`，对象category就要有 `int id` 和 `String name`。
 
 src/main/java/com.jerrysheh.pojo/Category.java
 ```java
-package com.jerrysheh.pojo;
-
 public class Category {
     private Long id;
     private String name;
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
+    // 省略 getter setter
 }
-
 ```
 
 ## 创建配置文件 mybatis-config.xml
 
-在 src/main/java 目录下 创建mybatis-config.xml,填入以下内容： （如果使用SpringBoot，则免此配置）
+在 src/main/java 目录下 创建 mybatis-config.xml，填入以下内容： （SpringBoot 免此配置）
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -128,7 +108,7 @@ public class Category {
 
 ## 创建配置文件 Category.xml
 
-在包 com.jerrysheh.pojo 下创建 Category.xml (如果不想配置烦人的 xml，可以直接看下面的注解方式)
+在包 com.jerrysheh.pojo 下创建 Category.xml
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -165,18 +145,19 @@ public class Test {
 }
 ```
 
-事实上，mybatis做了以下几件事:
-1. 应用程序找Mybatis要数据
-2. Mybatis从数据库中找来数据(通过mybatis-config.xml 定位哪个数据库，通过Category.xml执行对应的select语句)
-3. 基于Category.xml把返回的数据库记录封装在Category对象中
-4. 把多个Category对象装在一个Category集合中
-5. 返回一个Category对象的集合
+事实上，Mybatis 做了以下几件事:
+
+1. 应用程序找 Mybatis 要数据
+2. Mybatis从数据库中找来数据(通过 mybatis-config.xml 定位哪个数据库，通过 Category.xml 执行对应的select语句)
+3. 基于 Category.xml 把返回的数据库记录封装在 Category 对象中
+4. 把多个 Category 对象装在一个 Category 集合中
+5. 返回一个 Category 对象的集合
 
 ---
 
 # 使用 mybatis 增删查改
 
-修改 Category.xml 文件，添加增删查改的SQL语句(如果不想配置烦人的 xml，可以直接看下面的注解方式)
+修改 Category.xml 文件，添加增删查改的SQL语句。
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -200,6 +181,7 @@ public class Test {
     <update id="updateCategory" parameterType="Category" >
         update category_ set name=#{name} where id=#{id}
     </update>
+
     <select id="listCategory" resultType="Category">
         select * from   category_
     </select>
@@ -351,12 +333,15 @@ Product.xml 修改前：
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     <mapper namespace="com.how2java.pojo">
+
         <select id="listProduct" resultType="Product">
             select * from product_         
         </select>
+
         <select id="listProductByName" resultType="Product">
             select * from product_  where name like concat('%',#{name},'%')        
         </select>
+
     </mapper>
 ```
 
@@ -368,18 +353,16 @@ Product.xml 修改后：
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     <mapper namespace="com.how2java.pojo">
+
         <select id="listProduct" resultType="Product">
             select * from product_
             <if test="name!=null">
                 where name like concat('%',#{name},'%')
             </if>        
         </select>
+
     </mapper>
 ```
-
-- 关键点：`select * from product_
-<if test="name!=null">
-    where name like concat('%',#{name},'%')`
 
 ## 其他动态SQL语句
 

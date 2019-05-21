@@ -30,31 +30,80 @@ tags: Java
 3. **对象不可变（Immutable variables）**：使用不可变对象来避免副作用。如果要修改一个传进来的参数对象，那修改完毕后返回一个新的对象，而不是修改后的该对象本身。
 4. **递归（Favour recursion over looping）**：使用递归，而非循环。
 
+<!-- more -->
+
 ---
 
 # Java中的函数式接口
 
-只有一个未实现的抽象方法的接口称为函数式接口。static 和 default 不影响。之所以规定不能有多个抽象方法，是因为 lambda 表达式只能接受一个方法。
+## 自定义函数式接口
+
+**只有一个未实现的抽象方法的接口称为函数式接口，static 和 default 不影响**。之所以规定不能有多个抽象方法，是因为 lambda 表达式只能接受一个方法。用`@FunctionalInterface`注解检查是否符合函数式接口规范。
 
 ```java
 // 函数式接口
-public interface MyInterface {
-    public void go();
-}
-
-// 函数式接口
-public interface MyInterface2 {
-    public void run();
-
-    public default void doIt() {
-        System.out.println("doing it");
-    }
-
-    public static void doItStatically() {
-        System.out.println("doing it statically");
-    }
+@FunctionalInterface
+public interface Cal {
+    int cal(int n1, int n2);
 }
 ```
+
+Cal是一个函数式接口，只有一个 cal 方法。使用的时候可以用 lambda 表达式定义方法做什么。
+
+```java
+public static void main(String[] args) {
+
+    // 做加法
+    Cal sum = (n1, n2) -> n1 + n2;
+    int r1 = sum.cal(10, 20);
+    System.out.println(r1); // 30
+
+    // 做减法
+    Cal sub = (n1, n2) -> n1 - n2;
+    int r2 = sub.cal(10, 20);
+    System.out.println(r2); // -10
+
+}
+```
+
+当然，我们可以再做一层封装，提供 calculator 方法，接收两个数字和一个表示如何计算的 lambda，返回计算结果。
+
+```java
+public static int calculator(int num1, int num2, Cal c){
+    return c.cal(num1, num2);
+}
+
+public static void main(String[] args) {
+    int n = calculator(10, 20, (n1, n2)-> n1 + n2); // 30
+}
+```
+
+可以看到，calculator 方法传入了一个 lambda 表达式，事实上，这个 lambda 就是 Cal 接口的一个匿名实现，在传参的时候“现场”声明罢了。
+
+## Java预置的函数式接口
+
+jdk 1.8 预置了一些函数式接口，在 java.util.function 包里。
+
+### Consumer<T>
+
+接收一个对象 T， 无返回。
+
+```java
+Consumer<Double> cal = (d) -> System.out.println(d*2);
+cal.accept(3.5);
+```
+
+### Supplier<T>
+
+不接收参数，返回一个对象 T
+
+### Predicate<T>
+
+接收一个对象T，返回 boolean
+
+### Function<T,R>
+
+接收一个对象T，返回一个对象R
 
 ---
 
@@ -64,54 +113,39 @@ Java 中的 Stream 提供了数据源，让你可以在比集合类更高的概�
 
 简单地说，流就是一组数据，经过某种操作，产生我们所需的新流，或者输出成非流数据。
 
-<!-- more -->
-
 流的来源，可以是集合，数组，I/O channel， 生成器（generator）等。流的聚合操作类似 SQL 语句，比如filter, map, reduce, find, match, sorted等。
 
 ## 从迭代到 Stream 操作
 
 假设现在有一本电子书`alice.txt`在我们的硬盘里，我们想统计这本书中所有的长单词（超过12个字母），我们可以用迭代的方法。
 
-1. 第一步，先将书的内容读到String里
-2. 第二步，创建一个List列表 words，以非字母为分隔符
+1. 第一步，先将 alice.txt 所有内容读到字符串里
+2. 第二步，创建一个List列表，以非字母为分隔符存放每一个单词字符串
 3. 第三步，foreach循环开始迭代
 
 ```java
-try {
-    // 读文件，放到 String 里
-    String contents = new String(readAllBytes((Paths.get("alice"))), StandardCharsets.UTF_8);
+// 读文件，放到 String 里
+String contents = new String(readAllBytes((Paths.get("alice"))), StandardCharsets.UTF_8);
+// 以非字母为分隔符
+List<String> words = Arrays.asList(contents.split("\\PL+"));
 
-    // 以非字母为分隔符
-    List<String> words = Arrays.asList(contents.split("\\PL+"));
-
-    //计数器
-    int count = 0;
-
-    // 在 List 里面迭代，如果找到长度＞12的，计数器+1
-    for (String w :
-            words) {
-        if (w.length() > 12) count++;
+int count = 0;
+// 在 List 里面迭代，如果找到长度＞12的，计数器+1
+for (String w : words) {
+    if (w.length() > 12) count++;
     }
-} catch (IOException e){
-    System.out.println("IO problem");
-}
 ```
 
-上面的迭代显得有些繁琐，可以替换成用流的方法实现
+在 java 8 中，可以用 stream 来实现相同的功能：
 
 ```java
-try {
-    // 读文件，放到 String 里
-    String contents = new String(readAllBytes((Paths.get("alice.txt"))), StandardCharsets.UTF_8);
+// 读文件，放到 String 里
+String contents = new String(readAllBytes((Paths.get("alice.txt"))), StandardCharsets.UTF_8);
+// 以非字母为分隔符
+List<String> words = Arrays.asList(contents.split("\\PL+"));
 
-    // 以非字母为分隔符
-    List<String> words = Arrays.asList(contents.split("\\PL+"));
-
-    // 把 List 转换成 流，用 flilter 方法对流的每一个元素进行判断，筛选出＞12的，并计数
-    long count1 = words.stream().filter(w -> w.length() > 12).count();
-} catch (IOException e){
-    System.out.println("IO problem");
-}
+// 把 List 转换成 流，用 flilter 方法对流的每一个元素进行判断，筛选出＞12的，并计数
+long count1 = words.stream().filter(w -> w.length() > 12).count();
 ```
 
 * `words.stream()`创建的是串行流，`words.parallelStream()`创建的是并行流。

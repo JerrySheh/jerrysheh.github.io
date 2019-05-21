@@ -81,7 +81,7 @@ public boolean workdsFor (Employee supervisor){
 
 ## Override 和 Overload 的区别
 
-Override 是方法重写，子类对父类方法的重写。**需要注意的是，重写方法参数类型不能改，但是返回类型可以改（比父类是更小或相等）。**
+Override 是方法重写，子类对父类方法的重写。**需要注意的是，重写方法参数类型不能改，但是返回类型可以改（比父类更小或相等）。**
 
 Overload 是方法重载，同一个类中可以有多个名称相同但参数个数、类型或顺序不同的方法。**与函数的返回类型无关** 。
 
@@ -233,11 +233,12 @@ System.out.println(s.equals(ss)); // 输出：true
 
 ### 什么时候需要重写 equals，什么时候需要重写 hashcode ？
 
-默认的，在 Object 类中比较的是两个对象的地址(==) ，地址相同，即同一个对象， equals 返回真。 但是，当某些类我们希望只要某个或某些属性相同，就说他们是 equal 的，这时候就需要重写 equals 。
+#### 重写 equals
+默认的，在 Object 类中比较的是两个对象的地址(==) ，地址相同，即同一个对象， equals 返回真。 但是，当某些类我们希望只要某个或某些属性相同，就认为他们是相同的，这时候就需要重写 equals 。
 
 例如 String ，可能 new 了两个 String 对象，但是存的都是一样的字符数组。他们的地址是不一样的，但是我们也说是 equals 的。
 
-什么时候需要重写 hashcode ?
+#### 重写 hashcode 
 
 当重写了 equals 的时候，也必须重写 hashcode。 以免发生 equals 为真，hashcode 却为假的情况。这违背了 hashcode 的性质。
 

@@ -426,7 +426,7 @@ public class DeserializeDemo
 
 ## 为什么一个类实现了Serializable接口，它就可以被序列化？
 
-查看ObjectOutputStream的源码，可以看到，其writeObject0方法中，是通过判断该类是否可以转型为 String、Enum 或 Serializable 来为其决定进行何种序列化方式的。实现Serializable接口就勇 writeOrdinaryObject 方式。
+查看 ObjectOutputStream 的源码，可以看到，其 writeObject0方法 中，是通过判断该类是否可以转型为 String、Enum 或 Serializable 来为其决定进行何种序列化方式的。实现Serializable接口就用 writeOrdinaryObject 方式。
 
 如果该类没有实现 Serializable 接口，就抛出 NotSerializableException
 

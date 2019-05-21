@@ -247,7 +247,7 @@ Map map = Collections.synchronizeMap(hashMap);
 
 Map的另一个实现是`HashMap`，线程不安全，速度快。其底层也是 **哈希表** 数据结构（即链表+数组，在Java8中又加入了红黑树）。是不同步的。允许null作为键和值。替代了Hashtable。
 
-#### 为什么要 java8 要加入红黑树？
+#### 为什么 java8 要加入红黑树？
 
 HashMap使用 **链地址法** 来解决冲突。但是使用链地址法会导致 get 的效率从o（1）降至o（n），所以在 Java8 中，链表长度超过阈值（8）时，将链表转换为红黑树，这样大大减少了查找时间。
 
