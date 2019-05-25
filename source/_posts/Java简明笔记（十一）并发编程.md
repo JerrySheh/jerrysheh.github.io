@@ -1,81 +1,19 @@
 ---
 title: Java简明笔记（十一）并发编程
-comments: true
+comments: false
 categories: JAVA
 tags: Java
 abbrlink: 727d207c
 date: 2018-03-01 00:29:51
 ---
 
-# 问题的来源
-
-以前的计算机都只有一个 CPU， 并且一次只能执行一个程序。后来出现了 **多任务（multitasking）** 使得计算机可以同时执行多个程序，但这并不是真正的“同时”，只是把 CPU 分成多个时间片，由操作系统去调度切换。再之后出现了 **多线程（multithreading）** 使得在一个程序里面可以同时执行多个控制流，就像你有多个 CPU 在执行同一个程序一样。在单 CPU 的计算机中，多线程的“同时”并不是“同时”，但现代计算机一般都是多核 CPU，不同的线程可以被不同的 CPU 核心同时执行，是真正的同时。
-
-![multithreading](http://tutorials.jenkov.com/images/java-concurrency/java-concurrency-tutorial-introduction-1.png)
-
-如果一个线程在读一块内存区域的同时，另一个线程在往里面写，那么这块区域的值是什么？或者两个线程同时写一块内存区域，它的值又是什么？假如我们没有对这些可能出现的结果进行防范，那么结果将是不可预测的。什么情况都可能发生。因此，我们需要在一些共享资源上做一些措施，例如内存、文件、数据库等。
-
-<!-- more -->
-
----
-
-# 为什么要多线程？
-
-## 利
-
-1. **更好的资源利用**：多线程程序在一个线程加载 IO 的同时，另一个线程可以处理已经加载完毕的 IO，以节省时间。
-2. **简化程序设计**：单线程程序，既要负责加载IO，又要负责处理。多线程程序，可以让一个线程专门加载，另一个线程专门处理。程序逻辑更加清晰。
-3. **更加高效的程序**：当一个请求进来时，处理请求可能需要耗费一些时间。单线程程序这时候就无法接收新的请求了，而多线程程序一个线程负责接收请求，每次收到请求都开一个专门的线程去处理，实现了多请求。
-
-## 弊
-
-1. **更加复杂的设计**：多线程有时候会让程序变得更加复杂（complex）。
-2. **上下文切换消耗**：CPU从一个线程切换到另一个线程时，要先保存上一个线程的 local data，程序指针等。这会带来一些消耗。
-3. **提高资源消耗**：多线程本身需要一些内存用于存储其 local stack，这可能消耗一些内存资源。不要以为它很小，实际上可能比你想象的多。
-
----
-
-# 并发模型（Concurrency Models）
-
-并发模型指的是线程如何在系统中协同完成一项工作。不同的并发系统可以用不同的并发模型来实现。
-
-## 并发模型和分布式系统的相似性
-
-并发系统模型跟分布式系统（distributed systems）十分相似。例如，并发系统是不同的线程之间互相通讯（communicate），而分布式系统是不同的进程之间互相通讯（这些进程可能在不同的计算机上）。
-
-进程和线程在某些时候十分相似，这也是为什么不同的并发模型往往看起来都很像分布式系统架构。分布式系统需要面临网络请求可能失败、远程计算机或进程可能挂掉等问题，在并发系统中也会遇到类似 CPU 故障、网卡故障、硬盘故障等问题，虽然这些故障发生的概率很低，但理论上确实存在。
-
-正因为并发模型和分布式系统十分相似，因此他们之间有些设计思想是相通的。例如，并发里面用于分配 workers（threads）的模型，就类似于分布式系统的负载均衡（load balancing in distributed systems）。
-
-## 模型1：并行 Workers 模型
-
-![parallel workers](http://tutorials.jenkov.com/images/java-concurrency/concurrency-models-1.png)
-
-在这个模型中，所有 Worker（Thread）都由 delegator 来委派。**每一个 Worker 都完成一个完整的工作**。例如，在一个车间工厂，一辆车从零到一都只由一个 Worker 来完成。
-
-这种模型在 Java 中用得非常多。在 java.util.concurrent 包中，许多的并发工具都是用这个模型来设计的。在 J2EE 应用服务器中也能看到这种模型的影子。
-
-## 模型2：流水线模型
-
-流水线模型，也叫响应式系统或者事件驱动系统。
-
-在这个模型中，每一个 Worker 只负责整个工作的一小部分，一旦完成自己的部分，就交给下一个 Worker 接着做。每个 Worker 都运行在单独的线程上，与其他 Worker 不共享状态。因此，流水线模型也叫做无共享（shared nothing）模型。这种模型通常用 **非阻塞IO（non-blocking IO，NIO）** 来实现。
-
-所谓响应式，或者事件驱动，指的是当一个事件发生，Worker 就响应对应的动作。例如，一个HTTP请求进来，或者一个文件被加载进内存。响应式平台的例子有Vert.x、Akka、Node.JS。
-
-![Assembly Line](http://tutorials.jenkov.com/images/java-concurrency/concurrency-models-3.png)
-
-## 模型3：函数式并行
-
-函数式并行的基本思想是采用函数调用实现程序。函数都是通过拷贝来传递参数的，所以 **除了接收函数外没有实体可以操作数据，这就避免了共享数据带来的竞争**。同样也使得函数的执行类似于原子操作。每个函数调用的执行独立于任何其他函数的调用。
-
-一旦每个函数调用都可以独立的执行，它们就可以分散在不同的CPU上执行了。这也就意味着能够在多处理器上并行的执行使用函数式实现的算法。在 Java8 中，并行 streams 能够用来帮助我们并行的迭代大型集合。
+关于并发的理论基础，见另一篇 [聊聊并发和并发模型](../post/3bdfeb29.html)
 
 ---
 
 # 在 Java 中创建线程
 
-在 Java 中，线程是 java.lang.Thread 或其子类中的实例。通过 new 一个线程类并调用 start 方法来启动线程。
+在 Java 中，线程是 java.lang.Thread 或其子类中的实例。通过 new 一个线程实例并调用 start 方法来启动线程。
 
 ```java
 Thread thread = new Thread();
@@ -100,16 +38,9 @@ myThread.start();
 
 ## 方式二：实现 Runnable 方法(推荐)
 
-```java
-// 可以直接在  Runnable 接口上操作
-Runnable myRunnable = new Runnable(){
-    @Override
-    public void run(){
-      System.out.println("Runnable running");
-    }
-}
+创建一个类实现 Runnable 方法
 
-// 也可以用一个类实现 Runnable 方法
+```java
 class MyRunnable implements Runnable {
     @Override
     public void run(){
@@ -118,32 +49,47 @@ class MyRunnable implements Runnable {
 }
 
 MyRunnable myRun = new MyRunnable();
-Thread thread = new Thread(myRun， “第二个参数指定线程名”);
+Thread thread = new Thread(myRun， "第二个参数指定线程名字");
 thread.start();
 
-// 暂停线程
-thread.sleep();
-
-// 停止线程
-thrad.stop();
+thread.sleep(); // 暂停线程
+thrad.stop();  // 停止线程
 ```
 
-## Java8方式：lambda表达式
+<!-- more -->
 
-这种方式本质上是取代了匿名类
+### 匿名类或lambda表达式方式
+
+直接在 runnable 接口上实现匿名类
+
+```java
+// 匿名类
+Runnable myRunnable = new Runnable(){
+    @Override
+    public void run(){
+      System.out.println("Runnable running");
+    }
+}
+
+// lambda
+Runnable myRunable2 = ()-> System.out.println("Runnable running")
+```
+
+lambda表达方式
 
 ```java
 Thread t = new Thread( ()-> System.out.println("do something"));
 ```
 
-<font color="red">特别提醒</font>：
-- 调用 `.start()` 方法才是启动线程，而调用 `.run()` 方法只是在当前线程上去执行 run 函数，并没有开启新线程。注意不要搞混。
-- `.stop()` 方法已经被标记为 deprecated。因为它无法保证被停止的线程的状态，例如转账方法钱款已经转出，却还没有转入目标账户就被中止了。正确停止线程的方式应该是给定一个 boolean 变量，在方法中将其置 false。可以在 run 方法中加入 while() 循环 ，当主线程将 boolean 置 false， 子线程的 while 不再执行，从而 run 方法结束，从而线程退出。
+特别提醒：
+
+- 调用 `.start()` 方法才是启动线程，而调用 `.run()` 方法只是在当前线程上去执行 run 函数，并没有开启新线程。
+- `.stop()` 方法已经被标记为 deprecated。因为它无法保证被停止的线程的状态，例如转账方法钱款已经转出，却还没有转入目标账户就被中止了。正确停止线程的方式应该是给定一个 boolean 变量，在方法中将其置 false。可以在 run 方法中加入 while() 循环 ，当主线程将 boolean 置 false， 子线程的 while 不再执行，从而 run 方法结束，线程退出。
 - `.suspend()`方法也被标记为 deprecated。因为可能导致死锁：被挂起的线程持有锁，等待恢复，而将其挂起的线程又在等待该锁，导致死锁。
 
 ## 方式三：实现 Callable 方法(可回调)
 
-需结合 Future 和 线程池 使用。暂时跳过。
+需结合 Future 和 线程池 使用。参见：[Java并发编程之并发工具](../post/a23f9c20.html)
 
 ---
 
@@ -181,9 +127,10 @@ A:  在寄存器里 + 3
 A:  将寄存器的值 (3) 写回内存， this.count 现在是 3
 ```
 
-我们期望的值是5，而结果却是3。如何解决呢？可以用 Java 提供的 **synchronized 同步代码块** 或者 **锁结构** 或者 java.util.concurrent.atomic包里面的 **原子变量** 来解决。
+我们期望的值是5，而结果却是3。如何解决呢？可以用 Java 提供的 **synchronized 同步代码块** 或者 **锁结构** 或者 java.util.concurrent.atomic 里面的 **原子变量** 来解决。
 
 同步代码块
+
 ```java
 public void add(int val1, int val2){
     synchronized(this.sum1Lock){
@@ -328,7 +275,9 @@ public class Calculator{
 
 ![locks](../../../../images/Java/locks.png)
 
-在 java.util.concurrent.locks 包里面，有一些锁相关类，用于给程序代码加锁。当多个线程访问加锁代码时，只有一个线程能访问临界区。其中用得最多的是 ReentrantLock，需要注意的是，解锁操作最好放在 finally 块，这样抛出异常时也能正常解锁。此外，如果使用锁就不能用 try-with-resource 了。
+在 java.util.concurrent.locks 包里面，有一些锁相关类，用于给程序代码加锁。当多个线程访问加锁代码时，只有一个线程能访问临界区。其中用得最多的是 ReentrantLock。
+
+- **提醒**：解锁操作最好放在 finally 块，这样抛出异常时也能正常解锁。此外，如果使用锁就不能用 try-with-resource 了。
 
 ```java
 class Test{
@@ -468,7 +417,7 @@ public synchronized void add(int value){
 
 # 我该使用 synchronized 还是 ReentrantLock ？
 
-《Java核心技术》的作者 Cay S. Horstmann 给我们的建议是，最好两者都不要用，而是用 concurrent 包提供给我们的并发工具，如阻塞队列。当 concurrent 并发工具都不能满足时，才考虑用 synchronized 或 ReentrantLock。首选 synchronized 因为它编写简单，而且新版JDK自带锁优化能够减少一些锁开销。
+《Java核心技术》的作者 Cay S. Horstmann 给我们的建议是，最好两者都不要用，而是用 java.util.concurrent 包提供给我们的并发工具，如阻塞队列。当 concurrent 并发工具都不能满足时，才考虑用 synchronized 或 ReentrantLock。首选 synchronized 因为它编写简单，而且新版JDK自带锁优化能够减少一些锁开销。
 
 当你需要这三样功能之一时，才考虑用 ReentrantLock：
 1. 需要公平锁；
@@ -519,7 +468,6 @@ Volatile 用于解决可见性问题，被 Volatile 关键字修饰的变量，�
 
 ---
 
-
 # 线程通信（Signaling）
 
 线程通信用于线程与线程之间互相发送信号，或者让线程等待其他线程的信号以协调工作。有两种线程通信的方式，其一是消息队列，其二是共享对象。Java采用的是共享对象的方式。
@@ -561,7 +509,3 @@ while(!sharedSignal.hasDataToProcess()){
 # 死锁
 
 线程A持有 1 资源，同时需要 2 资源， 线程B 持有 2 资源，同时需要 1 资源，但是 1 资源 和 2 资源都是互斥的。此时，A线程 在等待 B线程 释放 2 资源，B线程在等待 A线程 释放 1 资源，结果谁都无法释放，谁也都得不到资源。这就是死锁。
-
----
-
-未完待续

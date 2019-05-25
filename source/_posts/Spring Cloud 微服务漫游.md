@@ -1,8 +1,10 @@
 ---
 title: Spring Cloud 微服务漫游（一）
 comments: true
-categories: Spring Cloud
-tags: 微服务
+categories: 微服务
+tags:
+- 微服务
+- Spring Cloud
 abbrlink: 2a2a41cf
 date: 2019-05-16 23:27:32
 ---

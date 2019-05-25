@@ -251,7 +251,7 @@ BagOfPrimitives obj2 = gson.fromJson(json, BagOfPrimitives.class);
 
 # 使用 Gson 解析嵌套的json对象
 
-##　序列化（Serialization）
+## 序列化（Serialization）
 
 所谓序列化指的是将　Java 对象　映射成　json 数据。
 

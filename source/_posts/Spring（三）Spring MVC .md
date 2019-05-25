@@ -73,21 +73,15 @@ DispatcherServlet 会根据传过来的 Model，通过视图解析器（View Res
 
 # URL路由
 
-- `@Controller`： 表示是一个处理HTTP请求的控制器(即MVC中的C)，该类中所有被@RequestMapping标注的方法都会用来处理对应URL的请求。
+- `@Controller`： 表示是一个处理HTTP请求的控制器(即MVC中的C)，该类中所有被 `@RequestMapping` 标注的方法都会用来处理对应URL的请求。
 
-## 返回字符串
+## 返回字符串和对象
 
-- `@ResponseBody`：返回的是数据（Data），而不是试图（View）。如果数据是 Java 对象而不是字符串或基本数据类型，那么返回的就是 json 格式的。
+- `@ResponseBody`：返回的是数据（Data），而不是视图（View）。如果数据是 Java 对象而不是字符串或基本数据类型，那么返回的就是 json 格式的（Spring MVC集成了jackson帮我们序列化）。
 
 ```java
 @Controller
 public class IndexController {
-
-    @GetMapping("/")
-    public String index() {
-        return "index";
-    }
-
     @RequestMapping("/hello")
     @ResponseBody
     public String hello() {
@@ -96,33 +90,31 @@ public class IndexController {
 }
 ```
 
+或者用 `@RestController`，是 `@Controller` 和 `@ResponseBody` 的合体
+
+```java
+@RestController
+public class IndexController {
+    @RequestMapping("/api/city")
+    public String hello() {
+        City city = cityService.getCity();
+        return city;
+    }
+}
+```
+
 - `@RequestMapping`： 浏览器请求映射路由，可以标记在方法上，也可以标记在类上。（详细用法可参考[CSDN](https://blog.csdn.net/walkerjong/article/details/7994326)）
 
-事实上，`@RequestMapping`可以细分为以下几个Mapping：
+`@RequestMapping`还可以细分为以下几个Mapping：
 
 - `@GetMapping`： 浏览器 GET 方法请求映射路由
 - `@PutMapping`
 - `@PostMapping`
 - `@DeleteMapping`
 
-```java
-@Controller
-@RequestMapping("/blogs")
-public class AppController {
+## 返回 HTML 页面
 
-    @RequestMapping("/create")
-    @ResponseBody
-    public String create() {
-        return "mapping url is /blogs/create";
-    }
-}
-```
-
-此时，`create()`方法绑定的路由是 /blogs/create
-
-## 返回HTML文件
-
-在上面的例子中，`index()`方法没有被`@ResponseBody`标记，可以在resource/templates 目录下放置一个 index.html， 然后在 pom.xml 增加 thymeleaf 依赖
+在 pom.xml 增加 thymeleaf 依赖(thymeleaf是一种比jsp更好的模板引擎)
 
 ```xml
 <dependency>
@@ -137,16 +129,42 @@ public class AppController {
 </dependency>
 ```
 
-这样，访问 127.0.0.1:8080/ 的时候自动跳转到 index.html
-
 > Thymeleaf 遇到没有闭合的HTML标签会报错，可以在 application.properties 文件增加一行 `spring.thymeleaf.mode=LEGACYHTML5` 以支持HTML5
 
+```java
+@Controller
+public class AppController {
+    @GetMapping("/")
+    public String index() {
+        return "index";
+    }
 
-在 HTML中引入 CSS和 JavaScript
+    @GetMapping("/home")
+    public String create() {
+        return "home";
+    }
+}
 
-```html
-<link rel="stylesheet" href="/css/style.css"/>
-<script src="/js/main.js"></script>
+```
+
+在 resource/templates 目录下放置 index.html 和 home.html，访问 127.0.0.1:8080/ 将跳转到 index.html，访问 127.0.0.1:8080/home 将跳转到 home.html
+
+如果我们的项目变大了，有数十个 html 文件，我们要写很多个这样的样板方法，可以用 java config 简化样板方法
+
+MvcConfig.java
+
+```java
+@Configuration
+public class MvcConfig implements WebMvcConfigurer {
+
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/home").setViewName("home");
+        registry.addViewController("/").setViewName("index");
+        registry.addViewController("/hello").setViewName("hello");
+        registry.addViewController("/login").setViewName("login");
+    }
+
+}
 ```
 
 ---

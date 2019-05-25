@@ -301,34 +301,50 @@ class Reorder{
 
 # 线程封闭
 
-不共享数据是避免使用同步最好的办法。这称为线程封闭（Thread Confinement）。线程封闭的例子有 JDBC 中的 Connection 对象。
-
-线程封闭包括 Ad-hoc 、栈封闭、ThreadLocal类。这里只探讨ThreadLocal。
+**不共享数据是避免使用同步最好的办法，这称为线程封闭（Thread Confinement）**。线程封闭包括 Ad-hoc 、栈封闭、ThreadLocal类，这里只探讨ThreadLocal。
 
 ## ThreadLocal 类
 
-在单线程 JDBC 程序中，我们通常在程序启动时初始化一个 Connection 连接，从而避免在调用每个方法时都传递一个 Connection 对象。
-
-在多线程 JDBC 程序中，我们希望每个线程建立自己的 Connection 对象连接，不互相干扰。可以通过 ThreadLocal 来解决。
-
-```java
-// 使用ThreadLocal封闭
-private static ThreadLocal<Connection> connectionHolder =
-                               new ThreadLocal<Connection>(){
-    public Connection initValue(){
-      return DriverManager.getConnection(DB_URL);
-    }
-};
-
-// 获取一个连接
-public static Connection getConnection(){
-  return connectionHolder.get();
-}
-```
+在单线程 JDBC 程序中，我们通常在程序启动时初始化一个 Connection 连接，从而避免在调用每个方法时都传递一个 Connection 对象。在多线程 JDBC 程序中，我们希望每个线程建立自己的 Connection 对象连接，不互相干扰。这种场景就可以通过 ThreadLocal 来解决。
 
 ThreadLocal提供了一些比如set、get等来访问接口和方法，每个使用该变量的线程都有一份独立的副本，线程之间互不影响。
 
-ThreadLocal对象常用于防止对可变的单实例变量（singeton）或全局变量进行共享。
+### ThreadLocal 类简单例子
+
+声明一个 ThreadLocal 对象
+```java
+private ThreadLocal myThreadLocal = new ThreadLocal();
+// or
+private ThreadLocal<String> myThreadLocal = new ThreadLocal<String>();
+//or
+// 在声明ThreadLocal对象时，即给初值，而不是第一次调用
+private ThreadLocal myThreadLocal = new ThreadLocal<String>() {
+    @Override
+    protected String initialValue() {
+        return "This is the initial value";
+    }
+};    
+```
+
+使用`set()`放置线程封闭变量，使用`get()`将其取出。
+
+```java
+// 往对象里放置变量
+myThreadLocal.set("aStringValue");
+
+// 将 ThreadLocal 里存放的变量取出来
+String threadLocalValue = (String) myThreadLocal.get();
+```
+
+
+除了 ThreadLocal 类之外，还有一个 InheritableThreadLocal 是可继承的 ThreadLocal ，只有声明的线程及其子线程可以使用 InheritableThreadLocal 里面存放的变量。
+
+在 JDK 1.7 之后，还有一个 java.util.concurrent.ThreadLocalRandom 类。
+
+```java
+// 返回特定于当前线程的 Random 类实例
+static ThreadLocalRandom current()
+```
 
 ---
 
