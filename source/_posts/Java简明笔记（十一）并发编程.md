@@ -51,9 +51,6 @@ class MyRunnable implements Runnable {
 MyRunnable myRun = new MyRunnable();
 Thread thread = new Thread(myRun， "第二个参数指定线程名字");
 thread.start();
-
-thread.sleep(); // 暂停线程
-thrad.stop();  // 停止线程
 ```
 
 <!-- more -->
@@ -75,7 +72,7 @@ Runnable myRunnable = new Runnable(){
 Runnable myRunable2 = ()-> System.out.println("Runnable running")
 ```
 
-lambda表达方式
+lambda表达式
 
 ```java
 Thread t = new Thread( ()-> System.out.println("do something"));
@@ -204,7 +201,7 @@ Thread 2 inserts record X
 
 # 线程安全和不可变性
 
-竞争条件只发生在多个线程同时写一个资源的过程，读的过程并不会造成竞争条件。因此，我们可以用不可变这个特性，来确保线程安全。具体的做法是：
+竞争条件只发生在多个线程同时写一个资源的过程，读的过程并不会造成竞争条件。因此，我们可以用不可变（Immutable）这个特性，来确保线程安全。具体的做法是：
 
 1. 通过构造器传递值，没有 setter
 2. 修改时返回一个新的对象，而不是在该对象上变更值
@@ -231,9 +228,9 @@ public class ImmutableValue{
 }
 ```
 
-此时，ImmutableValue对象本身是安全的，但是注意，使用这个对象时，也可能不是安全的。考虑下面的例子：
+此时，ImmutableValue对象本身是安全的，但是注意，使用这个对象时，也可能不是安全的。
 
-Calculator 对象使用了 ImmutableValue，当有多个线程同时调用 Calculator 的 setValue 或 add 方法，那 Calculator 的类变量 ImmutableValue 的值无法确定。
+考虑下面的例子：Calculator 对象使用了 ImmutableValue，当有多个线程同时调用 Calculator 的 setValue 或 add 方法，那 Calculator 的类变量 ImmutableValue 的值无法确定。
 
 ```java
 public class Calculator{
@@ -400,7 +397,7 @@ public void add(int value){
 }
 ```
 
-跟 ReentrantLock 类似，当有条件对象不满足时，进入 synchronized 的线程也是需要立即释放锁并等待条件满足。synchronized 内置了一个条件对象，不用我们显式声明。我们直接在代码中调用 wait() 方法就可让当前线程等待，直到其他线程调用了 notify() 或 notifyAll() 。
+跟 ReentrantLock 类似，当有条件对象不满足时，进入 synchronized 的线程也是需要立即释放锁并等待条件满足。synchronized 内置了一个条件对象，不用我们显式声明。我们直接在代码中调用 `wait()` 方法就可让当前线程等待，直到其他线程调用了 `notify()` 或 `notifyAll()` 。
 
 ```java
 public synchronized void add(int value){
@@ -462,9 +459,9 @@ Volatile 用于解决可见性问题，被 Volatile 关键字修饰的变量，�
 
 很多时候，只使用 Volatile 是不够的，通常都要配合 synchronized 。只有当满足以下条件时，才只使用 Volatile：
 
-* 对变量的写入操作不依赖变量的当前值（count++就不满足），或者你的程序只有一个线程更新该变量的值(其他线程可访问但不可修改)。
-* 访问变量时不需要加锁
-* 该变量不会与其他状态变量一起纳入不变性条件中
+1. 对变量的写入操作不依赖变量的当前值（count++就不满足），或者你的程序只有一个线程更新该变量的值(其他线程可访问但不可修改)。
+2. 访问变量时不需要加锁
+3. 该变量不会与其他状态变量一起纳入不变性条件中
 
 ---
 

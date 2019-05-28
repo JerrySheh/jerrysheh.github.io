@@ -79,7 +79,7 @@ public class lazyInitRace{
 }
 ```
 
-假如线程A和线程B同时执行getInstance()方法，线程A观察到 instance 为 null，于是 new 一个实例，由于 new 不是一个原子操作，在 new 还没完成时，instance仍然为null，此时时间片切换到线程B，B也观察到 instance 为 null，又 new 了一个实例。
+假如线程A和线程B同时执行`getInstance()`方法，线程A观察到 instance 为 null，于是 new 一个实例，由于 new 不是一个原子操作，在 new 还没完成时，instance仍然为null，此时时间片切换到线程B，B也观察到 instance 为 null，又 new 了一个实例。
 
 竞争条件并不总会发生错误，但在某种不恰当的执行时序下，可能会出错。因此是线程不安全的。
 
