@@ -1,11 +1,12 @@
 ---
 title: Java并发编程之线程池
 comments: true
-date: 2019-06-05 00:25:54
 categories: Java
 tags:
-- Java
-- 并发
+  - Java
+  - 并发
+abbrlink: 377edbcb
+date: 2019-06-05 00:25:54
 ---
 
 > 线程池是线程的管理工具，跟线程本身一样，线程池也有不同的状态。

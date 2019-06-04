@@ -1,9 +1,10 @@
 ---
 title: Java简明笔记（十七）注解
 comments: true
-date: 2019-06-04 11:21:31
 categories: Java
 tags: Java
+abbrlink: b3112bec
+date: 2019-06-04 11:21:31
 ---
 
 # 注解魔法
