@@ -2,7 +2,9 @@
 title: Java并发编程之并发工具
 comments: true
 categories: JAVA
-tags: Java
+tags:
+- Java
+- 并发
 abbrlink: a23f9c20
 date: 2018-10-30 15:08:26
 ---
@@ -282,118 +284,3 @@ semaphore.acquire(); // 资源被获取
 
 semaphore.release(); // 资源被释放
 ```
-
----
-
-# Callable
-
-Runnable 用于一个异步执行的任务，没有参数和返回值。Callable 与 Runnable 类似，区别是，Callable有返回值，且可以抛出异常。
-
-```java
-package java.util.concurrent;
-@FunctionalInterface
-public interface Callable<V> {
-    /**
-     * Computes a result, or throws an exception if unable to do so.
-     *
-     * @return computed result
-     * @throws Exception if unable to compute a result
-     */
-    V call() throws Exception;
-}
-```
-
----
-
-# Future
-
-Future是一个接口，用来判断异步计算是否已完成以及帮助我们获取异步计算的结果。
-
-```java
-public interface Future<V> {
-    boolean cancel(boolean mayInterruptIfRunning);
-    boolean isCancelled();
-    boolean isDone();
-
-    // 调用 get 时，如果还没计算完，将阻塞
-    V get() throws InterruptedException, ExecutionException;
-
-    // 如果过了设定的时间还没计算完，抛出超时异常
-    V get(long timeout, TimeUnit unit)
-        throws InterruptedException, ExecutionException, TimeoutException;
-}
-```
-
-FutureTask 实现了 Runnable 和 Future<V> 接口。可将 Callable 转换成 Future 和 Runnable，如：
-
-```java
-FutureTask<Long> future = new FutureTask<Long>( () -> {
-    Thread.sleep(1000);
-    return 5L;
-});
-
-new Thread(future).start();
-
-Long result = future.get();
-System.out.println(result);
-```
----
-
-# ExecutorService
-
-ExecutorService 是一个接口，继承于 Executor 。
-
-Executor 只有一个 `execute()` 方法，执行一个 Runnable 。
-
-```java
-public interface Executor {
-    void execute(Runnable command);
-}
-```
-
-ExecutorService 扩展了 Executor, 主要是多了`sumbit()`方法。
-
-```java
-public interface ExecutorService extends Executor {
-　　...
-　　<T> Future<T> submit(Callable<T> task);
-
-　　<T> Future<T> submit(Runnable task, T result);
-
-　　Future<?> submit(Runnable task);
-　　...
-}
-```
-
-说到底，ExecutorService 用来让一个线程发起一个异步任务，并可以用 `submit()` 方法得到一个异步计算的结果。
-
-通常可以用工厂方法构造 3 种不同的执行器：
-
-```java
-// 单线程执行器
-ExecutorService executorService1 = Executors.newSingleThreadExecutor();
-
-// 固定线程数量
-ExecutorService executorService2 = Executors.newFixedThreadPool(10);
-
-// 多线程调度执行器
-ExecutorService executorService3 = Executors.newScheduledThreadPool(10);
-```
-
-简单例子
-
-```java
-ExecutorService executorService = Executors.newFixedThreadPool(10);
-
-executorService.execute(new Runnable() {
-    public void run() {
-        System.out.println("Asynchronous task");
-    }
-});
-
-executorService.shutdown();
-```
-
-## submit 和 execute 的区别
-
-`execute()` 是 Executor 接口的方法，表示执行一个 Runnable， `submit()` 是 ExecutorService 的方法，内部调用了 `execute()` ，但还会返回一个异步计算结果 Future 对象（也意味着可以做异常处理）。

@@ -5,8 +5,8 @@ type: "about"
 comments: false
 ---
 
-<div align = "center">一个即将毕业的大四学生</div>
 <div align = "center">别人眼中的技术宅</div>
+
 <div align = "center">实际上只是个辣鸡</div>
 
 <div align = "center">

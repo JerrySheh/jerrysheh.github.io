@@ -231,6 +231,8 @@ public class ToywebApplication {
 }
 ```
 
+- `@SpringBootApplication` 是 Spring Boot 的核心注解，它是一个组合注解，该注解组合了：`@SpringBootConfiguration`、`@EnableAutoConfiguration`、`@ComponentScan`
+
 写一个类：HelloController.java
 
 ```java
@@ -247,8 +249,8 @@ public class HelloController {
 直接运行， 访问`127.0.0.1:8080`， 竟然已经能看到 Hello World 了，我们还没有进行 project structure 以及 Tomcat 配置呢 ？ 事实上， Spring Boot 已经内置了这些配置，拿来即用。
 
 注解：
+
 - `@RestController` 注解是 `@Controller` 和 `@ResponseBody` 的合体
-- `@SpringBootApplication` 是 Spring Boot 的核心注解，它是一个组合注解，该注解组合了：`@Configuration`、`@EnableAutoConfiguration`、`@ComponentScan`
 
 ### 配置文件
 
