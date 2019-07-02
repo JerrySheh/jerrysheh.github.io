@@ -43,13 +43,17 @@ Spring Boot 就是用于快速构建单个微服务的框架，而 Spring Cloud 
 
 # 我的服务在哪里 - 服务发现（Service Discovery）
 
-分布式架构中有很多机器，找到机器所在的物理地址即是服务发现。服务发现的一个好处是，调用方只需知道一个逻辑位置（而不是物理地址）即可以请求服务。而服务提供方可以通过水平伸缩（添加服务器）的方式来扩大服务，而不是想着买一台性能更好的服务器。服务发现的第二个好处是，当服务不可用时，服务发现引擎可以将坏掉的服务移除，然后采取一些其他策略。
+**分布式架构中有很多机器，找到机器所在的物理地址即是服务发现**。服务发现的一个好处是，调用方只需知道一个逻辑位置（而不是物理地址）即可以请求服务。而服务提供方可以通过水平伸缩（添加服务器）的方式来扩大服务，而不是想着买一台性能更好的服务器。服务发现的第二个好处是，当服务不可用时，服务发现引擎可以将坏掉的服务移除，然后采取一些其他策略。
 
 ![](../../../../images/springcloud/server-discovery.png)
 
 ## Spring Cloud Eureka 服务发现
 
-[eureka](https://github.com/Netflix/eureka) 是 Netflix 开源的一个用来定位服务并做负载均衡和故障转移的服务，Spring 将其集成在 Spring Cloud 里面。其本身也是一个微服务。
+[Eureka](https://github.com/Netflix/eureka) 是 Netflix 开源的一个用来 **定位服务** 并做 **负载均衡** 和 **故障转移** 的服务，Spring 将其集成在 Spring Cloud 里面。其本身也是一个微服务。使用 Eureka，即可获得：
+
+1. 定位、发现服务
+2. 服务端负载均衡
+3. 故障转移
 
 到 [Spring Initializr](https://start.spring.io/) 起一个 Spring Boot 工程，依赖选择 Eureka Server 。
 
@@ -214,9 +218,9 @@ public class ProductController {
 }
 ```
 
-关键是，如何取？
+**关键是，视图微服务如何从数据微服务中取数据？** 这就需要用到 Ribbon 和 Feign 了。
 
-#### 使用 Ribbon
+#### 使用 Ribbon 获取数据并做负载均衡
 
 Ribbon 用于调用其他服务，使用 restTemplate，并进行客户端负载均衡。
 
@@ -275,9 +279,9 @@ spring:
 
 别忘了 pom.xml 的 eureka-client 依赖
 
-#### 使用 Feign
+#### 使用 Feign 获取数据并做负载均衡
 
-Ribbon 用了 restTemplate，实际上还有另一种更优雅的方式，Feign
+Ribbon 用了 restTemplate，实际上还有另一种更优雅的方式 —— Feign
 
 pom.xml添加
 
@@ -303,8 +307,63 @@ Service 跟 Controller 跟 Ribbon 方式一样
 
 ---
 
+# 断路器
+
+## 服务雪崩效应
+
+为了保证微服务高可用，单个服务有时候会集群部署。但由于网络或程序自身的原因，服务并不能保证百分百可靠可用，如果单个服务出现问题，调用这个服务就出现线程阻塞。此时若有大量的请求涌入，servlet容器的线程资源就会被消耗完毕导致服务瘫痪。由于服务与服务之间有依赖，故障会传播，对整个微服务系统造成不可估量的严重后果，这就是常说的服务故障的“雪崩效应”。
+
+为了解决这个问题，有人就提出了一种解决问题的思路，断路器模型。就是每一个调用服务的接口处加一个断路器，默认是关闭的，当对服务调用时，不可用的次数达到一个阀值时，断路器就会打开，通过回调方法迅速返回一个值结束调用，避免出现连锁故障。
+
+## hystrix 断路器
+
+在 pom.xml 中添加 hystrix 的依赖：
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+</dependency>  
+```
+
+注解由原来的
+```java
+@FeignClient(value = "PRODUCT-DATA-SERVICE")
+```
+
+修改为
+
+```java
+@FeignClient(value = "PRODUCT-DATA-SERVICE",fallback = ProductClientFeignHystrix.class)
+```
+
+当服务不可用时，就调用 ProductClientFeignHystrix 来进行反馈信息。
+
+ProductClientFeignHystrix 的实现代码如下，实现了断路的 Feign 接口。
+
+```java
+@Component
+public class ProductClientFeignHystrix implements ProductClientFeign{
+    public List<Product> listProdcuts(){
+        List<Product> result = new ArrayList<>();
+        result.add(new Product(0,"数据微服务不可用",0));
+        return result;
+    }
+}
+```
+
+在配置文件中启用 hystrix
+
+```
+feign.hystrix.enabled: true
+```
+
+---
+
 # 小结
 
-可以看到，我们用 Eureka 做服务发现，将一个单体应用拆分成了 数据微服务 和 视图微服务 两个服务，并复制 数据微服务 的两份 jar 包，分别部署做负载均衡。视图微服务用 Ribbon 或 Feign 方式从 数据微服务 取数据。这一切，都要通过 服务注册与发现 Eureka。
+可以看到，我们用 Eureka 做服务发现，将一个单体应用拆分成了 数据微服务 和 视图微服务 两个服务，并复制 数据微服务 的两份 jar 包，分别部署做负载均衡。视图微服务用 Ribbon 或 Feign 方式从 数据微服务 取数据。这一切，都要通过服务注册与发现 Eureka。
 
-暂时写到这里，下一篇继续服务链路追踪、共享配置、消息总线、断路器和网关等内容。
+当 Feign 远程调用取数据发现对方服务不可用时，就会触发 Hystrix 断路器进行反馈，避免了服务雪崩效应。
+
+暂时写到这里，下一篇继续服务链路追踪、共享配置、消息总线和网关等内容。

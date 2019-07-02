@@ -1,5 +1,5 @@
 ---
-title: Java Web（一）Servlet和web容器
+title: Java Web（一）web容器和Servlet
 comments: true
 categories: Java Web
 tags:
@@ -9,44 +9,69 @@ abbrlink: d697e4e7
 date: 2018-03-04 23:43:38
 ---
 
+在聊 Servlet 之前，先讲讲什么是 Web服务器 和 应用服务器。
 
-Servlet 是任何Java EE Web应用程序的一个关键组件，它是一个用于接受和响应 HTTP 请求的Java类，可以简单地理解为是服务器端处理数据的java程序。
-
-Web容器是帮助我们管理 Servlet 的东西，我们只需要将重心专注于业务逻辑。
-
-<!-- more -->
-
-# Web容器 - Tomcat
+# Web服务器
 
 无论何种 Web 资源，想被远程计算机访问，都必须有一个与之对应的网络通信程序，当用户来访问时，这个网络通信程序读取 Web 资源数据，并把数据发送给来访者。
 
 ![](../../../../images/Webapp/webServer.png)
 
-Web服务器就是一个网络通信程序，它用于完成底层网络通迅。
+Web服务器就是一个网络通信程序，它用于完成底层网络通迅。具体来说，它将某个主机上的资源映射为一个URL供外界访问。
 
-使用 Web 服务器，Web 应用的开发者只需要关注 Web 资源怎么编写，而不需要关心资源如何发送到客户端手中，从而极大的减轻了开发者的开发工作量。
+使用 Web服务器，Web 应用的开发者只需要关注 Web 资源怎么编写，而不需要关心资源如何发送到客户端手中，从而极大的减轻了开发者的开发工作量。
 
-Tomcat 就是一个常用的 Web 服务器。
+---
 
-> 事实上，我们的 Web 应用要运行起来，是需要部署在应用服务器上而不是Web服务器。浏览器要访问我们的 Web 应用，需要通过 Http 协议访问 Web 服务器。 只不过， Tomcat 即是应用服务器，但也具有web服务器的功能，所以直接访问也可以。然而，在实际的生产环境中，由于负载均衡，cdn加速等原因，我们还是需要在应用服务器的前端再加一个web服务器来提高访问效率，常用的有Nginx,Apache这样的服务器。
+# 应用服务器 - Tomcat
+
+我们的 Web 应用要运行起来，是需要部署在应用服务器上而不是Web服务器。因为web服务器只负责资源映射，而程序业务逻辑需要另外的容器来处理。
+
+应用服务器一般装载着我们的后端应用程序，帮助我们接收请求、处理请求、响应请求。Tomcat 就是一种常见的应用服务器，但也具有web服务器的功能，所以直接访问也可以。
+
+通常，Tomcat 装载着我们的 Servlet 对象。那什么是 Servlet 呢？下文会讲到。
+
+> 在实际的生产环境中，由于负载均衡，cdn加速等原因，我们还是需要在应用服务器的前端再加一个web服务器来提高访问效率，常用的有 Nginx, Apache 这样的服务器。
+
+<!-- more -->
 
 ---
 
 # Servlet
 
+## Servlet 是什么
+
+简而言之，Servlet 就是一个接口，它规定了一个后端逻辑初始化的时候做什么、业务逻辑是什么、销毁的时候做什么。
+
+```java
+public interface Servlet {
+    void init(ServletConfig var1) throws ServletException;
+
+    ServletConfig getServletConfig();
+
+    void service(ServletRequest var1, ServletResponse var2) throws ServletException, IOException;
+
+    String getServletInfo();
+
+    void destroy();
+}
+```
+
 如果想开发一个Java程序向浏览器输出数据，需要完成以下2个步骤：
-1. 编写一个Java类，实现servlet接口。
-2. 把开发好的Java类部署到web服务器中。
+
+1. 编写一个Java类，实现servlet接口(然而现实情况是，servlet开发者已经帮我们实现了一个httpServlet的抽象类，我们只需继承httpServlet并重写doGet和doPost方法)。
+2. 把开发好的Java类部署到web服务器(tomcat)中。
 
 按照一种约定俗成的称呼习惯，通常我们也把实现了Servlet接口的java程序，称之为Servlet。
 
 ## Servlet的运行过程
 
 Servlet程序由Web服务器调用，web服务器收到客户端的Servlet访问请求后：
+
 1. Web服务器首先检查是否已经装载并创建了该Servlet的实例对象。如果是，则直接执行第4步，否则，执行第2步
 2. 装载并创建该Servlet的一个实例对象
 3. 调用Servlet实例对象的init()方法
-4. 创建一个用于封装HTTP请求消息的`HttpServletRequest对象`和一个代表HTTP响应消息的`HttpServletResponse对象`，然后调用Servlet的service()方法并将请求和响应对象作为参数传递进去。
+4. 创建一个用于封装HTTP请求消息的`HttpServletRequest对象`和一个代表HTTP响应消息的`HttpServletResponse对象`，然后调用Servlet的`service()`方法并将请求和响应对象作为参数传递进去。
 5. Web应用程序被停止或重新启动之前，Servlet引擎将卸载Servlet，并在卸载之前调用Servlet的`destroy()`方法。
 
 也就是说，web容器只有在首次访问时才创建Servlet，然后调用Servlet的`init()`方法。之后web容器创建请求（request）对象和响应（response）对象（响应对象此时为空），并将这两个对象作为参数，传入Servlet的`service()`方法。经`service()`方法处理后，将结果写入响应信息（此时响应对象已有内容）。最后，由web容器取出响应信息回送给浏览器。
@@ -61,7 +86,7 @@ Servlet是一个供其他Java程序（Servlet引擎）调用的Java类，它不�
 
 针对客户端的多次Servlet请求，通常情况下，**服务器只会创建一个Servlet实例对象**，也就是说Servlet实例对象一旦创建，它就会驻留在内存中，为后续的其它请求服务，直至web容器退出，servlet实例对象才会销毁。
 
-在Servlet的整个生命周期内，Servlet的 **init方法只被调用一次**。而对一个Servlet的每次访问请求都导致Servlet引擎调用一次servlet的service方法。对于每次访问请求，Servlet引擎都会创建一个新的`HttpServletRequest`请求对象和一个新的`HttpServletResponse`响应对象，然后将这两个对象作为参数传递给它调用的Servlet的service()方法，service方法再根据请求方式分别调用doXXX方法。
+在Servlet的整个生命周期内，Servlet的 **init方法只被调用一次**。而对一个Servlet的每次访问请求都导致Servlet引擎调用一次servlet的service方法。对于每次访问请求，Servlet引擎都会创建一个新的`HttpServletRequest`请求对象和一个新的`HttpServletResponse`响应对象，然后将这两个对象作为参数传递给它调用的Servlet的·方法，service方法再根据请求方式分别调用doXXX方法。
 
 如果在`<servlet>`元素中配置了一个`<load-on-startup>`元素，那么 Web 应用程序在启动时，就会装载并创建Servlet的实例对象、以及调用Servlet实例对象的`init()`方法。
 
@@ -74,7 +99,7 @@ Servlet是一个供其他Java程序（Servlet引擎）调用的Java类，它不�
 ### 新建IDEA工程
 
 1. 新建一个IDEA Maven工程
-2. 在 pom.xml 添加依赖 （依赖到 [mvnrepository](http://mvnrepository.com/artifact/javax.servlet/javax.servlet-api/4.0.0) 找）
+2. 在 pom.xml 添加 servlet-api 依赖 （依赖到 [mvnrepository](http://mvnrepository.com/artifact/javax.servlet/javax.servlet-api/4.0.0) 找）
 3. 右键工程名字，Add Framework Support，选择 Web
  Application
 4. Edit Configurations，配置 Tomcat 服务器
