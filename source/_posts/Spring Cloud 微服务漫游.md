@@ -30,13 +30,13 @@ Spring Boot 就是用于快速构建单个微服务的框架，而 Spring Cloud 
 采用微服务后，会有很多问题暴露出来。Spring 整合了一套技术用于解决这些问题，这些技术集，即是 Spring Cloud 本身。
 
 1. 如何快速搭建单个微服务？ Spring Boot 快速框架
-2. 多个微服务实例中如何共享配置信息？ Config Server 配置服务
-3. 怎么知道系统中有哪些服务？Eureka 服务发现
+2. 怎么知道系统中有哪些服务？Eureka 服务发现
+3. 多个微服务实例中如何共享配置信息？ Config Server 配置服务
 4. 如何让配置信息在多个微服务之间自动刷新？ RabbitMQ 总线 Bus
-5. 哪些微服务是如何彼此调用的？ Sleuth 服务链路追踪
-6. 如果数据微服务集群都不能使用了，视图微服务如何去处理? 断路器 Hystrix
-7. 视图微服务的断路器什么时候开启了？什么时候关闭了？ 断路器监控 Hystrix Dashboard
-8. 如果视图微服务本身是个集群，那么如何进行对他们进行聚合监控？ 断路器聚合监控 Turbine Hystrix Dashboard
+5. 微服务之间是如何彼此调用的？ Sleuth/zipkin 服务链路追踪
+6. 如果某个微服务（集群）不能使用了，调用方如何去处理? 断路器 Hystrix
+7. 某个微服务的断路器什么时候开启了？什么时候关闭了？ 断路器监控 Hystrix Dashboard
+8. 如果某个微服务本身是个集群，那么如何进行对他们进行聚合监控？ 断路器聚合监控 Turbine Hystrix Dashboard
 9. 如何不暴露微服务名称，并提供服务？ Zuul 网关
 
 ---
@@ -307,6 +307,46 @@ Service 跟 Controller 跟 Ribbon 方式一样
 
 ---
 
+# 服务链路追踪
+
+随着业务的增加，我们的分布式系统中会有越来越多的微服务，服务与服务之间的调用关系也会越来越复杂，很难直接通过代码观察。因此需要借助 **服务链路追踪服务器** 来可视化地展示服务链路。zipkin 就是这样一个东西。
+
+在有互相调用的微服务中（不包括eureka-server微服务）添加 zipkin 依赖：
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-zipkin</artifactId>
+</dependency>     
+```
+
+添加配置项:
+
+```
+spring.zipkin.base-url: http://localhost:9411
+```
+
+在启动类中加上:
+
+```java
+    @Bean
+    public Sampler defaultSampler() {
+        return Sampler.ALWAYS_SAMPLE;
+    }
+```
+
+启动 zipkin 服务 ：
+
+```
+java -jar zipkin-server-2.10.1-exec.jar
+```
+
+启动所有微服务，并进行一次调用
+
+访问：http://localhost:9411/zipkin/dependency/ 即可看到调用链
+
+---
+
 # 断路器
 
 ## 服务雪崩效应
@@ -360,10 +400,28 @@ feign.hystrix.enabled: true
 
 ---
 
+# 配置服务
+
+一个微服务可能是用集群的方式部署，有多个实例。当需要修改配置信息时，要手动对集群的每一个微服务实例进行修改，显然很麻烦。为了解决这一问题，我们把配置信息放在一个公共的地方，比如 git 上面，然后通过 **配置服务器（ConfigServer）** 获取。每一个微服务实例再从 ConfigServer 上获取配置。
+
+这样，只要修改 git 上的信息，同一个集群里的所有微服务都立即获取相应信息了。
+
+ConfigServer 本身是一个微服务，启动后，我们还需要对客户端微服务进行修改，才能感应到配置服务器。
+
+---
+
+# 消息总线 Bus
+
+虽然有了 ConfigServer，但是每次修改配置信息，我们都需要重启 ConfigServer 和客户端微服务实例。我们希望一旦 git 上的配置信息修改之后，就可以自动地刷新到微服务里，而不需要手动重启。
+
+RabbitMQ 是一个消息队列中间件，Spring Cloud 通过 RabbitMQ 来进行消息广播，以达到有配置信息发生改变的时候，广播给多个微服务的效果。
+
+---
+
 # 小结
 
-可以看到，我们用 Eureka 做服务发现，将一个单体应用拆分成了 数据微服务 和 视图微服务 两个服务，并复制 数据微服务 的两份 jar 包，分别部署做负载均衡。视图微服务用 Ribbon 或 Feign 方式从 数据微服务 取数据。这一切，都要通过服务注册与发现 Eureka。
+可以看到，我们用 Eureka 做服务发现，将一个单体应用拆分成了 数据微服务 和 视图微服务 两个服务，并复制 数据微服务 的两份 jar 包，分别部署做负载均衡。视图微服务用 Ribbon 或 Feign 方式（推荐）从 数据微服务 取数据。这一切，都要通过服务注册与发现 Eureka。
+
+当系统中的服务越来越多，我们借助 **zipkin服务链路追踪器** 来观察服务之间的调用关系。微服务集群中，我们用 ConfigServer 共享配置信息，并通过 RabbitMQ 消息总线进行广播刷新。
 
 当 Feign 远程调用取数据发现对方服务不可用时，就会触发 Hystrix 断路器进行反馈，避免了服务雪崩效应。
-
-暂时写到这里，下一篇继续服务链路追踪、共享配置、消息总线和网关等内容。
