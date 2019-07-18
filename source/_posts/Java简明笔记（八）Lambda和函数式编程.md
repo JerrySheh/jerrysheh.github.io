@@ -202,7 +202,7 @@ public static void main(String[] args) {
 
 jdk 1.8 预置了一些函数式接口，在 java.util.function 包里。
 
-### Consumer<T>
+## Consumer<T>
 
 接收一个对象 T， 无返回。
 
@@ -211,15 +211,15 @@ Consumer<Double> cal = (d) -> System.out.println(d*2);
 cal.accept(3.5);
 ```
 
-### Supplier<T>
+## Supplier<T>
 
 不接收参数，返回一个对象 T
 
-### Predicate<T>
+## Predicate<T>
 
 接收一个对象T，返回 boolean
 
-### Function<T,R>
+## Function<T,R>
 
 接收一个对象T，返回一个对象R
 

@@ -111,7 +111,7 @@ SELECT to_date(`2019-3-6`, 'yyyy-mm-dd')
 在 MySQL 中， 用 `str_to_date(str,format)`：
 
 ```sql
-SELECT str_to_date('2019-3-6', '%Y-%m-%d')
+SELECT str_to_date('2019-3-6 16:53:58', '%Y-%m-%d %H:%i:%S')
 ```
 
 ## 时间截取
