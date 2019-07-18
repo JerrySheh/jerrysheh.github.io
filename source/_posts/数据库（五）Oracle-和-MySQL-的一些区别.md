@@ -135,12 +135,19 @@ trunc(sysdate)
 在 MySQL 中，只能用 DATE_FORMAT 函数来格式化时间。
 
 ```sql
+# 自定义日期格式
 SELECT date_format(now(), '%Y-%m-%d');
+
+# 当月的第一天
+SELECT date_format(now(), '%Y-%m-01');
+
+# 下个月的第一天
+SELECT date_add(date_format(now(), '%Y-%m-01'), INTERVAL 1 MONTH)
 ```
 
 不过，如果要取当天，Oracle 里的 trunc(sysdate) 在 MySQL 可以直接写成 CURDATE()
 
-# 日期相加
+## 日期相加
 
 在 Oracle 中，当前时间的三个月后，写法为：
 
@@ -153,6 +160,18 @@ add_months(sysdate, 3)
 ```sql
 date_add(now(), INTERVAL 3 montn)
 ```
+
+## nvl2
+
+在 Oracle 中，`nvl2(a,b,c)` 的逻辑是： 如果 a 为 null ，则c，否则 b
+
+在 MySQL 中写法为：
+
+```
+IF ( ISNULL(a), c, b );
+```
+
+注意 b 和 c 的位置
 
 ---
 
@@ -244,3 +263,7 @@ ON DUPLICATE KEY UPDATE
 column1 = v1,
 column2 = v2
 ```
+
+## 别名
+
+mysql delete语句不支持别名，Oracle可以
