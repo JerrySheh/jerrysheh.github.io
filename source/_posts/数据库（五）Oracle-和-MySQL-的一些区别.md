@@ -96,8 +96,8 @@ SELECT to_char(sysdate, 'hh24-mi-ss') from dual;
 在 MySQL 中，用 `date_format(time, format)`（可表示年月日时分秒多种格式） 或 `time_format(time, format)`（只可表示时分秒）
 
 ```sql
-SELECT date_format(now(), '%Y-%m-%d');
-SELECT time_format(now(), '%H-%i-%S');
+SELECT date_format(now(), '%Y-%m-%d %H:%i:%S');
+SELECT time_format(now(), '%H:%i:%S');
 ```
 
 ## char 转时间
