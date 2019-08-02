@@ -173,6 +173,25 @@ IF ( ISNULL(a), c, b );
 
 注意 b 和 c 的位置
 
+## decode()
+
+在 Oracle 中，decode(条件，值1，返回值1，值2，返回值2, ......) 用来选择数据
+
+在 MySQL 中，用 case when 代替
+
+```sql
+case 条件
+  when '值1' then '返回值1'
+  when '值2' then '返回值2'
+  when ...   then ...      END
+```
+
+## 保留两位小数
+
+在 Oracle 中，用 `to_char(123.345, '0.99')` 保留两位小数并转换成字符串
+
+在 MySQL 中，用 `convert(123.345, decimal(10,2))` 来保留两位小数
+
 ---
 
 # 其他

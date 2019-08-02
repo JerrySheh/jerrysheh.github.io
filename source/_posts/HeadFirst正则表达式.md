@@ -35,6 +35,8 @@ x &#124; y| 匹配x或者y（表达式）|
 
 # 实例
 
+## 实例1
+
 匹配以 Str 开头， r 结尾， 中间任意个任意字符
 
 ```
@@ -42,6 +44,31 @@ Str.*r
 ```
 
 匹配： Stringbuffer， StringBuilder
+
+## 实例2
+
+匹配所有以 , 结尾，修改成 comment '',
+
+```
+查找：
+(.*),
+
+替换：
+$1 comment '',
+```
+
+.表示任意字符，* 表示任意多个，括号用于在下面 $1 保留原内容
+
+效果：
+```
+原：
+not null,
+NUMBER(20),
+
+现：
+not null comment '',
+NUMBER(20) comment '',
+```
 
 # Linux中使用 grep 和正则表达式，查找文件
 
