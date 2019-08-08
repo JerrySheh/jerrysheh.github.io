@@ -84,6 +84,20 @@ MySQL 不允许 default+函数（时间函数除外），因此 `default user()`
 
 在 MySQL 中，子串用 `substring('abcd',2, 2)`
 
+注意：mysql的 start 从 1 开始，如果 start 为 0 ，那么返回空
+
+Oracle
+```sql
+substr('shit', 0, 1) -- 返回 s
+substr('shit', 1, 1) -- 返回 s
+```
+
+MySQL
+```sql
+substring('shit',0, 1) -- 返回空串
+substring('shit',1, 1) -- 返回 s
+```
+
 ## 时间转char
 
 在 Oracle 中，用 `to_char(time, format)`：
@@ -113,6 +127,21 @@ SELECT to_date(`2019-3-6`, 'yyyy-mm-dd')
 ```sql
 SELECT str_to_date('2019-3-6 16:53:58', '%Y-%m-%d %H:%i:%S')
 ```
+
+#### YYYYMM 注意点
+
+Oracle
+```sql
+to_date('201907', 'YYYYMM') -- 返回 2019-7-1
+```
+
+MySQL`
+```sql
+str_to_date('201907', '%Y%m') -- 返回空串
+str_to_date('20190701', '%Y%m%d') -- 返回 2019-07-01
+```
+
+所以，遇到 `201907` 这样的 char 要转成日期，只能用 `concat('201907', '01')`
 
 ## 时间截取
 
@@ -160,6 +189,18 @@ add_months(sysdate, 3)
 ```sql
 date_add(now(), INTERVAL 3 montn)
 ```
+
+## 相差月数
+
+在 Oracle 中，用 `months_between(日期1，日期2)` 计算日期相差的月数
+
+在 MySQL 中，用 `timestampdiff(month, 日期1，日期2)`
+
+## nvl
+
+nvl(a, b) 如果 a 为 null，则函数结果为b，否则函数结果为a
+
+在 MySQL 中，用 ifnull(a, b) ，注意 ifnull 不能判空串
 
 ## nvl2
 
