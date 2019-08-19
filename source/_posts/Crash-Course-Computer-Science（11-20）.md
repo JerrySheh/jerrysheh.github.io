@@ -1,7 +1,7 @@
 ---
 title: Crash Course Computer Science（11-20）
 comments: true
-categories: 技术&技巧
+categories: 计算机科学
 tags: 计算机科学
 abbrlink: '20575023'
 date: 2019-08-08 23:11:15
