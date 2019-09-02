@@ -78,7 +78,7 @@ Altair 8800的问世聚集了很多计算机爱好者的聚会，一次聚会上
 
 ![](../../../../images/crachcoursecs/z-buffering.png)
 
-![](../../../../images/crachcoursecs/bug.png)
+![](../../../../images/crachcoursecs/bug.jpg)
 
 在 3D 场景中，同样也需要明暗处理，最简单的是用 **平面着色** 照明算法，后来又开发了其他优化算法。此外，3D 中还需要 **纹理化** 让网格得到特殊外观。此处就不展开讲了。
 
