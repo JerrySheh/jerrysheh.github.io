@@ -264,7 +264,7 @@ $ git push -u origin master -f –强制提交
 
 ---
 
-# 其他
+# LF/CRLF
 
 LF will be replaced by CRLF
 
@@ -272,6 +272,27 @@ LF will be replaced by CRLF
 
 ```
 git config –global core.autocrlf false
+```
+
+---
+
+# 代理
+
+```shell
+# 设置ss
+git config --global http.proxy 'socks5://127.0.0.1:1080'
+
+git config --global https.proxy 'socks5://127.0.0.1:1080'
+
+# 设置代理
+git config --global https.proxy http://127.0.0.1:1080
+
+git config --global https.proxy https://127.0.0.1:1080
+
+# 取消代理
+git config --global --unset http.proxy
+
+git config --global --unset https.proxy
 ```
 
 ---
