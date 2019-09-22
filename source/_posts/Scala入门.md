@@ -1,10 +1,10 @@
 ---
 title: Scala 入门
 comments: true
-categories: Scala
+categories: 大数据
 tags:
-- 大数据
-- Scala
+  - 大数据
+  - Scala
 abbrlink: b8de25eb
 date: 2018-04-08 22:25:59
 ---

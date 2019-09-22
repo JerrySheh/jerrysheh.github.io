@@ -1,6 +1,6 @@
 ---
 title: HeadFirst正则表达式
-categories: 技术&技巧
+categories: 计算机
 tags: linux
 abbrlink: e36ce161
 date: 2017-10-31 08:53:39

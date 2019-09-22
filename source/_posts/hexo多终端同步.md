@@ -1,6 +1,6 @@
 ---
 title: Hexo多终端同步
-categories: 技术&技巧
+categories: 计算机
 tags:
   - linux
 abbrlink: 63b47f65

@@ -1,7 +1,7 @@
 ---
 title: Docker探索
 comments: true
-categories: 技术&技巧
+categories: 计算机
 tags: Docker
 abbrlink: b1f3af76
 date: 2019-01-13 23:18:46
