@@ -57,8 +57,8 @@ Android系统架构可以分为五层，分别是：
 
 
 * **应用层（System app）**，所有安装在手机上的app都是应用层的，包括系统自带app和第三方开发的app。
-* **应用框架层（JAVA API Framework）**，提供了构建应用程序时需要的API。
-* **系统运行库（Native C/C++ Libraries） 和 Android Runtime**， 通过C/C++库来为Android系统提供主要的特性支持。如SQLite库提供数据库支持，OpenGL/ES库提供3D绘图支持，Webkit库提供浏览器内核支持等。Android Runtime是Android的核心库，为Android应用跨平台使用提供的可靠方案，每个app都会有自己独立的运行空间和虚拟机。允许开发者使用JAVA、Kotlin编写Android应用。
+* **应用框架层（Java API Framework）**，提供了构建应用程序时需要的API。
+* **系统运行库（Native C/C++ Libraries） 和 Android Runtime**， 通过C/C++库来为Android系统提供主要的特性支持。如SQLite库提供数据库支持，OpenGL/ES库提供3D绘图支持，Webkit库提供浏览器内核支持等。Android Runtime是Android的核心库，为Android应用跨平台使用提供的可靠方案，每个app都会有自己独立的运行空间和虚拟机。允许开发者使用Java、Kotlin编写Android应用。
 * **硬件抽象层（Hardware Abstraction Layer, HAL）** 主要与manufacture和chip vendor相关，manufacture提供HAL的实现以及各种硬件设备的驱动和集成chip vendor提供的firmware。
 * **Linux内核层（Linux Kernel）**，为硬件提供了底层驱动，如显示驱动，照相机驱动，音频驱动，蓝牙驱动等。
 

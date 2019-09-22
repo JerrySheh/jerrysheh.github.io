@@ -1,7 +1,7 @@
 ---
 title: Java虚拟机（五）JVM参数和调优
 comments: true
-categories: JAVA
+categories: Java
 tags:
   - Java
   - JVM

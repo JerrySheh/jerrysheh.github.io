@@ -1,7 +1,7 @@
 ---
 title: Effective Java（一）创建和销毁对象
 comments: true
-categories: JAVA
+categories: Java
 tags: Java
 abbrlink: 39fc1edf
 date: 2019-09-09 23:35:58

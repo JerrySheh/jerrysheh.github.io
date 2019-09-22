@@ -1,7 +1,7 @@
 ---
 title: Java简明笔记（十二） IO编程
 comments: true
-categories: JAVA
+categories: Java
 tags: Java
 abbrlink: 779c6006
 date: 2018-03-11 10:44:18
@@ -135,10 +135,10 @@ public class IO {
 
 ## 流的概念
 
-在 JAVA API 中，可以从JAVA程序向外部写入字节序列的对象叫`输出流`，相反，可以从外部向JAVA程序读入字节序列的对象叫`输入流`。
+在 Java API 中，可以从Java程序向外部写入字节序列的对象叫`输出流`，相反，可以从外部向Java程序读入字节序列的对象叫`输入流`。
 
-* 输出流：JAVA → 外部
-* 输入流：外部 → JAVA
+* 输出流：Java → 外部
+* 输入流：外部 → Java
 
 这里的外部，通常是指文件，当然也可以是网络，甚至内存。
 

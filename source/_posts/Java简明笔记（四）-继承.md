@@ -1,7 +1,7 @@
 ---
 title: Java简明笔记（四） 继承
 comments: true
-categories: JAVA
+categories: Java
 tags: Java
 abbrlink: 2fJava80
 date: 2018-01-23 18:14:26

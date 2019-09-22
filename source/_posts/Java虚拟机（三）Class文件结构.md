@@ -1,7 +1,7 @@
 ---
 title: Java虚拟机（三）Class文件结构
 comments: true
-categories: JAVA
+categories: Java
 tags: Java
 abbrlink: d15ce8f0
 date: 2018-08-09 21:30:49

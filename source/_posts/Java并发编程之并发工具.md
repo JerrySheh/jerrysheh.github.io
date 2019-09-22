@@ -1,7 +1,7 @@
 ---
 title: Java并发编程之并发工具
 comments: true
-categories: JAVA
+categories: Java
 tags:
 - Java
 - 并发

@@ -1,7 +1,7 @@
 ---
 title: Java并发编程之安全性
 comments: true
-categories: JAVA
+categories: Java
 tags: Java
 abbrlink: b4ed848b
 date: 2018-03-30 16:08:54

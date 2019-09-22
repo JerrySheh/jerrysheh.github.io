@@ -1,7 +1,7 @@
 ---
 title: Java简明笔记（十四）反射机制
 comments: true
-categories: JAVA
+categories: Java
 tags: Java
 abbrlink: e753fbbb
 date: 2018-03-31 21:20:17

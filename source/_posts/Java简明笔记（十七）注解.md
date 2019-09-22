@@ -1,7 +1,7 @@
 ---
 title: Java简明笔记（十七）注解
 comments: true
-categories: JAVA
+categories: Java
 tags: Java
 abbrlink: b3112bec
 date: 2019-06-04 11:21:31

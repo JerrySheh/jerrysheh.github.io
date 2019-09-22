@@ -1,7 +1,7 @@
 ---
 title: Java简明笔记（十） 输入与输出
 comments: true
-categories: JAVA
+categories: Java
 tags: Java
 abbrlink: 85d8e3e2
 date: 2018-02-27 15:06:51

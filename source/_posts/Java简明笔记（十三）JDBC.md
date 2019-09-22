@@ -1,7 +1,7 @@
 ---
 title: Java简明笔记（十三）JDBC
 comments: true
-categories: JAVA
+categories: Java
 tags: Java
 abbrlink: f07211ef
 date: 2018-03-20 17:59:50

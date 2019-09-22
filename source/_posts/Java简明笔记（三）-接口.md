@@ -3,7 +3,7 @@ title: Java简明笔记（三） 接口
 comments: true
 abbrlink: 32811f1d
 date: 2018-01-20 22:27:27
-categories: JAVA
+categories: Java
 tags: Java
 ---
 

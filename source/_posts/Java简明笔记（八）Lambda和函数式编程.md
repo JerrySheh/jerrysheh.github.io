@@ -1,7 +1,7 @@
 ---
 title: Java简明笔记（八）Lambda和函数式编程
 comments: true
-categories: JAVA
+categories: Java
 tags: Java
 abbrlink: 68278ec8
 date: 2018-02-25 16:55:10

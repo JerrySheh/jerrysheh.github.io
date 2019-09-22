@@ -1,7 +1,7 @@
 ---
 title: Java简明笔记（十六）网络编程
 comments: true
-categories: JAVA
+categories: Java
 tags: Java
 abbrlink: bbbc0df0
 date: 2019-01-10 18:01:15

@@ -1,6 +1,6 @@
 ---
 title: Java简明笔记（一） 基础知识
-categories: JAVA
+categories: Java
 tags: Java
 abbrlink: b3088ac5
 date: 2017-11-05 22:40:39

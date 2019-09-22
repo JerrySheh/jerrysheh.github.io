@@ -3,7 +3,7 @@ title: Java中的引用类型
 comments: false
 abbrlink: ae9388fa
 date: 2018-04-14 10:35:48
-categories: JAVA
+categories: Java
 tags: Java
 ---
 

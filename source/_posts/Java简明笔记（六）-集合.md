@@ -1,7 +1,7 @@
 ---
 title: Java简明笔记（六） 集合
 comments: true
-categories: JAVA
+categories: Java
 tags: Java
 abbrlink: f85bb872
 date: 2018-02-04 22:43:40
@@ -156,7 +156,7 @@ lIter.add("jerry"); // insert jerry at 2nd position
 
 ## List 如何去重
 
-JAVA 8 使用 Stream:
+Java 8 使用 Stream:
 
 ```java
 list = list.stream().distinct().collect(Collectors.toList());
