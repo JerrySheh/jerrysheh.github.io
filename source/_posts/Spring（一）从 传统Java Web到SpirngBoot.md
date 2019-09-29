@@ -345,6 +345,27 @@ chmod +x run.sh
 </plugin>
 ```
 
+提示：Ctrl + Shift + F9 更新静态文件
+
+### 引入静态文件
+
+application.properties
+
+```
+# 静态资源
+spring.mvc.static-path-pattern=/static/**
+spring.resources.static-locations=classpath:/static
+```
+
+html
+
+```html
+<head>
+    <link rel="stylesheet" type="text/css" href="../static/css/materialize.css">
+    <script src="../static/js/materialize.js"></script>
+</head>
+```
+
 ---
 
 参考：

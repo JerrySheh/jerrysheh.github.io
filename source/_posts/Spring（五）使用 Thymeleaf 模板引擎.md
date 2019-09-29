@@ -254,5 +254,3 @@ page.html
 <script type="text/javascript" src="../../webapp/static/js/thymeleaf.js" th:src="@{/static/js/mybeautiful.js}"></script>
 ```
 ---
-
-#
