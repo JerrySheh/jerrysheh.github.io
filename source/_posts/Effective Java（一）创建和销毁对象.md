@@ -145,6 +145,74 @@ public static void main(String[] args) {
 
 ---
 
-# Item 3 使用私有构造器或枚举实现单例
+# Item 3 使用私有构造器或枚举实现单例（Singleton）
 
-未完待续
+> 注意: 不适用于多线程情况。
+
+单例用于一个类只允许一个实例对象的情况，通常有两种方法实现单例：**公有域** 和 **公有静态方法**。两种方式都是通过 **私有构造器 + 公开静态成员** 来实现的。
+
+第一种方法：公有域如下，客户端通过 `Elvis.INSTANCE` 来获取唯一对象。
+
+```java
+// Singleton with public final field
+public class Elvis {
+    public static final Elvis INSTANCE = new Elvis();
+    private Elvis() { ... }
+}
+```
+
+第二种方法：公有静态工厂如下：
+
+```java
+// Singleton with static factory
+public class Elvis {
+    private static final Elvis INSTANCE = new Elvis();
+    private Elvis() { ... }
+    public static Elvis getInstance() { return INSTANCE; }
+}
+```
+
+需要注意的是，有特权的客户端可以通过反射`AccessibleObject.setAccessible`的方式来调用私有构造方法。如果需要避免这个潜在的问题，可以修改构造函数，使其在请求创建第二个实例时抛出异常。
+
+当需要序列化单例类对象时，仅仅用 `implements Serializable` 是不够的，因为每一次反序列化都会创建一个新的实例，解决办法是声明所有成员为 `transient`，然后用以下方法来返回实例。
+
+```java
+// readResolve method to preserve singleton property
+private Object readResolve() {
+     // Return the one true Elvis and let the garbage collector
+     // take care of the Elvis impersonator.
+    return INSTANCE;
+}
+```
+
+最后还有一种用枚举实现单例的方式：
+
+```java
+// Enum singleton - the preferred approach
+public enum Elvis {
+    INSTANCE;
+
+    public void leaveTheBuilding() { ... }
+}
+```
+
+用这种方式无需担心序列化问题和反射攻击，但是如果单例类需要继承除 enum 外的其他父类，就不能使用这种方法。
+
+---
+
+# Item 4 使用私有构造器实现不可实例化
+
+有些类（如工具类）只包含静态域和静态方法，为了避免被误用，可以将其构造器设置为私有，从而不可实例化。
+
+```java
+// Noninstantiable utility class
+public class UtilityClass {
+    // Suppress default constructor for noninstantiability
+    private UtilityClass() {
+        throw new AssertionError();
+    }
+    ... // Remainder omitted
+}
+```
+
+为什么不用抽象类来实现不可实例化呢？因为抽象类可以被继承，其子类可以被实例化，并且会误导用户认为该类是为继承而设计的。
