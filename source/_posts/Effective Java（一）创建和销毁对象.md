@@ -13,19 +13,19 @@ date: 2019-09-09 23:35:58
 
 ```java
 public static Boolean valueOf(boolean b){
-  return b? Boolean.TRUE : Boolean.FALSE;
+  return b ? Boolean.TRUE : Boolean.FALSE;
 }
 ```
 
 这么做的好处有五个：
 
 1. 相比起构造器，静态工厂方法有名字，当有多个构造方法时容易搞混，静态工厂方法就不会；
-2. 静态工厂方法不要求每次都返回一个新对象，可以用来做单例和不可实例化保证；
+2. 静态工厂方法不要求每次都返回一个新对象，可以用来做单例（singleton）和不可实例化保证；
 3. 静态工厂方法可以返回一个对象的子类作为返回类型，而构造器不行，如 java.util.Collections；
 4. 静态工厂方法返回对象的类可以根据输入参数的不同而不同；
 5. 在编写包含该方法的类时，返回的对象的类不需要存在；
 
-使用静态工厂方法，主要的不足是，没有 public 或 protected 的构造器，因此也无法被子类化。但从另一个角度来说，这也是优点，因为这样做鼓励程序员多用组合，而不是继承，这是好的习惯。第二个不足是程序员可能比较难找到他们，以下是静态工厂方法常用的名字：
+使用静态工厂方法，主要的不足是，没有 public 或 protected 构造器，因此也无法被子类化。但从另一个角度来说，这也是优点，因为这样做鼓励程序员 **多用组合，而不是继承**，这是好的习惯。第二个不足是程序员可能比较难找到他们，以下是静态工厂方法常用的名字：
 
 - from
 - of
@@ -151,7 +151,7 @@ public static void main(String[] args) {
 
 单例用于一个类只允许一个实例对象的情况，通常有两种方法实现单例：**公有域** 和 **公有静态方法**。两种方式都是通过 **私有构造器 + 公开静态成员** 来实现的。
 
-第一种方法：公有域如下，客户端通过 `Elvis.INSTANCE` 来获取唯一对象。
+第一种方法：公有域，客户端通过 `Elvis.INSTANCE` 来获取唯一对象。
 
 ```java
 // Singleton with public final field
@@ -161,7 +161,7 @@ public class Elvis {
 }
 ```
 
-第二种方法：公有静态工厂如下：
+第二种方法：公有静态工厂方法。
 
 ```java
 // Singleton with static factory
@@ -200,7 +200,7 @@ public enum Elvis {
 
 ---
 
-# Item 4 使用私有构造器实现不可实例化
+# Item 4 使用私有构造器实现不可实例化（Noninstantiable）
 
 有些类（如工具类）只包含静态域和静态方法，为了避免被误用，可以将其构造器设置为私有，从而不可实例化。
 
@@ -216,3 +216,126 @@ public class UtilityClass {
 ```
 
 为什么不用抽象类来实现不可实例化呢？因为抽象类可以被继承，其子类可以被实例化，并且会误导用户认为该类是为继承而设计的。
+
+---
+
+# Item 5 使用依赖注入，而不是硬编码所需资源
+
+有些工具类或单例对象，依赖于一些底层资源。如单词拼写检查器，依赖于字典。
+
+```java
+// 静态工具类
+// Inappropriate use of static utility - inflexible & untestable!
+public class SpellChecker {
+    // 依赖直接生成
+    private static final Lexicon dictionary = ...;
+
+    private SpellChecker() {} // Noninstantiable
+
+    public static boolean isValid(String word) { ... }
+    public static List<String> suggestions(String typo) { ... }
+}
+
+// 单例对象
+// Inappropriate use of singleton - inflexible & untestable!
+public class SpellChecker {
+    // 依赖直接生成
+    private final Lexicon dictionary = ...;
+
+    private SpellChecker(...) {}
+    public static INSTANCE = new SpellChecker(...);
+
+    public boolean isValid(String word) { ... }
+    public List<String> suggestions(String typo) { ... }
+}
+```
+
+然而，不同语言的单词拼写检查器，依赖于不同的字典，因此在 SpellChecker 直接依赖 dictionary，既不够灵活，又不便于测试（测试依赖其他字典时需要修改代码）。也就是说，**静态工具类和单例类都不适合直接引用底层资源**。
+
+解决办法是 **依赖注入（Dependency injection）**。将 dictionary 依赖通过构造器，或静态工厂方法，或 item 2 中的 builder 传入 SpellChecker，从而实现解耦。
+
+```java
+// Dependency injection provides flexibility and testability
+public class SpellChecker {
+    private final Lexicon dictionary;
+
+    // 依赖由构造器传入
+    public SpellChecker(Lexicon dictionary) {
+        this.dictionary = Objects.requireNonNull(dictionary);
+    }
+
+    public boolean isValid(String word) { ... }
+    public List<String> suggestions(String typo) { ... }
+}
+```
+
+一个更好的实践建议是，将资源工厂传递给构造器，再让工厂造资源。这也是设计模式中 **工厂方法模式（Factory Method pattern）** 的体现。Java 8 中引入的 `Supplier<T>` 接口非常适合代表工厂。
+
+尽管依赖注入提高了灵活性和可测试性，但在大型项目中会让依赖变得十分混乱。使用依赖注入框架（如 Dagger、Guice  或 Spring）可以消除这些混乱。
+
+---
+
+# Item 6 避免创建不必要的对象
+
+## 重用不可变对象
+
+更多的时候，我们尽量要重用一个对象，而不是创建一个新的相同功能的对象，以节省资源。如果对象是不可变的（immutable, item 17），它就总是可以被重用。
+
+一个反面例子：
+
+```java
+String s = new String("bikini");  // DON'T DO THIS!
+```
+
+用 new 构造一个 String 时，其参数本身就是一个String，这样白白创建了一个 bikini 对象。正确的做法应该像下面这样，使用单个 String 实例，而不是每次执行时创建一个新实例。此外，它可以保证对象运行在同一虚拟机上的任何其他代码重用。
+
+```java
+String s = "bikini"; // DO THIS !
+```
+
+## 使用静态工厂方法避免创建不需要的对象
+
+使用静态工厂方法（static factory methods, item 1），可以避免创建不需要的对象。构造方法每次调用时都必须创建一个新对象，而工厂方法则不会。
+
+## 缓存（预编译）实例
+
+有些对象的创建很“昂贵”，例如检查一个字符串是否是一个有效的罗马数字：
+
+```java
+// Performance can be greatly improved!
+static boolean isRomanNumeral(String s) {
+    return s.matches("^(?=.)M*(C[MD]|D?C{0,3})"
+            + "(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$");
+}
+```
+
+我们发现，每次调用都要去匹配一次。`s.matches`在内部为正则表达式创建一个 Pattern 实例，并且只使用它一次，之后就可能被垃圾回收。然而，创建 Pattern 实例是昂贵的。解决方法是，将正则表达式显式编译为一个 Pattern 实例（不可变），缓存它，并在 isRomanNumeral 方法的每个调用中重复使用相同的实例：
+
+```java
+// Reusing expensive object for improved performance
+public class RomanNumerals {
+    private static final Pattern ROMAN = Pattern.compile(
+            "^(?=.)M*(C[MD]|D?C{0,3})"
+            + "(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$");
+
+    static boolean isRomanNumeral(String s) {
+        return ROMAN.matcher(s).matches();
+    }
+}
+```
+
+## 自动装箱导致的创建不必要对象
+
+注意自动装箱导致的创建不必要对象。如下面的代码，用 `Long` 会比 `long` 额外创建 2^31个不必要的 Long 实例。所以，优先使用基本类型而不是装箱的基本类型，也要注意无意识的自动装箱。
+
+```java
+// Hideously slow! Can you spot the object creation?
+private static long sum() {
+    Long sum = 0L;
+    for (long i = 0; i <= Integer.MAX_VALUE; i++)
+        sum += i;
+    return sum;
+}
+```
+
+最后，避免创建不必要的对象这并不是说对象创建是昂贵的，应该避免创建对象。现代JVM可以很轻松应对廉价的对象，但是像数据库连接这样的重量级对象，就应该考虑重用的问题。
