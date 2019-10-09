@@ -339,3 +339,87 @@ private static long sum() {
 ```
 
 最后，避免创建不必要的对象这并不是说对象创建是昂贵的，应该避免创建对象。现代JVM可以很轻松应对廉价的对象，但是像数据库连接这样的重量级对象，就应该考虑重用的问题。
+
+---
+
+# Item 7 消除过期的对象引用
+
+Java自带垃圾收集机制，但有时候得手动清除不需要的引用。
+
+在一个栈的实现中，弹栈时我们返回 pop 之后的栈顶元素，但刚刚被弹出去的元素，其实已经不再被需要了，然而它的引用还在，垃圾收集器不会回收它。所以这个栈存在「内存泄漏」。
+
+```java
+public Object pop() {
+    if (size == 0)
+        throw new EmptyStackException();
+    return elements[--size];
+}
+```
+
+如下图所示，一个数组实现的栈，尽管 `s[5]` 已经被 pop 出去，但垃圾回收器不知道，它会认为 s[0] - s[7] 都是有用的。
+
+![](../../../../images/Java/obsolete_ref.png)
+
+解决办法很简单，对弹出去的元素置为 null 即可：
+
+```java
+public Object pop() {
+    if (size == 0)
+        throw new EmptyStackException();
+    Object result = elements[--size];
+    elements[size] = null; // Eliminate obsolete reference
+    return result;
+}
+```
+
+> 请注意，清空对象引用应该是例外而不是规范。当一个类自己管理内存时，程序员才应该警惕内存泄漏问题。
+
+---
+
+# Item 8 避免使用 Finalizer 和 Cleaner 机制
+
+ Finalizer 被设计用来当垃圾回收时关闭一些特殊的资源，可能有点像 C++ 的析构函数，但它并不稳定，因为我们无法确定什么时候垃圾回收。从 Java 9 开始，Finalizer 已被弃用，但仍被 Java 类库所使用。 Java 9 中 Cleaner 机制代替了 Finalizer 机制。但是 Cleaner 仍然是不可预测的。一般不要轻易尝试 Finalizer 和 Cleaner 。
+
+ 需要关闭一般资源时，请使用 `try-with-resource`。只有在使用 JNI(Java Native Interface) 调用non-Java程序（C或C++）时，才使用 finalize() 来回收这部分的内存。
+
+---
+
+# Item 9 使用 try-with-resource 代替 try-finally
+
+像 `InputStream`，`OutputStream` 和 `java.sql.Connection` 这些资源时需要关闭的，通常我们用 `try-finally` 来关闭，但如果有多个资源需要关闭，情况会变得很糟糕：
+
+```java
+// try-finally is ugly when used with more than one resource!
+static void copy(String src, String dst) throws IOException {
+    InputStream in = new FileInputStream(src);
+    try {
+        OutputStream out = new FileOutputStream(dst);
+        try {
+            byte[] buf = new byte[BUFFER_SIZE];
+            int n;
+            while ((n = in.read(buf)) >= 0)
+                out.write(buf, 0, n);
+        } finally {
+            out.close();
+        }
+    } finally {
+        in.close();
+    }
+}
+```
+内层的try块喝finally块都可能抛出异常，然而外层的 finally 块会吃掉内层的异常，导致在异常堆栈跟踪中没有第一个异常的记录，这会让调试变得非常复杂。
+
+因此，在 Java 7 引入了 try-with-resources 语句，只要资源实现了 `AutoCloseable`接口就可以使用。当前， Java 类库和第三方类库中的许多类和接口现在都实现或继承了 `AutoCloseable`，所以无需担心。
+
+```java
+// try-with-resources on multiple resources - short and sweet
+static void copy(String src, String dst) throws IOException {
+    try (InputStream   in = new FileInputStream(src);
+         OutputStream out = new FileOutputStream(dst)) {
+        byte[] buf = new byte[BUFFER_SIZE];
+        int n;
+        while ((n = in.read(buf)) >= 0)
+            out.write(buf, 0, n);
+    }
+}
+```
