@@ -227,9 +227,11 @@ Statement 采用的是字符串拼接，不仅麻烦，还有被SQL注入的风�
 
 ---
 
-# execute 和 executeUpdate 的比较
+# execute、executeQuery 和 executeUpdate 的比较
 
-相同点：都可以执行增加，删除，修改
+executeQuery用于查询，返回单个结果集
+
+execute 和 executeUpdate都可以执行增加，删除，修改
 
 不同点：
 
