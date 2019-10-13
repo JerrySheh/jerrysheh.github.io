@@ -1,26 +1,58 @@
 ---
 title: Effective Java（一）创建和销毁对象
 comments: true
-categories: Java
+categories: Effective Java
 tags: Java
 abbrlink: 39fc1edf
 date: 2019-09-09 23:35:58
 ---
 
+《Effective Java》这本书算得上有口皆碑了，去年发现出了第三版，趁某东活动入手了一本英文版，粗略了过了一下，这本书给我最大的体会就是它教你如何成为一个真正的 Java 程序员，而不是 CRUD 程序员或 Spring 程序员，读这本书，能让你站在更高的角度和更深层次的视角去剖析 Java 的细节，让人豁然开朗。然而，上半年因为各种原因，瞎忙活了大半年，这本书一直没机会捡起来仔细看。好在最近工作不忙，想起来有这本书，决定一天看两个 Item 。
+
 # Item 1 使用静态工厂方法替代构造器
 
-获取一个对象，除了构造方法，还可以用静态工厂方法。例如 jdk 里，获取 Boolean 对象：
+我们平时编写一个类的构造方法，然后用 new 去获取一个对象。
 
 ```java
-public static Boolean valueOf(boolean b){
-  return b ? Boolean.TRUE : Boolean.FALSE;
+public class Student {
+    String name;
+    String age;
+
+    Student(String name, String age){
+        this.name = name;
+        this.age = age;
+    }
 }
+
+// client
+Student jerry = new Student("jerry", 18);
+```
+
+有时候我们还可以把构造器私有化，禁止 new，取而代之的是用一个静态方法 newInstance 来获取对象：
+
+```java
+public class Student {
+    String name;
+    int age;
+
+    private Student(String name, int age){
+        this.name = name;
+        this.age = age;
+    }
+
+    public static Student newInstance(String name, int age) {
+        return new Student(name, age);
+    }
+}
+
+// client
+Student jerry = Student.newInstance("jerry", 18);
 ```
 
 这么做的好处有五个：
 
-1. 相比起构造器，静态工厂方法有名字，当有多个构造方法时容易搞混，静态工厂方法就不会；
-2. 静态工厂方法不要求每次都返回一个新对象，可以用来做单例（singleton）和不可实例化保证；
+1. 有名字，构造方法有多个时容易搞混，静态工厂方法就不会；
+2. **静态工厂方法不要求每次都返回一个新对象，可以用来做单例（singleton）和不可实例化保证；**
 3. 静态工厂方法可以返回一个对象的子类作为返回类型，而构造器不行，如 java.util.Collections；
 4. 静态工厂方法返回对象的类可以根据输入参数的不同而不同；
 5. 在编写包含该方法的类时，返回的对象的类不需要存在；
@@ -35,6 +67,14 @@ public static Boolean valueOf(boolean b){
 - getType
 - newType
 - type
+
+例如 jdk 里，获取 Boolean 对象：
+
+```java
+public static Boolean valueOf(boolean b){
+  return b ? Boolean.TRUE : Boolean.FALSE;
+}
+```
 
 ---
 
