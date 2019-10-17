@@ -79,3 +79,72 @@ Jdk 中一个好的示范是 CountDownLatch 类，它本身是可变的，但它
 什么时候用继承？《Effective Java》作者 Joshua Bloch 的建议：
 
 > 只有在子类真的是父类的子类型的情况下，继承才是合适的。 换句话说，只有在两个类之间存在「is-a」关系的情况下，B 类才能继承 A 类。 如果你试图让 B 类继承 A 类时，问自己这个问题：每个 B 都是 A 吗？ 如果你不能如实回答这个问题，那么 B 就不应该继承 A。如果答案是否定的，那么 B 通常包含一个 A 的私有实例，并且暴露一个不同的 API ：A 不是 B 的重要部分 ，只是其实现细节。
+
+---
+
+# Item 19 为继承编写文档，否则就不要用继承
+
+如果一个类没有设计和文档说明，那么「外来」类去继承是危险的。
+
+测试为继承而设计的类的唯一方法是编写子类。
+
+构造方法绝不能直接或间接调用可重写的方法，因为父类构造方法先于子类构造方法运行，导致在子类构造方法运行之前，子类中的重写方法就已被调用。
+
+如果不想你的类被继承，将类设计为 final，或者让构造器私有，用静态工厂来实例化你的类。
+
+---
+
+# Item 20 接口优于抽象类
+
+Java 8 对接口引入了默认实现，抽象类和接口都允许有实现。
+
+因为 Java 只允许单一继承，所以继承抽象类会有一些限制，而一个类实现多个接口。接口允许构建非层级类型的框架。
+
+
+---
+
+# Item 21 接口的默认实现
+
+Java 8 提供了接口的默认实现，本质上是为了不改变接口设计的条件下，向接口加入更多方法。其用途主要在接口演化。
+
+考虑一个旧接口有一些旧的实现，后来新需求需要对该接口添加新方法，但是又不想改旧实现，此时就就可以用默认实现。但 **应该尽量避免使用默认实现，因为默认实现可能会破坏接口的功能**。例如 Collection 接口的 removeIf 方法，在很多集合类上都工作正常，但对于 `org.apache.commons.collections4.collection.SynchronizedCollection` ，如果这个类与 Java 8 一起使用，它将继承 removeIf 的默认实现，但实际上不能保持类的基本承诺：自动同步每个方法调用。
+
+默认实现对同步一无所知，并且不能访问包含锁定对象的属性。 如果客户端在另一个线程同时修改集合的情况下调用 SynchronizedCollection 实例上的 removeIf 方法，则可能会导致 `ConcurrentModificationException` 异常或其他未指定的行为。
+
+---
+
+# Item 22 接口仅用来定义类型，不用于导出常量
+
+客户端可以直接用接口引用具体实现类，这是接口的正确使用方式。
+
+糟糕的使用方式是常量接口（constant interface），即只为接口定义常量属性。类在内部使用一些常量，完全属于该类的实现细节，实现一个常量接口会导致这个实现细节在外部可见（因为接口是public的），不符合隐藏实现的原则。
+
+如果你确实想暴露一些常量给外部，用不可实例化的工具类：
+
+```java
+// Constant utility class
+package com.effectivejava.science;
+
+public class PhysicalConstants {
+  private PhysicalConstants() { }  // Prevents instantiation
+
+  public static final double AVOGADROS_NUMBER = 6.022_140_857e23;
+  public static final double BOLTZMANN_CONST  = 1.380_648_52e-23;
+  public static final double ELECTRON_MASS    = 9.109_383_56e-31;
+}
+```
+
+客户端调用：
+
+```java
+// Use of static import to avoid qualifying constants
+import static com.effectivejava.science.PhysicalConstants.*;
+
+public class Test {
+    double  atoms(double mols) {
+        return AVOGADROS_NUMBER * mols;
+    }
+    ...
+    // Many more uses of PhysicalConstants justify static import
+}
+```
