@@ -148,3 +148,66 @@ public class Test {
     // Many more uses of PhysicalConstants justify static import
 }
 ```
+
+---
+
+# Item 23 为类设计层次结构，不要混杂类
+
+如果有一个图形类，即可以表示圆又可以表示矩形，那么应该把这个类抽成两个类，共同继承于抽象图形类，而不是在类里用一个标签判断类型，再用 Switch 去走分支。
+
+不好的设计：
+
+```java
+class Figure {
+    enum Shape { RECTANGLE, CIRCLE };
+
+    double area() {
+        switch(shape) {
+          case RECTANGLE:
+            return length * width;
+          case CIRCLE:
+            return Math.PI * (radius * radius);
+          default:
+            throw new AssertionError(shape);
+        }
+    }
+
+}
+```
+
+好的设计：
+
+```java
+abstract class Figure {
+    abstract double area();
+}
+
+class Circle extends Figure {
+    final double radius;
+
+    @Override
+    double area() { return Math.PI * (radius * radius); }
+}
+
+class Rectangle extends Figure {
+    final double length;
+    final double width;
+
+    @Override
+    double area() { return length * width; }
+}
+```
+
+---
+
+# Item 24 尽量使用静态成员内部类
+
+建议：如果你声明了一个不需要访问宿主实例的成员类，最好把 static 修饰符放在它的声明中，使它成为一个静态成员类，而不是普通成员类。
+
+如果忽略了这个修饰符，每个实例都会有一个隐藏的外部引用给它的宿主实例。存储这个引用需要占用时间和空间。更严重的是，会导致即使宿主类在满足垃圾回收的条件时却仍然驻留在内存中。由此产生的内存泄漏可能是灾难性的。由于引用是不可见的，所以通常难以检测到。
+
+---
+
+# Item 25 一个.java源文件只定义一个顶级类
+
+永远不要将多个顶级类或接口放在一个源文件中。 遵循这个规则保证在编译时不能有多个定义。 这又保证了编译生成的类文件以及生成的程序的行为与源文件传递给编译器的顺序无关。
