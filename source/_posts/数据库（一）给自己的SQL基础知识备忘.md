@@ -177,6 +177,15 @@ C:\Program Files\MySQL\MySQL Server 8.0\bin>mysqldump.exe -uroot -p mall  -e --m
 
 3、登录数据库B，执行 source 命令导入
 
+---
+
+# 修改默认字符集
+
+```
+ALTER DATABASE db_name CHARACTER SET utf8mb4;
+ALTER TABLE db_name DEFAULT CHARACTER SET utf8mb4;
+ALTER TABLE db_name CONVERT TO CHARACTER SET utf8mb4;
+```
 
 ---
 

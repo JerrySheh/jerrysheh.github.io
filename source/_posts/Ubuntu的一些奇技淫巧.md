@@ -99,15 +99,25 @@ sudo apt-get autoremove
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.old
 ```
 
-## 2. 打开source.list
+## 2. 查看当前系统版本
 
 ```
-sudo gedit /etc/apt/source.list
+lsb_release -c
+Codename:       bionic
 ```
 
-## 3. 添加以下国内源并覆盖原内容
+## 3. 打开source.list
+
+```
+sudo gedit /etc/apt/sources.list
+```
+
+## 4. 添加以下国内源并覆盖原内容
 
 阿里云（推荐）
+
+16.04 xenial
+
 ```
 # deb cdrom:[Ubuntu 16.04 LTS _Xenial Xerus_ - Release amd64 (20160420.1)]/ xenial main restricted
 deb-src http://archive.ubuntu.com/ubuntu xenial main restricted #Added by software-properties
@@ -129,7 +139,23 @@ deb http://mirrors.aliyun.com/ubuntu/ xenial-security universe
 deb http://mirrors.aliyun.com/ubuntu/ xenial-security multiverse
 ```
 
-## 4. 更新
+18.04 bionic
+
+```
+deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+```
+
+
+## 5. 更新
 
 ```
 sudo apt-get update
