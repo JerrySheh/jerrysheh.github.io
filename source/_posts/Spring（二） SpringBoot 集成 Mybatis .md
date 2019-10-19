@@ -1,5 +1,5 @@
 ---
-title: Spring（二） 使用 Mybatis 注解方式集成 Spring Boot
+title: Spring（二） SpringBoot 集成 Mybatis
 comments: true
 abbrlink: 72ef7508
 date: 2018-04-17 23:48:59
@@ -12,105 +12,15 @@ tags:
 
 ![mybatis](http://www.mybatis.org/images/mybatis-logo.png)
 
-# 使用注解替代xml
+在 [使用 Mybatis 简化 JDBC 操作](../post/f251f1b.html) 中，简单描述了 Mybatis 的使用。这一篇主要记录下如何集成 Spring boot
 
-在 [使用 Mybatis 简化 JDBC 操作](../post/f251f1b.html) 中，通过配置 xml 的方式来进行增删查改，其实，在Spring Boot中推荐使用注解的方式使用 Mybatis，更加方便。
-
----
-
-# Spring 集成简明过程
-
-## 提供接口
-
-在 Spring 项目中，写一个接口，其实就是把 xml 搬到这个接口上来。
-
-com.jerrysheh.mapper.CategoryMapper.java
-```java
-package com.jerrysheh.mapper;
-
-import java.util.List;
-
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-import com.jerrysheh.pojo.Category;
-
-@Repository
-public interface CategoryMapper {
-
-    @Insert(" insert into category_ ( name ) values (#{name}) ")
-    public int add(Category category);
-
-    @Delete(" delete from category_ where id= #{id} ")
-    public void delete(int id);
-
-    @Select("select * from category_ where id= #{id} ")
-    public Category get(int id);
-
-    @Update("update category_ set name=#{name} where id=#{id} ")
-    public int update(Category category);  
-
-    @Select(" select * from category_ ")
-    public List<Category> list();
-}
-```
-
-> 在 Spring 集成 Mybatis 的时候，一般把这个接口放在 DAO 包（或者是 Mapper包），在接口前面使用 `@Mapper` 注解，之后这个接口在编译时会生成相应的实现类。需要注意的是：这个接口中不可以定义同名的方法，因为会生成相同的id，也就是说这个接口是不支持重载的。
-
-如果传入多个参数，需要使用 `@Param` 注解。
-
-```java
-// 修改密码
-@Update("update user set password=#{password} WHERE id=#{id}")
-void updatePassword(@Param("password") String password, @Param("id") Integer id);
-
-```
-
-## 提供配置文件 mybatis-config.xml
-
-> Spring Boot无需此步骤
-
-mybatis-config.xml 的 `<mappers>` 字段，添加注解类
-
-```xml
-<mappers>
-    <mapper resource="com/how2java/pojo/Category.xml"/>
-    <mapper class="com.jerrysheh.mapper.CategoryMapper"/>
-</mappers>
-```
-
-## 提供测试类Test.java
-
-```java
-//实例化一个 mapper
-CategoryMapper categoryMapper = session.getMapper(CategoryMapper.class);
-
-//获取 id 号为8的对象
-Category c = categoryMapper.get(8);
-System.out.println(c.getName());
-```
-
-- mapper对象有add、get、update、delete等方法。
-
-### xml VS 注解 测试类写法的不同
-
-```java
-// xml 配置，是用 session.方法 的方式，传入 xml 的 id 和 对象
-session.insert("addCategory",c);
-
-// 注解方式，是先通过 session 获取一个 mapeer
-// 然后通过 mapeer 来操作
-m = session.getMapper(class);
-m.get(8);
-
-```
 ---
 
 # Spring Boot 集成 Mybatis 简明过程
 
-- 创建一个 Spring Initalizr 工程，依赖选择 web、MySQL、Mybatis
-- 在application.properties填入以下内容
+创建一个 Spring Initalizr 工程，依赖选择 web、MySQL、Mybatis
+
+在application.properties填入以下内容
 
 ```
 spring.datasource.url=jdbc:mysql://127.0.0.1:3306/neu?characterEncoding=UTF-8&useSSL=false
@@ -119,7 +29,7 @@ spring.datasource.password=YourPassword
 spring.datasource.driver-class-name=com.mysql.jdbc.Driver
 ```
 
-- 创建pojo包，创建Student实体类，跟数据库对应
+- 创建pojo包，创建 Student 实体类，跟数据库对应
 
 ```java
 public class Student {
@@ -145,6 +55,13 @@ public interface StudentMapper {
 }
 ```
 
+如果有多个参数，用 `@Param` 注解
+
+```java
+@Update("update user set password=#{password} WHERE id=#{id}")
+void updatePassword(@Param("password") String password, @Param("id") Integer id);
+```
+
 - 创建Controller包，创建StudentController
 
 ```java
@@ -167,11 +84,59 @@ public class StudentController {
 
 这样，运行后访问 `127.0.0.1:8080/listStudent` ，可看到控制台输出数据库查到的所有 student 名字。
 
+## xml 方式
+
+有时候为了将SQL和Java代码隔离 ，会将 SQL 抽到 xml 里面，配置方法如下：
+
+在application.properties填入以下内容(重要！！！)
+
+```
+mybatis.mapper-locations=classpath:mapper/*.xml
+mybatis.type-aliases-package=com.jerrysheh.fun.entity
+mybatis.configuration.map-underscore-to-camel-case=true
+```
+
+在 resources 目录下创建 mapper 文件夹，再创建 productmapper.xml 文件
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.jerrysheh.fun.mapper.ProductMapper">
+
+    <select id="selectAll" resultType="com.jerrysheh.fun.entity.Product">
+        SELECT * FROM fun_product;
+    </select>
+
+    <insert id="addProduct" >
+        insert into fun_product(product_name, product_price) values (#{productName}, #{productPrice})
+    </insert>
+</mapper>
+```
+
+> 注意：namespace一定要填写对应的 mapper 接口，不能只到 package
+
+编写单元测试
+
+```java
+@SpringBootTest
+public class test {
+
+    @Autowired
+    ProductMapper productMapper;
+
+    @Test
+    public void test(){
+        List<Product> productList = productMapper.selectAll();
+        productList.forEach(System.out::println);
+    }
+
+}
+```
+
 ---
 
 以下为Mybatis知识点
-
----
 
 # 井字符和美元符的区别
 
