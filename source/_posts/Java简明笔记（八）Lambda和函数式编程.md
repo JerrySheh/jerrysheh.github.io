@@ -200,11 +200,25 @@ public static void main(String[] args) {
 
 # Java预置的函数式接口
 
-jdk 1.8 预置了一些函数式接口，在 java.util.function 包里。
+jdk 1.8 预置了一些函数式接口，在 java.util.function 包里。其中 6 个最常用的基本接口为：
 
 ## Consumer<T>
 
 接收一个对象 T， 无返回。
+
+```java
+@FunctionalInterface
+public interface Consumer<T> {
+    void accept(T t);
+
+    default Consumer<T> andThen(Consumer<? super T> after) {
+        Objects.requireNonNull(after);
+        return (T t) -> { accept(t); after.accept(t); };
+    }
+}
+```
+
+JDK 例子：System.out::println
 
 ```java
 Consumer<Double> cal = (d) -> System.out.println(d*2);
@@ -215,15 +229,11 @@ cal.accept(3.5);
 
 不接收参数，返回一个对象 T
 
+JDK例子：Instant::now
+
 ```java
 @FunctionalInterface
 public interface Supplier<T> {
-
-    /**
-     * Gets a result.
-     *
-     * @return a result
-     */
     T get();
 }
 ```
@@ -232,9 +242,71 @@ public interface Supplier<T> {
 
 接收一个对象T，返回 boolean
 
+```java
+@FunctionalInterface
+public interface Predicate<T> {
+
+    boolean test(T t);
+
+    default Predicate<T> and(Predicate<? super T> other) {
+        Objects.requireNonNull(other);
+        return (t) -> test(t) && other.test(t);
+    }
+
+    default Predicate<T> negate() {
+        return (t) -> !test(t);
+    }
+
+    default Predicate<T> or(Predicate<? super T> other) {
+        Objects.requireNonNull(other);
+        return (t) -> test(t) || other.test(t);
+    }
+
+    static <T> Predicate<T> isEqual(Object targetRef) {
+        return (null == targetRef)
+                ? Objects::isNull
+                : object -> targetRef.equals(object);
+    }
+}
+```
+
+JDK 例子：Collection::isEmpty
+
 ## Function<T,R>
 
 接收一个对象T，返回一个对象R
+
+JDK 例子：Arrays::asList
+
+## UnaryOperator<T>
+
+接收一个对象T，返回一个对象T。这个接口实际上继承了 `Function<T,T>`
+
+JDK 例子：String::toLowerCase
+
+## BinaryOperator<T>
+
+接收两个 T 对象，返回一个 T 对象。
+
+这个接口实际上继承了 `BiFunction<T,T,T>`，在 BiFunction 中，接收 T，U 返回 R。
+
+JDK 例子：BigInteger::add
+
+```java
+@FunctionalInterface
+public interface BinaryOperator<T> extends BiFunction<T,T,T> {
+
+    public static <T> BinaryOperator<T> minBy(Comparator<? super T> comparator) {
+        Objects.requireNonNull(comparator);
+        return (a, b) -> comparator.compare(a, b) <= 0 ? a : b;
+    }
+
+    public static <T> BinaryOperator<T> maxBy(Comparator<? super T> comparator) {
+        Objects.requireNonNull(comparator);
+        return (a, b) -> comparator.compare(a, b) >= 0 ? a : b;
+    }
+}
+```
 
 ---
 

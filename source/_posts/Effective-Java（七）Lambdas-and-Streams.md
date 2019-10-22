@@ -1,0 +1,75 @@
+---
+title: Effective Java（七）Lambdas and Streams
+comments: false
+categories: Effective Java
+tags: Java
+abbrlink: cc85a16e
+date: 2019-10-22 22:39:14
+---
+
+不要问为什么从三直接就到七了，时间很贵，优先挑感兴趣的看呗。
+
+# Item 42 lambda 表达式优于匿名类
+
+Java 的 Lambda 表达式本质上就是一个匿名类。而什么是匿名类？就是在使用的时候现场 new 并实现的类。
+
+只有一个方法的接口称为 **函数式接口（functioning interface）**，Lambda 表达式本质上就是对这样子的接口做现场实现。可以参考我之前写的：[Java简明笔记（八）Lambda和函数式编程](../post/68278ec8.html)
+
+然而 lambda 也不是万能的，它只对函数是接口有用，如果一个接口有多个方法需要重写，那只能用匿名类。this 关键字在 lambda 中引用封闭实例，在匿名类中引用匿名类实例。如果你需要从其内部访问函数对象，则必须使用匿名类。
+
+Lambdas 与匿名类都无法可靠地序列化和反序列化。因此，尽量少去 (如果有的话) 序列化一个 lambda (或一个匿名类实例)。如果有一个想要进行序列化的函数对象，比如一个 Comparator，那么使用一个私有静态嵌套类的实例（见 Item 24 ）。
+
+作者建议：一行代码对于 lambda 说是理想的，三行代码是合理的最大值。 如果违反这一规定，可能会严重损害程序的可读性。
+
+<!-- more -->
+
+---
+
+# Item 43 方法引用优于 lambda 表达式
+
+lambda 比 匿名类 简洁，方法引用比 lambda 简洁。
+
+考虑一个例子：
+
+```java
+map.merge(key, 1, (count, incr) -> count + incr);
+```
+
+第三个参数是一个 lambda，就只是求两数之和，而求和这个方法在 `Integer` 类中是存在的。所以可以直接用方法引用：
+
+```java
+map.merge(key, 1, Integer::sum);
+```
+
+Method Ref Type |	Example | Lambda Equivalent
+---|---|---
+Static  |	Integer::parseInt	              | str -> Integer.parseInt(str)
+Bound   |	Instant.now()::isAfter         	| Instant then = Instant.now();t -> then.isAfter(t)
+Unbound	| String::toLowerCase             |	str -> str.toLowerCase()
+Class   | Constructor	TreeMap<K, V>::new	| () -> new TreeMap<K, V>
+Array   | Constructor	int[]::new          |	len -> new int[len]
+
+原则：如果方法引用看起来更简短更清晰，请使用它们；否则，还是坚持 lambda。
+
+---
+
+# Item 44 优先使用标准的函数式接口
+
+java 8 提供了很多标准函数式接口（`java.util.Function` 有 43 个接口），其中有 6 个基本接口。当我们编写函数对象时，应该优先考虑标准接口，而不是自己定义函数式接口。
+
+接口|	方法|	示例
+---|---|---
+UnaryOperator<T> |	T apply(T t)|	String::toLowerCase
+BinaryOperator<T> |	T apply(T t1, T t2)|	BigInteger::add
+Predicate<T>|	boolean test(T t)|	Collection::isEmpty
+Function<T,R>	|R apply(T t)	|Arrays::asList
+Supplier<T>|	T get()	|Instant::now
+Consumer<T>|	void accept(T t)|	System.out::println
+
+这 6 个标准接口接收相应不同的参数，返回相应不同的对象。参考：[Java简明笔记（八）Lambda和函数式编程](../post/68278ec8.html)
+
+---
+
+# Item 45
+
+未完待续
