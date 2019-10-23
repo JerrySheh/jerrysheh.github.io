@@ -9,6 +9,14 @@ date: 2019-09-09 23:35:58
 
 《Effective Java》这本书算得上有口皆碑了，去年发现出了第三版，趁某东活动入手了一本英文版，粗略了过了一下，这本书给我最大的体会就是它教你如何成为一个真正的 Java 程序员，而不是 CRUD 程序员或 Spring 程序员，读这本书，能让你站在更高的角度和更深层次的视角去剖析 Java 的细节，让人豁然开朗。然而，上半年因为各种原因，瞎忙活了大半年，这本书一直没机会捡起来仔细看。好在最近工作不忙，想起来有这本书，决定一天看两个 Item 。
 
+系列目录：
+- [Effective Java（一）创建和销毁对象](../post/39fc1edf.html)
+- [Effective Java（二）对象通用的方法](../post/f754c291.html)
+- [Effective Java（三）类和接口](../post/20ef17da.html)
+- Effective Java（四）泛型
+- Effective Java（五）枚举和注解
+- [Effective Java（六）Lambdas and Streams](../post/cc85a16e.html)
+
 # Item 1 使用静态工厂方法替代构造器
 
 我们平时编写一个类的构造方法，然后用 new 去获取一个对象。
