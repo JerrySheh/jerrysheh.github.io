@@ -114,4 +114,28 @@ try (Stream<String> words = new Scanner(file).tokens()) {
 
 # Item 47 优先使用 Collection 而不是 Stream 来作为方法的返回类型
 
-未完待续
+如果在返回一些序列元素的方法里返回了一个流，而你想迭代，（或相反），可以用适配器将流和 iterator 互相转换。但这样会降低效率。
+
+```java
+// Adapter from  Stream<E> to Iterable<E>
+public static <E> Iterable<E> iterableOf(Stream<E> stream) {
+    return stream::iterator;
+}
+
+// Adapter from Iterable<E> to Stream<E>
+public static <E> Stream<E> streamOf(Iterable<E> iterable) {
+    return StreamSupport.stream(iterable.spliterator(), false);
+}
+```
+
+在实践中，最好优先考虑返回集合，而不是返回一个流。如果返回集合是不可行的，则返回流或可迭代对象。
+
+---
+
+# Item 48 谨慎使用流并行
+
+让我们回顾一下java的并发历史： 1996 年 java 发布 1.0 时就内置了对线程的支持，包括同步和 wait / notify 机制，java 5 加入了 `java.util.concurrent` 类库，提供了并发集合和执行器框架。Java 7 引入了 fork-join 包，这是一个用于并行分解的高性能框架。 Java 8 引入了流，可以通过对 parallel 方法的单个调用来并行化。用 Java 编写并发程序变得越来越容易，但编写正确快速的并发程序还像以前一样困难。
+
+通常，并行在 ArrayList、HashMap、HashSet 和 ConcurrentHashMap 实例、数组、int 类型和 long 类型的流上性能提升是最好的。因为它们都可以精确而廉价地分割成任意大小的子程序。
+
+Java 8 的 parallel 本质上是 fork-join 的封装，适合用少量线程执行大量任务的情况。本质上，是通过分治归并实现并行的。但这并不适合所有情况。只有在充分测试确实没有安全隐患和性能问题时，才考虑使用 parallel 。
