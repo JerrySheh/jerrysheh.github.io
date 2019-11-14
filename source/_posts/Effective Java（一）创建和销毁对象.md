@@ -18,6 +18,7 @@ date: 2019-09-09 23:35:58
 - Effective Java（五）枚举和注解
 - [Effective Java（六）Lambdas and Streams](../post/cc85a16e.html)
 - [Effective Java（七）方法](../post/387fb533.html)
+- [Effective Java（八）General Programming](../post/7d5810ff.html)
 
 
 # Item 1 使用静态工厂方法替代构造器
