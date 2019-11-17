@@ -17,21 +17,27 @@ tags: Java
 
 ---
 
-# Item 58 for-each 循环优于 fori 循环
+# Item 58 for-each 循环优于 for-i 循环
 
-如果你只是需要容器里的元素，而不需要下标，fori循环显然增加出错的可能性。最好用 for-each。for-each还可以用来遍历实现 Iterable 接口的任何对象。
+如果你只是需要容器里的元素，而不需要下标，for-i循环显然增加出错的可能性。最好用 for-each。for-each还可以用来遍历实现 Iterable 接口的任何对象。
 
 但也有不能用for-each的情况：
 
-1. **过滤删除**：如果需要遍历集合，并删除指定选元素，则需要使用显式iterator，以便可以调用其 remove 方法。 通常可以使用在 Java 8 中添加的 Collection 类中的 removeIf 方法，来避免显式遍历。
-2. **转换**：如果需要遍历一个列表或数组并替换其元素的部分或全部值，那么需要列表迭代器或数组索引来替换元素的值。
-3. **并行迭代**
+- **过滤删除**：如果需要遍历集合，并删除指定选元素，则需要使用显式iterator，以便可以调用其 remove 方法。 通常可以使用在 Java 8 中添加的 Collection 类中的 removeIf 方法，来避免显式遍历。
+
+```java
+List<String> li = new ArrayList<>(Arrays.asList("aa","bb","cc"));
+li.removeIf( a -> "aa".equals(a));
+```
+
+- **转换**：如果需要遍历一个列表或数组并替换其元素的部分或全部值，那么需要 iterator 或数组索引来替换元素的值。
+- **并行迭代**
 
 ---
 
 # Item 59 了解并使用库
 
-通过使用标准库，你可以利用编写它的专家的知识和以前使用它的人的经验。
+> 使用标准库，等于站在巨人肩膀上。
 
 例如，生成随机数，自己写有很大的不确定性，但是直接使用 `Random.nextInt(int)` 可以直接得到期望的结果。Java 7 更应该用 `ThreadLocalRandom`，它能产生更高质量的随机数，而且速度比`Random`快。对于 fork 连接池和并行流，使用 `SplittableRandom`。
 
@@ -90,7 +96,7 @@ BigDecimal funds = new BigDecimal("1.00");
 
 # Item 62 当使用其他类型更合适时应避免使用字符串
 
-略过
+略
 
 ---
 
@@ -100,6 +106,59 @@ BigDecimal funds = new BigDecimal("1.00");
 
 ---
 
-# Item 64
+# Item 64 通过接口引用对象
 
-未完待续
+如果存在合适的接口类型，那么应该使用接口类型声明参数、返回值、变量和字段。除非具体类要使用的方法是接口没有的。
+
+```java
+// Good - uses interface as type
+Set<Son> sonSet = new LinkedHashSet<>();
+
+// Bad - uses class as type!
+LinkedHashSet<Son> sonSet = new LinkedHashSet<>();
+```
+
+---
+
+# Item 65 接口优于反射
+
+用反射调用方法比普通调用要慢得多，可能会造成性能损失。而且不能在编译时做类型检查。
+
+通常在代码分析工具或依赖注入框架里会看到反射。仅仅在需要使用编译时不存在的类时才会用到反射。除此之外最好都用接口来声明类。
+
+---
+
+# Item 66 谨慎使用 Native 方法
+
+JNI 允许 Java 程序调用本地方法，这些方法是用 C 或 C++ 等本地编程语言编写的。由于本地语言比 Java 更依赖于平台，因此使用本地方法的程序的可移植性较差，也更难调试。
+
+---
+
+# Item 67 谨慎优化
+
+> 编写好的程序，而不是快速的程序
+
+很多计算上的过失都被归昝于效率。不要去计较效率上的一些小小的得失，在 97% 的情况下，不成熟的优化才是一切问题的根源。​ —William A. Wulf [Wulf72] —Donald E. Knuth [Knuth74]
+
+在优化方面，我们应该遵守两条规则：
+- 规则 1：不要进行优化。
+- 规则 2 （仅针对专家）：还是不要进行优化，也就是说，在你还没有绝对清晰的未优化方案之前，请不要进行优化。​ —M. A. Jackson [Jackson75]
+
+但是在设计系统时一定要考虑性能，特别是在设计API、线路层协议和持久数据格式时。
+
+---
+
+# Item 68 遵守被广泛认可的命名约定
+
+参考《阿里巴巴Java开发手册》
+
+Identifier Type	| Example
+---|---
+Package or module |	org.junit.jupiter.api, com.google.common.collect
+Class or Interface |	Stream, FutureTask, LinkedHashMap,HttpClient
+Method or Field	 |remove, groupingBy, getCrc
+Constant Field、	|MIN_VALUE, NEGATIVE_INFINITY
+Local Variable|	i, denom, houseNum
+Type Parameter|	T, E, K, V, X, R, U, V, T1, T2
+
+特别提一下容易被忽略的参数类型：T 表示任意类型，E 表示集合的元素类型，K 和 V 表示 Map 的键和值类型，X 表示异常。函数的返回类型通常为 R。任意类型的序列可以是 T、U、V 或 T1、T2、T3。

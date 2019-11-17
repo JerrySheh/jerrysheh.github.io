@@ -9,11 +9,11 @@ date: 2018-02-06 00:03:34
 
 # 异常处理
 
-在Java异常处理中，一个方法可以通过`抛出(throw)`异常来发出一个严重问题的信号。调回链中的某个方法，负责`捕获（catch）并处理`异常。捕获到的异常不仅可以在当前方法中处理，还可以将异常抛给调用它的上一级方法来处理。
+在Java异常处理中，一个方法可以通过 **抛出(throw)** 异常来发出一个严重问题的信号。调用链中的某个方法，负责 **捕获（catch）** 并处理异常。捕获到的异常不仅可以在当前方法中处理，还可以将异常抛给调用它的上一级方法去处理。
 
-异常处理的根本优点是：将错误检测和错误处理的过程解耦（拆分）。
+异常处理的根本优点是：将错误检测和错误处理的过程解耦。
 
-Java 的异常都派生自 Throwable 类，Throwable 又分为 Error 和 Exception。Error 不是我们的程序所能够处理的，比如系统内存耗尽。我们能预知并处理的错误属于 Exception。Exception又分为 unchecked exception 和 checked exception。 unchecked exception 属于 RuntimeException 的子类。
+Java 的异常都派生自 Throwable 类，Throwable 又分为 Error 和 Exception。Error 不是我们的程序所能够处理的，比如系统内存耗尽。我们能预知并处理的错误属于 Exception。Exception又分为 unchecked exception 和 checked exception。 unchecked exception 属于 RuntimeException 。
 
 > 当然，所有的异常都发生在运行时（Runtime），但是 RuntimeException 派生的子类异常在编译时不会被检查。
 
@@ -23,19 +23,17 @@ Java 的异常都派生自 Throwable 类，Throwable 又分为 Error 和 Excepti
 
 ## checked exceptions
 
-跟上下文环境有关，即使程序设计无误，仍然可能因使用的问题而引发．通常是从一个可以恢复的程序中抛出来的，并且最好能够从这种异常中使用程序恢复。
+跟上下文环境有关，即使程序设计无误，仍然可能因使用的问题而引发。通常是从一个可以恢复的程序中抛出来的，并且最好能够从这种异常中使应用程序恢复。
 
 我们所要关注的是一般情况下错误可被提前预知的 checked exception，什么是可被提前预知？比如IO操作文件可能损坏或不存在，网络操作的时候网络可能会断开...
 
-许多异常类派生自 IOException，我们应该尽可能用准确合适的异常类来报告错误。比如在某个路径查找指定文件时，却无法找到，此时应该抛出 FileNotFoundException。
+许多异常类派生自 `IOException`，我们应该尽可能用准确合适的异常类来报告错误。比如在某个路径查找指定文件时，却无法找到，此时应该抛出 `FileNotFoundException`。
 
 ## unchecked exceptions
 
 通常是如果一切正常的话本不该发生的异常，但是的确发生了。发生在运行期，具有不确定性，主要是由于程序的逻辑问题所引起的。
 
-unchecked exception 我们完全可以在程序中避免。比如遇到空指针异常，我们完全可以在代码中确保没有引用null值，通过修改代码来避免抛出这个异常。但是文件不存在或网络断开这种就不是我们逻辑代码的问题了，应该抛出异常。
-
-
+unchecked exception 我们完全可以在程序中避免。比如遇到`空指针异常`，我们完全可以在代码中确保没有引用null值，通过修改代码来避免抛出这个异常。但是文件不存在或网络断开这种就不是我们逻辑代码的问题了，应该抛出异常。
 
 ---
 
@@ -89,13 +87,13 @@ try {
 }
 ```
 
-## 示例3：带资源的异常捕获（try-with-resource）
+## 示例3：带资源的异常捕获（try-with-resource）(Java 7+)
 
 try后面接资源，在正常执行完之后或者当发生异常时，try-with-resources语句会自动关闭资源。
 
 这样我们不用写`out.close()`，但却能够保证每个资源的`out.close()`都会被触发。
 
-```
+```java
 ArrayList<String> lines ...;
 try (PrintWriter out = new PrintWriter("output.txt")) {
   for (String line:lines ) {
@@ -128,18 +126,17 @@ Thorw 写在程序里面，直接抛出异常。注意，抛出后程序便不�
 
 答：执行，并且 finally 的执行早于 try 里面的 return  
 
-* 不管有没有出现异常，finally块中代码`都会执行`；
-* 当try和catch中有return时，finally仍然会执行；
-* finally是在return后面的表达式运算后执行的（此时并没有返回运算后的值，而是先把要返回的值保存起来，不管finally中的代码怎么样，返回的值都不会改变，任然是之前保存的值），所以函数返回值是在finally执行前确定的；
-* finally中最好不要包含return，否则程序会提前退出，返回值不是try或catch中保存的返回值。
+* 不管有没有出现异常，finally块中代码 **都会执行**；
+* 当 try 或 catch中有 return 时，finally 仍然会执行；finally 是在 return 后面的表达式运算后执行的（此时并没有返回运算后的值，而是先把要返回的值保存起来，不管finally中的代码怎么样，返回的值都不会改变，任然是之前保存的值），所以函数返回值是在 finally 执行前确定的；
+* finally 中最好不要包含 return，否则程序会提前退出，返回值不是 try 或 catch 中保存的返回值。
 
 一句话总结: **先执行return后面的表达式，把结果保存起来，但不返回，然后执行finally，最后才返回。不要在finally中包含return，更不要在 finally 修改返回值。**
 
-若是在try语句块或catch语句块中执行到 System.exit(0) 语句，则直接退出程序。
+若是在try语句块或catch语句块中执行到 `System.exit(0)` 语句，则直接退出程序。
 
 ---
 
-# 使用Optional类解决空指针异常
+# 使用 Optional 类解决空指针异常
 
 一个对象如果可能是null，我们通常要写类似下面的代码来避免空指针异常：
 
@@ -153,9 +150,9 @@ if (obj != null){
 }
 ```
 
-在 Java 8 中，我们有了更好的方法来判断空指针——Optional 类。它是一个可以为null的容器对象。如果值存在则 isPresent() 方法会返回true，调用 get() 方法会返回该对象。Optional 容器可以保存类型T的值，或者仅仅保存null。Optional提供很多有用的方法，这样我们就不用显式进行空值检测。
+在 Java 8 中，我们有了更好的方法来判断空指针——Optional 类。它是一个可以为 null 的容器对象。如果值存在则 `isPresent()` 方法会返回 true，调用 `get()` 方法会返回该对象。Optional 容器可以保存类型 T 的值，或者仅仅保存null。Optional提供很多有用的方法，这样我们就不用显式进行空值检测。
 
-java.util.Optional<T> 的声明如下：
+`java.util.Optional<T>` 的声明如下：
 
 ```java
 public final class Optional<T>
