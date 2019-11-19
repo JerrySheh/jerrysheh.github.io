@@ -138,7 +138,7 @@ Exception in thread "main" java.lang.IndexOutOfBoundsException: Index: 5, Size: 
 
 ---
 
-# Item
+# Item 76 failure atomic
 
 一般而言，失败的方法调用应该使对象保持在被调用之前的状态。具有这种属性的方法被称为具有 **失败原子性（failure atomic）**。也就是说，出现异常并捕获，之后程序恢复，不会因此有其他任何状态的改变。
 
