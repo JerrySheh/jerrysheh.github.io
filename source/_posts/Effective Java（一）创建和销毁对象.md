@@ -14,13 +14,13 @@ date: 2019-09-09 23:35:58
 - [Effective Java（一）创建和销毁对象](../post/39fc1edf.html)
 - [Effective Java（二）对象通用的方法](../post/f754c291.html)
 - [Effective Java（三）类和接口](../post/20ef17da.html)
-- Effective Java（四）泛型
+- [Effective Java（四）泛型](../post/53a4cf82.html)
 - [Effective Java（五）枚举和注解](../post/acf36022.html)
 - [Effective Java（六）Lambdas and Streams](../post/cc85a16e.html)
 - [Effective Java（七）方法](../post/387fb533.html)
 - [Effective Java（八）General Programming](../post/7d5810ff.html)
 - [Effective Java（九）异常](../post/4e34dae4.html)
-- Effective Java（十）异常
+- Effective Java（十）并发
 
 # Item 1 使用静态工厂方法替代构造器
 
