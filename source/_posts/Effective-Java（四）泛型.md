@@ -56,4 +56,99 @@ Set<Lark> exaltation = new HashSet<>();
 
 # Item 28 List 优于 数组
 
-未完待续
+你不能把一个 `String` 放到一个 `Long` 类型的容器中，会编译出错。但是同样的情况在数组里却可以编译通过，要等到运行时才会抛出`ArrayStoreException`。
+
+数组和泛型不能混用。`new List<E>[]`，`new List<String>[]`，`new E[]`，这些将在编译时导致泛型数组创建错误。因为泛型数组不是类型安全的。泛型会在编译时被擦除。而数组是具体化的。
+
+---
+
+# Item 29 优先编写泛型元素
+
+如果你要写一个栈 `Stack` 类，如下：
+
+```java
+// Object-based collection - a prime candidate for generics
+public class Stack {
+    private Object[] elements;
+    private int size = 0;
+    private static final int DEFAULT_INITIAL_CAPACITY = 16;
+
+    public Stack() {
+        elements = new Object[DEFAULT_INITIAL_CAPACITY];
+    }
+
+    public void push(Object e) {
+        ensureCapacity();
+        elements[size++] = e;
+    }
+
+    public Object pop() {
+        if (size == 0)
+            throw new EmptyStackException();
+        Object result = elements[--size];
+        elements[size] = null; // Eliminate obsolete reference
+        return result;
+    }
+
+}
+```
+
+请考虑把它变成泛型的
+
+```java
+// Initial attempt to generify Stack - won't compile!
+public class Stack<E> {
+    private E[] elements;
+    private int size = 0;
+    private static final int DEFAULT_INITIAL_CAPACITY = 16;
+
+    public Stack() {
+        elements = new E[DEFAULT_INITIAL_CAPACITY];
+    }
+
+    public void push(E e) {
+        ensureCapacity();
+        elements[size++] = e;
+    }
+
+    public E pop() {
+        if (size == 0)
+            throw new EmptyStackException();
+        E result = (E) elements[--size];
+        elements[size] = null; // Eliminate obsolete reference
+        return result;
+    }
+    ... // no changes in isEmpty or ensureCapacity
+}
+```
+
+这样一来，客户端可以创建一个 `Stack<Object>`，`Stack<int[]>`，`Stack<List<String>>` 或者其他任何对象的 Stack 引用类型。
+
+---
+
+# Item 30 优先使用泛型方法
+
+使用泛型方法的好处是类型安全，把运行时可能的错误提前到编译期。
+
+before：
+
+```java
+// Uses raw types - unacceptable! [Item 26]
+public static Set union(Set s1, Set s2) {
+    Set result = new HashSet(s1);
+    result.addAll(s2);
+    return result;
+}
+```
+
+after：
+
+```java
+// Generic method
+public static <E> Set<E> union(Set<E> s1, Set<E> s2) {
+    Set<E> result = new HashSet<>(s1);
+    result.addAll(s2);
+    return result;
+
+}
+```
