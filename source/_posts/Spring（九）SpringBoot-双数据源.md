@@ -1,18 +1,26 @@
 ---
 title: Spring（九）SpringBoot 双数据源
-comments: true
-date: 2019-11-27 18:50:18
 categories: Java Web
 tags:
- - Java
- - Web
+  - Java
+  - Web
+abbrlink: a0972c39
+date: 2019-11-27 18:50:18
 ---
 
 # 前言
 
+最近项目中需要用到 Springboot + Mybatis 双数据源，一边接入 Oracle，一边接入 MySQL ，折腾了一下。搞了个 demo 出来。
+
+<!-- more -->
+
 ---
 
-# 配置项
+# 修改配置项
+
+先自定义两个datasource：
+
+application.yml
 
 ```
 spring:
@@ -31,6 +39,8 @@ spring:
 ---
 
 # 定义数据源Bean
+
+通过 java config 的方式，定义两个 bean ：
 
 DSConfig
 
@@ -52,9 +62,13 @@ public class DSconfig {
 }
 ```
 
+其中，`@ConfigurationProperties` 对应配置项里自定义的名称。
+
 ---
 
-# 配置数据源
+# 配置双数据源
+
+有了数据源的 bean 之后，需要进行一些配置，不同的 datasource bean 创建不同的 SqlSession，注意，必须指定其中一个为 `@Primary`
 
 mysql 配置
 
@@ -104,3 +118,5 @@ public class MysqlDSConfig{
 
 }
 ```
+
+接下来就可以到对应的目录下编写 xml 的 SQL 语句了。
