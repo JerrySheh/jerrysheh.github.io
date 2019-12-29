@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Spring（一）从传统Java Web到SpirngBoot - J.e</title>
+
+
+    <meta name="description" content="从 MVC 结构到 Web 框架Java Web 技术日新月异，如今，我们开发 Java Web 项目都是靠框架快速搭建。然而，为什么需要框架？还得从传统的 MVC 结构说起。 传统 Model-View-Controller 架构典型的Java Web应用架构如下：   浏览器发送 HTTP 请求到服务端，被 Controller(Servlet) 获取并进行处理（参数解析、请求转发） Cont">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring（一）从传统Java Web到SpirngBoot">
+<meta property="og:url" content="https://jerrysheh.me/post/6200df85.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="从 MVC 结构到 Web 框架Java Web 技术日新月异，如今，我们开发 Java Web 项目都是靠框架快速搭建。然而，为什么需要框架？还得从传统的 MVC 结构说起。 传统 Model-View-Controller 架构典型的Java Web应用架构如下：   浏览器发送 HTTP 请求到服务端，被 Controller(Servlet) 获取并进行处理（参数解析、请求转发） Cont">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-04-14T16:19:08.000Z">
+<meta property="article:modified_time" content="2019-10-08T14:50:31.082Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Spring（一）从传统Java Web到SpirngBoot" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-04-14T16:19:08.000Z">2018-04-15</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    20 分钟 读完 (大约 3032 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Spring（一）从传统Java Web到SpirngBoot
+            
+        </h1>
+        <div class="content">
+            <h1 id="从-MVC-结构到-Web-框架"><a href="#从-MVC-结构到-Web-框架" class="headerlink" title="从 MVC 结构到 Web 框架"></a>从 MVC 结构到 Web 框架</h1><p>Java Web 技术日新月异，如今，我们开发 Java Web 项目都是靠框架快速搭建。然而，为什么需要框架？还得从传统的 MVC 结构说起。</p>
+<h2 id="传统-Model-View-Controller-架构"><a href="#传统-Model-View-Controller-架构" class="headerlink" title="传统 Model-View-Controller 架构"></a>传统 Model-View-Controller 架构</h2><p>典型的Java Web应用架构如下：</p>
+<p><img src="../../../../images/Webapp/MVC.jpg" alt="MVC"></p>
+<ol>
+<li>浏览器发送 HTTP 请求到服务端，被 Controller(Servlet) 获取并进行处理（参数解析、请求转发）</li>
+<li>Controller 调用核心业务逻辑 —— Model</li>
+<li>Model 进行数据库存取操作，并将操作结果返回</li>
+<li>Controller 将业务逻辑处理结果交给View（JSP），动态输出 HTML 内容</li>
+<li>动态生成的 HTML 内容返回到浏览器显示</li>
+</ol>
+<h2 id="封装-Servlet"><a href="#封装-Servlet" class="headerlink" title="封装 Servlet"></a>封装 Servlet</h2><p>在这个过程中，我们要操作 Servlet 写大量的功能代码，为了简化，我们可以把 Servlet 中经常要实现的功能封装起来并提供一层公共抽象，这样我们只要编写简单的 POJO 代码或者实现一些接口，就能完成复杂的 Web 请求的后端逻辑处理。 Spring MVC 就是这样的一个框架。它提供了一个DispacherServlet，我们只需实现 Spring MVC 提供的接口就可以完成复杂的操作，而不用写大量的 Servlet 代码。</p>
+<a id="more"></a>
+
+<h2 id="封装-JDBC"><a href="#封装-JDBC" class="headerlink" title="封装 JDBC"></a>封装 JDBC</h2><p>同理，操作数据库时要写很多 JDBC 样板代码，为什么不对数据库操作也做一个封装呢？在 <a href="https://jerrysheh.github.io/post/f07211ef.html">Java JDBC 编程</a> 中提到，可以将对象和关系数据库进行映射，从而把操作数据库变成操作 Java 对象，这就是大名鼎鼎的 ORM（对象关系映射）技术了。Hibernate 和 MyBatis 就是这样的 ORM 框架。</p>
+<p><img src="../../../../images/Webapp/MVC2.jpg" alt="MVC"></p>
+<hr>
+<h1 id="Spring-Framework"><a href="#Spring-Framework" class="headerlink" title="Spring Framework"></a>Spring Framework</h1><p><img src="https://spring.io/img/homepage/icon-spring-framework.svg" alt="Spring"></p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>前面提到 Spring MVC 是 Java Web 开发中对 Servlet 进行封装的框架，专注于简化 Web MVC 开发流程。实际上，Spring 是一个大家族，它是一个轻量级的 DI / IoC 和 AOP 容器的开源框架，来源于 Rod Johnson 在其著作《Expert one on one J2EE design and development》中阐述的部分理念和原型。</p>
+<p>Spring Framework包括以下几大部分：</p>
+<p><img src="../../../../images/Webapp/SpringFramework.png" alt="Framework"></p>
+<p>在学习这些之前，得先了解 Spring 最核心的两个概念：IoC 和 AOP。</p>
+<h2 id="IoC-（Inversion-of-Control，反转控制）"><a href="#IoC-（Inversion-of-Control，反转控制）" class="headerlink" title="IoC （Inversion of Control，反转控制）"></a>IoC （Inversion of Control，反转控制）</h2><p>反转控制其实是一种依赖倒置原则的设计思想。也就是让底层依赖上层。具体的做法就是使用 <code>DI （依赖注入，Dependency Inject）</code>，DI把底层类作为参数传给上层，实现上层对下层的控制。</p>
+<p><strong>对于软件来说，某一接口的实现类的选择控制权从调用类中移除，转交由第三方决定，这就是反转控制</strong>。使用DI的一个好处是，让互相协作的软件组件保持松耦合。</p>
+<h3 id="反转控制容器"><a href="#反转控制容器" class="headerlink" title="反转控制容器"></a>反转控制容器</h3><p>采用依赖倒置原则的设计之后，会产生一个问题，假设我们要调用一个上层，由于上层需要接受下层作为参数，我们必须在构造上层前构造下层，这样我们的代码中就会写很多 new 。</p>
+<p>例如，service 是一个上层服务， mapper 是底层数据库交互。如果一个 service 要调用多个 mapper 进行处理，就要 new 很多不同的 mapper 实例。不仅如此，由于 service 具有通用性，每一次用户请求到达服务器，都会调用 service，这时候重复 new 了非常多功能相同的 mapper 实例，造成服务器资源浪费。</p>
+<pre><code class="java">public service(){
+    UserMapper usermapper = new UserMapper();
+    ProductMapper productMapper = new ProductMapper();
+
+    // ... 进行处理
+}</code></pre>
+<p>于是，我们想到能不能用一个工具，把这些实例都统一管理起来，当某个上层需要调用某个下层，就通过依赖注入的方式，把这个下层对象传递给上层。<strong>反转控制容器（IoC Container）就是这样的工具</strong>。这个容器可以自动对我们的代码进行初始化，而我们要做的，只是维护一个 Configuration， 具体到 Spring 中，我们可以通过 xml 配置、 注解 或 JavaConfig（推荐）的方式让 Spring 帮我们注入对象(Spring 容器通过 beanFactory 和 ApplicationContext 两种类型来实现)，我们得到对象后直接就可以使用，而不需要了解注入过程层层依赖的细节。</p>
+<p>这样，调用类对接口实现类的依赖关系变成了由第三方（容器）注入。在 Spring 中，注入包括构造函数注入、Setter注入、接口注入。</p>
+<pre><code class="java">// 使用注解注入 mapper
+// 这里为了方便才这样写，更好的选择是使用构造函数注入
+@Autowrized
+private UserMapper usermapper;
+private ProductMapper productMapper;
+
+public service(){
+    // 直接可以使用，无需 new
+    usermapper.getuser();
+
+}</code></pre>
+<p>简单地说，当我们要使用某个对象，只需要从 Spring 容器中获取需要使用的对象，不关心对象的创建过程，把创建对象的控制权反转给了 Spring 框架，而 Spring 容器是通过 DI，在创建对象的过程中将对象依赖属性（简单值，集合，对象）通过配置设值给该对象。</p>
+<p><img src="../../../../images/Webapp/SpringIOC.png" alt="IoC"></p>
+<h3 id="IoC-是如何实现的"><a href="#IoC-是如何实现的" class="headerlink" title="IoC 是如何实现的"></a>IoC 是如何实现的</h3><p>如果我们自己来实现这个依赖注入的功能，我们怎么来做？无外乎：</p>
+<ol>
+<li>读取标注或者配置文件，看看 bean 依赖的是哪个 Source，拿到类名</li>
+<li>使用反射 API，基于类名实例化对应的对象实例</li>
+<li>将对象实例，通过构造函数或者 setter，传递给 bean</li>
+</ol>
+<p>我们发现其实自己来实现也不是很难，Spring 实际也就是这么做的。IoC 就是一个工厂模式的升级版！当然，要做一个成熟的IoC框架，还是非常多细致的工作要做，Spring 不仅提供了一个已经成为业界标准的 Java IoC 框架，还提供了更多强大的功能。</p>
+<p>参考：</p>
+<ul>
+<li><a href="https://www.zhihu.com/question/23277575/answer/169698662">知乎:Spring IoC有什么好处呢？
+</a></li>
+<li><a href="https://www.cnblogs.com/wmyskxz/p/8820371.html">Spring学习(1)——快速入门</a></li>
+<li>IoC 背后的Java原理，其实就是 <a href="../post/e753fbbb.html">Java 的反射机制</a></li>
+</ul>
+<h2 id="AOP（Aspect-Oriented-Program，面向切面编程）"><a href="#AOP（Aspect-Oriented-Program，面向切面编程）" class="headerlink" title="AOP（Aspect Oriented Program，面向切面编程）"></a>AOP（Aspect Oriented Program，面向切面编程）</h2><p>在面向切面编程的思想里面，把功能分为 <strong>核心业务功能</strong> 和 <strong>周边功能</strong>。所谓核心业务，包括登录，增加数据，删除数据等。所谓周边功能，包括性能统计，安全，日志，事务管理等等。</p>
+<p>在登录功能中，需要输出日志，增加数据、删除数据也都需要输出日志。于是，我们的代码可能就会变成：</p>
+<pre><code class="java">public void login(){
+
+  logger.info(&quot;before log..&quot;)
+  // login
+  // ...
+  logger.info(&quot;after log..&quot;)
+}
+
+public void insertData(){
+
+  logger.info(&quot;before log..&quot;)
+  // insert
+  // ...
+  logger.info(&quot;after log..&quot;)
+}</code></pre>
+<p>这些日志输出，真的是 login() 方法和 insertData() 方法需要做的事情吗？就像我们每个月用了多少电一样，难道要我们用户自己来记录用电量吗？这应该是电力公司该做的事情！</p>
+<p>于是，AOP 出现了。我们可以对核心业务功能和切面功能分别独立进行开发，然后把切面功能和核心业务功能 “编织” 在一起，这就叫 AOP。在 Spring AOP 中，“编织”的方式可以是 xml 或者 注解。周边功能在 Spring 的面向切面编程 AOP 思想里，即被定义为切面。</p>
+<p>AOP 的好处是允许我们把遍布应用各处的功能分离出来形成可重用的组件。</p>
+<ul>
+<li>参考书籍：《Spring实战》第4版</li>
+</ul>
+<hr>
+<h1 id="Spring-Boot"><a href="#Spring-Boot" class="headerlink" title="Spring Boot"></a>Spring Boot</h1><p><img src="../../../../images/Webapp/SpringBootLogo.png" alt="boot"></p>
+<p>在 Spring MVC 框架中，我们不得不进行大量的配置，而在 Spring Boot 快速框架中，很多配置框架都帮你做好，拿来即用。</p>
+<p>注意：</p>
+<ul>
+<li>Spring Boot使用 “习惯优于配置” （项目中存在大量的配置，此外还内置一个习惯性的配置）的理念让你的项目快速运行起来。</li>
+<li>Spring Boot并不是什么新的框架，而是默认配置了很多框架的使用方式，就像 Maven 整合了所有的 jar 包一样，Spring Boot 整合了所有框架。</li>
+</ul>
+<h2 id="IDEA-Spring-Boot-实战"><a href="#IDEA-Spring-Boot-实战" class="headerlink" title="IDEA Spring Boot 实战"></a>IDEA Spring Boot 实战</h2><h3 id="创建工程"><a href="#创建工程" class="headerlink" title="创建工程"></a>创建工程</h3><p>在 IDEA 中，创建一个新的Spring Initalizr工程, Type 选择 Maven， 组件选择 Web ， IDEA 会自动帮我们新建一个基于 Maven 的 Spring Boot 工程。</p>
+<blockquote>
+<p>或者通过 <a href="https://start.spring.io/">https://start.spring.io/</a> 初始化工程</p>
+</blockquote>
+<p>看一下 pom.xml 大概长这样</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;jerrysheh&lt;/groupId&gt;
+    &lt;artifactId&gt;springboot-demo&lt;/artifactId&gt;
+    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+
+    &lt;name&gt;springboot-demo&lt;/name&gt;
+    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;
+
+    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;2.0.1.RELEASE&lt;/version&gt;
+        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
+    &lt;/parent&gt;
+
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
+        &lt;java.version&gt;1.8&lt;/java.version&gt;
+    &lt;/properties&gt;
+
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+    &lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+&lt;/project&gt;</code></pre>
+<h3 id="java代码"><a href="#java代码" class="headerlink" title="java代码"></a>java代码</h3><p>在src/main/java/Example.java里面，应该已经有类似下面这样的代码了。</p>
+<pre><code class="java">@SpringBootApplication
+public class ToywebApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(ToywebApplication.class, args);
+    }
+}</code></pre>
+<ul>
+<li><code>@SpringBootApplication</code> 是 Spring Boot 的核心注解，它是一个组合注解，该注解组合了：<code>@SpringBootConfiguration</code>、<code>@EnableAutoConfiguration</code>、<code>@ComponentScan</code></li>
+</ul>
+<p>写一个类：HelloController.java</p>
+<pre><code class="java">@RestController
+public class HelloController {
+
+    @GetMapping(&quot;/&quot;)
+    public String hello(){
+        return &quot;Hello World&quot;;
+    }
+}</code></pre>
+<p>直接运行， 访问<code>127.0.0.1:8080</code>， 竟然已经能看到 Hello World 了，我们还没有进行 project structure 以及 Tomcat 配置呢 ？ 事实上， Spring Boot 已经内置了这些配置，拿来即用。</p>
+<p>注解：</p>
+<ul>
+<li><code>@RestController</code> 注解是 <code>@Controller</code> 和 <code>@ResponseBody</code> 的合体</li>
+</ul>
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p> Spring Boot 的配置文件为 application.properties 或 application.yml，放置在【src/main/resources】目录或者类路径的 /config 下。</p>
+<p> <img src="../../../../images/Webapp/Springbootprop.png" alt="prop"></p>
+<h3 id="排除自动配置"><a href="#排除自动配置" class="headerlink" title="排除自动配置"></a>排除自动配置</h3><p>在 Spring Initalizr 的时候，如果我们点多了组件，有可能会导致启动失败，这时候在<code>@SpringBootApplication</code>注解后添加排除项即可。或者在 pom.xml 中去除多余组件。</p>
+<pre><code class="java">@SpringBootApplication (exclude= {DataSourceAutoConfiguration.class})</code></pre>
+<h3 id="打包-jar"><a href="#打包-jar" class="headerlink" title="打包 jar"></a>打包 jar</h3><p>确保 pom.xml 里面有</p>
+<pre><code class="xml">&lt;build&gt;
+    &lt;plugins&gt;
+        &lt;plugin&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+        &lt;/plugin&gt;
+    &lt;/plugins&gt;
+&lt;/build&gt;</code></pre>
+<p>执行以下语句进行打包。</p>
+<pre><code>mvn package</code></pre><h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><p>将打包的 jar 拷贝到 linux 服务器上， 执行以下命令即可启动</p>
+<pre><code>java -jar spring-boot01-1.0-SNAPSHOT.jar</code></pre><p>但是这样命令行一退出程序也跟着退出了，可以使用以下命令，将 log 输入到文件，保持程序在后台运行。</p>
+<pre><code>java -jar spring-boot01-1.0-SNAPSHOT.jar &gt; log.file 2&gt;&amp;1 &amp;</code></pre><p>这种方式看似脱离终端了，但是实际上还是受终端影响，当 SSH 退出时终端关闭，项目也会跟着关闭。</p>
+<p>因此好的办法是将其写入到 shell 脚本中</p>
+<pre><code>vim run.sh</code></pre><p>在 run.sh 里面输入</p>
+<pre><code class="shell">#!/bin/bash
+java -jar spring-boot01-1.0-SNAPSHOT.jar &gt; log.file 2&gt;&amp;1 &amp;
+</code></pre>
+<p>run.sh添加执行权限，再执行</p>
+<pre><code>chmod +x run.sh
+./run.sh</code></pre><h3 id="热部署"><a href="#热部署" class="headerlink" title="热部署"></a>热部署</h3><p>在 pom.xml 里面添加以下语句即可热部署，也就是我们修改了代码之后无需重启工程，即可看到效果。</p>
+<pre><code class="xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;
+    &lt;optional&gt;true&lt;/optional&gt; &lt;!-- 这个需要为 true 热部署才有效 --&gt;
+&lt;/dependency&gt;
+
+&lt;plugin&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+    &lt;configuration&gt;
+        &lt;!-- 没有该配置，devtools 不生效 --&gt;
+        &lt;fork&gt;true&lt;/fork&gt;
+    &lt;/configuration&gt;
+&lt;/plugin&gt;</code></pre>
+<p>提示：Ctrl + Shift + F9 更新静态文件</p>
+<h3 id="引入静态文件"><a href="#引入静态文件" class="headerlink" title="引入静态文件"></a>引入静态文件</h3><p>application.properties</p>
+<pre><code># 静态资源
+spring.mvc.static-path-pattern=/static/**
+spring.resources.static-locations=classpath:/static</code></pre><p>html</p>
+<pre><code class="html">&lt;head&gt;
+    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../static/css/materialize.css&quot;&gt;
+    &lt;script src=&quot;../static/js/materialize.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;</code></pre>
+<hr>
+<p>参考：</p>
+<ul>
+<li><a href="https://www.cnblogs.com/wmyskxz/p/9010832.html">Spring Boot【快速入门】</a></li>
+<li><a href="https://spring.io/guides/gs/rest-service/">Spring官方教程：Building a RESTful Web Service</a></li>
+<li><a href="http://how2j.cn/k/springboot/springboot-eclipse/1640.html#nowhere">how2j：SPRINGBOOT入门</a></li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Java/" rel="tag">Java</a>, <a class="has-link-grey -link" href="/tags/Web/" rel="tag">Web</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/f75e92e9.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">HTML JavaScript DOM</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/ae9388fa.html">
+                <span class="level-item">Java中的引用类型</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#从-MVC-结构到-Web-框架">
+        <span class="has-mr-6">1</span>
+        <span>从 MVC 结构到 Web 框架</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#传统-Model-View-Controller-架构">
+        <span class="has-mr-6">1.1</span>
+        <span>传统 Model-View-Controller 架构</span>
+        </a></li><li>
+        <a class="is-flex" href="#封装-Servlet">
+        <span class="has-mr-6">1.2</span>
+        <span>封装 Servlet</span>
+        </a></li><li>
+        <a class="is-flex" href="#封装-JDBC">
+        <span class="has-mr-6">1.3</span>
+        <span>封装 JDBC</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Spring-Framework">
+        <span class="has-mr-6">2</span>
+        <span>Spring Framework</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#简介">
+        <span class="has-mr-6">2.1</span>
+        <span>简介</span>
+        </a></li><li>
+        <a class="is-flex" href="#IoC-（Inversion-of-Control，反转控制）">
+        <span class="has-mr-6">2.2</span>
+        <span>IoC （Inversion of Control，反转控制）</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#反转控制容器">
+        <span class="has-mr-6">2.2.1</span>
+        <span>反转控制容器</span>
+        </a></li><li>
+        <a class="is-flex" href="#IoC-是如何实现的">
+        <span class="has-mr-6">2.2.2</span>
+        <span>IoC 是如何实现的</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#AOP（Aspect-Oriented-Program，面向切面编程）">
+        <span class="has-mr-6">2.3</span>
+        <span>AOP（Aspect Oriented Program，面向切面编程）</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Spring-Boot">
+        <span class="has-mr-6">3</span>
+        <span>Spring Boot</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#IDEA-Spring-Boot-实战">
+        <span class="has-mr-6">3.1</span>
+        <span>IDEA Spring Boot 实战</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#创建工程">
+        <span class="has-mr-6">3.1.1</span>
+        <span>创建工程</span>
+        </a></li><li>
+        <a class="is-flex" href="#java代码">
+        <span class="has-mr-6">3.1.2</span>
+        <span>java代码</span>
+        </a></li><li>
+        <a class="is-flex" href="#配置文件">
+        <span class="has-mr-6">3.1.3</span>
+        <span>配置文件</span>
+        </a></li><li>
+        <a class="is-flex" href="#排除自动配置">
+        <span class="has-mr-6">3.1.4</span>
+        <span>排除自动配置</span>
+        </a></li><li>
+        <a class="is-flex" href="#打包-jar">
+        <span class="has-mr-6">3.1.5</span>
+        <span>打包 jar</span>
+        </a></li><li>
+        <a class="is-flex" href="#运行">
+        <span class="has-mr-6">3.1.6</span>
+        <span>运行</span>
+        </a></li><li>
+        <a class="is-flex" href="#热部署">
+        <span class="has-mr-6">3.1.7</span>
+        <span>热部署</span>
+        </a></li><li>
+        <a class="is-flex" href="#引入静态文件">
+        <span class="has-mr-6">3.1.8</span>
+        <span>引入静态文件</span>
+        </a></li></ul></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Spring（一）从传统Java Web到SpirngBoot" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

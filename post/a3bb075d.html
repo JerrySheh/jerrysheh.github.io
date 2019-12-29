@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Java简明笔记（七） 异常和断言 - J.e</title>
+
+
+    <meta name="description" content="异常处理在Java异常处理中，一个方法可以通过 抛出(throw) 异常来发出一个严重问题的信号。调用链中的某个方法，负责 捕获（catch） 并处理异常。捕获到的异常不仅可以在当前方法中处理，还可以将异常抛给调用它的上一级方法去处理。 异常处理的根本优点是：将错误检测和错误处理的过程解耦。 Java 的异常都派生自 Throwable 类，Throwable 又分为 Error 和 Except">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java简明笔记（七） 异常和断言">
+<meta property="og:url" content="https://jerrysheh.me/post/a3bb075d.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="异常处理在Java异常处理中，一个方法可以通过 抛出(throw) 异常来发出一个严重问题的信号。调用链中的某个方法，负责 捕获（catch） 并处理异常。捕获到的异常不仅可以在当前方法中处理，还可以将异常抛给调用它的上一级方法去处理。 异常处理的根本优点是：将错误检测和错误处理的过程解耦。 Java 的异常都派生自 Throwable 类，Throwable 又分为 Error 和 Except">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-02-05T16:03:34.000Z">
+<meta property="article:modified_time" content="2019-11-17T12:19:40.083Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Java简明笔记（七） 异常和断言" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-02-05T16:03:34.000Z">2018-02-06</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 分钟 读完 (大约 1904 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Java简明笔记（七） 异常和断言
+            
+        </h1>
+        <div class="content">
+            <h1 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h1><p>在Java异常处理中，一个方法可以通过 <strong>抛出(throw)</strong> 异常来发出一个严重问题的信号。调用链中的某个方法，负责 <strong>捕获（catch）</strong> 并处理异常。捕获到的异常不仅可以在当前方法中处理，还可以将异常抛给调用它的上一级方法去处理。</p>
+<p>异常处理的根本优点是：将错误检测和错误处理的过程解耦。</p>
+<p>Java 的异常都派生自 Throwable 类，Throwable 又分为 Error 和 Exception。Error 不是我们的程序所能够处理的，比如系统内存耗尽。我们能预知并处理的错误属于 Exception。Exception又分为 unchecked exception 和 checked exception。 unchecked exception 属于 RuntimeException 。</p>
+<blockquote>
+<p>当然，所有的异常都发生在运行时（Runtime），但是 RuntimeException 派生的子类异常在编译时不会被检查。</p>
+</blockquote>
+<p><img src="../../../../images/Java/Throwable.png" alt=""></p>
+<a id="more"></a>
+
+<h2 id="checked-exceptions"><a href="#checked-exceptions" class="headerlink" title="checked exceptions"></a>checked exceptions</h2><p>跟上下文环境有关，即使程序设计无误，仍然可能因使用的问题而引发。通常是从一个可以恢复的程序中抛出来的，并且最好能够从这种异常中使应用程序恢复。</p>
+<p>我们所要关注的是一般情况下错误可被提前预知的 checked exception，什么是可被提前预知？比如IO操作文件可能损坏或不存在，网络操作的时候网络可能会断开…</p>
+<p>许多异常类派生自 <code>IOException</code>，我们应该尽可能用准确合适的异常类来报告错误。比如在某个路径查找指定文件时，却无法找到，此时应该抛出 <code>FileNotFoundException</code>。</p>
+<h2 id="unchecked-exceptions"><a href="#unchecked-exceptions" class="headerlink" title="unchecked exceptions"></a>unchecked exceptions</h2><p>通常是如果一切正常的话本不该发生的异常，但是的确发生了。发生在运行期，具有不确定性，主要是由于程序的逻辑问题所引起的。</p>
+<p>unchecked exception 我们完全可以在程序中避免。比如遇到<code>空指针异常</code>，我们完全可以在代码中确保没有引用null值，通过修改代码来避免抛出这个异常。但是文件不存在或网络断开这种就不是我们逻辑代码的问题了，应该抛出异常。</p>
+<hr>
+<h1 id="checked-exception的声明"><a href="#checked-exception的声明" class="headerlink" title="checked exception的声明"></a>checked exception的声明</h1><p>假如有一个方法，我们能够预料到它 <strong>可能</strong> 会抛出 IOException 和 ReflectiveOperationException 这两种异常，那么我们可以在方法中这样声明：</p>
+<pre><code class="java">public void write (Object obj, String filename) throws IOException, ReflectiveOperationException {
+  ...
+}</code></pre>
+<ul>
+<li>Override覆盖的方法不能抛出超出父类异常范围的异常，如果父类没有throws异常，则子类不可以抛出checked exception</li>
+<li>当一个方法抛出异常时，可以用javadoc的 <code>@throws</code> 标签来文档化</li>
+<li>不可能指定 lambda 表达式的异常类型</li>
+</ul>
+<hr>
+<h1 id="异常捕获"><a href="#异常捕获" class="headerlink" title="异常捕获"></a>异常捕获</h1><h2 id="示例1：可以捕获多个异常"><a href="#示例1：可以捕获多个异常" class="headerlink" title="示例1：可以捕获多个异常"></a>示例1：可以捕获多个异常</h2><pre><code class="java">try {
+  //statements
+} catch (ExceptionClass1 ex) {
+  //handler1
+} catch (ExceptionClass2 ex) {
+  //handler2
+} catch (ExceptionClass3 ex) {
+  //handler3
+} finally {
+  //statements
+}</code></pre>
+<p>有多个捕获器的时候，第一个捕获后下面的捕获器就不会再捕获了，因此范围小的写在前面。</p>
+<p>注意，如果 try 里面某一行抛出异常了，那一行接下去的代码不会接着执行。</p>
+<h2 id="示例2：多个捕获共享一个handler"><a href="#示例2：多个捕获共享一个handler" class="headerlink" title="示例2：多个捕获共享一个handler"></a>示例2：多个捕获共享一个handler</h2><pre><code class="java">try {
+  //statements
+} catch (ExceptionClass1 | ExceptionClass2 | ExceptionClass3 ex) {
+  //handler3
+} finally {
+  //statements
+}</code></pre>
+<h2 id="示例3：带资源的异常捕获（try-with-resource）-Java-7"><a href="#示例3：带资源的异常捕获（try-with-resource）-Java-7" class="headerlink" title="示例3：带资源的异常捕获（try-with-resource）(Java 7+)"></a>示例3：带资源的异常捕获（try-with-resource）(Java 7+)</h2><p>try后面接资源，在正常执行完之后或者当发生异常时，try-with-resources语句会自动关闭资源。</p>
+<p>这样我们不用写<code>out.close()</code>，但却能够保证每个资源的<code>out.close()</code>都会被触发。</p>
+<pre><code class="java">ArrayList&lt;String&gt; lines ...;
+try (PrintWriter out = new PrintWriter(&quot;output.txt&quot;)) {
+  for (String line:lines ) {
+    out.println(line.toLowerCase());
+  }
+} catch (IOException ex) {
+  //handler
+} finally {
+  //statements
+}</code></pre>
+<p>如果没有 try-catch 的话，如果其中一个 line 抛出异常，那么所有的 line 的 <code>out.close()</code> 不能被正常执行，导致out结果丢失。</p>
+<p>如果用常规的 try-catch 语句，如果要打开两个资源，那么就要嵌套 try-catch 了。try-with-resources的一个好处在于只需要写一个 try-catch 语句。</p>
+<p>更多关于异常的内容 异常重抛和链接、堆栈踪迹、Objects.requireNonNull方法参考 《core java for the impatient》p186</p>
+<hr>
+<h1 id="Throw-和-Throws-的区别"><a href="#Throw-和-Throws-的区别" class="headerlink" title="Throw 和 Throws 的区别"></a>Throw 和 Throws 的区别</h1><p>Throws 写在方法后面，表示这个方法可能向上抛出的异常。</p>
+<p>Thorw 写在程序里面，直接抛出异常。注意，抛出后程序便不再往下执行。这一点跟 try-catch 语句不一样， catch 捕获异常并处理过后，程序还会往下执行，而 throw 是向上一级调用栈抛出，本身程序不再继续执行。</p>
+<hr>
+<h1 id="try里有return，finally还执行么？"><a href="#try里有return，finally还执行么？" class="headerlink" title="try里有return，finally还执行么？"></a>try里有return，finally还执行么？</h1><p>答：执行，并且 finally 的执行早于 try 里面的 return  </p>
+<ul>
+<li>不管有没有出现异常，finally块中代码 <strong>都会执行</strong>；</li>
+<li>当 try 或 catch中有 return 时，finally 仍然会执行；finally 是在 return 后面的表达式运算后执行的（此时并没有返回运算后的值，而是先把要返回的值保存起来，不管finally中的代码怎么样，返回的值都不会改变，任然是之前保存的值），所以函数返回值是在 finally 执行前确定的；</li>
+<li>finally 中最好不要包含 return，否则程序会提前退出，返回值不是 try 或 catch 中保存的返回值。</li>
+</ul>
+<p>一句话总结: <strong>先执行return后面的表达式，把结果保存起来，但不返回，然后执行finally，最后才返回。不要在finally中包含return，更不要在 finally 修改返回值。</strong></p>
+<p>若是在try语句块或catch语句块中执行到 <code>System.exit(0)</code> 语句，则直接退出程序。</p>
+<hr>
+<h1 id="使用-Optional-类解决空指针异常"><a href="#使用-Optional-类解决空指针异常" class="headerlink" title="使用 Optional 类解决空指针异常"></a>使用 Optional 类解决空指针异常</h1><p>一个对象如果可能是null，我们通常要写类似下面的代码来避免空指针异常：</p>
+<pre><code class="java">if (obj == null){
+    // do something..
+}
+
+if (obj != null){
+    // go ahead..
+}</code></pre>
+<p>在 Java 8 中，我们有了更好的方法来判断空指针——Optional 类。它是一个可以为 null 的容器对象。如果值存在则 <code>isPresent()</code> 方法会返回 true，调用 <code>get()</code> 方法会返回该对象。Optional 容器可以保存类型 T 的值，或者仅仅保存null。Optional提供很多有用的方法，这样我们就不用显式进行空值检测。</p>
+<p><code>java.util.Optional&lt;T&gt;</code> 的声明如下：</p>
+<pre><code class="java">public final class Optional&lt;T&gt;
+extends Object{
+    //...
+}</code></pre>
+<p>用法：</p>
+<pre><code class="java">public User findUser(String email){
+    Optional&lt;User&gt; optUser = userRepository.findById(email); // returns java8 optional
+    if (optUser.isPresent()) {
+        return optUser.get();
+    } else {
+        // handle not found, return null or throw
+    }
+}</code></pre>
+<hr>
+<h1 id="断言（assert）"><a href="#断言（assert）" class="headerlink" title="断言（assert）"></a>断言（assert）</h1><p>断言机制允许我们在测试时加入检测条件，并且在生产代码中自动移除它们。在Java中，断言用于调试目的以验证内部假设。</p>
+<p>为了断言 x 是一个非负数</p>
+<pre><code class="java">assert x &gt;= 0;</code></pre>
+<p>或者将 x 的实际值传进 AssertionError 对象，这样后面就可以现实它：</p>
+<pre><code class="java">assert x &gt;=0 : x;</code></pre>
+<p>默认情况下断言是被禁用的，在运行程序时加上 -ebableassertion 或者 -es可以启用断言</p>
+<pre><code>$ java -ea MainClass</code></pre><p>不必重新编译程序，当断言被禁用时，类加载器会清除断言代码，所以断言不会降低运行速度。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Java/" rel="tag">Java</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/e84807f.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">记一次玄幻的重装系统经历</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/689b9445.html">
+                <span class="level-item">Java中的 String</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#异常处理">
+        <span class="has-mr-6">1</span>
+        <span>异常处理</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#checked-exceptions">
+        <span class="has-mr-6">1.1</span>
+        <span>checked exceptions</span>
+        </a></li><li>
+        <a class="is-flex" href="#unchecked-exceptions">
+        <span class="has-mr-6">1.2</span>
+        <span>unchecked exceptions</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#checked-exception的声明">
+        <span class="has-mr-6">2</span>
+        <span>checked exception的声明</span>
+        </a></li><li>
+        <a class="is-flex" href="#异常捕获">
+        <span class="has-mr-6">3</span>
+        <span>异常捕获</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#示例1：可以捕获多个异常">
+        <span class="has-mr-6">3.1</span>
+        <span>示例1：可以捕获多个异常</span>
+        </a></li><li>
+        <a class="is-flex" href="#示例2：多个捕获共享一个handler">
+        <span class="has-mr-6">3.2</span>
+        <span>示例2：多个捕获共享一个handler</span>
+        </a></li><li>
+        <a class="is-flex" href="#示例3：带资源的异常捕获（try-with-resource）-Java-7">
+        <span class="has-mr-6">3.3</span>
+        <span>示例3：带资源的异常捕获（try-with-resource）(Java 7+)</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Throw-和-Throws-的区别">
+        <span class="has-mr-6">4</span>
+        <span>Throw 和 Throws 的区别</span>
+        </a></li><li>
+        <a class="is-flex" href="#try里有return，finally还执行么？">
+        <span class="has-mr-6">5</span>
+        <span>try里有return，finally还执行么？</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-Optional-类解决空指针异常">
+        <span class="has-mr-6">6</span>
+        <span>使用 Optional 类解决空指针异常</span>
+        </a></li><li>
+        <a class="is-flex" href="#断言（assert）">
+        <span class="has-mr-6">7</span>
+        <span>断言（assert）</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Java简明笔记（七） 异常和断言" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

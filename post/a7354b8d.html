@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>数据库（三）索引 - J.e</title>
+
+
+    <meta name="description" content="什么是索引？概念索引是一个单独存储在磁盘上的数据结构，包含着对数据表里所有记录的引用指针。 作用使用索引可以 提高数据库特定数据的查询速度。 实现位置在存储引擎中实现。 结构类型BTree 和 Hash table，具体哪种和表的存储引擎有关。MyISAM 和 InnoDB 只支持 BTree ，MEMORY 同时支持 BTree 和 Hash table。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库（三）索引">
+<meta property="og:url" content="https://jerrysheh.me/post/a7354b8d.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="什么是索引？概念索引是一个单独存储在磁盘上的数据结构，包含着对数据表里所有记录的引用指针。 作用使用索引可以 提高数据库特定数据的查询速度。 实现位置在存储引擎中实现。 结构类型BTree 和 Hash table，具体哪种和表的存储引擎有关。MyISAM 和 InnoDB 只支持 BTree ，MEMORY 同时支持 BTree 和 Hash table。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-09-15T12:37:38.000Z">
+<meta property="article:modified_time" content="2019-07-20T04:21:46.899Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="SQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="数据库（三）索引" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-09-15T12:37:38.000Z">2018-09-15</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    20 分钟 读完 (大约 2929 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                数据库（三）索引
+            
+        </h1>
+        <div class="content">
+            <h1 id="什么是索引？"><a href="#什么是索引？" class="headerlink" title="什么是索引？"></a>什么是索引？</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>索引是一个单独存储在磁盘上的数据结构，包含着对数据表里所有记录的引用指针。</p>
+<h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><p>使用索引可以 <strong>提高数据库特定数据的查询速度</strong>。</p>
+<h2 id="实现位置"><a href="#实现位置" class="headerlink" title="实现位置"></a>实现位置</h2><p>在存储引擎中实现。</p>
+<h2 id="结构类型"><a href="#结构类型" class="headerlink" title="结构类型"></a>结构类型</h2><p>BTree 和 Hash table，具体哪种和表的存储引擎有关。<font color="red">MyISAM 和 InnoDB 只支持 BTree </font>，MEMORY 同时支持 BTree 和 Hash table。</p>
+<hr>
+<a id="more"></a>
+
+<h1 id="为什么要用索引？"><a href="#为什么要用索引？" class="headerlink" title="为什么要用索引？"></a>为什么要用索引？</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>提高查询效率</p>
+<ol>
+<li>唯一索引可以保证数据库表中每行数据的唯一性</li>
+<li>减少服务器需要扫描的数据量，加快数据的查询速度</li>
+<li>加速表和表之间的连接</li>
+<li>在使用分组和排序子句进行数据检索时，同样可以显著减少查询中分组和排序的时间</li>
+<li>使用索引，可以在查询中使用优化隐藏器，提高系统的性能</li>
+<li>将随机IO变为顺序IO</li>
+</ol>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ol>
+<li>创建索引和维护索引要耗费时间，并且随着数据量的增加耗费时间也增加</li>
+<li>索引需要占空间内存</li>
+<li>在对表中数据进行增、删、改的时候，索引也需要动态维护，这样降低了数据维护速度</li>
+</ol>
+<hr>
+<h1 id="索引的分类"><a href="#索引的分类" class="headerlink" title="索引的分类"></a>索引的分类</h1><h2 id="按逻辑存储结构划分"><a href="#按逻辑存储结构划分" class="headerlink" title="按逻辑存储结构划分"></a>按逻辑存储结构划分</h2><p>按逻辑存储结构划分，索引可以分为：</p>
+<ol>
+<li>B Tree索引</li>
+<li>Hash索引</li>
+<li>空间(Spatial)索引</li>
+<li>全文(Fulltext)索引</li>
+</ol>
+<h3 id="1-BTree-索引"><a href="#1-BTree-索引" class="headerlink" title="1. BTree 索引"></a>1. BTree 索引</h3><p><img src="../../../../images/database/btree_index.jpg" alt="btree_index"></p>
+<p>InnoDB 和 MyISAM 底层都是基于 B+Tree 索引的。适用于 BTree 索引的情况有：</p>
+<ol>
+<li><strong>全值匹配</strong>：索引可能有多个列，全值匹配就是匹配所有的列。例如，查找姓名列为 Allen，年龄列为 18 的人。</li>
+<li><strong>匹配最左前缀</strong>：匹配所有姓 Allen 的人。即只使用索引的第一列。</li>
+<li><strong>匹配列前缀</strong>：匹配某一列的值的开头部分。例如姓以 Al 开头的人。也只使用了索引的第一列。</li>
+<li><strong>匹配范围值</strong>：匹配查找姓在 Allen 和 Barrymore 之间的人。也只使用索引的第一列。</li>
+<li><strong>精确匹配某一列并范围匹配另外一列</strong>：查找所有姓为 Allen，并且名字是 K 开头的人。即第一列 last_name 全匹配，第二列 first_name 范围匹配。</li>
+<li><strong>只访问索引的查询</strong>：查询只需要访问索引，而无需访问数据行。（覆盖索引）</li>
+</ol>
+<p>不适用于 B Tree 索引的情况：</p>
+<ol>
+<li><strong>非最左</strong>：不是按照索引的最左列开始查找，就无法使用索引。例如无法查找姓氏（姓氏是索引的第一列）不知道，但名字（名字是索引第二列）为 Bill 的人。也无法查找姓氏最后以 n 结尾的人，因为姓氏虽然是第一列，但最左值不知道。</li>
+<li><strong>跳过列</strong>：不能按索引查找姓氏为 “Smith”（第一列），名字（第二列）不知道，年龄为 18 （第三列）的人。如果非要这样查找，那MySQL只会用到第一列姓氏的索引。</li>
+<li><strong>某个列存在范围</strong>：例如，姓氏为“Smith”，名字以“J”开头，年龄为18的SQL语句<code>... WHERE last_name = &#39;Smith&#39; AND first_name like &#39;J%&#39; AND age = 18;</code>，这时索引只有第一列姓氏起作用。</li>
+</ol>
+<h3 id="2-Hash索引"><a href="#2-Hash索引" class="headerlink" title="2.Hash索引"></a>2.Hash索引</h3><p><img src="../../../../images/database/hash_index.jpg" alt="hash_index"></p>
+<p>Hash在理论上平均时间复杂度能达到O(1)，非常快，经常用在内存中。在数据库领域，数据更多的是放在磁盘中，Hash索引 跟 B tree索引 相比还是有一定的局限性，主要体现在：</p>
+<ol>
+<li>Hash索引的无序性导致<font color="red">无法范围查找</font>，像 <code>&gt;</code>、<code>&lt;=</code>、<code>between</code> 等是无能为力的</li>
+<li>需要对完整的key计算Hash，因此<font color="red">不支持部分匹配</font>。像 <code>like &#39;jerr%&#39;</code> 这样的前缀匹配无能为力</li>
+<li>无法实现索引覆盖</li>
+<li>Hash碰撞冲突代价高</li>
+</ol>
+<h3 id="3-全文索引"><a href="#3-全文索引" class="headerlink" title="3.全文索引"></a>3.全文索引</h3><p>简单地说，全文索引就是在一堆文字中，通过其中的某个关键字等信息，就能找到该字段所属的记录行。</p>
+<ul>
+<li><strong>注意</strong>：全文索引只有在 MyISAM 引擎上才能使用，且只能在CHAR,VARCHAR,TEXT类型字段上使用。</li>
+</ul>
+<h3 id="4-空间索引"><a href="#4-空间索引" class="headerlink" title="4.空间索引"></a>4.空间索引</h3><p>空间索引是对空间数据类型的字段建立的索引。</p>
+<p>传统的索引不能很好的索引空间数据，我们需要一种方法能对空间数据进行索引，例如专门对地图上景点数据的索引，这就是空间索引。</p>
+<p>MySQL中的空间数据类型有四种：</p>
+<ul>
+<li>GEOMETRY （几何体）</li>
+<li>POINT （点）</li>
+<li>LINESTRING （线）</li>
+<li>POLYGON （多边形）</li>
+</ul>
+<p>在创建空间索引时，使用SPATIAL关键字。当引擎为MyISAM，创建空间索引的列，必须将其声明为 NOT NULL。</p>
+<h2 id="按功能或约束划分"><a href="#按功能或约束划分" class="headerlink" title="按功能或约束划分"></a>按功能或约束划分</h2><h3 id="普通（单列）索引"><a href="#普通（单列）索引" class="headerlink" title="普通（单列）索引"></a>普通（单列）索引</h3><pre><code class="sql">CREATE INDEX indexName ON mytable(username(length));</code></pre>
+<p>如果是CHAR，VARCHAR类型，length可以小于字段实际长度；如果是BLOB和TEXT类型，必须指定 length。</p>
+<h3 id="唯一索引"><a href="#唯一索引" class="headerlink" title="唯一索引"></a>唯一索引</h3><p>索引列的值必须唯一，但允许有空值。如果要禁止空值，则成为主键索引。</p>
+<pre><code class="sql">CREATE UNIQUE INDEX indexName ON mytable(username(length))</code></pre>
+<h3 id="主键索引"><a href="#主键索引" class="headerlink" title="主键索引"></a>主键索引</h3><p>主键索引是一种特殊的唯一索引，作用于主键。</p>
+<p>特别注意：</p>
+<ul>
+<li>主键索引的叶子节点存的是整行数据。在InnoDB里，主键索引也被称为聚簇索引（clustered index）。</li>
+<li>非主键索引的叶子节点内容是主键的值。在InnoDB里，非主键索引也被称为二级索引（secondary index）。</li>
+</ul>
+<h4 id="聚簇索引和二级索引的区别"><a href="#聚簇索引和二级索引的区别" class="headerlink" title="聚簇索引和二级索引的区别"></a>聚簇索引和二级索引的区别</h4><p>假设有数据行：</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>name</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>500</td>
+<td>Jerry</td>
+<td>18</td>
+</tr>
+</tbody></table>
+<p>age 列有普通索引，ID 列有主键索引</p>
+<p>执行以下语句：</p>
+<pre><code class="sql">select * from T where age = 18;</code></pre>
+<p>首先会在 age 列索引找到 18，<strong>普通索引存储的是主键值</strong>，得到 ID 为 500<br>，在根据 ID = 500 找到这一数据行的全部数据，这个过程叫回表。</p>
+<p>而直接执行：</p>
+<pre><code class="sql">select * from T where ID = 500;</code></pre>
+<p>直接通过聚簇索引找到 500 处，直接得到行数据。</p>
+<h3 id="组合索引（多列索引）"><a href="#组合索引（多列索引）" class="headerlink" title="组合索引（多列索引）"></a>组合索引（多列索引）</h3><p>在表中的多个字段组合上创建的索引，只有在查询条件中使用了这些字段的左边字段时，索引才会被使用，使用组合索引时遵循最左前缀集合。</p>
+<p>MySql会一直向右匹配直到遇到范围查询(&gt;、&lt;、between、like)就停止匹配，比如<code>a = 1 and b = 2 and c &gt; 3 and d = 4</code> 如果建立(a,b,c,d)顺序的索引，d是用不到索引的，如果建立(a,b,d,c)的索引则都可以用到，a,b,d的顺序可以任意调整。</p>
+<hr>
+<h1 id="什么时候该创建索引？"><a href="#什么时候该创建索引？" class="headerlink" title="什么时候该创建索引？"></a>什么时候该创建索引？</h1><ol>
+<li><strong>主键</strong>：对于主键，会自动建立一个唯一索引，以保证值唯一</li>
+<li><strong>频繁查询</strong>：对于频繁查询的表或字段，建立索引无疑会提高查询效率</li>
+<li><strong>查询中需要排序的字段</strong>：使用索引去访问排序字段将大大提高排序速度</li>
+<li><strong>查询中需要统计或者分组字段</strong></li>
+</ol>
+<hr>
+<h1 id="什么时候不该使用索引？"><a href="#什么时候不该使用索引？" class="headerlink" title="什么时候不该使用索引？"></a>什么时候不该使用索引？</h1><ol>
+<li>表记录太少</li>
+<li>经常增删改的字段（因为修改字段的同时还要动态维护索引）</li>
+<li>WHERE 条件用不到的字段不需要索引</li>
+<li>过滤性（选择性）不好的字段不适合使用索引，例如0/1，男/女</li>
+</ol>
+<hr>
+<h1 id="索引的底层实现"><a href="#索引的底层实现" class="headerlink" title="索引的底层实现"></a>索引的底层实现</h1><h2 id="MyISAM-索引实现"><a href="#MyISAM-索引实现" class="headerlink" title="MyISAM 索引实现"></a>MyISAM 索引实现</h2><p>MyISAM 索引使用了 B+Tree 作为索引结构，叶子结点的 data 域<font color="red">存放的是数据记录的地址</font>。MyISAM中索引检索的算法为首先按照 B+Tree 搜索算法搜索索引，如果指定的Key存在，则取出其data域的值，然后以data域的值为地址，读取相应数据记录。主索引和辅助索引的存储结构没有任何区别。</p>
+<p><img src="../../../../images/SQL/MyISAM_index.png" alt="MyISAM_index"></p>
+<h2 id="InnoDB-索引实现"><a href="#InnoDB-索引实现" class="headerlink" title="InnoDB 索引实现"></a>InnoDB 索引实现</h2><p>虽然InnoDB也使用B+Tree作为索引结构，但具体实现方式却与MyISAM截然不同。</p>
+<p><font color="red">MyISAM索引文件和数据文件是分离的，索引文件仅保存数据记录的地址。而在InnoDB中，表数据文件本身就是按 B+Tree 组织的一个索引结构，这棵树的叶节点data域保存了完整的数据记录。 </font></p>
+<h3 id="与-MyISAM-不同之处（聚簇索引）"><a href="#与-MyISAM-不同之处（聚簇索引）" class="headerlink" title="与 MyISAM 不同之处（聚簇索引）"></a>与 MyISAM 不同之处（聚簇索引）</h3><p>第一个与 MyISAM 不同的是 InnoDB 的数据文件本身就是索引文件。数据行放在索引的叶子叶，这种索引叫做聚簇索引。“聚簇”的意思是，数据行和相邻的键值紧凑地存储在一起。</p>
+<p><img src="../../../../images/SQL/InnoDB_index.png" alt="InnoDB_index"></p>
+<p>第二个与 MyISAM 的不同是 InnoDB 的二级索引 data 域存储相应记录主键的值而不是地址。换句话说，InnoDB的所有辅助索引都引用主键作为data域。</p>
+<p>因为 InnoDB 的数据文件本身要按主键聚集，所以 InnoDB 要求表必须有主键（MyISAM可以没有）。通常，InnoDB 被索引的列是主键列，因为 InnoDB 通过主键来聚集数据。如果没有定义主键，InnoDB会选择一个唯一的非空索引替代，如果表中没有这样的列，InnoDB 会隐式出定义一个主键来作为聚簇索引。</p>
+<hr>
+<h1 id="选择合适的主键"><a href="#选择合适的主键" class="headerlink" title="选择合适的主键"></a>选择合适的主键</h1><p>由于聚簇索引底层由B+树组织，建议使用连续递增的数值作为主键（AUTO_INCREMENT是最好的）。相反，如果用无序的 UUID 作为主键，性能将非常糟糕。</p>
+<p>在分布式情况下，常用 Twitter 开源的 Snowflake 雪花算法，在应用层生成主键。</p>
+<hr>
+<h1 id="为什么聚簇索引要用-B-树，而不是B树？"><a href="#为什么聚簇索引要用-B-树，而不是B树？" class="headerlink" title="为什么聚簇索引要用 B+ 树，而不是B树？"></a>为什么聚簇索引要用 B+ 树，而不是B树？</h1><ol>
+<li>B+树由于只在叶子节点有 data，单一节点比B树可以存储更多的元素，树更“矮胖”，查询的IO次数更少。</li>
+<li>所有叶子节点形成有序链表，便于范围查询。</li>
+</ol>
+<ul>
+<li>参考：<a href="https://blog.csdn.net/holmofy/article/details/80013034">MySQL性能优化[理论篇]-B树索引与hash索引</a></li>
+</ul>
+<hr>
+<h1 id="什么时候索引会失效？"><a href="#什么时候索引会失效？" class="headerlink" title="什么时候索引会失效？"></a>什么时候索引会失效？</h1><p>索引可以包含多个列的值，但是列的顺序十分重要，MySQL只能高效地使用索引的最左前缀列。</p>
+<ol>
+<li>WHERE 条件有 不等于号</li>
+<li>WHERE 条件使用了表达式或函数，如<code>SELECT actor_id FROM sakila.actor WHERE actor_id + 1 = 5;</code></li>
+<li>JOIN中，MySQL只有在 <strong>主键和外键的数据类型相同</strong> 时才能使用索引，否则无效</li>
+<li><code>LIKE ‘abc%’</code>，MYSQL将使用索引；但 <code>LIKE ‘%abc’</code>，MySQL将不使用索引。</li>
+<li>使用 OR 一般会使索引失效</li>
+<li>如果列类型是字符串，那一定要在条件中将数据使用引号引用起来，否则不使用索引。</li>
+</ol>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/SQL/" rel="tag">SQL</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/2bb1b1ab.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">数据库（四）MySQL优化</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/4c81d70.html">
+                <span class="level-item">数据库（二）存储引擎、事务、锁</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#什么是索引？">
+        <span class="has-mr-6">1</span>
+        <span>什么是索引？</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#概念">
+        <span class="has-mr-6">1.1</span>
+        <span>概念</span>
+        </a></li><li>
+        <a class="is-flex" href="#作用">
+        <span class="has-mr-6">1.2</span>
+        <span>作用</span>
+        </a></li><li>
+        <a class="is-flex" href="#实现位置">
+        <span class="has-mr-6">1.3</span>
+        <span>实现位置</span>
+        </a></li><li>
+        <a class="is-flex" href="#结构类型">
+        <span class="has-mr-6">1.4</span>
+        <span>结构类型</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#为什么要用索引？">
+        <span class="has-mr-6">2</span>
+        <span>为什么要用索引？</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#优点">
+        <span class="has-mr-6">2.1</span>
+        <span>优点</span>
+        </a></li><li>
+        <a class="is-flex" href="#缺点">
+        <span class="has-mr-6">2.2</span>
+        <span>缺点</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#索引的分类">
+        <span class="has-mr-6">3</span>
+        <span>索引的分类</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#按逻辑存储结构划分">
+        <span class="has-mr-6">3.1</span>
+        <span>按逻辑存储结构划分</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#1-BTree-索引">
+        <span class="has-mr-6">3.1.1</span>
+        <span>1. BTree 索引</span>
+        </a></li><li>
+        <a class="is-flex" href="#2-Hash索引">
+        <span class="has-mr-6">3.1.2</span>
+        <span>2.Hash索引</span>
+        </a></li><li>
+        <a class="is-flex" href="#3-全文索引">
+        <span class="has-mr-6">3.1.3</span>
+        <span>3.全文索引</span>
+        </a></li><li>
+        <a class="is-flex" href="#4-空间索引">
+        <span class="has-mr-6">3.1.4</span>
+        <span>4.空间索引</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#按功能或约束划分">
+        <span class="has-mr-6">3.2</span>
+        <span>按功能或约束划分</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#普通（单列）索引">
+        <span class="has-mr-6">3.2.1</span>
+        <span>普通（单列）索引</span>
+        </a></li><li>
+        <a class="is-flex" href="#唯一索引">
+        <span class="has-mr-6">3.2.2</span>
+        <span>唯一索引</span>
+        </a></li><li>
+        <a class="is-flex" href="#主键索引">
+        <span class="has-mr-6">3.2.3</span>
+        <span>主键索引</span>
+        </a></li><li>
+        <a class="is-flex" href="#组合索引（多列索引）">
+        <span class="has-mr-6">3.2.4</span>
+        <span>组合索引（多列索引）</span>
+        </a></li></ul></li></ul></li><li>
+        <a class="is-flex" href="#什么时候该创建索引？">
+        <span class="has-mr-6">4</span>
+        <span>什么时候该创建索引？</span>
+        </a></li><li>
+        <a class="is-flex" href="#什么时候不该使用索引？">
+        <span class="has-mr-6">5</span>
+        <span>什么时候不该使用索引？</span>
+        </a></li><li>
+        <a class="is-flex" href="#索引的底层实现">
+        <span class="has-mr-6">6</span>
+        <span>索引的底层实现</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#MyISAM-索引实现">
+        <span class="has-mr-6">6.1</span>
+        <span>MyISAM 索引实现</span>
+        </a></li><li>
+        <a class="is-flex" href="#InnoDB-索引实现">
+        <span class="has-mr-6">6.2</span>
+        <span>InnoDB 索引实现</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#与-MyISAM-不同之处（聚簇索引）">
+        <span class="has-mr-6">6.2.1</span>
+        <span>与 MyISAM 不同之处（聚簇索引）</span>
+        </a></li></ul></li></ul></li><li>
+        <a class="is-flex" href="#选择合适的主键">
+        <span class="has-mr-6">7</span>
+        <span>选择合适的主键</span>
+        </a></li><li>
+        <a class="is-flex" href="#为什么聚簇索引要用-B-树，而不是B树？">
+        <span class="has-mr-6">8</span>
+        <span>为什么聚簇索引要用 B+ 树，而不是B树？</span>
+        </a></li><li>
+        <a class="is-flex" href="#什么时候索引会失效？">
+        <span class="has-mr-6">9</span>
+        <span>什么时候索引会失效？</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="数据库（三）索引" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

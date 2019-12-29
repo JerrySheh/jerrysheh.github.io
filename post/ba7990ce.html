@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Java简明笔记（二） 面向对象 - J.e</title>
+
+
+    <meta name="description" content="Java 创建对象的过程当我们实例化一个对象时，例如： Person p &#x3D; new Person(); Java首先会在堆中开辟一块内存空间用来存放这个新的 Person 对象，然后在栈中创建一个引用 p ， p 指向堆中的 Person 对象。这样，我们通过 p 就能找到 Person 的内存地址。 之后，我们执行： Person p2 &#x3D; p; 我们创建了一个新的引用 p2， p2 跟 p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java简明笔记（二） 面向对象">
+<meta property="og:url" content="https://jerrysheh.me/post/ba7990ce.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="Java 创建对象的过程当我们实例化一个对象时，例如： Person p &#x3D; new Person(); Java首先会在堆中开辟一块内存空间用来存放这个新的 Person 对象，然后在栈中创建一个引用 p ， p 指向堆中的 Person 对象。这样，我们通过 p 就能找到 Person 的内存地址。 之后，我们执行： Person p2 &#x3D; p; 我们创建了一个新的引用 p2， p2 跟 p">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-01-18T14:31:07.000Z">
+<meta property="article:modified_time" content="2019-09-22T14:04:00.601Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Java简明笔记（二） 面向对象" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-01-18T14:31:07.000Z">2018-01-18</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    37 分钟 读完 (大约 5517 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Java简明笔记（二） 面向对象
+            
+        </h1>
+        <div class="content">
+            <h1 id="Java-创建对象的过程"><a href="#Java-创建对象的过程" class="headerlink" title="Java 创建对象的过程"></a>Java 创建对象的过程</h1><p>当我们实例化一个对象时，例如：</p>
+<pre><code class="java">Person p = new Person();</code></pre>
+<p>Java首先会在堆中开辟一块内存空间用来存放这个新的 Person 对象，然后在栈中创建一个引用 p ， p 指向堆中的 Person 对象。这样，我们通过 p 就能找到 Person 的内存地址。</p>
+<p>之后，我们执行：</p>
+<pre><code class="java">Person p2 = p;</code></pre>
+<p>我们创建了一个新的引用 p2， p2 跟 p 一样，都是保存在栈中，也指向了 Person 对象。当我们改变 p2 的状态， p 也会跟着改变，因为他们指向同一个对象。</p>
+<p><img src="../../../../images/Java/newperson.png" alt="new"></p>
+<hr>
+<h1 id="类块加载顺序"><a href="#类块加载顺序" class="headerlink" title="类块加载顺序"></a>类块加载顺序</h1><p>在一个类中，可能存在：</p>
+<ul>
+<li><strong>静态块</strong>：用 static{ } 声明，JVM 加载类时执行，仅执行一次（<strong>注意</strong>：如果在静态块中声明了变量，如 <code>int a = 1;</code>, 它是一个局部变量，在该静态块执行结束后就会失效）</li>
+<li><strong>构造块</strong>：类中直接用 { } 定义，每一次创建对象时执行</li>
+</ul>
+<p>在有继承关系的类中，加载顺序如下：</p>
+<ol>
+<li>父类静态块</li>
+<li>子类静态块</li>
+<li>父类构造块</li>
+<li>父类构造方法</li>
+<li>子类构造块</li>
+<li>子类构造方法</li>
+</ol>
+<p>注意：如果 main 在该类下，JVM 先加载类，然后才会执行 main() 方法</p>
+<h2 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h2><pre><code class="java">public class Go {
+
+    {
+        System.out.println(&quot;blockA&quot;);
+    }
+
+    static {
+        System.out.println(&quot;blockB&quot;);
+    }
+
+    public static void main(String[] args) {
+
+    }
+}</code></pre>
+<p>输出结果：</p>
+<pre><code>blockB</code></pre><p>main方法什么都不做，但是当我们执行时这个空的main方法，Go类会被JVM加载，因此输出静态块 <code>blockB</code>。</p>
+<h2 id="示例二"><a href="#示例二" class="headerlink" title="示例二"></a>示例二</h2><pre><code class="java">public class Go {
+
+    public static Go t1 = new Go();
+
+    {
+        System.out.println(&quot;blockA&quot;);
+    }
+
+    static {
+        System.out.println(&quot;blockB&quot;);
+    }
+
+    public static void main(String[] args) {
+
+    }
+}</code></pre>
+<p>输出:</p>
+<pre><code>blockA
+blockB</code></pre><p>main()依然什么都不做，但是在JVM加载Go类时（只会加载一次），第一行 new 一个新的 Go 对象，new 的时候调用了构造快，因此输出 <code>blockA</code>，之后，Go类继续加载，执行静态块，输出 <code>blockB</code>。</p>
+<h2 id="示例三"><a href="#示例三" class="headerlink" title="示例三"></a>示例三</h2><pre><code class="java">public class Go {
+
+    public static Go t1 = new Go();
+
+    {
+        System.out.println(&quot;blockA&quot;);
+    }
+
+    static {
+        System.out.println(&quot;blockB&quot;);
+    }
+
+    public static void main(String[] args) {
+        Go t2 = new Go();
+    }
+}</code></pre>
+<p>输出：</p>
+<pre><code>blockA
+blockB
+blockA</code></pre><p>JVM 加载 Go类 时（只会加载一次），第一行 new 一个新的 Go 对象，new 的时候调用了构造快，因此输出 <code>blockA</code>，之后，Go类继续加载，执行静态块，输出 <code>blockB</code>。</p>
+<p>然后 main 方法执行，new 一个 Go，调用构造块，再次输出<code>blockA</code>。</p>
+<hr>
+<h1 id="面向对象的三个特征"><a href="#面向对象的三个特征" class="headerlink" title="面向对象的三个特征"></a>面向对象的三个特征</h1><p>面向对象的三个特征分别是：<strong>封装</strong>、<strong>继承</strong>、<strong>多态</strong>，如果还有的话，<strong>抽象</strong> 也算一个。</p>
+<h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><p>所谓封装，就是将 <strong>数据项</strong> 与 <strong>相关的操作</strong> 结合为一个整体，并将其从外部可见性划分为若干级别（private、protected、public），从而 <strong>将数据结构的外部特性与其内部实现相分离</strong>，提供一致且标准的对外接口，隐藏内部的实现细节。</p>
+<p>封装不仅仅是 private + getter/setter ，使用封装可以对 setter 进行更深层次的定制，例如你可以对执行方法的对象做规定，也可以对数据做一定的要求，还可以做类型转换等等。</p>
+<h3 id="为什么要使用封装？"><a href="#为什么要使用封装？" class="headerlink" title="为什么要使用封装？"></a>为什么要使用封装？</h3><ol>
+<li>使用封装不仅仅安全，更可以简化操作。</li>
+<li>封装还有一个重要的意义，那就是我们可以对程序的正确性进行分析，并且将无意中破坏设计约束的条件变得更难。（《Java并发编程实战》p33）</li>
+</ol>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>当子类继承父类后，子类是一种特殊的父类，能直接或间接获得父类里的成员。</p>
+<h3 id="为什么要使用继承-？"><a href="#为什么要使用继承-？" class="headerlink" title="为什么要使用继承 ？"></a>为什么要使用继承 ？</h3><p>实现软件复用和扩展。</p>
+<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><p>多态就是 <strong>事物在运行过程中存在不同的状态</strong></p>
+<h3 id="多态的三个前提"><a href="#多态的三个前提" class="headerlink" title="多态的三个前提"></a>多态的三个前提</h3><ol>
+<li>有继承关系</li>
+<li>子类要重写父类的方法</li>
+<li>父类引用指向子类对象</li>
+</ol>
+<h3 id="多态的例子"><a href="#多态的例子" class="headerlink" title="多态的例子"></a>多态的例子</h3><p>例如有 Cat 类继承了 Animal 类 ，并重写了 <code>eat()</code>、<code>sleep()</code> 方法(sleep是静态方法，不属于重写，但我们假设 Cat类 也定义了这个方法)，并增加了一个 Animal 没有的 <code>CatchMouse()</code> 方法。</p>
+<p>在测试类中实例化：</p>
+<pre><code class="java">// 这个语句在堆内存中开辟了子类(Cat)的对象，并把栈内存中的父类(Animal)引用指向了这个 Cat 对象
+Animal am = new Cat();
+
+//调用实例方法，调的是 Cat 的方法
+am.eat();
+
+//调用静态方法，调的是 Animal 的方法
+am.sleep(); // 不建议
+
+Animal.sleep(); // 建议</code></pre>
+<p>可以发现，实例方法 <code>am.eat()</code> 输出的是 Cat 类重写后的方法，而静态方法<code>am.sleep()</code> 输出的是 Animal 类的方法（尽管 Cat 也写了同名的 sleep 方法，但这不算 Override，运行时不被识别）</p>
+<p><strong>扩展</strong>：有趣的是，当我们用对象实例去调用静态方法，如<code>am.sleep();</code>，IDEA会给我们一个提示：Static member ‘Test.Animal.sleep()’ accessed via instance reference 。意思是说，建议我们使用 <code>Animal.sleep()</code> 来调用静态方法而不要用 <code>am.sleep()</code>。此外，使用静态变量也应如此。</p>
+<h3 id="多态的弊端"><a href="#多态的弊端" class="headerlink" title="多态的弊端"></a>多态的弊端</h3><p>假如我们要执行父类没有而子类特有的<code>CatchMouse()</code>方法。</p>
+<pre><code class="java">Animal am = new Cat();
+am.CatchMouse();</code></pre>
+<p>结果却编译报错了。</p>
+<p>可见，多态 <strong>不能使用子类特有的成员属性和子类特有的成员方法。</strong></p>
+<p>那怎么办呢？ 这时候就要用到<code>向下转型</code>。可以使用<code>instanceof</code>操作符判断是不是我们需要的引用类型。</p>
+<pre><code class="java">Animal am = new Cat();
+
+//如果 am 可以向下转型为 Cat 类，则类型转换
+if (am instanceof Cat) {
+    Cat ca = (Cat) am;
+    ca.CatchMouse();
+}</code></pre>
+<h3 id="为什么要使用多态？"><a href="#为什么要使用多态？" class="headerlink" title="为什么要使用多态？"></a>为什么要使用多态？</h3><p>当把不同的子类对象都当作父类类型来看，可以屏蔽不同子类对象之间的实现差异，从而写出通用的代码达到通用编程，以适应需求的不断变化。</p>
+<ul>
+<li>关于继承和多态，见另一篇：<a href="../post/2fJava80.html">Java简明笔记（四） 继承</a></li>
+</ul>
+<hr>
+<h1 id="public、protected、private"><a href="#public、protected、private" class="headerlink" title="public、protected、private"></a>public、protected、private</h1><ul>
+<li><strong>public</strong>：所有类可以访问</li>
+<li><strong>protected</strong>： 同一个包可以访问 + 子类可以访问（无论是不是在同一个包中）</li>
+<li><strong>private</strong>： 只有自己能访问</li>
+<li><strong>不修饰(friendly)</strong>：同一个包内可访问</li>
+</ul>
+<hr>
+<h1 id="对象和方法"><a href="#对象和方法" class="headerlink" title="对象和方法"></a>对象和方法</h1><h2 id="Mutator-方法-和-Accessor-方法"><a href="#Mutator-方法-和-Accessor-方法" class="headerlink" title="Mutator 方法 和 Accessor 方法"></a>Mutator 方法 和 Accessor 方法</h2><p>如果一个方法改变了调用它的对象，我们就说这是一个<code>Mutator</code>方法（更改器），反之如果不改变调用自己的对象，它就是<code>Accessor</code>方法 （访问器）。比如 plusDays 方法如果改变 Date对象 的状态，不返回结果，就是<code>Mutator</code>方法，如果 plusDays 不改变 Date对象，而是返回一个新构造的 LocalDate对象，就是<code>Accessor</code>方法。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>Java中，变量只能持有对象的引用。引用是与实现相关的一种定位对象的方式。</li>
+<li>在类的实例上运行的方法称为<code>实例方法</code>。</li>
+<li>Java中，所有没有被声明为<code>static</code>的方法都是实例方法。</li>
+</ul>
+<hr>
+<h1 id="局部变量和类变量"><a href="#局部变量和类变量" class="headerlink" title="局部变量和类变量"></a>局部变量和类变量</h1><p>类中的变量可以不用初始化，使用相应类型的默认值即可，方法中的定义的局部变量必须初始化，否则调用的时候，会导致编译不通过。</p>
+<pre><code class="java">public class Main {
+    // 有默认值 0 和 0.0
+    public int i;
+    public static double d;
+
+    public static void main(String[] args) {
+        // 类中定义的变量可以直接使用
+        System.out.println(Main.d);
+        Main m = new Main();
+        System.out.println(m.i);
+
+        // 方法中定义的变量，必须赋初值，否则调用时编译报错
+        int k;   // 这一步是允许的
+        System.out.println(k); // 报错
+    }
+}</code></pre>
+<hr>
+<h1 id="this"><a href="#this" class="headerlink" title="this"></a>this</h1><h2 id="用于表示实例变量"><a href="#用于表示实例变量" class="headerlink" title="用于表示实例变量"></a>用于表示实例变量</h2><p>在对象上调用方法时，this引用 指向该对象。this 清晰地区分了局部变量和实例变量。带有this的是实例对象。</p>
+<pre><code class="Java">public void raiseSalary(double byPercent){
+  double raise = this.salary * byPercent / 100;
+  this.salary += raise;
+}</code></pre>
+<p>不想给参数起不同的名称时，也可使用this</p>
+<pre><code class="Java">public void setSalary(double salary){
+  this.salary = salary;
+}</code></pre>
+<h2 id="用于构造函数"><a href="#用于构造函数" class="headerlink" title="用于构造函数"></a>用于构造函数</h2><p>一个类可以有多个构造函数。一个构造函数可以调用另一个构造函数，用this。且只能写在第一行。</p>
+<pre><code class="java">public Employee (double salary){
+    // 调用另一个构造器
+    this(&quot;&quot;, salary);
+    // ...
+}</code></pre>
+<hr>
+<h1 id="值传递"><a href="#值传递" class="headerlink" title="值传递"></a>值传递</h1><ul>
+<li>当你将对象传递给方法，方法获得该对象引用的拷贝。</li>
+<li>Java中，所有参数，对象引用以及基本类型值都是值传递。</li>
+</ul>
+<p>下面的例子无法工作，因为sales被复制进x,然后x增加，然而x只是局部变量，这并不更改sales</p>
+<pre><code class="Java">// 无法工作
+public void increaseRandomly(double x){
+  double amount = x * generator.nextDouble();
+  x += amount;
+}
+
+boss.increaseRandomly(sales);</code></pre>
+<p>同样的，不可能写出一个方法将对象引用修改成其他东西。下面的例子中，引用fred被复制进变量e，在e被设置成不同的引用之前是会影响 fred 的，因为他们指向同一个内存区域，<strong>但是，在e设置成不同的引用之后就不再影响 fred</strong> 。</p>
+<pre><code class="Java">public class EvilManager{
+
+  // e 其实是 fred 的拷贝
+  public void replaceWithZombie(Employee e){
+    // 现在，e的 name 属性被设为 angle， fred的angle也会被设为angle
+    // 因为 e 和 fred 虽然是不同的引用，但是他们指向了同一个内存区域
+    e.setName(&quot;angle&quot;);
+
+    // e现在指向了一个新的 Employee ，跟 fred 没有任何关系了
+    // e 往后的改变都不会影响 fred
+    e = new Employee(&quot;&quot;,0);
+    e.setName(&quot;evil&quot;);
+  }
+}
+
+// 将 fred 传给方法
+boss.replaceWithZombie(fred);</code></pre>
+<hr>
+<h1 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h1><ul>
+<li>构造函数的名称与类名称相同。并且不返回任何类型！</li>
+<li>构造函数没有返回类型，如果你不小心加了void，那这是一个名称跟类名相同的方法，不是构造函数。</li>
+<li>构造函数可以重载。</li>
+<li>如果有多个构造函数，将共有代码放在其中一个构造函数里，然后在其他构造函数可以调用另一个构造函数，这时候调用要使用this。且只能作为构造函数方法体的第一条语句。</li>
+</ul>
+<ul>
+<li>构造函数不能被static、final、synchronized、abstract、native修饰，但可以被public、private、protected修饰；</li>
+</ul>
+<pre><code class="Java">public Employee (double salary){
+  this (&quot;&quot;, salary);  //调用构造函数 Employee (String, salary)
+  //...                 //其他内容
+}</code></pre>
+<ul>
+<li>如果构造函数中没有设置实例变量的值，系统会自动设定：数字为0，boolean为False, 对象引用为null。</li>
+<li><strong>尽量不要忘记给对象引用初始化</strong>。假设我们没有在构造函数中将变量name设置为空字符串，那么当有人调用<code>getName</code>方法，如<code>if (e.getName().equals(&quot;Jerry&quot;))</code>，就会导致空指针异常。</li>
+</ul>
+<ul>
+<li><strong>在调用子类构造器之前，会先调用父类构造器</strong>。当子类构造器中没有使用”super(参数或无参数)”指定调用父类构造器时，是默认调用父类的无参构造器，如果父类中包含有参构造器，却没有无参构造器，则在子类构造器中一定要使用“super(参数)”指定调用父类的有参构造器，不然就会报错。</li>
+</ul>
+<hr>
+<h1 id="static"><a href="#static" class="headerlink" title="static"></a>static</h1><h2 id="static方法"><a href="#static方法" class="headerlink" title="static方法"></a>static方法</h2><p>如果将方法声明为static，该方法就是静态方法，即可以不用运行在对象上的方法。<strong>静态方法没有 this 指针</strong>。</p>
+<p>静态方法要调用实例方法前必须先 new 对象，但静态方法可以直接调用其他静态方法（包括其他类的静态方法）。</p>
+<h2 id="static变量（类变量）"><a href="#static变量（类变量）" class="headerlink" title="static变量（类变量）"></a>static变量（类变量）</h2><p>如果在类中将变量声明为static，那么该变量属于类，而不是属于对象，它在所有的实例中的值是一样的。<font color="red">注意：static静态变量只能在类主体中定义，不能在方法里面定义(无论是静态方法还是实例方法)</font></p>
+<p>像下面这样是错误的：</p>
+<pre><code class="java">public static void main(String[] args) {
+    // 错误，static不能用在方法里面
+    // 无论是静态方法还是实例方法都不可以
+    static int a = 10;
+}</code></pre>
+<h2 id="静态变量和实例变量的区别"><a href="#静态变量和实例变量的区别" class="headerlink" title="静态变量和实例变量的区别"></a>静态变量和实例变量的区别</h2><p>实例变量属于某个对象的属性，必须创建了实例对象，其中的实例变量才会被分配空间，才能使用这个实例变量。静态变量不属于某个实例对象，而是属于类，所以也称为类变量，只要程序加载了类的字节码，不用创建任何实例对象，静态变量就会被分配空间，静态变量就可以被使用了。</p>
+<p><strong>总之，实例变量必须创建对象后才可以通过这个对象来使用，静态变量则可以直接使用类名来引用。</strong></p>
+<h2 id="静态方法可以被-Override-吗？"><a href="#静态方法可以被-Override-吗？" class="headerlink" title="静态方法可以被 Override 吗？"></a>静态方法可以被 Override 吗？</h2><p>不能。因为 Override 是基于运行时动态绑定的，而 static 方法是编译时静态绑定的。static 方法跟类的任何实例都不相关。</p>
+<h2 id="静态方法常见用法"><a href="#静态方法常见用法" class="headerlink" title="静态方法常见用法"></a>静态方法常见用法</h2><p><strong>工厂方法</strong>：工厂方法是指返回一个类的新实例的静态方法。</p>
+<hr>
+<h1 id="final"><a href="#final" class="headerlink" title="final"></a>final</h1><h2 id="final-修饰类"><a href="#final-修饰类" class="headerlink" title="final 修饰类"></a>final 修饰类</h2><p>表示该类不能被继承。此时和 abstract 是反义词。</p>
+<h2 id="final-修饰方法"><a href="#final-修饰方法" class="headerlink" title="final 修饰方法"></a>final 修饰方法</h2><p>表示方法不能被 Override(覆盖)。</p>
+<h2 id="final-修饰变量"><a href="#final-修饰变量" class="headerlink" title="final 修饰变量"></a>final 修饰变量</h2><p>通常用 <code>static final</code> 表示常量，如:</p>
+<pre><code class="java"> public static final double PI = 3.14159265358979323846;</code></pre>
+<p><strong>注意</strong>：当使用可修改对象的引用时，fianl修饰符只是声明该引用永不改变。<font color="red">但修改对象自身是完全合法的。</font></p>
+<p>下面的例子中，ArrayList 集合里面具体的值可以修改，但 friends 这个引用不能改变，尤其是不能变成null。</p>
+<pre><code class="Java">public class Person{
+  private final ArrayList&lt;Person&gt; friends = new ArrayList&lt;&gt;();
+  //可以给该数组列表添加元素
+  ...
+}</code></pre>
+<p><strong>注意</strong>：当 final 变量作为类的成员变量时，必须显示初始化或者在构造函数中初始化。</p>
+<pre><code class="java">public class A{
+  // 允许，但是构造函数中必须初始化 i
+  final int i;
+
+  // 正确
+  final int j = 4;
+}</code></pre>
+<hr>
+<h1 id="abstract"><a href="#abstract" class="headerlink" title="abstract"></a>abstract</h1><p>abstract指的是抽象，即没有实现，也不能被实例化。此外，接口属于特殊的 abstract 类，也是 abstract 类。</p>
+<h2 id="abstract-修饰类"><a href="#abstract-修饰类" class="headerlink" title="abstract 修饰类"></a>abstract 修饰类</h2><p>抽象类。抽象类中可以有抽象方法，也可以有实现方法。抽象类可以有 <code>private</code> 变量。但最好不要这么干。因为实现类继承了将会无法使用。</p>
+<h2 id="abstract-修饰方法"><a href="#abstract-修饰方法" class="headerlink" title="abstract 修饰方法"></a>abstract 修饰方法</h2><p>抽象方法。abstract 方法必须在 abstract 类或接口中。</p>
+<hr>
+<h1 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h1><p>Java 中的内部类分为</p>
+<ol>
+<li>成员内部类</li>
+<li>局部内部类</li>
+<li>静态内部类</li>
+<li>匿名类</li>
+</ol>
+<h2 id="内部类简述"><a href="#内部类简述" class="headerlink" title="内部类简述"></a>内部类简述</h2><h3 id="成员内部类"><a href="#成员内部类" class="headerlink" title="成员内部类"></a>成员内部类</h3><p>即在类里面嵌套另一个类，内部类可以直接访问外部类 private 实例属性。也就是说，成员内部类可以无条件访问外部类的成员。</p>
+<p>实例化方法：</p>
+<pre><code>内部类名 实例名 = 外部类实例名.new 内部类名();</code></pre><h3 id="局部内部类"><a href="#局部内部类" class="headerlink" title="局部内部类"></a>局部内部类</h3><p>局部内部类是定义在一个方法或者一个作用域里面的类，它和成员内部类的区别在于局部内部类的访问仅限于方法内或者该作用域内。局部内部类就像是方法里面的一个局部变量一样，不能有public、protected、private 以及 static 修饰符。</p>
+<h3 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h3><p>与非静态内部类不同，静态内部类的实例化 不需要一个外部类的实例为基础，可以直接实例化。</p>
+<p>只有静态内部类才可以声明静态方法。静态方法不可以使用非静态变量。</p>
+<p>实例化方法：</p>
+<pre><code>内部类名 实例名 = new 内部类名();</code></pre><h3 id="匿名类"><a href="#匿名类" class="headerlink" title="匿名类"></a>匿名类</h3><p>通常情况下，要使用一个接口或者抽象类，都必须创建一个子类，有的时候，为了快速使用，直接实例化一个抽象类，并“当场”实现其抽象方法。这就是匿名类。</p>
+<p>简单地说，匿名类就是声明一个类的同时实例化它。</p>
+<ul>
+<li>匿名类可以用 lambda 表达式替代。</li>
+<li>在匿名类中使用外部的局部变量，外部的局部变量必须修饰为final （但 jdk 1.8 以后不用声明为 final， jdk 会为你加）</li>
+</ul>
+<pre><code class="java">class jump implements Runnable {
+    public void run(){
+        System.out.println(&quot;jump now&quot;);
+    }
+}
+
+public class test {
+    public static void main(String[] args) {
+        //不使用匿名类
+        Runnable r = new jump();
+        Thread t1 = new Thread(r);
+        t1.start();
+
+        //使用匿名类
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(&quot;swim now&quot;);
+            }
+        }).start();
+
+        //使用 lambda 表达式
+        new Thread( () -&gt; System.out.println(&quot;go away now&quot;)).start();
+    }
+}
+</code></pre>
+<h2 id="为什么使用内部类-？"><a href="#为什么使用内部类-？" class="headerlink" title="为什么使用内部类 ？"></a>为什么使用内部类 ？</h2><ol>
+<li>每个内部类都能独立的继承一个接口的实现，所以无论外部类是否已经继承了某个(接口的)实现，对于内部类都没有影响。内部类使得多继承的解决方案变得完整。</li>
+<li>方便将存在一定逻辑关系的类组织在一起，又可以对外界隐藏。</li>
+<li>方便编写事件驱动程序</li>
+<li>方便编写线程代码</li>
+</ol>
+<h2 id="为什么成员内部类可以无条件访问外部类的成员？"><a href="#为什么成员内部类可以无条件访问外部类的成员？" class="headerlink" title="为什么成员内部类可以无条件访问外部类的成员？"></a>为什么成员内部类可以无条件访问外部类的成员？</h2><p>当我们有一个外部类 Outter，里面包含一个成员内部类 Inner，编译之后会生成两个文件：</p>
+<ol>
+<li>Outter.class</li>
+<li>Outter$Inner.class</li>
+</ol>
+<p>在 Outter$Inner.class 文件中，可以找到：</p>
+<pre><code class="java">final com.jerrysheh.Outter this$0;</code></pre>
+<p>也就是说，编译器会默认 <font color="red">为成员内部类添加了一个指向外部类对象的引用</font></p>
+<p>那么这个引用如何赋初值呢？看一下构造器：</p>
+<pre><code class="java">public com.jerrysheh.Outter$Inner(com.jerrysheh.Outter);</code></pre>
+<p>也就是说，<font color="red">内部类对象被构造的时候，自动传入了一个外部类对象的引用，因此可以在成员内部类中随意访问外部类的成员。</font></p>
+<h2 id="为什么局部内部类和匿名内部类只能访问局部final变量？"><a href="#为什么局部内部类和匿名内部类只能访问局部final变量？" class="headerlink" title="为什么局部内部类和匿名内部类只能访问局部final变量？"></a>为什么局部内部类和匿名内部类只能访问局部final变量？</h2><p>方法 A 中定义了局部内部类 B，当 方法A 执行完毕，已经结束作用域，如果内部类 B 的方法（可能由另一个线程执行）还没结束，但由于 A 结束作用域，方法 A 的变量 a 会不可访问。为了解决这一问题， Java 采用了 <strong>复制</strong> 的手段，即把方法 A 的变量 a 复制一份到内部类 B 的常量池。</p>
+<p>但是复制过后会产生不一致的问题，也就是内部类的方法修改了 a ， 但是外部类的 a 没有改变。</p>
+<p>因此，Java 规定，只能访问 final ，以避免上述问题。</p>
+<blockquote>
+<p>引申: Java是如何复制的 ？ 如果局部变量的值在编译期间就可以确定，则直接在匿名内部里面创建一个拷贝。如果局部变量的值无法在编译期间确定，则通过构造器传参的方式来对拷贝进行初始化赋值。</p>
+</blockquote>
+<hr>
+<h1 id="枚举类的用法"><a href="#枚举类的用法" class="headerlink" title="枚举类的用法"></a>枚举类的用法</h1><p>枚举类有多少个实例，就会调用多少次构造方法。</p>
+<h2 id="例子一"><a href="#例子一" class="headerlink" title="例子一"></a>例子一</h2><p>定义了一个枚举类，成员 <code>KBMH(&quot;hello&quot;)</code> ，如果括号里面是 String 的话，下面相应的要定义一个 <code>String ID</code> 。</p>
+<pre><code class="java">public enum ComicTypeEnum {
+    KBMH(&quot;/category/weimanhua/kbmh&quot;),        // 恐怖漫画
+    GSMH(&quot;/category/weimanhua/gushimanhua&quot;),  // 故事漫画
+    QQMH(&quot;/category/weimanhua/qiqumanhua&quot;),   // 奇趣漫画
+    GXMH(&quot;/category/weimanhua/gaoxiaomanhua&quot;); // 搞笑漫画
+
+    String ID;
+
+    ComicTypeEnum(String ID){
+        this.ID = ID;
+    }
+
+    public String getID() {
+        return ID;
+    }
+}</code></pre>
+<p>使用：</p>
+<pre><code class="java">String storyComic = ComicTypeEnum.GSMH.getID();</code></pre>
+<h2 id="例子二"><a href="#例子二" class="headerlink" title="例子二"></a>例子二</h2><p>定义枚举类型：</p>
+<pre><code class="java">enum Weekday {
+    MON,
+    TUE,
+    WED,
+    THU,
+    FRI,
+    SAT,
+    SUN
+};</code></pre>
+<p>使用：</p>
+<pre><code class="java">Weekday startDay = Weekday.MON;</code></pre>
+<hr>
+<h1 id="面向对象的五个基本原则"><a href="#面向对象的五个基本原则" class="headerlink" title="面向对象的五个基本原则"></a>面向对象的五个基本原则</h1><h2 id="单一职责原则（Single-Resposibility-Principle）"><a href="#单一职责原则（Single-Resposibility-Principle）" class="headerlink" title="单一职责原则（Single-Resposibility Principle）"></a>单一职责原则（Single-Resposibility Principle）</h2><p>一个类，最好只做一件事，只有一个引起它的变化。单一职责原则可以看做是低耦合、高内聚在面向对象原则上的引申，将职责定义为引起变化的原因，以提高内聚性来减少引起变化的原因。</p>
+<h2 id="开放封闭原则（Open-Closed-principle）"><a href="#开放封闭原则（Open-Closed-principle）" class="headerlink" title="开放封闭原则（Open-Closed principle）"></a>开放封闭原则（Open-Closed principle）</h2><p>软件实体应该是可扩展的，而不可修改的。也就是，对扩展开放，对修改封闭的。</p>
+<h2 id="Liskov替换原则（Liskov-Substituion-Principle）"><a href="#Liskov替换原则（Liskov-Substituion-Principle）" class="headerlink" title="Liskov替换原则（Liskov-Substituion Principle）"></a>Liskov替换原则（Liskov-Substituion Principle）</h2><p>子类必须能够替换其基类。这一思想体现为对继承机制的约束规范，只有子类能够替换基类时，才能保证系统在运行期内识别子类，这是保证继承复用的基础。</p>
+<h2 id="依赖倒置原则（Dependecy-Inversion-Principle）"><a href="#依赖倒置原则（Dependecy-Inversion-Principle）" class="headerlink" title="依赖倒置原则（Dependecy-Inversion Principle）"></a>依赖倒置原则（Dependecy-Inversion Principle）</h2><p>依赖于抽象。具体而言就是高层模块不依赖于底层模块，二者都同依赖于抽象；抽象不依赖于具体，具体依赖于抽象。</p>
+<h2 id="接口隔离原则（Interface-Segregation-Principle）"><a href="#接口隔离原则（Interface-Segregation-Principle）" class="headerlink" title="接口隔离原则（Interface-Segregation Principle）"></a>接口隔离原则（Interface-Segregation Principle）</h2><p>使用多个小的专门的接口，而不要使用一个大的总接口</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Java/" rel="tag">Java</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/82216935.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">当你输入一个网址的时候，实际会发生什么?</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/d7517b3d.html">
+                <span class="level-item">用Python查成绩(二) 获取成绩</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#Java-创建对象的过程">
+        <span class="has-mr-6">1</span>
+        <span>Java 创建对象的过程</span>
+        </a></li><li>
+        <a class="is-flex" href="#类块加载顺序">
+        <span class="has-mr-6">2</span>
+        <span>类块加载顺序</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#示例一">
+        <span class="has-mr-6">2.1</span>
+        <span>示例一</span>
+        </a></li><li>
+        <a class="is-flex" href="#示例二">
+        <span class="has-mr-6">2.2</span>
+        <span>示例二</span>
+        </a></li><li>
+        <a class="is-flex" href="#示例三">
+        <span class="has-mr-6">2.3</span>
+        <span>示例三</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#面向对象的三个特征">
+        <span class="has-mr-6">3</span>
+        <span>面向对象的三个特征</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#封装">
+        <span class="has-mr-6">3.1</span>
+        <span>封装</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#为什么要使用封装？">
+        <span class="has-mr-6">3.1.1</span>
+        <span>为什么要使用封装？</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#继承">
+        <span class="has-mr-6">3.2</span>
+        <span>继承</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#为什么要使用继承-？">
+        <span class="has-mr-6">3.2.1</span>
+        <span>为什么要使用继承 ？</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#多态">
+        <span class="has-mr-6">3.3</span>
+        <span>多态</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#多态的三个前提">
+        <span class="has-mr-6">3.3.1</span>
+        <span>多态的三个前提</span>
+        </a></li><li>
+        <a class="is-flex" href="#多态的例子">
+        <span class="has-mr-6">3.3.2</span>
+        <span>多态的例子</span>
+        </a></li><li>
+        <a class="is-flex" href="#多态的弊端">
+        <span class="has-mr-6">3.3.3</span>
+        <span>多态的弊端</span>
+        </a></li><li>
+        <a class="is-flex" href="#为什么要使用多态？">
+        <span class="has-mr-6">3.3.4</span>
+        <span>为什么要使用多态？</span>
+        </a></li></ul></li></ul></li><li>
+        <a class="is-flex" href="#public、protected、private">
+        <span class="has-mr-6">4</span>
+        <span>public、protected、private</span>
+        </a></li><li>
+        <a class="is-flex" href="#对象和方法">
+        <span class="has-mr-6">5</span>
+        <span>对象和方法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Mutator-方法-和-Accessor-方法">
+        <span class="has-mr-6">5.1</span>
+        <span>Mutator 方法 和 Accessor 方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#其他">
+        <span class="has-mr-6">5.2</span>
+        <span>其他</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#局部变量和类变量">
+        <span class="has-mr-6">6</span>
+        <span>局部变量和类变量</span>
+        </a></li><li>
+        <a class="is-flex" href="#this">
+        <span class="has-mr-6">7</span>
+        <span>this</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#用于表示实例变量">
+        <span class="has-mr-6">7.1</span>
+        <span>用于表示实例变量</span>
+        </a></li><li>
+        <a class="is-flex" href="#用于构造函数">
+        <span class="has-mr-6">7.2</span>
+        <span>用于构造函数</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#值传递">
+        <span class="has-mr-6">8</span>
+        <span>值传递</span>
+        </a></li><li>
+        <a class="is-flex" href="#构造函数">
+        <span class="has-mr-6">9</span>
+        <span>构造函数</span>
+        </a></li><li>
+        <a class="is-flex" href="#static">
+        <span class="has-mr-6">10</span>
+        <span>static</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#static方法">
+        <span class="has-mr-6">10.1</span>
+        <span>static方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#static变量（类变量）">
+        <span class="has-mr-6">10.2</span>
+        <span>static变量（类变量）</span>
+        </a></li><li>
+        <a class="is-flex" href="#静态变量和实例变量的区别">
+        <span class="has-mr-6">10.3</span>
+        <span>静态变量和实例变量的区别</span>
+        </a></li><li>
+        <a class="is-flex" href="#静态方法可以被-Override-吗？">
+        <span class="has-mr-6">10.4</span>
+        <span>静态方法可以被 Override 吗？</span>
+        </a></li><li>
+        <a class="is-flex" href="#静态方法常见用法">
+        <span class="has-mr-6">10.5</span>
+        <span>静态方法常见用法</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#final">
+        <span class="has-mr-6">11</span>
+        <span>final</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#final-修饰类">
+        <span class="has-mr-6">11.1</span>
+        <span>final 修饰类</span>
+        </a></li><li>
+        <a class="is-flex" href="#final-修饰方法">
+        <span class="has-mr-6">11.2</span>
+        <span>final 修饰方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#final-修饰变量">
+        <span class="has-mr-6">11.3</span>
+        <span>final 修饰变量</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#abstract">
+        <span class="has-mr-6">12</span>
+        <span>abstract</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#abstract-修饰类">
+        <span class="has-mr-6">12.1</span>
+        <span>abstract 修饰类</span>
+        </a></li><li>
+        <a class="is-flex" href="#abstract-修饰方法">
+        <span class="has-mr-6">12.2</span>
+        <span>abstract 修饰方法</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#内部类">
+        <span class="has-mr-6">13</span>
+        <span>内部类</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#内部类简述">
+        <span class="has-mr-6">13.1</span>
+        <span>内部类简述</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#成员内部类">
+        <span class="has-mr-6">13.1.1</span>
+        <span>成员内部类</span>
+        </a></li><li>
+        <a class="is-flex" href="#局部内部类">
+        <span class="has-mr-6">13.1.2</span>
+        <span>局部内部类</span>
+        </a></li><li>
+        <a class="is-flex" href="#静态内部类">
+        <span class="has-mr-6">13.1.3</span>
+        <span>静态内部类</span>
+        </a></li><li>
+        <a class="is-flex" href="#匿名类">
+        <span class="has-mr-6">13.1.4</span>
+        <span>匿名类</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#为什么使用内部类-？">
+        <span class="has-mr-6">13.2</span>
+        <span>为什么使用内部类 ？</span>
+        </a></li><li>
+        <a class="is-flex" href="#为什么成员内部类可以无条件访问外部类的成员？">
+        <span class="has-mr-6">13.3</span>
+        <span>为什么成员内部类可以无条件访问外部类的成员？</span>
+        </a></li><li>
+        <a class="is-flex" href="#为什么局部内部类和匿名内部类只能访问局部final变量？">
+        <span class="has-mr-6">13.4</span>
+        <span>为什么局部内部类和匿名内部类只能访问局部final变量？</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#枚举类的用法">
+        <span class="has-mr-6">14</span>
+        <span>枚举类的用法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#例子一">
+        <span class="has-mr-6">14.1</span>
+        <span>例子一</span>
+        </a></li><li>
+        <a class="is-flex" href="#例子二">
+        <span class="has-mr-6">14.2</span>
+        <span>例子二</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#面向对象的五个基本原则">
+        <span class="has-mr-6">15</span>
+        <span>面向对象的五个基本原则</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#单一职责原则（Single-Resposibility-Principle）">
+        <span class="has-mr-6">15.1</span>
+        <span>单一职责原则（Single-Resposibility Principle）</span>
+        </a></li><li>
+        <a class="is-flex" href="#开放封闭原则（Open-Closed-principle）">
+        <span class="has-mr-6">15.2</span>
+        <span>开放封闭原则（Open-Closed principle）</span>
+        </a></li><li>
+        <a class="is-flex" href="#Liskov替换原则（Liskov-Substituion-Principle）">
+        <span class="has-mr-6">15.3</span>
+        <span>Liskov替换原则（Liskov-Substituion Principle）</span>
+        </a></li><li>
+        <a class="is-flex" href="#依赖倒置原则（Dependecy-Inversion-Principle）">
+        <span class="has-mr-6">15.4</span>
+        <span>依赖倒置原则（Dependecy-Inversion Principle）</span>
+        </a></li><li>
+        <a class="is-flex" href="#接口隔离原则（Interface-Segregation-Principle）">
+        <span class="has-mr-6">15.5</span>
+        <span>接口隔离原则（Interface-Segregation Principle）</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Java简明笔记（二） 面向对象" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

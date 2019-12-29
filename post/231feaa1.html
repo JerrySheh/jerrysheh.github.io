@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Crash Course Computer Science（21-30） - J.e</title>
+
+
+    <meta name="description" content="P21 压缩前面提到，位图文件存储的是RGB数据，有时候一张图片很大，而我们想更快地把它发给朋友，这时候就需要用到 压缩（compression），一种简单的压缩方法是游程编码，例如连续7个像素点都是黄色，与其用7个一样的RGB数据，不如在前面加个7代表7个，再接1个RGB数据即可。这种压缩方法适合经常出现相同值的文件，并且可以轻易地复原，叫做 无损压缩。1950年代，麻省理工学院学生哈夫曼发明了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Crash Course Computer Science（21-30）">
+<meta property="og:url" content="https://jerrysheh.me/post/231feaa1.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="P21 压缩前面提到，位图文件存储的是RGB数据，有时候一张图片很大，而我们想更快地把它发给朋友，这时候就需要用到 压缩（compression），一种简单的压缩方法是游程编码，例如连续7个像素点都是黄色，与其用7个一样的RGB数据，不如在前面加个7代表7个，再接1个RGB数据即可。这种压缩方法适合经常出现相同值的文件，并且可以轻易地复原，叫做 无损压缩。1950年代，麻省理工学院学生哈夫曼发明了">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2019-08-19T13:00:55.000Z">
+<meta property="article:modified_time" content="2019-09-22T14:13:02.838Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="计算机科学">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Crash Course Computer Science（21-30）" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-08-19T13:00:55.000Z">2019-08-19</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    35 分钟 读完 (大约 5237 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Crash Course Computer Science（21-30）
+            
+        </h1>
+        <div class="content">
+            <h1 id="P21-压缩"><a href="#P21-压缩" class="headerlink" title="P21 压缩"></a>P21 压缩</h1><p>前面提到，位图文件存储的是RGB数据，有时候一张图片很大，而我们想更快地把它发给朋友，这时候就需要用到 <strong>压缩（compression）</strong>，一种简单的压缩方法是游程编码，例如连续7个像素点都是黄色，与其用7个一样的RGB数据，不如在前面加个7代表7个，再接1个RGB数据即可。这种压缩方法适合经常出现相同值的文件，并且可以轻易地复原，叫做 <strong>无损压缩</strong>。1950年代，麻省理工学院学生哈夫曼发明了一种高效编码方式，叫做 <strong>哈夫曼树（Huffman Tree）</strong>，将出现频率高的块用短编码，频率低的用长编码，用树结构和字典来映射。</p>
+<p>可以看到，上面两种方法的思路分别是消除冗余和用更紧凑的表示方法。几乎所有的无损压缩都用了这两种方法，如 gif、png、pdf、zip</p>
+<p><img src="../../../../images/crachcoursecs/huffman_tree.png" alt=""></p>
+<p>然而，并不是所有的数据都需要无损。像音频文件，有些超声波部分完全可以抛弃，因为人类听不到，图像和视频也是，有时候我们并不追求超清画质，只要能看到图片是什么就够了。这时候太过细致的细节会被模糊化处理，这就是 <strong>有损压缩</strong> 。著名的例子是 mp3 和 jpeg 。</p>
+<a id="more"></a>
+
+<h1 id="P22-命令行界面"><a href="#P22-命令行界面" class="headerlink" title="P22 命令行界面"></a>P22 命令行界面</h1><p>早期计算机都是通过纸带和插线板一次性获取输入数据，计算完成后一次性输出到纸带。到了1950年代开始，小型机开始出现，大型机也慢慢有了多任务和分时系统的概念，于是 <strong>交互式</strong> 产生了。当时人们就借助了键盘来输入数据，通过电传，计算机能很快接收到键盘的输入然后显示，再根据输入的内容做出文字反馈，这种人类与计算机交流的方式叫做 <strong>命令行</strong>，用于交互的键盘和屏幕叫做 <strong>终端</strong>。</p>
+<p>虽然命令行只能显示文字，十分原始，但由于其性能高，即便是在今天，也有很多程序员喜欢用命令行，尤其是访问远程计算机时。</p>
+<h1 id="P23-屏幕-amp-2D-图形显示"><a href="#P23-屏幕-amp-2D-图形显示" class="headerlink" title="P23 屏幕&amp;2D 图形显示"></a>P23 屏幕&amp;2D 图形显示</h1><p>屏幕显示技术最早最有影响力的是 <strong>阴极射线管（CRT）</strong>，原理是把带电粒子发射到涂层上，通过磁场来控制方向。在屏幕上显示清晰的点叫做 <strong>像素（pixel）</strong>，液晶显示器就是通过改变每个像素的颜色来显示图像的。</p>
+<p>前面提到 ASCII 码通过把二进制数字映射成英文符号显示在屏幕上，映射的过程是由 <strong>字符生成器</strong> 来完成的，基本上算是第一代显卡。为了让屏幕可以显示任意画面，而不仅仅是字符，同时为了节省内存，人们用矢量画图的方式来绘制图形，屏幕上所有的一切都是由线组成。</p>
+<p>1960年代，出现了真正内存中的一个位对应一个像素的图形界面，叫 <strong>位图显示</strong>。图形就是一个巨大的像素值矩阵，计算机把像素数据存在特殊的区域，叫做 <strong>帧缓冲区</strong>，一开始缓冲区在内存里，后来存在 <strong>高速视频缓冲（VRAM）</strong> 里，VRAM在显卡里面，而不是内存，这样访问更快。程序员预先写好了一些例如画直线、画圆、文字等函数，然后再在此基础上调用，从而绘制出丰富的图形界面。</p>
+<h1 id="P24-冷战和消费主义"><a href="#P24-冷战和消费主义" class="headerlink" title="P24 冷战和消费主义"></a>P24 冷战和消费主义</h1><p>1940年代，美国和苏联开始冷战，科技成了不可小觑的力量，而计算机是科技的中流砥柱，但由于其高成本，只有政府才负担得起。当时两个美苏都在争第一，所以在计算机研发上投入了大量的资金和人力，这促进了计算机科学的发展。之后，由于苏联宇航员抢先登上太空，不甘落后的美国发起了“阿波罗登月计划”，阿波罗的导航是首次使用集成电路的典例，且这个计划投入了40万人力，计算机技术借此得以飞跃发展。1950年代美国成立了国家科学基金会，该机构至今都在给美国科学研究提供政府资金，美国的科技之所以领先，主要原因之一就是这个机构。</p>
+<p>1950年代，消费者开始购买晶体管设备。此时战后的日本开始寻找新的工业机会，日本公司很快取得了晶体管的授权，开始振兴日本的半导体和电子行业，其中就包括收音机，日本设备以低利润为特点开始大量售出，而美国企业一开始就是跟政府签订高利润的合同，忽略了消费者市场，因此在消费者领域人们更愿意购买便宜好用的日本产品。</p>
+<p>到了1970年代，冷战和太空竞赛褪去，美国企业失去了高利润的政府合同，变得更难竞争了，这导致了美国公司规模的缩小、裁员，甚至倒闭，其中就包括英特尔1974年大裁员，1979年仙童半导体濒临倒闭而被收购。美国公司的无力最终导致了日本公司如夏普、卡西欧等的崛起，以至于1970年代随处可见日本的电子产品。</p>
+<p>在消费的刺激下，集成电路的成本越来越低，出现了各种各样的产品，电视、街机、手持计算器，最终催生了家用个人计算机。</p>
+<h1 id="P25-个人计算机革命"><a href="#P25-个人计算机革命" class="headerlink" title="P25 个人计算机革命"></a>P25 个人计算机革命</h1><p>计算机成本的下降和性能的提升，让个人计算机成为可能。第一台取得成功的商业个人计算机是 MITS 公司的 Altair 8800 ，需要自己组装，而且编写的是机器码。彼时19岁的比尔盖茨和22岁的艾伦保罗向 MITS 公司提议在 8800 上运行 BASIC 程序，并答应为其编写 BASIC 的 <strong>解释器(Interpreter)</strong>，解释器是一种将 BASIC 语言转换成机器码的程序，解释器跟编译器的区别是，前者是在程序运行时转换，而后者是在运行前。后来他们真的做出来了，于是 Altair BASIC 成了微软公司的第一款产品。</p>
+<p>Altair 8800的问世聚集了很多计算机爱好者的聚会，一次聚会上24岁的斯蒂夫·沃兹尼亚克突发奇想说要设计自己的计算机，它的设想是把计算机连接到电视显示并提供文本界面，沃兹的大学朋友斯蒂夫·乔布斯建议说不如直接出售组装好的主板，于是，Apple-I 问世了。</p>
+<p>个人计算机的发展引起了行业大佬IBM的注意，IBM让十二名精干的工程师从零设计了 IBM PC，立马获得了成功。它提供了开放式架构，叫做 IBM Compatible （IBM兼容），使得第三方可以提供硬件或外设，包括显卡、声卡、硬盘等。很快，康柏和戴尔也开始卖PC了，而且采用的就是 IBM 兼容的架构，微软也很乐意给他们提供 MS-DOS 操作系统，IBM硬件+微软软件 的生态很快建立起来。</p>
+<p>然而，苹果还是坚持采用封闭式架构，自己做机器，自己做系统，甚至卖得还不错。为了在IBM+微软的夹攻中体现竞争力，1984年，Macintosh 问世了，这是第一款采用了图形界面的个人计算机！</p>
+<h1 id="P26-图形用户界面"><a href="#P26-图形用户界面" class="headerlink" title="P26 图形用户界面"></a>P26 图形用户界面</h1><p>尽管第一台消费者可以购买到的图形界面个人计算机 Macintosh 是 1984 年才发布的，但图形界面的研究1960年代就开始了。恩格尔巴特算是对图形界面贡献比较大的人，尽管他的尝试在商业上失败了，但还是获得1997年的图灵奖。他在施乐公司工作，他们的研发团队将2D屏幕当作桌面，就像今天我们在用的一样，每一个程序都有一个窗口，窗口和窗口之间可以堆叠。然后用鼠标操作指针移动，用键盘输入内容。程序窗口有许多可复用的元素，文本框、按钮、滑动条、标签页等，GUI程序就是由这些小组件构成，而且是 <strong>事件响应驱动</strong> 的，并非顺序执行。</p>
+<p>1979年，乔布斯参访了施乐公司，看到了他们如此酷的设计，决定跟施乐合作，后来他说，就像拨开了眼前的一层迷纱，我可以看到计算机产业的未来。之后，乔布斯回到苹果，开始图形界面的开发，并在1984年的 Macintosh 上大获成功。但没过多久，其他个人计算机的图形界面也赶了上来，加上当时苹果公司内部的混乱，乔布斯被赶出了苹果公司，给微软有机可乘，微软随即发布了 Windows 1.0，并在10年的时间里吃掉了95%的个人计算机的操作系统份额，其中就包括微软的第一个图形操作系统 Windows 95。</p>
+<h1 id="P27-3D图形"><a href="#P27-3D图形" class="headerlink" title="P27 3D图形"></a>P27 3D图形</h1><h2 id="投影和多边形"><a href="#投影和多边形" class="headerlink" title="投影和多边形"></a>投影和多边形</h2><p>将 3D 的物体通过投射的方式，显示在 2D 的屏幕上，就是 3D 投影。如果正方体各个边在投影中也互相平行，叫做 <strong>正交投影</strong>，如果会在远处收敛于一点，则叫做 <strong>透视投影</strong>。在复杂的场景中，通常用三角形来绘制图案，三角形在图形学中称为 <strong>多边形</strong>，一堆多边形的集合叫做 <strong>网格</strong>。网格数量和精细度呈正比。</p>
+<h2 id="渲染"><a href="#渲染" class="headerlink" title="渲染"></a>渲染</h2><p>线框绘制好后需要填充，经典的填充算法是 <strong>扫描性渲染</strong>，它会找到三角形最大和最小的Y值，然后从上往下逐行填充颜色，如果像素不高，就会产生很多锯齿。一种解决办法是 <strong>抗锯齿</strong>，原理很简单，即边缘部分用较浅的颜色来渲染。</p>
+<p>在 3D 场景中，经常有画面堆叠的情况。这叫 <strong>遮挡</strong>。常用 <strong>画家算法</strong> 来计算遮挡。先画远的，再画近的。再用扫描性渲染来填充。但是这种算法需要先对多边形的远近进行排序。</p>
+<p><img src="../../../../images/crachcoursecs/painter.png" alt=""></p>
+<p>还有一种算法叫 <strong>深度缓冲（Z-buffering）</strong>，是通过数值来记录多边形的远近，如果更远的部分被更近的遮挡，就不渲染。这种算法因为不用排序，所以会更快。但是这种算法有个有趣的现象，如果两个多边形距离一样，谁画在上面？而且浮点数计算往往不够准确，导致结果不可预测，因此在一些 3D 游戏中，经常出现 Z-Fighting 现象，同一个地方画面颜色变来变去。此外，在一些 3D 游戏中，往往会忽略多边形背面的渲染，来加快渲染速度，但坏处是如果遇到bug进入了多边形内部，会看到消失的画面。</p>
+<p><img src="../../../../images/crachcoursecs/z-buffering.png" alt=""></p>
+<p><img src="../../../../images/crachcoursecs/bug.jpg" alt=""></p>
+<p>在 3D 场景中，同样也需要明暗处理，最简单的是用 <strong>平面着色</strong> 照明算法，后来又开发了其他优化算法。此外，3D 中还需要 <strong>纹理化</strong> 让网格得到特殊外观。此处就不展开讲了。</p>
+<h2 id="GPU"><a href="#GPU" class="headerlink" title="GPU"></a>GPU</h2><p>总而言之，在 3D 渲染中需要用到大量的计算，CPU不是专门为此设计的，因此工程师们做了专门的处理器—— <strong>GPU ，图形处理单元</strong>，放在显卡上面，能够进行大规模并行计算，现代GPU每秒能处理上亿个多边形！</p>
+<h1 id="P28-计算机网络"><a href="#P28-计算机网络" class="headerlink" title="P28 计算机网络"></a>P28 计算机网络</h1><h2 id="局域网"><a href="#局域网" class="headerlink" title="局域网"></a>局域网</h2><p>计算机网络的诞生是为了方便信息交换和共享物理资源。计算机近距离构成的小型网络称为 <strong>局域网（LAN）</strong>，最广泛使用的局域网技术是 <strong>以太网</strong>，用一条电缆连接多台电脑，用电信号传输，由于以太网不会区分信号是要传给谁的，大家都能接收到相同的信号，所以需要每台计算机都有一个物理地址（mac），只监控传给自己的电信号。像共享电缆这样，多台电脑共享一个传输媒介，称为 <strong>载波侦听多路访问（CSMA）</strong>，以太网的载体是铜线，Wi-Fi的载体是空气。载体传输数据的速度叫做 <strong>带宽（bandwidth）</strong>。共享载体带来的一个弊端是容易冲突，大家都有数据要发，产生信号混乱，解决办法是 <strong>指数退避</strong>，当有冲突时按指数时间递增延迟发送。即便如此，在较大的局域网中还是很容易产生冲突，于是人们使用 <strong>交换机</strong> 来减少冲突域。</p>
+<h2 id="路由和IP协议"><a href="#路由和IP协议" class="headerlink" title="路由和IP协议"></a>路由和IP协议</h2><p>在大型局域网中，计算机之间的通路可能有多条，这就产生了 <strong>路由（routing）</strong>。两台相隔较远的计算机通信，最开始是使用专用电路线路，叫做 <strong>电路交换</strong>，缺点是价格昂贵且不灵活。另一种方法是 <strong>报文交换</strong>，途中会经过好几个站点，就像邮局送信一样，好处是可以使用不同的路由，提升容错且更可靠，坏处是如果报文过大会阻塞路由。于是人们把将大的报文分成多个小块，叫做 <strong>数据包（packets）</strong>，这种方法称为 <strong>分组交换</strong>。报文和分组的格式由互联网协议（Internet Protocol，IP）定义，每台联网的计算机都需要一个 IP 地址。<strong>路由器</strong> 会平衡与其他路由器的负载，叫做 <strong>拥塞控制</strong>。同一个报文的不同数据包，可能会经过不同的路由线路，最后到达目的地后再按顺序拼接起来，顺序问题由 TCP/IP 协议来解决。分组交换的好处是它是去中心化的，没有中心权威机构，也没有单点失败问题。</p>
+<p>如今，不仅仅是PC、手机接入计算机网络世界，形成互联网，一些智能家电也有了网络功能，构成了 <strong>物联网</strong>。</p>
+<h1 id="P29-互联网"><a href="#P29-互联网" class="headerlink" title="P29 互联网"></a>P29 互联网</h1><h2 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h2><p>互联网是一个巨型分布式网络，大数据会被拆分成一个一个数据包传输。数据包的格式遵循IP协议，即在数据包的头部加上元数据注明要发给谁，但如果只有IP协议，对方不知道这是哪个应用程序需要的数据，于是人们在IP协议之上开发了更高级的协议。例如 <strong>用户数据报协议（UDP）</strong> 在数据前加UDP头，指明了端口号，端口号是应用程序访问网络时，需要向操作系统申请的识别号。总而言之，IP协议负责把数据包发给正确的计算机，UDP协议负责发给正确的应用。</p>
+<p><img src="../../../../images/crachcoursecs/udp.png" alt=""></p>
+<h2 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h2><p>UDP头里还有 checksum 检验和，用来检查数据是否正确，如果不正确，UDP通常会把数据包丢弃，加之UDP并不能确认对方已经收到数据包，所以它其实并不太可靠。但是由于其简单性，一些应用并不在乎丢失数据，例如视频通话最多也就是丢帧，影响不大，所以UDP的使用还是非常广泛的。不过到了邮件发送，文件传输等场景，要求所有数据必须准确无误地送达，就不得不使用 <strong>传输控制协议（TCP）</strong> 了，其原理跟UDP一样，但提供了更高级的功能，如数据包排序、确认码（ACK）、超时重传、滑窗、拥塞控制，从而保证数据完整无误地传输。</p>
+<h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><p>应用程序想从网络上的另一台计算机上的应用程序获取数据，需要知道对方的IP地址和端口号，事实上，因为 172.217.7.238 是谷歌服务的ip地址，而80是其端口号，我们在浏览器上输入 <a href="http://172.217.7.238:80">http://172.217.7.238:80</a> 即可直接访问谷歌。但记下一串数字总归是很烦的，我们还是喜欢输入 <a href="http://www.google.com">www.google.com</a> 的方式，这叫做域名。互联网上有一种专门的服务，负责把域名和ip地址对应起来，这种服务就是 <strong>域名系统（Domain Name System，DNS）</strong>。</p>
+<h2 id="OSI七层模型"><a href="#OSI七层模型" class="headerlink" title="OSI七层模型"></a>OSI七层模型</h2><p>线路里的电信号或者Wi-Fi里的无线信号，这些是物理层。mac地址，碰撞检测，指数退避等用来操控物理层的方法叫做数据链路层，IP协议等负责各种报文交换和路由转发的叫做网络层，TCP和UDP负责如何点到点传输的叫做传输层，操纵TCP、UDP进行连接、传递信息、关闭连接的叫做会话层，例如socket，最后像浏览器、Skype、微信等具体的应用程序如何展现数据，就是展示层和应用层了。</p>
+<h1 id="P30-万维网（world-wide-web）"><a href="#P30-万维网（world-wide-web）" class="headerlink" title="P30 万维网（world wide web）"></a>P30 万维网（world wide web）</h1><p>万维网建立在互联网之上，通常我们用浏览器访问一个页面，会输入如 <a href="http://www.bilibili.com/video/av21376839">www.bilibili.com/video/av21376839</a> 这样的链接，前缀www就是万维网的缩写。其最基本的单位是单个页面，页面上会有跳转到其他页面的链接，叫做 <strong>超链接</strong>，每个页面都需要一个唯一的地址，叫做 <strong>统一资源定位符（URL）</strong>。当我们输入一个 URL，DNS首先会找到域名 <a href="http://www.bilibili.com">www.bilibili.com</a> 对应的ip地址，然后我们的计算机会向对方（通常是web服务器，默认80端口）发起一个 tcp 连接，连接建立后，会继续向服务器请求对应的页面 /video/av21376839，这里面用到的协议是 <strong>超文本传输协议（HTTP）</strong>。服务器返回的内容为了更好地展示，如标题、内容、列表，通常会用 <strong>超文本标记语言（HTML）</strong> 来显示，如今最新的 HTML5 标准，加上 CSS、JavaScript 可以做出丰富多彩的网页效果。</p>
+<p>如果我们知道一个域名，可以直接输入，但如果我们事先不知道呢？最开始网页服务还比较少的时候，人们可以维护一个黄页目录，有专门提供这种服务的网站，例如 Yahoo，后来随着万维网的网站越来越多，人工维护变得困难起来，于是又出现了搜索引擎，如Google。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/" rel="tag">计算机科学</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/5d95362f.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Crash Course Computer Science（31-40）</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/20575023.html">
+                <span class="level-item">Crash Course Computer Science（11-20）</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#P21-压缩">
+        <span class="has-mr-6">1</span>
+        <span>P21 压缩</span>
+        </a></li><li>
+        <a class="is-flex" href="#P22-命令行界面">
+        <span class="has-mr-6">2</span>
+        <span>P22 命令行界面</span>
+        </a></li><li>
+        <a class="is-flex" href="#P23-屏幕-amp-2D-图形显示">
+        <span class="has-mr-6">3</span>
+        <span>P23 屏幕&2D 图形显示</span>
+        </a></li><li>
+        <a class="is-flex" href="#P24-冷战和消费主义">
+        <span class="has-mr-6">4</span>
+        <span>P24 冷战和消费主义</span>
+        </a></li><li>
+        <a class="is-flex" href="#P25-个人计算机革命">
+        <span class="has-mr-6">5</span>
+        <span>P25 个人计算机革命</span>
+        </a></li><li>
+        <a class="is-flex" href="#P26-图形用户界面">
+        <span class="has-mr-6">6</span>
+        <span>P26 图形用户界面</span>
+        </a></li><li>
+        <a class="is-flex" href="#P27-3D图形">
+        <span class="has-mr-6">7</span>
+        <span>P27 3D图形</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#投影和多边形">
+        <span class="has-mr-6">7.1</span>
+        <span>投影和多边形</span>
+        </a></li><li>
+        <a class="is-flex" href="#渲染">
+        <span class="has-mr-6">7.2</span>
+        <span>渲染</span>
+        </a></li><li>
+        <a class="is-flex" href="#GPU">
+        <span class="has-mr-6">7.3</span>
+        <span>GPU</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#P28-计算机网络">
+        <span class="has-mr-6">8</span>
+        <span>P28 计算机网络</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#局域网">
+        <span class="has-mr-6">8.1</span>
+        <span>局域网</span>
+        </a></li><li>
+        <a class="is-flex" href="#路由和IP协议">
+        <span class="has-mr-6">8.2</span>
+        <span>路由和IP协议</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#P29-互联网">
+        <span class="has-mr-6">9</span>
+        <span>P29 互联网</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#UDP">
+        <span class="has-mr-6">9.1</span>
+        <span>UDP</span>
+        </a></li><li>
+        <a class="is-flex" href="#TCP">
+        <span class="has-mr-6">9.2</span>
+        <span>TCP</span>
+        </a></li><li>
+        <a class="is-flex" href="#DNS">
+        <span class="has-mr-6">9.3</span>
+        <span>DNS</span>
+        </a></li><li>
+        <a class="is-flex" href="#OSI七层模型">
+        <span class="has-mr-6">9.4</span>
+        <span>OSI七层模型</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#P30-万维网（world-wide-web）">
+        <span class="has-mr-6">10</span>
+        <span>P30 万维网（world wide web）</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Crash Course Computer Science（21-30）" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

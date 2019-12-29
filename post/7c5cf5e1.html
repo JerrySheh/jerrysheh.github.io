@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>数据结构（二）算法的复杂度、简单排序算法 - J.e</title>
+
+
+    <meta name="description" content="前言：算法的复杂度在讨论数据结构和算法时，我们通常用算法的复杂度来描述一个算法的好坏，复杂度包括：时间复杂度 和 空间复杂度。计算机本质上是一个状态机，内存里的数据构成了当前的状态，CPU利用当前的状态计算出下一个状态。所谓的空间复杂度就是为了支持你的计算所必需存储的状态最多有多少，所谓时间复杂度就是从初始状态到达最终状态中间需要多少步！ 时间复杂度算法的时间复杂度，也就是算法的时间量度，记作：T">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构（二）算法的复杂度、简单排序算法">
+<meta property="og:url" content="https://jerrysheh.me/post/7c5cf5e1.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="前言：算法的复杂度在讨论数据结构和算法时，我们通常用算法的复杂度来描述一个算法的好坏，复杂度包括：时间复杂度 和 空间复杂度。计算机本质上是一个状态机，内存里的数据构成了当前的状态，CPU利用当前的状态计算出下一个状态。所谓的空间复杂度就是为了支持你的计算所必需存储的状态最多有多少，所谓时间复杂度就是从初始状态到达最终状态中间需要多少步！ 时间复杂度算法的时间复杂度，也就是算法的时间量度，记作：T">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2017-12-06T04:58:29.000Z">
+<meta property="article:modified_time" content="2019-07-20T04:21:46.915Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="数据结构和算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="数据结构（二）算法的复杂度、简单排序算法" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-12-06T04:58:29.000Z">2017-12-06</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">数据结构和算法</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 分钟 读完 (大约 1966 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                数据结构（二）算法的复杂度、简单排序算法
+            
+        </h1>
+        <div class="content">
+            <h1 id="前言：算法的复杂度"><a href="#前言：算法的复杂度" class="headerlink" title="前言：算法的复杂度"></a>前言：算法的复杂度</h1><p>在讨论数据结构和算法时，我们通常用算法的复杂度来描述一个算法的好坏，复杂度包括：<strong>时间复杂度</strong> 和 <strong>空间复杂度</strong>。计算机本质上是一个状态机，内存里的数据构成了当前的状态，CPU利用当前的状态计算出下一个状态。所谓的空间复杂度就是为了支持你的计算所必需存储的状态最多有多少，所谓时间复杂度就是从初始状态到达最终状态中间需要多少步！</p>
+<h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><p>算法的时间复杂度，也就是算法的时间量度，记作：<code>T(n) = O(f(n))</code>。它表示随问题规模 n 的增大，算法执行时间的增长率和 f(n) 的增长率相同，称为算法的渐近时间复杂度，<strong>简称为时间复杂度</strong>。其中 f(n) 是规模 n 的某个函数。</p>
+<h3 id="如何推导时间复杂度"><a href="#如何推导时间复杂度" class="headerlink" title="如何推导时间复杂度"></a>如何推导时间复杂度</h3><ol>
+<li>用常数 1 取代运行时间中的所有加法常数。</li>
+<li>在修改后的运行次数函数中，只保留最高阶项。</li>
+<li>如果最高阶项存在，且不是 1 ，则去除与这个项相乘的常数。</li>
+</ol>
+<p>例如:</p>
+<pre><code class="c">int sum = 0, n = 100;   // 执行 1 次
+sum = (1 + n) * n / 2;  // 执行 1 次
+printf(&quot;%d&quot;, sum);      // 执行 1 次</code></pre>
+<p>这个算法的运行次数函数是 <code>f(n) = 3</code>。根据推导规则，第一步把常数项 3 改为 1。第二步保留最高阶项，它没有最高阶项，所以这个算法的时间复杂度为 <code>T(n) = O(1)</code>。</p>
+<h4 id="常数阶"><a href="#常数阶" class="headerlink" title="常数阶"></a>常数阶</h4><p>当 n = 1 时，算法执行次数为 3， 当 n = 100 时，算法的执行次数还是 3，所以我们可以看出这个算法的执行次数与 n 的规模没关系。我们把这种与问题的大小（n 的大小）无关，执行时间恒定的算法，叫作常数阶。</p>
+<h4 id="线性阶"><a href="#线性阶" class="headerlink" title="线性阶"></a>线性阶</h4><p>下面这段代码的时间复杂度为 <code>T(n) = O(n)</code>，因为循环体中的代码必须要执行 n 次。</p>
+<pre><code class="java">for (i = 0; i &lt; n; i++) {
+    /* 时间复杂度为 O(1) 的程序步骤序列 */
+}</code></pre>
+<h4 id="对数阶"><a href="#对数阶" class="headerlink" title="对数阶"></a>对数阶</h4><pre><code class="java">int count = 1;
+while (count &lt; n) {
+    count = count * 2;
+    /* 时间复杂度为 O(1) 的程序步骤序列 */
+}</code></pre>
+<p>由于每次 count 乘以 2 以后，就越来越接近于 n，也就是说有多少个 2 相乘后大于 n，则会退出循环。由<code>2^x = n</code> 得到 <code>x = log2n</code>。所以这个算法的时间复杂度为 <code>T(n) = O(logn)</code>。</p>
+<h4 id="平方阶"><a href="#平方阶" class="headerlink" title="平方阶"></a>平方阶</h4><pre><code class="java">// 例1
+int i, j;
+for (i = 0; i &lt; n; i++) {
+    for (j = 0; j &lt; n; j++) {
+        /* 时间复杂度为 O(1) 的程序步骤序列 */
+    }
+}
+
+// 例2
+int i, j， m;
+for (i = 0; i &lt; m; i++) {
+    for (j = 0; j &lt; n; j++) {
+        /* 时间复杂度为 O(1) 的程序步骤序列 */
+    }
+}</code></pre>
+<p>在 例1 中内循环时间复杂度为<code>O(n)</code>，而对于外层的循环，不过是这个内循环再循环 n 次。所以这段代码的时间复杂度为 <code>O(n^2)</code>。</p>
+<p>在 例2 中，时间复杂度就变为 O(m^n)</p>
+<h3 id="常见的时间复杂度耗费时间"><a href="#常见的时间复杂度耗费时间" class="headerlink" title="常见的时间复杂度耗费时间"></a>常见的时间复杂度耗费时间</h3><p>从小到大依次是：</p>
+<p>O(1) &lt; O(logn) &lt; O(n) &lt; O(nlogn) &lt; O(n^2) &lt; O(n^3) &lt; O(2^n) &lt; O(n!) &lt; O(n^n)</p>
+<h2 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h2><p>算法的空间复杂度通过计算算法所需的存储空间实现，算法空间复杂度的计算公式：</p>
+<pre><code>S(n) = O(f(n))</code></pre><p>其中 n 为问题的规模，<code>f(n)</code>为语句关于 n 所占存储空间的函数。</p>
+<ul>
+<li>参考：<a href="https://www.jianshu.com/p/d72d4c9e90c6">程序猿必修课之数据结构（二）算法和算法的复杂度</a></li>
+</ul>
+<h2 id="复杂度分析的主要方法"><a href="#复杂度分析的主要方法" class="headerlink" title="复杂度分析的主要方法"></a>复杂度分析的主要方法</h2><ol>
+<li><strong>迭代</strong>：级数求和</li>
+<li><strong>递归</strong>：递归跟踪 + 递推方程</li>
+</ol>
+<p>猜测 + 验证</p>
+<hr>
+<h1 id="一、选择排序（Selection-Sort）"><a href="#一、选择排序（Selection-Sort）" class="headerlink" title="一、选择排序（Selection Sort）"></a>一、选择排序（Selection Sort）</h1><h2 id="选择排序介绍"><a href="#选择排序介绍" class="headerlink" title="选择排序介绍"></a>选择排序介绍</h2><p>选择排序是一种最简单的排序算法，它的算法步骤如下：</p>
+<ol>
+<li>找到数组中最小的元素</li>
+<li>将它和数组的第一个元素交换位置（如果相同，也交换）</li>
+<li>在剩下的元素中找到最小的元素</li>
+<li>将它和数组的第二个元素交换位置</li>
+<li>重复。。</li>
+</ol>
+<p>选择排序交换的总次数为N，算法的效率取决于比较的次数。</p>
+<p>特点：</p>
+<ul>
+<li>运行时间和输入无关、移动数据是最少的</li>
+<li>选择排序是不稳定的排序方法</li>
+<li>对于长度为 N 的数组，选择排序需要大约 N²/2次比较和 N 次交换</li>
+<li>时间复杂度 O(n^2)</li>
+</ul>
+<h2 id="算法2-1-选择排序"><a href="#算法2-1-选择排序" class="headerlink" title="算法2.1 选择排序"></a>算法2.1 选择排序</h2><pre><code class="java">public static void selectSort(int[] arr){
+
+    int size = arr.length;
+
+    for (int i = 0; i &lt; size; i++) {
+        int min = i;
+        // 第二个for循环找出最小元素
+        for (int j = i; j &lt; size; j++) {
+            if (arr[j] &lt; arr[min]) min = j;
+        }
+        Swap.swap(arr, min, i);
+    }
+
+}</code></pre>
+<hr>
+<h1 id="二、插入排序（Insertion-Sort）"><a href="#二、插入排序（Insertion-Sort）" class="headerlink" title="二、插入排序（Insertion Sort）"></a>二、插入排序（Insertion Sort）</h1><h2 id="插入排序介绍"><a href="#插入排序介绍" class="headerlink" title="插入排序介绍"></a>插入排序介绍</h2><p>插入排序，将数插入到其他已经有序的数中的适当位置。为了给要插入的数腾出空间，我们需要将其余所有元素在插入之前都向右移动一位。</p>
+<p>插入排序所需的时间取决于输入中元素的初始顺序。(原始数据越接近有序，越快)</p>
+<p>命题：对于随机排列的长度为 N 且主键不重复的数组，平均情况下插入排序需要约 N²/4 次比较以及 N²/4 次交换。最坏情况下需要 约 N²/2 次比较以及 N²/2 次交换，最好情况下需要 N-1 次比较 和 0 次交换。</p>
+<p>时间复杂度：O(n^2)</p>
+<h2 id="算法2-2-插入排序"><a href="#算法2-2-插入排序" class="headerlink" title="算法2.2 插入排序"></a>算法2.2 插入排序</h2><pre><code class="java">/**
+ * 原理：插入排序，将数插入到其他已经有序的数中的适当位置
+ * 思路：从 a[0] 开始，a[0] 已经是第一个，所以不用动
+ *       a[1] 与 a[0] 比较 -&gt; 得出顺序
+ *       a[2] 与 a[1] a[0] 比较 -&gt; a[2] 先与 a[1] 比较 ，如果 a[2] 比 a[1] 小，则交换， 然后 a[1] 与 a[0] 比较
+ *       a[3] 与 a[2] a[1] a[0] 比较 -&gt; 插入适当位置
+ *       ...
+ */
+private static void insertSort(int[] arr){
+    for (int i = 1; i &lt; arr.length; i++) {
+        for (int j = i; j &gt; 0 &amp;&amp; arr[j] &lt; arr[j-1]; j--) {
+            Swap.swap(arr, j, j-1);
+        }
+    }
+}</code></pre>
+<hr>
+<h1 id="三、希尔排序（Shell-Sort）"><a href="#三、希尔排序（Shell-Sort）" class="headerlink" title="三、希尔排序（Shell Sort）"></a>三、希尔排序（Shell Sort）</h1><h2 id="希尔排序介绍"><a href="#希尔排序介绍" class="headerlink" title="希尔排序介绍"></a>希尔排序介绍</h2><p>在插入排序和选择排序中，由于它们只能交换相邻的元素，如果有位于数组起始的大元素，则需要多次遍历才能交换到队尾，很不划算。希尔排序以更大的间隔来比较和交换元素，这样，大元素在交换的时候，可以向右移动不止一个位置。</p>
+<p>希尔排序只需要在插入排序的代码中将移动的元素距离由1改为h即可。</p>
+<p>希尔排序依赖于间隔(step)的选取。</p>
+<h2 id="算法2-3-希尔排序"><a href="#算法2-3-希尔排序" class="headerlink" title="算法2.3 希尔排序"></a>算法2.3 希尔排序</h2><pre><code class="java">public class Shell {
+    public static void sort(Comparable[] a){
+        int N = a.length;
+        int h = 1;
+        while(h &lt; N/3) h = 3*h + 1;  // 1,4,13,40,121,364,1093...
+
+        //将数组变为h有序
+        while (h &gt;= 1){
+            //将a[i] 插入到 a[i-h]、a[i-2h]、a[i-3h]...之中
+            for (int i = h; i &lt; N ; i++) {
+                for (int j = i; j &gt; h &amp;&amp; less(a[j],a[j-h]); j-=h) {
+                    exch(a, j, j-h);
+                }
+            }
+            h = h/3;
+        }
+    }
+}</code></pre>
+<hr>
+<h1 id="四、冒泡排序"><a href="#四、冒泡排序" class="headerlink" title="四、冒泡排序"></a>四、冒泡排序</h1><p>比较相邻元素，大的放右边</p>
+<p>要点：第一躺结束后，最右元素一定是最大的，因此第二趟最右元素不参与，即 size - i - 1</p>
+<p>时间复杂度：O(n^2)</p>
+<pre><code class="java">public static void bubbleSort(int[] arr){
+
+    int size = arr.length;
+
+    for (int i = 0; i &lt; size; i++) {
+        // 第一躺结束后，最右元素一定是最大的，因此第二趟最右元素不参与，即 size - i - 1
+        for (int j = 0; j &lt; size - i - 1; j++) {
+            if (arr[j] &gt; arr[j+1]) Swap.swap(arr, j, j+1);
+        }
+    }
+}</code></pre>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/" rel="tag">数据结构和算法</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/4e99e3ae.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">数据结构（三）归并排序算法</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/78265215.html">
+                <span class="level-item">Socket编程实践（Java &amp; Python实现）</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#前言：算法的复杂度">
+        <span class="has-mr-6">1</span>
+        <span>前言：算法的复杂度</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#时间复杂度">
+        <span class="has-mr-6">1.1</span>
+        <span>时间复杂度</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#如何推导时间复杂度">
+        <span class="has-mr-6">1.1.1</span>
+        <span>如何推导时间复杂度</span>
+        </a></li><li>
+        <a class="is-flex" href="#常见的时间复杂度耗费时间">
+        <span class="has-mr-6">1.1.2</span>
+        <span>常见的时间复杂度耗费时间</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#空间复杂度">
+        <span class="has-mr-6">1.2</span>
+        <span>空间复杂度</span>
+        </a></li><li>
+        <a class="is-flex" href="#复杂度分析的主要方法">
+        <span class="has-mr-6">1.3</span>
+        <span>复杂度分析的主要方法</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#一、选择排序（Selection-Sort）">
+        <span class="has-mr-6">2</span>
+        <span>一、选择排序（Selection Sort）</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#选择排序介绍">
+        <span class="has-mr-6">2.1</span>
+        <span>选择排序介绍</span>
+        </a></li><li>
+        <a class="is-flex" href="#算法2-1-选择排序">
+        <span class="has-mr-6">2.2</span>
+        <span>算法2.1 选择排序</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#二、插入排序（Insertion-Sort）">
+        <span class="has-mr-6">3</span>
+        <span>二、插入排序（Insertion Sort）</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#插入排序介绍">
+        <span class="has-mr-6">3.1</span>
+        <span>插入排序介绍</span>
+        </a></li><li>
+        <a class="is-flex" href="#算法2-2-插入排序">
+        <span class="has-mr-6">3.2</span>
+        <span>算法2.2 插入排序</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#三、希尔排序（Shell-Sort）">
+        <span class="has-mr-6">4</span>
+        <span>三、希尔排序（Shell Sort）</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#希尔排序介绍">
+        <span class="has-mr-6">4.1</span>
+        <span>希尔排序介绍</span>
+        </a></li><li>
+        <a class="is-flex" href="#算法2-3-希尔排序">
+        <span class="has-mr-6">4.2</span>
+        <span>算法2.3 希尔排序</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#四、冒泡排序">
+        <span class="has-mr-6">5</span>
+        <span>四、冒泡排序</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="数据结构（二）算法的复杂度、简单排序算法" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

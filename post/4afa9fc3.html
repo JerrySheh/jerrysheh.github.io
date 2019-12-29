@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Android笔记（一） 初识 - J.e</title>
+
+
+    <meta name="description" content="Android 简介 Android，常见的非官方中文名称为安卓，是一个基于Linux内核的开放源代码移动操作系统，由Google成立的Open Handset Alliance（OHA，开放手持设备联盟）持续领导与开发，主要设计用于触屏移动设备如智能手机和平板电脑与其他便携式设备。   Android最初由安迪·鲁宾等人开发制作，最初开发这个系统的目的是创建一个数码相机的先进操作系统；但是后来">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android笔记（一） 初识">
+<meta property="og:url" content="https://jerrysheh.me/post/4afa9fc3.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="Android 简介 Android，常见的非官方中文名称为安卓，是一个基于Linux内核的开放源代码移动操作系统，由Google成立的Open Handset Alliance（OHA，开放手持设备联盟）持续领导与开发，主要设计用于触屏移动设备如智能手机和平板电脑与其他便携式设备。   Android最初由安迪·鲁宾等人开发制作，最初开发这个系统的目的是创建一个数码相机的先进操作系统；但是后来">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-01-21T12:21:23.000Z">
+<meta property="article:modified_time" content="2019-09-22T14:03:59.416Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Android笔记（一） 初识" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-01-21T12:21:23.000Z">2018-01-21</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    22 分钟 读完 (大约 3226 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Android笔记（一） 初识
+            
+        </h1>
+        <div class="content">
+            <p><img src="../../../../images/Learn_Android/Android.jpg" alt="Android 8"></p>
+<h1 id="Android-简介"><a href="#Android-简介" class="headerlink" title="Android 简介"></a>Android 简介</h1><blockquote>
+<p>Android，常见的非官方中文名称为安卓，是一个基于Linux内核的开放源代码移动操作系统，由Google成立的Open Handset Alliance（OHA，开放手持设备联盟）持续领导与开发，主要设计用于触屏移动设备如智能手机和平板电脑与其他便携式设备。</p>
+</blockquote>
+<blockquote>
+<p>Android最初由安迪·鲁宾等人开发制作，最初开发这个系统的目的是创建一个数码相机的先进操作系统；但是后来发现市场需求不够大，加上智能手机市场快速成长，于是Android成为一款面向智能手机的操作系统。</p>
+</blockquote>
+<blockquote>
+<p>于2005年7月11日被美国科技企业Google收购。</p>
+</blockquote>
+<blockquote>
+<p>2007年11月，Google与84家硬件制造商、软件开发商及电信营运商成立开放手持设备联盟来共同研发改良Android，随后，Google以Apache免费开放源代码许可证的授权方式，发布了Android的源代码（<a href="https://source.android.com">Android OpenSource Projet</a>），开放源代码加速了Android普及，让生产商推出搭载Android的智能手机，Android后来更逐渐拓展到平板电脑及其他领域上。</p>
+</blockquote>
+<blockquote>
+<p>2010年末数据显示，仅正式推出两年的Android操作系统在市场占有率上已经超越称霸逾十年的诺基亚Symbian系统，成为全球第一大智能手机操作系统。</p>
+</blockquote>
+<blockquote>
+<p>在2014年Google I/O开发者大会上Google宣布过去30天里有10亿台活跃的安卓设备，相较于2013年6月则是5.38亿。</p>
+</blockquote>
+<blockquote>
+<p>2017年3月，Android全球网络流量和设备超越Microsoft Windows，正式成为全球第一大操作系统。</p>
+</blockquote>
+<blockquote>
+<p>2017年8月，Android O发布。</p>
+</blockquote>
+<p>以上简介来自Wikipedia，可见 Android 前景还是非常大的。作为一个移动开发者，学习Android也是势在必行了。</p>
+<p>本次Android的学习，我采用书本+视频的方式。</p>
+<p>参考书籍是：</p>
+<ul>
+<li><a href="https://book.douban.com/subject/26915433/">第一行代码（第二版）（郭霖）</a></li>
+</ul>
+<p>参考视频：</p>
+<p>对于没有编程基础的:</p>
+<ul>
+<li><a href="https://classroom.udacity.com/courses/ud834">Android 基础：用户界面</a></li>
+<li><a href="https://cn.udacity.com/course/android-basics-user-input--ud836">Android 基础：用户输入</a></li>
+<li><a href="https://cn.udacity.com/course/android-basics-multi-screen-apps--ud839">Android 基础：多屏应用</a></li>
+<li><a href="https://cn.udacity.com/course/android-basics-networking--ud843">Android 基础：网络</a></li>
+<li><a href="https://cn.udacity.com/course/android-basics-data-storage--ud845">Android 基础：数据存储</a></li>
+</ul>
+<p>有编程基础可以直接从这个开始：</p>
+<ul>
+<li><a href="https://classroom.udacity.com/courses/ud851">Android应用开发</a></li>
+</ul>
+<a id="more"></a>
+
+<hr>
+<h1 id="Android-系统架构"><a href="#Android-系统架构" class="headerlink" title="Android 系统架构"></a>Android 系统架构</h1><p>Android系统架构可以分为五层，分别是：</p>
+<ul>
+<li><strong>应用层（System app）</strong>，所有安装在手机上的app都是应用层的，包括系统自带app和第三方开发的app。</li>
+<li><strong>应用框架层（Java API Framework）</strong>，提供了构建应用程序时需要的API。</li>
+<li><strong>系统运行库（Native C/C++ Libraries） 和 Android Runtime</strong>， 通过C/C++库来为Android系统提供主要的特性支持。如SQLite库提供数据库支持，OpenGL/ES库提供3D绘图支持，Webkit库提供浏览器内核支持等。Android Runtime是Android的核心库，为Android应用跨平台使用提供的可靠方案，每个app都会有自己独立的运行空间和虚拟机。允许开发者使用Java、Kotlin编写Android应用。</li>
+<li><strong>硬件抽象层（Hardware Abstraction Layer, HAL）</strong> 主要与manufacture和chip vendor相关，manufacture提供HAL的实现以及各种硬件设备的驱动和集成chip vendor提供的firmware。</li>
+<li><strong>Linux内核层（Linux Kernel）</strong>，为硬件提供了底层驱动，如显示驱动，照相机驱动，音频驱动，蓝牙驱动等。</li>
+</ul>
+<p><img src="../../../../images/Learn_Android/Android_Framework.png" alt="Android Framework"></p>
+<p>关于 Framework 的一些知识点：</p>
+<blockquote>
+<p>隐藏在每个应用后面的是一系列的服务和系统, 其中包括；</p>
+<p>a. <strong>丰富而又可扩展的视图（Views）</strong>，可以用来构建应用程序， 它包括列表（lists），网格（grids），文本框（text boxes），按钮（buttons）， 甚至可嵌入的web浏览器。</p>
+<p>b. <strong>内容提供器（Content Providers）</strong> 使得应用程序可以访问另一个应用程序的数据（如联系人数据库）， 或者共享它们自己的数据。</p>
+<p>c. <strong>资源管理器（Resource Manager）</strong> 提供非代码资源的访问，如本地字符串，图形，和布局文件（layout files）。</p>
+<p>d. <strong>通知管理器（Notification Manager）</strong> 使得应用程序可以在状态栏中显示自定义的提示信息。</p>
+<p>e. <strong>活动管理器（Activity Manager）</strong> 用来管理应用程序生命周期并提供常用的导航回退功能。</p>
+</blockquote>
+<hr>
+<h1 id="Android-四大组件"><a href="#Android-四大组件" class="headerlink" title="Android 四大组件"></a>Android 四大组件</h1><p>Android 系统的四大组件分别是活动（Activity）、服务（Service）、广播接收器（Broadcast Receiver）、内容提供器（Content Providers）。</p>
+<h2 id="活动（Activity）"><a href="#活动（Activity）" class="headerlink" title="活动（Activity）"></a>活动（Activity）</h2><p>在 Android 应用中我们能看到的东西，都是放在活动当中的。活动是一种能够包含用户界面的组件，主要用于和用户交互。值得注意的是，在Android中，有一种能够嵌入在活动当中的UI片段，称为<code>碎片（Fragment）</code>，它和活动十分相似。</p>
+<h2 id="服务（Service）"><a href="#服务（Service）" class="headerlink" title="服务（Service）"></a>服务（Service）</h2><p>服务是 Android 中实现程序后台运行的解决方案。它非常适合去执行那些不需要和用户交互而且需要长期运行的任务。服务依赖于所在应用程序的进程，不单独运行。值得注意的是，服务不会自动开启线程，所有的代码默认在主线程运行。因此需要我们手动在服务内部创建子线程。</p>
+<h2 id="广播接收器（Broadcast-Receiver）"><a href="#广播接收器（Broadcast-Receiver）" class="headerlink" title="广播接收器（Broadcast Receiver）"></a>广播接收器（Broadcast Receiver）</h2><p>广播接收器允许你的应用接收来自各处的广播消息，比如电话、短信等。同样也可以向外发出广播消息。Android 中的广播可以分为以下两种：</p>
+<ul>
+<li><p><code>标准广播（Normal Broadcast）</code>，一种完全异步执行的广播，当广播发出后，所有的广播接收器几乎同一时刻接收到这条广播信息，没有先后顺序之分。这种广播效率高，但无法截断。</p>
+</li>
+<li><p><code>有序广播（Ordered Broadcast）</code>，一种同步执行的广播，当广播发出后，同一时刻只有一个广播接收器收到这条广播，当这个广播接收器的逻辑执行完毕后，广播才会继续传递。这样一来，优先级高的广播接收器可以先收到广播，并且前面的广播接收器可以截断正在传递的广播。</p>
+</li>
+</ul>
+<h2 id="内容提供器（Content-Providers）"><a href="#内容提供器（Content-Providers）" class="headerlink" title="内容提供器（Content Providers）"></a>内容提供器（Content Providers）</h2><p>内容提供器则是为应用程序之间共享数据提供可能的机制。比如，你的应用程序需要读取系统通讯录中的联系人信息，就需要通过内容提供器实现。</p>
+<hr>
+<h1 id="Material-Design"><a href="#Material-Design" class="headerlink" title="Material Design"></a>Material Design</h1><p>Material Design(材料设计语言)，是由Google推出的全新的设计语言，谷歌表示，这种设计语言旨在为手机、平板电脑、台式机和“其他平台”提供更一致、更广泛的“外观和感觉”。</p>
+<p><img src="http://www.comestsavatino.com/wp-content/uploads/2014/12/finance_3d_web.jpg" alt="MD"></p>
+<hr>
+<h1 id="Android-Studio"><a href="#Android-Studio" class="headerlink" title="Android Studio"></a>Android Studio</h1><p>Android Studio 是 Google 官方提供的 Android IDE，提供用于为各类 Android 设备开发应用的最快速的工具。</p>
+<p>下载地址：<a href="https://developer.android.com/studio/index.html">https://developer.android.com/studio/index.html</a></p>
+<p><img src="https://developer.android.com/images/tools/studio/studio-feature-devices_2x.png" alt="Studio"></p>
+<p>下载和使用 Android Studio 需要连接 Goole 服务器下载数据，然而根据众所周知的原因，无法科学上网的童鞋需要另辟蹊径了。最好还是学会如何科学上网。（当然，是为了学习和开发）</p>
+<p>在第一次创建Android Studio project的时候，如果没有科学上网，有可能会遇到卡在<code>building “project name”gradle project info</code>的问题。可以通过下载离线gradle包手动安装。 <a href="http://blog.csdn.net/liuhuiyi/article/details/21861733">参考链接</a></p>
+<hr>
+<h1 id="HelloWorld"><a href="#HelloWorld" class="headerlink" title="HelloWorld"></a>HelloWorld</h1><p>使用 Android Studio 创建第一个 helloworld project之后，会自动生成一些代码。先来看一下这些自动生成的代码都表示什么。</p>
+<h2 id="AndroidManifest-xml"><a href="#AndroidManifest-xml" class="headerlink" title="AndroidManifest.xml"></a>AndroidManifest.xml</h2><p>在工程目录下可以看到AndroidManifest.xml，在这个xml里面有如下语句</p>
+<pre><code class="xml">&lt;activity android:name=&quot;.MainActivity&quot;&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+
+        &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+    &lt;/intent-filter&gt;
+&lt;/activity&gt;</code></pre>
+<p>Android 应用程序基于活动，而每一个活动都要在 AndroidManifest.xml 进行注册，没有注册的活动是不能使用的。这段代码就是注册了 <code>MainActivity</code>这个活动。</p>
+<h2 id="MainActivity-java"><a href="#MainActivity-java" class="headerlink" title="MainActivity.java"></a>MainActivity.java</h2><p>MainActivity.java中自动生成的代码如下：</p>
+<pre><code class="java">package com.jerrysheh.hello;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+}
+</code></pre>
+<p>分析：</p>
+<ul>
+<li><p><code>MainActivity</code>继承自<code>AppCompatActivity</code>，让这个活动支持系统版本向下兼容。</p>
+<blockquote>
+<p><code>Activity</code>是 Android 系统提供的一个活动基类，我们项目中所有的活动都必须继承它或者它的子类。<code>AppCompatActivity</code>是<code>Activity</code>的子类。</p>
+</blockquote>
+</li>
+<li><p><code>onCreate</code>方法第二行调用了<code>setContentView()</code>，参数指向了<code>layout.activity_main</code>。也就是说，<code>setContentView()</code>方法将我们的<code>activity_main.xml</code>和<code>MainActivity.java</code>关联了起来。</p>
+</li>
+</ul>
+<p>不妨打开activity_main.xml看看。</p>
+<h2 id="activity-main-xml"><a href="#activity-main-xml" class="headerlink" title="activity_main.xml"></a>activity_main.xml</h2><p>打开activity_main.xml，Android Studio默认是Design视图，在下面按钮切换到text视图。</p>
+<p>可以看到，activity_main中有几行关键代码：</p>
+<pre><code class="xml">&lt;TextView
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;Hello World!&quot;
+    app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+    app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+    app:layout_constraintRight_toRightOf=&quot;parent&quot;
+    app:layout_constraintTop_toTopOf=&quot;parent&quot; /&gt;</code></pre>
+<p>不用说，定义了视图界面以及显示的信息。 我们熟悉的<code>Hello World!</code>正是在这里。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>Android程序设计讲究逻辑和视图分离，所以逻辑代码写在MainActivity.java中，视图界面写在activity_main.xml中。在逻辑代码中的活动，需要先到AndroidManifest.xml进行注册。</p>
+<blockquote>
+<p>方便的是，当我们创建一个新的 Activity，Android Studio会自动帮我们注册。如果你用的是 Eclipse 或其他IDE，可能要手动进行注册。</p>
+</blockquote>
+<hr>
+<h1 id="build-gradle"><a href="#build-gradle" class="headerlink" title="build.gradle"></a>build.gradle</h1><p>Gradle是一个先进的项目构建工具，它使用一种基于Groovy的领域特定语言（DSL）来声明项目设置，摒弃了传统基于XML（如Ant和Maven）的各种繁琐设置。</p>
+<p>Android Project 会首先经过gradle构建，gradle会将你的代码构建成字节码和资源，打包成APK，然后经过jar签名，最后通过adb安装到虚拟或真实的Android设备上。</p>
+<p><img src="../../../../images/Learn_Android/stru.png" alt="project"></p>
+<p>在Android Studio中，有多种项目构造目录，其中默认的Android方式是IDE自动调整的，方便我们查看文件。而只有project目录结构是真实存放在我们硬盘里的组织结构。</p>
+<p><img src="../../../../images/Learn_Android/Android_project.png" alt="project"></p>
+<p>切换到project目录结构，可以看到 Helloworld项目有两个 build.gradle 文件。</p>
+<h2 id="外层build-gradle"><a href="#外层build-gradle" class="headerlink" title="外层build.gradle"></a>外层build.gradle</h2><pre><code>buildscript {
+
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath &#39;com.android.tools.build:gradle:3.0.1&#39;
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}</code></pre><ul>
+<li><p>jcenter是一个代码托管仓库，声明了<code>jcenter()</code>后我们可以轻松引用任何jcenter上的开源项目。<code>google()</code>同理。</p>
+</li>
+<li><p><code>classpath</code>声明了一个 Gradle插件。用于构建 Android 项目。</p>
+</li>
+</ul>
+<h2 id="内层build-gradle"><a href="#内层build-gradle" class="headerlink" title="内层build.gradle"></a>内层build.gradle</h2><pre><code>apply plugin: &#39;com.android.application&#39;
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId &quot;com.jerrysheh.hello&quot;
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName &quot;1.0&quot;
+        testInstrumentationRunner &quot;android.support.test.runner.AndroidJUnitRunner&quot;
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile(&#39;proguard-android.txt&#39;), &#39;proguard-rules.pro&#39;
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: &#39;libs&#39;, include: [&#39;*.jar&#39;])
+    implementation &#39;com.android.support:appcompat-v7:26.1.0&#39;
+    implementation &#39;com.android.support.constraint:constraint-layout:1.0.2&#39;
+    testImplementation &#39;junit:junit:4.12&#39;
+    androidTestImplementation &#39;com.android.support.test:runner:1.0.1&#39;
+    androidTestImplementation &#39;com.android.support.test.espresso:espresso-core:3.0.1&#39;
+}
+</code></pre><ul>
+<li><p>第一行<code>com.android.application</code>表示这是一个应用程序模块，如果是<code>com.android.library</code>表示这是一个库模块。应用程序模块可以直接运行，库模块需要依附别的应用程序模块。</p>
+</li>
+<li><p><code>android</code>闭包配置了项目构建的属性。</p>
+</li>
+<li><p><code>buildTypes</code>闭包用于指定生成安装文件的相关配置。</p>
+</li>
+<li><p><code>dependencies</code>闭包指定当前项目的所有依赖关系。Android Studio有3种依赖方式：本地依赖、库依赖、远程依赖。</p>
+</li>
+</ul>
+<hr>
+<h1 id="Android-Debug-Bridge-（ADB）"><a href="#Android-Debug-Bridge-（ADB）" class="headerlink" title="Android Debug Bridge （ADB）"></a>Android Debug Bridge （ADB）</h1><p>ADB 是 Android 的 SDK 包含的命令行工具。用于调试。</p>
+<p>要从命令行中启动 Android 应用，你可以输入：</p>
+<pre><code>adb shell am start -n com.package.name/com.package.name.ActivityName</code></pre>
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Android/" rel="tag">Android</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/2fJava80.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Java简明笔记（四） 继承</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/32811f1d.html">
+                <span class="level-item">Java简明笔记（三） 接口</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#Android-简介">
+        <span class="has-mr-6">1</span>
+        <span>Android 简介</span>
+        </a></li><li>
+        <a class="is-flex" href="#Android-系统架构">
+        <span class="has-mr-6">2</span>
+        <span>Android 系统架构</span>
+        </a></li><li>
+        <a class="is-flex" href="#Android-四大组件">
+        <span class="has-mr-6">3</span>
+        <span>Android 四大组件</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#活动（Activity）">
+        <span class="has-mr-6">3.1</span>
+        <span>活动（Activity）</span>
+        </a></li><li>
+        <a class="is-flex" href="#服务（Service）">
+        <span class="has-mr-6">3.2</span>
+        <span>服务（Service）</span>
+        </a></li><li>
+        <a class="is-flex" href="#广播接收器（Broadcast-Receiver）">
+        <span class="has-mr-6">3.3</span>
+        <span>广播接收器（Broadcast Receiver）</span>
+        </a></li><li>
+        <a class="is-flex" href="#内容提供器（Content-Providers）">
+        <span class="has-mr-6">3.4</span>
+        <span>内容提供器（Content Providers）</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Material-Design">
+        <span class="has-mr-6">4</span>
+        <span>Material Design</span>
+        </a></li><li>
+        <a class="is-flex" href="#Android-Studio">
+        <span class="has-mr-6">5</span>
+        <span>Android Studio</span>
+        </a></li><li>
+        <a class="is-flex" href="#HelloWorld">
+        <span class="has-mr-6">6</span>
+        <span>HelloWorld</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#AndroidManifest-xml">
+        <span class="has-mr-6">6.1</span>
+        <span>AndroidManifest.xml</span>
+        </a></li><li>
+        <a class="is-flex" href="#MainActivity-java">
+        <span class="has-mr-6">6.2</span>
+        <span>MainActivity.java</span>
+        </a></li><li>
+        <a class="is-flex" href="#activity-main-xml">
+        <span class="has-mr-6">6.3</span>
+        <span>activity_main.xml</span>
+        </a></li><li>
+        <a class="is-flex" href="#小结">
+        <span class="has-mr-6">6.4</span>
+        <span>小结</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#build-gradle">
+        <span class="has-mr-6">7</span>
+        <span>build.gradle</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#外层build-gradle">
+        <span class="has-mr-6">7.1</span>
+        <span>外层build.gradle</span>
+        </a></li><li>
+        <a class="is-flex" href="#内层build-gradle">
+        <span class="has-mr-6">7.2</span>
+        <span>内层build.gradle</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Android-Debug-Bridge-（ADB）">
+        <span class="has-mr-6">8</span>
+        <span>Android Debug Bridge （ADB）</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Android笔记（一） 初识" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

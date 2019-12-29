@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Java简明笔记（十三）JDBC - J.e</title>
+
+
+    <meta name="description" content="假设电脑已经安装有 mySQL，并在里面有一些表。现在，我们想通过 Java，来访问数据库里的表。 JDBC (Java DataBase Connection) 指的就是通过Java访问数据库。 这是我的数据库情况。  JDBC的连接首先到 mySQL 的官网，下载 Connectors&#x2F;J 驱动，下载完解压出其中的 jar 包，放到项目的依赖里（IDEA - File - Project St">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java简明笔记（十三）JDBC">
+<meta property="og:url" content="https://jerrysheh.me/post/f07211ef.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="假设电脑已经安装有 mySQL，并在里面有一些表。现在，我们想通过 Java，来访问数据库里的表。 JDBC (Java DataBase Connection) 指的就是通过Java访问数据库。 这是我的数据库情况。  JDBC的连接首先到 mySQL 的官网，下载 Connectors&#x2F;J 驱动，下载完解压出其中的 jar 包，放到项目的依赖里（IDEA - File - Project St">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-03-20T09:59:50.000Z">
+<meta property="article:modified_time" content="2019-10-09T15:11:37.202Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Java简明笔记（十三）JDBC" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-03-20T09:59:50.000Z">2018-03-20</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    17 分钟 读完 (大约 2484 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Java简明笔记（十三）JDBC
+            
+        </h1>
+        <div class="content">
+            <p>假设电脑已经安装有 mySQL，并在里面有一些表。现在，我们想通过 Java，来访问数据库里的表。</p>
+<p>JDBC (Java DataBase Connection) 指的就是通过Java访问数据库。</p>
+<p>这是我的数据库情况。</p>
+<p><img src="../../../../images/Java/JDBC.png" alt=""></p>
+<h1 id="JDBC的连接"><a href="#JDBC的连接" class="headerlink" title="JDBC的连接"></a>JDBC的连接</h1><p>首先到 mySQL 的官网，下载 <a href="https://dev.mysql.com/downloads/connector/j/">Connectors/J 驱动</a>，下载完解压出其中的 jar 包，放到项目的依赖里（IDEA - File - Project Structure - Modules - Dependencies - “+”  选择刚刚解压的jar文件）。</p>
+<h2 id="初始化驱动"><a href="#初始化驱动" class="headerlink" title="初始化驱动"></a>初始化驱动</h2><p>在Java中，使用 <code>Class.forName</code>来初始化驱动（这一步在 jdk 1.6 以后已经不是必须）</p>
+<h2 id="建立数据库连接"><a href="#建立数据库连接" class="headerlink" title="建立数据库连接"></a>建立数据库连接</h2><p>建立与数据库的Connection连接，是通过 <code>DriverManager</code> 类的<code>getConnection</code>方法来实现的，因此首先要创建一个<code>Connection</code>实例。</p>
+<pre><code class="java">Connection c = DriverManager.getConnection(url,user,psw);</code></pre>
+<p><code>getConnection</code>方法接收三个参数，连接地址，用户名、密码。或者接收一个参数连接地址，该连接地址里已经URL构造了用户名和密码。</p>
+<a id="more"></a>
+
+<p>连接地址需要提供：</p>
+<ul>
+<li><strong>数据库所处于的ip</strong>：127.0.0.1 (本机)</li>
+<li><strong>数据库的端口号</strong>： 3306 （mysql专用端口号）</li>
+<li><strong>数据库名称</strong>： class_info</li>
+<li><strong>编码方式</strong>： UTF-8</li>
+<li><strong>账号</strong>： root</li>
+<li><strong>密码</strong>： admin</li>
+</ul>
+<pre><code class="java">package com.jerrysheh;
+
+import java.sql.*;
+
+public class go {
+    public static void main(String[] args) throws SQLException {
+        String base_url = &quot;jdbc:mysql://127.0.0.1:3306/&quot;;
+        String DB_name = &quot;class_info&quot;;
+        String Encoding = &quot;UTF-8&quot;;
+        String user = &quot;root&quot;;
+        String psw = &quot;9501&quot;;
+        String SSL = &quot;false&quot;;
+        String url = String.format(&quot;%s \
+                                   %s  \
+        ?characterEncoding=%s          \
+        &amp;user=%s                       \
+        &amp;password=%s                   \
+        &amp;useSSL=%s&quot;                    \
+        ,base_url,DB_name,Encoding,user,psw,SSL);
+
+        Connection c = DriverManager.getConnection(url,user,psw);
+        System.out.println(&quot;连接成功：&quot; + c);
+    }
+}</code></pre>
+<p>这样就与数据库连接成功了。</p>
+<blockquote>
+<p>如果没有添加<code>&amp;useSSL=false</code>, IDEA 会报一个 WARN</p>
+</blockquote>
+<blockquote>
+<p>Tue Mar 20 18:39:15 CST 2018 WARN: Establishing SSL connection without server’s identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn’t set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to ‘false’. <strong>You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.</strong></p>
+</blockquote>
+<h2 id="获取执行对象-statement"><a href="#获取执行对象-statement" class="headerlink" title="获取执行对象 statement"></a>获取执行对象 statement</h2><p>成功连接数据库以后，我们要创建一个可以对数据库进行增删查改等操作的对象，叫做<code>statement</code>。</p>
+<pre><code class="java">// 注意，IDE提示有多个 statement，这里选择java.sql.Statement
+Statement s = c.createStatement();</code></pre>
+<h2 id="执行-SQL-语句"><a href="#执行-SQL-语句" class="headerlink" title="执行 SQL 语句"></a>执行 SQL 语句</h2><p>有了可以对数据库进行操作的<code>statement</code>后，我们就可以执行数据库语句了。</p>
+<p>如果需要返回结果，需要用<code>ResultSet</code>对象。</p>
+<pre><code class="java">String sql = &quot;select * from my_table&quot;;
+ResultSet rs = s.executeQuery(sql);</code></pre>
+<p>关于 <code>ResultSet</code> 的用法，可以参考<a href="https://docs.oracle.com/javase/8/docs/api/java/sql/ResultSet.html?is-external=true">Oracle官方文档</a></p>
+<p>一般我们是用 <code>rs.next()</code>去读取</p>
+<pre><code class="java">String sql = &quot;select * from my_table&quot;;
+ResultSet rs = s.executeQuery(sql);
+
+//如果有数据，rs.next()返回true
+while(rs.next()){
+    System.out.println(rs.getInt(&quot;stu_id&quot;) + &quot;\t&quot; +
+            rs.getString(&quot;stu_name&quot;) + &quot;\t&quot; +
+            rs.getString(&quot;stu_phone_number&quot;));
+}
+</code></pre>
+<p>rs.getInt()方法，可以接收 String 参数，列名，如上面例子所示。 也可以接收 Int 参数， 列号。 如<code>rs.getInt(2)</code>就是返回数据库的第二列。</p>
+<blockquote>
+<p><code>rs.getInt(1)</code> 是 Java 自带 API 里， 唯二的其中一个，1作为起始的，一般都是 0 为起始。 另一个是PreparedStatement，下面将会讲到。</p>
+</blockquote>
+<p>输出</p>
+<pre><code>1    张三    13112299520
+2    李四    13211012345
+3    王五    13711155560</code></pre><p>跟我的数据库表正好匹配</p>
+<h2 id="关闭数据连接"><a href="#关闭数据连接" class="headerlink" title="关闭数据连接"></a>关闭数据连接</h2><p>数据库是有限资源，使用完毕需要断开连接</p>
+<pre><code class="java">s.close();
+rs.close();
+c.close();</code></pre>
+<p>可以用 java 7 的特性 <code>try-with-resource</code> 来自动管理连接，这样就不用每次都去手动关闭。</p>
+<pre><code class="java">try (
+        Connection c = DriverManager.getConnection(url,user,psw);
+        Statement s = c.createStatement();             
+     )
+        {
+            String sql = &quot;select * from my_table&quot;;
+            s.execute(sql);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }</code></pre>
+<hr>
+<h1 id="增、删、改"><a href="#增、删、改" class="headerlink" title="增、删、改"></a>增、删、改</h1><p>CRUD 是最常见的数据库操作，即增删改查</p>
+<ul>
+<li><strong>C</strong> 增加(Create)</li>
+<li><strong>R</strong> 读取查询(Retrieve)</li>
+<li><strong>U</strong> 更新(Update)</li>
+<li><strong>D</strong> 删除(Delete)</li>
+</ul>
+<p>增加</p>
+<pre><code class="java">String sql = &quot;insert into hero values(null,&quot; + &quot;&#39;提莫&#39;&quot; + &quot;,&quot; + 313.0f + &quot;,&quot; + 50 + &quot;)&quot;;
+
+s.execute(sql);</code></pre>
+<p>删除</p>
+<pre><code class="java">String sql = &quot;delete from hero where id = 5&quot;;
+s.execute(sql);</code></pre>
+<p>修改</p>
+<pre><code class="java">String sql = &quot;update hero set name = &#39;name 5&#39; where id = 3&quot;;
+s.execute(sql);</code></pre>
+<hr>
+<h1 id="使用PreparedStatement"><a href="#使用PreparedStatement" class="headerlink" title="使用PreparedStatement"></a>使用PreparedStatement</h1><p>和 <code>Statement</code> 一样，<code>PreparedStatement</code> 也是用来执行sql语句的。其优点是，能设置参数指定相应的值，而不是<code>Statement</code>那样使用字符串拼接。</p>
+<pre><code class="java">String sql = &quot;insert into hero values(null,?,?,?)&quot;;
+
+try ( Connection c = DriverManager.getConnection(url,user,psw);
+      PreparedStatement ps = c.prepareStatement(sql);
+     ) {
+            // 设置参数
+            ps.setString(1, &quot;je&quot;);
+            ps.setFloat(2, 313.0f);
+            ps.setInt(3, 50);
+            // 执行
+            ps.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }</code></pre>
+<p><code>PreparedStatement</code>用<code>setString(1,&quot;je&quot;)</code>这样的方式，来给每一个参数设置值，比如 1,”je”，就是第一个？的值设为je</p>
+<h2 id="为什么使用PreparedStatement"><a href="#为什么使用PreparedStatement" class="headerlink" title="为什么使用PreparedStatement"></a>为什么使用PreparedStatement</h2><p>使用Statement：</p>
+<pre><code class="java">String sql = &quot;insert into hero values(null,&quot;+&quot;&#39;提莫&#39;&quot;+&quot;,&quot;+313.0f+&quot;,&quot;+50+&quot;)&quot;;</code></pre>
+<p>使用PreparedStatement</p>
+<pre><code class="java">String sql = &quot;insert into hero values(null,?,?,?)&quot;;</code></pre>
+<p>Statement 采用的是字符串拼接，不仅麻烦，还有被SQL注入的风险</p>
+<hr>
+<h1 id="execute、executeQuery-和-executeUpdate-的比较"><a href="#execute、executeQuery-和-executeUpdate-的比较" class="headerlink" title="execute、executeQuery 和 executeUpdate 的比较"></a>execute、executeQuery 和 executeUpdate 的比较</h1><p>executeQuery用于查询，返回单个结果集</p>
+<p>execute 和 executeUpdate都可以执行增加，删除，修改</p>
+<p>不同点：</p>
+<table>
+<thead>
+<tr>
+<th>execute</th>
+<th>executeUpdate</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>可以执行查询语句，然后通过getResultSet，把结果集取出来</td>
+<td>不能执行查询语句</td>
+</tr>
+<tr>
+<td>返回boolean，true表示执行的是查询语句，false表示执行的是insert,delete,update等类型</td>
+<td>返回int，表示有多少条数据受到了影响</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="获取数据表元数据"><a href="#获取数据表元数据" class="headerlink" title="获取数据表元数据"></a>获取数据表元数据</h1><pre><code class="java">Connection c = DriverManager.getConnection(url,user,psw);
+DatabaseMetaData dbmd = c.getMetaData();
+
+//获取数据库产品名称
+dbmd.getDatabaseProductName();
+
+//获取数据库产品版本
+dbmd.getDatabaseProductVersion();
+
+//获取驱动版本
+dbmd.getCatalogSeparator();
+
+//获取可用的数据库列表
+ResultSet rs = dbmd.getCatalogs();
+
+     while (rs.next()) {
+        System.out.println(&quot;数据库名称:\t&quot;+rs.getString(1));
+      }</code></pre>
+<hr>
+<h1 id="使用事务"><a href="#使用事务" class="headerlink" title="使用事务"></a>使用事务</h1><p>当我们对数据库进行一组操作时，假若其中一条语句有误，其他正确的语句被执行并提交到数据库了，有误的语句没有被执行，那么会导致结果不可预期。</p>
+<p>我们希望，这组操作要么全部成功，要么全部失败。不要部分成功部分失败。</p>
+<p>这时候可以使用事务。</p>
+<p>用<code>setAutoCommit(false)</code>来关闭自动提交，这时候语句不会被提交到数据库，直至我们用<code>commit()</code>手动提交。</p>
+<pre><code class="java">c.setAutoCommit(false);
+
+// 加血的SQL
+String sql1 = &quot;update hero set hp = hp +1 where id = 22&quot;;
+s.execute(sql1);
+
+// 减血的SQL
+// 不小心写错写成了 updata(而非update)
+
+String sql2 = &quot;updata hero set hp = hp -1 where id = 22&quot;;
+s.execute(sql2);
+
+// 手动提交
+c.commit();</code></pre>
+<ul>
+<li>MYSQL 表的类型必须是INNODB才支持事务</li>
+</ul>
+<hr>
+<h1 id="使用-ORM"><a href="#使用-ORM" class="headerlink" title="使用 ORM"></a>使用 ORM</h1><p>ORM （Object Relationship database Mapping）</p>
+<p>意思是：对象和关系数据库的映射</p>
+<p>简单说，一个对象，对应数据库里的一条记录</p>
+<p><img src="../../../../images/Java/JDBC.png" alt=""></p>
+<p>首先定义一个 student 类，根据我们的数据库表，这个类应该有三个属性： id、name、phonenumber</p>
+<p>student.java</p>
+<pre><code class="java">package com.jerrysheh;
+
+public class student {
+    int student_id;
+    String student_name;
+    long student_phone_number;
+
+    public void setStudent_id(int student_id) {
+        this.student_id = student_id;
+    }
+
+    public void setStudent_name(String student_name) {
+        this.student_name = student_name;
+    }
+
+    public void setStudent_phone_number(long student_phone_number) {
+        this.student_phone_number = student_phone_number;
+    }
+
+    public String getStudent_name() {
+        return student_name;
+    }
+}</code></pre>
+<p>然后在主类里，定义getStudent()，传入id，返回student</p>
+<p>这个 getStudent() 做了什么事情呢？</p>
+<p>他就是把数据库里查到的每一项，映射给我们 student 对象的每一个属性里去。</p>
+<p>比如，数据库里，stu_id 为 1 的 同一行 stu_name 为 “张三”。 那getStudent()做的事情就是，把这个1映射给 student对象的 id 属性， 把 “张三” 映射给student对象的 name 属性。</p>
+<p>这样，我们就得到一个表示数据库一行的对象实例了。</p>
+<p>这就是ORM技术。</p>
+<p>test.java</p>
+<pre><code class="java">package com.jerrysheh;
+
+import java.sql.*;
+
+public class go {
+
+
+    public static student getStudent(int id) throws SQLException{
+        String base_url = &quot;jdbc:mysql://127.0.0.1:3306/&quot;;
+        String db_name = &quot;class_info&quot;;
+        String Encoding = &quot;UTF-8&quot;;
+        String user = &quot;root&quot;;
+        String psw = &quot;9501&quot;;
+        String SSL = &quot;false&quot;;
+        String url = String.format(&quot;%s%s?characterEncoding=%s&amp;user=%s&amp;password=%s&amp;useSSL=%s&quot;,base_url,db_name,
+                Encoding,user,psw,SSL);
+
+        student s = null;
+        String sql = &quot;select * from my_table&quot;;
+
+        try(
+                Connection c = DriverManager.getConnection(url,user,psw);
+                PreparedStatement ps = c.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery(sql)
+        ){
+            //ps.setInt(1,id);
+            if (rs.next()){
+                s = new student();
+                String name = rs.getString(2);
+                long phone_number = Long.parseLong(rs.getString(3));
+                s.setStudent_id(id);
+                s.setStudent_name(name);
+                s.setStudent_phone_number(phone_number);
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return s;
+    }
+
+    public static void main(String[] args) throws SQLException {
+        student s = getStudent(1);
+        String name = s.getStudent_name();
+        System.out.println(name);
+    }
+}
+</code></pre>
+<p>我们在 main 里实例化了一个 student， 用 <code>getStudent()</code> 方法去获取一个student对象。</p>
+<p>然后我们用<code>getStudent_name()</code>来验证是不是对应数据库里的”张三”。</p>
+<p>输出：</p>
+<pre><code>张三
+
+Process finished with exit code 0</code></pre><p>果然如此！</p>
+<h2 id="其他ORM方法"><a href="#其他ORM方法" class="headerlink" title="其他ORM方法"></a>其他ORM方法</h2><p>根据ORM映射数据库和ORM的思想，我们可以设计其他几个常用的ORM方法：</p>
+<p>把一个student对象插入到数据库中</p>
+<pre><code class="java">public static void add(student s)  {
+
+}</code></pre>
+<p>把一个student从数据库中删除</p>
+<pre><code class="java">public static void delete(student s) {
+
+}</code></pre>
+<p>更新一个student对象的信息</p>
+<pre><code class="java">public static void update(student s) {
+
+}</code></pre>
+<p>最后，我们把所有的student数据查询出来，转换为student对象后，放在一个集合中返回</p>
+<pre><code class="java">public static List&lt;student s&gt; list();</code></pre>
+<p>这样，我们的 ORM 就封装好了。</p>
+<hr>
+<h1 id="使用-DAO"><a href="#使用-DAO" class="headerlink" title="使用 DAO"></a>使用 DAO</h1><p>DAO （DataAccess Object）， 数据库访问对象</p>
+<p>DAO其实就是把数据库相关的操作都封装在类里面，其他地方看不到JDBC的代码</p>
+<pre><code class="java">public interface DAO{
+    //增加
+    public void add(Hero hero);
+    //修改
+    public void update(Hero hero);
+    //删除
+    public void delete(int id);
+    //获取
+    public Hero get(int id);
+    //查询
+    public List&lt;Hero&gt; list();
+    //分页查询
+    public List&lt;Hero&gt; list(int start, int count);
+}</code></pre>
+<p>封装接口，然后设计类，实现这个接口。</p>
+<p>这样，我们需要数据库信息时，直接通过 DAO，获取封装好的对象，我们就能直接对对象进行操作。</p>
+<p>在 Java 中，比较常用的 ORM 框架有 Hibernate和 iBatis，我们可以直接拿来用。这样，就不用繁琐地跟 JDBC 打交道了。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Java/" rel="tag">Java</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/f95479c9.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">数据库（一）给自己的SQL基础知识备忘</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/be1528d7.html">
+                <span class="level-item">操作系统漫游（二）进程</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#JDBC的连接">
+        <span class="has-mr-6">1</span>
+        <span>JDBC的连接</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#初始化驱动">
+        <span class="has-mr-6">1.1</span>
+        <span>初始化驱动</span>
+        </a></li><li>
+        <a class="is-flex" href="#建立数据库连接">
+        <span class="has-mr-6">1.2</span>
+        <span>建立数据库连接</span>
+        </a></li><li>
+        <a class="is-flex" href="#获取执行对象-statement">
+        <span class="has-mr-6">1.3</span>
+        <span>获取执行对象 statement</span>
+        </a></li><li>
+        <a class="is-flex" href="#执行-SQL-语句">
+        <span class="has-mr-6">1.4</span>
+        <span>执行 SQL 语句</span>
+        </a></li><li>
+        <a class="is-flex" href="#关闭数据连接">
+        <span class="has-mr-6">1.5</span>
+        <span>关闭数据连接</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#增、删、改">
+        <span class="has-mr-6">2</span>
+        <span>增、删、改</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用PreparedStatement">
+        <span class="has-mr-6">3</span>
+        <span>使用PreparedStatement</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#为什么使用PreparedStatement">
+        <span class="has-mr-6">3.1</span>
+        <span>为什么使用PreparedStatement</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#execute、executeQuery-和-executeUpdate-的比较">
+        <span class="has-mr-6">4</span>
+        <span>execute、executeQuery 和 executeUpdate 的比较</span>
+        </a></li><li>
+        <a class="is-flex" href="#获取数据表元数据">
+        <span class="has-mr-6">5</span>
+        <span>获取数据表元数据</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用事务">
+        <span class="has-mr-6">6</span>
+        <span>使用事务</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-ORM">
+        <span class="has-mr-6">7</span>
+        <span>使用 ORM</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#其他ORM方法">
+        <span class="has-mr-6">7.1</span>
+        <span>其他ORM方法</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#使用-DAO">
+        <span class="has-mr-6">8</span>
+        <span>使用 DAO</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Java简明笔记（十三）JDBC" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

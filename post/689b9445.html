@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Java中的 String - J.e</title>
+
+
+    <meta name="description" content="String 的本质在 Java8 中，分析 java.lang.String 类的源码，可以发现 String 内部维护的是一个 char 数组。同时可以发现，String类被 final 修饰，即不可变的。 public final class String     implements java.io.Serializable, Comparable&lt;String&gt;, CharS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java中的 String">
+<meta property="og:url" content="https://jerrysheh.me/post/689b9445.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="String 的本质在 Java8 中，分析 java.lang.String 类的源码，可以发现 String 内部维护的是一个 char 数组。同时可以发现，String类被 final 修饰，即不可变的。 public final class String     implements java.io.Serializable, Comparable&lt;String&gt;, CharS">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-02-04T16:27:20.000Z">
+<meta property="article:modified_time" content="2019-09-22T14:04:00.559Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Java中的 String" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-02-04T16:27:20.000Z">2018-02-05</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    21 分钟 读完 (大约 3080 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Java中的 String
+            
+        </h1>
+        <div class="content">
+            <h1 id="String-的本质"><a href="#String-的本质" class="headerlink" title="String 的本质"></a>String 的本质</h1><p>在 Java8 中，分析 java.lang.String 类的源码，可以发现 String 内部维护的是一个 char 数组。同时可以发现，String类被 <code>final</code> 修饰，即不可变的。</p>
+<pre><code class="java">public final class String
+    implements java.io.Serializable, Comparable&lt;String&gt;, CharSequence {
+    /** The value is used for character storage. */
+    private final char value[];
+
+    //...
+}</code></pre>
+<p>在 Java9 中，将 char 数组优化成了 byte 数组。</p>
+<pre><code class="java">private final byte value[];</code></pre>
+<h2 id="为什么要将-char-改成-byte-？"><a href="#为什么要将-char-改成-byte-？" class="headerlink" title="为什么要将 char[] 改成 byte[] ？"></a>为什么要将 char[] 改成 byte[] ？</h2><p>char 占用16位，即两字节。每个 byte 占用8位，即1字节。如果我们要存储字符A，则为0x00 0x41，用 char 的话，前面的一个字节空间浪费了。</p>
+<h2 id="为什么要设计成不可变类-？-优缺点？"><a href="#为什么要设计成不可变类-？-优缺点？" class="headerlink" title="为什么要设计成不可变类 ？ 优缺点？"></a>为什么要设计成不可变类 ？ 优缺点？</h2><ul>
+<li><strong>优点</strong>：只读，所以 <strong>多线程并发访问也不会有任何问题</strong>。</li>
+<li><strong>缺点</strong>：每个不同的状态都要一个对象来代表，可能会造成性能上的问题。（所以 Java 标准类库还提供了一个可变版本，即 StringBuffer）</li>
+</ul>
+<p>具体到 String 类中，原因如下：</p>
+<ol>
+<li><strong>字符串常量池的需要</strong><br>维护一个字符串池，可以节省堆内存空间。不同的字符串变量都指向池中的同一个字符串。即字符串常量池数据共享。</li>
+<li><strong>线程安全考虑</strong></li>
+<li><strong>类加载器要用到字符串</strong>，不可变性提供了安全性，以便正确的类被加载。</li>
+<li><strong>支持hash映射和缓存</strong><br>因为字符串是不可变的，所以在它创建的时候hashcode就被缓存了，不需要重新计算。这就使得字符串很适合作为Map中的键，字符串的处理速度要快过其它的键对象。这就是HashMap中的键往往都使用字符串。</li>
+</ol>
+<a id="more"></a>
+
+<hr>
+<h1 id="String-str-new-String-“abc”-创建了几个对象？"><a href="#String-str-new-String-“abc”-创建了几个对象？" class="headerlink" title="String str = new String(“abc”)创建了几个对象？"></a>String str = new String(“abc”)创建了几个对象？</h1><p>答案是：最多创建2个，最少创建1个。</p>
+<p>在Java虚拟机（JVM）中存在着一个字符串池，其中保存着很多String对象，并且可以被共享使用，因此它提高了效率。<strong>由于String类是final的，它的值一经创建就不可改变</strong>，因此我们不用担心String对象共享而带来程序的混乱。</p>
+<p>当我们执行：</p>
+<pre><code class="java">String str = &quot;abc&quot;;</code></pre>
+<p>String类会先去字符串池寻找<code>abc</code>这个对象，如果<code>abc</code>存在，则把它的引用给str，如果<code>&quot;abc&quot;</code>不存在，则先创建<code>abc</code>对象。</p>
+<p>看String类源码的构造方法中，其中一个是：</p>
+<pre><code class="java">// 源码第 151 行
+/*
+ * 初始化一个新创建的 String 对象，使其表示一个与参数相同的字符序列；
+ * 换句话说，新创建的字符串是该参数字符串的副本。
+ * Initializes a newly created {@code String} object so that it represents
+ * the same sequence of characters as the argument; in other words, the
+ * newly created string is a copy of the argument string. Unless an
+ * explicit copy of {@code original} is needed, use of this constructor is
+ * unnecessary since Strings are immutable.
+ *
+ * @param  original
+ *         A {@code String}
+ */
+public String(String original) {
+    this.value = original.value;
+    this.hash = original.hash;
+}</code></pre>
+<p>可以发现，被调用的构造器方法接受的参数也是一个String对象。也就是说，当我们执行：</p>
+<pre><code class="java">String str=new String(&quot;abc&quot;);</code></pre>
+<p>String类会先去字符串池寻找<code>abc</code>，发现<code>abc</code>不存在，于是创建<code>abc</code>这个对象，然后把<code>abc</code>作为构造方法的参数，传给String构造器<code>new String(&quot;abc&quot;)</code>相当于新创建了参数字符串的副本，于是又创建了一个对象。</p>
+<p>只是，第一个<code>abc</code>对象存在于字符串池当中，第二个跟其他对象一样存在于内存的堆当中。</p>
+<hr>
+<h1 id="String-的-intern-方法"><a href="#String-的-intern-方法" class="headerlink" title="String 的 intern 方法"></a>String 的 intern 方法</h1><p><code>String.intern()</code>是一个 native 方法。如果字符串常量池里面已经包含一个等于此 String 对象的字符串，则返回池中的这个字符串String对象，否则，先将该String对象包含的字符串添加进常量池，然后返回此String对象的引用。</p>
+<p>在 jdk 1.6 的实现里，intern会把首次出现的该实例内容复制进永久代里面的常量池，而在 jdk 1.7 以上的实现中，intern 方法只是在常量池记录首次出现该实例的引用，并不会把它复制一份。</p>
+<pre><code class="java">// base on jdk 1.8
+public static void main(String[] args) {
+
+    String str1 = new StringBuilder(&quot;oj&quot;).append(&quot;bk&quot;).toString();
+    // &quot;ojbk&quot;是首次出现，记录的是 str1 的引用，因此返回 true
+    System.out.println(str1.intern() == str1);
+
+
+    String str2 = new StringBuilder(&quot;ja&quot;).append(&quot;va&quot;).toString();
+    // &quot;java&quot;肯定在其他地方出现过了，记录的是别的引用，不是str2，因此返回 false
+    System.out.println(str2.intern() == str2);
+
+}</code></pre>
+<hr>
+<h1 id="String-的-“-”-号是怎么连接字符串的-？"><a href="#String-的-“-”-号是怎么连接字符串的-？" class="headerlink" title="String 的 “+” 号是怎么连接字符串的 ？"></a>String 的 “+” 号是怎么连接字符串的 ？</h1><p>当我们在程序中输入：</p>
+<pre><code class="java">public static void main(String[] args) {
+  String hello = &quot;hello&quot;;
+  String world = &quot;world&quot;;
+  String hw = hello + world;
+}</code></pre>
+<p>编译之后，如果我们把 .class 文件反编译回 .java 文件，可以看到代码变成了：</p>
+<pre><code class="java">public static void main(String[] args) {
+  String hello = &quot;hello&quot;;
+  String world = &quot;world&quot;;
+  String hw = (new StringBuilder()).append(hello).append(world).toString();
+}</code></pre>
+<p>编译器自动引入了一个 java.lang.StringBuilder 类。虽然我们在源代码中并没有使用 StringBuilder 类，但是编译器却自作主张地使用了它，因为它更高效。这就是所谓的编译器优化。</p>
+<p>如果字符串操作比较简单，那就可以信赖编译器，它会为你合理地构造最终的字符串结果。<strong>但如果你还使用循环，多次地改变字符串的内容，那就更适合StringBuilder对象。</strong></p>
+<p>参考：<a href="https://www.jianshu.com/p/e494552f2cf0">Java学习笔记（3）—— String类详解</a></p>
+<hr>
+<h1 id="String-的比较"><a href="#String-的比较" class="headerlink" title="String 的比较"></a>String 的比较</h1><h2 id="和-equals-两种比较"><a href="#和-equals-两种比较" class="headerlink" title="== 和 equals 两种比较"></a>== 和 equals 两种比较</h2><pre><code class="java">String s1 = &quot;AAA&quot;;
+String s2 = new String(&quot;AAA&quot;);
+
+System.out.println(s1 == s2);   // 输出 false
+System.out.println(s1.equals(s2)); // 输出 true</code></pre>
+<p><code>==</code>比较的是引用的内存地址，而<code>equals</code>方法比较的是字符串的内容。</p>
+<h2 id="探究-String-类-equals-方法源码"><a href="#探究-String-类-equals-方法源码" class="headerlink" title="探究 String 类 equals 方法源码"></a>探究 String 类 equals 方法源码</h2><pre><code class="java">/**
+ * Compares this string to the specified object.  The result is {@code
+ * true} if and only if the argument is not {@code null} and is a {@code
+ * String} object that represents the same sequence of characters as this
+ * object.
+ *
+ * @param  anObject
+ *         The object to compare this {@code String} against
+ *
+ * @return  {@code true} if the given object represents a {@code String}
+ *          equivalent to this string, {@code false} otherwise
+ *
+ * @see  #compareTo(String)
+ * @see  #equalsIgnoreCase(String)
+ */
+public boolean equals(Object anObject) {
+    // 如果是同一个对象，返回 true
+    if (this == anObject) {
+        return true;
+    }
+
+    // 如果 anObject 可以向下转型为 String
+    if (anObject instanceof String) {
+        // 转型为 String 类型
+        String anotherString = (String)anObject;
+
+        // 原字符串长度
+        int n = value.length;
+
+        // 如果原字符串长度和要比较的字符串长度一致
+        if (n == anotherString.value.length) {
+            char v1[] = value;
+            char v2[] = anotherString.value;
+            int i = 0;
+
+            // 逐个字符比较
+            while (n-- != 0) {
+                if (v1[i] != v2[i])
+                    return false;
+                i++;
+            }
+            return true;
+        }
+    }
+    return false;
+}</code></pre>
+<p>从源码中可以知道，类型不同是返回 false 的，因此考虑下面的例子：</p>
+<pre><code class="java">String s = &quot;hello&quot;;
+String t = &quot;hello&quot;;
+char c[] = {&#39;h&#39;, &#39;e&#39;, &#39;l&#39;, &#39;l&#39;, &#39;o&#39;};</code></pre>
+<p>显然，<code>s==t</code>和 <code>s.equals(t)</code> 返回 true ，因为 s 和 t 都指向了同一个 String 常量池里面的常量，类型相同且值相同。但是，<code>t.equals(c)</code> 返回 false ， 因为类型不同。</p>
+<p>引申，在 Java 9 中， String 的实现已经从 char[] 变成 byte[] 了。因此就更应该是 false 了。</p>
+<h2 id="字符串比较的几点建议"><a href="#字符串比较的几点建议" class="headerlink" title="字符串比较的几点建议"></a>字符串比较的几点建议</h2><p><strong>建议一</strong>：文字串和String对象比较的时候，好的习惯是把文字串放在前面，这样可以避免某些空指针异常。</p>
+<pre><code class="java">if (&quot;World&quot;.equals(location))</code></pre>
+<p><strong>建议二</strong>：不要用 <code>==</code> 符号来判断字符串相等！！在Java虚拟机中，每个文字串只有一个实例，<code>&quot;World&quot; == &quot;World&quot;</code> 确实会返回真，但是如果前后比较的字符串是用分割提取等方法获取到的，它将会被存入一个新的对象当中，这时用<code>==</code>判断会出现假，因为不是同一个对象。</p>
+<p><strong>建议三</strong>：测试一个字符串对象是否为null，可以用<code>==</code>。例如：</p>
+<pre><code class="java">String middlename == null;</code></pre>
+<p>null不是字符串，null说明该变量没有引用任何对象。而空字符串 <code>&quot;&quot;</code>是长度为零的字符串。</p>
+<p><strong>建议四</strong>：如果想忽略大小写比较字符串，使用<code>equalsIgnoreCase</code>方法：</p>
+<pre><code class="java">myStr.equalsIgnoreCase(&quot;world&quot;);</code></pre>
+<hr>
+<h1 id="String-的用法"><a href="#String-的用法" class="headerlink" title="String 的用法"></a>String 的用法</h1><h2 id="使用-join-连接字符串"><a href="#使用-join-连接字符串" class="headerlink" title="使用 join 连接字符串"></a>使用 join 连接字符串</h2><p>join并不是用来取代“+”连接符的，更多是用于分隔符拼接。（参考：<a href="https://stackoverflow.com/questions/31817290/string-join-vs-other-string-concatenation-operations">stackoverflow</a>）</p>
+<pre><code class="java">String name = String.join(&quot;-&quot;,&quot;hello&quot;,&quot;and&quot;,&quot;again&quot;);</code></pre>
+<p>输出 hello-and-again 。 第一个参数是连接符，第二到n个参数是需要连接的字符串</p>
+<h2 id="使用-substring-提取子串"><a href="#使用-substring-提取子串" class="headerlink" title="使用 substring 提取子串"></a>使用 substring 提取子串</h2><pre><code class="java">String str = &quot;Hello, World!&quot;;
+String str2 = str.substring(7,12);</code></pre>
+<p>提取出第 7（包括）到第12（不包括）位，即<code>World</code>这个单词。注意是从 0 开始的。</p>
+<h2 id="使用-split-分割字符串"><a href="#使用-split-分割字符串" class="headerlink" title="使用 split 分割字符串"></a>使用 split 分割字符串</h2><pre><code class="java">String[] subs = str.split(&quot; &quot;);</code></pre>
+<p>以空格为分隔符，将子字符串提取出来。<strong>split的最终结果为一个字符串数组。</strong></p>
+<h2 id="使用-format-格式化输出"><a href="#使用-format-格式化输出" class="headerlink" title="使用 format 格式化输出"></a>使用 format 格式化输出</h2><pre><code class="java">String fs;
+fs = String.format(&quot;浮点型变量为%f, 整型变量为%d, 字符串变量为%s&quot;,
+                   floatVar, intVar, stringVar);
+
+String hello;
+hello = String.format(&quot;Hello, %s. Next year you will be %d.&quot;,
+                      name, age);</code></pre>
+<h2 id="使用-toString-将数字转为字符串"><a href="#使用-toString-将数字转为字符串" class="headerlink" title="使用 toString 将数字转为字符串"></a>使用 toString 将数字转为字符串</h2><pre><code class="java">str = Integer.toString(n,2);</code></pre>
+<p><code>toString</code>接受2个参数，第一个参数是数字n，第二个参数是进制（默认为10进制，范围在[2,36]）。在这个例子中，如果n是42，则把42转为二进制字符串 “101010”。</p>
+<h2 id="使用-parseInt-将字符串转化为数字"><a href="#使用-parseInt-将字符串转化为数字" class="headerlink" title="使用 parseInt 将字符串转化为数字"></a>使用 parseInt 将字符串转化为数字</h2><pre><code class="java">n = Integer.parseInt(str，2)</code></pre>
+<p>这实际上是<code>Integer</code>的方法而不是<code>String</code>的方法。这个例子将字符串 str 转化成二进制的 Integer 。</p>
+<h2 id="使用-replace-和-replaceAll-取代"><a href="#使用-replace-和-replaceAll-取代" class="headerlink" title="使用 replace 和 replaceAll 取代"></a>使用 replace 和 replaceAll 取代</h2><pre><code class="java">public String replace(char oldChar, char newChar)
+public String replaceAll(String regex, String replacement)</code></pre>
+<p>注意，replaceAll 方法的第一个参数是一个正则表达式</p>
+<hr>
+<h1 id="String-和-Char-之间的转换"><a href="#String-和-Char-之间的转换" class="headerlink" title="String 和 Char[] 之间的转换"></a>String 和 Char[] 之间的转换</h1><p>String的底层就是 Char数组（JDK1.9之后是 Byte 数组），转换方式如下：</p>
+<pre><code class="java">//将 String 转换为 char[]
+char[] cs = str.toCharArray();
+
+//将 char[] 转换为 String
+String str = String.valueOf(cs); // 方法一
+String str2 = new String(cs);   // 方法二</code></pre>
+<hr>
+<h1 id="StringBuffer-和-StringBuilder"><a href="#StringBuffer-和-StringBuilder" class="headerlink" title="StringBuffer 和 StringBuilder"></a>StringBuffer 和 StringBuilder</h1><p>当需要对字符串进行修改，可以使用 StringBuffer 和 StringBuilder 类。</p>
+<p>和 String 类不同的是，StringBuffer 和 StringBuilder 类的对象能够被多次的修改，并且不产生新的未使用对象。</p>
+<p>StringBuilder 类在 Java 5 中被提出，它和 StringBuffer 之间的最大不同在于 StringBuilder 的方法不是线程安全的（不能同步访问）。但是速度快。</p>
+<p>由于 StringBuilder 相较于 StringBuffer 有速度优势，所以多数情况下建议使用 StringBuilder 类。然而在应用程序要求线程安全的情况下，则必须使用 StringBuffer 类。 （<a href="http://www.runoob.com/java/java-stringbuffer.html">摘自菜鸟教程</a>）</p>
+<p>总结起来就是： <strong>StringBuilder 比 StringBuffer 快，但涉及线程安全必须用StringBuffer。它们两者与 String 的不同点在于对象能被多次修改。</strong></p>
+<h2 id="StringBuffer-的用法"><a href="#StringBuffer-的用法" class="headerlink" title="StringBuffer 的用法"></a>StringBuffer 的用法</h2><p>StringBuffer有跟String类似的方法：</p>
+<h3 id="使用-append-追加字符串"><a href="#使用-append-追加字符串" class="headerlink" title="使用 append 追加字符串"></a>使用 append 追加字符串</h3><pre><code class="java">StringBuffer s = new StringBuffer(&quot;hello world，&quot;);
+s.append(&quot;I am &quot;);
+s.append(&quot;Jerry.&quot;);
+System.out.println(s);</code></pre>
+<p>输出：<code>hello world，I am Jerry.</code></p>
+<h4 id="扩展：-String-的-“-”-和-StringBuffer的-append"><a href="#扩展：-String-的-“-”-和-StringBuffer的-append" class="headerlink" title="扩展： String 的 “+” 和 StringBuffer的 append"></a>扩展： String 的 “+” 和 StringBuffer的 append</h4><p>问: 有没有哪种情况用 + 做字符串连接比调用 StringBuffer / StringBuilder 对象的 append 方法性能更好？</p>
+<p>答：如果连接后得到的字符串在 <strong>静态存储区中是早已存在的</strong>，那么用+做字符串连接是优于 StringBuffer / StringBuilder 的 append 方法的。</p>
+<h3 id="使用-reverse-进行反转"><a href="#使用-reverse-进行反转" class="headerlink" title="使用 reverse 进行反转"></a>使用 reverse 进行反转</h3><pre><code class="java">StringBuffer s = new StringBuffer(&quot;hello&quot;);
+s.reverse;
+System.out.println(s);</code></pre>
+<p>输出：<code>olleh</code></p>
+<h3 id="使用-delete-删除字符串中间的字符"><a href="#使用-delete-删除字符串中间的字符" class="headerlink" title="使用 delete 删除字符串中间的字符"></a>使用 delete 删除字符串中间的字符</h3><pre><code class="java">public delete(int start, int end)
+
+StringBuffer s = new StringBuffer(&quot;hello&quot;);
+s.delete(1,3);
+System.out.println(s);</code></pre>
+<p>输出：<code>ho</code></p>
+<h3 id="使用-insert-插入"><a href="#使用-insert-插入" class="headerlink" title="使用 insert 插入"></a>使用 insert 插入</h3><pre><code class="java">StringBuffer s = new StringBuffer(&quot;hello&quot;);
+str.insert(1,&quot;ang&quot;);
+System.out.println(s);</code></pre>
+<p>输出：<code>“hangello”</code></p>
+<h3 id="使用-replace-取代"><a href="#使用-replace-取代" class="headerlink" title="使用 replace 取代"></a>使用 replace 取代</h3><p>不举例了，给出原型:</p>
+<pre><code class="java">replace(int start, int end, String str)</code></pre>
+<hr>
+<p>参考：</p>
+<ul>
+<li><a href="https://www.bookstack.cn/read/note-of-interview/java-base.md">互联网面试笔记
+</a></li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Java/" rel="tag">Java</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/a3bb075d.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Java简明笔记（七） 异常和断言</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/f85bb872.html">
+                <span class="level-item">Java简明笔记（六） 集合</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#String-的本质">
+        <span class="has-mr-6">1</span>
+        <span>String 的本质</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#为什么要将-char-改成-byte-？">
+        <span class="has-mr-6">1.1</span>
+        <span>为什么要将 char[] 改成 byte[] ？</span>
+        </a></li><li>
+        <a class="is-flex" href="#为什么要设计成不可变类-？-优缺点？">
+        <span class="has-mr-6">1.2</span>
+        <span>为什么要设计成不可变类 ？ 优缺点？</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#String-str-new-String-“abc”-创建了几个对象？">
+        <span class="has-mr-6">2</span>
+        <span>String str = new String(“abc”)创建了几个对象？</span>
+        </a></li><li>
+        <a class="is-flex" href="#String-的-intern-方法">
+        <span class="has-mr-6">3</span>
+        <span>String 的 intern 方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#String-的-“-”-号是怎么连接字符串的-？">
+        <span class="has-mr-6">4</span>
+        <span>String 的 “+” 号是怎么连接字符串的 ？</span>
+        </a></li><li>
+        <a class="is-flex" href="#String-的比较">
+        <span class="has-mr-6">5</span>
+        <span>String 的比较</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#和-equals-两种比较">
+        <span class="has-mr-6">5.1</span>
+        <span>== 和 equals 两种比较</span>
+        </a></li><li>
+        <a class="is-flex" href="#探究-String-类-equals-方法源码">
+        <span class="has-mr-6">5.2</span>
+        <span>探究 String 类 equals 方法源码</span>
+        </a></li><li>
+        <a class="is-flex" href="#字符串比较的几点建议">
+        <span class="has-mr-6">5.3</span>
+        <span>字符串比较的几点建议</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#String-的用法">
+        <span class="has-mr-6">6</span>
+        <span>String 的用法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#使用-join-连接字符串">
+        <span class="has-mr-6">6.1</span>
+        <span>使用 join 连接字符串</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-substring-提取子串">
+        <span class="has-mr-6">6.2</span>
+        <span>使用 substring 提取子串</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-split-分割字符串">
+        <span class="has-mr-6">6.3</span>
+        <span>使用 split 分割字符串</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-format-格式化输出">
+        <span class="has-mr-6">6.4</span>
+        <span>使用 format 格式化输出</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-toString-将数字转为字符串">
+        <span class="has-mr-6">6.5</span>
+        <span>使用 toString 将数字转为字符串</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-parseInt-将字符串转化为数字">
+        <span class="has-mr-6">6.6</span>
+        <span>使用 parseInt 将字符串转化为数字</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-replace-和-replaceAll-取代">
+        <span class="has-mr-6">6.7</span>
+        <span>使用 replace 和 replaceAll 取代</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#String-和-Char-之间的转换">
+        <span class="has-mr-6">7</span>
+        <span>String 和 Char[] 之间的转换</span>
+        </a></li><li>
+        <a class="is-flex" href="#StringBuffer-和-StringBuilder">
+        <span class="has-mr-6">8</span>
+        <span>StringBuffer 和 StringBuilder</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#StringBuffer-的用法">
+        <span class="has-mr-6">8.1</span>
+        <span>StringBuffer 的用法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#使用-append-追加字符串">
+        <span class="has-mr-6">8.1.1</span>
+        <span>使用 append 追加字符串</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-reverse-进行反转">
+        <span class="has-mr-6">8.1.2</span>
+        <span>使用 reverse 进行反转</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-delete-删除字符串中间的字符">
+        <span class="has-mr-6">8.1.3</span>
+        <span>使用 delete 删除字符串中间的字符</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-insert-插入">
+        <span class="has-mr-6">8.1.4</span>
+        <span>使用 insert 插入</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-replace-取代">
+        <span class="has-mr-6">8.1.5</span>
+        <span>使用 replace 取代</span>
+        </a></li></ul></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Java中的 String" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

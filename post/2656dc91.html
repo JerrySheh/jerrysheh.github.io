@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Ubuntu的一些奇技淫巧 - J.e</title>
+
+
+    <meta name="description" content="接触Linux越久，掉进莫名其妙的坑里就越多，于是我决定每遇到一个坑就记录下来，这样以后再踩的时候不至于爬不起来。 Ubuntu的一些使用技巧 目前 get 的有：  调整鼠标速度 解决双系统时间不同步的问题 系统更新提示 &#x2F;boot 空间不足的解决办法 更改国内源，提高下载速度 利用 Xshell &#x2F; SSH 在远程和本地之间传文件 编辑菜单 终端使用SS，查公有ip 管理ppa源 安装 jdk">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu的一些奇技淫巧">
+<meta property="og:url" content="https://jerrysheh.me/post/2656dc91.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="接触Linux越久，掉进莫名其妙的坑里就越多，于是我决定每遇到一个坑就记录下来，这样以后再踩的时候不至于爬不起来。 Ubuntu的一些使用技巧 目前 get 的有：  调整鼠标速度 解决双系统时间不同步的问题 系统更新提示 &#x2F;boot 空间不足的解决办法 更改国内源，提高下载速度 利用 Xshell &#x2F; SSH 在远程和本地之间传文件 编辑菜单 终端使用SS，查公有ip 管理ppa源 安装 jdk">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2017-09-12T12:14:40.000Z">
+<meta property="article:modified_time" content="2019-12-29T05:22:58.216Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Ubuntu的一些奇技淫巧" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-09-12T12:14:40.000Z">2017-09-12</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/linux/">linux</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    15 分钟 读完 (大约 2240 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Ubuntu的一些奇技淫巧
+            
+        </h1>
+        <div class="content">
+            <p>接触Linux越久，掉进莫名其妙的坑里就越多，于是我决定每遇到一个坑就记录下来，这样以后再踩的时候不至于爬不起来。</p>
+<p>Ubuntu的一些使用技巧</p>
+<p>目前 get 的有：</p>
+<ol>
+<li>调整鼠标速度</li>
+<li>解决双系统时间不同步的问题</li>
+<li>系统更新提示 /boot 空间不足的解决办法</li>
+<li>更改国内源，提高下载速度</li>
+<li>利用 Xshell / SSH 在远程和本地之间传文件</li>
+<li>编辑菜单</li>
+<li>终端使用SS，查公有ip</li>
+<li>管理ppa源</li>
+<li>安装 jdk 1.8</li>
+<li>更改 root 账户密码</li>
+<li>apt安装不成功，每次 apt install 都报错</li>
+<li>使用openssh远程连接</li>
+<li>ROOT账户没有环境变量</li>
+<li>如何正确地配置环境变量</li>
+<li>Ubuntu出现了内部错误</li>
+<li>Ubuntu/Debian 完全卸载Mysql</li>
+</ol>
+<a id="more"></a>
+
+<h1 id="一-调整鼠标速度"><a href="#一-调整鼠标速度" class="headerlink" title="一. 调整鼠标速度"></a>一. 调整鼠标速度</h1><pre><code>xset m N</code></pre><ul>
+<li>其中 N 是速度速度值，0（最慢）- 10（最快）</li>
+</ul>
+<hr>
+<h1 id="二-解决-win10-Ubuntu-双系统-时间不同步的问题"><a href="#二-解决-win10-Ubuntu-双系统-时间不同步的问题" class="headerlink" title="二. 解决 win10 + Ubuntu 双系统 时间不同步的问题"></a>二. 解决 win10 + Ubuntu 双系统 时间不同步的问题</h1><h2 id="1-先在-Ubuntu-下更新时间，确保时间无误"><a href="#1-先在-Ubuntu-下更新时间，确保时间无误" class="headerlink" title="1. 先在 Ubuntu 下更新时间，确保时间无误"></a>1. 先在 Ubuntu 下更新时间，确保时间无误</h2><pre><code>sudo apt-get install ntpdate
+sudo ntpdate time.windows.com</code></pre><h2 id="2-然后将时间更新到硬件上"><a href="#2-然后将时间更新到硬件上" class="headerlink" title="2. 然后将时间更新到硬件上"></a>2. 然后将时间更新到硬件上</h2><pre><code>sudo hwclock --localtime --systohc</code></pre><h2 id="3-Enjoy！"><a href="#3-Enjoy！" class="headerlink" title="3. Enjoy！"></a>3. Enjoy！</h2><!-- more -->
+
+<hr>
+<h1 id="三-Ubuntu-提示-boot-空间不足的解决办法"><a href="#三-Ubuntu-提示-boot-空间不足的解决办法" class="headerlink" title="三. Ubuntu 提示 /boot 空间不足的解决办法"></a>三. Ubuntu 提示 /boot 空间不足的解决办法</h1><p>Ubuntu 系统更新的时候，有时候会提示 /boot 空间不足，原因是 Linux 更新后，内核的旧版本不再使用，但还存放在 /boot 目录下。所以，手动将这些旧版本内核删除即可。</p>
+<h2 id="1-查看旧版本内核"><a href="#1-查看旧版本内核" class="headerlink" title="1. 查看旧版本内核"></a>1. 查看旧版本内核</h2><pre><code>dpkg --get-selections|grep linux</code></pre><p>看到带有 Linux-image-x.x.x的就是旧版本。</p>
+<h2 id="2-删除"><a href="#2-删除" class="headerlink" title="2. 删除"></a>2. 删除</h2><pre><code>sudo apt-get remove Linux-image-(版本号)</code></pre><h2 id="3-删除不干净的可以使用以下命令"><a href="#3-删除不干净的可以使用以下命令" class="headerlink" title="3. 删除不干净的可以使用以下命令"></a>3. 删除不干净的可以使用以下命令</h2><pre><code>sudo apt-get autoremove</code></pre><h2 id="4-Done！"><a href="#4-Done！" class="headerlink" title="4. Done！"></a>4. Done！</h2><hr>
+<h1 id="四-Ubuntu-国内更新源"><a href="#四-Ubuntu-国内更新源" class="headerlink" title="四. Ubuntu 国内更新源"></a>四. Ubuntu 国内更新源</h1><p>为了提高更新下载速度，可以把 Ubuntu 的更新源改为国内镜像。推荐使用阿里云源。因为大学的服务器在某些特殊时期因为某些原因可能无法访问，你懂的。</p>
+<h2 id="1-备份"><a href="#1-备份" class="headerlink" title="1. 备份"></a>1. 备份</h2><pre><code>sudo cp /etc/apt/sources.list /etc/apt/sources.list.old</code></pre><h2 id="2-查看当前系统版本"><a href="#2-查看当前系统版本" class="headerlink" title="2. 查看当前系统版本"></a>2. 查看当前系统版本</h2><pre><code>lsb_release -c
+Codename:       bionic</code></pre><h2 id="3-打开source-list"><a href="#3-打开source-list" class="headerlink" title="3. 打开source.list"></a>3. 打开source.list</h2><pre><code>sudo gedit /etc/apt/sources.list</code></pre><h2 id="4-添加以下国内源并覆盖原内容"><a href="#4-添加以下国内源并覆盖原内容" class="headerlink" title="4. 添加以下国内源并覆盖原内容"></a>4. 添加以下国内源并覆盖原内容</h2><p>阿里云（推荐）</p>
+<p>16.04 xenial</p>
+<pre><code># deb cdrom:[Ubuntu 16.04 LTS _Xenial Xerus_ - Release amd64 (20160420.1)]/ xenial main restricted
+deb-src http://archive.ubuntu.com/ubuntu xenial main restricted #Added by software-properties
+deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial main restricted multiverse universe #Added by software-properties
+deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted multiverse universe #Added by software-properties
+deb http://mirrors.aliyun.com/ubuntu/ xenial universe
+deb http://mirrors.aliyun.com/ubuntu/ xenial-updates universe
+deb http://mirrors.aliyun.com/ubuntu/ xenial multiverse
+deb http://mirrors.aliyun.com/ubuntu/ xenial-updates multiverse
+deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse #Added by software-properties
+deb http://archive.canonical.com/ubuntu xenial partner
+deb-src http://archive.canonical.com/ubuntu xenial partner
+deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted multiverse universe #Added by software-properties
+deb http://mirrors.aliyun.com/ubuntu/ xenial-security universe
+deb http://mirrors.aliyun.com/ubuntu/ xenial-security multiverse</code></pre><p>18.04 bionic</p>
+<pre><code>deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse</code></pre><h2 id="5-更新"><a href="#5-更新" class="headerlink" title="5. 更新"></a>5. 更新</h2><pre><code>sudo apt-get update</code></pre><hr>
+<h1 id="五-利用-Xshell-SSH-在远程和本地之间传文件"><a href="#五-利用-Xshell-SSH-在远程和本地之间传文件" class="headerlink" title="五. 利用 Xshell / SSH 在远程和本地之间传文件"></a>五. 利用 Xshell / SSH 在远程和本地之间传文件</h1><p><del>购买了一台VPS，传文件还需要架设ftp服务器，实在是懒</del> 找到一个用 Xshell 传文件的方法，基本满足日常试用啦。</p>
+<p>2018.4.1 更新：后来发现 SSH 居然可以传文件！ 方法写在下面</p>
+<h2 id="使用-Xshell"><a href="#使用-Xshell" class="headerlink" title="使用 Xshell"></a>使用 Xshell</h2><h3 id="本地"><a href="#本地" class="headerlink" title="本地"></a>本地</h3><p>打开 Xshell5 – 文件 – 属性 – 文件传输 – 使用下列下载路径</p>
+<p>下载路径选择一个文件夹，存放从 VPS 下载到本地电脑的文件</p>
+<p>加载路径选择一个文件夹，这是从本地电脑上传文件到VPS默认打开的路径</p>
+<h2 id="远程"><a href="#远程" class="headerlink" title="远程"></a>远程</h2><pre><code>sudo apt-get install lrzsz</code></pre><p>上传使用命令：<br><code>sudo rz</code></p>
+<p>输入<code>rz</code>后会从 windows 中选取文件，自动传输到VPS的当前目录下</p>
+<p>下载使用命令：<br><code>sudo sz</code></p>
+<p>如果没有使用<code>sudo</code>，可能导致卡在上传中。</p>
+<p>比如，要把VPS当前目录下的 gf.jpg 文件下载到本地电脑，直接<code>rz gf.jpg</code></p>
+<h2 id="使用-SSH"><a href="#使用-SSH" class="headerlink" title="使用 SSH"></a>使用 SSH</h2><h3 id="SSH登录"><a href="#SSH登录" class="headerlink" title="SSH登录"></a>SSH登录</h3><pre><code>ssh jerry@97.61.22.1 -p22</code></pre><p>这里的 jerry 是你 VPS 的用户名， 97.61.22.1 是 VPS 公网IP地址 ， -p22 指 SSH 的22端口</p>
+<blockquote>
+<p>如果报 WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED！ 错误，是因为服务器可能重装了系统，用 <code>ssh-keygen -R [server ip]</code> 来更新 ssh-key</p>
+</blockquote>
+<h3 id="SSH本地传文件到远程"><a href="#SSH本地传文件到远程" class="headerlink" title="SSH本地传文件到远程"></a>SSH本地传文件到远程</h3><pre><code>scp /path/filename jerry@servername:/path/</code></pre><p>例如scp /var/www/test.php <a href="mailto:root@192.168.0.101">root@192.168.0.101</a>:/var/www/ 把本机/var/www/目录下的test.php文件上传到192.168.0.101这台服务器上的/var/www/目录中</p>
+<h3 id="SSH从远程下载文件到本地"><a href="#SSH从远程下载文件到本地" class="headerlink" title="SSH从远程下载文件到本地"></a>SSH从远程下载文件到本地</h3><pre><code>scp username@servername:/path/filename /var/www/local_dir（本地目录）</code></pre><p>例如 scp <a href="mailto:root@192.168.0.101">root@192.168.0.101</a>:/var/www/test.txt 把192.168.0.101上的/var/www/test.txt 的文件下载到/var/www/local_dir（本地目录）</p>
+<hr>
+<h1 id="六、编辑开始菜单"><a href="#六、编辑开始菜单" class="headerlink" title="六、编辑开始菜单"></a>六、编辑开始菜单</h1><pre><code>sudo apt install alacarte</code></pre><p>然后直接在Ubuntu终端输入命令alacarte。可以任意增、改、隐藏、显示菜单，但无法删除菜单，即使拥有root权限。</p>
+<hr>
+<h1 id="七、终端使用SS，并查公有ip"><a href="#七、终端使用SS，并查公有ip" class="headerlink" title="七、终端使用SS，并查公有ip"></a>七、终端使用SS，并查公有ip</h1><p>首先根据<a href="https://jerrysheh.github.io/post/879f3462.html">这篇文章</a>配置好SS软件。</p>
+<p>然后在终端中</p>
+<pre><code>export ALL_PROXY=socks5://127.0.0.1:1080</code></pre><ul>
+<li>注意: 该命令仅对本终端一次性有效</li>
+</ul>
+<p>查看公有ip</p>
+<pre><code>curl ipinfo.io/ip</code></pre><hr>
+<h1 id="八、管理ppa源"><a href="#八、管理ppa源" class="headerlink" title="八、管理ppa源"></a>八、管理ppa源</h1><p>Ubuntu 软件仓库十分方便，但是有一些软件是在第三方库里的，因此我们要添加相应的ppa源，才能用 apt install</p>
+<pre><code>sudo add-apt-repository ppa:ownername/projectname
+sudo apt update
+sudo apt install something</code></pre><p>有些库我们已经不需要了，用文本编辑器修改<code>/etc/apt/sources.list.d/</code>文件夹下对应的.list即可</p>
+<pre><code>sudo rm /etc/apt/sources.list.d/xxxxxx.list</code></pre><hr>
+<h1 id="九、如何正确地在Ubuntu-16-04-安装-JDK1-8"><a href="#九、如何正确地在Ubuntu-16-04-安装-JDK1-8" class="headerlink" title="九、如何正确地在Ubuntu 16.04 安装 JDK1.8"></a>九、如何正确地在Ubuntu 16.04 安装 JDK1.8</h1><p>其实很简单</p>
+<p>添加ppa源</p>
+<pre><code>sudo apt install software-properties-common
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt update</code></pre><p>如果第二行提示<code>add-apt-repository: command not found</code>，安装一些包即可</p>
+<pre><code>sudo apt-get install software-properties-common python-software-properties  </code></pre><p>安装jdk8</p>
+<pre><code>sudo apt-get install oracle-java8-installer</code></pre><p>如果提示没有公钥，添加对应的公钥（deeepin系统会有这个问题）</p>
+<pre><code>sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C2518248EEA14886</code></pre><p>如果你有其他版本的 jdk， 更改默认</p>
+<pre><code>sudo update-alternatives --config java</code></pre><p>输出</p>
+<pre><code>* 0            /usr/lib/jvm/java-7-oracle/jre/bin/java          1062      auto mode
+  1            /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java  1061      manual mode
+  2            /usr/lib/jvm/java-8-oracle/jre/bin/java          1062      manual mode
+
+Press enter to keep the current choice[*], or type selection number:</code></pre><p>选择想默认使用的版本即可</p>
+<hr>
+<h1 id="十、更改-root-账户密码"><a href="#十、更改-root-账户密码" class="headerlink" title="十、更改 root 账户密码"></a>十、更改 root 账户密码</h1><pre><code>sudo passwd root</code></pre><hr>
+<h1 id="十一、apt安装不成功，每次-apt-install-都报错"><a href="#十一、apt安装不成功，每次-apt-install-都报错" class="headerlink" title="十一、apt安装不成功，每次 apt install 都报错"></a>十一、apt安装不成功，每次 apt install 都报错</h1><p>oracle-java7-installer安装不成功，清除缓存，不要每次 apt install 都报错</p>
+<pre><code>sudo rm /var/lib/dpkg/info/oracle-java7-installer*
+
+sudo apt-get purge oracle-java7-installer*
+
+sudo rm /etc/apt/sources.list.d/*java*
+
+sudo apt-get update</code></pre><hr>
+<h1 id="十二、使用openssh远程连接"><a href="#十二、使用openssh远程连接" class="headerlink" title="十二、使用openssh远程连接"></a>十二、使用openssh远程连接</h1><p>查看是否已经安装openssh （如果装了，应该输出不止一个ssh）</p>
+<pre><code>ps -ef | grep ssh</code></pre><p>安装</p>
+<pre><code>sudo apt install openssh-server</code></pre><p>这样就可以在 win10 用 Xshell 连接虚拟机开多个终端了。</p>
+<hr>
+<h1 id="十三、ROOT账户没有环境变量"><a href="#十三、ROOT账户没有环境变量" class="headerlink" title="十三、ROOT账户没有环境变量"></a>十三、ROOT账户没有环境变量</h1><p>在/root/.bashrc文件尾部添加：</p>
+<pre><code>source /etc/profile</code></pre><p>保存后执行：</p>
+<pre><code>./root/.bashrc</code></pre><p>如果提示没有权限</p>
+<pre><code>chmod +x ./root/.bashrc</code></pre><p>就ok了</p>
+<hr>
+<h1 id="十四、如何正确地配置环境变量"><a href="#十四、如何正确地配置环境变量" class="headerlink" title="十四、如何正确地配置环境变量"></a>十四、如何正确地配置环境变量</h1><pre><code class="shell">#Java env.
+export JAVA_HOME=/your_Java_home
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export PATH=$JAVA_HOME/bin:/usr/local/protobuf/bin:$PATH
+
+#Scala env.
+export SCALA_HOME=/your_Scala_home
+export PATH=$SCALA_HOME/bin:$PATH
+
+#Spark env.
+export SPARK_HOME=/your_Spark_home
+export PATH=$SPARK_HOME/bin:$PATH
+
+#Python env.
+export PYTHONPATH=/your_python_home
+
+#Hadoop env.
+export HADOOP_HOME=/your_hadoop_home
+export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+export PATH=$PATH:$HADOOP_HOME/bin
+export HADOOP_HOME_WARN_SUPPRESS=not_null
+
+#Mahout env.
+export MAHOUT_HOME=/your_Mahout_home
+export MAHOUT_CONF_DIR=$MAHOUT_HOME/conf
+export PATH=$MAHOUT_HOME/conf:$MAHOUT_HOME/bin:$PATH</code></pre>
+<hr>
+<h1 id="Ubuntu出现了内部错误"><a href="#Ubuntu出现了内部错误" class="headerlink" title="Ubuntu出现了内部错误"></a>Ubuntu出现了内部错误</h1><p>从 14.04 到 16.04 到 18.04 ，无论哪个版本动不动就报错，临时解决办法：</p>
+<pre><code>cd /var/crash/
+sudo rm *</code></pre><p>删除错误日志，这样下次开机不会继续报错。但这不代表系统就没错误了，下次遇到奇奇怪怪的问题是还是会报错。几乎无解。</p>
+<hr>
+<h1 id="完全卸载-Mysql"><a href="#完全卸载-Mysql" class="headerlink" title="完全卸载 Mysql"></a>完全卸载 Mysql</h1><pre><code>sudo apt-get purge mysql-server mysql-common mysql-client
+sudo rm -rf /etc/mysql
+sudo rm -rf /var/lib/mysql
+sudo rm -rf /var/log/mysql
+sudo rm -rf /var/run/mysqld</code></pre>
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Linux/" rel="tag">Linux</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/63b47f65.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Hexo多终端同步</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/879f3462.html">
+                <span class="level-item">Ubuntu 下配置SS和SSR</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#一-调整鼠标速度">
+        <span class="has-mr-6">1</span>
+        <span>一. 调整鼠标速度</span>
+        </a></li><li>
+        <a class="is-flex" href="#二-解决-win10-Ubuntu-双系统-时间不同步的问题">
+        <span class="has-mr-6">2</span>
+        <span>二. 解决 win10 + Ubuntu 双系统 时间不同步的问题</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#1-先在-Ubuntu-下更新时间，确保时间无误">
+        <span class="has-mr-6">2.1</span>
+        <span>1. 先在 Ubuntu 下更新时间，确保时间无误</span>
+        </a></li><li>
+        <a class="is-flex" href="#2-然后将时间更新到硬件上">
+        <span class="has-mr-6">2.2</span>
+        <span>2. 然后将时间更新到硬件上</span>
+        </a></li><li>
+        <a class="is-flex" href="#3-Enjoy！">
+        <span class="has-mr-6">2.3</span>
+        <span>3. Enjoy！</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#三-Ubuntu-提示-boot-空间不足的解决办法">
+        <span class="has-mr-6">3</span>
+        <span>三. Ubuntu 提示 /boot 空间不足的解决办法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#1-查看旧版本内核">
+        <span class="has-mr-6">3.1</span>
+        <span>1. 查看旧版本内核</span>
+        </a></li><li>
+        <a class="is-flex" href="#2-删除">
+        <span class="has-mr-6">3.2</span>
+        <span>2. 删除</span>
+        </a></li><li>
+        <a class="is-flex" href="#3-删除不干净的可以使用以下命令">
+        <span class="has-mr-6">3.3</span>
+        <span>3. 删除不干净的可以使用以下命令</span>
+        </a></li><li>
+        <a class="is-flex" href="#4-Done！">
+        <span class="has-mr-6">3.4</span>
+        <span>4. Done！</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#四-Ubuntu-国内更新源">
+        <span class="has-mr-6">4</span>
+        <span>四. Ubuntu 国内更新源</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#1-备份">
+        <span class="has-mr-6">4.1</span>
+        <span>1. 备份</span>
+        </a></li><li>
+        <a class="is-flex" href="#2-查看当前系统版本">
+        <span class="has-mr-6">4.2</span>
+        <span>2. 查看当前系统版本</span>
+        </a></li><li>
+        <a class="is-flex" href="#3-打开source-list">
+        <span class="has-mr-6">4.3</span>
+        <span>3. 打开source.list</span>
+        </a></li><li>
+        <a class="is-flex" href="#4-添加以下国内源并覆盖原内容">
+        <span class="has-mr-6">4.4</span>
+        <span>4. 添加以下国内源并覆盖原内容</span>
+        </a></li><li>
+        <a class="is-flex" href="#5-更新">
+        <span class="has-mr-6">4.5</span>
+        <span>5. 更新</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#五-利用-Xshell-SSH-在远程和本地之间传文件">
+        <span class="has-mr-6">5</span>
+        <span>五. 利用 Xshell / SSH 在远程和本地之间传文件</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#使用-Xshell">
+        <span class="has-mr-6">5.1</span>
+        <span>使用 Xshell</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#本地">
+        <span class="has-mr-6">5.1.1</span>
+        <span>本地</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#远程">
+        <span class="has-mr-6">5.2</span>
+        <span>远程</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-SSH">
+        <span class="has-mr-6">5.3</span>
+        <span>使用 SSH</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#SSH登录">
+        <span class="has-mr-6">5.3.1</span>
+        <span>SSH登录</span>
+        </a></li><li>
+        <a class="is-flex" href="#SSH本地传文件到远程">
+        <span class="has-mr-6">5.3.2</span>
+        <span>SSH本地传文件到远程</span>
+        </a></li><li>
+        <a class="is-flex" href="#SSH从远程下载文件到本地">
+        <span class="has-mr-6">5.3.3</span>
+        <span>SSH从远程下载文件到本地</span>
+        </a></li></ul></li></ul></li><li>
+        <a class="is-flex" href="#六、编辑开始菜单">
+        <span class="has-mr-6">6</span>
+        <span>六、编辑开始菜单</span>
+        </a></li><li>
+        <a class="is-flex" href="#七、终端使用SS，并查公有ip">
+        <span class="has-mr-6">7</span>
+        <span>七、终端使用SS，并查公有ip</span>
+        </a></li><li>
+        <a class="is-flex" href="#八、管理ppa源">
+        <span class="has-mr-6">8</span>
+        <span>八、管理ppa源</span>
+        </a></li><li>
+        <a class="is-flex" href="#九、如何正确地在Ubuntu-16-04-安装-JDK1-8">
+        <span class="has-mr-6">9</span>
+        <span>九、如何正确地在Ubuntu 16.04 安装 JDK1.8</span>
+        </a></li><li>
+        <a class="is-flex" href="#十、更改-root-账户密码">
+        <span class="has-mr-6">10</span>
+        <span>十、更改 root 账户密码</span>
+        </a></li><li>
+        <a class="is-flex" href="#十一、apt安装不成功，每次-apt-install-都报错">
+        <span class="has-mr-6">11</span>
+        <span>十一、apt安装不成功，每次 apt install 都报错</span>
+        </a></li><li>
+        <a class="is-flex" href="#十二、使用openssh远程连接">
+        <span class="has-mr-6">12</span>
+        <span>十二、使用openssh远程连接</span>
+        </a></li><li>
+        <a class="is-flex" href="#十三、ROOT账户没有环境变量">
+        <span class="has-mr-6">13</span>
+        <span>十三、ROOT账户没有环境变量</span>
+        </a></li><li>
+        <a class="is-flex" href="#十四、如何正确地配置环境变量">
+        <span class="has-mr-6">14</span>
+        <span>十四、如何正确地配置环境变量</span>
+        </a></li><li>
+        <a class="is-flex" href="#Ubuntu出现了内部错误">
+        <span class="has-mr-6">15</span>
+        <span>Ubuntu出现了内部错误</span>
+        </a></li><li>
+        <a class="is-flex" href="#完全卸载-Mysql">
+        <span class="has-mr-6">16</span>
+        <span>完全卸载 Mysql</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Ubuntu的一些奇技淫巧" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Spark编程入门（一） QuickStart - J.e</title>
+
+
+    <meta name="description" content="Spark 基本概念在实际应用中，大数据处理主要包括：  复杂的批量数据处理（数十分钟 - 几小时） 基于历史数据的交互式查询（数十秒 - 几分钟） 基于实时流的数据处理 （数百毫秒 - 几秒）  Spark 的设计遵循“一个软件栈满足不同的应用场景”，有一套完整的生态系统。包括内存计算框架、SQL即时查询、实时流式计算、机器学习和图计算等。Spark可以部署在 YARN 资源管理器上，提供一站式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark编程入门（一） QuickStart">
+<meta property="og:url" content="https://jerrysheh.me/post/a08d78bf.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="Spark 基本概念在实际应用中，大数据处理主要包括：  复杂的批量数据处理（数十分钟 - 几小时） 基于历史数据的交互式查询（数十秒 - 几分钟） 基于实时流的数据处理 （数百毫秒 - 几秒）  Spark 的设计遵循“一个软件栈满足不同的应用场景”，有一套完整的生态系统。包括内存计算框架、SQL即时查询、实时流式计算、机器学习和图计算等。Spark可以部署在 YARN 资源管理器上，提供一站式">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-04-05T07:38:00.000Z">
+<meta property="article:modified_time" content="2019-07-20T04:21:46.884Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="大数据">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Spark编程入门（一） QuickStart" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-04-05T07:38:00.000Z">2018-04-05</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 分钟 读完 (大约 1725 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Spark编程入门（一） QuickStart
+            
+        </h1>
+        <div class="content">
+            <h1 id="Spark-基本概念"><a href="#Spark-基本概念" class="headerlink" title="Spark 基本概念"></a>Spark 基本概念</h1><p>在实际应用中，大数据处理主要包括：</p>
+<ul>
+<li>复杂的批量数据处理（数十分钟 - 几小时）</li>
+<li>基于历史数据的交互式查询（数十秒 - 几分钟）</li>
+<li>基于实时流的数据处理 （数百毫秒 - 几秒）</li>
+</ul>
+<p>Spark 的设计遵循“一个软件栈满足不同的应用场景”，有一套完整的生态系统。包括内存计算框架、SQL即时查询、实时流式计算、机器学习和图计算等。Spark可以部署在 YARN 资源管理器上，提供一站式的大数据解决方案。</p>
+<a id="more"></a>
+
+<ul>
+<li><strong>RDD</strong>：弹性分布式数据集（Resilient Distributed Dataset），分布式内存的一个抽象概念，提供了一种高度受限的内存模型。</li>
+<li><strong>DAG</strong>：有向无环图（Directed Acyclic Graph, DAG），反映RDD之间的依赖关系。</li>
+<li><strong>Executor</strong>：运行在工作节点（Worker Node）上的一个进程，负责运行任务，为应用程序存储数据。</li>
+<li><strong>应用</strong>：用户编写的 Spark 程序</li>
+<li><strong>任务</strong>：运行在 Executor 上的工作单元</li>
+<li><strong>作业</strong>：一个作业包含多个RDD以及作用域相应RDD的各种操作</li>
+<li><strong>阶段</strong>：是作业的基本调度单位，一个作业分为多组任务，每组任务被称为“阶段”，或者“任务集”。</li>
+</ul>
+<p>在 Spark 中，一个应用（Application）由一个任务控制节点（Driver）和若干个作业（Job）构成，一个作业由多个阶段（Stage）构成，一个阶段由多个任务（Task）组成。</p>
+<hr>
+<h1 id="Spark-生态系统组件"><a href="#Spark-生态系统组件" class="headerlink" title="Spark 生态系统组件"></a>Spark 生态系统组件</h1><ul>
+<li><strong>Spark Core</strong>：内存计算、任务调度、部署模式、故障恢复、存储管理等，主要面向批数据处理</li>
+<li><strong>Spark SQL</strong>：允许开发者直接处理RDD，也可查询 Hive、Hbase等外部数据源。统一处理数据关系表和RDD，开发者无需自己编写Spark程序，即可用 SQL 命令查询。</li>
+<li><strong>Spark Streaming</strong>： 实时流处理。支持多种数据输入源，如 Kafka、Flume、HDFS 或 TCP套接字。</li>
+<li><strong>MLlib（机器学习）</strong>：提供机器学习算法实现，包括聚类、分类、回归、协同过滤。</li>
+<li><strong>GraphX（图计算）</strong></li>
+</ul>
+<p>无论哪个组件，都可以用 Core 的API处理问题。</p>
+<hr>
+<h1 id="Spark-的安装"><a href="#Spark-的安装" class="headerlink" title="Spark 的安装"></a>Spark 的安装</h1><p>在 Spark 官网下载 tgz 压缩包</p>
+<pre><code>wget http://mirrors.tuna.tsinghua.edu.cn/apache/spark/spark-2.3.1/spark-2.3.1-bin-hadoop2.7.tgz</code></pre><ul>
+<li>注：以上是 2.3.1 版本的清华大学镜像，最新版本在 <a href="https://spark.apache.org/downloads.html">spark 官网</a> 找</li>
+</ul>
+<p>将 spark 解压到当前目录</p>
+<pre><code>tar -zxvf spark-2.3.1-bin-hadoop2.7.tgz -C .</code></pre><hr>
+<h1 id="Spark-三种部署方式"><a href="#Spark-三种部署方式" class="headerlink" title="Spark 三种部署方式"></a>Spark 三种部署方式</h1><ul>
+<li><strong>standalone</strong></li>
+<li><strong>Spark on Mesos</strong>（官方推荐）</li>
+<li><strong>Spark on YARN</strong></li>
+</ul>
+<hr>
+<h1 id="使用-Spark-Shell-进行交互式编程"><a href="#使用-Spark-Shell-进行交互式编程" class="headerlink" title="使用 Spark Shell 进行交互式编程"></a>使用 Spark Shell 进行交互式编程</h1><p>Spark 官方提供了命令行交互式编程，也就是一边输入一边输出。</p>
+<p>安装完 spark 后， 运行 <code>./bin/spark-shell</code> 即可启动 scala 语言的 spark shell， 运行 <code>./bin/pyspark</code>即可启动 Python 语言的 spark shell (pyspark)。</p>
+<hr>
+<h1 id="独立-spark-应用程序"><a href="#独立-spark-应用程序" class="headerlink" title="独立 spark 应用程序"></a>独立 spark 应用程序</h1><p>但是我们一般都是在 IDE 里编写独立的应用程序（Self-Contained Applications），再部署打包运行。</p>
+<p>我这里根据<a href="http://spark.apache.org/docs/latest/quick-start.html">官方示例</a>，使用 IDEA，编写一个统计文本中包含字母 ‘a’ 的行数和包含字母 ‘b’的行数的 spark 应用程序。</p>
+<h2 id="新建-Maven-工程"><a href="#新建-Maven-工程" class="headerlink" title="新建 Maven 工程"></a>新建 Maven 工程</h2><p>首先新建一个 Maven 工程，然后在 pom.xml 中添加依赖</p>
+<pre><code class="xml">&lt;properties&gt;
+    &lt;maven.compiler.source&gt;1.8&lt;/maven.compiler.source&gt;
+    &lt;maven.compiler.target&gt;1.8&lt;/maven.compiler.target&gt;
+&lt;/properties&gt;
+
+&lt;dependencies&gt;
+    &lt;dependency&gt; &lt;!-- Spark dependency --&gt;
+        &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;
+        &lt;artifactId&gt;spark-sql_2.11&lt;/artifactId&gt;
+        &lt;version&gt;2.3.0&lt;/version&gt;
+    &lt;/dependency&gt;</code></pre>
+<ul>
+<li><code>properties</code>标签里的内容目的是让我们的工程基于 jdk 1.8</li>
+<li><code>dependencies</code>标签里的内容表示依赖，需要哪些依赖一般 <a href="http://spark.apache.org/docs/latest/quick-start.html">Spark 官方文档</a> 在相应的地方都会有标注，然后可以到<a href="http://mvnrepository.com/">MVN仓库</a>去搜，上面会告诉你对应版本的<code>dependency</code>该怎么写。</li>
+</ul>
+<h2 id="编写java代码"><a href="#编写java代码" class="headerlink" title="编写java代码"></a>编写java代码</h2><p>SimpleApp.java</p>
+<pre><code class="java">/* SimpleApp.java */
+import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.Dataset;
+
+public class SimpleApp {
+  public static void main(String[] args) {
+    // 定义文件路径 （可以说 file:// 也可以是 hdfs://）
+    String logFile = &quot;file:///home/jerrysheh/spark-2.3.0/README.md&quot;;
+
+    //定义 spark 会话
+    SparkSession spark = SparkSession.builder().appName(&quot;Simple Application&quot;).getOrCreate();
+
+    // 定义数据集（ spark读 logfile 文本文件，缓存）
+    Dataset&lt;String&gt; logData = spark.read().textFile(logFile).cache();
+
+    // 数据集过滤，包含 a / b 的就进行统计
+    long numAs = logData.filter((FilterFunction&lt;String&gt;)  s -&gt; s.contains(&quot;a&quot;)).count();
+    long numBs = logData.filter((FilterFunction&lt;String&gt;)  s -&gt; s.contains(&quot;b&quot;)).count();
+
+    //输出
+    System.out.println(&quot;Lines with a: &quot; + numAs + &quot;, lines with b: &quot; + numBs);
+
+    spark.stop();
+  }
+}</code></pre>
+<h2 id="配置运行环境"><a href="#配置运行环境" class="headerlink" title="配置运行环境"></a>配置运行环境</h2><p>点击edit configuration，在左侧点击该项目。在右侧 VM options中 输入<code>-Dspark.master=local</code>，指示本程序本地单线程运行。</p>
+<p>spark 支持的 master URL 有：</p>
+<ul>
+<li>local 本地单线程</li>
+<li>local[K] 本地多线程（指定K个内核）</li>
+<li>local[*] 本地多线程（指定所有可用内核）</li>
+<li>spark://HOST:PORT 连接到指定的 Spark standalone cluster master，需要指定端口。</li>
+<li>mesos://HOST:PORT 连接到指定的 Mesos 集群，需要指定端口。</li>
+<li>yarn-client 客户端模式 连接到 YARN 集群。需要配置 HADOOP_CONF_DIR。</li>
+<li>yarn-cluster 集群模式 连接到 YARN 集群。需要配置 HADOOP_CONF_DIR。</li>
+</ul>
+<p>配置完以后，就可以直接在 IDEA 运行，开发阶段不必打包后在命令行运行。</p>
+<h2 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h2><h3 id="使用-mvn-命令打包"><a href="#使用-mvn-命令打包" class="headerlink" title="使用 mvn 命令打包"></a>使用 mvn 命令打包</h3><p>安装 maven</p>
+<pre><code>sudo apt install maven</code></pre><p>打包 jar</p>
+<pre><code>mvn package</code></pre><p>这样 out 目录就生成了 一个 jar 文件，这就是我们的 spark 应用程序了。</p>
+<h3 id="使用-IDEA-打包"><a href="#使用-IDEA-打包" class="headerlink" title="使用 IDEA 打包"></a>使用 IDEA 打包</h3><p>用 maven 打包的 jar 非常大，因为把很多依赖都打包进去了，我们可以用 IDEA 删除我们不需要的组件，这样打包出来的 jar 就很小了。</p>
+<p>使用 IDEA 打包的方法可以参考：<a href="http://dblab.xmu.edu.cn/blog/1327/">利用开发工具IntelliJ IDEA编写Spark应用程序</a></p>
+<p>如果需要 sql 驱动，可以这样写：</p>
+<pre><code class="java">// 从数据库读 DataFrame
+def readFromMySQL(spark: SparkSession, tableName:String): DataFrame = {
+    val prop=new java.util.Properties
+    prop.setProperty(&quot;driver&quot;, &quot;com.mysql.cj.jdbc.Driver&quot;)
+    prop.setProperty(&quot;user&quot;,&quot;root&quot;)
+    prop.setProperty(&quot;password&quot;,&quot;YOURPASSWORD&quot;)
+
+    val df = spark.read.jdbc(jdbcURL, tableName, prop)
+    df
+}</code></pre>
+<p>这样当提交到 spark-submit 的时候会读取你的驱动，否则报 Driver not found</p>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>在 spark 安装目录下</p>
+<pre><code>./bin/spark-submit --class &quot;SimpleApp&quot; --master local[4] simple-project.jar</code></pre><p>输出：</p>
+<pre><code>...
+...
+Lines with a: 46, Lines with b: 23</code></pre><p>这样，一个简单的 spark 应用程序就运行成功了。</p>
+<h2 id="只输出-WARN-和-ERROR-不输出-INFO"><a href="#只输出-WARN-和-ERROR-不输出-INFO" class="headerlink" title="只输出 WARN 和 ERROR 不输出 INFO"></a>只输出 WARN 和 ERROR 不输出 INFO</h2><p>把 SPARK_HOME/conf 下的 log4j.properties.template 复制到 工程 Resource Root 下面（我这里是 Scala 包），重命名为 log4j.properties 。 打开，修改其中的</p>
+<pre><code>log4j.rootCategory=INFO, console</code></pre><p>将 INFO 改成 WARN 或者 ERROR 即可</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/9c5fa7c3.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Spark编程入门（二）RDD编程</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/f9031a66.html">
+                <span class="level-item">Python 随记</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#Spark-基本概念">
+        <span class="has-mr-6">1</span>
+        <span>Spark 基本概念</span>
+        </a></li><li>
+        <a class="is-flex" href="#Spark-生态系统组件">
+        <span class="has-mr-6">2</span>
+        <span>Spark 生态系统组件</span>
+        </a></li><li>
+        <a class="is-flex" href="#Spark-的安装">
+        <span class="has-mr-6">3</span>
+        <span>Spark 的安装</span>
+        </a></li><li>
+        <a class="is-flex" href="#Spark-三种部署方式">
+        <span class="has-mr-6">4</span>
+        <span>Spark 三种部署方式</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-Spark-Shell-进行交互式编程">
+        <span class="has-mr-6">5</span>
+        <span>使用 Spark Shell 进行交互式编程</span>
+        </a></li><li>
+        <a class="is-flex" href="#独立-spark-应用程序">
+        <span class="has-mr-6">6</span>
+        <span>独立 spark 应用程序</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#新建-Maven-工程">
+        <span class="has-mr-6">6.1</span>
+        <span>新建 Maven 工程</span>
+        </a></li><li>
+        <a class="is-flex" href="#编写java代码">
+        <span class="has-mr-6">6.2</span>
+        <span>编写java代码</span>
+        </a></li><li>
+        <a class="is-flex" href="#配置运行环境">
+        <span class="has-mr-6">6.3</span>
+        <span>配置运行环境</span>
+        </a></li><li>
+        <a class="is-flex" href="#打包">
+        <span class="has-mr-6">6.4</span>
+        <span>打包</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#使用-mvn-命令打包">
+        <span class="has-mr-6">6.4.1</span>
+        <span>使用 mvn 命令打包</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-IDEA-打包">
+        <span class="has-mr-6">6.4.2</span>
+        <span>使用 IDEA 打包</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#运行">
+        <span class="has-mr-6">6.5</span>
+        <span>运行</span>
+        </a></li><li>
+        <a class="is-flex" href="#只输出-WARN-和-ERROR-不输出-INFO">
+        <span class="has-mr-6">6.6</span>
+        <span>只输出 WARN 和 ERROR 不输出 INFO</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Spark编程入门（一） QuickStart" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

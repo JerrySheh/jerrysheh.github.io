@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>HTTP之旅 - J.e</title>
+
+
+    <meta name="description" content="参考书籍：《计算机网络：自顶向下方法》 HTTP简介一个 Web 应用程序，首先接触的是应用层协议是 超文本传输协议（HyperText Transfer Protocol，HTTP），HTTP由两个程序实现：一个客户端、一个服务器。其连接模型大概为：客户端向服务器发起 请求（request） ，服务器收到请求后，进行 响应（response），返回客户端需要的内容。   与 HTTP 有关的概念">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP之旅">
+<meta property="og:url" content="https://jerrysheh.me/post/1707ee78.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="参考书籍：《计算机网络：自顶向下方法》 HTTP简介一个 Web 应用程序，首先接触的是应用层协议是 超文本传输协议（HyperText Transfer Protocol，HTTP），HTTP由两个程序实现：一个客户端、一个服务器。其连接模型大概为：客户端向服务器发起 请求（request） ，服务器收到请求后，进行 响应（response），返回客户端需要的内容。   与 HTTP 有关的概念">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-03-08T03:54:26.000Z">
+<meta property="article:modified_time" content="2019-07-20T04:21:46.868Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="HTTP之旅" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-03-08T03:54:26.000Z">2018-03-08</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    21 分钟 读完 (大约 3107 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                HTTP之旅
+            
+        </h1>
+        <div class="content">
+            <p>参考书籍：《计算机网络：自顶向下方法》</p>
+<h1 id="HTTP简介"><a href="#HTTP简介" class="headerlink" title="HTTP简介"></a>HTTP简介</h1><p>一个 Web 应用程序，首先接触的是应用层协议是 <strong>超文本传输协议（HyperText Transfer Protocol，HTTP）</strong>，HTTP由两个程序实现：一个客户端、一个服务器。其连接模型大概为：客户端向服务器发起 <strong>请求（request）</strong> ，服务器收到请求后，进行 <strong>响应（response）</strong>，返回客户端需要的内容。</p>
+<p><img src="../../../../images/networking/http_model.png" alt="http"></p>
+<hr>
+<h1 id="与-HTTP-有关的概念"><a href="#与-HTTP-有关的概念" class="headerlink" title="与 HTTP 有关的概念"></a>与 HTTP 有关的概念</h1><h2 id="web-对象"><a href="#web-对象" class="headerlink" title="web 对象"></a>web 对象</h2><p>一般来说，一个 Web page（页面）是由很多对象组成的。对象可以是 html、图片、视频，甚至是Java程序。例如，当我们访问 <a href="https://www.google.com">https://www.google.com</a> ，这个 Web page 是由 Google 提供的一个基本 html 页面和搜索框上面大大的 logo 图片(以及其他对象)组成。</p>
+<p><img src="../../../../images/networking/google.png" alt="Google"></p>
+<p>这个 html 页面是一个对象（通常为index.html），其中的 logo 图片也是一个对象。这些对象都存储在服务器上面。</p>
+<p>实际上对象一般都可以通过 URL 寻址，比如谷歌首页的Logo图片，其URL地址是<br><a href="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png">https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png</a></p>
+<p>HTTP 定义了客户端如何向服务器请求 Web page。HTTP使用 TCP 作为支撑运输协议，所以不用担心请求的过程数据在中途丢失或出错的问题。</p>
+<a id="more"></a>
+
+<h2 id="无状态协议"><a href="#无状态协议" class="headerlink" title="无状态协议"></a>无状态协议</h2><p>我们可能注意到，我们使用浏览器打开Google.com，然后新建一个标签页又打开一次，Google 的页面还是会又一次地显示出来，不存在服务器之前已经给你发过了所以不再发这种事。因此我们说 HTTP 是 <strong>无状态协议(stateless protocol)</strong>。</p>
+<h2 id="非持续连接和持续连接"><a href="#非持续连接和持续连接" class="headerlink" title="非持续连接和持续连接"></a>非持续连接和持续连接</h2><p>如果一个客户与服务器的 每一个 <strong>请求/响应对</strong>，分别由单独的 TCP 连接发送，这样的 Web 应用程序称为 <strong>非持续连接（non-persistent connection）</strong>。假设在一个由 1 个 index.html 和 10 张 jpg 图片组成的 Web page 中传输，则会建立 11 个 TCP 连接。</p>
+<p>反之，如果同一个客户端的所有请求及服务器对它的响应经过相同的 TCP 连接发送，称为 <strong>持续连接（persistent connection）</strong>。这样在上述例子中只需要建立 1 个 TCP 连接。</p>
+<p>HTTP/1.0 协议使用非持久连接，即在非持久连接下，一个tcp连接只传输一个 Web 对象；HTTP/1.1 默认使用持久连接（当然，你也可以配置成使用非持久连接）。</p>
+<hr>
+<h1 id="HTTP报文"><a href="#HTTP报文" class="headerlink" title="HTTP报文"></a>HTTP报文</h1><h2 id="request报文"><a href="#request报文" class="headerlink" title="request报文"></a>request报文</h2><p>HTTP request报文结构如下：</p>
+<p><img src="../../../../images/networking/http.jpg" alt="http"></p>
+<p>一个简单的 HTTP 报文如下：</p>
+<pre><code>GET /www.zsc.edu.cn/index.html HTTP /1.1
+Accept-Language:zh-CN,zh;q=0.9,en;q=0.8,zh-TW;q=0.7
+Host:www.zsc.edu.cn
+Connection: close
+User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36</code></pre><h3 id="请求行"><a href="#请求行" class="headerlink" title="请求行"></a>请求行</h3><pre><code>GET /www.zsc.edu.cn/index.html HTTP /1.1</code></pre><p>HTTP 报文的第一行称为 <strong>请求行（request line）</strong> ，包含三部分：请求方法、请求地址、协议版本。之间用空格隔开。</p>
+<p>GET 说明采用了 GET 方法， HTTP协议中，有GET、POST、HEAD、PUT、DELETE、OPTIONS、TRACE、CONNECT 等方法，其中最常用的是 GET 和 POST， GET用于获取内容， POST常用于表单提交。其后接着的是请求的URL地址以及采用的 HTTP 协议版本，这里是 1.1。</p>
+<blockquote>
+<p>不是向服务器提交表单就一定要用 POST，比如我们在某网站的表单的name填 hello ， age 填 18，然后点击确定，浏览器可能会构造一个类似于 <a href="http://www.somesite.com/select?name=hello&amp;age=18">www.somesite.com/select?name=hello&amp;age=18</a> 这样的URL传递给服务器。服务器解析这种 URL 就知道你填的是什么了。当然，这种情况不适合输入账号和密码。</p>
+</blockquote>
+<h3 id="首部行"><a href="#首部行" class="headerlink" title="首部行"></a>首部行</h3><pre><code>Accept-Language:zh-CN,zh;q=0.9,en;q=0.8,zh-TW;q=0.7
+Host:www.zsc.edu.cn
+Connection: close
+User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36</code></pre><p>请求行后面的几行称为 <strong>首部行（header line）</strong>。</p>
+<h4 id="request常见首部"><a href="#request常见首部" class="headerlink" title="request常见首部"></a>request常见首部</h4><table>
+<thead>
+<tr>
+<th align="left">首部</th>
+<th align="left">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Accept</td>
+<td align="left">客户端能够处理的媒体类型和相对优先级</td>
+</tr>
+<tr>
+<td align="left">Accept-Charset</td>
+<td align="left">客户端能够支持的字符集和相对优先级</td>
+</tr>
+<tr>
+<td align="left">Accept-Encoding</td>
+<td align="left">客户端能够支持的内容编码和相对优先级</td>
+</tr>
+<tr>
+<td align="left">Accept-Language</td>
+<td align="left">客户端能够支持的自然语言集和相对优先级</td>
+</tr>
+<tr>
+<td align="left">Authorization</td>
+<td align="left">认证信息</td>
+</tr>
+<tr>
+<td align="left">Host</td>
+<td align="left">请求的主机域名（HTTP1.1中唯一一个必须包含的请求首部）</td>
+</tr>
+<tr>
+<td align="left">Connection</td>
+<td align="left">如果是close，表明客户端希望在本次连接后就断掉 TCP 连接</td>
+</tr>
+<tr>
+<td align="left">User-Agent</td>
+<td align="left">客户端的浏览器类型</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>一个简单的例子是，当我们访问 <a href="https://developer.android.com/studio/index.html">https://developer.android.com/studio/index.html</a> 想要下载 Android Studio软件时，如果我们用的是Windows 系统的浏览器，页面则会默认显示Windows版本的Android Studio软件下载，反正如果我们用的是 Mac 系统，则会默认显示 Mac 版本。这就是因为服务器根据我们的 User-Agent判断我们是当前什么系统。</p>
+</blockquote>
+<p>如果是 POST 方法，在 首部行 后面会有一个空行，紧接着是 <strong>请求包体</strong>。包括了表单中提交的内容。</p>
+<h2 id="response报文"><a href="#response报文" class="headerlink" title="response报文"></a>response报文</h2><p><img src="../../../../images/networking/http2.jpg" alt="http"></p>
+<pre><code>HTTP/1.1 200 OK
+Connection:close
+Content-Type:text/html; charset=UTF-8
+Date:Thu, 08 Mar 2018 08:37:21 GMT
+Expires:Thu, 08 Mar 2018 09:07:21 GMT
+Pragma:no-cache
+Server:Apache/2.2.15 (CentOS)
+Transfer-Encoding:chunked
+X-Powered-By:PHP/5.3.3
+
+（然后是数据）</code></pre><h3 id="状态行"><a href="#状态行" class="headerlink" title="状态行"></a>状态行</h3><p>第一行称为 <strong>状态行（status line）</strong>，这一行包括了协议和状态码。常见的状态码有：</p>
+<ul>
+<li><strong>200 OK</strong>: 表示请求成功</li>
+<li><strong>301 Moved Permanently</strong>: 重定向转移</li>
+<li><strong>400 Bad request</strong>： 请求不能被服务器理解</li>
+<li><strong>404 Not Found</strong>： 请求的对象在服务器上找不到</li>
+<li><strong>500 Internal Server Error</strong>：服务器已收到请求，但服务器内部出错导致无法响应</li>
+</ul>
+<h3 id="首部行-1"><a href="#首部行-1" class="headerlink" title="首部行"></a>首部行</h3><p>第一行后面几行称为 <strong>首部行（header line）</strong>，内容与 request 的首部行大同小异。</p>
+<p>最后是数据，也就是被请求的对象。如果请求的是 html 页面则在浏览器显示网页，如果请求的是图片则显示图片等。</p>
+<hr>
+<h1 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h1><p>HTTP是无状态协议，那么网站是怎么识别我们的呢？ cookie 用于站点对同一用户进行识别。</p>
+<p>cookie技术有 4 个组件：</p>
+<ul>
+<li>request报文首部中有一个 cookie 的首部行</li>
+<li>response报文首部中有一个 cookie 的首部行</li>
+<li>客户端系统中有一个 cookie 文件，由浏览器进行管理</li>
+<li>服务器后端数据库中有 cookie 相关数据</li>
+</ul>
+<p>比如说，当我们第一次登录 JD.com 进行购物的时候，JD服务器的 response 报文会对我的浏览器设置一个 <code>set-cookie: 1678</code> 的首部行，这个 <code>set-cookie</code> 把 cookie 值存入了我们的电脑。然后我们点击几样商品，转入购物车结算页面，此时对 HTTP 来说是一次全新的连接，但是结算页面却能准确显示我们刚才选的商品，这是因为我们在进入结算页面时，request首部中包含了刚刚 JD.com 给我们的 <code>cookie: 1678</code>， JD.com 就知道你是刚刚 1678 那个人了，于是把刚才页面你勾选的商品显示出来，进行结算。</p>
+<h2 id="Cookie-和-Session-的区别和联系"><a href="#Cookie-和-Session-的区别和联系" class="headerlink" title="Cookie 和 Session 的区别和联系"></a>Cookie 和 Session 的区别和联系</h2><p>在某些地方你可能会听说过 Session 这个名词，简单地说，Session是在服务端保存的一个数据结构，可以是任何类型的数据。它用来跟踪用户的状态，这个数据可以保存在内存、集群、数据库、文件中，但总而言之是保存在服务器端的，对客户端不可见。</p>
+<p>而 Cookie 是客户端保存用户信息的一种机制，Cookie只能存储字符串，用来记录用户的一些信息，也是实现 Session 的一种方式。由于保存在客户端，因此最好对 cookie 进行加密。</p>
+<p>例如，在 Java Servlet 开发中，我们可以这样设置 cookie：</p>
+<pre><code class="java">// 设置 cookie
+Cookie cookie = new Cookie(&quot;key&quot;,&quot;value&quot;);
+cookie.setMaxAge(60*60*24);  // 设置 cookie 有效期
+response.addCookie(cookie);
+
+// 读取 cookie
+Cookie[] cs = request.getCookies();</code></pre>
+<hr>
+<h1 id="代理服务器"><a href="#代理服务器" class="headerlink" title="代理服务器"></a>代理服务器</h1><p><strong>Web 缓存器（Web cache）</strong>，或者叫 <strong>代理服务器（proxy server）</strong>。用于存放真实服务器上面的一些对象。提高用户访问速度。</p>
+<p>比如说，我们访问 <a href="http://www.somesite.com/campus.gif">www.somesite.com/campus.gif</a> ， 如果对方服务器有配置代理服务器，则我们的请求会首先发给代理服务器，代理服务器检查自己有没有这个文件，如果有，直接 response 给客户，如果没有，代理服务器向真实服务器请求这个文件，获取到以后先自己复制一份，然后发送给客户。</p>
+<p>这样做的好处就是降低了服务器的压力（因为服务器除了存储对象还有其他事要干，资源获取这种简单的活就交给代理服务器去干了）。同时，也有利于提高用户访问速度。</p>
+<h2 id="条件-GET-方法"><a href="#条件-GET-方法" class="headerlink" title="条件 GET 方法"></a>条件 GET 方法</h2><p>使用代理服务器有一个问题，那就是代理服务器缓存的对象，也可能是旧的。比如今天缓存了一张图片，明天真实服务器修改了这张图片，后天有一个浏览器请求这张图片。如果代理服务器直接发给客户，不就发了旧版本吗？</p>
+<p>解决方案是条件 GET 方法， 这个 GET 方法 由代理服务器向真实服务器 发出，其中包括 <code>If-Modified-Since</code> 首部行，如果与服务器上的一致，则证明是最新的，否则，从服务器请求最新的文件过来。</p>
+<hr>
+<h1 id="URL-和-URI-的区别"><a href="#URL-和-URI-的区别" class="headerlink" title="URL 和 URI 的区别"></a>URL 和 URI 的区别</h1><p><strong>URI</strong>：Universal Resource Identifier 统一资源标志符<br><strong>URL</strong>：Universal Resource Locator 统一资源定位符<br><strong>URN</strong>： Universal Resource Name 统一资源名称</p>
+<p>也就是说，URI分为三种，URL or URN or （URL and URN）</p>
+<hr>
+<h1 id="HTTP-中-URL-的参数"><a href="#HTTP-中-URL-的参数" class="headerlink" title="HTTP 中 URL 的参数"></a>HTTP 中 URL 的参数</h1><p>如果我们：</p>
+<ol>
+<li>登录知乎 <a href="https://www.zhihu.com/">https://www.zhihu.com/</a></li>
+<li>搜索“Spring”，回车。</li>
+</ol>
+<p>会发现，浏览器的地址变成了</p>
+<pre><code>https://www.zhihu.com/search?type=content&amp;q=Spring</code></pre><p>其中， <code>?type=content&amp;q=Spring</code> 部分就是参数。</p>
+<p>参数由 ? 开头，每个参数形如 name=value 的形式，多个参数用 &amp; 符号连接。</p>
+<p>HTTP参数实际上可以认为是一种用户的输入，根据不同的用户输入，服务器经过处理后返回不同的输出。</p>
+<hr>
+<h1 id="浅谈-http、tcp、socket"><a href="#浅谈-http、tcp、socket" class="headerlink" title="浅谈 http、tcp、socket"></a>浅谈 http、tcp、socket</h1><p>当浏览器需要从服务器获取网页数据的时候，就会发出一次Http请求。Http会通过TCP建立起一个到服务器的连接通道，当本次请求需要的数据完毕后，Http会立即将TCP连接断开，这个过程是很短的。所以Http连接是一种短连接，是一种无状态的连接。所谓的无状态，是指浏览器每次向服务器发起请求的时候，不是通过一个连接，而是每次都建立一个新的连接。但是从http/1.1之后,也支持 keep-alive 保持连接功能。</p>
+<p>如果要说 http 和 socket 有什么区别，那就是 http 是一种规定好的连接模型，而 socket 我们可以自由编程控制什么时候保持连接，什么时候断开，但他们两者本质上传输的都是底层tcp连接所建立的数据。</p>
+<p>比较形象的描述：HTTP是轿车，提供了封装或者显示数据的具体形式；Socket是发动机，提供了网络通信的能力。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/1d084fbe.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Android笔记（五）持久化技术</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/eb7c8f24.html">
+                <span class="level-item">操作系统漫游（一）引论</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#HTTP简介">
+        <span class="has-mr-6">1</span>
+        <span>HTTP简介</span>
+        </a></li><li>
+        <a class="is-flex" href="#与-HTTP-有关的概念">
+        <span class="has-mr-6">2</span>
+        <span>与 HTTP 有关的概念</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#web-对象">
+        <span class="has-mr-6">2.1</span>
+        <span>web 对象</span>
+        </a></li><li>
+        <a class="is-flex" href="#无状态协议">
+        <span class="has-mr-6">2.2</span>
+        <span>无状态协议</span>
+        </a></li><li>
+        <a class="is-flex" href="#非持续连接和持续连接">
+        <span class="has-mr-6">2.3</span>
+        <span>非持续连接和持续连接</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#HTTP报文">
+        <span class="has-mr-6">3</span>
+        <span>HTTP报文</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#request报文">
+        <span class="has-mr-6">3.1</span>
+        <span>request报文</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#请求行">
+        <span class="has-mr-6">3.1.1</span>
+        <span>请求行</span>
+        </a></li><li>
+        <a class="is-flex" href="#首部行">
+        <span class="has-mr-6">3.1.2</span>
+        <span>首部行</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#response报文">
+        <span class="has-mr-6">3.2</span>
+        <span>response报文</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#状态行">
+        <span class="has-mr-6">3.2.1</span>
+        <span>状态行</span>
+        </a></li><li>
+        <a class="is-flex" href="#首部行-1">
+        <span class="has-mr-6">3.2.2</span>
+        <span>首部行</span>
+        </a></li></ul></li></ul></li><li>
+        <a class="is-flex" href="#cookie">
+        <span class="has-mr-6">4</span>
+        <span>cookie</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Cookie-和-Session-的区别和联系">
+        <span class="has-mr-6">4.1</span>
+        <span>Cookie 和 Session 的区别和联系</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#代理服务器">
+        <span class="has-mr-6">5</span>
+        <span>代理服务器</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#条件-GET-方法">
+        <span class="has-mr-6">5.1</span>
+        <span>条件 GET 方法</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#URL-和-URI-的区别">
+        <span class="has-mr-6">6</span>
+        <span>URL 和 URI 的区别</span>
+        </a></li><li>
+        <a class="is-flex" href="#HTTP-中-URL-的参数">
+        <span class="has-mr-6">7</span>
+        <span>HTTP 中 URL 的参数</span>
+        </a></li><li>
+        <a class="is-flex" href="#浅谈-http、tcp、socket">
+        <span class="has-mr-6">8</span>
+        <span>浅谈 http、tcp、socket</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="HTTP之旅" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

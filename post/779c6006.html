@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Java简明笔记（十二） IO编程 - J.e</title>
+
+
+    <meta name="description" content="文件对象 File用过 Linux 的一定知道，“一切皆文件”和“一切皆文本流”的思想。在 Java 中，普通文件和文件夹都是文件对象，用File表示。 文件对象的常用方法new 一个文件对象，用getAbsoluteFile()返回这个File对象形式的路径，用getAbsolutePath()返回字符串形式的路径。 import java.io.File;  public class IO {">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java简明笔记（十二） IO编程">
+<meta property="og:url" content="https://jerrysheh.me/post/779c6006.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="文件对象 File用过 Linux 的一定知道，“一切皆文件”和“一切皆文本流”的思想。在 Java 中，普通文件和文件夹都是文件对象，用File表示。 文件对象的常用方法new 一个文件对象，用getAbsoluteFile()返回这个File对象形式的路径，用getAbsolutePath()返回字符串形式的路径。 import java.io.File;  public class IO {">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-03-11T02:44:18.000Z">
+<meta property="article:modified_time" content="2019-09-22T14:04:00.596Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Java简明笔记（十二） IO编程" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-03-11T02:44:18.000Z">2018-03-11</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    18 分钟 读完 (大约 2725 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Java简明笔记（十二） IO编程
+            
+        </h1>
+        <div class="content">
+            <h1 id="文件对象-File"><a href="#文件对象-File" class="headerlink" title="文件对象 File"></a>文件对象 File</h1><p>用过 Linux 的一定知道，“一切皆文件”和“一切皆文本流”的思想。在 Java 中，普通文件和文件夹都是文件对象，用<code>File</code>表示。</p>
+<h2 id="文件对象的常用方法"><a href="#文件对象的常用方法" class="headerlink" title="文件对象的常用方法"></a>文件对象的常用方法</h2><p>new 一个文件对象，用<code>getAbsoluteFile()</code>返回这个File对象形式的路径，用<code>getAbsolutePath()</code>返回字符串形式的路径。</p>
+<pre><code class="java">import java.io.File;
+
+public class IO {
+    public static void main(String[] args) {
+        //创建文件
+        File txt = new File(&quot;D:\\JavaTest\\t.txt&quot;);
+        System.out.println(txt.getAbsoluteFile());
+
+        //创建目录
+        File dir = new File(&quot;D:\\JavaTest&quot;);
+        System.out.println(dir.getAbsolutePath());
+
+        //将dir目录作为创建文件的路径
+        File xml = new File(dir,&quot;run.bat&quot;);
+        System.out.println(xml.getAbsolutePath());
+    }
+}</code></pre>
+<p>我们用 new 创建的文件，并不一定在物理磁盘上存在，用<code>exists()</code>判断是否真实存在。</p>
+<pre><code class="java">//如果物理磁盘上存在t.txt，返回 true
+File txt = new File(&quot;D:\\JavaTest\\t.txt&quot;);
+        System.out.println(txt.exists());</code></pre>
+<p>用<code>isDirectory()</code>判断是否是一个目录，用<code>isFile()</code>判断是否是一个普通文件，用<code>length()</code>获取文件长度。</p>
+<p>先在 D:\JavaTest 创建一个 t.txt 文件，然后里面写 hello， 保存</p>
+<p><img src="../../../../images/Java/file.png" alt="txt"></p>
+<pre><code class="java">public static void main(String[] args) {
+    //创建文件
+    File txt = new File(&quot;D:\\JavaTest\\t.txt&quot;);
+    if (txt.exists()){
+        System.out.println(txt.length());
+    }
+}</code></pre>
+<p>输出 <code>5</code>，因为 hello 正好长度是 5 。如果文件在磁盘上不存在，则没有输出。如果是目录，输出 <code>0</code>。</p>
+<ul>
+<li>用<code>getParent()</code>以 <strong>字符串</strong> 形式获取文件所在目录，用<code>getParentFile()</code>以 <strong>File对象</strong> 形式获取文件所在目录。</li>
+<li>用<code>dir.list()</code>以 <strong>字符串数组</strong> 形式获取目录下所有文件（不包含子文件(夹)），当然，有<code>dir.listFile()</code>，相信你知道如何用。</li>
+<li>用<code>f.mkdir()</code>创建文件夹，若父文件夹不存在，则创建无效。用<code>f.mkdirs()</code>创建文件夹，若父文件夹不存在，则先创建父文件夹。</li>
+<li>用<code>f.delete()</code>删除文件。用<code>f.deleteOnExit()</code>在JVM结束的时候删除文件（通常是临时文件）</li>
+</ul>
+<h2 id="例子：遍历找出最大文件"><a href="#例子：遍历找出最大文件" class="headerlink" title="例子：遍历找出最大文件"></a>例子：遍历找出最大文件</h2><p>遍历文件夹下的文件和目录，并找出最大的文件</p>
+<pre><code class="java">public static void main(String[] args) {
+    //定义一个文件目录
+    File folder = new File(&quot;D:\\Documents&quot;);
+
+    //列出目录下的所有子文件和子目录，存入File[]数组
+    File[] foldersAndFiles = folder.listFiles();
+    long length = 0;
+    String name = &quot;&quot;;
+
+    //空指针异常检查
+    if (foldersAndFiles != null){
+
+        //遍历子目录和子文件，记录最大长度的那个
+        for (File eachFile :
+                foldersAndFiles) {
+            if (eachFile.length() &gt; length){
+                length = eachFile.length();
+                name = eachFile.getName();
+            }
+        }
+    }
+    System.out.printf(&quot;最大的文件是：%s \n 其大小为：%d&quot;,name,length);
+}</code></pre>
+<h2 id="例子：遍历输出目录下的文件（包括子目录里的文件）"><a href="#例子：遍历输出目录下的文件（包括子目录里的文件）" class="headerlink" title="例子：遍历输出目录下的文件（包括子目录里的文件）"></a>例子：遍历输出目录下的文件（包括子目录里的文件）</h2><pre><code class="java">import java.io.File;
+import java.io.IOException;
+
+public class IO {
+    public static void main(String[] args)  {
+        File parentFolder = new File(&quot;D:\\Documents&quot;);
+        printSub(parentFolder);
+    }
+
+    private static void printSub (File parentFolder) throws NullPointerException{
+        File[] folders = parentFolder.listFiles();
+
+        //遍历子目录和子文件
+        for (File f :
+                folders) {
+
+            //如果是文件，打印
+            if (f.isFile()){
+                System.out.println(f);
+            }
+
+            //如果是目录，递归调用这个方法
+            if (f.isDirectory()){
+                printSub(f);
+            }
+        }
+    }
+}</code></pre>
+<hr>
+<h1 id="输入输出流"><a href="#输入输出流" class="headerlink" title="输入输出流"></a>输入输出流</h1><p>如果说， File 是表示 <strong>文件</strong> 的对象， 那么流就是表示 <strong>数据在Java程序和文件之间流动</strong> （流动可以是流出，也可以是流入）的对象。</p>
+<h2 id="流的概念"><a href="#流的概念" class="headerlink" title="流的概念"></a>流的概念</h2><p>在 Java API 中，可以从Java程序向外部写入字节序列的对象叫<code>输出流</code>，相反，可以从外部向Java程序读入字节序列的对象叫<code>输入流</code>。</p>
+<ul>
+<li>输出流：Java → 外部</li>
+<li>输入流：外部 → Java</li>
+</ul>
+<p>这里的外部，通常是指文件，当然也可以是网络，甚至内存。</p>
+<h2 id="InputStream-和-OutputStream"><a href="#InputStream-和-OutputStream" class="headerlink" title="InputStream 和 OutputStream"></a>InputStream 和 OutputStream</h2><p>Java中定义了两个抽象类，<code>InputStream</code>和<code>OutputStream</code>，是 Java IO 的基础。这两个抽象类都有一个抽象方法<code>read()</code>和<code>write()</code>，用于读入和写出一个字节并返回该字节（当遇到结尾时返回-1）。因此，实现这两个抽象类的子类，都必须重写<code>read()</code>或<code>write()</code>方法。</p>
+<pre><code class="java">abstract int read(){
+
+}
+
+abstract void write(int b){
+
+}</code></pre>
+<blockquote>
+<p>举个实现的例子，比如 FileInputStream 就实现了从某个文件中读入一个字节。</p>
+</blockquote>
+<p>下面是我们常用的 <code>read()</code>实现方法，它读入一个字节数组，并返回实际读入的字节数。或者在碰到流的结尾时返回-1.</p>
+<pre><code class="java">int read(byte[] b) {
+
+}</code></pre>
+<p><code>read()</code>和<code>write()</code>方法在执行时是阻塞的（通常是因为网络延迟）。可以用<code>available（）</code>方法检查当前可读入的字节数量。</p>
+<p>当我们读写完毕后，切记用<code>close()</code>方法来关闭IO流，以释放系统资源。</p>
+<h2 id="例子：向文件写字节"><a href="#例子：向文件写字节" class="headerlink" title="例子：向文件写字节"></a>例子：向文件写字节</h2><p>创建文件 -&gt; 判断父目录在不在 -&gt;  写入字节</p>
+<pre><code class="java">public static void main(String[] args)  throws IOException {
+    File parentFolder = new File(&quot;D:\\JavaTest&quot;);
+    writeByte(parentFolder);
+}
+
+private static void writeByte (File parentFolder) throws NullPointerException, IOException{
+    //创建新文件
+    File txt = new File(parentFolder,&quot;how2j\\jj\\test.txt&quot;);
+
+    //判断新文件的父目录在不在，如果不在，用 mkdirs()  创建
+    if (!txt.getParentFile().exists()){
+        txt.getParentFile().mkdirs();
+    }
+
+    //写入字节
+    FileOutputStream outputStream = new FileOutputStream(txt);
+    byte[] all = {75,79}; // ASCII 75 = K, 79 = O;
+    outputStream.write(all);
+    outputStream.close();
+}</code></pre>
+<hr>
+<h1 id="不止字节"><a href="#不止字节" class="headerlink" title="不止字节"></a>不止字节</h1><p>继承于<code>InputStream</code>和<code>OutputStream</code>的实现类可以让我们很方便的读写字节。但是，我们很多文件都是 Unicode 字符编码的，不是单个的字节。因此，Java又定义了<code>Reader</code>和<code>Writer</code>两个抽象类，专门处理 Unicode 字符。</p>
+<p><font color="red"> 因此，在 Java 中， Stream 结尾的都是字节流， reader 或 writer结尾都是字符流。 两者的区别是：读写的时候一个是按字节读写，一个是按字符。</font></p>
+<p>相比字节，我们更感兴趣的是数字、字符串和对象，而不是一个一个的字节。Java 当然也提供了很多让我们读取常用格式的数据，而不仅仅是字节！</p>
+<p><img src="http://www.runoob.com/wp-content/uploads/2013/12/iostream2.png" alt=""></p>
+<h2 id="缓存流"><a href="#缓存流" class="headerlink" title="缓存流"></a>缓存流</h2><p>如果我们自己从硬盘中读取或写入数据，每次都要读写磁盘。如果读写的频率比较高的时候，其性能表现不佳。为了解决这一问题，Java提供了<code>BufferedReader</code>和<code>BufferedWriter</code>两个缓存流。</p>
+<p>当我们要从硬盘读数据的时候，<code>BufferedReader</code>缓存流会先从硬盘中一次性读取较多的数据，然后我们的Java程序直接按需从缓存里取出。这样就不用每次都跟硬盘打交道了。</p>
+<p>利用 BufferedWriter 写数据到文件例子</p>
+<ol>
+<li>new 一个 <code>BufferedWriter</code>，参数里面 new 一个 <code>FileWriter</code></li>
+<li>用 <code>foreach</code> 循环，遍历集合</li>
+<li>如果有必要，做一下类型转换</li>
+<li>写数据，写分隔符</li>
+<li>刷新</li>
+</ol>
+<p>注意，<strong>FileWrite 接收第二个参数，为 true 时，不覆盖原有内容</strong>。否则原有内容会被覆盖。</p>
+<pre><code class="java">// 文件读写
+FileWriter fw = new FileWriter(&quot;C:\\Users\\JerrySheh\\exception.dat&quot; , true);
+BufferedWriter bw = new BufferedWriter(fw);</code></pre>
+<h3 id="完整例子"><a href="#完整例子" class="headerlink" title="完整例子"></a>完整例子</h3><ul>
+<li>产生5555个随机数</li>
+<li>写入到文件data.txt中</li>
+<li>从文件data.txt中读取这5555个随机数，写入到data2.txt中</li>
+</ul>
+<p>randomDoubleNumber.java</p>
+<pre><code class="java">package com.jerrysheh;
+
+import java.math.BigDecimal;
+
+public class randomDoubleNumber {
+
+    // 产生 range 以内的随机数
+    public static double getRandomDoubleNumber(int range){
+        BigDecimal b = new BigDecimal(Math.random() * range);
+        return b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
+}</code></pre>
+<p>test.java</p>
+<pre><code>import java.io.*;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+public class main {
+    public static void main(String[] args){
+        ArrayList&lt;Double&gt; l = addDataToList(new ArrayList&lt;&gt;());
+        writeToFile(l);
+        readFromFileAndWrite(l);
+    }
+
+    // 添加随机数数据
+    public static ArrayList&lt;Double&gt; addDataToList(ArrayList&lt;Double&gt; randomNumberList){
+        double d;
+        for (int i = 0; i &lt; 5555; i++) {
+            d = com.jerrysheh.randomDoubleNumber.getRandomDoubleNumber(1000);
+            randomNumberList.add(d);
+        }
+        return randomNumberList;
+    }
+
+    // 数据写入文件
+    public static void writeToFile(List&lt;Double&gt; randomNumberList){
+        DecimalFormat df = new DecimalFormat(&quot;0.00&quot;);
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(&quot;data.txt&quot;))) {
+            for (double dd:
+                    randomNumberList) {
+                String s = df.format(dd);
+                bw.write(s);
+                bw.write(&quot;,&quot;);
+                bw.flush();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    //文件读取数据，写入另一文件
+    public static void readFromFileAndWrite(List&lt;Double&gt; randomNumberList){
+        try(
+                BufferedReader br = new BufferedReader(new FileReader(&quot;data.txt&quot;));
+                BufferedWriter bw = new BufferedWriter(new FileWriter(&quot;data2.txt&quot;))
+        ){
+            String s = br.readLine();
+            String ss[] = s.split(&quot;,&quot;);
+            for (String each:
+                 ss) {
+                bw.write(each);
+                bw.write(&quot;\r\n&quot;);
+                bw.flush();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+}</code></pre><hr>
+<h1 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h1><h2 id="什么是序列化（Serialization）？"><a href="#什么是序列化（Serialization）？" class="headerlink" title="什么是序列化（Serialization）？"></a>什么是序列化（Serialization）？</h2><p>变量从内存中变成可存储或传输的过程称之为序列化（或持久化）。序列化之后，就可以把序列化后的内容写入磁盘，或者通过网络传输到别的机器上。</p>
+<h2 id="Java中的序列化"><a href="#Java中的序列化" class="headerlink" title="Java中的序列化"></a>Java中的序列化</h2><p>在 Java 中，java.io.Serializable 是一个标记接口。要序列化一个对象，只需要实现该接口。但是，对象中并不是所有字段都可以被序列化，使用时需要注意。</p>
+<p>当然，也有一些字段本身是可以被序列化的，但是我们不希望它被序列化，这时可以使用 <code>transient</code> 关键字让它不被序列化。</p>
+<h3 id="一个支持序列化的类"><a href="#一个支持序列化的类" class="headerlink" title="一个支持序列化的类"></a>一个支持序列化的类</h3><pre><code class="java">public class Employee implements java.io.Serializable
+{
+   public String name;
+   public String address;
+   public transient int SSN;
+   public int number;
+   public void mailCheck()
+   {
+      System.out.println(&quot;Mailing a check to &quot; + name
+                           + &quot; &quot; + address);
+   }
+}</code></pre>
+<p>在 Java 中，我们使用  ObjectOutputStream 类来将一个对象转换成输出流。它的 <code>writeObject(Object x)</code> 方法用于序列化一个对象，并将它发送到输出流。</p>
+<h3 id="序列化过程"><a href="#序列化过程" class="headerlink" title="序列化过程"></a>序列化过程</h3><pre><code class="java">public class SerializeDemo
+{
+   public static void main(String [] args)
+   {
+      Employee e = new Employee();
+      e.name = &quot;Reyan Ali&quot;;
+      e.address = &quot;Phokka Kuan, Ambehta Peer&quot;;
+      e.SSN = 11122333;
+      e.number = 101;
+      try
+      {
+         FileOutputStream fileOut =
+         new FileOutputStream(&quot;/tmp/employee.ser&quot;);
+         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+         out.writeObject(e);
+         out.close();
+         fileOut.close();
+         System.out.printf(&quot;Serialized data is saved in /tmp/employee.ser&quot;);
+      }catch(IOException i)
+      {
+          i.printStackTrace();
+      }
+   }
+}</code></pre>
+<p>Java约定序列化的文件后缀名为 .ser ，我们将该对象存入磁盘/tmp/employee.ser文件中</p>
+<h3 id="反序列化过程"><a href="#反序列化过程" class="headerlink" title="反序列化过程"></a>反序列化过程</h3><pre><code class="java">public class DeserializeDemo
+{
+   public static void main(String [] args)
+   {
+      Employee e = null;
+      try
+      {
+
+         // 创建一个文件输入流
+         FileInputStream fileIn = new FileInputStream(&quot;/tmp/employee.ser&quot;);
+
+         // 创建一个对象输入流，传入文件输入流对象
+         ObjectInputStream in = new ObjectInputStream(fileIn);
+
+         // 从对象输入流中获取序列化的数据
+         e = (Employee) in.readObject();
+
+         in.close();
+         fileIn.close();
+      }catch(IOException i)
+      {
+         i.printStackTrace();
+         return;
+      }catch(ClassNotFoundException c)
+      {
+         System.out.println(&quot;Employee class not found&quot;);
+         c.printStackTrace();
+         return;
+      }
+    }
+}</code></pre>
+<p>此时，Employee对象即被“复活”了。但是注意，变量SSN是 transient 的，因此不会被还原。</p>
+<h2 id="为什么一个类实现了Serializable接口，它就可以被序列化？"><a href="#为什么一个类实现了Serializable接口，它就可以被序列化？" class="headerlink" title="为什么一个类实现了Serializable接口，它就可以被序列化？"></a>为什么一个类实现了Serializable接口，它就可以被序列化？</h2><p>查看 ObjectOutputStream 的源码，可以看到，其 writeObject0方法 中，是通过判断该类是否可以转型为 String、Enum 或 Serializable 来为其决定进行何种序列化方式的。实现Serializable接口就用 writeOrdinaryObject 方式。</p>
+<p>如果该类没有实现 Serializable 接口，就抛出 NotSerializableException</p>
+<pre><code class="java">private void writeObject0(Object obj, boolean unshared) throws IOException {
+      ...
+    if (obj instanceof String) {
+        writeString((String) obj, unshared);
+    } else if (cl.isArray()) {
+        writeArray(obj, desc, unshared);
+    } else if (obj instanceof Enum) {
+        writeEnum((Enum) obj, desc, unshared);
+    } else if (obj instanceof Serializable) {
+        writeOrdinaryObject(obj, desc, unshared);
+    } else {
+        if (extendedDebugInfo) {
+            throw new NotSerializableException(cl.getName() + &quot;\n&quot;
+                    + debugInfoStack.toString());
+        } else {
+            throw new NotSerializableException(cl.getName());
+        }
+    }
+    ...
+}</code></pre>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Java/" rel="tag">Java</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/2720656c.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Linux设备驱动开发（一）内核的配置与编译</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/f85eb43b.html">
+                <span class="level-item">Android笔记（六） 运行时权限和内容提供器</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#文件对象-File">
+        <span class="has-mr-6">1</span>
+        <span>文件对象 File</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#文件对象的常用方法">
+        <span class="has-mr-6">1.1</span>
+        <span>文件对象的常用方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#例子：遍历找出最大文件">
+        <span class="has-mr-6">1.2</span>
+        <span>例子：遍历找出最大文件</span>
+        </a></li><li>
+        <a class="is-flex" href="#例子：遍历输出目录下的文件（包括子目录里的文件）">
+        <span class="has-mr-6">1.3</span>
+        <span>例子：遍历输出目录下的文件（包括子目录里的文件）</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#输入输出流">
+        <span class="has-mr-6">2</span>
+        <span>输入输出流</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#流的概念">
+        <span class="has-mr-6">2.1</span>
+        <span>流的概念</span>
+        </a></li><li>
+        <a class="is-flex" href="#InputStream-和-OutputStream">
+        <span class="has-mr-6">2.2</span>
+        <span>InputStream 和 OutputStream</span>
+        </a></li><li>
+        <a class="is-flex" href="#例子：向文件写字节">
+        <span class="has-mr-6">2.3</span>
+        <span>例子：向文件写字节</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#不止字节">
+        <span class="has-mr-6">3</span>
+        <span>不止字节</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#缓存流">
+        <span class="has-mr-6">3.1</span>
+        <span>缓存流</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#完整例子">
+        <span class="has-mr-6">3.1.1</span>
+        <span>完整例子</span>
+        </a></li></ul></li></ul></li><li>
+        <a class="is-flex" href="#序列化">
+        <span class="has-mr-6">4</span>
+        <span>序列化</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#什么是序列化（Serialization）？">
+        <span class="has-mr-6">4.1</span>
+        <span>什么是序列化（Serialization）？</span>
+        </a></li><li>
+        <a class="is-flex" href="#Java中的序列化">
+        <span class="has-mr-6">4.2</span>
+        <span>Java中的序列化</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#一个支持序列化的类">
+        <span class="has-mr-6">4.2.1</span>
+        <span>一个支持序列化的类</span>
+        </a></li><li>
+        <a class="is-flex" href="#序列化过程">
+        <span class="has-mr-6">4.2.2</span>
+        <span>序列化过程</span>
+        </a></li><li>
+        <a class="is-flex" href="#反序列化过程">
+        <span class="has-mr-6">4.2.3</span>
+        <span>反序列化过程</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#为什么一个类实现了Serializable接口，它就可以被序列化？">
+        <span class="has-mr-6">4.3</span>
+        <span>为什么一个类实现了Serializable接口，它就可以被序列化？</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Java简明笔记（十二） IO编程" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

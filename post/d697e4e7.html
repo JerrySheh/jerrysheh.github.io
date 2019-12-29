@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Java Web（一）web容器和Servlet - J.e</title>
+
+
+    <meta name="description" content="在聊 Servlet 之前，先讲讲什么是 Web服务器 和 应用服务器。 Web服务器无论何种 Web 资源，想被远程计算机访问，都必须有一个与之对应的网络通信程序，当用户来访问时，这个网络通信程序读取 Web 资源数据，并把数据发送给来访者。  Web服务器就是一个网络通信程序，它用于完成底层网络通迅。具体来说，它将某个主机上的资源映射为一个URL供外界访问。 使用 Web服务器，Web 应用的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java Web（一）web容器和Servlet">
+<meta property="og:url" content="https://jerrysheh.me/post/d697e4e7.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="在聊 Servlet 之前，先讲讲什么是 Web服务器 和 应用服务器。 Web服务器无论何种 Web 资源，想被远程计算机访问，都必须有一个与之对应的网络通信程序，当用户来访问时，这个网络通信程序读取 Web 资源数据，并把数据发送给来访者。  Web服务器就是一个网络通信程序，它用于完成底层网络通迅。具体来说，它将某个主机上的资源映射为一个URL供外界访问。 使用 Web服务器，Web 应用的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-03-04T15:43:38.000Z">
+<meta property="article:modified_time" content="2019-10-08T14:50:31.079Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Java Web（一）web容器和Servlet" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-03-04T15:43:38.000Z">2018-03-04</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    22 分钟 读完 (大约 3269 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Java Web（一）web容器和Servlet
+            
+        </h1>
+        <div class="content">
+            <p>在聊 Servlet 之前，先讲讲什么是 Web服务器 和 应用服务器。</p>
+<h1 id="Web服务器"><a href="#Web服务器" class="headerlink" title="Web服务器"></a>Web服务器</h1><p>无论何种 Web 资源，想被远程计算机访问，都必须有一个与之对应的网络通信程序，当用户来访问时，这个网络通信程序读取 Web 资源数据，并把数据发送给来访者。</p>
+<p><img src="../../../../images/Webapp/webServer.png" alt=""></p>
+<p>Web服务器就是一个网络通信程序，它用于完成底层网络通迅。具体来说，它将某个主机上的资源映射为一个URL供外界访问。</p>
+<p>使用 Web服务器，Web 应用的开发者只需要关注 Web 资源怎么编写，而不需要关心资源如何发送到客户端手中，从而极大的减轻了开发者的开发工作量。</p>
+<hr>
+<h1 id="应用服务器-Tomcat"><a href="#应用服务器-Tomcat" class="headerlink" title="应用服务器 - Tomcat"></a>应用服务器 - Tomcat</h1><p>我们的 Web 应用要运行起来，是需要部署在应用服务器上而不是Web服务器。因为web服务器只负责资源映射，而程序业务逻辑需要另外的容器来处理。</p>
+<p>应用服务器一般装载着我们的后端应用程序，帮助我们接收请求、处理请求、响应请求。Tomcat 就是一种常见的应用服务器，但也具有web服务器的功能，所以直接访问也可以。</p>
+<p>通常，Tomcat 装载着我们的 Servlet 对象。那什么是 Servlet 呢？下文会讲到。</p>
+<blockquote>
+<p>在实际的生产环境中，由于负载均衡，cdn加速等原因，我们还是需要在应用服务器的前端再加一个web服务器来提高访问效率，常用的有 Nginx, Apache 这样的服务器。</p>
+</blockquote>
+<a id="more"></a>
+
+<hr>
+<h1 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h1><h2 id="Servlet-是什么"><a href="#Servlet-是什么" class="headerlink" title="Servlet 是什么"></a>Servlet 是什么</h2><p>简而言之，Servlet 就是一个接口，它规定了一个后端逻辑初始化的时候做什么、业务逻辑是什么、销毁的时候做什么。</p>
+<pre><code class="java">public interface Servlet {
+    void init(ServletConfig var1) throws ServletException;
+
+    ServletConfig getServletConfig();
+
+    void service(ServletRequest var1, ServletResponse var2) throws ServletException, IOException;
+
+    String getServletInfo();
+
+    void destroy();
+}</code></pre>
+<p>如果想开发一个Java程序向浏览器输出数据，需要完成以下2个步骤：</p>
+<ol>
+<li>编写一个Java类，实现servlet接口(然而现实情况是，servlet开发者已经帮我们实现了一个httpServlet的抽象类，我们只需继承httpServlet并重写doGet和doPost方法)。</li>
+<li>把开发好的Java类部署到web服务器(tomcat)中。</li>
+</ol>
+<p>按照一种约定俗成的称呼习惯，通常我们也把实现了Servlet接口的java程序，称之为Servlet。</p>
+<h2 id="Servlet的运行过程"><a href="#Servlet的运行过程" class="headerlink" title="Servlet的运行过程"></a>Servlet的运行过程</h2><p>Servlet程序由Web服务器调用，web服务器收到客户端的Servlet访问请求后：</p>
+<ol>
+<li>Web服务器首先检查是否已经装载并创建了该Servlet的实例对象。如果是，则直接执行第4步，否则，执行第2步</li>
+<li>装载并创建该Servlet的一个实例对象</li>
+<li>调用Servlet实例对象的init()方法</li>
+<li>创建一个用于封装HTTP请求消息的<code>HttpServletRequest对象</code>和一个代表HTTP响应消息的<code>HttpServletResponse对象</code>，然后调用Servlet的<code>service()</code>方法并将请求和响应对象作为参数传递进去。</li>
+<li>Web应用程序被停止或重新启动之前，Servlet引擎将卸载Servlet，并在卸载之前调用Servlet的<code>destroy()</code>方法。</li>
+</ol>
+<p>也就是说，web容器只有在首次访问时才创建Servlet，然后调用Servlet的<code>init()</code>方法。之后web容器创建请求（request）对象和响应（response）对象（响应对象此时为空），并将这两个对象作为参数，传入Servlet的<code>service()</code>方法。经<code>service()</code>方法处理后，将结果写入响应信息（此时响应对象已有内容）。最后，由web容器取出响应信息回送给浏览器。</p>
+<p>实际上，在执行<code>doGet()</code>或者<code>doPost()</code>之前，都会先执行<code>service()</code>，由<code>service()</code>方法进行判断，到底该调用<code>doGet()</code>还是<code>doPost()</code></p>
+<p><img src="../../../../images/Webapp/Servlet.png" alt="servlet"></p>
+<h1 id="Servlet与普通Java类的区别"><a href="#Servlet与普通Java类的区别" class="headerlink" title="Servlet与普通Java类的区别　"></a>Servlet与普通Java类的区别　</h1><p>Servlet是一个供其他Java程序（Servlet引擎）调用的Java类，它不能独立运行，它的运行完全由Servlet引擎来控制和调度。</p>
+<p>针对客户端的多次Servlet请求，通常情况下，<strong>服务器只会创建一个Servlet实例对象</strong>，也就是说Servlet实例对象一旦创建，它就会驻留在内存中，为后续的其它请求服务，直至web容器退出，servlet实例对象才会销毁。</p>
+<p>在Servlet的整个生命周期内，Servlet的 <strong>init方法只被调用一次</strong>。而对一个Servlet的每次访问请求都导致Servlet引擎调用一次servlet的service方法。对于每次访问请求，Servlet引擎都会创建一个新的<code>HttpServletRequest</code>请求对象和一个新的<code>HttpServletResponse</code>响应对象，然后将这两个对象作为参数传递给它调用的Servlet的·方法，service方法再根据请求方式分别调用doXXX方法。</p>
+<p>如果在<code>&lt;servlet&gt;</code>元素中配置了一个<code>&lt;load-on-startup&gt;</code>元素，那么 Web 应用程序在启动时，就会装载并创建Servlet的实例对象、以及调用Servlet实例对象的<code>init()</code>方法。</p>
+<hr>
+<h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="新建IDEA工程"><a href="#新建IDEA工程" class="headerlink" title="新建IDEA工程"></a>新建IDEA工程</h3><ol>
+<li>新建一个IDEA Maven工程</li>
+<li>在 pom.xml 添加 servlet-api 依赖 （依赖到 <a href="http://mvnrepository.com/artifact/javax.servlet/javax.servlet-api/4.0.0">mvnrepository</a> 找）</li>
+<li>右键工程名字，Add Framework Support，选择 Web<br>Application</li>
+<li>Edit Configurations，配置 Tomcat 服务器</li>
+<li>Deployment 选择 Artifacts</li>
+</ol>
+<p>遇到问题可参考：</p>
+<ul>
+<li><a href="https://www.cnblogs.com/Wenlawliety/p/6606614.html">IntelliJ IDEA 构建maven，并用Maven创建一个web项目</a></li>
+<li><a href="http://blog.csdn.net/xwx617/article/details/79269939">IntelliJ idea 2017创建Web项目后web文件夹下没有WEB-INF的解决方法</a></li>
+</ul>
+<h2 id="后端：GET"><a href="#后端：GET" class="headerlink" title="后端：GET"></a>后端：GET</h2><p>src/main/java 下，new 一个 servlet</p>
+<p>helloServlet.java</p>
+<pre><code class="java">import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+@WebServlet(&quot;/hello&quot;)
+public class helloServlet extends HttpServlet {
+    private String message;
+
+    public void init() throws ServletException{
+        message = &quot;hello world!!&quot;;
+    }
+
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        // 设置响应内容类型
+        response.setContentType(&quot;text/html&quot;);
+
+        // 实际的逻辑是在这里
+        PrintWriter out = response.getWriter();
+        out.println(&quot;&lt;h1&gt;&quot; + message + &quot;&lt;/h1&gt;&quot;);
+    }
+}</code></pre>
+<p>访问 <code>localhost:8080/hello</code>，能看到 hello world!!</p>
+<ul>
+<li><code>@WebServlet(&quot;/hello&quot;)</code>是一个注解，我们用这种方式来表示该 Servlet 的路径是 ./hello 。更原始的，我们可以在项目工程下找到 web.xml 文件，在这里面配置映射路径。（参考：<a href="http://how2j.cn/k/idea/idea-web-project/1352.html">WEB PROJECT</a>）</li>
+</ul>
+<h2 id="后端：POST"><a href="#后端：POST" class="headerlink" title="后端：POST"></a>后端：POST</h2><p>src/main/java 下，new 一个 servlet</p>
+<p>postServlet.java</p>
+<pre><code class="java">@WebServlet(&quot;/login&quot;)
+public class postServlet extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding(&quot;UTF-8&quot;);  // 解决中文问题
+        String name = request.getParameter(&quot;name&quot;);
+        String password = request.getParameter(&quot;password&quot;);
+
+        String html = null;
+
+        if (&quot;admin&quot;.equals(name) &amp;&amp; &quot;123456&quot;.equals(password))
+            html = &quot;&lt;div style=&#39;color:green&#39;&gt;success&lt;/div&gt;&quot;;
+        else
+            html = &quot;&lt;div style=&#39;color:red&#39;&gt;fail&lt;/div&gt;&quot;;
+
+        response.setContentType(&quot;text/html; charset=UTF-8&quot;);// 解决中文问题    
+        PrintWriter pw = response.getWriter();
+        pw.println(html);
+    }
+}</code></pre>
+<ul>
+<li>使用<code>request.setCharacterEncoding(&quot;UTF-8&quot;);</code>和<code>response.setContentType(&quot;text/html; charset=UTF-8&quot;);</code>解决中文问题</li>
+<li><code>&quot;字面量&quot;.equals(str)</code>是个好习惯</li>
+<li>用<code>PrintWriter</code>类来写html</li>
+</ul>
+<h2 id="前端：HTML"><a href="#前端：HTML" class="headerlink" title="前端：HTML"></a>前端：HTML</h2><p>web目录下，new 一个 login.html</p>
+<p>login.html</p>
+<pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;请登录&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div align=&quot;center&quot;&gt;
+        &lt;h1&gt;请登录&lt;/h1&gt;
+            &lt;form action=&quot;login&quot; method=&quot;post&quot;&gt;
+                账号：&lt;input type=&quot;text&quot;, name=&quot;name&quot;&gt; &lt;br&gt;
+                密码：&lt;input type=&quot;password&quot;, name=&quot;password&quot;&gt; &lt;br&gt;
+                &lt;input type=&quot;submit&quot;, value=&quot;登录&quot;&gt;
+                &lt;input type=&quot;reset&quot;, value=&quot;重置&quot;&gt;
+            &lt;/form&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<ul>
+<li><code>&lt;meta charset=&quot;UTF-8&quot;&gt;</code>解决中文问题</li>
+<li><code>action</code>属性表示要提交的服务器页面地址为 ./login</li>
+<li><code>method</code>属性表示HTTP方法（get or post）</li>
+</ul>
+<p>参考：<a href="../post/65acdb59.html">Head First HTML</a></p>
+<p>访问 <code>localhost:8080/login.html</code>，能看到登录表单</p>
+<p>输入admin，123456，可以看到网页跳转到 success</p>
+<p><img src="../../../../images/Webapp/login.png" alt="login"></p>
+<h2 id="跳转"><a href="#跳转" class="headerlink" title="跳转"></a>跳转</h2><p>登录成功或是失败后，分别会跳转到不同的页面。 跳转分为<code>服务端跳转</code>和<code>客户端跳转</code>。</p>
+<h3 id="服务端跳转-forward"><a href="#服务端跳转-forward" class="headerlink" title="服务端跳转(forward)"></a>服务端跳转(forward)</h3><p>forward 是服务器请求资源,服务器直接访问目标地址的URL,把那个URL的响应内容读取过来,然后把这些内容再发给浏览器.浏览器根本不知道服务器发送的内容从哪里来的,所以它的地址栏还是原来的地址。<font color="red"> 因此，用户看到的网址没有变化 </font>。 在这个过程中，控制权并没有转交给另一服务器对象。</p>
+<pre><code class="java">request.getRequestDispatcher(&quot;success.html&quot;).forward(request, response);</code></pre>
+<h3 id="客户端跳转-redirect"><a href="#客户端跳转-redirect" class="headerlink" title="客户端跳转(redirect)"></a>客户端跳转(redirect)</h3><p>redirect是服务端根据逻辑,发送一个状态码,告诉浏览器重新去请求那个地址.所以地址栏显示的是新的URL.</p>
+<pre><code class="java">response.sendRedirect(&quot;fail.html&quot;);</code></pre>
+<ul>
+<li>用户看到的网址变为 127.0.0.1:8080/fail.html</li>
+</ul>
+<h2 id="Web-xml"><a href="#Web-xml" class="headerlink" title="Web.xml"></a>Web.xml</h2><p>在项目中有一个 Web.xml 文件，这个文件是一些配置参数。</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;web-app xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns=&quot;http://xmlns.jcp.org/xml/ns/javaee&quot; xsi:schemaLocation=&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd&quot; id=&quot;WebApp_ID&quot; version=&quot;3.1&quot;&gt;
+  &lt;display-name&gt;JspDemo&lt;/display-name&gt;
+  &lt;welcome-file-list&gt;
+    &lt;welcome-file&gt;login.jsp&lt;/welcome-file&gt;
+  &lt;/welcome-file-list&gt;
+  &lt;context-param&gt;  
+    &lt;param-name&gt;database_driver&lt;/param-name&gt;  
+    &lt;param-value&gt;com.mysql.jdbc.Driver&lt;/param-value&gt;
+  &lt;/context-param&gt;
+  &lt;context-param&gt;  
+    &lt;param-name&gt;database_url&lt;/param-name&gt;  
+    &lt;param-value&gt;jdbc:mysql://localhost:3306/sms?serverTimezone=GMT%2B8&amp;amp;characterEncoding=UTF-8&lt;/param-value&gt;
+  &lt;/context-param&gt;
+  &lt;context-param&gt;  
+    &lt;param-name&gt;database_user&lt;/param-name&gt;  
+    &lt;param-value&gt;root&lt;/param-value&gt;
+  &lt;/context-param&gt;
+  &lt;context-param&gt;  
+    &lt;param-name&gt;database_pwd&lt;/param-name&gt;  
+    &lt;param-value&gt;123456&lt;/param-value&gt;
+  &lt;/context-param&gt;
+&lt;/web-app&gt;</code></pre>
+<p>然后我们可以在 Java 中取出这些参数</p>
+<pre><code class="java">this.driver = request.getSession().getServletContext().getInitParameter(&quot;database_driver&quot;);
+this.url = request.getSession().getServletContext().getInitParameter(&quot;database_url&quot;);
+this.user = request.getSession().getServletContext().getInitParameter(&quot;database_user&quot;);
+this.pwd = request.getSession().getServletContext().getInitParameter(&quot;database_pwd&quot;);</code></pre>
+<hr>
+<h1 id="Request常用方法"><a href="#Request常用方法" class="headerlink" title="Request常用方法"></a>Request常用方法</h1><p>获取信息</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>释义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>request.getRequestURL()</td>
+<td>浏览器发出请求时的完整URL，包括协议 主机名 端口(如果有)”</td>
+</tr>
+<tr>
+<td>request.getRequestURI()</td>
+<td>浏览器发出请求的资源名部分，去掉了协议和主机名”</td>
+</tr>
+<tr>
+<td>request.getQueryString()</td>
+<td>请求行中的参数部分，只能显示以get方式发出的参数，post方式的看不到</td>
+</tr>
+<tr>
+<td>request.getRemoteAddr()</td>
+<td>浏览器所处于的客户机的IP地址</td>
+</tr>
+<tr>
+<td>request.getRemoteHost()</td>
+<td>浏览器所处于的客户机的主机名</td>
+</tr>
+<tr>
+<td>request.getRemotePort()</td>
+<td>浏览器所处于的客户机使用的网络端口</td>
+</tr>
+<tr>
+<td>request.getLocalAddr()</td>
+<td>服务器的IP地址</td>
+</tr>
+<tr>
+<td>request.getLocalName()</td>
+<td>服务器的主机名</td>
+</tr>
+<tr>
+<td>request.getMethod()</td>
+<td>得到客户机请求方式，一般是GET或者POST</td>
+</tr>
+<tr>
+<td>request.getHeader()</td>
+<td>获取头信息</td>
+</tr>
+<tr>
+<td>request.getHeaderNames()</td>
+<td>获取所有头信息</td>
+</tr>
+</tbody></table>
+<p>获取参数</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>释义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>request.getParameter()</td>
+<td>是常见的方法，用于获取单值的参数</td>
+</tr>
+<tr>
+<td>request.getParameterValues()</td>
+<td>用于获取具有多值得参数，比如注册的时候提交的爱好，可以使多选的。</td>
+</tr>
+<tr>
+<td>request.getParameterMap()</td>
+<td>用于遍历所有的参数，并返回Map类型。</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="respoonse-常用方法"><a href="#respoonse-常用方法" class="headerlink" title="respoonse 常用方法"></a>respoonse 常用方法</h1><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>释义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>response.setContentType(“text/html”);</td>
+<td>设置相应格式</td>
+</tr>
+<tr>
+<td>response.setContentType(“text/html; charset=UTF-8”);</td>
+<td>设置编码格式，服务器端使用 UTF-8 编码，同时通知浏览器使用UTF-8</td>
+</tr>
+<tr>
+<td>response.setCharacterEncoding(“UTF-8”);</td>
+<td>仅仅是服务器端设置UTF-8，浏览器编码由浏览器自己决定</td>
+</tr>
+<tr>
+<td>response.sendRedirect(“fail.html”);</td>
+<td>302 客户端跳转</td>
+</tr>
+</tbody></table>
+<p>可以用以下方法设置不使用缓存</p>
+<pre><code class="java">response.setDateHeader(&quot;Expires&quot;,0 );
+response.setHeader(&quot;Cache-Control&quot;,&quot;no-cache&quot;);
+response.setHeader(&quot;pragma&quot;,&quot;no-cache&quot;);</code></pre>
+<hr>
+<h1 id="Servlet的线程安全问题"><a href="#Servlet的线程安全问题" class="headerlink" title="Servlet的线程安全问题"></a>Servlet的线程安全问题</h1><p>当多个客户端并发访问同一个Servlet时，web服务器会为每一个客户端的访问请求创建一个线程，并在这个线程上调用Servlet的service方法，因此service方法内如果访问了同一个资源的话，就有可能引发线程安全问题。</p>
+<p>线程安全问题只存在多个线程并发操作同一个资源的情况下，所以在编写Servlet的时候，如果并发访问某一个资源(变量，集合等)，就会存在线程安全问题。</p>
+<p>解决方案：让Servlet去实现一个<code>SingleThreadModel</code>接口，如果某个Servlet实现了<code>SingleThreadModel</code>标记接口，那么Servlet引擎将以单线程模式来调用其service方法。</p>
+<p>对于实现了<code>SingleThreadModel</code>接口的Servlet，Servlet引擎仍然支持对该Servlet的多线程并发访问，其采用的方式是产生多个Servlet实例对象，并发的每个线程分别调用一个独立的Servlet实例对象。</p>
+<p>实现SingleThreadModel接口并不能真正解决Servlet的线程安全问题，因为Servlet引擎会创建多个Servlet实例对象，而真正意义上解决多线程安全问题是指一个Servlet实例对象被多个线程同时调用的问题。</p>
+<p>事实上，在Servlet API 2.4中，已经将<code>SingleThreadModel</code>标记为Deprecated（过时的）。  </p>
+<h2 id="标记接口"><a href="#标记接口" class="headerlink" title="标记接口"></a>标记接口</h2><p>在Java中，把没有定义任何方法和常量的接口称之为标记接口，经常看到的一个最典型的标记接口就是”Serializable”，这个接口也是没有定义任何方法和常量的，标记接口在Java中有什么用呢？主要作用就是给某个对象打上一个标志，告诉JVM，这个对象可以做什么，比如实现了”Serializable”接口的类的对象就可以被序列化，还有一个”Cloneable”接口，这个也是一个标记接口，在默认情况下，Java中的对象是不允许被克隆的，就像现实生活中的人一样，不允许克隆，但是只要实现了”Cloneable”接口，那么对象就可以被克隆了。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Java/" rel="tag">Java</a>, <a class="has-link-grey -link" href="/tags/Web/" rel="tag">Web</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/75b0adbf.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Linux内核模块编程 HelloWorld</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/dce17740.html">
+                <span class="level-item">《挪威的森林》摘录</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#Web服务器">
+        <span class="has-mr-6">1</span>
+        <span>Web服务器</span>
+        </a></li><li>
+        <a class="is-flex" href="#应用服务器-Tomcat">
+        <span class="has-mr-6">2</span>
+        <span>应用服务器 - Tomcat</span>
+        </a></li><li>
+        <a class="is-flex" href="#Servlet">
+        <span class="has-mr-6">3</span>
+        <span>Servlet</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Servlet-是什么">
+        <span class="has-mr-6">3.1</span>
+        <span>Servlet 是什么</span>
+        </a></li><li>
+        <a class="is-flex" href="#Servlet的运行过程">
+        <span class="has-mr-6">3.2</span>
+        <span>Servlet的运行过程</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Servlet与普通Java类的区别">
+        <span class="has-mr-6">4</span>
+        <span>Servlet与普通Java类的区别　</span>
+        </a></li><li>
+        <a class="is-flex" href="#实战">
+        <span class="has-mr-6">5</span>
+        <span>实战</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#配置">
+        <span class="has-mr-6">5.1</span>
+        <span>配置</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#新建IDEA工程">
+        <span class="has-mr-6">5.1.1</span>
+        <span>新建IDEA工程</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#后端：GET">
+        <span class="has-mr-6">5.2</span>
+        <span>后端：GET</span>
+        </a></li><li>
+        <a class="is-flex" href="#后端：POST">
+        <span class="has-mr-6">5.3</span>
+        <span>后端：POST</span>
+        </a></li><li>
+        <a class="is-flex" href="#前端：HTML">
+        <span class="has-mr-6">5.4</span>
+        <span>前端：HTML</span>
+        </a></li><li>
+        <a class="is-flex" href="#跳转">
+        <span class="has-mr-6">5.5</span>
+        <span>跳转</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#服务端跳转-forward">
+        <span class="has-mr-6">5.5.1</span>
+        <span>服务端跳转(forward)</span>
+        </a></li><li>
+        <a class="is-flex" href="#客户端跳转-redirect">
+        <span class="has-mr-6">5.5.2</span>
+        <span>客户端跳转(redirect)</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Web-xml">
+        <span class="has-mr-6">5.6</span>
+        <span>Web.xml</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Request常用方法">
+        <span class="has-mr-6">6</span>
+        <span>Request常用方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#respoonse-常用方法">
+        <span class="has-mr-6">7</span>
+        <span>respoonse 常用方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#Servlet的线程安全问题">
+        <span class="has-mr-6">8</span>
+        <span>Servlet的线程安全问题</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#标记接口">
+        <span class="has-mr-6">8.1</span>
+        <span>标记接口</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Java Web（一）web容器和Servlet" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

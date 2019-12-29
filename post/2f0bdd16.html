@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>如何从零开始造一台计算机 - J.e</title>
+
+
+    <meta name="description" content="加法计算是计算机唯一要做的工作。  最近在读 Charles Petzold 的《编码——隐匿在计算机软硬件背后的语言》，英文书名是《Code：The Hidden Language of Computer Hardware and Software》。作者的文笔可谓是轻松风趣，第一页那句“众所周知，手电筒是为了让孩子们能够躲在被子下看书而发明的”就让我产生极大兴趣。读来发觉这本书实际上就是从最">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何从零开始造一台计算机">
+<meta property="og:url" content="https://jerrysheh.me/post/2f0bdd16.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="加法计算是计算机唯一要做的工作。  最近在读 Charles Petzold 的《编码——隐匿在计算机软硬件背后的语言》，英文书名是《Code：The Hidden Language of Computer Hardware and Software》。作者的文笔可谓是轻松风趣，第一页那句“众所周知，手电筒是为了让孩子们能够躲在被子下看书而发明的”就让我产生极大兴趣。读来发觉这本书实际上就是从最">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-12-06T10:46:28.000Z">
+<meta property="article:modified_time" content="2019-09-22T14:12:50.519Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="如何从零开始造一台计算机" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-12-06T10:46:28.000Z">2018-12-06</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    1 小时 读完 (大约 6785 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                如何从零开始造一台计算机
+            
+        </h1>
+        <div class="content">
+            <blockquote>
+<p>加法计算是计算机唯一要做的工作。</p>
+</blockquote>
+<p>最近在读 Charles Petzold 的《编码——隐匿在计算机软硬件背后的语言》，英文书名是《Code：The Hidden Language of Computer Hardware and Software》。作者的文笔可谓是轻松风趣，第一页那句“众所周知，手电筒是为了让孩子们能够躲在被子下看书而发明的”就让我产生极大兴趣。读来发觉这本书实际上就是从最基本的电学开始讲起，一步步地揭开一台原始的计算机是如何诞生的这一神秘面纱。同时这本书也帮助我补充了不少数字电路和组成原理的知识，也算是补补基础了。下面是一些笔记。</p>
+<p><img src="../../../../images/code_book.jpg" alt="code_book"></p>
+<h1 id="编码与组合"><a href="#编码与组合" class="headerlink" title="编码与组合"></a>编码与组合</h1><p>《美国传统英语词典》对编码的其中一个定义是：由被赋予了一定主观意义（arbitrary meanings）的符号、字母以及单词所组成的系统，可用于传输需要 <strong>保密或简短</strong> 的信息。<strong>本质上，编码就是交流。从计算机的角度看，编码是一种人与机器传递信息的方式</strong>。莫尔斯电码就是一种经典的编码，用点（dot）和划（dash）的组合来对应不同的字母。例如，求救信号SOS就是一个易于记忆的莫尔斯电码（··· — ···）。</p>
+<p><strong>事实上，两个不同的事物，只要经过适当的组合，就可以表示所有类型的信息</strong>。而组合的长度，就决定了码字的数目。例如，长度为 1 的组合只能表示 2 种码字（单个点或者单个划），长度为 2 的组合能表示 4 种码字（点点、点划、划点、划划）。实践中我们发现，点和划的数目跟码字的数目的函数关系为 2 的幂次方，如下表：</p>
+<table>
+<thead>
+<tr>
+<th>点和划的数目</th>
+<th>码字的数目</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>4 (2^2)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>8 (2^3)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>16 (2^4)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>32 (2^5)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>64(2^6)</td>
+</tr>
+<tr>
+<td>n</td>
+<td>2^n</td>
+</tr>
+</tbody></table>
+<a id="more"></a>
+
+<h1 id="优先码"><a href="#优先码" class="headerlink" title="优先码"></a>优先码</h1><p>路易斯·布莱叶（Louis<br> Braille）是19世纪法国的一个盲人，他改良的盲文实际上是一种6位的二进制码（6个点），从上表可以知道，6个点可以有64种可能的编排方式。布莱叶盲文中有很大一部分码字会根据上下文的不同有着双重身份，例如，某一个位置的点点上了，就代表数字标识状态，不点上，就切换回字母。这跟我们键盘的 Caps Lock 键很像，按下 Caps Lock 键，输入的就是大写字母，否则是小写。<strong>像这样的编码通常称作优先码(precedence codes) 或 换挡码（shift codes）</strong>。</p>
+<h1 id="进制"><a href="#进制" class="headerlink" title="进制"></a>进制</h1><p>在我们熟悉的十进制中，数字3572表示2个1 + 7个10 + 5个100 + 3个1000。而在八进制中数字3572表示2个1 + 7个8 + 5个64 + 3个512 。<strong>百位是个位和十位的乘的结果</strong>。在二进制中，位数从右到左，依次为1的个数，2的个数，4的个数，8的个数……例如，1101表示1个1 + 0个2 + 1个4 + 1个8，结果为十进制的13。之所以在计算机中要用二进制，是从电报机或者灯泡中得到的启示——开/关即可传递信息，再用它们的组合来编码。</p>
+<h1 id="电报机和继电器"><a href="#电报机和继电器" class="headerlink" title="电报机和继电器"></a>电报机和继电器</h1><p>在线路的一端采取一些措施，使线路的另一端发生某种变化，能够实现这种功能的机器就是一个简易的电报机。电磁铁是电报机的基础，在一根铁棒上面用细导线绕几百圈，然后给导线通电，这根铁棒就成了电磁铁。用一个开关和电池来给导线通电，导线一直铺设到远处，一旦通电，远处的铁棒就有了磁性，磁力把旁边的活动横杠拉动，发出“滴”的声音。这样的设备，就是一个电报机。</p>
+<p>我们知道，导体越长，电阻越大。如果电报机两端的距离很远，电阻很大以至于电池不足以提供足够的电流。这时候就要用到继电器了，继电器用传进来的电流去驱动电磁铁，拉动金属杠，<strong>金属杠又作为一个新的开关，连接了新的电池和导线</strong>，传递到另一个远处。这样，我们就可以用多个继电器来延长电报机的传输距离。</p>
+<p><img src="../../../../images/books/code_jdq.png" alt="code_jdq"></p>
+<p><strong>继电器就是这样一种用于放大微弱信号来生成强信号的机器。继电器是需要供电的</strong>。</p>
+<h1 id="布尔代数和逻辑表达式"><a href="#布尔代数和逻辑表达式" class="headerlink" title="布尔代数和逻辑表达式"></a>布尔代数和逻辑表达式</h1><p>布尔代数是19世纪英格兰数学家乔治·布尔提出的数学理论。传统的代数，操作数代表数字，算子(+、-、×、÷)表示如何运算，而在布尔代数的世界里，操作数是类（class），一个类就是一个事物的群体，也被称为集（set）。“+”表示并集（∪），“×”表示交集（∩）。如果用F表示雌猫，用W表示白猫，那么 F×W 表示白色的雌猫。为了方便，我们用大写英文 OR 来代替“+”，用 AND 代替“×”，用 NOT 代替 “1-”（从全集中去掉某些元素）。</p>
+<p>如果我们用F表示雌猫，M表示雄猫，W表示白猫，B表示黑猫。现在我们想得到白色的雌猫，在备选项F、M、W、B的一些表达式中，F和W可以用 1 表示，而其他选项为 0 。这种表示大大简化了表达式。</p>
+<p>有了布尔代数和逻辑表达式及其简化表示之后，我们就可以用灯泡、导线、开关来制造我们的AND、OR、NOT计算器了。这其实就是计算机的原型。</p>
+<h1 id="逻辑门"><a href="#逻辑门" class="headerlink" title="逻辑门"></a>逻辑门</h1><p>我们可以给由灯泡、导线、开关组成的电路加多几个支路和开关，以实现更加复杂的功能。比如，闭合两个开关灯泡才会亮的 AND 逻辑电路，闭合两个中的任意一个开关灯泡就会亮的 OR 逻辑电路，以及不闭合开关灯泡才会亮的 NOT 电路。</p>
+<p>但是要实现更加复杂的功能，就得用到继电器了。继电器可以作为一个电流控制而非人工控制的开关，我们用不同的接法连接继电器，最终就能实现不同的效果。比如我们串联两个继电器，继电器A的电源开关打开，继电器B的电源开关也打开，然后在起始段通电，这样，电流从起始端到继电器A，再到继电器B，最后到灯泡，导致灯泡亮。而灯泡亮的必要条件是继电器A和继电器B的开关都打开，实际上这就是一个 AND 逻辑电路。</p>
+<p>同样，我们可以换一种接法，实现 OR 或 NOT 逻辑电路。再把简单逻辑电路组合成复杂逻辑电路，实现各种各样的功能。</p>
+<p>在数字电路中，有与门、或门、与非门、或非门四种逻辑门和反向器（NOT）。</p>
+<h1 id="二进制加法器"><a href="#二进制加法器" class="headerlink" title="二进制加法器"></a>二进制加法器</h1><p><strong>如果想搭建一台计算机，首先要造出可以计算两数之和的器件。事实上，加法计算是计算机唯一要做的工作。只要我们实现了加法，就可以用加法来实现减法、乘法、除法等等</strong>。</p>
+<p>二进制数相加，当遇到1+1=10时，结果10的1表示进位位，10的0表示加法位。我们可以用与门来实现进位位的表示。将一个与非门和一个或门连接到共同的输入，再加一个与门，就可以用来实现加法位的表示，这种接法叫做异或门 XOR（奇数个1位1，偶数个1为0）。</p>
+<p>现在，与门的结果表示进位位，异或门的结果表示加法位，我们将这两个逻辑门接入共同的输入。这就是一个半加器（Half Adder）。半加器的缺陷是，只能实现1位的二进制数相加，多于1位进位位并不会向左累积。</p>
+<p>事实上，二进制数相加，是三个位的相加，输入A、输入B和进位输入。用两个半加器和一个或门就能实现，这种组合称为全加器（Full Adder）。把8个全加器串联起来，就能实现8位二进制数的加法了。最低有效位的一对数字相加所得出的进位输出，作为下一对数字的进位位，以此类推。</p>
+<p>回归本质，全加器-&gt;半加器-&gt;逻辑门-&gt;继电器，这一切只不过是许多继电器的组合而已！尽管现在的计算机已经用晶体管代替继电器，但原理都是一样的。</p>
+<h1 id="如何实现减法"><a href="#如何实现减法" class="headerlink" title="如何实现减法"></a>如何实现减法</h1><p>在十进制中，<code>999-176=823</code>，我们把 <code>823</code> 叫做 <code>176</code> 的补数，计算对9的补数不需要借位。但如果是 <code>253-176=77</code> 呢？个位 3-6 需要向十位借位，不方便机器计算，为了消灭借位，我们可以把上式改为 <code>253 + (999 - 176) + 1 - 1000</code>。但如果是 <code>176-253=-77</code>呢？改造后的式子<code>176 + (999-256) = 922</code>,<code>922-999</code>依然需要借位，但是我们有一个技巧，因为我们已经知道结果为负，直接把被减数和减数调换，<code>999-922=77</code>，再取负，得<code>-77</code>。简而言之，就是被减数与减数的补数之和，跟999相减。这种方法在二进制中非常好用，因为 <strong>在二进制中，求对1补数只需要将0变成1，将1变成0即可</strong>。</p>
+<p>在二进制中，有没有什么办法来表示负数呢？假如我们有一张银行卡，银行允许你透支500元，账户最多储存不超过500元，那涉及的数字是从-500到+499，在三位十进制中，我们的数字是从000-999，000-499的部分用来表示余额，那透支-500到-1部分，为什么不可以用正数来表示呢？也就是，用500表示-500，用501表示-499…用998表示-2，用999表示-1。这就构成了一个循环。</p>
+<p>在二进制中，对2的补数表示如下：</p>
+<table>
+<thead>
+<tr>
+<th>二进制</th>
+<th>十进制</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1000 0000</td>
+<td>-128</td>
+</tr>
+<tr>
+<td>1000 0001</td>
+<td>-127</td>
+</tr>
+<tr>
+<td>1000 0010</td>
+<td>-126</td>
+</tr>
+<tr>
+<td>1000 0011</td>
+<td>-125</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>1111 1101</td>
+<td>-3</td>
+</tr>
+<tr>
+<td>1111 1110</td>
+<td>-2</td>
+</tr>
+<tr>
+<td>1111 1111</td>
+<td>-1</td>
+</tr>
+<tr>
+<td>0000 0000</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0000 0001</td>
+<td>1</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>0111 1110</td>
+<td>126</td>
+</tr>
+<tr>
+<td>0111 1111</td>
+<td>127</td>
+</tr>
+</tbody></table>
+<p>可以发现，最高位实际上就是符号位（sign bit），1表示负数，0表示正数。计算对2的补数，先计算对1的补数，再加1。这就是我们熟悉的<font color="red">逐位取反再加一</font>。</p>
+<p>所以，计算<code>124-127=-3</code>，实际上只需要将-127和124等价的两个二进制数相加。-127用补码表示为10000001，124用补码表示为01111100，相加得11111101，对应上表就是-3。</p>
+<p><strong>补码的本质，就是用 0 - 255 来表示-128 - 127。</strong></p>
+<p>n 位加法器本身又可以当一个黑箱来使用：它有两个 n 位输入，一个进位输入，一个进位输出以及一个 n 位输出（加法运算的结果）。利用 2 的补码，减法很容易就可以实现，只需要一个由非门构成的求补器和一个表明符号的输入端。</p>
+<h1 id="如何计数"><a href="#如何计数" class="headerlink" title="如何计数"></a>如何计数</h1><p><img src="../../../../images/books/osc.png" alt="osc"></p>
+<p>用如上图所示的方法连接电磁铁和导线，可以发现，当开关闭合，电磁铁磁力把横杠向下拉，由于横杠断开，电路断开，电磁铁失去磁力，横杠又复原，随着横杠的复原，电路又被接通了，电磁铁又有了磁力把横杠向下拉……<strong>像这样，会不断以恒定的频率在连通、开路之间变化的电路称为振荡器（oscillator），又称为时钟（clock），通过振荡器计数也是一种记时方式</strong>。</p>
+<p>用两个或非门可以组装一种特殊的电路，接通开关A，灯泡亮，断开A灯泡依然亮着，此时接通开关B灯泡被熄灭，断开B灯泡依然熄灭。当两个开关都断开时，电路有两个稳定态，这类电路统称为触发器（Flip-Flop）。<strong>触发器的最大特定是它可以保持信息！它可以让电路“记住”之前发生了什么事情</strong>。</p>
+<p>最简单的触发器是R-S触发器（Reset-Set，复位/置为），用Q表示输出状态，置位就是把Q设为1，复位就是把Q设为0。除了R-S触发器之外，还有一种D触发器，D表示data（数据端输入），除了数据端输入之外还有一个保持位，保持位为1输出就是数据位输入值，保持位为0输出不再随着数据位变化而变化。<strong>跟这种触发器相同的电路就是所谓的电平触发D型锁存器，它表示电路锁存住一位数据并保持它，以便将来使用。也称为1位存储器</strong>。可以把8个1位锁存器的时钟输入端（保持位）连在一起，构成8位锁存器。加法器计算的结果，可以存放在锁存器里面。</p>
+<p>还有一种触发器，只有当电平从0变化到1的瞬间数据端的输入才会影响输出。这种触发器叫边沿触发器（edge-triggered）。我们可以用振荡器作为时钟端的的输入，这样时钟端就不断地在0、1之间切换，从而在规律的时间里影响输出，从而实现计数功能。</p>
+<p><strong>将一个振荡器与边沿触发的触发器连到一起，输出结果与振荡器类似，但是频率减半，这是一个分频器</strong>。分频器可以继续连接下去，得到时钟频率四分之一、八分之一……的信号。通过控制计数频率，我们就得到了计数器。</p>
+<h1 id="字节与十六进制"><a href="#字节与十六进制" class="headerlink" title="字节与十六进制"></a>字节与十六进制</h1><p>在构造加法器、锁存器等组件时，为什么总喜欢用8位比特流而不是6位、7位或10位呢？其实没有什么特别的原因，只是因为使用8位时，一切工作都显得特别的方便。最早在1956年IBM公司就提出用一个字节（byte）表示8位比特（bit）。一个字节的取值范围从<code>0000 0000</code> 到 <code>1111 1111</code>，代表2^8，即 256 种不同的事物。世界上大部分书面语言的字符都少于 256 个，因此 1 个字节就足以保存不同的文本符号（例如ASCII码）。当然中文、日文等象形文字远远超过256个，然而世界上没有什么是 1 个字节解决不了的，如果有，那就 2 个。所以，2 个字节可以表示 65536 个不同的事物，足以覆盖绝大多数的汉字。</p>
+<p>一个8位二进制数，比如<code>10110110</code>，这种表达方式虽然足够直观和自然，但是不够简洁。用十进制表示要经过一系列换算显然更不方便。八进制（最大值为111）3位一组，不太适合。十六进制（最大值1111）正好是两个<code>半字节</code>。1011是十六进制的B，0110是十六进制的6，用<code>B6h</code>表示<code>10110110</code>即直观又方便。</p>
+<h1 id="存储器"><a href="#存储器" class="headerlink" title="存储器"></a>存储器</h1><p>由一个反向器、两个与门、两个或非门构成的D型电平触发器，本质上也是一个1位锁存器。保持位（时钟输入）在这里叫做写操作端，写操作端置为1（之后再置为0），<strong>数据输入的结果会被写入到输出端中，这个过程我们叫做存储（stored）</strong>。把8个1位锁存器组织成8位锁存器，就可以存储8位二进制数。</p>
+<p>然而，假如我们只有一个灯泡可以鉴别输出，对于8位二进制数我们要把灯泡依次连接在8位锁存器的每一个锁存器上面，才能知道每一位的输出是0还是1，这有点麻烦。我们不妨直接在输出端用一个灯泡，再在电路中用3个开关来表示 0 到 7 这 八个数（000-111），通过打开关来鉴别每一位的输出，例如，开关（选择端）为101的时候，输出D5锁存器的值，为001的时候，输出D1锁存器的值。<strong>这种用开关来选择应该输出哪个锁存器的值的装置叫做8-1选择器</strong>。</p>
+<p>还有一个问题，8个1位锁存器连接，数据输入端可以连在一起，但是写操作端却不可以，因为我们很可能要向每个锁存器依次写入数据。我们还是可以用3个开关，来表示我们要把哪个锁存器的写端置1，比如，开关为101的时候，将D5锁存器的写操作端置1，D5的数据端就会写入到输出端。<strong>这种装置跟选择器功能类似，作用相反，叫做3-8译码器</strong>。</p>
+<p>现在，我们有一个3-8译码器、1个8位锁存器（由8个1位锁存器组成）、1个8-1选择器组装起来的家伙。选择器利用 n 位信号（地址）选择总共 2^n 位的锁存器（数据）中哪一位被访问，<strong>这样的装置叫做随机访问存储器（Random Access Memory，RAM），或者叫读/写存储器（read/write memory）</strong>。之所以叫做随机访问存储器，是因为读写操作很自由，我们只需要改变地址及相关的输入，就可以从8个锁存器中读出或写入需要的数据。</p>
+<p>RAM通过特殊的配置可形成RAM阵列（Array）。2个RAM共享写操作端和开关（也叫地址），就形成8×2的RAM阵列，表示可存储的二进制数依然是8个，但位宽位2位。或者，在RAM的输入加多1-2译码器，输出加多一个2-1选择器，变成16×1的RAM阵列，表示存储容量为16。</p>
+<p>这样，我们就可以构造任意大小的RAM阵列了。注意，我们现在所构造的RAM，本质上里面都是一个个由电磁铁组成的逻辑门组件，如果断电，这些电磁铁都会失去磁性，然后金属片弹回原位，所有继电器都还原到未触发状态，RAM中存储的数据都会丢失，<strong>因此随机访问存储器（RAM）也叫做易失性（volatile）存储器，一旦断电数据就会丢失</strong>。</p>
+<h1 id="自动操作"><a href="#自动操作" class="headerlink" title="自动操作"></a>自动操作</h1><p>用8位加法器和8位锁存器，可以先输入一个数到加法器中，然后储存到锁存器里，通过开关往加法器输入第二个数，再将锁存器的值与加法器的数相加，不断循环这种操作，就可以计算多个数的和。<strong>用来累加多个数的锁存器称为累加器（accumulator）</strong>。</p>
+<p>但假如，我们不需要把100个数加在一起，而只是想分别计算100个数某几个之和然后分别存储。这时候可以用存储器RAM来读取数据和保存结果。当然，我们需要振荡器和16位计数器，来选取RAM里面哪个数（地址）该送往累加器里面，然后通过计算，把结果送回RAM里特定的地址。<strong>我们把这套装置叫做自动累加器</strong>。</p>
+<p>实际上我们希望自动累加器完成四件事：第一，把一个字节从存储器传送到累加器中，这个过程叫做加载（load）；第二，把存储器中的另一个字节加（Add）到累加器的内容中去；第三，把累加器中的计算结果取出并存回存储器中（store）;第四，需要一个方法让自动加法器停下来（Halt）。</p>
+<p>既然我们有一些需要求和的数据，又有4种操作，为什么不用另一个RAM来存放4种操作，然后通过控制面板决定当前要执行哪种操作呢？于是我们加多一个RAM，用来存储操作码，如 10h 表示 Load， 11h表示 Store，20h表示 Add，FFh表示Halt。<strong>这被称为指令码(instruction code)或者操作码(operation code)</strong>。他们用来指示电路要执行哪种操作。通过对电路进行改进，我们可以实现更多的操作码，例如减法(Subtract)、进位加法(Add with Carry)、地址跳转（Jump）等。</p>
+<p>事实上，没有必要使用两个RAM来分开数据和指令，用3字节长的指令格式，即存放指令本身，也存放操作数所在的存储地址。</p>
+<h1 id="计算机"><a href="#计算机" class="headerlink" title="计算机"></a>计算机</h1><p><strong>能否控制重复操作或者循环（looping）是计算机（computer）和计算器（calculator）的区别</strong>。至此，我们可以说我们已经造出了一台原始的计算机，包含四个部分：处理器（processor）、存储器（memory）、至少一个输入设备（input）和输出设备（output）。处理器也叫做中央处理单元（central processing unit，CPU），处理器内部又分为算术逻辑单元（ALU）和程序计数器（PC）。在我们的例子中，ALU由8位反向器和8位加法器构成，只能加减运算，实际上更高级的ALU还能进行逻辑运算。PC由16位计数器构成。</p>
+<p>后来，随着科技的发展，渐渐地用真空管替代了继电器，再之后随着半导体技术的崛起，晶体管又替代了真空管。人们才得以把这些逻辑门组件（加法器、累加器、选择器、译码器）集成在微小的电子电路里面，集成电路（IC）得以发展，后来演变成微处理器。<strong>微处理器是计算机的大脑</strong>。</p>
+<h1 id="机器语言和汇编语言"><a href="#机器语言和汇编语言" class="headerlink" title="机器语言和汇编语言"></a>机器语言和汇编语言</h1><p>操作码在计算机里面，也叫做机器码或者机器语言，表示可以被计算机处理器响应的代码。例如指令代码10h表示加载（Load），11h表示加法（Add），编写代码时，程序员可能难以记住这些代码的意思，因此我们用一些助记符来帮助我们辨认，如用 LOD 表示 Load，用 SUB 表示 Subtract，用 JMP 表示 Jump 等等。数据存放的位置也不用实际的地址，而是用标号（label）来指代，如 2000h 存放结果，我们用 RESULT 代替。于是，我们的程序就演变成这样：</p>
+<pre><code>BEGIN:  LOD A, [RESULT + 1]
+        ADD A, [NUM1 +1]
+        STO [RESULT + 1], A
+
+NEG1:   HLT
+
+NUM1:   00h, A7h
+RESULT: 00h, 00h</code></pre><p>这就是汇编语言（assembly language）。</p>
+<h1 id="字符编码"><a href="#字符编码" class="headerlink" title="字符编码"></a>字符编码</h1><p>现在，我们已经能用计算机表示数字并进行计算了。但如果要显示文本呢？业界常用ASCII码（美国信息交换标准码）来将十六进制编码映射为字符，ASCII码是7位二进制数，一般用十六进制表示，从00h ~ 7Fh。例如，30h表示字符0（不是数字0），41h表示字符A。ASCII码包括95个图形字符和33个控制字符，例如09h表示水平制表符，当计算机遇到 <code>41 09 42</code> 这样的ASCII码，会输出<code>A   B</code>，中间的 tab 空格，就是控制字符09h的含义。</p>
+<p>ASCII码也有不足的地方，例如无法统一各国的语言符号（尤其是像中文这样的象形文字）。这导致各国都有自己的一套编码系统，例如中国有国标GBK编码。1988年开始，几大著名计算机公司决定合作研究一套统一的编码系统，取名 Unicode，采用16位编码，每个字符 2 个字节，范围从 0000h ~ FFFFh，总共可以表示65536个不同的字符。</p>
+<h1 id="磁盘"><a href="#磁盘" class="headerlink" title="磁盘"></a>磁盘</h1><p>之前，我们用RAM来存储信息，但是RAM会随着断电而丢失数据。最早人们是通过纸带打孔卡片的方式来保存永久信息。后来丹麦发明家波尔森发明了世界上第一块可用的磁介质存储器。<strong>这种设备记录和读取信息是利用电磁铁的磁头（head）来完成的</strong>，磁盘的表面被划分为许多同心圆，称为磁道（tracks），每个磁道又被划分为扇形的扇区（sectors），每个扇区可以存放一定数量的字节。微处理器不能直接从磁盘读取数据，而是要先将所需的数据载入内存中，然后才能对其进行访问。</p>
+<p>时至今日，磁盘又被分为软盘和硬盘，硬盘又分为机械硬盘和固态硬盘，但固态硬盘的原理跟磁盘已经不是一回事了。</p>
+<hr>
+<ul>
+<li>参考资料：《编码——隐匿在计算机软硬件背后的语言》</li>
+</ul>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/2a19f391.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">重温《真爱至上》</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/3fc4d13c.html">
+                <span class="level-item">腾讯创业史中我所看到的</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#编码与组合">
+        <span class="has-mr-6">1</span>
+        <span>编码与组合</span>
+        </a></li><li>
+        <a class="is-flex" href="#优先码">
+        <span class="has-mr-6">2</span>
+        <span>优先码</span>
+        </a></li><li>
+        <a class="is-flex" href="#进制">
+        <span class="has-mr-6">3</span>
+        <span>进制</span>
+        </a></li><li>
+        <a class="is-flex" href="#电报机和继电器">
+        <span class="has-mr-6">4</span>
+        <span>电报机和继电器</span>
+        </a></li><li>
+        <a class="is-flex" href="#布尔代数和逻辑表达式">
+        <span class="has-mr-6">5</span>
+        <span>布尔代数和逻辑表达式</span>
+        </a></li><li>
+        <a class="is-flex" href="#逻辑门">
+        <span class="has-mr-6">6</span>
+        <span>逻辑门</span>
+        </a></li><li>
+        <a class="is-flex" href="#二进制加法器">
+        <span class="has-mr-6">7</span>
+        <span>二进制加法器</span>
+        </a></li><li>
+        <a class="is-flex" href="#如何实现减法">
+        <span class="has-mr-6">8</span>
+        <span>如何实现减法</span>
+        </a></li><li>
+        <a class="is-flex" href="#如何计数">
+        <span class="has-mr-6">9</span>
+        <span>如何计数</span>
+        </a></li><li>
+        <a class="is-flex" href="#字节与十六进制">
+        <span class="has-mr-6">10</span>
+        <span>字节与十六进制</span>
+        </a></li><li>
+        <a class="is-flex" href="#存储器">
+        <span class="has-mr-6">11</span>
+        <span>存储器</span>
+        </a></li><li>
+        <a class="is-flex" href="#自动操作">
+        <span class="has-mr-6">12</span>
+        <span>自动操作</span>
+        </a></li><li>
+        <a class="is-flex" href="#计算机">
+        <span class="has-mr-6">13</span>
+        <span>计算机</span>
+        </a></li><li>
+        <a class="is-flex" href="#机器语言和汇编语言">
+        <span class="has-mr-6">14</span>
+        <span>机器语言和汇编语言</span>
+        </a></li><li>
+        <a class="is-flex" href="#字符编码">
+        <span class="has-mr-6">15</span>
+        <span>字符编码</span>
+        </a></li><li>
+        <a class="is-flex" href="#磁盘">
+        <span class="has-mr-6">16</span>
+        <span>磁盘</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="如何从零开始造一台计算机" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

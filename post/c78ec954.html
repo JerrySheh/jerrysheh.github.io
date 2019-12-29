@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>使用Python遍历文件 - J.e</title>
+
+
+    <meta name="description" content="下载了很多歌曲，有些是.mp3格式的，有些是.flac格式，还有的是.wav、.ape各种各样。我们知道，.flac和.ape是无损格式，所以我想保留这两种格式的文件，删掉.wav、.mp3格式的音乐。 可以用 Python 自动化处理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Python遍历文件">
+<meta property="og:url" content="https://jerrysheh.me/post/c78ec954.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="下载了很多歌曲，有些是.mp3格式的，有些是.flac格式，还有的是.wav、.ape各种各样。我们知道，.flac和.ape是无损格式，所以我想保留这两种格式的文件，删掉.wav、.mp3格式的音乐。 可以用 Python 自动化处理。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2017-10-29T04:22:01.000Z">
+<meta property="article:modified_time" content="2019-07-20T04:21:46.899Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="使用Python遍历文件" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-10-29T04:22:01.000Z">2017-10-29</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Python/">Python</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    9 分钟 读完 (大约 1393 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                使用Python遍历文件
+            
+        </h1>
+        <div class="content">
+            <p>下载了很多歌曲，有些是<code>.mp3</code>格式的，有些是<code>.flac</code>格式，还有的是<code>.wav</code>、<code>.ape</code>各种各样。我们知道，<code>.flac</code>和<code>.ape</code>是无损格式，所以我想保留这两种格式的文件，删掉<code>.wav</code>、<code>.mp3</code>格式的音乐。</p>
+<p>可以用 Python 自动化处理。</p>
+<a id="more"></a>
+
+
+<hr>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><p>首先我的歌曲全都是放在<code>D:\CloudMusic</code>这个目录下，而这个目录下还有很多子目录，现在要做的就是把<code>D:\CloudMusic</code>和它的子目录下所有<code>.wav</code>、<code>.mp3</code>格式的音乐找出来。</p>
+<pre><code class="Python">import os
+
+music_dir = &quot;D:\\CloudMusic&quot;
+
+for root, dirs, files in os.walk(music_dir):
+    for file in files:
+        target = os.path.join(root, file)
+        if file.endswith(&quot;.mp3&quot;) or file.endswith(&quot;.wav&quot;):
+            print(target)</code></pre>
+<p>先看<code>os.walk()</code>的用法：</p>
+<p><code>os.walk(top[, topdown=True[, onerror=None[, followlinks=False]]])</code></p>
+<p><code>top</code> 参数让 <code>os.walk()</code> 根目录下每一个文件夹（包括根目录）产生一个3-元组 (dirpath, dirnames, filenames)【文件夹路径, 文件夹名字, 文件名】</p>
+<p>因此，<code>for root, dirs, files in os.walk(music_dir):</code>中的<code>root</code>、<code>dirs</code>、<code>files</code>分别表示文件夹路径, 文件夹名字, 文件名。</p>
+<hr>
+<pre><code class="Python">&gt;&gt;&gt;for root, dirs, files in os.walk(music_dir):
+&gt;&gt;&gt;    print(root)
+</code></pre>
+<p>输出的是<code>CloudMusic</code>目录下的所有子文件夹路径：</p>
+<pre><code>D:\CloudMusic
+D:\CloudMusic\Cache
+D:\CloudMusic\IU
+D:\CloudMusic\IU\IU - Last.Fantasy
+D:\CloudMusic\IU\IU - Real 2010 FLAC
+D:\CloudMusic\IU\IU - 꽃갈피(花书签)
+D:\CloudMusic\IU\IU chat-shire
+D:\CloudMusic\IU\IU-Can You Hear Me
+D:\CloudMusic\IU\Palette
+D:\CloudMusic\MV</code></pre><pre><code class="Python">&gt;&gt;&gt;for root, dirs, files in os.walk(music_dir):
+&gt;&gt;&gt;    print(dirs)
+</code></pre>
+<p>输出的是<code>CloudMusic</code>目录下的所有子文件夹名字(放在一个list里)：</p>
+<pre><code>[&#39;Cache&#39;, &#39;IU&#39;, &#39;MV&#39;]
+[]
+[&#39;IU - Last.Fantasy&#39;, &#39;IU - Real 2010 FLAC&#39;, &#39;IU - 꽃갈피(花书签)&#39;, &#39;IU chat-shire&#39;, &#39;IU-Can You Hear Me&#39;, &#39;Palette&#39;]
+[]
+[]
+[]
+[]
+[]
+[]
+[]</code></pre><p>第一个空list表示 Cache 里没有子文件夹了， 第二个空list表示 IU - Last.Fantasy 里没有子文件夹了，以此类推。</p>
+<pre><code class="Python">&gt;&gt;&gt;for root, dirs, files in os.walk(music_dir):
+&gt;&gt;&gt;    print(files)
+</code></pre>
+<p>输出的是<code>CloudMusic</code>目录下(包括子文件夹)的所有文件名字(放在一个list里)：</p>
+<pre><code>[&#39;01 Welcome To New York.flac&#39;, &#39;02 Blank Space.flac&#39;, &#39;03 Style.flac&#39;, &#39;04 - Mean.flac&#39;, &#39;05 All You Had To Do Was Stay.flac&#39;, &#39;06 Shake It Off.flac&#39;, &#39;07 I Wish You Would.flac&#39;, &#39;08 Bad Blood.flac&#39;, &#39;09 Wildest Dreams.flac&#39;, &#39;10 How You Get The Girl.flac&#39;, &#39;11 This Love.flac&#39;, &#39;12 I Know Places.flac&#39;, &#39;13 Clean.flac&#39;, &#39;14 Wonderland.flac&#39;, &#39;15 You Are In Love.flac&#39;, &#39;16 New Romantics.flac&#39;, &#39;17 I Know Places - Voice Memos.flac&#39;, &#39;18 I Wish You Would - Voice Memos.flac&#39;, &#39;19 Blank Space - Voice Memos.flac&#39;, &#39;AlbumArtSmall.jpg&#39;, &#39;C Allstar - 天梯.flac&#39;, &#39;Chen、Punch - Everytime.ape&#39;, &#39;Davichi - 这份爱.ape&#39;, &#39;desktop.ini&#39;, &#39;Folder.jpg&#39;, &#39;G.E.M.邓紫棋 - 喜欢你.flac&#39;, &#39;Gummy - You Are My Everything(English Ver.).flac&#39;, &#39;Gummy - You Are My Everything.flac&#39;, &#39;K.Will - 说干什么呢.flac&#39;, &#39;LYn - With You.flac&#39;, &#39;M.C. The Max - 为你化成风.flac&#39;, &#39;Mad Clown、金娜英 - 再次见到你.flac&#39;, &#39;SG WANNABE - 让我们相爱.flac&#39;, &#39;____.flac&#39;, &#39;光良 - 第一次.flac&#39;, &#39;其实我介意.flac&#39;, &#39;孙燕姿 - 雨天.flac&#39;, &#39;小幸运.flac&#39;, &#39;曲婉婷 - Drenched.flac&#39;, &#39;李克勤 - 友情岁月.flac&#39;, &#39;林宥嘉-想自由.flac&#39;, &#39;林宥嘉-浪费.flac&#39;, &#39;林宥嘉-说谎.APE&#39;, &#39;梁静茹 - 爱久见人心.flac&#39;, &#39;荒木毬菜 - 小雨と君.wav&#39;, &#39;许美静 - 倾城.wav&#39;, &#39;许美静-遗憾.WAV&#39;, &#39;逃跑计划 - 夜空中最亮的星.flac&#39;, &#39;金俊秀 - How Can I Love You.flac&#39;, &#39;陈奕迅 - 富士山下.flac&#39;, &#39;陈奕迅 - 最佳损友.flac&#39;, &#39;陈奕迅 - 陪你度过漫长岁月.flac&#39;][&#39;IU - 至少有那天 【视频from：微博@德米安】.mp3&#39;, &#39;IU - 너의 의미(你的意义).mp4&#39;, &#39;[onlyU字幕组][MV] IU아이유–Through the Night 夜信[1080P精效中字].mp4&#39;, &#39;（中字720P）《至少有那天》饭拍：wj_淮.mp4&#39;]
+[&#39;01. 비밀.flac&#39;, &#39;02. 잠자는 숲 속의 왕자 (feat. 윤상).flac&#39;, &#39;03. 별을 찾는 아이 (feat. 김광진).flac&#39;, &#39;04. 너랑 나.flac&#39;, &#39;05. 벽지무늬.flac&#39;, &#39;06. 삼촌 (feat. 이적).flac&#39;, &#39;07. 사랑니.flac&#39;, &quot;08. Everything&#39;s Alright (feat. 김현철).flac&quot;, &#39;09. Last Fantasy.flac&#39;, &#39;10. Teacher (feat. Ra.D).flac&#39;, &#39;11. 길 잃은 강아지.flac&#39;, &#39;12. 4AM.flac&#39;, &quot;13. 라망 (L&#39;amant).flac&quot;]
+[&#39;01. 이게 아닌데.flac&#39;, &#39;02. 느리게 하는 일.flac&#39;, &#39;03. 좋은 날.flac&#39;, &#39;04. 첫 이별 그날 밤.flac&#39;, &#39;05. 혼자 있는 방.flac&#39;, &#39;06. 미리 메리 크리스마스.flac&#39;, &#39;07. 좋은 날 (Inst.).flac&#39;, &#39;cover.jpg&#39;]
+[&#39;01. 나의 옛날이야기.flac&#39;, &#39;02. 꽃（花）.flac&#39;, &#39;03. 삐에로는 우릴 보고 웃지（小丑在对着我们微笑）.flac&#39;, &#39;04. 사랑이 지나가면（当爱已逝去）.flac&#39;, &#39;05. 너의 의미 (Feat. 김창완)（你的意义）.flac&#39;, &#39;06. 여름밤의 꿈（仲夏夜之梦）.flac&#39;, &#39;07. 꿍따리 샤바라 (Feat. 클론)（Kungtari Shabara）.flac&#39;, &#39;AlbumArtSmall.jpg&#39;, &#39;Folder.jpg&#39;]
+[&#39;Red Queen.flac&#39;, &#39;Zezé.flac&#39;, &#39;무릎(膝盖).flac&#39;, &#39;새 신발(新鞋).flac&#39;, &#39;스물셋(二十三).flac&#39;, &#39;안경(眼镜).flac&#39;, &#39;푸르던(曾经蔚蓝).flac&#39;]
+[&#39;01 Beautiful Dancer.wav&#39;, &#39;02 Truth.wav&#39;, &#39;03 Fairytale.wav&#39;, &#39;04 Voice-mail.wav&#39;, &#39;05 New World.wav&#39;, &#39;06 The Age Of The Cathedrals.wav&#39;, &#39;IU Can You Hear Me cover pics.jpg&#39;]
+[&#39;01 這一刻.flac&#39;, &#39;02 Palette.flac&#39;, &#39;03 這種結局.flac&#39;, &#39;04 爱情很好.flac&#39;, &#39;05 Jam Jam.flac&#39;, &#39;06 Black Out.flac&#39;, &#39;07 終止符.flac&#39;, &#39;08 夜信.flac&#39;, &#39;09 愛情就那樣.flac&#39;, &#39;10 致名字.flac&#39;]
+[]</code></pre><p>用<code>os.remove()</code>删除</p>
+<pre><code class="Python">import os
+
+music_dir = &quot;D:\\CloudMusic&quot;
+
+for root, dirs, files in os.walk(music_dir):
+    for file in files:
+        target = os.path.join(root, file)
+        if file.endswith(&quot;.mp3&quot;) or file.endswith(&quot;.wav&quot;):
+            print(&quot;deleting &quot; + target)
+            os.remove(target)</code></pre>
+<p><code>target</code>这个变量主要是把文件夹路径和文件名拼接起来，构成一个完整的文件路径，比如：</p>
+<pre><code>D:\CloudMusic\IU\IU-Can You Hear Me\06 The Age Of The Cathedrals.wav</code></pre><p>后面的就是判断后缀名是否为 <code>.mp3</code> 和 <code>.wav</code> ， 是的话就删除之。</p>
+<hr>
+<h1 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h1><p>写这篇记录的目录主要还是学习一个知识点：</p>
+<p>输入：</p>
+<pre><code class="Python">L = [[1,2,3],[4,5,6],[7,8,9],[10,11,12]]
+for i in L:
+    print(i)</code></pre>
+<p>输出：</p>
+<pre><code>[1, 2, 3]
+[4, 5, 6]
+[7, 8, 9]
+[10, 11, 12]</code></pre><p>输入：</p>
+<pre><code class="Python">L = [[[1,11,111],2,3],[[4,44,444],5,6],[[7,77,777],8,9]]
+for i,j,k in L:
+    print(i)</code></pre>
+<p>输出：</p>
+<pre><code>[1, 11, 111]
+[4, 44, 444]
+[7, 77, 777]</code></pre><p>输入：</p>
+<pre><code class="Python">L = [[[1,11,111],2,3],[[4,44,444],5,6],[[7,77,777],8,9]]
+for i,j,k in L:
+    for ii in i:
+        print(ii)</code></pre>
+<p>输出：</p>
+<pre><code>1
+11
+111
+4
+44
+444
+7
+77
+777</code></pre>
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Python/" rel="tag">Python</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/536d7ea0.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Win10升级1709后亮度调节失效的解决方法</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/bfa70c14.html">
+                <span class="level-item">浅谈 socket 编程</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#代码">
+        <span class="has-mr-6">1</span>
+        <span>代码</span>
+        </a></li><li>
+        <a class="is-flex" href="#知识点">
+        <span class="has-mr-6">2</span>
+        <span>知识点</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="使用Python遍历文件" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

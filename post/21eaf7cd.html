@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Head First JavaScript - J.e</title>
+
+
+    <meta name="description" content="JavaScript用于网页和用户之间的交互，比如提交的时候，进行用户名是否为空的判断。 完整的 Javascript 由以下三个部分组成  语言基础 BOM(Browser Object Model 浏览器对象模型) DOM（Document Object Model 文档对象模型）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Head First JavaScript">
+<meta property="og:url" content="https://jerrysheh.me/post/21eaf7cd.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="JavaScript用于网页和用户之间的交互，比如提交的时候，进行用户名是否为空的判断。 完整的 Javascript 由以下三个部分组成  语言基础 BOM(Browser Object Model 浏览器对象模型) DOM（Document Object Model 文档对象模型）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-04-02T03:07:25.000Z">
+<meta property="article:modified_time" content="2019-10-08T14:50:31.078Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Head First JavaScript" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-04-02T03:07:25.000Z">2018-04-02</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 分钟 读完 (大约 2004 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Head First JavaScript
+            
+        </h1>
+        <div class="content">
+            <p>JavaScript用于网页和用户之间的交互，比如提交的时候，进行用户名是否为空的判断。</p>
+<p>完整的 Javascript 由以下三个部分组成</p>
+<ul>
+<li>语言基础</li>
+<li>BOM(Browser Object Model 浏览器对象模型)</li>
+<li>DOM（Document Object Model 文档对象模型）</li>
+</ul>
+<a id="more"></a>
+
+<hr>
+<h1 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h1><h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h2><p>JavaScript 必须写在 <code>&lt;script&gt;</code> 里</p>
+<pre><code class="html">&lt;html&gt;
+  &lt;head&gt;
+   &lt;script&gt;
+      document.write(&quot;这是 javascript&quot;);
+   &lt;/script&gt;
+  &lt;/head&gt;
+&lt;/html&gt;</code></pre>
+<blockquote>
+<p>在文档加载结束后使用 document.write，会覆盖整个HTML的内容</p>
+</blockquote>
+<p>也可以在HTML中引用 .js 文件</p>
+<pre><code class="html">&lt;html&gt;
+  &lt;script src=&quot;http://jerrysheh.com/study/hello.js&quot;&gt;&lt;/script&gt;
+&lt;/html&gt;</code></pre>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>用 var 声明变量，关键字<code>var</code> 也可以省略</p>
+<pre><code class="html">&lt;script&gt;
+  var x = 10;
+  document.write(&quot;变量x的值:&quot;+x);
+&lt;/script&gt;</code></pre>
+<h2 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h2><table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>简介</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>undefined</td>
+<td>声明了但未赋值</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td>布尔</td>
+</tr>
+<tr>
+<td>Number</td>
+<td>数字</td>
+</tr>
+<tr>
+<td>String</td>
+<td>字符串</td>
+</tr>
+<tr>
+<td>var</td>
+<td>动态类型</td>
+</tr>
+<tr>
+<td>typeof</td>
+<td>变量类型判断</td>
+</tr>
+<tr>
+<td>null</td>
+<td>空对象/对象不存在</td>
+</tr>
+</tbody></table>
+<ul>
+<li>JavaScript 中单引号和双引号都表示字符串</li>
+<li>JavaScript 中，即使是基本数据类型，也有属性和方法</li>
+<li>当不确定某个变量是什么类型的时候，可以用使用typeof来进行判断数据类型</li>
+</ul>
+<p>JavaScript中的变量类型是动态的</p>
+<pre><code class="JavaScript">var x                // x 为 undefined
+var x = 6;           // x 为数字
+var x = &quot;Bill&quot;;      // x 为字符串</code></pre>
+<!-- more -->
+
+<h3 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h3><p>使用内置函数<code>toString()</code>转换为字符串。</p>
+<ul>
+<li>比如说，我们可以对 Number 或者 Boolean 执行 <code>toString()</code>方法。 用法：<code>a.toString(16)</code>，将a转换为16进制字符串</li>
+<li>对于有Null值的情况，用<code>String()</code>会返回null，用<code>toString()</code>报错。</li>
+</ul>
+<p>使用内置函数 <code>parseInt()</code>、<code>parseFloat()</code>或 <code>Number()</code>转换为数字</p>
+<ul>
+<li>parseInt会一直定位数字，直到出现非字符。 所以”10abc” 会被转换为 10。但是”abc10”返回NaN，如果没有数字，也返回NaN。</li>
+<li><code>Number()</code>必须为纯数字，如果参杂其他字符，直接返回NaN。</li>
+</ul>
+<p>使用内置函数<code>Boolean()</code>转换为Boolean值</p>
+<ul>
+<li>当转换字符串时：非空即为true</li>
+<li>当转换数字时： 非0即为true</li>
+<li>当转换对象时：非null即为true</li>
+</ul>
+<h3 id="绝对等运算符"><a href="#绝对等运算符" class="headerlink" title="绝对等运算符"></a>绝对等运算符</h3><p>JavaScript的运算符跟 Java 区别不大，但是有一点要注意</p>
+<ul>
+<li><code>==</code>是等于运算符，表示：值相等（类型不一定相等）</li>
+<li><code>===</code>是绝对等运算符，表示：类型相等，值也相等</li>
+</ul>
+<p>例如，数字1和字符串1，值都是1，但是类型是不一样的</p>
+<hr>
+<h1 id="函数和语句"><a href="#函数和语句" class="headerlink" title="函数和语句"></a>函数和语句</h1><h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>定义了函数，必须调用才能执行。return、作用域等跟 Java 类似。不再赘述。</p>
+<pre><code class="html">&lt;script&gt;
+function print(message){
+  document.write(message);
+}
+print(&quot;hello&quot;);
+print(&quot;&lt;br&gt;&quot;);
+print(&quot;world&quot;);
+&lt;/script&gt;</code></pre>
+<p>输出</p>
+<pre><code>hello
+world</code></pre><blockquote>
+<p>在写前端文件的时候，通常把 JavaScript 脚本写在最后面，以提高网页的加载速度。当需要在加载时立即执行 JavaScript 代码，可以用 <code>onload=&quot;jfun()&quot;</code> 属性。其中 <code>jfun()</code> 是 JS 函数名称。</p>
+</blockquote>
+<ul>
+<li>当不想让函数继续执行下去时，可以直接写<code>return ;</code></li>
+</ul>
+<h2 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h2><p>跟Java类似， JavaScript也支持 <strong>条件语句</strong>、<strong>循环语句</strong>、<strong>try-catch语句</strong></p>
+<p>其中循环语句还支持 forEach 循环。 但是跟 Java 的 forEach 有点不一样</p>
+<pre><code class="javascript">var strs = [&quot;America&quot;,&quot;Greece&quot;,&quot;Britain&quot;,&quot;Canada&quot;,&quot;China&quot;,&quot;Egypt&quot;];
+var count = 0;
+for (var str in strs) {
+    if (strs[str].match(&quot;a&quot;) != null) {
+        count++;
+    }
+}</code></pre>
+<p>这里的str，是strs的下标，因此要表达数组的每个元素，用<code>strs[str]</code></p>
+<p>continue、break 什么的当然也是存在的啦</p>
+<hr>
+<h1 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h1><p>用户任何对网页的操作，都会产生一个事件。</p>
+<p>事件有很多种，比如鼠标移动，鼠标点击，键盘点击等等。</p>
+<h2 id="鼠标点击事件"><a href="#鼠标点击事件" class="headerlink" title="鼠标点击事件"></a>鼠标点击事件</h2><pre><code class="html">&lt;script&gt;
+function showHello(){
+   alert(&quot;Hello JavaScript&quot;);
+}
+&lt;/script&gt;
+
+&lt;button onclick=&quot;showHello()&quot;&gt;点击一下&lt;/button&gt;</code></pre>
+<p>效果如下</p>
+<script>
+function showHello(){
+   alert("Hello JavaScript");
+}
+</script>
+
+<p><button onclick="showHello()">点击有惊喜</button></p>
+<hr>
+<h1 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h1><p>对象是有属性和方法的一种特殊数据类型。</p>
+<p>常见的对象有数字Number，字符串String，日期Date，数组Array等。</p>
+<p>跟 Java 一样，可以通过 new 来创建一个对象</p>
+<pre><code class="html">&lt;script&gt;
+    var x = &quot;5&quot;;
+    var y = new String(x);
+&lt;/script&gt;</code></pre>
+<h2 id="常用的数字方法"><a href="#常用的数字方法" class="headerlink" title="常用的数字方法"></a>常用的数字方法</h2><table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>简介</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>new Number</td>
+<td>创建一个数字对象</td>
+</tr>
+<tr>
+<td>属性MIN_VALUE</td>
+<td>最小值</td>
+</tr>
+<tr>
+<td>属性MAX_VALUE</td>
+<td>最大值</td>
+</tr>
+<tr>
+<td>属性NaN</td>
+<td>表示不是数字</td>
+</tr>
+<tr>
+<td>方法toFixed</td>
+<td>返回一个数字的小数表达</td>
+</tr>
+<tr>
+<td>方法toExponential</td>
+<td>返回一个数字的科学计数法表达</td>
+</tr>
+<tr>
+<td>方法valueOf</td>
+<td>返回一个数字对象的基本数字类型</td>
+</tr>
+</tbody></table>
+<h2 id="常用的字符串方法"><a href="#常用的字符串方法" class="headerlink" title="常用的字符串方法"></a>常用的字符串方法</h2><table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>简介</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>new String()</td>
+<td>创建字符串对象</td>
+</tr>
+<tr>
+<td>属性 length</td>
+<td>字符串长度</td>
+</tr>
+<tr>
+<td>方法 charAt charCodeAt</td>
+<td>返回指定位置的字符</td>
+</tr>
+<tr>
+<td>方法 concat</td>
+<td>字符串拼接</td>
+</tr>
+<tr>
+<td>方法 indexOf lastIndexOf</td>
+<td>子字符串出现的位置</td>
+</tr>
+<tr>
+<td>方法 localeCompare</td>
+<td>比较两段字符串是否相同</td>
+</tr>
+<tr>
+<td>方法 substring</td>
+<td>截取一段子字符串</td>
+</tr>
+<tr>
+<td>方法 split</td>
+<td>根据分隔符，把字符串转换为数组</td>
+</tr>
+<tr>
+<td>方法 replace</td>
+<td>替换子字符串</td>
+</tr>
+</tbody></table>
+<h2 id="常用的数组方法"><a href="#常用的数组方法" class="headerlink" title="常用的数组方法"></a>常用的数组方法</h2><table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>简介</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>new Array</td>
+<td>创建数组对象</td>
+</tr>
+<tr>
+<td>属性 length</td>
+<td>数组长度</td>
+</tr>
+<tr>
+<td>for / for in</td>
+<td>遍历一个数组</td>
+</tr>
+<tr>
+<td>方法 concat</td>
+<td>连接数组</td>
+</tr>
+<tr>
+<td>方法 join</td>
+<td>通过指定分隔符，返回一个数组的字符串表达</td>
+</tr>
+<tr>
+<td>方法 push pop</td>
+<td>分别在最后的位置插入数据和获取数据(获取后删除)</td>
+</tr>
+<tr>
+<td>方法 unshift shift</td>
+<td>分别在最开始的位置插入数据和获取数据(获取后删除)</td>
+</tr>
+<tr>
+<td>方法 sort</td>
+<td>对数组的内容进行排序</td>
+</tr>
+<tr>
+<td>方法 sort(comparator)</td>
+<td>自定义排序算法</td>
+</tr>
+<tr>
+<td>方法 reverse</td>
+<td>对数组的内容进行反转</td>
+</tr>
+<tr>
+<td>方法 slice</td>
+<td>获取子数组</td>
+</tr>
+<tr>
+<td>方法 splice</td>
+<td>删除和插入元素</td>
+</tr>
+</tbody></table>
+<h2 id="常用的数学方法"><a href="#常用的数学方法" class="headerlink" title="常用的数学方法"></a>常用的数学方法</h2><table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>简介</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>属性E PI</td>
+<td>自然对数和圆周率</td>
+</tr>
+<tr>
+<td>方法 abs</td>
+<td>绝对值</td>
+</tr>
+<tr>
+<td>方法 min max</td>
+<td>最小最大</td>
+</tr>
+<tr>
+<td>方法 pow</td>
+<td>求幂</td>
+</tr>
+<tr>
+<td>方法 round</td>
+<td>四舍五入</td>
+</tr>
+<tr>
+<td>方法 random</td>
+<td>随机数</td>
+</tr>
+</tbody></table>
+<h2 id="自定义对象"><a href="#自定义对象" class="headerlink" title="自定义对象"></a>自定义对象</h2><h3 id="直接定义对象"><a href="#直接定义对象" class="headerlink" title="直接定义对象"></a>直接定义对象</h3><pre><code class="javascript">var person={
+firstname : &quot;Bill&quot;,
+lastname  : &quot;Gates&quot;,
+id        :  5566
+};
+
+var n = person.name; // n是 ”Gates</code></pre>
+<h3 id="函数封装对象"><a href="#函数封装对象" class="headerlink" title="函数封装对象"></a>函数封装对象</h3><pre><code class="JavaScript">function Hero(name){
+  this.name = name;
+  this.go = function(){
+     document.write(this.name + &quot;正在前进&lt;br&gt;&quot;);
+  }
+}
+
+var gareen = new Hero(&quot;盖伦&quot;);
+gareen.go();
+
+var teemo = new Hero(&quot;提莫&quot;);
+teemo.go();</code></pre>
+<p>用prototype实现为已存在的对象增添新的方法，例如为 <code>Hero</code> 增添 <code>back</code> 方法</p>
+<pre><code class="javascript">
+Hero.prototype.back = function(){
+  document.write(this.name + &quot;正在后退&lt;br&gt;&quot;);
+}
+
+gareen.back();</code></pre>
+<hr>
+<h1 id="浏览器对象模型-Brower-Object-Model"><a href="#浏览器对象模型-Brower-Object-Model" class="headerlink" title="浏览器对象模型(Brower Object Model)"></a>浏览器对象模型(Brower Object Model)</h1><p><code>浏览器对象模型(Brower Object Model)</code> 就是所谓的 BOM</p>
+<p>浏览器对象包括：</p>
+<ul>
+<li>Window(窗口)</li>
+<li>Navigator(浏览器)</li>
+<li>Screen (客户端屏幕)</li>
+<li>History(访问历史)</li>
+<li>Location(浏览器地址)</li>
+</ul>
+<h2 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h2><ul>
+<li>用<code>window.innerWidth</code>和<code>window.innerHeight</code>获取浏览器的<strong>文档显示区域</strong>的宽和高</li>
+<li>用<code>window.outerWidth</code>和<code>window.outerHeight</code>获取浏览器<strong>外部窗体</strong>的宽和高</li>
+<li>用<code>window.open(&quot;/&quot;)</code>打开一个新页面，这里的<code>/</code>指本站的根目录。只能打开本站网页。（不建议在用户不知情的情况下随意打开新页面，影响用户体验）</li>
+</ul>
+<p>体验一下：</p>
+<script>
+function openNewWindow(){
+  myWindow=window.open("/");
+}
+</script>
+
+<p><button onclick="openNewWindow()">回到主页</button></p>
+<h2 id="Navigator"><a href="#Navigator" class="headerlink" title="Navigator"></a>Navigator</h2><p>Navigator提供浏览器相关的信息</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>简介</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>navigator.appName</td>
+<td>浏览器产品名称</td>
+</tr>
+<tr>
+<td>navigator.appVersion</td>
+<td>浏览器版本号</td>
+</tr>
+<tr>
+<td>navigator.appCodeName</td>
+<td>浏览器内部代码</td>
+</tr>
+<tr>
+<td>navigator.platform</td>
+<td>操作系统</td>
+</tr>
+<tr>
+<td>navigator.cookieEnabled</td>
+<td>是否启用Cookies</td>
+</tr>
+<tr>
+<td>navigator.userAgent</td>
+<td>浏览器的用户代理报头</td>
+</tr>
+</tbody></table>
+<h2 id="弹出框"><a href="#弹出框" class="headerlink" title="弹出框"></a>弹出框</h2><ul>
+<li>用<code>alert</code>显示一个警告窗</li>
+<li>用<code>confirm</code>显示一个确认框，根据用户选择，返回true or false</li>
+<li>用<code>prompt</code>显示一个输入框</li>
+</ul>
+<p>确认框例子</p>
+<pre><code class="html">&lt;script&gt;
+function del(){
+var d = confirm(&quot;是否要删除&quot;); // d 是 boolean 类型
+}
+&lt;/script&gt;
+
+&lt;br&gt;
+&lt;button onclick=&quot;del()&quot;&gt;删除&lt;/button&gt;</code></pre>
+<p>输入框例子</p>
+<pre><code class="html">&lt;script&gt;
+function p(){
+var name = prompt(&quot;请输入用户名:&quot;); // name 是 string 类型
+alert(&quot;您输入的用户名是:&quot; + name);
+}
+&lt;/script&gt;
+
+&lt;br&gt;
+&lt;button onclick=&quot;p()&quot;&gt;请输入用户名&lt;/button&gt;</code></pre>
+<h2 id="Location"><a href="#Location" class="headerlink" title="Location"></a>Location</h2><p>Location 对象包含有关当前 URL 的信息。</p>
+<pre><code class="html">&lt;script&gt;
+// url的值为当前URL
+var url = location.href
+
+// 跳转到谷歌
+location.href = &quot;https://www.google.com&quot;
+&lt;/script&gt;</code></pre>
+<p>参考：</p>
+<ul>
+<li><a href="http://www.w3school.com.cn/jsref/dom_obj_location.asp">Location 对象</a></li>
+</ul>
+<hr>
+<h1 id="日期格式化函数"><a href="#日期格式化函数" class="headerlink" title="日期格式化函数"></a>日期格式化函数</h1><pre><code class="JavaScript">getDate:function (strDate) {
+    var d = new Date(strDate);
+    return d.getFullYear() + &#39;-&#39; + (d.getMonth() + 1) + &#39;-&#39; + d.getDate() + &#39; &#39; + d.getHours() + &#39;:&#39; + d.getMinutes() + &#39;:&#39; + d.getSeconds();
+}</code></pre>
+<hr>
+<p><a href="../post/f75e92e9.html">下一篇</a>介绍Javascript中的DOM（文档对象模型）</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="has-link-grey -link" href="/tags/Web/" rel="tag">Web</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/f9031a66.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Python 随记</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/65acdb59.html">
+                <span class="level-item">Head First HTML</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#基本语法">
+        <span class="has-mr-6">1</span>
+        <span>基本语法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#标签">
+        <span class="has-mr-6">1.1</span>
+        <span>标签</span>
+        </a></li><li>
+        <a class="is-flex" href="#变量">
+        <span class="has-mr-6">1.2</span>
+        <span>变量</span>
+        </a></li><li>
+        <a class="is-flex" href="#基本数据类型">
+        <span class="has-mr-6">1.3</span>
+        <span>基本数据类型</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#类型转换">
+        <span class="has-mr-6">1.3.1</span>
+        <span>类型转换</span>
+        </a></li><li>
+        <a class="is-flex" href="#绝对等运算符">
+        <span class="has-mr-6">1.3.2</span>
+        <span>绝对等运算符</span>
+        </a></li></ul></li></ul></li><li>
+        <a class="is-flex" href="#函数和语句">
+        <span class="has-mr-6">2</span>
+        <span>函数和语句</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#函数">
+        <span class="has-mr-6">2.1</span>
+        <span>函数</span>
+        </a></li><li>
+        <a class="is-flex" href="#语句">
+        <span class="has-mr-6">2.2</span>
+        <span>语句</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#事件">
+        <span class="has-mr-6">3</span>
+        <span>事件</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#鼠标点击事件">
+        <span class="has-mr-6">3.1</span>
+        <span>鼠标点击事件</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#对象">
+        <span class="has-mr-6">4</span>
+        <span>对象</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#常用的数字方法">
+        <span class="has-mr-6">4.1</span>
+        <span>常用的数字方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#常用的字符串方法">
+        <span class="has-mr-6">4.2</span>
+        <span>常用的字符串方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#常用的数组方法">
+        <span class="has-mr-6">4.3</span>
+        <span>常用的数组方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#常用的数学方法">
+        <span class="has-mr-6">4.4</span>
+        <span>常用的数学方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#自定义对象">
+        <span class="has-mr-6">4.5</span>
+        <span>自定义对象</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#直接定义对象">
+        <span class="has-mr-6">4.5.1</span>
+        <span>直接定义对象</span>
+        </a></li><li>
+        <a class="is-flex" href="#函数封装对象">
+        <span class="has-mr-6">4.5.2</span>
+        <span>函数封装对象</span>
+        </a></li></ul></li></ul></li><li>
+        <a class="is-flex" href="#浏览器对象模型-Brower-Object-Model">
+        <span class="has-mr-6">5</span>
+        <span>浏览器对象模型(Brower Object Model)</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#windows">
+        <span class="has-mr-6">5.1</span>
+        <span>windows</span>
+        </a></li><li>
+        <a class="is-flex" href="#Navigator">
+        <span class="has-mr-6">5.2</span>
+        <span>Navigator</span>
+        </a></li><li>
+        <a class="is-flex" href="#弹出框">
+        <span class="has-mr-6">5.3</span>
+        <span>弹出框</span>
+        </a></li><li>
+        <a class="is-flex" href="#Location">
+        <span class="has-mr-6">5.4</span>
+        <span>Location</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#日期格式化函数">
+        <span class="has-mr-6">6</span>
+        <span>日期格式化函数</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Head First JavaScript" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

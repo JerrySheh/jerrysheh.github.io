@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Android笔记（七）连接网络 - J.e</title>
+
+
+    <meta name="description" content="当我们在知乎上面搜索“Android”的时候，可以看到地址栏的链接变化为： https:&#x2F;&#x2F;www.zhihu.com&#x2F;search?type&#x3D;content&amp;q&#x3D;Android 其中，https:&#x2F;&#x2F;www.zhihu.com&#x2F;search是 BASE_URL， 问号?后面的是参数。 这里的参数就是 type 为 content， q 为 Android 。 现在，我们要打造一个功能，用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android笔记（七）连接网络">
+<meta property="og:url" content="https://jerrysheh.me/post/329b893e.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="当我们在知乎上面搜索“Android”的时候，可以看到地址栏的链接变化为： https:&#x2F;&#x2F;www.zhihu.com&#x2F;search?type&#x3D;content&amp;q&#x3D;Android 其中，https:&#x2F;&#x2F;www.zhihu.com&#x2F;search是 BASE_URL， 问号?后面的是参数。 这里的参数就是 type 为 content， q 为 Android 。 现在，我们要打造一个功能，用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-05-04T08:10:43.000Z">
+<meta property="article:modified_time" content="2019-07-20T04:21:46.853Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Android笔记（七）连接网络" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-05-04T08:10:43.000Z">2018-05-04</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    9 分钟 读完 (大约 1412 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Android笔记（七）连接网络
+            
+        </h1>
+        <div class="content">
+            <p>当我们在知乎上面搜索“Android”的时候，可以看到地址栏的链接变化为：</p>
+<p><code>https://www.zhihu.com/search?type=content&amp;q=Android</code></p>
+<p>其中，<code>https://www.zhihu.com/search</code>是 BASE_URL， 问号<code>?</code>后面的是参数。</p>
+<p>这里的参数就是 type 为 content， q 为 Android 。</p>
+<p>现在，我们要打造一个功能，用户在 EditText 上输入 Android ， 我们的app 可以构造出 <code>https://www.zhihu.com/search?type=content&amp;q=Android</code> 这样的 URL 出来。 并对该地址进行 HTTP 访问，然后获取 Response 结果。</p>
+<p>以下将以 Github 的 API 为例</p>
+<a id="more"></a>
+
+<hr>
+<h1 id="构建URL"><a href="#构建URL" class="headerlink" title="构建URL"></a>构建URL</h1><p>访问 <a href="https://api.github.com/">https://api.github.com/</a> ，可以看到如果我们要搜索 github 仓库，需要构造的链接是</p>
+<p><a href="https://api.github.com/search/repositories?q={query}{&amp;page,per_page,sort,order}">https://api.github.com/search/repositories?q={query}{&amp;page,per_page,sort,order}</a></p>
+<p>假如搜索 hello，以 stars 数目排序，那么构造的链接是</p>
+<p><a href="https://api.github.com/search/repositories?q=Hello&amp;sort=stars">https://api.github.com/search/repositories?q=Hello&amp;sort=stars</a></p>
+<p>创建一个工具类 NetworkUtils.java， 写一个 buildUrl 方法用来生成URL</p>
+<pre><code class="java">public class NetworkUtils {
+
+    final static String GITHUB_BASE_URL =
+            &quot;https://api.github.com/search/repositories&quot;;
+    final static String PARAM_QUERY = &quot;q&quot;;
+    final static String PARAM_SORT = &quot;sort&quot;;
+    final static String sortBy = &quot;stars&quot;;
+
+    public static URL buildUrl(String githubSearchQuery) {
+        // TODO (1) Fill in this method to build the proper Github query URL
+        Uri builtUri = Uri.parse(GITHUB_BASE_URL).buildUpon()
+                .appendQueryParameter(PARAM_QUERY,githubSearchQuery)
+                .appendQueryParameter(PARAM_SORT,sortBy)
+                .build();
+
+        URL url = null;
+
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+}</code></pre>
+<ul>
+<li>用 <code>Uri</code> 来生成 Uri ，再转换为 <code>URL</code></li>
+</ul>
+<p>然后在 MainActivity.java 中调用</p>
+<pre><code class="java">// 将 EditText 转为 String
+String githubQuery = mSearchBoxEditText.getText().toString();
+
+//构造 URL
+URL githubSearchUrl = NetworkUtils.buildUrl(githubQuery);</code></pre>
+<hr>
+<h1 id="获取-Response-内容"><a href="#获取-Response-内容" class="headerlink" title="获取 Response 内容"></a>获取 Response 内容</h1><p>实际上从 Http 响应中获取数据，就是一个输入流。将输入流转换为 String 可以用 Scanner。或者IOUtils。</p>
+<h2 id="使用-Scanner"><a href="#使用-Scanner" class="headerlink" title="使用 Scanner"></a>使用 Scanner</h2><p>在上面的工具类 NetworkUtils.java 中添加一个静态方法，用于获取Http响应的内容</p>
+<pre><code class="java">public static String getResponseFromHttpUrl(URL url) throws IOException {
+    // 建立一个 HTTP 连接
+    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+    try {
+        // 从 HTTP 连接中获取输入流
+        InputStream in = urlConnection.getInputStream();
+
+        // 以 \\A 为分隔符
+        Scanner scanner = new Scanner(in);
+        scanner.useDelimiter(&quot;\\A&quot;);
+
+        boolean hasInput = scanner.hasNext();
+        if (hasInput) {
+            return scanner.next();
+        } else {
+            return null;
+        }
+    } finally {
+        urlConnection.disconnect();
+    }
+}</code></pre>
+<h2 id="扩展-使用-IOUtils-工具类"><a href="#扩展-使用-IOUtils-工具类" class="headerlink" title="扩展:使用 IOUtils 工具类"></a>扩展:使用 IOUtils 工具类</h2><p>除了 Scanner 之外，还可以用IOUtils</p>
+<pre><code class="java">StringWriter writer = new StringWriter();
+IOUtils.copy(inputStream, writer, encoding);
+String theString = writer.toString();</code></pre>
+<ul>
+<li>或许还有其他的方法，参考：<a href="https://stackoverflow.com/questions/309424/read-convert-an-inputstream-to-a-string">read-convert-an-inputstream-to-a-string</a></li>
+</ul>
+<hr>
+<h1 id="发起-HTTP-请求"><a href="#发起-HTTP-请求" class="headerlink" title="发起 HTTP 请求"></a>发起 HTTP 请求</h1><p>在 MainActivity 中， 使用以下语句来发起 HTTP 请求并得到结果</p>
+<p>这个方法写在按钮点击事件里，点击时，将发生：</p>
+<ul>
+<li>根据EditText的内容构建URL</li>
+<li>getResponseFromHttpUrl建立一个HTTP连接并返回String类型的结果</li>
+<li>在TextView把 response 的结果显示出来</li>
+</ul>
+<pre><code class="java">private void makeGithubSearchQuery() {
+    // 将 EditText 的内容转为 String
+    String githubQuery = mSearchBoxEditText.getText().toString();
+
+    // 用上面的NetworkUtils工具类的buildUrl方法，构建URL
+    URL githubSearchUrl = NetworkUtils.buildUrl(githubQuery);
+
+    //将构建好的 URL 显示在 TextView 上，作为直观测试
+    mUrlDisplayTextView.setText(githubSearchUrl.toString());
+
+    //用上面的NetworkUtils工具类的getResponseFromHttpUrl方法
+    //获取 HTTP response 的内容，并显示在 TextView 上
+    String githubSearchResults = null;
+    try {
+        githubSearchResults = NetworkUtils.getResponseFromHttpUrl(githubSearchUrl);
+        mSearchResultsTextView.setText(githubSearchResults);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}</code></pre>
+<p>理论上这样做没问题，但如果真的运行，会发现抛出<code>NetworkOnMainThreadException</code>，应用程序强退。</p>
+<p>原因是对于需要一定时间的任务（比如网络请求），需要开独立的线程来执行，不能在主线程执行。否则会阻塞UI绘制，导致app假死。</p>
+<p>所以我们应该把获取 HTTP 请求写在后台线程里。</p>
+<hr>
+<h1 id="后台线程"><a href="#后台线程" class="headerlink" title="后台线程"></a>后台线程</h1><p>AsyncTask是在 Android 上的线程之间进行线程和消息传递的抽象类。</p>
+<p>使用AsyncTask，可以把网络请求在后台线程运行，然后把结果送到UI线程。</p>
+<p>AsyncTask的使用方法是：</p>
+<p>第一步：继承AsyncTask抽象类，指定3个泛型参数：</p>
+<ul>
+<li>Params:执行AsyncTask时传入的参数</li>
+<li>Progress：后台任务传给前台的进度条单位（如果不需要为Void）</li>
+<li>Result：后台任务执行完毕后返回给前台的返回值类型</li>
+</ul>
+<p>第二步：重写AsyncTask类的以下（部分）方法</p>
+<ul>
+<li><code>onPreExcute()</code>：前台执行。在后台任务开始前调用。</li>
+<li><code>doInBackground(Params ...)</code>：后台执行。后台线程运行的具体内容。</li>
+<li><code>onProgressUpdate(Progress ...)</code>： 前台执行。当后台线程调用<code>publicProgress(Progress ...)</code>后，在前台中该方法随即被调用。<strong>用于对UI进行操作（比如改变进度百分比数字）</strong></li>
+<li><code>onPostExecute(Result)</code>：前台执行。后台return的时候该方法被调用，返回的结果就是Result参数</li>
+</ul>
+<p><img src="../../../../images/Learn_Android/asyncTask.png" alt="asyncTask"></p>
+<p>具体例子</p>
+<ul>
+<li>创建一个类（可以是内部类）继承AsyncTask，泛型参数为URL, Void, String</li>
+<li>重写<code>doInBackground()</code>方法，传入一个URL对象，以及它的参数，处理并返回结果集（该方法在后台线程运行）</li>
+<li>重写<code>onPostExecute()</code>方法，传入结果集（该方法在主线程运行），将结果集显示在 TextView 上面</li>
+<li></li>
+</ul>
+<pre><code class="java">public class GithubQueryTask extends AsyncTask&lt;URL, Void, String&gt;{
+
+    @Override
+    protected String doInBackground(URL... params) {
+        URL searchUrl = params[0];
+        String githubSearchResults = null;
+        try {
+            githubSearchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return githubSearchResults;
+    }
+
+    @Override
+    protected void onPostExecute(String githubSearchResults) {
+        if (githubSearchResults != null &amp;&amp; !githubSearchResults.equals(&quot;&quot;)) {
+            mSearchResultsTextView.setText(githubSearchResults);
+        }
+    }
+}</code></pre>
+<h2 id="添加网络访问权限"><a href="#添加网络访问权限" class="headerlink" title="添加网络访问权限"></a>添加网络访问权限</h2><p>在 AndroidManifest.xml 中需要添加访问权限</p>
+<pre><code class="xml">&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot; /&gt;</code></pre>
+<p>否则会报<code>SecurityException</code>异常</p>
+<h2 id="在onCreate-中调用"><a href="#在onCreate-中调用" class="headerlink" title="在onCreate()中调用"></a>在onCreate()中调用</h2><p>因为GithubQueryTask是一个继承于AsyncTask的类，使用 new 语句来启动后台</p>
+<pre><code class="java">new GithubQueryTask().execute(githubSearchUrl);</code></pre>
+<p>效果：</p>
+<p><img src="../../../../images/Learn_Android/network.jpg" alt="network"></p>
+<ul>
+<li>源码：<a href="https://github.com/udacity/ud851-Exercises/tree/student/Lesson02-GitHub-Repo-Search">优达学城</a></li>
+</ul>
+<hr>
+<ul>
+<li>扩展：使用 okhttp 框架：<a href="http://square.github.io/okhttp/">http://square.github.io/okhttp/</a></li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Android/" rel="tag">Android</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/37cb0c4f.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Android笔记（八）使用RecyclerView</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/c61c7436.html">
+                <span class="level-item">数据结构（六）查找算法</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#构建URL">
+        <span class="has-mr-6">1</span>
+        <span>构建URL</span>
+        </a></li><li>
+        <a class="is-flex" href="#获取-Response-内容">
+        <span class="has-mr-6">2</span>
+        <span>获取 Response 内容</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#使用-Scanner">
+        <span class="has-mr-6">2.1</span>
+        <span>使用 Scanner</span>
+        </a></li><li>
+        <a class="is-flex" href="#扩展-使用-IOUtils-工具类">
+        <span class="has-mr-6">2.2</span>
+        <span>扩展:使用 IOUtils 工具类</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#发起-HTTP-请求">
+        <span class="has-mr-6">3</span>
+        <span>发起 HTTP 请求</span>
+        </a></li><li>
+        <a class="is-flex" href="#后台线程">
+        <span class="has-mr-6">4</span>
+        <span>后台线程</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#添加网络访问权限">
+        <span class="has-mr-6">4.1</span>
+        <span>添加网络访问权限</span>
+        </a></li><li>
+        <a class="is-flex" href="#在onCreate-中调用">
+        <span class="has-mr-6">4.2</span>
+        <span>在onCreate()中调用</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Android笔记（七）连接网络" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

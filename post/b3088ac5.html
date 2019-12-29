@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Java简明笔记（一） 基础知识 - J.e</title>
+
+
+    <meta name="description" content="Java 与 C++ 的区别 C++支持多重继承，Java不支持，但可以实现多接口。（引申：多重继承菱形问题） 自动内存管理 java不支持goto语句 引用与指针：在Java中不可能直接操作对象本身，所有的对象都由一个引用指向，必须通过这个引用才能访问对象本身，包括获取成员变量的值，改变对象的成员变量，调用对象的方法等。而在 C++ 中存在引用，对象和指针三个东西，这三个东西都可以访问对象。其">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java简明笔记（一） 基础知识">
+<meta property="og:url" content="https://jerrysheh.me/post/b3088ac5.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="Java 与 C++ 的区别 C++支持多重继承，Java不支持，但可以实现多接口。（引申：多重继承菱形问题） 自动内存管理 java不支持goto语句 引用与指针：在Java中不可能直接操作对象本身，所有的对象都由一个引用指向，必须通过这个引用才能访问对象本身，包括获取成员变量的值，改变对象的成员变量，调用对象的方法等。而在 C++ 中存在引用，对象和指针三个东西，这三个东西都可以访问对象。其">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2017-11-05T14:40:39.000Z">
+<meta property="article:modified_time" content="2019-09-22T14:04:00.593Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Java简明笔记（一） 基础知识" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-11-05T14:40:39.000Z">2017-11-05</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    22 分钟 读完 (大约 3264 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Java简明笔记（一） 基础知识
+            
+        </h1>
+        <div class="content">
+            <p><img src="../../../../images/Java/java.jpg" alt="java"></p>
+<h1 id="Java-与-C-的区别"><a href="#Java-与-C-的区别" class="headerlink" title="Java 与 C++ 的区别"></a>Java 与 C++ 的区别</h1><ol>
+<li>C++支持多重继承，Java不支持，但可以实现多接口。（引申：多重继承菱形问题）</li>
+<li>自动内存管理</li>
+<li>java不支持goto语句</li>
+<li><strong>引用与指针</strong>：在Java中不可能直接操作对象本身，所有的对象都由一个引用指向，必须通过这个引用才能访问对象本身，包括获取成员变量的值，改变对象的成员变量，调用对象的方法等。而在 C++ 中存在引用，对象和指针三个东西，这三个东西都可以访问对象。其实，Java中的引用和C++中的指针在概念上是相似的，他们都是存放的对象在内存中的地址值，只是在Java中，引用丧失了部分灵活性，比如 Java 中的引用不能像 C++ 中的指针那样进行加减运算。</li>
+</ol>
+<hr>
+<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><p>在 Java 中，数据类型分为两类：<strong>基本数据类型（primitive type）</strong> 和 <strong>引用类型（reference type）</strong>。</p>
+<h2 id="八（九）种基本数据类型"><a href="#八（九）种基本数据类型" class="headerlink" title="八（九）种基本数据类型"></a>八（九）种基本数据类型</h2><table>
+<thead>
+<tr>
+<th>基本类型</th>
+<th>大小(字节)</th>
+<th>默认值</th>
+<th>封装类</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>byte</td>
+<td>1</td>
+<td>(byte)0</td>
+<td>Byte</td>
+</tr>
+<tr>
+<td>short</td>
+<td>2</td>
+<td>(short)0</td>
+<td>Short</td>
+</tr>
+<tr>
+<td>int</td>
+<td>4</td>
+<td>0</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>long</td>
+<td>8</td>
+<td>0L</td>
+<td>Long</td>
+</tr>
+<tr>
+<td>float</td>
+<td>4</td>
+<td>0.0f</td>
+<td>Float</td>
+</tr>
+<tr>
+<td>double</td>
+<td>8</td>
+<td>0.0d</td>
+<td>Double</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>-</td>
+<td>false</td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td>char</td>
+<td>2</td>
+<td>\u0000(null)</td>
+<td>Character</td>
+</tr>
+<tr>
+<td>void</td>
+<td>-</td>
+<td>-</td>
+<td>Void</td>
+</tr>
+</tbody></table>
+<ul>
+<li>在数字后面加 L 后缀即表示long类型（如 <code>400000000L</code>），在数字前面类型转换即可表示Byte或short类型 （如 <code>(byte)127</code>）</li>
+<li>在浮点数后面加 f 后缀表示 float，否则默认为double</li>
+<li>关于 void，有些书认为不属于基本数据类型，虽然 Java api 中并未说明，但有些书籍如《Thinking in Java》将其也划进去。</li>
+</ul>
+<h2 id="数据类型转换"><a href="#数据类型转换" class="headerlink" title="数据类型转换"></a>数据类型转换</h2><p>数据类型转换分为 <strong>自动转换</strong> 和 <strong>强制转换</strong>。</p>
+<h3 id="自动转换"><a href="#自动转换" class="headerlink" title="自动转换"></a>自动转换</h3><p>程序在执行过程中 “悄然” 进行的转换，不需要用户提前声明，<font color="red">一般是从位数低的类型向位数高的类型转换。</font></p>
+<p>Java中的 byte，short，char 进行计算时都会提升为 int 类型。</p>
+<p>int &lt; long &lt; float &lt; double， 如果有一个操作数是 double 型，计算结果是double型。</p>
+<pre><code class="java">byte b = 1;
+short s = 2;
+int i = b + s; // b 和 s 会自动转换为 int
+
+double d = i + 3.0; // i 会被自动转换为 double</code></pre>
+<h3 id="强制转换"><a href="#强制转换" class="headerlink" title="强制转换"></a>强制转换</h3><p>必须在代码中声明，转换顺序不受限制。使用 括号（） 来声明要转换的类型。</p>
+<pre><code class="java">Person p = new Student();
+Student s = (Student) p;</code></pre>
+<h2 id="基本数据类型的-操作"><a href="#基本数据类型的-操作" class="headerlink" title="基本数据类型的 ++ 操作"></a>基本数据类型的 ++ 操作</h2><pre><code class="java">public static void main(String[] args) {
+    int i = 0;
+    int j = i++;
+    System.out.println(&quot;i: &quot; + i);
+    System.out.println(&quot;j: &quot;+ j);
+
+    int m = 0;
+    int n = ++m;
+    System.out.println(&quot;m: &quot; + m);
+    System.out.println(&quot;n: &quot;+ n);
+}</code></pre>
+<p>输出：</p>
+<pre><code>i: 1
+j: 0
+m: 1
+n: 1</code></pre><p>这个例子中，<code>i++</code> 先把 i 的值赋给 j，然后 i 自增。</p>
+<p><code>++m</code>，先把 m + 1 的值赋给 n， 然后 m 自增。</p>
+<p>也就是说，无论是 <code>i++</code> 还是 <code>++i</code> ，都是先赋值，后自增。</p>
+<h2 id="左移右移"><a href="#左移右移" class="headerlink" title="左移右移"></a>左移右移</h2><ul>
+<li><code>&lt;&lt;</code>表示左移位</li>
+<li><code>&gt;&gt;</code>表示带符号右移位</li>
+<li><code>&gt;&gt;&gt;</code>表示无符号右移</li>
+<li>没有 <code>&lt;&lt;&lt;</code> 运算符</li>
+</ul>
+<p>右移要特别注意一下，由于计算机数据位以补码表示，正数符号位位0，负数符号位位1，因此，正数的右移（&gt;&gt;）前面补0，负数的右移（&gt;&gt;）前面补1。但是，如果是无符号右移（&gt;&gt;&gt;），符号位失去特权，一律补0。</p>
+<a id="more"></a>
+
+<hr>
+<h1 id="拆箱和装箱"><a href="#拆箱和装箱" class="headerlink" title="拆箱和装箱"></a>拆箱和装箱</h1><h2 id="什么是装箱？"><a href="#什么是装箱？" class="headerlink" title="什么是装箱？"></a>什么是装箱？</h2><p>一般我们要创建一个类的对象实例的时候，我们会这样：</p>
+<pre><code class="java">Class a = new Class(parameter);</code></pre>
+<p>当我们创建一个Integer对象时，却可以这样：</p>
+<pre><code class="java"> Integer i = 100; //(注意：不是 int i = 100; )</code></pre>
+<p>实际上，执行上面那句代码的时候，系统为我们执行了：</p>
+<pre><code class="java">Integer i = Integer.valueOf(100);</code></pre>
+<p>这就是基本数据类型的<code>自动装箱</code>功能。</p>
+<p>同理，拆箱就是把基本数据类型从 Integer 对象取出的过程。</p>
+<p>考虑下面这个例子：</p>
+<pre><code class="java">int i02 = 59;
+Integer i04 = new Integer(59);
+
+System.out.println(i02 == i04); // 输出 true</code></pre>
+<p>输出 true 是因为，虽然 i04 是对象，但是跟基本数据类型比较时，会自动拆箱。</p>
+<h3 id="数据类型-gt-Object"><a href="#数据类型-gt-Object" class="headerlink" title="数据类型 -&gt; Object"></a>数据类型 -&gt; Object</h3><p>可以把任何一种数据类型的变量赋给 Object 类型的变量。<font color="red">基本类型也是可以的，会自动装箱。</font></p>
+<p>基本数据类型的包装类，即 Integer、Double、Float 等，都继承于 Number 类。</p>
+<h2 id="基本数据类型及其包装类的区别"><a href="#基本数据类型及其包装类的区别" class="headerlink" title="基本数据类型及其包装类的区别"></a>基本数据类型及其包装类的区别</h2><p>1.java是面向对象语言，但基本数据类型不是对象，为了让基本数据类型有对象的特征，java设计了一套包装类。基本数据类型没有可调用的方法，而包装类型有方法调用。比如：</p>
+<pre><code class="java">int t = 1;    // t. 后面没有方法
+Integer u = 1;// u. 后面就有很多方法可以调用了</code></pre>
+<p>2.基本数据类型初始化值为0（char为\u0000）,if 判断时要用 <code>if(i == 0)</code>，而包装类要用 <code>if(i==null)</code></p>
+<p>3.当需要往ArrayList，HashMap中放东西时，基本类型是放不进去的，因为容器都是装object的，包装类可以。</p>
+<pre><code class="java">List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();</code></pre>
+<hr>
+<h1 id="equals-和-“-”"><a href="#equals-和-“-”" class="headerlink" title="equals() 和 “==”"></a>equals() 和 “==”</h1><ul>
+<li><strong>equals()</strong>：比较的是两个对象的值（内容）是否相同。</li>
+<li><strong>==</strong>：比较的是两个引用所指的对象（或者说内存地址）是否相同，<font color="red">也用来比较两个基本数据类型的变量值是否相等。</font></li>
+</ul>
+<pre><code class="java">public static void main(String[] args) {
+    int i = 5;
+    long j = 5L;
+    // 虽然类型不一样，但基本数据类型是可以比较的，返回 true
+    System.out.println( i == j );
+
+    Integer ii = 5;
+    Long jj = 5L;
+    // 编译错误，类型不一样，无法比较
+    System.out.println( ii == jj );
+
+    // 类型不一样，返回 false
+    System.out.println( ii.equals(jj));
+
+}</code></pre>
+<p>前面说过，int 的自动装箱，是系统执行了 <code>Integer.valueOf(int i)</code>，看看Integer.java的源码（在IDEA中，按住Ctrl键，鼠标点击 Integer）：</p>
+<pre><code class="java">public static Integer valueOf(int i) {
+    // 没有设置的话，IngegerCache.high 默认是127
+    if(i &gt;= -128 &amp;&amp; i &lt;= IntegerCache.high)　　
+        return IntegerCache.cache[i + 128];
+    else
+        return new Integer(i);
+}</code></pre>
+<p>对于–128到127（默认是127）之间的值，<code>Integer.valueOf(int i)</code> 返回的是 <strong>缓存的Integer对象！！！</strong></p>
+<p>所以下面的现象也就不难理解了：</p>
+<pre><code class="java">//在-128~127 之外的数
+Integer i1 = 200;  
+Integer i2 = 200;          
+System.out.println(&quot;i1==i2: &quot;+(i1==i2));   // 输出 false
+
+
+// 在-128~127 之内的数
+Integer i3 = 100;  
+Integer i4 = 100;  
+System.out.println(&quot;i3==i4: &quot;+(i3==i4));  // 输出 true</code></pre>
+<p>《阿里巴巴Java开发手册》中提到，对于 <code>Integer var =?</code> 在 -128 至 127 之间的赋值， Integer 对象是在IntegerCache.cache 产生，会复用已有对象，这个区间内的 Integer 值可以直接使用 == 进行判断，但是这个区间之外的所有数据，都会在堆上产生，并不会复用已有对象，这是一个大坑，因此<font color="red">推荐使用 equals 方法进行判断</font>。</p>
+<hr>
+<h1 id="增强-for-循环-forEach"><a href="#增强-for-循环-forEach" class="headerlink" title="增强 for 循环 (forEach)"></a>增强 for 循环 (forEach)</h1><p>两个例子：</p>
+<p>如果 <code>numbers</code> 是一个 int[] 数组列表，则使用 forEach 输出所有int</p>
+<pre><code class="Java">int sum = 0;
+for ( int n : numbers){
+  sum += 0;
+}</code></pre>
+<p>如果 <code>friends</code> 是一个 String[] 数组列表，则使用 forEach 输出所有String</p>
+<pre><code class="java">for (String name : friends) {
+  System.out.println(name);
+}</code></pre>
+<h2 id="foreach与正常for循环效率对比"><a href="#foreach与正常for循环效率对比" class="headerlink" title="foreach与正常for循环效率对比"></a>foreach与正常for循环效率对比</h2><ul>
+<li>循环ArrayList时，普通for循环比foreach循环花费的时间要少一点；</li>
+<li>循环LinkList时，普通for循环比foreach循环花费的时间要多很多。</li>
+</ul>
+<p>当将循环次数提升到一百万次的时候，循环ArrayList，普通for循环还是比foreach要快一点；但是普通for循环在循环LinkList时，程序直接卡死。</p>
+<p>结论：</p>
+<ul>
+<li>需要循环数组结构的数据时，建议使用普通for循环，因为for循环采用下标访问，对于数组结构的数据来说，采用下标访问比较好。</li>
+<li>需要循环链表结构的数据时，一定不要使用普通for循环，这种做法很糟糕，数据量大的时候有可能会导致系统崩溃。</li>
+</ul>
+<p>原因：<strong>foreach使用的是迭代器</strong></p>
+<hr>
+<h1 id="零碎知识"><a href="#零碎知识" class="headerlink" title="零碎知识"></a>零碎知识</h1><h2 id="数学运算相关"><a href="#数学运算相关" class="headerlink" title="数学运算相关"></a>数学运算相关</h2><ol>
+<li><p>最小整数：<code>Integer.MIN_VALUE</code></p>
+</li>
+<li><p>最大整数：<code>Integer.MAX_VALUE</code></p>
+</li>
+<li><p>long不够用，用 BigInteger 类</p>
+</li>
+<li><p>1_000_000 = 1000000，编译器会自动删掉下划线（方便阅读）</p>
+</li>
+<li><p><code>Double.POSITIVE_INFINITY</code>表示无穷大，<code>Double.NEGATIVE_INFINITY</code>表示负无穷大</p>
+</li>
+<li><p><code>Double.NaN</code>表示非数值</p>
+</li>
+<li><p>用 <code>if (Double.isNaN(x))</code>来检查 <code>x</code> 是否为 NaN，但不可以用<code>if (x == Double.NaN)</code>，因为NaN都是彼此不同的</p>
+</li>
+<li><p>浮点数不适合金融计算，用BigDecimal类</p>
+</li>
+<li><p><code>BigDecimal.ValueOf(n,e);</code>，其中n是一个整数数，e是小数位，如(588888,3)，就是 588.888</p>
+</li>
+<li><p>17/5 的结果是3， 而 17.0/5 的结果是3.4</p>
+</li>
+<li><p>整数除以零会导致异常，浮点数除以零会产生无限值或NaN</p>
+</li>
+<li><p>负数慎用 %</p>
+</li>
+<li><p>Math类让算数运算更安全（p15）</p>
+</li>
+<li><p><code>Math.round</code>方法获得数字四舍五入的整数，<code>int n = (int) Math.round(x)</code>，若x=3.75，则n=4</p>
+</li>
+<li><p><code>( n!=0 &amp;&amp; s+(100-s) / n ) &lt; 50</code>，第二个条件除数等于零可能会报错，但第一个条件排除了这种可能性，所以第一个条件满足时，第二个条件不予评估，也就不会发生错误</p>
+</li>
+<li><p><code>time &lt; 12 ? &quot;am&quot; : &quot;pm&quot;</code>， 若time&lt;12，结果为am，否则为pm</p>
+</li>
+<li><p><code>n &amp; 0xF</code>的结果为n的最低四位</p>
+</li>
+<li><p>在 32 位的 int 类型中，1&lt;&lt;35 的结果跟 1&lt;&lt;3 相同</p>
+</li>
+<li><p>Java不允许对象直接使用加减乘除等操作符，所以 BigDecimal 和 BigInteer 类需要用方法</p>
+<pre><code class="Java">BigDecimal next = bd.multiply(bd.add(BigDecimal.valueOf(l)));</code></pre>
+</li>
+</ol>
+<h2 id="变量相关"><a href="#变量相关" class="headerlink" title="变量相关"></a>变量相关</h2><ul>
+<li>最好每个变量名都有各自单独的声明</li>
+<li>变量名建议用驼峰式命名，如 countOfInvalidInputs</li>
+<li>刚好正在首次需要变量的前一刻声明</li>
+<li>常量用大写字母，如<code>DAYS_PRE_WEEK = 7;</code></li>
+<li>在其他类中使用 Calendar 类的常量，只需要前面加上类名，如<code>Calendar.DAYS_PRE_WEEK</code></li>
+</ul>
+<hr>
+<h1 id="格式化输出"><a href="#格式化输出" class="headerlink" title="格式化输出"></a>格式化输出</h1><h2 id="使用-0-0-输出浮点数"><a href="#使用-0-0-输出浮点数" class="headerlink" title="使用 %0.0 输出浮点数"></a>使用 %0.0 输出浮点数</h2><p>%8.2f指明输出的浮点数宽度为8，精度为小数点后两位。</p>
+<pre><code class="java">// 输出：333.33
+System.out.printf(&quot;%8.2f&quot;, 1000.0 / 3.0);</code></pre>
+<h2 id="使用-s-输出字符串，-d-输出纯数字"><a href="#使用-s-输出字符串，-d-输出纯数字" class="headerlink" title="使用 %s 输出字符串，%d 输出纯数字"></a>使用 %s 输出字符串，%d 输出纯数字</h2><pre><code class="java">System.out.printf(&quot;Hello, %s. Next year you will be %d.&quot;, name, age);
+String.format(&quot;Hello, %s. Next year you will be %d.&quot;, name, age);</code></pre>
+<hr>
+<h1 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h1><h2 id="String-转-其他"><a href="#String-转-其他" class="headerlink" title="String 转 其他"></a>String 转 其他</h2><pre><code class="java">Integer.parseInt(Str);</code></pre>
+<h2 id="其他-转-String"><a href="#其他-转-String" class="headerlink" title="其他 转 String"></a>其他 转 String</h2><pre><code class="java">//取数字的值，转换为字符串，比如 3.10 转换为 &quot;3.1&quot;
+//如果要格式化为 &quot;3.10&quot;，应该用下面的 DecimalFormat 类
+String n = String.ValueOf(num);
+
+// Integer 转 String
+String s = Integer.toString(num);</code></pre>
+<h2 id="使用-DecimalFormat-类"><a href="#使用-DecimalFormat-类" class="headerlink" title="使用 DecimalFormat 类"></a>使用 DecimalFormat 类</h2><p>将数字格式化为字符串</p>
+<pre><code class="java">double d = 3.1;
+
+// 预定格式
+DecimalFormat df = new DecimalFormat(&quot;0.00&quot;);
+
+// 把 3.10 格式化，返回 String，s = &quot;3.10&quot;
+String s = df.format(d);</code></pre>
+<hr>
+<h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><h2 id="声明数组"><a href="#声明数组" class="headerlink" title="声明数组"></a>声明数组</h2><pre><code class="java">//声明一个有100个元素的字符串数组
+String[] names = new String[100];</code></pre>
+<p>使用 new 构造数组时的默认值：数字（0）， Boolean（flase）, 对象（空引用）</p>
+<h2 id="遍历数组"><a href="#遍历数组" class="headerlink" title="遍历数组"></a>遍历数组</h2><pre><code class="java">// 使用 stream 遍历
+Arrays.stream(names).forEach(System.out::println);</code></pre>
+<h2 id="数组元素比较"><a href="#数组元素比较" class="headerlink" title="数组元素比较"></a>数组元素比较</h2><p>== 和 != 比较的是对象引用，而不是对象的内容。所以比较数组不同下标元素内容是否相同时，不要用 == 应该用 <strong>equals</strong>。</p>
+<pre><code class="java">// DON&#39;T
+if (numbers.get(i) == numbers.get(j));
+
+// DO
+if (numbers.get(i).equals(numbers.get(j)));</code></pre>
+<h2 id="使用-ArrayList-代替数组"><a href="#使用-ArrayList-代替数组" class="headerlink" title="使用 ArrayList 代替数组"></a>使用 ArrayList 代替数组</h2><p>构造数组时，需要知道数组的长度，一旦构造出来长度便不能改变。在许多实际应用中很不方便。所以需要 Java.util 包中的 ArrayList 类来根据需求随时增长或者缩减数组的长度。ArrayList是泛型类。</p>
+<pre><code class="Java">ArrayList&lt;String&gt; friends;
+friend = new ArrayList&lt;&gt;();
+friend.add(&quot;Peter&quot;);
+friend.add(&quot;Paul&quot;);
+friend.remove(1);
+
+String first = friends.get(0);
+friends.set(1, &quot;Mary&quot;);</code></pre>
+<h2 id="二维数组"><a href="#二维数组" class="headerlink" title="二维数组"></a>二维数组</h2><p>在 Java 中，二维数组的每一个元素都是一个一维数组。</p>
+<p>当我们声明一个二维数组：</p>
+<pre><code class="java">Integer[][] num = new Integer[2][3];</code></pre>
+<p>也就声明了这个二维数组里面有 2 个一维数组，这 2 个一维数组里面每个一维数组都有 3 个元素。</p>
+<pre><code class="java">// 初始化二维数组
+Integer[][] num = new Integer[2][3];
+
+// 另一种初始化
+int[][] numbers = {
+        {1,2,3},
+        {4,5,6}
+};
+
+// 遍历 fori 二维数组
+for (int i = 0; i &lt;numbers.length ; i++) {
+    for (int j = 0; j &lt;numbers[i].length ; j++) {
+        System.out.print(numbers[i][j] + &quot; &quot;);
+    }
+    System.out.println();
+}
+
+// 使用 foreach 遍历二维数组
+for (int[] number : numbers) {
+    for (int aNumber : number) {
+        System.out.print(aNumber + &quot; &quot;);
+    }
+    System.out.println();
+}</code></pre>
+<p>遍历结果输出：</p>
+<pre><code>1 2 3
+4 5 6</code></pre><p><strong>注意</strong>：二维数组的声明中， [][] 其中第一个括号必须有值。代表的是在该二维数组中有多少个一维数组。</p>
+<hr>
+<h1 id="可变长参数"><a href="#可变长参数" class="headerlink" title="可变长参数"></a>可变长参数</h1><h2 id="使用-…-声明可变长参数"><a href="#使用-…-声明可变长参数" class="headerlink" title="使用 … 声明可变长参数"></a>使用 … 声明可变长参数</h2><pre><code class="Java">public static double average(double... values) {
+  double sum = 0;
+  for(double v: values) sum+= v;
+  return values.length == 0 ? 0 : sum / values.length;
+}</code></pre>
+<p><strong>注意</strong>：可变参数必须是方法的最后一个参数</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Java/" rel="tag">Java</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/bbe22ae6.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">gcc编译基本操作</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/c022ff2f.html">
+                <span class="level-item">计算机网络漫游</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#Java-与-C-的区别">
+        <span class="has-mr-6">1</span>
+        <span>Java 与 C++ 的区别</span>
+        </a></li><li>
+        <a class="is-flex" href="#数据类型">
+        <span class="has-mr-6">2</span>
+        <span>数据类型</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#八（九）种基本数据类型">
+        <span class="has-mr-6">2.1</span>
+        <span>八（九）种基本数据类型</span>
+        </a></li><li>
+        <a class="is-flex" href="#数据类型转换">
+        <span class="has-mr-6">2.2</span>
+        <span>数据类型转换</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#自动转换">
+        <span class="has-mr-6">2.2.1</span>
+        <span>自动转换</span>
+        </a></li><li>
+        <a class="is-flex" href="#强制转换">
+        <span class="has-mr-6">2.2.2</span>
+        <span>强制转换</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#基本数据类型的-操作">
+        <span class="has-mr-6">2.3</span>
+        <span>基本数据类型的 ++ 操作</span>
+        </a></li><li>
+        <a class="is-flex" href="#左移右移">
+        <span class="has-mr-6">2.4</span>
+        <span>左移右移</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#拆箱和装箱">
+        <span class="has-mr-6">3</span>
+        <span>拆箱和装箱</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#什么是装箱？">
+        <span class="has-mr-6">3.1</span>
+        <span>什么是装箱？</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#数据类型-gt-Object">
+        <span class="has-mr-6">3.1.1</span>
+        <span>数据类型 -> Object</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#基本数据类型及其包装类的区别">
+        <span class="has-mr-6">3.2</span>
+        <span>基本数据类型及其包装类的区别</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#equals-和-“-”">
+        <span class="has-mr-6">4</span>
+        <span>equals() 和 “==”</span>
+        </a></li><li>
+        <a class="is-flex" href="#增强-for-循环-forEach">
+        <span class="has-mr-6">5</span>
+        <span>增强 for 循环 (forEach)</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#foreach与正常for循环效率对比">
+        <span class="has-mr-6">5.1</span>
+        <span>foreach与正常for循环效率对比</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#零碎知识">
+        <span class="has-mr-6">6</span>
+        <span>零碎知识</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#数学运算相关">
+        <span class="has-mr-6">6.1</span>
+        <span>数学运算相关</span>
+        </a></li><li>
+        <a class="is-flex" href="#变量相关">
+        <span class="has-mr-6">6.2</span>
+        <span>变量相关</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#格式化输出">
+        <span class="has-mr-6">7</span>
+        <span>格式化输出</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#使用-0-0-输出浮点数">
+        <span class="has-mr-6">7.1</span>
+        <span>使用 %0.0 输出浮点数</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-s-输出字符串，-d-输出纯数字">
+        <span class="has-mr-6">7.2</span>
+        <span>使用 %s 输出字符串，%d 输出纯数字</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#类型转换">
+        <span class="has-mr-6">8</span>
+        <span>类型转换</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#String-转-其他">
+        <span class="has-mr-6">8.1</span>
+        <span>String 转 其他</span>
+        </a></li><li>
+        <a class="is-flex" href="#其他-转-String">
+        <span class="has-mr-6">8.2</span>
+        <span>其他 转 String</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-DecimalFormat-类">
+        <span class="has-mr-6">8.3</span>
+        <span>使用 DecimalFormat 类</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#数组">
+        <span class="has-mr-6">9</span>
+        <span>数组</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#声明数组">
+        <span class="has-mr-6">9.1</span>
+        <span>声明数组</span>
+        </a></li><li>
+        <a class="is-flex" href="#遍历数组">
+        <span class="has-mr-6">9.2</span>
+        <span>遍历数组</span>
+        </a></li><li>
+        <a class="is-flex" href="#数组元素比较">
+        <span class="has-mr-6">9.3</span>
+        <span>数组元素比较</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-ArrayList-代替数组">
+        <span class="has-mr-6">9.4</span>
+        <span>使用 ArrayList 代替数组</span>
+        </a></li><li>
+        <a class="is-flex" href="#二维数组">
+        <span class="has-mr-6">9.5</span>
+        <span>二维数组</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#可变长参数">
+        <span class="has-mr-6">10</span>
+        <span>可变长参数</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#使用-…-声明可变长参数">
+        <span class="has-mr-6">10.1</span>
+        <span>使用 … 声明可变长参数</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Java简明笔记（一） 基础知识" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

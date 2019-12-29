@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Java虚拟机（四）垃圾回收策略 - J.e</title>
+
+
+    <meta name="description" content="在 Java虚拟机（二）内存模型和对象创建 这一篇中，我们知道 Java 虚拟机的内存模型包含五个部分：程序计数器、Java虚拟机栈、本地方法栈、堆、方法区。这五个区域也叫运行时数据区域（Runtime Data Area），他们是数据的存储空间。既然是存储空间，那就有可能达到存满的时候，因此，JVM必须配备一个垃圾回收器（Garbage Collection, GC），用于不定期地回收不再需要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java虚拟机（四）垃圾回收策略">
+<meta property="og:url" content="https://jerrysheh.me/post/2191536a.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="在 Java虚拟机（二）内存模型和对象创建 这一篇中，我们知道 Java 虚拟机的内存模型包含五个部分：程序计数器、Java虚拟机栈、本地方法栈、堆、方法区。这五个区域也叫运行时数据区域（Runtime Data Area），他们是数据的存储空间。既然是存储空间，那就有可能达到存满的时候，因此，JVM必须配备一个垃圾回收器（Garbage Collection, GC），用于不定期地回收不再需要">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-08-10T13:32:32.000Z">
+<meta property="article:modified_time" content="2019-10-18T11:06:00.643Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Java虚拟机（四）垃圾回收策略" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-08-10T13:32:32.000Z">2018-08-10</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">Java虚拟机</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    20 分钟 读完 (大约 3001 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Java虚拟机（四）垃圾回收策略
+            
+        </h1>
+        <div class="content">
+            <p><img src="../../../../images/Java/GC.png" alt="GC.png"></p>
+<p>在 <a href="../post/7a1af8ce.html">Java虚拟机（二）内存模型和对象创建</a> 这一篇中，我们知道 Java 虚拟机的内存模型包含五个部分：程序计数器、Java虚拟机栈、本地方法栈、堆、方法区。这五个区域也叫运行时数据区域（Runtime Data Area），他们是数据的存储空间。既然是存储空间，那就有可能达到存满的时候，因此，JVM必须配备一个垃圾回收器（Garbage Collection, GC），用于不定期地回收不再需要的内存空间。</p>
+<p>事实上，Java的动态内存分配和回收技术已经相当成熟，作为开发者的我们无需手动去分配和释放内存，一切都交给Java虚拟机。那为什么我们还要去了解 GC 和 内存放配呢？原因是：当需要排查各种内存溢出、泄露等问题，或当垃圾收集称为系统达到更高并发量的瓶颈时，我们有必要对这些“自动化”的技术进行监控和调节。</p>
+<a id="more"></a>
+
+<hr>
+<h1 id="线程私有区域"><a href="#线程私有区域" class="headerlink" title="线程私有区域"></a>线程私有区域</h1><p>程序计数器、Java虚拟机栈、本地方法栈都是线程私有的，这三个区域会随着线程的创建而创建，随着线程的结束而销毁。</p>
+<p>此外，Java虚拟机栈、本地方法栈中的栈帧会随着方法的开始而入栈，随着方法的结束而出栈，每个栈帧中的本地变量表都是在类被加载的时候就确定的。</p>
+<p>正是因为这些确定性，垃圾回收器能够清楚地知道何时该回收这部分内存空间。</p>
+<hr>
+<h1 id="线程共享区域"><a href="#线程共享区域" class="headerlink" title="线程共享区域"></a>线程共享区域</h1><p>堆和方法区是所有线程共享的，并且都在JVM启动时创建，一直运行到JVM停止。</p>
+<p>堆中存放JVM运行期间的所有对象，虽然每个对象的内存大小在加载该对象所属类的时候就确定了，但究竟创建多少个对象实例只有在程序运行期间才能确定。</p>
+<p>方法区中存放类信息、静态成员变量、常量。类的加载是在程序运行过程中，当需要创建这个类的对象时才会加载这个类。因此，JVM究竟要加载多少个类也需要在程序运行期间确定。</p>
+<p>因此，堆和方法区的内存回收具有不确定性，因此垃圾收集器在回收堆和方法区内存的时候就不那么容易了。</p>
+<hr>
+<h1 id="堆内存的回收"><a href="#堆内存的回收" class="headerlink" title="堆内存的回收"></a>堆内存的回收</h1><h2 id="判断哪些对象需要回收"><a href="#判断哪些对象需要回收" class="headerlink" title="判断哪些对象需要回收"></a>判断哪些对象需要回收</h2><p>一个对象不被任何对象或变量引用，那么就是无效对象，就需要被回收。可以用 <strong>引用计数法</strong> 和 <strong>可达性分析法</strong> 来找到无效对象。</p>
+<h3 id="引用计数法（Reference-Counting）"><a href="#引用计数法（Reference-Counting）" class="headerlink" title="引用计数法（Reference Counting）"></a>引用计数法（Reference Counting）</h3><p>每个对象都有一个计数器，每当有一个地方引用了它，计数器加一；若引用失效，计数器减一。当计数器为 0 时，就认为该对象是无效对象。这个方法虽然简单，但存在一个严重的问题：<strong>无法解决循环引用的问题</strong>。</p>
+<p>在下面的例子中，虽然把 objA 和 objB 都置为 null ，但其两者内部某个属性还持有对方的引用，因此采用引用计数法不会被回收。</p>
+<pre><code class="java">Ref objA = new Ref();
+Ref objB = new Ref();
+objA.instance = objB;
+objB.instance = objA;
+
+objA = null;
+objB = null;</code></pre>
+<p>因此，目前主流语言均使用可达性分析方法来判断对象是否有效。</p>
+<h3 id="可达性分析法-Reachability-Analysis"><a href="#可达性分析法-Reachability-Analysis" class="headerlink" title="可达性分析法(Reachability Analysis)"></a>可达性分析法(Reachability Analysis)</h3><p>GC把以下几种对象称为 GC-Roots：</p>
+<ol>
+<li>Java虚拟机栈所引用的对象(栈帧中局部变量表中引用类型的变量所引用的对象)</li>
+<li>本地方法栈JNI(Native)所引用的对象</li>
+<li>方法区中 静态属性 和 常量 引用的对象</li>
+</ol>
+<p>可达性分析法的规则是：所有和 GC Roots 直接或间接关联的对象都是有效对象，和 GC Roots 没有关联的对象就是无效对象。</p>
+<p><img src="../../../../images/Java/reachablity_Analysis.png" alt="reachablity_Analysis"></p>
+<p>GC Roots并不包括堆中对象所引用的对象！这样就不会出现循环引用。</p>
+<p>无论采用上述哪种方法，都与引用相关。关于引用的定义，在JDK1.2之后分为 <strong>强引用</strong>、<strong>软引用</strong>、<strong>弱引用</strong>、<strong>虚引用</strong> 四种引用类型，参考：<a href="../post/ae9388fa.html">refjava</a></p>
+<h2 id="如何回收"><a href="#如何回收" class="headerlink" title="如何回收"></a>如何回收</h2><p>可达性分析法中，不可达的对象并不是“非死不可”，他还有最后一次机会：finalize() 方法可以复活。</p>
+<h3 id="finalize-方法"><a href="#finalize-方法" class="headerlink" title="finalize() 方法"></a>finalize() 方法</h3><p>Object 类中定义的方法，Java 中允许使用 <code>finalize()</code> 方法在垃圾收集器将对象从内存中清除出去之前做必要的清理工作。这个方法是由垃圾收集器在销毁对象时调用的，通过重写 <code>finalize()</code> 方法可以整理系统资源或者执行其他清理工作。</p>
+<p>这个方法一个对象只能执行一次，只能在第一次进入被回收的队列，而且对象所属于的类重写了finalize方法才会被执行。第二次进入回收队列的时候，不会再执行其finalize方法，而是直接被二次标记，在下一次GC的时候被杀死。</p>
+<h3 id="回收过程"><a href="#回收过程" class="headerlink" title="回收过程"></a>回收过程</h3><ol>
+<li>判断该对象是否 Override 了 <code>finalize()</code> 方法，若有 Override，将 <code>finalize()</code> 扔进F-Queue队列中；若无 Override，直接释放对象内存；</li>
+<li>执行F-Queue队列中的 <code>finalize()</code> 方法；</li>
+<li>如果在执行 <code>finalize()</code> 方法时，将 this 赋给了某一个引用，那么该对象就重生了。如果没有，那么就会被垃圾收集器清除。</li>
+</ol>
+<h3 id="使用建议"><a href="#使用建议" class="headerlink" title="使用建议"></a>使用建议</h3><ol>
+<li><p>一般不要使用 finalize，最主要的用途是回收特殊渠道申请的内存。Java程序有垃圾回收器，所以一般情况下内存问题不用程序员操心。但有一种JNI(Java Native Interface)调用non-Java程序（C或C++），finalize()的工作就是回收这部分的内存。</p>
+</li>
+<li><p>强烈不建议使用 finalize() 函数进行任何操作！如果需要释放资源，请使用try-finally。因为 finalize() 不确定性大，开销大，无法保证顺利执行。</p>
+</li>
+</ol>
+<hr>
+<h1 id="方法区的回收"><a href="#方法区的回收" class="headerlink" title="方法区的回收"></a>方法区的回收</h1><p>方法区中主要清除两种垃圾：</p>
+<ol>
+<li>废弃常量</li>
+<li>无用的类</li>
+</ol>
+<h2 id="如何判断一个常量是否废弃？"><a href="#如何判断一个常量是否废弃？" class="headerlink" title="如何判断一个常量是否废弃？"></a>如何判断一个常量是否废弃？</h2><p>清除废弃的常量和清除对象类似，只要常量池中的常量不被任何变量或对象引用，那么这些常量就会被清除掉。举个例子，常量池中有”abc”这个常量，但是当前系统已经没有任何引用指向 “abc” 了，这时候如果发生 GC 且有必要，”abc” 这个方法区中的常量就会被回收。</p>
+<h2 id="如何判断一个类是否无用？"><a href="#如何判断一个类是否无用？" class="headerlink" title="如何判断一个类是否无用？"></a>如何判断一个类是否无用？</h2><ol>
+<li>该类的所有对象都已被清除（堆中已经没有该类的对象）</li>
+<li>该类的 java.lang.Class 对象没有在任何地方被引用（无法通过反射访问该类的方法）</li>
+<li>加载该类的 ClassLoader 已经被回收</li>
+</ol>
+<hr>
+<h1 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h1><h2 id="1-标记-清除（Mark-Sweep）算法"><a href="#1-标记-清除（Mark-Sweep）算法" class="headerlink" title="1. 标记-清除（Mark-Sweep）算法"></a>1. 标记-清除（Mark-Sweep）算法</h2><p>首先判断需要清除哪些数据，并给它们做上标记，然后清除被标记的数据。这种方法虽然简单，但是效率比较低，而且清除完后存在大量碎片空间，导致后续无法存储大对象，降低了空间利用率。</p>
+<h2 id="2-复制算法（针对新生代）"><a href="#2-复制算法（针对新生代）" class="headerlink" title="2. 复制算法（针对新生代）"></a>2. 复制算法（针对新生代）</h2><p>将内存分成两份，只将数据存储在其中一块上。当需要回收垃圾时，也是首先标记出废弃的数据，然后将有用的数据复制到另一块内存上，最后将第一块内存全部清除。这种算法避免了碎片空间，但内存被缩小了一半。而且每次都需要将有用的数据全部复制到另一片内存上去，效率不高。</p>
+<h3 id="复制算法如何解决空间利用率问题？"><a href="#复制算法如何解决空间利用率问题？" class="headerlink" title="复制算法如何解决空间利用率问题？"></a>复制算法如何解决空间利用率问题？</h3><p>在新生代中，由于大量的对象都是“朝生夕死”（98%），也就是一次垃圾收集后只有少量对象存活，因此我们可以将内存划分成三块：Eden、Survior1、Survior2，内存大小分别是8:1:1。分配内存时，只使用Eden和一块Survior1。当发现 Eden+Survior1 的内存即将满时，JVM会发起一次GC，将所有存活下来的对象复制到另一块Survior2中，然后清除掉整个 Eden+Survior1。那么，接下来就使用 Survior2+Eden 进行内存分配。</p>
+<p>通过这种方式，只需要浪费10%的内存空间即可实现带有压缩功能的垃圾收集方法，避免了内存碎片的问题。</p>
+<p>但是，当一个对象要申请内存空间时，发现Eden+Survior中剩下的空间无法放置该对象，此时需要进行Minor GC，如果 Minor GC 过后空闲出来的内存空间仍然无法放置该对象，此时需要将 Eden+Survior 中的所有对象都转移到老年代中，然后再将新对象存入Eden区。这个过程称为“分配担保”。</p>
+<h2 id="3-标记-整理（Mark-Compact）算法（针对老年代）"><a href="#3-标记-整理（Mark-Compact）算法（针对老年代）" class="headerlink" title="3. 标记-整理（Mark-Compact）算法（针对老年代）"></a>3. 标记-整理（Mark-Compact）算法（针对老年代）</h2><p>在回收垃圾前，首先将所有废弃的对象做上标记，然后将所有未被标记的对象移到一边，最后清空另一边区域即可。这是一种针对老年代的算法，因为老年代中的对象一般寿命比较长，因此每次垃圾回收会有大量对象存活。其清空的是标记的废弃对象区域。</p>
+<p>标记-整理和标记-清除的区别在于，标记-清除是直接清除掉需要需要回收的对象，而标记-整理是先将存活的对象往一端移动，然后清除端边界以外的内存。</p>
+<h2 id="4-分代收集算法"><a href="#4-分代收集算法" class="headerlink" title="4. 分代收集算法"></a>4. 分代收集算法</h2><p>将内存划分为老年代和新生代。老年代中存放寿命较长的对象，新生代中存放“朝生夕死”的对象。然后在不同的区域使用不同的垃圾收集算法。</p>
+<hr>
+<h1 id="Minor-GC-和-Full-GC"><a href="#Minor-GC-和-Full-GC" class="headerlink" title="Minor GC 和 Full GC"></a>Minor GC 和 Full GC</h1><p>Minor指的是发生在新生代的垃圾收集，因对Java对象大多具有“朝生夕死”的特征，所以 Minor 发生得非常频繁，回收速度也快。Full GC 也叫做 Major GC，指的是发生在老年代的垃圾收集，一次 Full GC 通常伴随一次 Minor GC（非绝对），Full GC的回收速度一般比 Minor GC 慢 10 倍以上。</p>
+<hr>
+<p>参考：</p>
+<ul>
+<li><a href="https://blog.csdn.net/u010425776/article/details/51189318">深入理解JVM(三)——垃圾收集策略详解</a></li>
+<li>Java中跟垃圾回收密切相关的就是引用的类型了，这一部分之前专门有写了一篇 <a href="../post/ae9388fa.html">Java中的引用类型</a>，现在回过头来看，好像又加深了一些理解。</li>
+<li>周志明，《深入理解Java虚拟机》</li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Java/" rel="tag">Java</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/b054556.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">漫谈五大常用算法</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/d15ce8f0.html">
+                <span class="level-item">Java虚拟机（三）Class文件结构</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#线程私有区域">
+        <span class="has-mr-6">1</span>
+        <span>线程私有区域</span>
+        </a></li><li>
+        <a class="is-flex" href="#线程共享区域">
+        <span class="has-mr-6">2</span>
+        <span>线程共享区域</span>
+        </a></li><li>
+        <a class="is-flex" href="#堆内存的回收">
+        <span class="has-mr-6">3</span>
+        <span>堆内存的回收</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#判断哪些对象需要回收">
+        <span class="has-mr-6">3.1</span>
+        <span>判断哪些对象需要回收</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#引用计数法（Reference-Counting）">
+        <span class="has-mr-6">3.1.1</span>
+        <span>引用计数法（Reference Counting）</span>
+        </a></li><li>
+        <a class="is-flex" href="#可达性分析法-Reachability-Analysis">
+        <span class="has-mr-6">3.1.2</span>
+        <span>可达性分析法(Reachability Analysis)</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#如何回收">
+        <span class="has-mr-6">3.2</span>
+        <span>如何回收</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#finalize-方法">
+        <span class="has-mr-6">3.2.1</span>
+        <span>finalize() 方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#回收过程">
+        <span class="has-mr-6">3.2.2</span>
+        <span>回收过程</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用建议">
+        <span class="has-mr-6">3.2.3</span>
+        <span>使用建议</span>
+        </a></li></ul></li></ul></li><li>
+        <a class="is-flex" href="#方法区的回收">
+        <span class="has-mr-6">4</span>
+        <span>方法区的回收</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#如何判断一个常量是否废弃？">
+        <span class="has-mr-6">4.1</span>
+        <span>如何判断一个常量是否废弃？</span>
+        </a></li><li>
+        <a class="is-flex" href="#如何判断一个类是否无用？">
+        <span class="has-mr-6">4.2</span>
+        <span>如何判断一个类是否无用？</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#垃圾回收算法">
+        <span class="has-mr-6">5</span>
+        <span>垃圾回收算法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#1-标记-清除（Mark-Sweep）算法">
+        <span class="has-mr-6">5.1</span>
+        <span>1. 标记-清除（Mark-Sweep）算法</span>
+        </a></li><li>
+        <a class="is-flex" href="#2-复制算法（针对新生代）">
+        <span class="has-mr-6">5.2</span>
+        <span>2. 复制算法（针对新生代）</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#复制算法如何解决空间利用率问题？">
+        <span class="has-mr-6">5.2.1</span>
+        <span>复制算法如何解决空间利用率问题？</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#3-标记-整理（Mark-Compact）算法（针对老年代）">
+        <span class="has-mr-6">5.3</span>
+        <span>3. 标记-整理（Mark-Compact）算法（针对老年代）</span>
+        </a></li><li>
+        <a class="is-flex" href="#4-分代收集算法">
+        <span class="has-mr-6">5.4</span>
+        <span>4. 分代收集算法</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Minor-GC-和-Full-GC">
+        <span class="has-mr-6">6</span>
+        <span>Minor GC 和 Full GC</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Java虚拟机（四）垃圾回收策略" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>当你输入一个网址的时候，实际会发生什么? - J.e</title>
+
+
+    <meta name="description" content="前言一个 web 应用是如何运行的？作为软件开发者，我们必须得有一个完整的层次化的认知。这一篇将从浏览器，到 HTTP，HTML，web server，request handles 等方面切入，聊聊当我们输入一个网址的时候，后台到底发生了什么。  本文转载自：韩星的博客，对翻译进行了调整。 英文原文：what-really-happens-when-you-navigate-to-a-url">
+<meta property="og:type" content="article">
+<meta property="og:title" content="当你输入一个网址的时候，实际会发生什么?">
+<meta property="og:url" content="https://jerrysheh.me/post/82216935.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="前言一个 web 应用是如何运行的？作为软件开发者，我们必须得有一个完整的层次化的认知。这一篇将从浏览器，到 HTTP，HTML，web server，request handles 等方面切入，聊聊当我们输入一个网址的时候，后台到底发生了什么。  本文转载自：韩星的博客，对翻译进行了调整。 英文原文：what-really-happens-when-you-navigate-to-a-url">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-01-19T07:17:10.000Z">
+<meta property="article:modified_time" content="2019-07-20T04:21:46.899Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="计算机网络">
+<meta property="article:tag" content="HTTP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="当你输入一个网址的时候，实际会发生什么?" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-01-19T07:17:10.000Z">2018-01-19</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    29 分钟 读完 (大约 4304 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                当你输入一个网址的时候，实际会发生什么?
+            
+        </h1>
+        <div class="content">
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>一个 web 应用是如何运行的？作为软件开发者，我们必须得有一个完整的层次化的认知。这一篇将从浏览器，到 HTTP，HTML，web server，request handles 等方面切入，聊聊当我们输入一个网址的时候，后台到底发生了什么。</p>
+<ul>
+<li>本文转载自：<a href="http://www.cnblogs.com/wenanry/archive/2010/02/25/1673368.html">韩星的博客</a>，对翻译进行了调整。</li>
+<li>英文原文：<a href="http://igoro.com/archive/what-really-happens-when-you-navigate-to-a-url/">what-really-happens-when-you-navigate-to-a-url</a></li>
+</ul>
+<a id="more"></a>
+
+<h1 id="1-输入网址"><a href="#1-输入网址" class="headerlink" title="1. 输入网址"></a>1. 输入网址</h1><p>一切从你在浏览器输入一个网址开始</p>
+<p><img src="http://igoro.com/wordpress/wp-content/uploads/2010/02/image4.png" alt="输入网址"></p>
+<h1 id="2-DNS查找"><a href="#2-DNS查找" class="headerlink" title="2. DNS查找"></a>2. DNS查找</h1><p><img src="http://igoro.com/wordpress/wp-content/uploads/2010/02/image13.png" alt="查找ip"></p>
+<p>浏览器所做的第一步是通过访问的域名找出对应的IP地址。这一步叫DNS查找。</p>
+<h2 id="DNS查找过程"><a href="#DNS查找过程" class="headerlink" title="DNS查找过程"></a>DNS查找过程</h2><ul>
+<li><strong>浏览器缓存</strong>：浏览器会缓存DNS记录一段时间。操作系统没有规定浏览器要存储DNS记录多长时间，所以不同浏览器储存各自的缓存时长也不尽相同（一般2分钟到30分钟不等）。</li>
+<li><strong>系统缓存</strong>：如果在浏览器缓存里没有找到需要的记录，浏览器会做一个系统调用（windows里是gethostbyname）。这样便可获得操作系统中的DNS缓存。</li>
+<li><strong>路由器缓存</strong>：如果系统缓存也没有，查询请求会继续发向路由器，路由器一般会有自己的DNS缓存。</li>
+<li><strong>ISP缓存</strong>：接下来要查找的就是ISP缓存DNS的服务器。在这里一般都能找到相应的缓存记录。</li>
+<li><strong>递归搜索</strong>：你的ISP的DNS服务器从根域名服务器开始进行递归搜索，从.com顶级域名服务器到Facebook的域名服务器。一般DNS服务器的缓存中会有.com域名服务器中的域名，所以到顶级服务器的匹配过程不是那么必要了。</li>
+</ul>
+<blockquote>
+<p><code>ISP，因特网服务提供商（Internet Service Provider）</code>ISP有很多，比如住宅区ISP，公司ISP，大学ISP，这些低层的ISP，通过区域的ISP（比如市级、省级ISP）互联，区域ISP又由国家或国际的高层ISP互联起来。形成了一个网络的网络。</p>
+</blockquote>
+<p>DNS递归查找如下图所示：</p>
+<p><img src="http://igoro.com/wordpress/wp-content/uploads/2010/02/500pxAn_example_of_theoretical_DNS_recursion_svg.png" alt="500px-An_example_of_theoretical_DNS_recursion_svg"></p>
+<h2 id="解决多个ip对应一个域名的问题"><a href="#解决多个ip对应一个域名的问题" class="headerlink" title="解决多个ip对应一个域名的问题"></a>解决多个ip对应一个域名的问题</h2><p>像 wikipedia.org 或者 facebook.com 这样的域名，看上去好像只能对应一个单独的IP地址。但往往一个域名可能要对应好几个ip地址，有几种解决办法：</p>
+<ul>
+<li><strong>循环 DNS (Round-robin DNS)</strong>： DNS 查找时返回多个IP的解决方案。举例来说，Facebook.com实际上对应了四个IP地址。</li>
+<li><strong>负载均衡 (Load-balancer)</strong>：是一个能够监听特定IP地址并将网络请求转发到其他服务器上的硬件设备。 一些大型的站点一般都会使用这种昂贵的高性能负载均衡器。</li>
+<li><strong>地理 DNS(Geographic DNS)</strong>：根据用户所处的地理位置，通过把域名映射到多个不同的IP地址提高可扩展性。这样不同的服务器不能够更新同步状态，但映射静态内容的话非常好。</li>
+<li><strong>Anycast</strong>：是一个将IP地址映射多个物理服务器上的路由技术。 美中不足的是，Anycast与TCP协议并不是很兼容，所以很少应用在一些方案中。大多数DNS服务器使用Anycast来获得高效低延迟的DNS查找。</li>
+</ul>
+<h1 id="3-发送HTTP请求"><a href="#3-发送HTTP请求" class="headerlink" title="3.发送HTTP请求"></a>3.发送HTTP请求</h1><p><img src="http://igoro.com/wordpress/wp-content/uploads/2010/02/image22.png" alt="GET"></p>
+<p>像Facebook主页这样的动态页面，打开后浏览器缓存很快甚至马上就会过期。毫无疑问动态页面不能从浏览器缓存中读取。</p>
+<p>所以，浏览器把以下请求发送到Facebook所在的服务器：</p>
+<pre><code>GET http://facebook.com/ HTTP/1.1
+ Accept: application/x-ms-application, image/jpeg, application/xaml+xml, [...]
+ User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; [...]
+ Accept-Encoding: gzip, deflate
+ Connection: Keep-Alive
+ Host: facebook.com
+ Cookie: datr=1265876274-[...]; locale=en_US; lsd=WW[...]; c_user=2101[...]</code></pre><p>GET 这个请求定义了要读取的URL： “ <a href="http://facebook.com/">http://facebook.com/</a> ” 。浏览器自身定义 (User-Agent header)，并且声明浏览器能够接受什么类型的相应 (Accept and Accept-Encoding 头). Connection头要求服务器为了后边的请求不要关闭TCP连接。</p>
+<p>请求中也包含浏览器存储的该域名的cookies。在不同页面请求当中，cookies是与跟踪一个网站状态相匹配的键值。cookies会存储登录用户名，服务器分配的密码和一些用户设置等。并以文本文档形式存储在客户机里，每次请求时发送给服务器。</p>
+<h2 id="如何查看-HTTP-请求？"><a href="#如何查看-HTTP-请求？" class="headerlink" title="如何查看 HTTP 请求？"></a>如何查看 HTTP 请求？</h2><p>用来看原始HTTP请求及其相应的工具很多。作者比较喜欢使用fiddler，当然也有像FireBug这样其他的工具。这些软件在网站优化时会帮上很大忙。</p>
+<h2 id="POST-请求"><a href="#POST-请求" class="headerlink" title="POST 请求"></a>POST 请求</h2><p>除了 GET 请求，还有一种是 POST 请求，它常在提交表单用到。GET 请求通过 URL传递其参数(e.g.: <a href="http://robozzle.com/puzzle.aspx?id=85">http://robozzle.com/puzzle.aspx?id=85</a> )。POST 请求在请求正文头之后发送其参数。</p>
+<h2 id="末尾斜杠"><a href="#末尾斜杠" class="headerlink" title="末尾斜杠"></a>末尾斜杠</h2><p>像 <a href="http://facebook.com/">http://facebook.com/</a> 中的斜杠是至关重要的。这种情况下，浏览器能安全的添加斜杠。而像 <a href="http://example.com/folderOrFile">http://example.com/folderOrFile</a> 这样的地址，因为浏览器不清楚folderOrFile到底是目录还是文件，所以不能自动添加斜杠。这时，浏览器就不加斜杠直接访问地址，服务器会响应一个重定向，结果造成一次不必要的握手。</p>
+<h1 id="4-重定向响应"><a href="#4-重定向响应" class="headerlink" title="4.重定向响应"></a>4.重定向响应</h1><p><img src="http://igoro.com/wordpress/wp-content/uploads/2010/02/image8.png" alt="Redirect"></p>
+<p>图中所示为Facebook服务器发回给浏览器的响应：</p>
+<pre><code>HTTP/1.1 301 Moved Permanently
+ Cache-Control: private, no-store, no-cache, must-revalidate, post-check=0,
+ pre-check=0
+ Expires: Sat, 01 Jan 2000 00:00:00 GMT
+ Location: http://www.facebook.com/
+ P3P: CP=&quot;DSP LAW&quot;
+ Pragma: no-cache
+ Set-Cookie: made_write_conn=deleted; expires=Thu, 12-Feb-2009 05:09:50 GMT;
+ path=/; domain=.facebook.com; httponly
+ Content-Type: text/html; charset=utf-8
+ X-Cnection: close
+ Date: Fri, 12 Feb 2010 05:09:51 GMT
+ Content-Length: 0</code></pre><p>服务器给浏览器响应一个301永久重定向响应，这样浏览器就会访问“ <a href="http://www.facebook.com/">http://www.facebook.com/</a> ” 而非“ <a href="http://facebook.com/">http://facebook.com/</a> ”。</p>
+<h2 id="为什么要重定向？"><a href="#为什么要重定向？" class="headerlink" title="为什么要重定向？"></a>为什么要重定向？</h2><p>为什么服务器一定要重定向而不是直接发会用户想看的网页内容呢？这个问题有好多有意思的答案。其中一个原因跟搜索引擎排名有关。如果一个页面有两个地址，就像 <a href="http://www.igoro.com/">http://www.igoro.com/</a> 和 <a href="http://igoro.com/">http://igoro.com/</a> ,搜索引擎会认为它们是两个网站，结果造成每一个的搜索链接都减少从而降低排名。而搜索引擎知道301永久重定向是什么意思，这样就会把访问带www的和不带www的地址归到同一个网站排名下。还有一个原因是用不同的地址会造成缓存友好性变差。当一个页面有好几个名字时，它可能会在缓存里出现好几次。</p>
+<h1 id="5-浏览器跟踪重定向地址"><a href="#5-浏览器跟踪重定向地址" class="headerlink" title="5.浏览器跟踪重定向地址"></a>5.浏览器跟踪重定向地址</h1><p><img src="http://igoro.com/wordpress/wp-content/uploads/2010/02/image23.png" alt="Follow"></p>
+<p>现在，浏览器知道了 “ <a href="http://www.facebook.com/">http://www.facebook.com/</a> ” 才是要访问的正确地址，所以它会发送另一个获取请求：</p>
+<pre><code>GET http://www.facebook.com/ HTTP/1.1
+ Accept: application/x-ms-application, image/jpeg, application/xaml+xml, [...]
+ Accept-Language: en-US
+ User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; [...]
+ Accept-Encoding: gzip, deflate
+ Connection: Keep-Alive
+ Cookie: lsd=XW[...]; c_user=21[...]; x-referer=[...]
+ Host: www.facebook.com</code></pre><p>头信息以之前请求中的意义相同。</p>
+<h1 id="6-服务器“处理”请求"><a href="#6-服务器“处理”请求" class="headerlink" title="6.服务器“处理”请求"></a>6.服务器“处理”请求</h1><p><img src="http://igoro.com/wordpress/wp-content/uploads/2010/02/ximage9.png.pagespeed.ic.SAfiSgOdSs.webp" alt="handles"></p>
+<p>服务器接收到获取请求，然后处理并返回一个响应。这表面上看起来是一个简单的任务，但其实这中间发生了很多有意思的事情。</p>
+<h2 id="6-1应用服务器"><a href="#6-1应用服务器" class="headerlink" title="6.1应用服务器"></a>6.1应用服务器</h2><p>web服务器软件（如apache、tomcat）接收到HTTP请求，然后确定执行什么请求处理来处理它。请求处理就是一个能够读懂请求并且能生成HTML来进行响应的程序（像ASP.NET,PHP,RUBY…）。</p>
+<p>举个最简单的例子，需求处理可以以映射网站地址结构的文件层次存储。像 <a href="http://example.com/folder1/page1.aspx">http://example.com/folder1/page1.aspx</a> 这个地 址会映射 /httpdocs/folder1/page1.aspx 这个文件。web服务器软件可以设置成为地址人工的对应请求处理，这样 page1.aspx 的发布地址就可以是 <a href="http://example.com/folder1/page1">http://example.com/folder1/page1</a></p>
+<h2 id="6-2-请求处理"><a href="#6-2-请求处理" class="headerlink" title="6.2 请求处理"></a>6.2 请求处理</h2><p>请求处理读取请求内容以及参数、cookies等信息。它会读取也可能更新一些数据，并将数据存储在服务器上。然后，需求处理会生成一个HTML响应。</p>
+<h2 id="如何存储数据"><a href="#如何存储数据" class="headerlink" title="如何存储数据"></a>如何存储数据</h2><p>所有动态网站都面临一个有意思的难点——如何存储数据。小网站一半都会有一个SQL数据库来存储数据，存储大量数据和/或访问量大的网站不得不找一些办法把数据库分配到多台机器上（分表分库）。解决方案 有：sharding （基于主键值将数据表分散到多个数据库中），复制，利用弱语义一致性的简化数据库。</p>
+<p>委托工作给批处理是一个廉价保持数据更新的技术。举例来讲，Fackbook得及时更新新闻feed，但数据支持下的“你可能认识的人”功能只需要每晚更新（作者猜测是这样的，该功能如何完善不得而知）。批处理作业更新会导致一些不太重要的数据陈旧，但能使数据更新耕作更快更简洁。</p>
+<h1 id="7-服务器发回一个HTML响应"><a href="#7-服务器发回一个HTML响应" class="headerlink" title="7.服务器发回一个HTML响应"></a>7.服务器发回一个HTML响应</h1><p><img src="http://igoro.com/wordpress/wp-content/uploads/2010/02/image10.png" alt="response"></p>
+<p>图中为服务器生成并返回的响应：</p>
+<pre><code>HTTP/1.1 200 OK
+ Cache-Control: private, no-store, no-cache, must-revalidate, post-check=0,
+ pre-check=0
+ Expires: Sat, 01 Jan 2000 00:00:00 GMT
+ P3P: CP=&quot;DSP LAW&quot;
+ Pragma: no-cache
+ Content-Encoding: gzip
+ Content-Type: text/html; charset=utf-8
+ X-Cnection: close
+ Transfer-Encoding: chunked
+ Date: Fri, 12 Feb 2010 09:05:55 GMT
+
+ 2b3Tn@[...]</code></pre><p>整个响应大小为35kB，其中大部分在整理后以blob类型传输。</p>
+<p>内容编码头告诉浏览器整个响应体用gzip算法进行压缩。解压blob块后，你可以看到如下期望的HTML：</p>
+<pre><code class="html">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot;    
+ &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;
+ &lt;html xmlns=&quot; http://www.w3.org/1999/xhtml &quot; xml:lang=&quot;en&quot;
+ lang=&quot;en&quot; id=&quot;facebook&quot; class=&quot; no_js&quot;&gt;
+ &lt;head&gt;
+ &lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+ &lt;meta http-equiv=&quot;Content-language&quot; content=&quot;en&quot; /&gt;
+ ...</code></pre>
+<p>关于压缩，头信息说明了是否缓存这个页面，如果缓存的话如何去做，有什么cookies要去设置（前面这个响应里没有这点）和隐私信息等等。</p>
+<p>请注意报头中把Content-type设置为“text/html”。报头让浏览器将该响应内容以HTML形式呈现，而不是以文件形式下载它。浏览器会根据报头信息决定如何解释该响应，不过同时也会考虑像URL扩展内容等其他因素。</p>
+<h1 id="8-浏览器开始显示HTML"><a href="#8-浏览器开始显示HTML" class="headerlink" title="8.浏览器开始显示HTML"></a>8.浏览器开始显示HTML</h1><p>在浏览器没有完整接受全部HTML文档时，它就已经开始显示这个页面了：</p>
+<p><img src="http://igoro.com/wordpress/wp-content/uploads/2010/02/image6.png" alt="render"></p>
+<h1 id="9-请求其他对象"><a href="#9-请求其他对象" class="headerlink" title="9.请求其他对象"></a>9.请求其他对象</h1><p><img src="http://igoro.com/wordpress/wp-content/uploads/2010/02/ximage11.png.pagespeed.ic.8hUNrIrxu9.webp" alt="embedded "></p>
+<p>在浏览器显示HTML时，它会注意到需要获取其他地址内容的标签。这时，浏览器会发送一个获取请求来重新获得这些文件。</p>
+<p>下面是几个我们访问facebook.com时需要重获取的几个URL：</p>
+<ul>
+<li><p>图片</p>
+<blockquote>
+<p><a href="http://static.ak.fbcdn.net/rsrc.php/z12E0/hash/8q2anwu7.gif">http://static.ak.fbcdn.net/rsrc.php/z12E0/hash/8q2anwu7.gif</a><br><a href="http://static.ak.fbcdn.net/rsrc.php/zBS5C/hash/7hwy7at6.gif">http://static.ak.fbcdn.net/rsrc.php/zBS5C/hash/7hwy7at6.gif</a><br>…</p>
+</blockquote>
+</li>
+<li><p>CSS 式样表</p>
+<blockquote>
+<p><a href="http://static.ak.fbcdn.net/rsrc.php/z448Z/hash/2plh8s4n.css">http://static.ak.fbcdn.net/rsrc.php/z448Z/hash/2plh8s4n.css</a><br><a href="http://static.ak.fbcdn.net/rsrc.php/zANE1/hash/cvtutcee.css">http://static.ak.fbcdn.net/rsrc.php/zANE1/hash/cvtutcee.css</a><br>…</p>
+</blockquote>
+</li>
+<li><p>JavaScript 文件</p>
+<blockquote>
+<p><a href="http://static.ak.fbcdn.net/rsrc.php/zEMOA/hash/c8yzb6ub.js">http://static.ak.fbcdn.net/rsrc.php/zEMOA/hash/c8yzb6ub.js</a><br><a href="http://static.ak.fbcdn.net/rsrc.php/z6R9L/hash/cq2lgbs8.js">http://static.ak.fbcdn.net/rsrc.php/z6R9L/hash/cq2lgbs8.js</a><br>…</p>
+</blockquote>
+</li>
+</ul>
+<p>这些地址都要经历一个和HTML读取类似的过程。所以浏览器会在DNS中查找这些域名，发送请求，重定向等等…</p>
+<p>但不像动态页面那样，静态文件会允许浏览器对其进行缓存。有的文件可能会不需要与服务器通讯，而从缓存中直接读取。服务器的响应中包含了静态文件保存的期限 信息，所以浏览器知道要把它们缓存多长时间。还有，每个响应都可能包含像版本号一样工作的ETag头（被请求变量的实体值），如果浏览器观察到文件的版本 ETag信息已经存在，就马上停止这个文件的传输。</p>
+<blockquote>
+<p>试着猜猜看“fbcdn.net”在地址中代表什么？</p>
+</blockquote>
+<blockquote>
+<p>聪明的答案是”Facebook内容分发网络”。Facebook利用内容分发网络（CDN）分发如图片，CSS表和JavaScript文件这些静态文件。所以，这些文件会在全球很多CDN的数据中心中留下备份。</p>
+</blockquote>
+<p>静态内容往往代表站点的带宽大小，也能通过CDN轻松的复制。通常网站会使用第三方的CDN。例如，Facebook的静态文件由最大的CDN提供商Akamai来托管。</p>
+<p>举例来讲，当你试着ping static.ak.fbcdn.net的时候，可能会从某个akamai.net服务器上获得响应。有意思的是，当你同样再ping一次的时候，响应的服务器可能就不一样，这说明幕后的负载平衡开始起作用了。</p>
+<h1 id="10-浏览器发送异步（AJAX）请求"><a href="#10-浏览器发送异步（AJAX）请求" class="headerlink" title="10.浏览器发送异步（AJAX）请求"></a>10.浏览器发送异步（AJAX）请求</h1><p><img src="http://igoro.com/wordpress/wp-content/uploads/2010/02/ximage12.png.pagespeed.ic.Lh4dzFa1or.webp" alt="asynchronous "></p>
+<p>在Web 2.0伟大精神的指引下，页面显示完成后客户端仍与服务器端保持着联系。</p>
+<p>以 Facebook聊天功能为例，它会持续与服务器保持联系来及时更新你那些亮亮灰灰的好友状态。为了更新这些头像亮着的好友状态，在浏览器中执行的 JavaScript代码会给服务器发送异步请求。这个异步请求发送给特定的地址，它是一个按照程式构造的获取或发送请求。还是在Facebook这个例 子中，客户端发送给 <a href="http://www.facebook.com/ajax/chat/buddy_list.php">http://www.facebook.com/ajax/chat/buddy_list.php</a> 一个发布请求来获取你好友里哪个 在线的状态信息。</p>
+<p>提起这个模式，就必须要讲讲”AJAX”– “异步JavaScript 和 XML”，虽然服务器为什么用XML格式来进行响应也没有个一清二白的原因。再举个例子吧，对于异步请求，Facebook会返回一些JavaScript的代码片段。</p>
+<p>除了其他，fiddler这个工具能够让你看到浏览器发送的异步请求。事实上，你不仅可以被动的做为这些请求的看客，还能主动出击修改和重新发送它们。AJAX请求这么容易被蒙，可着实让那些计分的在线游戏开发者们郁闷的了。（当然，可别那样骗人家~）</p>
+<blockquote>
+<p>Facebook聊天功能提供了关于AJAX一个有意思的问题案例：把数据从服务器端推送到客户端。因为HTTP是一个请求-响应协议，所以聊天服务器不能把新消息发给客户。取而代之的是客户端不得不隔几秒就轮询下服务器端看自己有没有新消息。</p>
+</blockquote>
+<blockquote>
+<p>这些情况发生时长轮询是个减轻服务器负载挺有趣的技术。如果当被轮询时服务器没有新消息，它就不理这个客户端。而当尚未超时的情况下收到了该客户的新消息，服务器就会找到未完成的请求，把新消息做为响应返回给客户端。</p>
+</blockquote>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h2 id="简单表述"><a href="#简单表述" class="headerlink" title="简单表述"></a>简单表述</h2><ol>
+<li>输入网址</li>
+<li>DNS查找目标ip</li>
+<li>浏览器向目标ip地址发起tcp三次握手连接</li>
+<li>连接建立后发起 http request</li>
+<li>服务器处理 request</li>
+<li>服务器返回一个 http response 给浏览器</li>
+<li>浏览器将 response 内容显示在页面上</li>
+</ol>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/HTTP/" rel="tag">HTTP</a>, <a class="has-link-grey -link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/32811f1d.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Java简明笔记（三） 接口</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/ba7990ce.html">
+                <span class="level-item">Java简明笔记（二） 面向对象</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#前言">
+        <span class="has-mr-6">1</span>
+        <span>前言</span>
+        </a></li><li>
+        <a class="is-flex" href="#1-输入网址">
+        <span class="has-mr-6">2</span>
+        <span>1. 输入网址</span>
+        </a></li><li>
+        <a class="is-flex" href="#2-DNS查找">
+        <span class="has-mr-6">3</span>
+        <span>2. DNS查找</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#DNS查找过程">
+        <span class="has-mr-6">3.1</span>
+        <span>DNS查找过程</span>
+        </a></li><li>
+        <a class="is-flex" href="#解决多个ip对应一个域名的问题">
+        <span class="has-mr-6">3.2</span>
+        <span>解决多个ip对应一个域名的问题</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#3-发送HTTP请求">
+        <span class="has-mr-6">4</span>
+        <span>3.发送HTTP请求</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#如何查看-HTTP-请求？">
+        <span class="has-mr-6">4.1</span>
+        <span>如何查看 HTTP 请求？</span>
+        </a></li><li>
+        <a class="is-flex" href="#POST-请求">
+        <span class="has-mr-6">4.2</span>
+        <span>POST 请求</span>
+        </a></li><li>
+        <a class="is-flex" href="#末尾斜杠">
+        <span class="has-mr-6">4.3</span>
+        <span>末尾斜杠</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#4-重定向响应">
+        <span class="has-mr-6">5</span>
+        <span>4.重定向响应</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#为什么要重定向？">
+        <span class="has-mr-6">5.1</span>
+        <span>为什么要重定向？</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#5-浏览器跟踪重定向地址">
+        <span class="has-mr-6">6</span>
+        <span>5.浏览器跟踪重定向地址</span>
+        </a></li><li>
+        <a class="is-flex" href="#6-服务器“处理”请求">
+        <span class="has-mr-6">7</span>
+        <span>6.服务器“处理”请求</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#6-1应用服务器">
+        <span class="has-mr-6">7.1</span>
+        <span>6.1应用服务器</span>
+        </a></li><li>
+        <a class="is-flex" href="#6-2-请求处理">
+        <span class="has-mr-6">7.2</span>
+        <span>6.2 请求处理</span>
+        </a></li><li>
+        <a class="is-flex" href="#如何存储数据">
+        <span class="has-mr-6">7.3</span>
+        <span>如何存储数据</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#7-服务器发回一个HTML响应">
+        <span class="has-mr-6">8</span>
+        <span>7.服务器发回一个HTML响应</span>
+        </a></li><li>
+        <a class="is-flex" href="#8-浏览器开始显示HTML">
+        <span class="has-mr-6">9</span>
+        <span>8.浏览器开始显示HTML</span>
+        </a></li><li>
+        <a class="is-flex" href="#9-请求其他对象">
+        <span class="has-mr-6">10</span>
+        <span>9.请求其他对象</span>
+        </a></li><li>
+        <a class="is-flex" href="#10-浏览器发送异步（AJAX）请求">
+        <span class="has-mr-6">11</span>
+        <span>10.浏览器发送异步（AJAX）请求</span>
+        </a></li><li>
+        <a class="is-flex" href="#总结">
+        <span class="has-mr-6">12</span>
+        <span>总结</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#简单表述">
+        <span class="has-mr-6">12.1</span>
+        <span>简单表述</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="当你输入一个网址的时候，实际会发生什么?" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

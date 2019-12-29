@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>推荐系统漫游 - J.e</title>
+
+
+    <meta name="description" content="参考教程：  Part I: Building the recommender Part II: Building and running the web service 厦门大学数据库实验室  参考书籍：  大数据技术原理与应用 林子雨（人民邮电出版社）  参考链接：  Spark 官方文档- Collaborative Filtering Github项目 - An on-line movie">
+<meta property="og:type" content="article">
+<meta property="og:title" content="推荐系统漫游">
+<meta property="og:url" content="https://jerrysheh.me/post/8bda90b5.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="参考教程：  Part I: Building the recommender Part II: Building and running the web service 厦门大学数据库实验室  参考书籍：  大数据技术原理与应用 林子雨（人民邮电出版社）  参考链接：  Spark 官方文档- Collaborative Filtering Github项目 - An on-line movie">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-07-04T08:46:42.000Z">
+<meta property="article:modified_time" content="2019-07-20T04:21:46.899Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="大数据">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="推荐系统漫游" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-07-04T08:46:42.000Z">2018-07-04</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    18 分钟 读完 (大约 2710 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                推荐系统漫游
+            
+        </h1>
+        <div class="content">
+            <p>参考教程：</p>
+<ul>
+<li><a href="https://github.com/jadianes/spark-movie-lens/blob/master/notebooks/building-recommender.ipynb">Part I: Building the recommender</a></li>
+<li><a href="https://github.com/jadianes/spark-movie-lens">Part II: Building and running the web service</a></li>
+<li><a href="http://dblab.xmu.edu.cn/blog/1781-2/">厦门大学数据库实验室</a></li>
+</ul>
+<p>参考书籍：</p>
+<ul>
+<li><a href="http://dblab.xmu.edu.cn/post/bigdata/">大数据技术原理与应用 林子雨（人民邮电出版社）</a></li>
+</ul>
+<p>参考链接：</p>
+<ul>
+<li><a href="https://spark.apache.org/docs/latest/ml-collaborative-filtering.html">Spark 官方文档- Collaborative Filtering</a></li>
+<li><a href="https://github.com/jadianes/spark-movie-lens">Github项目 - An on-line movie recommender using Spark, Python Flask, and the MovieLens dataset</a></li>
+<li><a href="https://www.jianshu.com/p/32d7a2d993a8">在线图书推荐系统的实现（协同过滤）</a></li>
+<li><a href="https://github.com/XuefengHuang/RecommendationSystem">Github项目 - spark-book-recommender-system</a></li>
+</ul>
+<a id="more"></a>
+
+<hr>
+<h1 id="常用的推荐算法"><a href="#常用的推荐算法" class="headerlink" title="常用的推荐算法"></a>常用的推荐算法</h1><h2 id="基于人口统计学的推荐-Demographic-Based-Recommendation"><a href="#基于人口统计学的推荐-Demographic-Based-Recommendation" class="headerlink" title="基于人口统计学的推荐(Demographic-Based Recommendation)"></a>基于人口统计学的推荐(Demographic-Based Recommendation)</h2><ul>
+<li><strong>基本假设（underlying assumption）</strong>：一个用户有可能会喜欢与其相似的用户所喜欢的Item</li>
+</ul>
+<p>当我们需要对一个User进行个性化推荐时，利用User Profile计算其它用户与其之间的相似度，然后挑选出与其最相似的前K个用户，之后利用这些用户的购买和打分信息进行推荐。</p>
+<h2 id="基于内容的推荐-Content-Based-Recommendation"><a href="#基于内容的推荐-Content-Based-Recommendation" class="headerlink" title="基于内容的推荐(Content-Based Recommendation)"></a>基于内容的推荐(Content-Based Recommendation)</h2><ul>
+<li><strong>基本假设</strong>：一个用户可能会喜欢和他曾经喜欢过的Item相似的Item</li>
+</ul>
+<p>比如你看了哈利波特I，基于内容的推荐算法发现哈利波特II-VI与你以前观看的在内容上面（共有很多关键词）有很大关联性，就把后者推荐给你。</p>
+<p>基于内容的推荐引入了关于item的内容信息，来计算item与item之间的相似度。<strong>但跟用户历史行为无关。</strong></p>
+<ul>
+<li><strong>优点</strong>：可以避免Item的冷启动问题</li>
+<li><strong>缺点</strong>：缺点一：推荐的Item可能会重复。典型例子：新闻。如果你看了一则关于MH370的新闻，很可能推荐的新闻和你浏览过的内容一致。缺点二：多媒体的推荐（音乐、电影、图片等)由于很难提内容特征，则很难进行推荐，一种解决方式则是人工给这些Item打标签。但是费时费力。</li>
+</ul>
+<blockquote>
+<p>冷启动：如果一个Item从没有被关注过，其他推荐算法则很少会去推荐，但是基于内容的推荐算法可以分析Item之间的关系，实现推荐。</p>
+</blockquote>
+<h2 id="协同过滤的推荐（Collaborative-Filtering-Recommendation）"><a href="#协同过滤的推荐（Collaborative-Filtering-Recommendation）" class="headerlink" title="协同过滤的推荐（Collaborative Filtering Recommendation）"></a>协同过滤的推荐（Collaborative Filtering Recommendation）</h2><ul>
+<li><strong>基本假设</strong>：用户A 和 用户B 如果对某些商品持有相同的观点，那么 用户A 跟 用户B 对 另一些商品 的观点会更接近。</li>
+</ul>
+<p>协同过滤是指收集用户过去的行为以获得其对产品的显式或隐式信息。根据用户对物品或者信息的偏好，<strong>发现物品或者内容本身的相关性</strong>、或者 <strong>用户的相关性</strong>，然后再基于这些关联性进行推荐。</p>
+<p>基于协同过滤的推荐可以分为以下几个子类：</p>
+<h3 id="基于用户的协同过滤推荐（User-based-Recommendation）"><a href="#基于用户的协同过滤推荐（User-based-Recommendation）" class="headerlink" title="基于用户的协同过滤推荐（User-based Recommendation）"></a>基于用户的协同过滤推荐（User-based Recommendation）</h3><p>通过用户的行为信息，计算用户与用户之间的相似度。比如你跟你的朋友喜好类似，系统认为你们相似度高，如果你的朋友喜欢电影哈利波特I，那么就会推荐给你，这是最简单的基于用户的协同过滤算法。</p>
+<h3 id="基于物品的协同过滤推荐（Item-based-Recommendation）"><a href="#基于物品的协同过滤推荐（Item-based-Recommendation）" class="headerlink" title="基于物品的协同过滤推荐（Item-based Recommendation）"></a>基于物品的协同过滤推荐（Item-based Recommendation）</h3><p>喜欢Item A 的用户，其可能也会喜欢与Item A相似的Item B。</p>
+<p>相似度的计算是基于历史行为信息，计算每两个item之间的相似度（比如有多少人喜欢A，有多少人喜欢B，有多少人既喜欢A又喜欢B，A和B的相似度，就可以计算为共同喜欢A和B的用户个数除以喜欢A或喜欢B的总用户数）</p>
+<blockquote>
+<p>我们可以简单比较下基于用户的协同过滤和基于项目的协同过滤：基于用户的协同过滤需要在线找用户和用户之间的相似度关系，计算复杂度肯定会比基于基于项目的协同过滤高。但是可以帮助用户找到新类别的有惊喜的物品。而基于项目的协同过滤，由于考虑的物品的相似性一段时间不会改变，因此可以很容易的离线计算，准确度一般也可以接受，但是推荐的多样性来说，就很难带给用户惊喜了。一般对于小型的推荐系统来说，基于项目的协同过滤肯定是主流。但是如果是大型的推荐系统来说，则可以考虑基于用户的协同过滤,当然更加可以考虑第三种类型，基于模型的协同过滤。</p>
+</blockquote>
+<ul>
+<li><a href="https://blog.csdn.net/qq_16234613/article/details/78704452">协同过滤和基于人口统计、基于内容推荐的区别</a></li>
+</ul>
+<h3 id="基于模型的协同过滤推荐（Model-based-Recommendation）"><a href="#基于模型的协同过滤推荐（Model-based-Recommendation）" class="headerlink" title="基于模型的协同过滤推荐（Model-based Recommendation）"></a>基于模型的协同过滤推荐（Model-based Recommendation）</h3><p>基于模型的协同过滤推荐就是基于样本的用户喜好信息，训练一个推荐模型，然后根据实时的用户喜好的信息进行预测，计算推荐。</p>
+<p>比如说，有m个物品，n个用户的数据，只有部分用户和部分数据之间是有评分数据的，其它部分评分是空白，此时我们要用已有的部分稀疏数据来预测那些空白的物品和数据之间的评分关系，找到最高评分的物品推荐给用户。</p>
+<p>对于这个问题，用机器学习的思想来建模解决，主流的方法可以分为：用关联算法，聚类算法，分类算法，回归算法，矩阵分解，神经网络,图模型以及隐语义模型来解决。这种方法训练过程比较长，但是训练完成后，推荐过程比较快。</p>
+<p>基于模型协同过滤的推荐机制是现今应用最为广泛的推荐机制。</p>
+<p>优点：</p>
+<ul>
+<li>它不需要对物品或者用户进行严格的建模，而且不要求物品的描述是机器可理解的，所以这种方法也是领域无关的。</li>
+<li>这种方法计算出来的推荐是开放的，可以共用他人的经验，很好的支持用户发现潜在的兴趣偏好</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>方法的核心是基于历史数据，所以对新物品和新用户都有“冷启动”的问题。</li>
+<li>推荐的效果依赖于用户历史偏好数据的多少和准确性。</li>
+<li>在大部分的实现中，用户历史偏好是用稀疏矩阵进行存储的，而稀疏矩阵上的计算有些明显的问题，包括可能少部分人的错误偏好会对推荐的准确度有很大的影响等等。</li>
+<li>对于一些特殊品味的用户不能给予很好的推荐。</li>
+<li>由于以历史数据为基础，抓取和建模用户的偏好后，很难修改或者根据用户的使用演变，从而导致这个方法不够灵活。</li>
+</ul>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>协同过滤的本质是对用户喜好进行预测，其思想是根据邻居用户(与目标用户兴趣相似的用户)的偏好信息，计算出某用户对某商品的感兴趣度。</p>
+<p><img src="https://camo.githubusercontent.com/a6e062883b83adb3b65b5a9e167a3a6f5e5f9a19/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f352f35322f436f6c6c61626f7261746976655f66696c746572696e672e676966" alt="example"></p>
+<p>如果我们用一个用户-产品矩阵来描述用户对产品的喜好程度，那么协同过滤算法的目标就是填充缺失的元素，如下图所示。（These techniques aim to fill in the missing entries of a user-item association matrix）</p>
+<p><img src="../../../../images/hadoop/cf.png" alt="fill"></p>
+<hr>
+<h1 id="Spark-ml库中的推荐算法"><a href="#Spark-ml库中的推荐算法" class="headerlink" title="Spark.ml库中的推荐算法"></a>Spark.ml库中的推荐算法</h1><p>spark.ml 库支持基于模型的协同过滤推荐推荐算法，其中用户和商品通过一小组隐语义因子(latent factors)进行表达，并且这些因子也用于预测缺失的元素。spark.ml库使用 ALS算法来学习这些隐性语义因子。</p>
+<h2 id="交替最小二乘法（ALS）"><a href="#交替最小二乘法（ALS）" class="headerlink" title="交替最小二乘法（ALS）"></a>交替最小二乘法（ALS）</h2><p><code>交替最小二乘法 (Alternating Least Squares，ALS)</code>常用于基于矩阵分解的推荐系统中。</p>
+<p>例如：将用户(user)对商品(item)的评分矩阵分解为两个矩阵：</p>
+<ul>
+<li>一个是用户对商品隐含特征的偏好矩阵</li>
+<li>另一个是商品所包含的隐含特征的矩阵。</li>
+</ul>
+<p>在这个矩阵分解的过程中，评分缺失项得到了填充，也就是说我们可以基于这个填充的评分来给用户做商品推荐了。</p>
+<h2 id="隐性反馈（implicit-feedback）和显性反馈（explicit-feedback）"><a href="#隐性反馈（implicit-feedback）和显性反馈（explicit-feedback）" class="headerlink" title="隐性反馈（implicit feedback）和显性反馈（explicit feedback）"></a>隐性反馈（implicit feedback）和显性反馈（explicit feedback）</h2><p>基于矩阵分解的协同过滤的标准方法一般将用户商品矩阵中的元素作为用户对商品的显性偏好。在许多的现实生活中的很多场景中，我们常常只能接触到隐性的反馈（例如游览，点击，购买，喜欢，分享等等）</p>
+<p>在 MLlib 中所用到的处理这种数据的方法来源于文献： <a href="http://dx.doi.org/10.1109/ICDM.2008.22">Collaborative Filtering for Implicit Feedback Datasets</a>。 本质上，这个方法将数据作为二元偏好值和偏好强度的一个结合，而不是对评分矩阵直接进行建模。因此，评价就不是与用户对商品的显性评分而是和所观察到的用户偏好强度关联了起来。然后，这个模型将尝试找到隐语义因子来预估一个用户对一个商品的偏好。</p>
+<hr>
+<h1 id="使用关联规则做预测"><a href="#使用关联规则做预测" class="headerlink" title="使用关联规则做预测"></a>使用关联规则做预测</h1><p>在 Spark.ml 中，还有一种 Frequent Pattern Mining （FPM） 算法，这种算法用来计算物品之间的关联性。称为关联规则（Association Rule）。</p>
+<p>参考：<a href="https://spark.apache.org/docs/latest/ml-frequent-pattern-mining.html">Spark官方文档 - Frequent Pattern Mining</a></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/3479b7db.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Spring（四）使用 RESTful 风格</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/e884ae58.html">
+                <span class="level-item">Spark中的数据读写</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#常用的推荐算法">
+        <span class="has-mr-6">1</span>
+        <span>常用的推荐算法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#基于人口统计学的推荐-Demographic-Based-Recommendation">
+        <span class="has-mr-6">1.1</span>
+        <span>基于人口统计学的推荐(Demographic-Based Recommendation)</span>
+        </a></li><li>
+        <a class="is-flex" href="#基于内容的推荐-Content-Based-Recommendation">
+        <span class="has-mr-6">1.2</span>
+        <span>基于内容的推荐(Content-Based Recommendation)</span>
+        </a></li><li>
+        <a class="is-flex" href="#协同过滤的推荐（Collaborative-Filtering-Recommendation）">
+        <span class="has-mr-6">1.3</span>
+        <span>协同过滤的推荐（Collaborative Filtering Recommendation）</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#基于用户的协同过滤推荐（User-based-Recommendation）">
+        <span class="has-mr-6">1.3.1</span>
+        <span>基于用户的协同过滤推荐（User-based Recommendation）</span>
+        </a></li><li>
+        <a class="is-flex" href="#基于物品的协同过滤推荐（Item-based-Recommendation）">
+        <span class="has-mr-6">1.3.2</span>
+        <span>基于物品的协同过滤推荐（Item-based Recommendation）</span>
+        </a></li><li>
+        <a class="is-flex" href="#基于模型的协同过滤推荐（Model-based-Recommendation）">
+        <span class="has-mr-6">1.3.3</span>
+        <span>基于模型的协同过滤推荐（Model-based Recommendation）</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#补充">
+        <span class="has-mr-6">1.4</span>
+        <span>补充</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Spark-ml库中的推荐算法">
+        <span class="has-mr-6">2</span>
+        <span>Spark.ml库中的推荐算法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#交替最小二乘法（ALS）">
+        <span class="has-mr-6">2.1</span>
+        <span>交替最小二乘法（ALS）</span>
+        </a></li><li>
+        <a class="is-flex" href="#隐性反馈（implicit-feedback）和显性反馈（explicit-feedback）">
+        <span class="has-mr-6">2.2</span>
+        <span>隐性反馈（implicit feedback）和显性反馈（explicit feedback）</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#使用关联规则做预测">
+        <span class="has-mr-6">3</span>
+        <span>使用关联规则做预测</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="推荐系统漫游" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

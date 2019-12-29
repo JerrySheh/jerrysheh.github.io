@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>J.e</title>
+
+
+    <meta name="description" content="车顶上绑着飞机发动机的小车也许真的能开，只要你不尝试急转弯">
+<meta property="og:type" content="website">
+<meta property="og:title" content="J.e">
+<meta property="og:url" content="https://jerrysheh.me/page/17/index.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="车顶上绑着飞机发动机的小车也许真的能开，只要你不尝试急转弯">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:author" content="Jerry Sheh">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="J.e" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-01-16T08:03:05.000Z">2018-01-16</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Python/">Python</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    14 分钟 读完 (大约 2150 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/567b287d.html">用Python查成绩(一) 模拟登录</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="前言碎语"><a href="#前言碎语" class="headerlink" title="前言碎语"></a>前言碎语</h1><p>这个小项目的起因是每到期末，成绩总是一科一科不定时地出，每天都要登录教务系统查询成绩页面看看成绩出了没，出了没？</p>
+<p>于是乎，就想到能不能用Python爬虫模拟登录教务系统，一键获取本学期所有科目的成绩！当然，一开始是想放到后台不断地自动查询、获取，等成绩更新的时候自动推送Email或微信。但鉴于时间、难度、寒假安排…想想还是暂时先做个一键脚本吧。</p>
+<p>Just do it ！首先来看看教务系统长什么样</p>
+<p><img src="../../../../images/Login_jwgl/jwgl.png" alt="jwgl"></p>
+<p>学校的教务系统是流行的正方教务管理系统，我们可以用 Python 的 requests 库来模拟登录。然后往方框里提交（post）正确的学号、密码和验证码，即可登录。</p>
+<p>需要的储备知识：</p>
+<ol>
+<li>http协议</li>
+<li>python 3基本语法，request库的使用</li>
+<li>xpath和正则表达式</li>
+<li>cookie和session的功能和区别</li>
+</ol>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/567b287d.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-01-06T15:06:02.000Z">2018-01-06</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 785 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/6f3023c1.html">组成原理漫游</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><ul>
+<li><p><strong>CPU</strong>：Central Processing Unit，中央处理机（器），是计算机硬件的核心部件，主要由运算器和控制器组成。</p>
+</li>
+<li><p><strong>PC</strong>：Program Counter，程序计数器，其功能是存放当前欲执行指令的地址，并可自动计数形成下一条指令地址。</p>
+</li>
+<li><p><strong>IR</strong>：Instruction Register，指令寄存器，其功能是存放当前正在执行的指令。</p>
+</li>
+<li><p><strong>CU</strong>：Control Unit，控制单元（部件），为控制器的核心部件，其功能是产生微操作命令序列。</p>
+</li>
+<li><p><strong>ALU</strong>：Arithmetic Logic Unit，算术逻辑运算单元，为运算器的核心部件，其功能是进行算术、逻辑运算。</p>
+</li>
+<li><p><strong>ACC</strong>：Accumulator，累加器，是运算器中既能存放运算前的操作数，又能存放运算结果的寄存器。</p>
+</li>
+<li><p><strong>MQ</strong>：Multiplier-Quotient Register，乘商寄存器，乘法运算时存放乘数、除法时存放商的寄存器。</p>
+</li>
+<li><p><strong>X</strong>：此字母没有专指的缩写含义，可以用作任一部件名，在此表示操作数寄存器，即运算器中工作寄存器之一，用来存放操作数。</p>
+</li>
+<li><p><strong>MAR</strong>：Memory Address Register，存储器地址寄存器，在主存中用来存放欲访问的存储单元的地址。</p>
+</li>
+<li><p><strong>MDR</strong>：Memory Data Register，存储器数据缓冲寄存器，在主存中用来存放从某单元读出、或要写入某存储单元的数据。</p>
+</li>
+<li><p><strong>I/O</strong>：Input/Output equipment，输入/输出设备，为输入设备和输出设备的总称，用于计算机内部和外界信息的转换与传送。</p>
+</li>
+<li><p><strong>MIPS</strong>：Million Instruction Per Second，每秒执行百万条指令数，为计算机运算速度指标的一种计量单位。</p>
+</li>
+</ul>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/6f3023c1.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-01-05T02:31:45.000Z">2018-01-05</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    10 分钟 读完 (大约 1460 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/5b1e0c36.html">选择、格局和搭积木</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h1><p>考研 or 工作 ?</p>
+<p>早上起来看到朋友圈有人五六点钟就起床抢占下一年的考研自习室座位。也看到身边的一些朋友原来都默默下决心要考研了。</p>
+<p>感叹时间过得真快。考研还是工作，这个问题从大一就开始想过，现在我自己的答案是：为工作而准备。</p>
+<p>每个人的条件和追求都不一样，对我来说，学术和科研似乎不是我所梦想的。自觉本身潜在有 Geek 的性格。因而越早投身于自己喜爱的项目和钻研中，更加合适。而且就我来说，要我看一天高数、组原这些很理论的知识，大抵我是坐不下去的。倒是坐在电脑前思考一整天如何实现XX功能，做点自己觉得酷的事情，却没有问题。</p>
+<p>每个人都有自己的选择，定下来了，就往前走。</p>
+<hr>
+<h1 id="格局"><a href="#格局" class="headerlink" title="格局"></a>格局</h1><p>这几天一直在考试，每考完一科就觉得，学了一个学期，也就这样了。似乎每一门课带给我的收获都不及期望的大，权衡时间和精力的投入，结果甚至可能是负值。昨天加了一个华南理工大学毕业的师兄建的微信群，是给大三大四的学生做腾讯等IT公司内推的。深知差距之大，唯有继续努力学习。</p>
+<p>不知道为什么，这几天一直想到“格局”这两个字。可能我的格局还是太小了，把自己局限在一个认知的小圈子里面。每次感觉自己很局限的时候，看到和想起一些人，一些事，比如上面提到的微信群，比如考上研究生很激励我的堂姐，比如每次看到同样在努力的好朋友小静静，就会觉得，三五年后，一切都会不一样。</p>
+<p>现在越是拘泥自己，往后越难放大眼界。</p>
+<p>吴军博士说：</p>
+<blockquote>
+<p>一个人能走多远，在于他的格局有多大。想要格局大，就要广泛地吸收知识和经验，而不是把自己局限在那一点小领域中。</p>
+</blockquote>
+<p>所以还是要多认识这个世界，再把时间线拉长到以年计。放大自己的格局和思维。</p>
+<p>很多现在想不开觉得没有意义的事情，也就能想开了。</p>
+<hr>
+<h1 id="搭积木"><a href="#搭积木" class="headerlink" title="搭积木"></a>搭积木</h1><p>期末复习这段时间，偶尔也会写写东西。</p>
+<p>因为写一篇博客，我每次都需要在git-bash里输入<code>hexo new &quot;titile&quot;</code>，一开始，我只是想写一个一键创建新博客的脚本，这样只需要输入文章标题，然后点一下就创建好了，然后自动打开atom。岂不很方便？</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/5b1e0c36.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-01-02T15:32:36.000Z">2018-01-02</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    8 分钟 读完 (大约 1130 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/4399c62c.html">TCP与UDP的区别</a>
+            
+        </h1>
+        <div class="content">
+            <p>TCP和UDP是OSI模型<code>运输层</code>中的协议。</p>
+<p>TCP提供可靠的通信传输，而UDP则常被用于让广播和细节控制交给应用的通信传输。</p>
+<h1 id="UDP-User-Datagram-Protocol"><a href="#UDP-User-Datagram-Protocol" class="headerlink" title="UDP (User Datagram Protocol)"></a>UDP (User Datagram Protocol)</h1><p>UDP不提供复杂的控制机制，利用IP提供面向无连接的通信服务。并且它是将应用程序发来的数据在收到的那一刻，立刻按照原样发送到网络上的一种机制。</p>
+<p>即使是出现网络拥堵的情况下，UDP也无法进行流量控制等避免网络拥塞的行为。</p>
+<p>此外，传输途中如果出现了丢包，UDP也不负责重发。甚至当出现包的到达顺序乱掉时也没有纠正的功能。如果需要这些细节控制，那么不得不交给由采用UDP的应用程序去处理。</p>
+<p>换句话说，UDP将部分控制转移到应用程序去处理，自己却只提供作为传输层协议的最基本功能。UDP有点类似于用户说什么听什么的机制，但是需要用户充分考虑好上层协议类型并制作相应的应用程序。</p>
+<h1 id="TCP-Transmission-Control-Protocol"><a href="#TCP-Transmission-Control-Protocol" class="headerlink" title="TCP(Transmission Control Protocol)"></a>TCP(Transmission Control Protocol)</h1><p>TCP充分实现了数据传输时各种控制功能，可以进行丢包的重发控制，还可以对次序乱掉的分包进行顺序控制。而这些在UDP中都没有。</p>
+<p>此外，TCP作为一种面向有连接的协议，只有在确认通信对端存在时才会发送数据，从而可以控制通信流量的浪费。TCP通过检验和、序列号、确认应答、重发控制、连接管理以及窗口控制等机制实现可靠性传输。</p>
+<h1 id="TCP与UDP如何加以区分使用？"><a href="#TCP与UDP如何加以区分使用？" class="headerlink" title="TCP与UDP如何加以区分使用？"></a>TCP与UDP如何加以区分使用？</h1><p>TCP用于在传输层有必要实现可靠性传输的情况。由于它是面向有连接并具备顺序控制、重发控制等机制的。所以它可以为应用提供可靠传输。</p>
+<p>另一方面，UDP主要用于那些对高速传输和实时性有较高要求的通信或广播通信。</p>
+<p>举一个IP电话进行通话的例子。如果使用TCP，数据在传送途中如果丢失会被重发，但是这样无法流畅地传输通话人的声音，会导致无法进行正常交流。而采用UDP，它不会进行重发处理。从而也就不会有声音大幅度延迟到达的问题。即使有部分数据丢失，也只是影响某一小部分的通话。</p>
+<p>此外，在多播与广播通信中也使用UDP而不是TCP。RIP、DHCP等基于广播的协议也要依赖于UDP。</p>
+<hr>
+<h1 id="TCP与UDP区别总结"><a href="#TCP与UDP区别总结" class="headerlink" title="TCP与UDP区别总结"></a>TCP与UDP区别总结</h1><ol>
+<li>TCP<code>面向连接</code>（如打电话要先拨号建立连接);UDP是<code>无连接</code>的，即发送数据之前不需要建立连接</li>
+<li>TCP提供<code>可靠</code>的服务。也就是说，通过TCP连接传送的数据，无差错，不丢失，不重复，且按序到达;UDP尽最大努力交付，即<code>不保证可靠</code>交付</li>
+<li>TCP<code>面向字节流</code>，实际上是TCP把数据看成一连串无结构的字节流;UDP则是<code>面向报文</code>的。UDP没有拥塞控制，因此网络出现拥塞不会使源主机的发送速率降低（对实时应用很有用，如IP电话，实时视频会议等），并且UDP速度更快。</li>
+<li>每一条TCP连接只能是<code>点到点</code>的;UDP支持<code>一对一，一对多，多对一和多对多</code>的交互通信</li>
+<li>TCP<code>首部开销</code>20字节;UDP的首部开销小，只有8个字节</li>
+<li>TCP的逻辑通信信道是全双工的<code>可靠信道</code>，UDP则是<code>不可靠信道</code></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>TCP</th>
+<th>UDP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>面向连接</code></td>
+<td><code>无连接</code></td>
+</tr>
+<tr>
+<td>提供<code>可靠</code>的服务。</td>
+<td>尽最大努力，<code>不保证可靠</code>交付</td>
+</tr>
+<tr>
+<td><code>面向字节流</code></td>
+<td><code>面向报文</code></td>
+</tr>
+<tr>
+<td>只能<code>点到点</code></td>
+<td>支持<code>一对一，一对多，多对一和多对多</code></td>
+</tr>
+<tr>
+<td>首部开销 20 字节</td>
+<td>首部开销 8 个字节</td>
+</tr>
+<tr>
+<td><code>可靠逻辑通信信道</code>（全双工）</td>
+<td><code>不可靠逻辑通信信道</code></td>
+</tr>
+</tbody></table>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-01-01T06:18:19.000Z">2018-01-01</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 分钟 读完 (大约 900 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/745782bb.html">silver lining</a>
+            
+        </h1>
+        <div class="content">
+            <p><img src="../../../../images/movie_capture/sliverLining_1.jpg" alt="sliverlining"></p>
+<p>每个人都有半面，一半乌云、一半幸福。在别人看来，你是一个疯狂的精神病人，可是当你遇到一个跟你一样独特的人，你乌云背后的阳光才能拥有初霁。我所理解的《乌云背后的幸福线》，正是遇见那个跟你一样 crazy 的人。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/745782bb.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-12-31T15:50:58.000Z">2017-12-31</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    1 分钟 读完 (大约 194 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/5e11ed5b.html">html5插入视频空白问题</a>
+            
+        </h1>
+        <div class="content">
+            <p>今天想在我的博客文章<a href="https://jerrysheh.github.io/post/c3c12d05.html">一些想法</a>中插入一段视频。</p>
+<p>本来把视频上传到我的apache服务器中，然后在 Hexo 的 Markdown语法中插入以下语句即可</p>
+<pre><code>&lt;video src=&#39;链接地址&#39; type=&#39;video/mp4&#39; controls=&#39;controls&#39;  width=&#39;100%&#39; height=&#39;100%&#39;&gt;
+&lt;/video&gt;</code></pre><p>但是在 Chrome 中播放的时候，一直显示空白，但是有声音。琢磨了半天不知道问题出在哪。</p>
+<p>后来发现是 html5 嵌入视频的时候，对视频编码是有要求的</p>
+<blockquote>
+<p>MP4有3种编码，mpg4(xdiv),mpg4(xvid)，avc(h264)</p>
+</blockquote>
+<blockquote>
+<p>转换成H264编码就可以网页正常播放了，好像H264才是公认的MP4标准编码</p>
+</blockquote>
+<p><img src="../../../../images/emmm.jpg" alt="emmm"></p>
+<p>用 PotPlayer 重新录制新的编码视频重新上传，搞定了。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-12-31T10:04:01.000Z">2017-12-31</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    11 分钟 读完 (大约 1646 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/95a8d81.html">重庆森林——致失去和重生</a>
+            
+        </h1>
+        <div class="content">
+            <p>不知道为什么，最近很享受看感情类电影时那种沉浸其中的感觉。可能以前经历少的时候，也就很难看懂其中的精髓。随着人生经历的增加，渐渐地在一些电影中也更能找到所谓共鸣和感同身受了。</p>
+<p>《重庆森林》，作为港片中治疗失恋的经典之作，四个人，两个故事，讲的是我，也是你，是千千万万经历过的人。</p>
+<p><img src="../../../../images/movie_capture/cqsl_1.jpg" alt="cqsl"></p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/95a8d81.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-12-29T10:34:38.000Z">2017-12-29</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    14 分钟 读完 (大约 2086 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/c3c12d05.html">关于感情</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="健康"><a href="#健康" class="headerlink" title="健康"></a>健康</h1><p>最近发生了很多事，博客也将近一个月没有更新。</p>
+<p>首先我病了。病了将近半个多月，生病的这段时间里，除了吃药睡觉，就只有吃药睡觉。很难受。每天早上起床的第一件事不是去上课，不是想着该补回已经落下很多的知识，也不是想着去哪里玩，而是躺在床上，直到继续睡过去，再直到中午浑浑噩噩地起床吃个外卖，然后继续午睡。</p>
+<p>有一句话说，“赖床是因为没有勇气开始这一天”。尽管在生病期间，理应得到好好的休息，但那段时间，我好像同时也丧失了好好生活的动力，以及勇气。我的脑袋运转不起来，无力去想关于生活的任何方方面面，我只是躺在床上，然后无所事事。</p>
+<p>冬至拖着感冒疲惫的身体回了家，好好休整了三天。回到学校正常去上课了一天，晚上又因为肚子痛和胃痛，一下子被打回原样。终于又没有去上课了，而这学期，也再没有课可以上了。</p>
+<p>好似是感冒好很多了，这两天精神状态才又恢复了一点。</p>
+<p>我这才又重新振作了一点点。重新开始去思考，去总结，去捡起落下的东西。</p>
+<p>总而言之，人心里总要有一些诗和远方，但是健康地活着，包括心理和身体上的健康，才是最重要的。</p>
+<hr>
+<h1 id="感情"><a href="#感情" class="headerlink" title="感情"></a>感情</h1><p>生病的这将近半个多月时间里，我有时也会去想感情的问题。</p>
+<p>我在想，经历一段失败的感情，其实也未必一定让人成长。相反，也可能使一个人丧失爱的能力。人的一生当中，是否一定要经历很多分分合合，又是否也有可能，你努力了那么久，也不一定会找到对的那个人，或者找到了却错过了。如果上面的问题的答案是“Yes”的话，那简直太令人难过了。</p>
+<p>但是，无论如何，还是得相信爱，不是吗？本身就不相信爱情的人，即使拥有，也会因为自己的不相信而再次失去。</p>
+<blockquote>
+<p>“胆小鬼连幸福都会害怕，碰到棉花都会受伤，有时还被幸福所伤”。</p>
+</blockquote>
+<p>我想，我还是相信爱的。</p>
+<p>昨天发现了一部电影——《Love actually》，中文翻译是《真爱至上》。晚上11点钟看完竟然深深地被治愈。</p>
+<p><img src="../../../../images/movie_capture/loveactually_1.jpg" alt="loveactually"></p>
+<blockquote>
+<p>Whenever I get gloomy with the state of the world, I think about the arrival’s gate at Heathrow airport. General opinion start to make out that we live in a world of hatred and greed. But I don’t see that, seems to me that love is everywhere. Often it’s not particularly dignified or newsworthy, but it’s always there, fathers and sons, mothers and daughters, husbands and wives, boyfriend, girlfriend, old friends. When the plane hit the Twin Tower, as far as I know, none of the phone calls from people on board were messages of hate or revenge. They are all messages of love. If you look for it, I’ve got a sneaky feeling that love actually is all around.</p>
+</blockquote>
+<blockquote>
+<p>每当我为世界的现状感到沮丧时，我就会想到伦敦希思罗机场的接机大厅。很多人都开始觉得，我们生活在一个充满贪婪与憎恨的世界里，但我却不这么认为。对我来说，真爱无处不在。它可能并不起眼，也上不了报纸头条，但它的的确确存在着。它存在于父子、母女、夫妻、 男朋友、女朋友、还有老朋友之间。飞机撞上双子楼的那一刻，据我所知，没有一通来自航班上的通话传递的是仇恨或复仇，它们全部是爱的留言。如果你用心去看，我确信你会发现，真爱其实无处不在。</p>
+</blockquote>
+<p><img src="../../../../images/movie_capture/loveactually_2.jpg" alt="loveactually"></p>
+<p><img src="../../../../images/movie_capture/loveactually_3.jpg" alt="loveactually"></p>
+<p><img src="../../../../images/movie_capture/loveactually_4.jpg" alt="loveactually"></p>
+<p><img src="../../../../images/movie_capture/loveactually_5.jpg" alt="loveactually"></p>
+<blockquote>
+<p>即使没有和你手牵手漫步街头开怀大笑的那天，即使只能在四下无人的夜里想你想到独自哭泣，即使永远只能守望着你和另外一个人相守白头；</p>
+</blockquote>
+<blockquote>
+<p>我荒废的心也会爱你直到天荒地老。</p>
+</blockquote>
+<blockquote>
+<p>That’s enough.</p>
+</blockquote>
+<p>明年的圣诞节，我想不出意外我一定会重温《真爱至上》这部电影。到时候又会对爱有怎样的感悟呢？</p>
+<hr>
+<p>今天又看了同类电影，《其实他没有那么喜欢你》(《其实你不懂他的心》)。再一次对寻找爱和幸福有了新的感悟。</p>
+<p><img src="../../../../images/movie_capture/intoyou_1.jpg" alt="intoyou"></p>
+<blockquote>
+<p>女孩在成长的过程中会学到很多东西：</p>
+</blockquote>
+<blockquote>
+<p>Girls are taught a lot of stiff growing up:</p>
+</blockquote>
+<blockquote>
+<p>如果一个男孩欺负你，是因为他喜欢你。</p>
+</blockquote>
+<blockquote>
+<p>If a guy pinches you, he likes you.</p>
+</blockquote>
+<blockquote>
+<p>千万不要试着自己修剪刘海。</p>
+</blockquote>
+<blockquote>
+<p>Never try to trim your own bangs.</p>
+</blockquote>
+<blockquote>
+<p>然后有一天，你会遇到非常棒的男人，从此过着幸福生活。</p>
+</blockquote>
+<blockquote>
+<p>And someday you will meet a wonderful guy and get your very own happy ending.</p>
+</blockquote>
+<blockquote>
+<p>我们看的每场电影，听过的每个故事都告诉我们要耐心等待。</p>
+</blockquote>
+<blockquote>
+<p>Every movie we see, every story we’re told implores is to wait for it.</p>
+</blockquote>
+<blockquote>
+<p>而第三类情况是：无法预知的爱情宣言，游离于规则之外。</p>
+</blockquote>
+<blockquote>
+<p>The third act twist: The inexpected declaration of love.the exception to the rule.</p>
+</blockquote>
+<blockquote>
+<p>但有时我们太专注于寻找幸福。</p>
+</blockquote>
+<blockquote>
+<p>But sometimes we’re so focused on finding our happy ending.</p>
+</blockquote>
+<blockquote>
+<p>我们没有学会如何读懂别人的暗示。</p>
+</blockquote>
+<blockquote>
+<p>We don’t learn how to read the signs.</p>
+</blockquote>
+<blockquote>
+<p>如何分辨谁是真正爱我们的人。</p>
+</blockquote>
+<blockquote>
+<p>How to tell the ones who want us from the ones who don’t.</p>
+</blockquote>
+<blockquote>
+<p>如何分辨这个人是不是只是生命中的过客。</p>
+</blockquote>
+<blockquote>
+<p>The ones who will stay from the ones who will leave.</p>
+</blockquote>
+<blockquote>
+<p>或许这个幸福的结局中并没有一个很棒的男人。</p>
+</blockquote>
+<blockquote>
+<p>And maybe this happy ending doesn’t include a wonderful guy.</p>
+</blockquote>
+<blockquote>
+<p>或许是你，你一个人，收拾好心情，然后重新开始。</p>
+</blockquote>
+<blockquote>
+<p>Maybe it’s you, on your own, picking up the pieces and starting over.</p>
+</blockquote>
+<blockquote>
+<p>释放自己，为了更好的未来。</p>
+</blockquote>
+<blockquote>
+<p>Freeing yourself up for something better in the future.</p>
+</blockquote>
+<blockquote>
+<p>或许这个幸福的结局只是继续生活。</p>
+</blockquote>
+<blockquote>
+<p>Maybe the happy ending is just moving on.</p>
+</blockquote>
+<blockquote>
+<p>或者可能幸福的结局是这个：</p>
+</blockquote>
+<blockquote>
+<p>Or maybe the happy ending is this:</p>
+</blockquote>
+<blockquote>
+<p>我们明白，即使你曾因男人不回电话而伤心欲绝。</p>
+</blockquote>
+<blockquote>
+<p>Knowning that through all the inreturned phone calls and broken hearts.</p>
+</blockquote>
+<blockquote>
+<p>即使你曾像无头苍蝇一样四处碰壁，自作多情…</p>
+</blockquote>
+<blockquote>
+<p>throgh all the blinders and misread signals…</p>
+</blockquote>
+<blockquote>
+<p>即使你曾经受伤或者出糗…</p>
+</blockquote>
+<blockquote>
+<p>through all of the pain and embarrassment…</p>
+</blockquote>
+<blockquote>
+<p>你也决不能放弃希望。</p>
+</blockquote>
+<blockquote>
+<p>you never, ever gave up hope.</p>
+</blockquote>
+<p>好朋友小静静跟我说：“正确的恋爱观也应该是这样的吧：尽力地去等一个人、尽力地去爱一个人，在每一次恋爱中全心投入，失恋分手了，可以伤心难过，但也要再认真地做回自己，不要失去去爱的勇气！”</p>
+<p>感情也好，生活的其他方面也好，愿你不放弃。</p>
+<p>最后，在我心里，其实一直有个疑问：那么一段成熟、稳定、可持续的感情到底应该是什么样的呢？ 所有的爱情电影，似乎都只会告诉你爱情的美好，告诉你真爱存世，告诉你不要放弃追寻爱的希望……但是好像却少有人告诉你，如何在感情中长久地相处。如果知道答案的话，就不会有那么多的分手了吧。</p>
+<p>我也会，试图去寻找这个答案的。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+    
+<div class="card card-transparent">
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        <div class="pagination-previous">
+            <a class="is-flex-grow has-text-black-ter" href="/page/16/">上一页</a>
+        </div>
+        <div class="pagination-next">
+            <a class="is-flex-grow has-text-black-ter" href="/page/18/">下一页</a>
+        </div>
+        <ul class="pagination-list is-hidden-mobile">
+            
+            <li><a class="pagination-link has-text-black-ter" href="/">1</a></li>
+            
+            <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/16/">16</a></li>
+            
+            <li><a class="pagination-link is-current" href="/page/17/">17</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/18/">18</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/19/">19</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/20/">20</a></li>
+            
+        </ul>
+    </nav>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="J.e" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

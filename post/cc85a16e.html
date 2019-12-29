@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Effective Java（六）Lambdas and Streams - J.e</title>
+
+
+    <meta name="description" content="Item 42 lambda 表达式优于匿名类Java 的 Lambda 表达式本质上就是一个匿名类。而什么是匿名类？就是在使用的时候现场 new 并实现的类。 只有一个方法的接口称为 函数式接口（functioning interface），Lambda 表达式本质上就是对这样子的接口做现场实现。可以参考我之前写的：Java简明笔记（八）Lambda和函数式编程 然而 lambda 也不是万能的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Effective Java（六）Lambdas and Streams">
+<meta property="og:url" content="https://jerrysheh.me/post/cc85a16e.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="Item 42 lambda 表达式优于匿名类Java 的 Lambda 表达式本质上就是一个匿名类。而什么是匿名类？就是在使用的时候现场 new 并实现的类。 只有一个方法的接口称为 函数式接口（functioning interface），Lambda 表达式本质上就是对这样子的接口做现场实现。可以参考我之前写的：Java简明笔记（八）Lambda和函数式编程 然而 lambda 也不是万能的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2019-11-19T14:39:14.000Z">
+<meta property="article:modified_time" content="2019-12-29T12:14:23.962Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Effective Java（六）Lambdas and Streams" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 分钟 读完 (大约 1740 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Effective Java（六）Lambdas and Streams
+            
+        </h1>
+        <div class="content">
+            <h1 id="Item-42-lambda-表达式优于匿名类"><a href="#Item-42-lambda-表达式优于匿名类" class="headerlink" title="Item 42 lambda 表达式优于匿名类"></a>Item 42 lambda 表达式优于匿名类</h1><p>Java 的 Lambda 表达式本质上就是一个匿名类。而什么是匿名类？就是在使用的时候现场 new 并实现的类。</p>
+<p>只有一个方法的接口称为 <strong>函数式接口（functioning interface）</strong>，Lambda 表达式本质上就是对这样子的接口做现场实现。可以参考我之前写的：<a href="../post/68278ec8.html">Java简明笔记（八）Lambda和函数式编程</a></p>
+<p>然而 lambda 也不是万能的，它只对函数是接口有用，如果一个接口有多个方法需要重写，那只能用匿名类。this 关键字在 lambda 中引用封闭实例，在匿名类中引用匿名类实例。如果你需要从其内部访问函数对象，则必须使用匿名类。</p>
+<p>Lambdas 与匿名类都无法可靠地序列化和反序列化。因此，尽量少去 (如果有的话) 序列化一个 lambda (或一个匿名类实例)。如果有一个想要进行序列化的函数对象，比如一个 Comparator，那么使用一个私有静态嵌套类的实例（见 Item 24 ）。</p>
+<p>作者建议：一行代码对于 lambda 说是理想的，三行代码是合理的最大值。 如果违反这一规定，可能会严重损害程序的可读性。</p>
+<a id="more"></a>
+
+<hr>
+<h1 id="Item-43-方法引用优于-lambda-表达式"><a href="#Item-43-方法引用优于-lambda-表达式" class="headerlink" title="Item 43 方法引用优于 lambda 表达式"></a>Item 43 方法引用优于 lambda 表达式</h1><p>lambda 比 匿名类 简洁，方法引用比 lambda 简洁。</p>
+<p>考虑一个例子：</p>
+<pre><code class="java">map.merge(key, 1, (count, incr) -&gt; count + incr);</code></pre>
+<p>第三个参数是一个 lambda，就只是求两数之和，而求和这个方法在 <code>Integer</code> 类中是存在的。所以可以直接用方法引用：</p>
+<pre><code class="java">map.merge(key, 1, Integer::sum);</code></pre>
+<table>
+<thead>
+<tr>
+<th>Method Ref Type</th>
+<th>Example</th>
+<th>Lambda Equivalent</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Static</td>
+<td>Integer::parseInt</td>
+<td>str -&gt; Integer.parseInt(str)</td>
+</tr>
+<tr>
+<td>Bound</td>
+<td>Instant.now()::isAfter</td>
+<td>Instant then = Instant.now();t -&gt; then.isAfter(t)</td>
+</tr>
+<tr>
+<td>Unbound</td>
+<td>String::toLowerCase</td>
+<td>str -&gt; str.toLowerCase()</td>
+</tr>
+<tr>
+<td>Class</td>
+<td>Constructor    TreeMap&lt;K, V&gt;::new</td>
+<td>() -&gt; new TreeMap&lt;K, V&gt;</td>
+</tr>
+<tr>
+<td>Array</td>
+<td>Constructor    int[]::new</td>
+<td>len -&gt; new int[len]</td>
+</tr>
+</tbody></table>
+<p>原则：如果方法引用看起来更简短更清晰，请使用它们；否则，还是坚持 lambda。</p>
+<hr>
+<h1 id="Item-44-优先使用标准的函数式接口"><a href="#Item-44-优先使用标准的函数式接口" class="headerlink" title="Item 44 优先使用标准的函数式接口"></a>Item 44 优先使用标准的函数式接口</h1><p>java 8 提供了很多标准函数式接口（<code>java.util.Function</code> 有 43 个接口），其中有 6 个基本接口。当我们编写函数对象时，应该优先考虑标准接口，而不是自己定义函数式接口。</p>
+<table>
+<thead>
+<tr>
+<th>接口</th>
+<th>方法</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>UnaryOperator<T></td>
+<td>T apply(T t)</td>
+<td>String::toLowerCase</td>
+</tr>
+<tr>
+<td>BinaryOperator<T></td>
+<td>T apply(T t1, T t2)</td>
+<td>BigInteger::add</td>
+</tr>
+<tr>
+<td>Predicate<T></td>
+<td>boolean test(T t)</td>
+<td>Collection::isEmpty</td>
+</tr>
+<tr>
+<td>Function&lt;T,R&gt;</td>
+<td>R apply(T t)</td>
+<td>Arrays::asList</td>
+</tr>
+<tr>
+<td>Supplier<T></td>
+<td>T get()</td>
+<td>Instant::now</td>
+</tr>
+<tr>
+<td>Consumer<T></td>
+<td>void accept(T t)</td>
+<td>System.out::println</td>
+</tr>
+</tbody></table>
+<p>这 6 个标准接口接收相应不同的参数，返回相应不同的对象。参考：<a href="../post/68278ec8.html">Java简明笔记（八）Lambda和函数式编程</a></p>
+<hr>
+<h1 id="Item-45-使用-Stream"><a href="#Item-45-使用-Stream" class="headerlink" title="Item 45 使用 Stream"></a>Item 45 使用 Stream</h1><p>Java 8 提供了 Stream API，其中有两个关键抽象：流(Stream)表示有限或无限的数据元素序列，流管道(stream pipeline)表示对这些元素的多级计算。常见的流的来源包括集合，数组，文件，正则表达式模式匹配器，伪随机数生成器和其他流。流中的数据可以是引用对象，或 int，long 和 double 这三种基本数据类型。</p>
+<p>流包括转换和规约，转换把一个流转换成另一个流，规约把流转换成非流（集合，数组，数字）。流是惰性计算的，遇到规约操作才会开始计算。</p>
+<p>流虽然简化了代码，但过度使用流也可能使程序难于阅读和维护。最好是迭代跟流结合着使用。如果不确定一个任务是通过流还是迭代更好地完成，那么尝试这两种方法，看看哪一种效果更好。</p>
+<p>关于流的用法，参考：<a href="../post/372345f.html">Java简明笔记（九）Stream API</a></p>
+<hr>
+<h1 id="Item-46-优先考虑流中无副作用的函数"><a href="#Item-46-优先考虑流中无副作用的函数" class="headerlink" title="Item 46 优先考虑流中无副作用的函数"></a>Item 46 优先考虑流中无副作用的函数</h1><p>流不仅仅是一个 API，它是函数式编程的范式（paradigm）。函数式编程应该尽可能使用纯函数（pure function）。纯函数的结果仅取决于其输入，不依赖于任何可变状态，也不更新任何状态。为此，传递给流操作的任何函数对象（中间操作和终结操作）都应该没有副作用。</p>
+<p>一个建议是 forEach 操作应仅用于报告流计算的结果，而不是用于执行计算。考虑下面的代码，它只是伪装成流代码的迭代代码，并没有享受到流带来的好处。</p>
+<pre><code class="java">// Uses the streams API but not the paradigm--Don&#39;t do this!
+Map&lt;String, Long&gt; freq = new HashMap&lt;&gt;();
+try (Stream&lt;String&gt; words = new Scanner(file).tokens()) {
+    words.forEach(word -&gt; {
+        freq.merge(word.toLowerCase(), 1L, Long::sum);
+    });
+}</code></pre>
+<p>好的做法：</p>
+<pre><code class="java">// Proper use of streams to initialize a frequency table
+Map&lt;String, Long&gt; freq;
+try (Stream&lt;String&gt; words = new Scanner(file).tokens()) {
+    freq = words
+        .collect(groupingBy(String::toLowerCase, counting()));
+}</code></pre>
+<hr>
+<h1 id="Item-47-优先使用-Collection-而不是-Stream-来作为方法的返回类型"><a href="#Item-47-优先使用-Collection-而不是-Stream-来作为方法的返回类型" class="headerlink" title="Item 47 优先使用 Collection 而不是 Stream 来作为方法的返回类型"></a>Item 47 优先使用 Collection 而不是 Stream 来作为方法的返回类型</h1><p>如果在返回一些序列元素的方法里返回了一个流，而你想迭代，（或相反），可以用适配器将流和 iterator 互相转换。但这样会降低效率。</p>
+<pre><code class="java">// Adapter from  Stream&lt;E&gt; to Iterable&lt;E&gt;
+public static &lt;E&gt; Iterable&lt;E&gt; iterableOf(Stream&lt;E&gt; stream) {
+    return stream::iterator;
+}
+
+// Adapter from Iterable&lt;E&gt; to Stream&lt;E&gt;
+public static &lt;E&gt; Stream&lt;E&gt; streamOf(Iterable&lt;E&gt; iterable) {
+    return StreamSupport.stream(iterable.spliterator(), false);
+}</code></pre>
+<p>在实践中，最好优先考虑返回集合，而不是返回一个流。如果返回集合是不可行的，则返回流或可迭代对象。</p>
+<hr>
+<h1 id="Item-48-谨慎使用流并行"><a href="#Item-48-谨慎使用流并行" class="headerlink" title="Item 48 谨慎使用流并行"></a>Item 48 谨慎使用流并行</h1><p>让我们回顾一下java的并发历史： 1996 年 java 发布 1.0 时就内置了对线程的支持，包括同步和 wait / notify 机制，java 5 加入了 <code>java.util.concurrent</code> 类库，提供了并发集合和执行器框架。Java 7 引入了 fork-join 包，这是一个用于并行分解的高性能框架。 Java 8 引入了流，可以通过对 parallel 方法的单个调用来并行化。用 Java 编写并发程序变得越来越容易，但编写正确快速的并发程序还像以前一样困难。</p>
+<p>通常，并行在 ArrayList、HashMap、HashSet 和 ConcurrentHashMap 实例、数组、int 类型和 long 类型的流上性能提升是最好的。因为它们都可以精确而廉价地分割成任意大小的子程序。</p>
+<p>Java 8 的 parallel 本质上是 fork-join 的封装，适合用少量线程执行大量任务的情况。本质上，是通过分治归并实现并行的。但这并不适合所有情况。只有在充分测试确实没有安全隐患和性能问题时，才考虑使用 parallel 。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Java/" rel="tag">Java</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/387fb533.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Effective Java（七）方法</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/acf36022.html">
+                <span class="level-item">Effective Java（五）枚举和注解</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#Item-42-lambda-表达式优于匿名类">
+        <span class="has-mr-6">1</span>
+        <span>Item 42 lambda 表达式优于匿名类</span>
+        </a></li><li>
+        <a class="is-flex" href="#Item-43-方法引用优于-lambda-表达式">
+        <span class="has-mr-6">2</span>
+        <span>Item 43 方法引用优于 lambda 表达式</span>
+        </a></li><li>
+        <a class="is-flex" href="#Item-44-优先使用标准的函数式接口">
+        <span class="has-mr-6">3</span>
+        <span>Item 44 优先使用标准的函数式接口</span>
+        </a></li><li>
+        <a class="is-flex" href="#Item-45-使用-Stream">
+        <span class="has-mr-6">4</span>
+        <span>Item 45 使用 Stream</span>
+        </a></li><li>
+        <a class="is-flex" href="#Item-46-优先考虑流中无副作用的函数">
+        <span class="has-mr-6">5</span>
+        <span>Item 46 优先考虑流中无副作用的函数</span>
+        </a></li><li>
+        <a class="is-flex" href="#Item-47-优先使用-Collection-而不是-Stream-来作为方法的返回类型">
+        <span class="has-mr-6">6</span>
+        <span>Item 47 优先使用 Collection 而不是 Stream 来作为方法的返回类型</span>
+        </a></li><li>
+        <a class="is-flex" href="#Item-48-谨慎使用流并行">
+        <span class="has-mr-6">7</span>
+        <span>Item 48 谨慎使用流并行</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Effective Java（六）Lambdas and Streams" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

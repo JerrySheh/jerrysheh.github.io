@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>浅谈 socket 编程 - J.e</title>
+
+
+    <meta name="description" content="计算机通信和socket计算机程序之间的通信，是进程与进程之间的通信。之前在 Linux 学习中就遇到用管道（PIPE）来让一个进程的输出和另一个进程的输入连接起来，从而利用文件操作API来管理进程间通信。 Unix&#x2F;Linux的基本哲学之一就是“一切皆文件”，一切都可以用打开(open) –&gt; 读写(read&#x2F;write) –&gt; 关闭(close)的模式来操作。socket可以看成一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈 socket 编程">
+<meta property="og:url" content="https://jerrysheh.me/post/bfa70c14.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="计算机通信和socket计算机程序之间的通信，是进程与进程之间的通信。之前在 Linux 学习中就遇到用管道（PIPE）来让一个进程的输出和另一个进程的输入连接起来，从而利用文件操作API来管理进程间通信。 Unix&#x2F;Linux的基本哲学之一就是“一切皆文件”，一切都可以用打开(open) –&gt; 读写(read&#x2F;write) –&gt; 关闭(close)的模式来操作。socket可以看成一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2017-10-17T16:04:01.000Z">
+<meta property="article:modified_time" content="2019-07-20T04:21:46.915Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="C&#x2F;C++">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="浅谈 socket 编程" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-10-17T16:04:01.000Z">2017-10-18</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    14 分钟 读完 (大约 2141 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                浅谈 socket 编程
+            
+        </h1>
+        <div class="content">
+            <h1 id="计算机通信和socket"><a href="#计算机通信和socket" class="headerlink" title="计算机通信和socket"></a>计算机通信和socket</h1><p>计算机程序之间的通信，是进程与进程之间的通信。之前在 Linux 学习中就遇到用管道（PIPE）来让一个进程的输出和另一个进程的输入连接起来，从而利用文件操作API来管理进程间通信。</p>
+<p>Unix/Linux的基本哲学之一就是“一切皆文件”，一切都可以用<code>打开(open) –&gt; 读写(read/write) –&gt; 关闭(close)</code>的模式来操作。<strong>socket可以看成一个进程向socket的一端写入或读取文本流，而另一个进程可以从另一端读取或写入。比较特别的是，这两个建立socket通信的进程可以分别属于两台不同的计算机</strong>，可以简单地把socket理解为一种特殊的文件，我们通过操作socket函数，实现文本流在多台计算机之间传输，同时也就实现了计算机之间的通信。</p>
+<p>一个socket包含四个地址信息: <strong>两台计算机的IP地址和两个进程所使用的端口(port)</strong>。IP地址用于定位计算机，而端口用于定位进程 (一台计算机上可以有多个进程分别使用不同的端口)。</p>
+<h1 id="TCP和UDP"><a href="#TCP和UDP" class="headerlink" title="TCP和UDP"></a>TCP和UDP</h1><p>在开始 socket 编程之前，有必要简单了解一下TCP和UDP协议。</p>
+<p>TCP（传输控制协议）提供<strong>面向连接、可靠的字节流服务</strong>。客户端和服务器彼此交换数据前，必须先在双方之间建立一个TCP连接，之后才能传输数据。TCP提供超时重发，丢弃重复数据，检验数据，流量控制等功能，从而<strong>保证数据能从一端传到另一端</strong>。</p>
+<p>UDP（用户数据报协议）是一个简单的面向数据报的运输层协议。<strong>UDP不提供可靠性</strong>，它只是把应用程序传给IP层的数据报发送出去，但是并不能保证它们能到达目的地。由于UDP在传输数据报前不需在客户端和服务器之间建立一个连接，且没有超时重发等机制，故而传输速度很快。</p>
+<a id="more"></a>
+
+<h1 id="socket函数"><a href="#socket函数" class="headerlink" title="socket函数"></a>socket函数</h1><h2 id="1-socket"><a href="#1-socket" class="headerlink" title="1. socket()"></a>1. socket()</h2><p><code>socket()</code>可以理解成初始化：</p>
+<pre><code class="c">int socket(int domain, int type, int protocol);</code></pre>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>内容</th>
+<th>释义</th>
+<th>举例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>domain</td>
+<td>协议族（family）</td>
+<td>常用的 domain 有 <strong>AF_INET（ipv4网络通信）</strong>、AF_INET6（ipv6网络通信）、AF_LOCAL（或称AF_UNIX，本地通信，将绝对路径名作为地址）等</td>
+</tr>
+<tr>
+<td>2</td>
+<td>type</td>
+<td>socket类型</td>
+<td>常用的 socket type 有 <strong>SOCK_STREAM（字节流）</strong>、SOCK_DGRAM（数据报）、SOCK_RAW（原始）、SOCK_PACKET（分组）、SOCK_SEQPACKET（有序分组）等</td>
+</tr>
+<tr>
+<td>3</td>
+<td>protocol</td>
+<td>指定协议</td>
+<td>常用的协议有，<strong>IPPROTO_TCP（TCP传输协议）</strong>、IPPTOTO_UDP（UDP传输协议）、IPPROTO_SCTP、IPPROTO_TIPC等</td>
+</tr>
+</tbody></table>
+<ul>
+<li>type 和 protocol 并不是可以随意组合，比如使用<code>SOCK_STREAM</code>（这是TCP相关类型）的时候就不能用<code>IPPROTO_UDP</code>（UDP相关类型）。</li>
+</ul>
+<h2 id="2-bind"><a href="#2-bind" class="headerlink" title="2. bind()"></a>2. bind()</h2><p><code>bind()</code>函数赋予socket以固定的地址和端口，例如AF_INET就是把一个 <strong>ipv4地址和端口号组合</strong> 赋给socket。</p>
+<pre><code class="c">int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</code></pre>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>内容</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>sockfd</td>
+<td>socket文件描述符</td>
+</tr>
+<tr>
+<td>2</td>
+<td>addr</td>
+<td>指向要绑定给sockfd的协议地址的指针，这个地址结构根据地址创建socket时的地址协议族的不同而不同</td>
+</tr>
+<tr>
+<td>3</td>
+<td>addrlen</td>
+<td>地址的长度</td>
+</tr>
+</tbody></table>
+<p>ipv4地址结构的具体实现</p>
+<pre><code class="c">struct sockaddr_in {
+    sa_family_t    sin_family; // address family: AF_INET
+    in_port_t      sin_port;   // port in network byte order
+    struct in_addr sin_addr;   // internet address
+};
+
+// Internet address.
+struct in_addr {
+    uint32_t       s_addr;     // address in network byte order
+};
+</code></pre>
+<ul>
+<li>创建socket时的地址协议族, 如果不是 AF_INET（ipv4），那么上面这个结构体的内容也是不一样的。第二个参数的指针就是指向你创建socket时对应协议族的协议地址。</li>
+</ul>
+<h2 id="3-listen-、connect"><a href="#3-listen-、connect" class="headerlink" title="3. listen()、connect()"></a>3. listen()、connect()</h2><p><code>listen()</code>用于服务器监听，<code>connect()</code>用于客户端连接。</p>
+<pre><code class="c">int listen(int sockfd, int backlog);</code></pre>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>内容</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>sockfd</td>
+<td>要监听的socket描述字</td>
+</tr>
+<tr>
+<td>2</td>
+<td>backlog</td>
+<td>最大连接个数</td>
+</tr>
+</tbody></table>
+<pre><code class="c">int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</code></pre>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>内容</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>sockfd</td>
+<td>客户端的socket描述字</td>
+</tr>
+<tr>
+<td>2</td>
+<td>addr</td>
+<td>指针指向服务器的socket地址</td>
+</tr>
+<tr>
+<td>3</td>
+<td>addrlen</td>
+<td>socket地址的长度</td>
+</tr>
+</tbody></table>
+<h2 id="4-accept"><a href="#4-accept" class="headerlink" title="4. accept()"></a>4. accept()</h2><p>TCP服务器端依次调用<code>socket()</code>、<code>bind()</code>、<code>listen()</code>之后，就会开始监听指定的socket地址。</p>
+<p>TCP客户端依次调用<code>socket()</code>、<code>connect()</code>之后就向TCP服务器发送了一个连接请求。</p>
+<p>TCP服务器监听到这个请求之后，就会调用<code>accept()</code>函数取接收这个请求，这样连接就建立好了。</p>
+<p>之后就可以开始网络I/O操作，类同于普通文件的读写I/O操作。</p>
+<pre><code class="c">int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);</code></pre>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>内容</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>sockfd</td>
+<td>服务器的socket描述字</td>
+</tr>
+<tr>
+<td>2</td>
+<td>addr</td>
+<td>指向struct sockaddr *的指针，用于返回<strong>客户端的协议地址</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td>addrlen</td>
+<td>协议地址的长度</td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>accept()</code>的第一个参数为服务器的socket描述字，是服务器开始调用<code>socket()</code>函数生成的，称为监听socket描述字；而<code>accept()</code>返回的是已连接的socket描述字。</li>
+</ul>
+<h2 id="5-recvmsg-、sendmsg"><a href="#5-recvmsg-、sendmsg" class="headerlink" title="5. recvmsg() 、sendmsg()"></a>5. recvmsg() 、sendmsg()</h2><p>经过上面的几个步骤，服务器与客户端已经建立好连接了。现在就可以开始调用网络I/O进行读写操作。</p>
+<p>网络I/O操作有下面几组：</p>
+<ul>
+<li>read() / write()</li>
+<li>recv() / send()</li>
+<li>readv() / writev()</li>
+<li>recvmsg() / sendmsg()</li>
+<li>recvfrom() / sendto()</li>
+</ul>
+<p>它们的声明如下：</p>
+<pre><code class="c">#include &lt;unistd.h&gt;
+
+       ssize_t read(int fd, void *buf, size_t count);
+       ssize_t write(int fd, const void *buf, size_t count);
+
+       #include &lt;sys/types.h&gt;
+       #include &lt;sys/socket.h&gt;
+
+       ssize_t send(int sockfd, const void *buf, size_t len, int flags);
+       ssize_t recv(int sockfd, void *buf, size_t len, int flags);
+
+       ssize_t sendto(int sockfd, const void *buf, size_t len, int flags,
+                      const struct sockaddr *dest_addr, socklen_t addrlen);
+       ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags,
+                        struct sockaddr *src_addr, socklen_t *addrlen);
+
+       ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags);
+       ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags);</code></pre>
+<p>具体用法可参见man文档</p>
+<h2 id="6-close"><a href="#6-close" class="headerlink" title="6. close()"></a>6. close()</h2><p>在服务器与客户端建立连接之后，会进行一些读写操作，完成读写操作之后要关闭相应的socket描述字。</p>
+<pre><code class="c">int close(int fd);</code></pre>
+<hr>
+<h1 id="一个客户端与服务器通信的例子（C语言）"><a href="#一个客户端与服务器通信的例子（C语言）" class="headerlink" title="一个客户端与服务器通信的例子（C语言）"></a>一个客户端与服务器通信的例子（C语言）</h1><h2 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h2><pre><code class="c">#include &lt;sys/types.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;netinet/in.h&gt;
+#define SERVPORT 14001
+#define BACKLOG 10
+#define MAX_CONNECTED_NO 10
+#define MAXDATASIZE 50
+
+int main()
+{
+    // 声明服务器和客户端的socket结构体
+    struct sockaddr_in server_sockaddr,client_sockaddr;
+
+    // 声明数据大小
+    int sin_size,recvbytes;
+
+    // 声明socket文件描述符
+    int sockfd,client_fd;
+
+    // 当前时间
+    time_t currentTime;
+    char timebuffer[MAXDATASIZE+1];
+
+    // 缓存
+    char buf[MAXDATASIZE];
+
+    // 初始化socket
+    if((sockfd = socket(AF_INET,SOCK_STREAM,0))==-1){
+        perror(&quot;socket&quot;);
+        exit(1);
+    }
+    printf(&quot;socket success!,sockfd=%d\n&quot;,sockfd);
+
+    // 声明协议
+    server_sockaddr.sin_family=AF_INET;
+    server_sockaddr.sin_port=htons(SERVPORT);
+    server_sockaddr.sin_addr.s_addr=INADDR_ANY;
+    bzero(&amp;(server_sockaddr.sin_zero),8);
+
+    // 绑定
+    if(bind(sockfd,(struct sockaddr *)&amp;server_sockaddr,sizeof(struct sockaddr))==-1){
+        perror(&quot;bind&quot;);
+        exit(1);
+    }
+    printf(&quot;bind success!\n&quot;);
+
+    // 监听
+    if(listen(sockfd,BACKLOG)==-1){
+        perror(&quot;listen&quot;);
+        exit(1);
+    }
+    printf(&quot;listening....\n&quot;);
+
+    sin_size = sizeof(struct sockaddr);
+
+    // 接收
+    if((client_fd=accept(sockfd,(struct sockaddr *)&amp;client_sockaddr,&amp;sin_size))==-1){
+        perror(&quot;accept&quot;);
+        exit(1);
+    }
+    currentTime = time(NULL);
+    snprintf(timebuffer, MAXDATASIZE, &quot;%s\n&quot;, ctime(&amp;currentTime));
+
+    // 向socket客户端写数据
+    if ((recvbytes =write(client_fd, timebuffer, strlen(timebuffer))) &lt;0 ) {
+        perror(&quot;write&quot;);
+        exit(1);
+    }
+    while (1) {
+        if((recvbytes=recv(client_fd,buf,MAXDATASIZE,0))==-1){
+            perror(&quot;recv&quot;);
+            exit(1);
+        }
+        buf[recvbytes] = &#39;\0&#39;;
+         printf(&quot;received msg from clients :%s\n&quot;,buf);
+
+        currentTime = time(NULL);
+        snprintf(timebuffer, MAXDATASIZE, &quot;%s\n&quot;, ctime(&amp;currentTime));
+        write(client_fd, timebuffer, strlen(timebuffer));
+    }
+
+    // 关闭socket
+    close(sockfd);
+}</code></pre>
+<h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><pre><code class="c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;string.h&gt;
+#include &lt;netdb.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;sys/socket.h&gt;
+#define SERVPORT 14001
+#define MAXDATASIZE 300
+main(int argc,char *argv[])
+{
+    int sockfd,sendbytes;
+    char buf[MAXDATASIZE];
+    struct hostent * host;
+    struct sockaddr_in serv_addr;
+    if(argc &lt; 2){
+        fprintf(stderr,&quot;Please enter the server&#39;s hostname!\n&quot;);
+        exit(1);
+    }
+    if((host=gethostbyname(argv[1]))==NULL){
+        perror(&quot;gethostbyname&quot;);
+        exit(1);
+    }
+    if((sockfd=socket(AF_INET,SOCK_STREAM,0))==-1){
+        perror(&quot;socket&quot;);
+        exit(1);
+    }
+    serv_addr.sin_family=AF_INET;
+    serv_addr.sin_port=htons(SERVPORT);
+    serv_addr.sin_addr=* ((struct in_addr * )host-&gt;h_addr);
+    bzero(&amp;(serv_addr.sin_zero),8);
+
+    // 连接
+    if(connect(sockfd,(struct sockaddr *)&amp;serv_addr,\
+        sizeof(struct sockaddr))==-1){
+        perror(&quot;connect&quot;);
+        exit(1);
+    }
+
+    // 接收数据
+    if((sendbytes=recv(sockfd,buf,MAXDATASIZE,0))==-1){
+        perror(&quot;recv&quot;);
+        exit(1);
+    }
+    buf[sendbytes] = &#39;\0&#39;;
+     printf(&quot;received msg from server:%s\n&quot;,buf);
+    while (1)
+    {
+            printf(&quot;Enter the message  : &quot;);
+            if(fgets(buf, sizeof(buf) - 1, stdin) == NULL)
+            {
+                break;
+            }
+        if((sendbytes=send(sockfd,buf,strlen(buf),0))==-1){
+            perror(&quot;send&quot;);
+            exit(1);
+        }
+        printf(&quot;sent %d bytes \n&quot;, sendbytes);
+
+        if((sendbytes=recv(sockfd,buf,MAXDATASIZE,0))==-1){
+        perror(&quot;recv&quot;);
+        exit(1);
+        }
+
+        buf[sendbytes] = &#39;\0&#39;;
+        printf(&quot;received time from server:%s\n&quot;,buf);
+    }
+
+    // 关闭socket
+    close(sockfd);
+}</code></pre>
+<hr>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<li><a href="https://www.cnblogs.com/skynet/archive/2010/12/12/1903949.html">Linux Socket编程</a></li>
+<li><a href="http://www.cnblogs.com/vamei/archive/2012/10/30/2744955.html">Python应用01 原始Python服务器</a></li>
+<li><a href="http://www.cnblogs.com/vamei/archive/2012/10/10/2715398.html">Linux进程间通信</a></li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/C-C/" rel="tag">C/C++</a>, <a class="has-link-grey -link" href="/tags/linux/" rel="tag">linux</a>, <a class="has-link-grey -link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/c78ec954.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">使用Python遍历文件</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/e7cabdd8.html">
+                <span class="level-item">Python 中的 virtualenv</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#计算机通信和socket">
+        <span class="has-mr-6">1</span>
+        <span>计算机通信和socket</span>
+        </a></li><li>
+        <a class="is-flex" href="#TCP和UDP">
+        <span class="has-mr-6">2</span>
+        <span>TCP和UDP</span>
+        </a></li><li>
+        <a class="is-flex" href="#socket函数">
+        <span class="has-mr-6">3</span>
+        <span>socket函数</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#1-socket">
+        <span class="has-mr-6">3.1</span>
+        <span>1. socket()</span>
+        </a></li><li>
+        <a class="is-flex" href="#2-bind">
+        <span class="has-mr-6">3.2</span>
+        <span>2. bind()</span>
+        </a></li><li>
+        <a class="is-flex" href="#3-listen-、connect">
+        <span class="has-mr-6">3.3</span>
+        <span>3. listen()、connect()</span>
+        </a></li><li>
+        <a class="is-flex" href="#4-accept">
+        <span class="has-mr-6">3.4</span>
+        <span>4. accept()</span>
+        </a></li><li>
+        <a class="is-flex" href="#5-recvmsg-、sendmsg">
+        <span class="has-mr-6">3.5</span>
+        <span>5. recvmsg() 、sendmsg()</span>
+        </a></li><li>
+        <a class="is-flex" href="#6-close">
+        <span class="has-mr-6">3.6</span>
+        <span>6. close()</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#一个客户端与服务器通信的例子（C语言）">
+        <span class="has-mr-6">4</span>
+        <span>一个客户端与服务器通信的例子（C语言）</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#服务器端">
+        <span class="has-mr-6">4.1</span>
+        <span>服务器端</span>
+        </a></li><li>
+        <a class="is-flex" href="#客户端">
+        <span class="has-mr-6">4.2</span>
+        <span>客户端</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#参考链接">
+        <span class="has-mr-6">5</span>
+        <span>参考链接</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="浅谈 socket 编程" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

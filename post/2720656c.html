@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Linux设备驱动开发（一）内核的配置与编译 - J.e</title>
+
+
+    <meta name="description" content="Linux内核的源码结构Linux内核主要由五个子系统组成：  进程调度 内存管理 虚拟文档系统 网络接口 进程间通信">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux设备驱动开发（一）内核的配置与编译">
+<meta property="og:url" content="https://jerrysheh.me/post/2720656c.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="Linux内核的源码结构Linux内核主要由五个子系统组成：  进程调度 内存管理 虚拟文档系统 网络接口 进程间通信">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-03-13T14:01:33.000Z">
+<meta property="article:modified_time" content="2019-07-20T04:21:46.884Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Linux设备驱动开发（一）内核的配置与编译" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-03-13T14:01:33.000Z">2018-03-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/linux/">linux</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    15 分钟 读完 (大约 2182 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Linux设备驱动开发（一）内核的配置与编译
+            
+        </h1>
+        <div class="content">
+            <h1 id="Linux内核的源码结构"><a href="#Linux内核的源码结构" class="headerlink" title="Linux内核的源码结构"></a>Linux内核的源码结构</h1><p>Linux内核主要由五个子系统组成：</p>
+<ul>
+<li>进程调度</li>
+<li>内存管理</li>
+<li>虚拟文档系统</li>
+<li>网络接口</li>
+<li>进程间通信</li>
+</ul>
+<p><img src="../../../../images/Linux/linux_kernel_structure.png" alt="kernel"></p>
+<a id="more"></a>
+
+<h2 id="进程调度（SCHED）"><a href="#进程调度（SCHED）" class="headerlink" title="进程调度（SCHED）"></a>进程调度（SCHED）</h2><p>功能：<strong>控制进程对CPU的访问</strong></p>
+<p>当需要选择下一个进程运行时，由调度程式选择最值得运行的进程。可运行进程实际上是仅等待CPU资源的进程，假如某个进程在等待其他资源，则该进程是不可运行进程。Linux使用了比较简单的基于优先级的进程调度算法选择新的进程。</p>
+<h2 id="内存管理（MM）"><a href="#内存管理（MM）" class="headerlink" title="内存管理（MM）"></a>内存管理（MM）</h2><p>功能：<strong>允许多个进程安全的共享主内存区域</strong></p>
+<p>Linux 的内存管理支持虚拟内存，即在电脑中运行的程式，其代码，数据，堆栈的总量能够超过实际内存的大小，操作系统只是把当前使用的程式块保留在内存中，其余的程式块则保留在磁盘中。必要时，操作系统负责在磁盘和内存间交换程式块。内存管理从逻辑上分为硬件无关部分和硬件有关部分。硬件无关部分提供了进程的映射和逻辑内存的对换；硬件相关的部分为内存管理硬件提供了虚拟接口。</p>
+<h2 id="虚拟文件系统（Virtual-File-System-VFS）"><a href="#虚拟文件系统（Virtual-File-System-VFS）" class="headerlink" title="虚拟文件系统（Virtual File System,VFS）"></a>虚拟文件系统（Virtual File System,VFS）</h2><p>隐藏了各种硬件的具体细节，为任何的设备提供了统一的接口，VFS提供了多达数十种不同的文档系统。<br>虚拟文档系统能够分为逻辑文档系统和设备驱动程式。逻辑文档系统指Linux所支持的文档系统，如ext2,fat等，设备驱动程式指为每一种硬件控制器所编写的设备驱动程式模块。</p>
+<h2 id="网络接口（NET）"><a href="#网络接口（NET）" class="headerlink" title="网络接口（NET）"></a>网络接口（NET）</h2><p>提供了对各种网络标准的存取和各种网络硬件的支持。网络接口可分为网络协议和网络驱动程式。网络协议部分负责实现每一种可能的网络传输协议。网络设备驱动程式负责和硬件设备通讯，每一种可能的硬件设备都有相应的设备驱动程式。</p>
+<h2 id="进程间通讯-IPC"><a href="#进程间通讯-IPC" class="headerlink" title="进程间通讯(IPC)"></a>进程间通讯(IPC)</h2><p>支持进程间各种通信机制。</p>
+<hr>
+<h1 id="内核结构目录"><a href="#内核结构目录" class="headerlink" title="内核结构目录"></a>内核结构目录</h1><table>
+<thead>
+<tr>
+<th>目录名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>arch</td>
+<td>体系结构相关的代码，相对于具体的CPU架构，如：arm、m68k、mips、PowerPC等。在arm目录有mach-s3c2440目录，该目录下是针对2440的支持代码。</td>
+</tr>
+<tr>
+<td>block</td>
+<td>块设备的通用函数，如blk-core.c、blk-ioc.c等。</td>
+</tr>
+<tr>
+<td>crypto</td>
+<td>常用的加密或校验算法等。</td>
+</tr>
+<tr>
+<td>drivers</td>
+<td>目录中是系统中所有的设备驱动程序。它又进一步划分成几类设备驱动，每一种有对应的子目录，如：声卡的驱动对应于drivers/sound；drivers/block 下为块设备驱动程序；drivers/mtd下为Nor和Nand flash的驱动程序；drivers/char下为字符设备驱动程序。</td>
+</tr>
+<tr>
+<td>Documents</td>
+<td>关于内核的一些帮助文档,是对每个目录作用的具体说明。</td>
+</tr>
+<tr>
+<td>firmware</td>
+<td>一些固件驱动程序，如：</td>
+</tr>
+<tr>
+<td>fs</td>
+<td>Linux支持的文件系统代码，如：ext2、ext3、ext4、jffs2、nfs等。</td>
+</tr>
+<tr>
+<td>include</td>
+<td>目录包括编译核心所需要的大部分头文件，例如linux内核的头文件在include/linux子目录下，与cpu相关的头文件在include/asmgeneric子目录下；另外有些设备驱动程序的头文件，如：sound、video、net、pcmcia等。</td>
+</tr>
+<tr>
+<td>init</td>
+<td>内核的初始化代码（不是系统的引导代码），其中，main.c文件中的start_kernel函数是内核引导后运行的第一个函数。</td>
+</tr>
+<tr>
+<td>ipc</td>
+<td>目录包含了核心进程间的通信代码。</td>
+</tr>
+<tr>
+<td>kernel</td>
+<td>内核管理的核心代码，此目录下的文件实现了大多数linux系统的内核函数，其中最重要的文件当属sched.c；同时与处理器结构相关代码都放在arch/*/kernel目录下。</td>
+</tr>
+<tr>
+<td>lib</td>
+<td>目录包含了核心的库代码，不过与处理器结构相关的库代码被放在arch/*/lib/目录下。</td>
+</tr>
+<tr>
+<td>nm</td>
+<td>目录包含了所有独立于 cpu 体系结构的内存管理代码，如页式存储管理内存的分配和释放等。与具体硬件体系结构相关的内存管理代码位于arch/*/mm目录下 。</td>
+</tr>
+<tr>
+<td>net</td>
+<td>目录里是核心的网络部分代码，其每个子目录对应于网络的一个方面。</td>
+</tr>
+<tr>
+<td>samples</td>
+<td>一些调试的程序</td>
+</tr>
+<tr>
+<td>scripts</td>
+<td>用于配置、编译内核的脚本文件。</td>
+</tr>
+<tr>
+<td>security</td>
+<td>安全、密钥相关的代码。</td>
+</tr>
+<tr>
+<td>sound</td>
+<td>音频设备的驱动程序</td>
+</tr>
+<tr>
+<td>tools</td>
+<td>一些工具</td>
+</tr>
+<tr>
+<td>usr</td>
+<td>用来制作一个压缩的cpio归档文件：initrd的镜像，它可以作为内核启动后挂载的第一个文件系统</td>
+</tr>
+<tr>
+<td>virt</td>
+<td>kvm</td>
+</tr>
+<tr>
+<td>Makefile</td>
+<td>目录第一个Makefile文件。用来组织内核的各模块，记录了个模块间的相互这间的联系和依托关系，编译时使用；仔细阅读各子目录下的Makefile文件对弄清各个文件这间的联系和依托关系很有帮助。</td>
+</tr>
+<tr>
+<td>ReadMe</td>
+<td>目录里是核心及其编译配置方法简单介绍</td>
+</tr>
+<tr>
+<td>REPORTING-BUGS</td>
+<td>目录里是有关报告Bug 的一些内容</td>
+</tr>
+<tr>
+<td>CREDITS</td>
+<td>目录下是光荣榜。对Linux做出过很大贡献的一些人的信息。</td>
+</tr>
+<tr>
+<td>COPYING</td>
+<td>目录下是GPL版权申明。对具有GPL版权的源代码改动而形成的程序，或使用GPL工具产生的程序，具有使用GPL发表的义务，如公开源代码。</td>
+</tr>
+<tr>
+<td>MAINTAINERS</td>
+<td>目录存放了维护人员列表，对当前版本的内核各部分都有谁负责。</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="Linux内核源码的配置方法"><a href="#Linux内核源码的配置方法" class="headerlink" title="Linux内核源码的配置方法"></a>Linux内核源码的配置方法</h1><p>配置linux内核的方法主要有下面几种方法：</p>
+<ul>
+<li><code>make config</code>:基于文本的最为传统的配置界面，不推荐使用</li>
+<li><code>make menuconfig</code>:基于文本选单的配置界面，字符终端下推荐使用</li>
+<li><code>make xconfig</code>:基于图形窗口模式的配置界面，Xwindow下推荐使用</li>
+<li><code>make oldconfig</code>:如果只想在原来内核配置的基础上修改一些小地方，会省去不少麻烦</li>
+</ul>
+<p>例如，采用 make menuonfig 命令以文本选单的形式配置内核，直接在内核源码目录输入</p>
+<pre><code>make menuconfig</code></pre><h2 id="配置选择"><a href="#配置选择" class="headerlink" title="配置选择"></a>配置选择</h2><p>选择相应的配置时，有三种选择，它们分别代表的含义如下：</p>
+<p>Y—-将该功能编译进内核<br>N—-不将该功能编译进内核<br>M—-将该功能编译成可以在需要时动态插入到内核中的模块</p>
+<p>一些内核特性可以直接编译进内核。一些可以被编译为可装载的模块。一些则可以完全被一起移除。这里还有一些内核参数，它不是真正的特性，但是必须输入有效的十进制或者十六进制或者一些文本。</p>
+<p>菜单项目中，以这些符号开始的表示特性可以：</p>
+<ul>
+<li><strong>[ ]</strong>：编译或者移除</li>
+<li><strong>&lt; &gt;</strong>：编译或者模块化或者移除</li>
+<li><strong>{ }</strong>：编译或者模块化（被其他特性选择）</li>
+<li><strong>- -</strong>：被其他特性选择</li>
+</ul>
+<p>在<code>make menuconfig</code>下，* 表示Y，M 表示 M，空白表示N。</p>
+<p>为了改变这些特性，你需要用光标键移动使之高亮显示，同时按Y将其编译，按M模块化，按N将它移除。</p>
+<p>你可能也需要按空格键来在几个选择中循环（Y -&gt; N -&gt; M -&gt; Y）。</p>
+<h2 id="可能出现的问题"><a href="#可能出现的问题" class="headerlink" title="可能出现的问题"></a>可能出现的问题</h2><p>Ubuntu下，若 <code>make menuconfig</code>报以下错误，则需要安装库</p>
+<p>报错信息</p>
+<pre><code>Unable to find the ncurses libraries or the required header files.  &#39;make menuconfig&#39; requires the ncurses libraries. Install ncurses (ncurses-devel) and try again.
+make[1]: *** [scripts/kconfig/dochecklxdialog] Error 1
+make: *** [menuconfig] Error 2</code></pre><p>解决</p>
+<pre><code>sudo apt-get install ncurses-dev</code></pre><hr>
+<h1 id="linux内核源码的编译"><a href="#linux内核源码的编译" class="headerlink" title="linux内核源码的编译"></a>linux内核源码的编译</h1><pre><code>make -j 2</code></pre><ul>
+<li><strong>-j</strong> 参数表示允许多个任务并行编译</li>
+</ul>
+<p>编译成功后，生成的linux内核映像（zImage）生成在/arch/arm/boot路径下。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Linux/" rel="tag">Linux</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/e2142b57.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Hadoop 笔记（一）初识</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/779c6006.html">
+                <span class="level-item">Java简明笔记（十二） IO编程</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#Linux内核的源码结构">
+        <span class="has-mr-6">1</span>
+        <span>Linux内核的源码结构</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#进程调度（SCHED）">
+        <span class="has-mr-6">1.1</span>
+        <span>进程调度（SCHED）</span>
+        </a></li><li>
+        <a class="is-flex" href="#内存管理（MM）">
+        <span class="has-mr-6">1.2</span>
+        <span>内存管理（MM）</span>
+        </a></li><li>
+        <a class="is-flex" href="#虚拟文件系统（Virtual-File-System-VFS）">
+        <span class="has-mr-6">1.3</span>
+        <span>虚拟文件系统（Virtual File System,VFS）</span>
+        </a></li><li>
+        <a class="is-flex" href="#网络接口（NET）">
+        <span class="has-mr-6">1.4</span>
+        <span>网络接口（NET）</span>
+        </a></li><li>
+        <a class="is-flex" href="#进程间通讯-IPC">
+        <span class="has-mr-6">1.5</span>
+        <span>进程间通讯(IPC)</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#内核结构目录">
+        <span class="has-mr-6">2</span>
+        <span>内核结构目录</span>
+        </a></li><li>
+        <a class="is-flex" href="#Linux内核源码的配置方法">
+        <span class="has-mr-6">3</span>
+        <span>Linux内核源码的配置方法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#配置选择">
+        <span class="has-mr-6">3.1</span>
+        <span>配置选择</span>
+        </a></li><li>
+        <a class="is-flex" href="#可能出现的问题">
+        <span class="has-mr-6">3.2</span>
+        <span>可能出现的问题</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#linux内核源码的编译">
+        <span class="has-mr-6">4</span>
+        <span>linux内核源码的编译</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Linux设备驱动开发（一）内核的配置与编译" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

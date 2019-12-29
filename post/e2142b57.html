@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Hadoop 笔记（一）初识 - J.e</title>
+
+
+    <meta name="description" content="前言当数据量变大的时候，一台机器完成一个问题要计算好久好久。这时候就需要多台机器并行运算。然而，每台机器不能用单台机器运行的算法，自己算自己的。而是要有不同的分工，联合起来共同算完这个问题。 Hadoop就是这样的一个大数据处理框架。其中包括很多开源的处理框架，比如：  文件存储：Hadoop HDFS、Tachyon、KFS 离线计算：Hadoop MapReduce、Spark 流式、实时计算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop 笔记（一）初识">
+<meta property="og:url" content="https://jerrysheh.me/post/e2142b57.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="前言当数据量变大的时候，一台机器完成一个问题要计算好久好久。这时候就需要多台机器并行运算。然而，每台机器不能用单台机器运行的算法，自己算自己的。而是要有不同的分工，联合起来共同算完这个问题。 Hadoop就是这样的一个大数据处理框架。其中包括很多开源的处理框架，比如：  文件存储：Hadoop HDFS、Tachyon、KFS 离线计算：Hadoop MapReduce、Spark 流式、实时计算">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-03-14T10:47:46.000Z">
+<meta property="article:modified_time" content="2019-07-20T04:21:46.868Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Hadoop">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Hadoop 笔记（一）初识" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-03-14T10:47:46.000Z">2018-03-14</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    18 分钟 读完 (大约 2766 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Hadoop 笔记（一）初识
+            
+        </h1>
+        <div class="content">
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>当数据量变大的时候，一台机器完成一个问题要计算好久好久。这时候就需要多台机器并行运算。然而，每台机器不能用单台机器运行的算法，自己算自己的。而是要有不同的分工，联合起来共同算完这个问题。</p>
+<p>Hadoop就是这样的一个大数据处理框架。其中包括很多开源的处理框架，比如：</p>
+<ul>
+<li><strong>文件存储</strong>：Hadoop HDFS、Tachyon、KFS</li>
+<li><strong>离线计算</strong>：Hadoop MapReduce、Spark</li>
+<li><strong>流式、实时计算</strong>：Storm、Spark Streaming、S4、Heron</li>
+<li><strong>K-V、NOSQL数据库</strong>：HBase、Redis、MongoDB</li>
+<li><strong>资源管理</strong>：YARN、Mesos</li>
+<li><strong>日志收集</strong>：Flume、Scribe、Logstash、Kibana</li>
+<li><strong>消息系统</strong>：Kafka、StormMQ、ZeroMQ、RabbitMQ</li>
+<li><strong>查询分析</strong>：Hive、Impala、Pig、Presto、Phoenix、SparkSQL、Drill、Flink、Kylin、Druid</li>
+<li><strong>分布式协调服务</strong>：Zookeeper</li>
+<li><strong>集群管理与监控</strong>：Ambari、Ganglia、Nagios、Cloudera Manager</li>
+<li><strong>数据挖掘、机器学习</strong>：Mahout、Spark MLLib</li>
+<li><strong>数据同步</strong>：Sqoop</li>
+<li><strong>任务调度</strong>：Oozie</li>
+</ul>
+<p>那这么多，要怎么学呢？吴军博士在《数学之美》中提到：</p>
+<blockquote>
+<p>分治算法是计算机科学中最漂亮的工具之一，我称为“各个击破”法。</p>
+</blockquote>
+<p>我们就来各个击破。当然，先挑重点的学习。</p>
+<hr>
+<h1 id="MapReduce"><a href="#MapReduce" class="headerlink" title="MapReduce"></a>MapReduce</h1><p>假设我们要统计一本10000页的书里面，”apple”、”banana”、”orange”这三个单词出现的次数。由于规模很大，用一台机器来算，要算很久。我们能不能把规模缩小，交给多台机器去算呢？我们容易想到，可以拿4台服务器，假设为1，2，3，4，每台服务器计算2500页，各自算各自的。</p>
+<p>好了，现在每台服务器把各自负责的2500页统计完了。但我们关心的是 10000 页这个总量里面单词出现的次数，而不是4个独立的2500页。这 4 个 2500 页的结果分别保存在1，2，3，4四台服务器上。我们现在要想办法合并结果。</p>
+<p>于是我们找来另外三台服务器，假设为A，B，C：</p>
+<ul>
+<li>让 A 计算在机器1，2，3，4上面 “apple” 单词出现的总次数。</li>
+<li>让 B 计算在机器1，2，3，4上面 “banana” 单词出现的总次数。</li>
+<li>让 C 计算在机器1，2，3，4上面 “orange” 单词出现的总次数。</li>
+</ul>
+<p>这样，我们就知道每个单词出现的总次数了。</p>
+<a id="more"></a>
+
+<p>以上就是 Hadoop 简单的基本原理。我们称为 MapReduce模型。这个模型分为三个阶段：</p>
+<ul>
+<li><strong>Map阶段</strong>：每台机器先处理本机上的数据。（对于机器1来说，就是计算前2500页”apple”出现的次数）</li>
+<li><strong>Shuffle阶段</strong>：各个机器处理完自己的数据后，用另一批机器（或者还是这些机器）去收集某个数据的总和。（对于机器 A 来说，就是把 4 个 2500页 的”apple” 汇总。）</li>
+<li><strong>Reduce阶段</strong>：把多个数据的总和规约、合并，出最终结果。（把汇总的“apple”、”banana”、”orange” 归并）</li>
+</ul>
+<h2 id="MapReduce编程模型"><a href="#MapReduce编程模型" class="headerlink" title="MapReduce编程模型"></a>MapReduce编程模型</h2><p>首先，程序会先读取文件，交给 InputFormat 预处理。InputFormat主要做两件事：</p>
+<ol>
+<li><strong>getSplits</strong>：返回 InputSplit 数组，即对数据进行 split 分片，每片交给map操作一次</li>
+<li><strong>getRecordReader</strong>：返回 RecordReader 对象，对每个 split 分片进行转换为 key-value 键值对格式传递给map</li>
+</ol>
+<p>实际上常用的是 TextInputFormat，就是将文件的内容按行分割（split），形成 K-V 对。key是偏移量，value是该行的值。使用的是hadoop内置的数据类型，比如longwritable、text等。</p>
+<p>例如，原始文件为</p>
+<pre><code>hello hadoop
+and hello spark
+spark</code></pre><p>TextInputFormat预处理后的结果为</p>
+<pre><code>&lt;0，hello hadoop&gt;
+&lt;13, hello spark&gt;
+&lt;29, spark&gt;</code></pre><p>之后，将这个 K-V 对集合输入 mapper，进行业务处理过程，将其转换成需要的key-value再输出。</p>
+<p>mapper后的结果为</p>
+<pre><code>&lt;hello, 1&gt;
+&lt;hadoop, 1&gt;
+&lt;hello, 1&gt;
+&lt;spark, 1&gt;
+&lt;spark, 1&gt;</code></pre><p>之后，进行 shuffle(洗牌)操作，这个过程把 key 相同的value合并成list，作为reduce输入。</p>
+<p>shuffle后的结果为</p>
+<pre><code>&lt;hello, &lt;1,1&gt;&gt;
+&lt;hadoop, 1&gt;
+&lt;spark, &lt;1,1&gt;&gt;</code></pre><p>reduce的结果为</p>
+<pre><code>&lt;hello, 2&gt;
+&lt;hadoop, 1&gt;
+&lt;spark, 2&gt;</code></pre><hr>
+<h1 id="Hadoop-Distribute-Filesystem-HDFS"><a href="#Hadoop-Distribute-Filesystem-HDFS" class="headerlink" title="Hadoop Distribute Filesystem (HDFS)"></a>Hadoop Distribute Filesystem (HDFS)</h1><p>当数据集大小超过一台计算机的存储能力时，就有必要对它进行分区（partition）并存储到多台计算机上。管理网络中跨多台计算机存储的文件系统称为 <strong>分布式文件系统（distribute filesystem）</strong>。</p>
+<p>Hadoop 自带一个分布式文件系统，称为 HDFS。</p>
+<h2 id="HDFS-的设计"><a href="#HDFS-的设计" class="headerlink" title="HDFS 的设计"></a>HDFS 的设计</h2><p>包括可存储超大文件、流式数据访问、用于商用硬件（指的是普通硬件而不是精密昂贵的硬件）、低时间延迟的数据访问、大量的小文件、单用户写入和只添加等设计特点。</p>
+<h3 id="数据块"><a href="#数据块" class="headerlink" title="数据块"></a>数据块</h3><p>HDFS上的文件被划分为多个分块（chunk），作为独立的存储单元。</p>
+<h3 id="NameNode"><a href="#NameNode" class="headerlink" title="NameNode"></a>NameNode</h3><p>HDFS 之所以可以存很大的文件，是因为每个文件都会被分成一些 data block，存在不同机器上。但是当我们操作 HDFS 时，并不需要关心数据是如何分布式存储在各个结点上的，HDFS 展现给我们的只是类似于普通 Linux 那样的文件系统。那么，数据怎么存，存在哪里，这些信息是谁管理的呢？这就需要 NameNode 了。</p>
+<p>NameNode 主要是用来保存 HDFS 的元数据信息，比如命名空间信息，块信息等。当它运行的时候，这些信息存在内存中（也可以持久化到磁盘上）。<strong>namenode 负责记录一个文件有哪些 data block，以及这些 data block 分别存放在哪些机器上</strong>。</p>
+<h3 id="SecondaryNameNode"><a href="#SecondaryNameNode" class="headerlink" title="SecondaryNameNode"></a>SecondaryNameNode</h3><p>在 HDFS 中，有这么两个文件</p>
+<ol>
+<li><strong>fsimage</strong>：它是在 NameNode 启动时对整个文件系统的快照</li>
+<li><strong>edit logs</strong>：它是在 NameNode 启动后，对文件系统的改动序列</li>
+</ol>
+<p>只有在 NameNode 重启时，edit logs才会被合并到 fsimage 中，从而得到一个文件系统的最新快照。但是，在产品集群中，NameNode 是很少重启的，因此 edit logs 可能会变得非常大，导致下一次 NameNode 启动时要合并很多文件，启动时间非常久。</p>
+<p>我们要做的事情是：如何在不重启 NameNode 的前提下，及时更新系统快照，减少edit logs文件的大小，得到一个最新的fsimage文件 ? SecondaryNameNode 就是负责做这件事的。其主要任务是 <strong>合并 NameNode 的edit logs（修改过的日志）到 fsimage（系统快照） 文件中</strong>。</p>
+<p> <img src="../../../../images/hadoop/secondaryNameNode.png" alt="secondaryNameNode"></p>
+<h3 id="datanode"><a href="#datanode" class="headerlink" title="datanode"></a>datanode</h3><p>datanode是工作节点，<strong>用于存储并检索数据块（data block）</strong>。定期向 namenode 发心跳包。</p>
+<p><img src="../../../../images/hadoop/node.png" alt=""></p>
+<h3 id="当我们读取一个文件时发生了什么"><a href="#当我们读取一个文件时发生了什么" class="headerlink" title="当我们读取一个文件时发生了什么"></a>当我们读取一个文件时发生了什么</h3><ol>
+<li>HDFS client 联系 Name nodes，获取文件的 data blocks 组成、以及每个 data block 所在的机器以及具体存放位置；</li>
+<li>HDFS client 联系 Data nodes, 进行具体的读写操作；</li>
+</ol>
+<h3 id="数据备份"><a href="#数据备份" class="headerlink" title="数据备份"></a>数据备份</h3><p>分布式文件系统中，文件存储在多台机器上。如果其中某一台故障了，系统要确保依然能够正常运行。HDFS 是如何保证在机器故障情况下文件数据依然不丢失的呢？说白了，就是做数据备份，也就是多存几份。我们可以手动配置备份数量，HDFS默认是 3 份。</p>
+<p>一般存储 HDFS 文件的机器都是在机架（Rack）上的，很多数据中心里的故障都是一整个 Rack 出问题。因此通常在同一个 Rack 上储存一份，然后在另一个 Rack 上储存另两份。这样就保证数据有更高的安全性。</p>
+<p>HDFS client 写文件创建新的 block 时，NameNode 会为这个 block 创建一个唯一 ID， 并决定由哪些 dataNode 来存放。被选中的 dataNode 组成一个队列，client 只向队列第一个 dataNode 写，第一个 dataNode 存储完毕后，继续向队列第二个 dataNode 传递。</p>
+<h2 id="HDFS-的基本操作"><a href="#HDFS-的基本操作" class="headerlink" title="HDFS 的基本操作"></a>HDFS 的基本操作</h2><p>必须先启用 HDFS 之后才能进行操作。</p>
+<pre><code>./sbin/start-hdfs.sh</code></pre><p>将本地文件上传到 hdfs 上（原路径只能是一个文件）</p>
+<pre><code>hdfs dfs -copyFromLocal /local/data /hdfs/data</code></pre><p>和 copyFromLocal 区别是，put 原路径可以是文件夹等</p>
+<pre><code>hdfs dfs -put /tmp/ /hdfs/</code></pre><p>查看根目录文件</p>
+<pre><code>hadoop fs -ls /</code></pre><p>查看/tmp/data目录</p>
+<pre><code>hadoop fs -ls /tmp/data</code></pre><p>查看 a.txt，与 -text 一样</p>
+<pre><code>hadoop fs -cat /tmp/a.txt</code></pre><p>创建目录dir</p>
+<pre><code>hadoop fs -mkdir dir</code></pre><p>删除目录dir</p>
+<pre><code>hadoop fs -rm -r dir</code></pre><blockquote>
+<p>在 HDFS 中，就不要 cd 了， 用 ls + 目录</p>
+</blockquote>
+<h3 id="Hadoop-fs-和-hdfs-dfs的区别"><a href="#Hadoop-fs-和-hdfs-dfs的区别" class="headerlink" title="Hadoop fs 和 hdfs dfs的区别"></a>Hadoop fs 和 hdfs dfs的区别</h3><p>Hadoop fs：使用面最广，可以操作任何文件系统。</p>
+<p>hadoop dfs与hdfs dfs：只能操作HDFS文件系统相关（包括与Local FS间的操作），前者已经Deprecated，一般使用后者。</p>
+<hr>
+<h1 id="Yet-Another-Resource-Negotiator-YARN"><a href="#Yet-Another-Resource-Negotiator-YARN" class="headerlink" title="Yet Another Resource Negotiator (YARN)"></a>Yet Another Resource Negotiator (YARN)</h1><p>YARN 是 Hadoop 的集群资源管理系统。 YARN 提供请求和使用集群资源的API。但很少用于用户代码，因为在 YARN 之上的如MapReduce、Spark等分布式计算框架向用户隐藏了资源管理的细节。</p>
+<p>一般来说，HDFS在Storage底层、YARN在Compute中间层，往上的Application上层才是MapReduce、Spark等计算框架。（甚至Application之上还能再封装一层，如Pig、Hive等）</p>
+<p><img src="../../../../images/hadoop/YARN.png" alt=""></p>
+<p>Hadoop有两类长期运行的守护进程：</p>
+<ul>
+<li><p><strong>资源管理器</strong>：管理集群上资源的使用</p>
+</li>
+<li><p><strong>节点管理器</strong>：运行在集群中所有节点上切能够启动和监控容器的东西</p>
+<p>YARN 则是管理这两个守护进程的。</p>
+</li>
+</ul>
+<hr>
+<h1 id="Hive"><a href="#Hive" class="headerlink" title="Hive"></a>Hive</h1><p>hive是基于Hadoop的一个数据仓库工具，可以将结构化的数据文件映射为一张数据库表，并提供简单的sql查询功能，可以将sql语句转换为MapReduce任务进行运行。</p>
+<hr>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>HDFS是Hadoop提供的分布式存储框架，它可以用来存储海量数据，MapReduce是Hadoop提供的分布式计算框架，它可以用来统计和分析HDFS上的海量数据，而Hive则是SQL On Hadoop，Hive提供了SQL接口，开发人员只需要编写简单易上手的SQL语句，Hive负责把SQL翻译成MapReduce，提交运行。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Hadoop/" rel="tag">Hadoop</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/a44bfe3f.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Hadoop 配置遇到的一些坑</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/2720656c.html">
+                <span class="level-item">Linux设备驱动开发（一）内核的配置与编译</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#前言">
+        <span class="has-mr-6">1</span>
+        <span>前言</span>
+        </a></li><li>
+        <a class="is-flex" href="#MapReduce">
+        <span class="has-mr-6">2</span>
+        <span>MapReduce</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#MapReduce编程模型">
+        <span class="has-mr-6">2.1</span>
+        <span>MapReduce编程模型</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Hadoop-Distribute-Filesystem-HDFS">
+        <span class="has-mr-6">3</span>
+        <span>Hadoop Distribute Filesystem (HDFS)</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#HDFS-的设计">
+        <span class="has-mr-6">3.1</span>
+        <span>HDFS 的设计</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#数据块">
+        <span class="has-mr-6">3.1.1</span>
+        <span>数据块</span>
+        </a></li><li>
+        <a class="is-flex" href="#NameNode">
+        <span class="has-mr-6">3.1.2</span>
+        <span>NameNode</span>
+        </a></li><li>
+        <a class="is-flex" href="#SecondaryNameNode">
+        <span class="has-mr-6">3.1.3</span>
+        <span>SecondaryNameNode</span>
+        </a></li><li>
+        <a class="is-flex" href="#datanode">
+        <span class="has-mr-6">3.1.4</span>
+        <span>datanode</span>
+        </a></li><li>
+        <a class="is-flex" href="#当我们读取一个文件时发生了什么">
+        <span class="has-mr-6">3.1.5</span>
+        <span>当我们读取一个文件时发生了什么</span>
+        </a></li><li>
+        <a class="is-flex" href="#数据备份">
+        <span class="has-mr-6">3.1.6</span>
+        <span>数据备份</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#HDFS-的基本操作">
+        <span class="has-mr-6">3.2</span>
+        <span>HDFS 的基本操作</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Hadoop-fs-和-hdfs-dfs的区别">
+        <span class="has-mr-6">3.2.1</span>
+        <span>Hadoop fs 和 hdfs dfs的区别</span>
+        </a></li></ul></li></ul></li><li>
+        <a class="is-flex" href="#Yet-Another-Resource-Negotiator-YARN">
+        <span class="has-mr-6">4</span>
+        <span>Yet Another Resource Negotiator (YARN)</span>
+        </a></li><li>
+        <a class="is-flex" href="#Hive">
+        <span class="has-mr-6">5</span>
+        <span>Hive</span>
+        </a></li><li>
+        <a class="is-flex" href="#小结">
+        <span class="has-mr-6">6</span>
+        <span>小结</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Hadoop 笔记（一）初识" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

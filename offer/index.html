@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>剑指offer - J.e</title>
+
+
+    <meta name="description" content="1.赋值运算符函数略 2.实现 Singleton 模式 构造函数私有 静态内部类保证线程安全（静态内部类在类初始化时只会被加载一次，因此是线程安全的）  public class Singleton{   private static class Holder{     private static Singleton s &#x3D; new Signleton();   }    private Si">
+<meta property="og:type" content="website">
+<meta property="og:title" content="剑指offer">
+<meta property="og:url" content="https://jerrysheh.me/offer/index.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="1.赋值运算符函数略 2.实现 Singleton 模式 构造函数私有 静态内部类保证线程安全（静态内部类在类初始化时只会被加载一次，因此是线程安全的）  public class Singleton{   private static class Holder{     private static Singleton s &#x3D; new Signleton();   }    private Si">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-10-19T13:13:51.000Z">
+<meta property="article:modified_time" content="2019-07-20T04:21:47.149Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="剑指offer" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                剑指offer
+            
+        </h1>
+        <div class="content">
+            <h1 id="1-赋值运算符函数"><a href="#1-赋值运算符函数" class="headerlink" title="1.赋值运算符函数"></a>1.赋值运算符函数</h1><p>略</p>
+<h1 id="2-实现-Singleton-模式"><a href="#2-实现-Singleton-模式" class="headerlink" title="2.实现 Singleton 模式"></a>2.实现 Singleton 模式</h1><ol>
+<li>构造函数私有</li>
+<li>静态内部类保证线程安全（静态内部类在类初始化时只会被加载一次，因此是线程安全的）</li>
+</ol>
+<pre><code class="java">public class Singleton{
+  private static class Holder{
+    private static Singleton s = new Signleton();
+  }
+
+  private Singleton (){
+
+  }
+
+  public static get(){
+    return Holder.s;
+  }
+
+}</code></pre>
+<h1 id="3-数组中重复的数字"><a href="#3-数组中重复的数字" class="headerlink" title="3.数组中重复的数字"></a>3.数组中重复的数字</h1><p>题目：长度为 n 的数组，数字在 0 ~ n-1 范围内，有些数字是重复的，但不知道几个和几次。找出任意一个重复的数字。<br>例如：输入长度为 7 的数组{2,3,1,0,2,5,3}，数字在 0 ~ 6 范围内，输出 2 或者 输出 3</p>
+<h2 id="思路一：排序"><a href="#思路一：排序" class="headerlink" title="思路一：排序"></a>思路一：排序</h2><p>先排序，然后从头到尾扫描数组。排序一个长度为 n 的数组需要的时间为 O(nlogn)</p>
+<h2 id="思路二：哈希表"><a href="#思路二：哈希表" class="headerlink" title="思路二：哈希表"></a>思路二：哈希表</h2><p>扫描数组，每扫描到一个数字，都用 O(1) 的时间来判断哈希表是否已经包含该数字。如果没包含，就加入哈希表。该算法时间复杂度为 O(n)。但哈希表需要占用O(n)空间复杂度。</p>
+<pre><code class="java">private static int isDuplicateEleByHashSet(int[] arr) {
+
+    HashSet&lt;Integer&gt; set = new HashSet&lt;&gt;();
+
+    for (int i = 0; i &lt; arr.length; i++) {
+        if (set.contains(arr[i])){
+            return arr[i];
+        } else {
+            set.add(arr[i]);
+        }
+    }
+    return -1;
+}</code></pre>
+<h2 id="思路三：arr-i-交换到下标为-i-的地方"><a href="#思路三：arr-i-交换到下标为-i-的地方" class="headerlink" title="思路三：arr[i] 交换到下标为 i 的地方"></a>思路三：arr[i] 交换到下标为 i 的地方</h2><p>在数组中，从 index = 0 开始，将arr[i] 交换到下标为 i 的地方，如果要交换的数字跟当前数字一样，说明是重复的。尽管代码中有两个循环，但每个数字最多只要交换两次就能找到自己的位置，因此总的时间复杂度也是 O(n)。</p>
+<pre><code class="java">public static int isDuplicateEle(int[] arr){
+    for (int i = 0; i &lt; arr.length; i++) {
+        // 只要 arr[i] 跟 i 不同，就比较下去
+        while (arr[i] != i){
+            // arr[i]是数组当前值， arr[arr[i]] 是即将要比较的值
+            if (arr[arr[i]] == arr[i]){
+                return arr[i];
+            }
+            Swap.swap(arr, arr[i], i);
+        }
+    }
+    return -1;
+}</code></pre>
+<hr>
+<h1 id="4-二维数组的查找"><a href="#4-二维数组的查找" class="headerlink" title="4. 二维数组的查找"></a>4. 二维数组的查找</h1><p>在二维数组中，每一行从左到右递增，每一列从上到下递增。给定一个二维数组和一个整数，该整数是否在数组里</p>
+<pre><code>      →  递增
+     1   2   8   9
+↓    2   4   9  12
+递   4   7  10  13
+增   6   8  11  15</code></pre><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>二维数组<code>arr[row][column]</code> 中，第一个中括号控制行（row），第二个中括号控制列（column）。可以从右上角开始，右上角为 <code>arr[0][arr[0].length - 1]</code>，如果目标值大于右上角，跳到下一行（row++），如果目标值小于右上角，跳到上一列（column–）</p>
+<pre><code class="java">public static boolean find(int[][] arr, int target){
+
+    // 右上角的行号为 0，列号为 arr[0].length - 1
+    int row = 0;
+    int column = arr[0].length - 1;
+
+    // 行依次递增，但要保证小于arr[0].length
+    // 列依次递减，但要保证大于0
+    while (row &lt; arr[0].length &amp;&amp; column &gt;= 0){
+
+        // 如果命中，返回 true
+        if (target == arr[row][column]){
+            return true;
+        }
+
+        // 如果 target 大于当前值，在下一行找
+        else if(target &gt; arr[row][column] ) {
+            row++;
+        }
+
+        // 如果 target 小于当前值，在上一列找
+        else if (target &lt; arr[row][column]){
+            column--;
+        }
+
+    }
+    return false;
+
+}</code></pre>
+<hr>
+<h1 id="5-替换空格"><a href="#5-替换空格" class="headerlink" title="5. 替换空格"></a>5. 替换空格</h1><p>实现一个函数，把字符串中的空格替换成 <code>%20</code>，例如输入 <code>We are happy.</code>，输出<code>We%20are%20happy</code>。</p>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><p>第一步：先计算原字符串空格数，如果有 n 个空格，那么新字符串长度应该是 原长度 + 2*n。<br>第二步：用两个下标，一个是原字符串下标，一个是新字符串下标，依次从后往前拷贝，遇到空格时，依次赋值<code>0</code>、<code>2</code>、<code>%</code>，非空格直接拷贝原字符串内容。</p>
+<pre><code class="java">private static String replace(String str){
+
+    char[] cs = str.toCharArray();
+
+    // 计算空格数
+    int blankNum = 0;
+    for (int i = 0; i &lt; cs.length; i++) {
+        if (cs[i] == &#39; &#39;) blankNum++;
+    }
+
+    // 创建新数组
+    char[] resultCs = new char[cs.length + blankNum*2];
+
+    // 两个下标，一个指向原数组，一个指向新数组
+    int index_ori = cs.length - 1;
+    int index_result = resultCs.length - 1;
+
+    // 从后往前遍历原数组
+    while (index_ori &gt;= 0){
+        // 遇到空格，新数组添加 %20
+        if (cs[index_ori] == &#39; &#39;){
+             resultCs[index_result--] = &#39;0&#39;;
+             resultCs[index_result--] = &#39;2&#39;;
+             resultCs[index_result--] = &#39;%&#39;;
+             index_ori--;
+        } else {
+            // 不是空格，直接拷贝原数组内容
+            resultCs[index_result--] = cs[index_ori--];
+        }
+    }
+
+    return new String(resultCs);
+}</code></pre>
+<p>如果允许我们用 java 内置方法，直接 replaceAll 搞定。</p>
+<pre><code class="java">private static String replaceByReplaceMethod(String s){
+    return s.replaceAll(&quot; &quot;, &quot;%20&quot;);
+}</code></pre>
+<p>如果要求是 StringBuffer，没有 replaceAll 方法，但可以用 replace 方法</p>
+<pre><code class="java">// 如果要求是 StringBuffer，没有 replaceAll
+private static String replaceByBuffer(StringBuffer sb){
+
+    for (int i = 0; i &lt; sb.length(); i++) {
+        int index = sb.charAt(i);
+        if (index == &#39; &#39;){
+            sb.replace(i, i+1, &quot;%20&quot;);
+        }
+    }
+
+    return sb.toString();
+
+}</code></pre>
+<hr>
+<h1 id="6-从尾到头打印链表"><a href="#6-从尾到头打印链表" class="headerlink" title="6. 从尾到头打印链表"></a>6. 从尾到头打印链表</h1><p>输入一个链表的头节点，从尾到头打印出每个节点的值</p>
+<pre><code class="java">// 链表定义如下
+static class ListNode{
+    int value;
+    ListNode next = null;
+
+    ListNode(int val){
+        this.value = val;
+    }
+}
+
+// 测试用例如下
+public static void main(String[] args) {
+
+    ListNode n1 = new ListNode(1);
+    n1.next = new ListNode(44);
+    n1.next.next = new ListNode(80);
+    n1.next.next.next = new ListNode(17);
+
+    reversePrint(n1);
+}</code></pre>
+<h1 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h1><p>逆向输出链表，自然会想到用后进先出的栈。先遍历链表，把遍历的值依次写入栈，然后再出栈即可。</p>
+<pre><code class="java">private static void reversePrintByStack(ListNode node){
+
+    Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+
+    do{
+        stack.add(node.value);
+    } while ((node = node.next) != null);
+
+    while (!stack.isEmpty()){
+        System.out.println(stack.pop());
+    }
+
+}</code></pre>
+<p>事实上，递归本身就是栈结构，这道题可以直接用递归代替栈</p>
+<pre><code class="java">// 递归实现
+private static void reversePrint(ListNode node){
+
+    if (node.next != null) {
+        reversePrint(node.next);
+    }
+
+    System.out.println(node.value);
+
+}</code></pre>
+<hr>
+<h1 id="7-重建二叉树"><a href="#7-重建二叉树" class="headerlink" title="7. 重建二叉树"></a>7. 重建二叉树</h1><p>待完成</p>
+<hr>
+<h1 id="8-二叉树的下一个节点"><a href="#8-二叉树的下一个节点" class="headerlink" title="8. 二叉树的下一个节点"></a>8. 二叉树的下一个节点</h1><p>待完成</p>
+<hr>
+<h1 id="9-用两个栈实现队列"><a href="#9-用两个栈实现队列" class="headerlink" title="9. 用两个栈实现队列"></a>9. 用两个栈实现队列</h1><p>思路：分为 stackA 和 stackB ，队列进时，往 stackA 进，队列出时先判断 StackB是否为空，不为空直接出，为空先把 stackA 全部倒进 stackB，再出。</p>
+<pre><code class="java">public class twoStack {
+
+    Stack&lt;Integer&gt; StackA = new Stack&lt;&gt;();
+    Stack&lt;Integer&gt; StackB = new Stack&lt;&gt;();
+
+    // 插入队列
+    public void insert(int a){
+        StackA.push(a);
+    }
+
+    // 出队列
+    public void delete(){
+
+        // 如果 B 栈不空，直接出
+        if (!StackB.isEmpty()){
+            StackB.pop();
+            return;
+        }
+
+        // 如果 B 栈空
+        // 1.先将 A 栈全部倒入 B 栈
+        while (!StackA.isEmpty()){
+            int a = StackA.pop();
+            StackB.push(a);
+        }
+        // 2.然后正常出
+        StackB.pop();
+
+    }
+
+}</code></pre>
+<hr>
+<h1 id="10-斐波那契数列（Fibonacci）"><a href="#10-斐波那契数列（Fibonacci）" class="headerlink" title="10. 斐波那契数列（Fibonacci）"></a>10. 斐波那契数列（Fibonacci）</h1><p>写一个函数，输入n，输出斐波那契数列的第 n 项。</p>
+<p>递归写法</p>
+<pre><code class="java">private static int getFib(int n){
+    if (n &lt; 1) return -1;
+    if (n == 1 || n == 2) return 1;
+    return getFib(n-2) + getFib(n-1);
+}</code></pre>
+<p>遍历写法</p>
+<pre><code class="java">private static int getFib2(int n){
+    if (n &lt; 1) return -1;
+
+    int last = 0;
+    int current = 1;
+    int next = last + current;
+
+    for (int i = 1; i &lt; n; i++) {
+        current = next;
+        next = current + last;
+        last = current;
+    }
+    return next;
+}</code></pre>
+<p>扩展问题：</p>
+<ol>
+<li>一只青蛙依次可以跳上1级台阶，也可以跳上2级，求该青蛙跳上一个 n 级台阶总共由多少种跳法。</li>
+<li>有一对兔子，从出生后第3个月起每个月都生一对兔子，小兔子长到第三个月后每个月又生一对兔子，假如兔子都不死，问每个月的兔子对数为多少？</li>
+</ol>
+<p>以青蛙为例：</p>
+<table>
+<thead>
+<tr>
+<th align="left">台阶数</th>
+<th align="left">跳法</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">只能跳一下</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">1</td>
+<td align="left">先1，后1</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">2</td>
+<td align="left">先1后2，或者先2后1</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left">3</td>
+<td align="left">111，12，21</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">4</td>
+<td align="left">1111，112， 121， 211， 22</td>
+</tr>
+</tbody></table>
+<p>显然是斐波那契数列问题</p>
+<hr>
+<h1 id="11-旋转数组最小数字"><a href="#11-旋转数组最小数字" class="headerlink" title="11. 旋转数组最小数字"></a>11. 旋转数组最小数字</h1><p>数组旋转：把一个数组最开始的几个元素搬到数组的末尾。</p>
+<p>要求：输入一个递增数组的旋转，输出旋转数组的最小元素</p>
+<p>如：输入{3，4，5，1，2} （它是{1, 2, 3, 4, 5}的旋转），最小值为 1</p>
+<h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><p>直观解法：遍历，但是时间复杂度为 O(n)</p>
+<p>两个指针解法：</p>
+<pre><code>前：
+6  7  8  9  10  1  2
+↑                  ↑
+A                  B
+
+后：
+6  7  8  9  10  1  2
+         ↑         ↑
+         A         B</code></pre><p>判断中间元素 9 是否大于第一个指针元素 6 ，如果是，说明最小元素在右边，把第一个指针指向中间缩小范围</p>
+<pre><code>前：
+6  7  1  2  3  4  5
+↑                 ↑
+A                 B
+
+后：
+6  7  1  2  3  4  5
+↑        ↑
+A        B</code></pre><p>反之，如果第一个指针元素大于中间元素，说明最小元素在左边，把第二个指针指向中间缩小范围。</p>
+<p>即：</p>
+<ul>
+<li>中间&gt;左边，移动第一指针到中间</li>
+<li>中间&lt;左边，移动第二指针到中间</li>
+</ul>
+<p>结束条件：第一个指针跟第二个指针相邻，第二个指针指向的元素就是最小元素</p>
+<p>实现：</p>
+<pre><code class="java">private static int getMin(int[] arr){
+
+    int left = 0;
+    int right = arr.length - 1;
+
+    // 如果数组本身是有序的（旋转0）直接返回最左元素
+    if (arr[left] &lt; arr[right]) return arr[left];
+
+    while (left + 1 != right){
+        int mid = (left + right) / 2;
+
+        //中间&gt;左边，移动第一指针到中间
+        if (arr[left] &lt; arr[mid]) left = mid;
+
+        //中间&lt;左边，移动第二指针到中间
+        else if (arr[left] &gt;= arr[mid]) right = mid;
+    }
+
+    return arr[right];
+
+}</code></pre>
+<hr>
+<h1 id="12-矩阵中的路径"><a href="#12-矩阵中的路径" class="headerlink" title="12. 矩阵中的路径"></a>12. 矩阵中的路径</h1><p>回溯法</p>
+<hr>
+<h1 id="13-机器人的运动范围"><a href="#13-机器人的运动范围" class="headerlink" title="13. 机器人的运动范围"></a>13. 机器人的运动范围</h1><p>回溯法</p>
+<hr>
+<h1 id="14-剪绳子"><a href="#14-剪绳子" class="headerlink" title="14. 剪绳子"></a>14. 剪绳子</h1><p>动态规划 + 贪婪</p>
+<hr>
+<h1 id="15-二进制中1的个数"><a href="#15-二进制中1的个数" class="headerlink" title="15. 二进制中1的个数"></a>15. 二进制中1的个数</h1><p>求一个二进制数字中 1 的个数，如 110101001 ，返回 5</p>
+<p>分析：把一个整数减去1，再和原整数【与】运算，会把该整数最右边的1变成0</p>
+<pre><code>原整数：
+11011001010
+
+减去1：
+11011001001
+
+与运算：
+11011001000</code></pre><p>利用这个特性，只要计算与运算的次数即可</p>
+<pre><code class="java">private static int numberOf1(int n){
+  int count = 0;
+
+  while(n != 0){
+    ++count;
+    n = (n-1) &amp; n;
+  }
+}</code></pre>
+<hr>
+<h1 id="16-数值的整数次方"><a href="#16-数值的整数次方" class="headerlink" title="16. 数值的整数次方"></a>16. 数值的整数次方</h1><p>输入一个double数 base ，求它的 n 次方，n是整数。</p>
+<pre><code class="java"></code></pre>
+<hr>
+<h1 id="17-打印从1到最大的n位数"><a href="#17-打印从1到最大的n位数" class="headerlink" title="17. 打印从1到最大的n位数"></a>17. 打印从1到最大的n位数</h1><p>略</p>
+<hr>
+<h1 id="18-删除链表的节点"><a href="#18-删除链表的节点" class="headerlink" title="18. 删除链表的节点"></a>18. 删除链表的节点</h1><p>删除链表节点的两种方法(比如要删除 i 节点)：</p>
+<ul>
+<li>方法一: 遍历到 i 的前一个节点 h，将 h 指向 i 的下一个节点 j，然后删除 i</li>
+<li>方法二：把节点 j 的内容复制到 i，将 i.next 指向 j 的下一节点 k，然后删除 j</li>
+</ul>
+<hr>
+<h1 id="21-调整数组顺序使奇数位于偶数前面"><a href="#21-调整数组顺序使奇数位于偶数前面" class="headerlink" title="21. 调整数组顺序使奇数位于偶数前面"></a>21. 调整数组顺序使奇数位于偶数前面</h1><p>输入一个数组，写一个函数调整该数组的顺序，使得奇数在前，偶数在后。</p>
+<p>思路：两个指针，一个在前（A），一个在后（B）。A往后遍历，直到遇到偶数，B往前遍历，直到遇到奇数，交换AB。</p>
+<pre><code class="java">private static void adjust(int[] arr){
+
+    // left - 1 是因为稍后 ++left 会把 left 变大 1 ， right + 1 同理
+    int left =  0 - 1;
+    int right = arr.length - 1 + 1 ;
+
+    while (left &lt; right){
+
+        //A往后遍历，直到遇到偶数
+        while ((arr[++left] % 2) != 0){
+            if (left &gt; arr.length - 1) break;
+        }
+
+        //B往前遍历，直到遇到奇数
+        while ((arr[--right] % 2) == 0){
+            if (right &lt;= 0) break;
+        }
+
+        // 交换
+        if (left &lt; right){
+            Swap.swap(arr, left, right);
+        }
+
+    }
+
+    System.out.println(Arrays.toString(arr));
+}</code></pre>
+<hr>
+<h1 id="22-链表中倒数第-k-个节点"><a href="#22-链表中倒数第-k-个节点" class="headerlink" title="22. 链表中倒数第 k 个节点"></a>22. 链表中倒数第 k 个节点</h1><p>思路：两个指针，如求倒数第 3 个节点，A指针先走3步，然后B指针开始走，当A指针到尾的时候，B指针所指就是倒数第 k 个节点</p>
+<p>链表定义如下</p>
+<pre><code class="java">static class ListNode{
+    int value;
+    ListNode next = null;
+
+    ListNode(int val){
+        this.value = val;
+    }
+}</code></pre>
+<pre><code>2 → 88 → 60 → 21 → 6 → 13 → 78
+↑（B）    ↑（A）
+
+2 → 88 → 60 → 21 → 6 → 13 → 78
+                   ↑（B）    ↑（A）</code></pre><p>实现：</p>
+<pre><code class="java">private static int printReciNode(ListNode head, int k){
+
+    if (k &lt;= 0) return -1;
+
+    ListNode nodeA = head;
+    ListNode nodeB = head;
+
+    //A指针先走k步
+    for (int i = 0; i &lt; k; i++) {
+        // 求倒数第3个节点，但万一链表只有 2 个节点呢？
+        if (nodeA.next == null){
+            return -1;
+        }
+        nodeA = nodeA.next;
+    }
+
+    // A、B都走，直到 A 到末尾
+    do {
+        nodeB = nodeB.next;
+    } while ((nodeA = nodeA.next) != null);
+
+    return nodeB.value;
+}</code></pre>
+<hr>
+<h1 id="23-链表中环的入口节点"><a href="#23-链表中环的入口节点" class="headerlink" title="23. 链表中环的入口节点"></a>23. 链表中环的入口节点</h1><p>如果一个链表中包含环，如何找出环的入口节点？</p>
+<p>两个指针，一个一次走一步，另一个一次走两步，如果快的指针追上了慢的指针，那链表就包含环。否则如果走得快的到了末尾（node.next = null）都没追上慢的，就不包括环。</p>
+<p>相遇节点就是入口节点。</p>
+<pre><code class="java">// 只实现是否包含环
+private static boolean isCircle(ListNode head){
+
+    ListNode pointA = head;
+    ListNode pointB = head;
+
+    while (true){
+        pointA = pointA.next.next;
+        pointB = pointB.next;
+
+        if (pointA==null){
+            break;
+        }
+
+        if (pointA.value == pointB.value &amp;&amp; pointA.next.equals(pointB.next)) {
+            return true;
+        }
+    }
+
+    return false;
+
+}</code></pre>
+<hr>
+<h1 id="24-反转链表"><a href="#24-反转链表" class="headerlink" title="24. 反转链表"></a>24. 反转链表</h1><p>输入一个链表的头节点，反转该链表并输出反转后链表的头节点。</p>
+<pre><code class="java">private static ListNode reverse(ListNode head){
+
+    // 反转后的头节点
+    ListNode reverseHead = null;
+
+    ListNode pre = null;
+    ListNode current = head;
+
+    while (current != null){
+        ListNode next = current.next;
+
+        // 如果 next 是空，说明到末尾了，是反转后的第一个元素
+        if (next == null){
+            reverseHead = current;
+        }
+
+        // 掉头，反指
+        current.next = pre;
+
+        pre = current;
+        current = next;
+    }
+
+    return reverseHead;
+}</code></pre>
+<hr>
+<h1 id="25-合并两个排序的链表"><a href="#25-合并两个排序的链表" class="headerlink" title="25. 合并两个排序的链表"></a>25. 合并两个排序的链表</h1><p>合并两个递增排序的链表，新链表的节点依然是排序的</p>
+<pre><code>List1: 1 → 3 → 5 → 7
+
+List2：2 → 4 → 6 → 8
+
+合并后：1 → 2 → 3 → 4 → 5 → 6 → 7 → 8</code></pre><p>思路：递归法，如果 A值 小于 B值， merge节点为A， 然后继续比较 A.next 和 B ，反之 如果 B值 小于 A， merge节点为B，然后继续比较 A 和 B.next</p>
+<pre><code class="java">private static ListNode merge(ListNode A, ListNode B){
+
+    if( A == null) {
+        return B;
+    } else if( B == null) return A;
+
+    ListNode mergeHead;
+
+    if (A.value &lt; B.value){
+        mergeHead = A;
+        mergeHead.next = merge(A.next, B);
+    } else {
+        mergeHead = B;
+        mergeHead.next = merge(A, B.next);
+    }
+
+    return mergeHead;
+}</code></pre>
+<hr>
+<h1 id="30-包含min函数的栈"><a href="#30-包含min函数的栈" class="headerlink" title="30. 包含min函数的栈"></a>30. 包含min函数的栈</h1><p>设计一个栈，除了可以 pop 和 push 之外，还能 getMin 获取栈中的最小值</p>
+<p>思路：用一个辅助栈，主栈入栈时，如果栈顶 &lt; 要插入的值，辅助栈压入要插入的值，如果 栈顶 &gt;= 要插入的值，辅助栈压入原来的值。</p>
+<pre><code class="java">class myStack{
+    Stack&lt;Integer&gt; stackA;
+    Stack&lt;Integer&gt; stackB;
+
+    public Integer pop(){
+        stackB.pop();
+        return stackA.pop();
+    }
+
+    public Integer push(Integer v){
+
+        if (stackA.isEmpty()){
+            stackB.push(v);
+        }
+
+        if (stackA.peek() &gt;= v ){
+            stackB.push(stackB.peek());
+        }
+
+        if (stackA.peek() &lt; v){
+            stackB.push(v);
+        }
+
+        return stackA.push(v);
+    }
+
+    public Integer getMin(){
+        return stackB.peek();
+    }
+
+}</code></pre>
+<hr>
+<h1 id="38-字符串的排列"><a href="#38-字符串的排列" class="headerlink" title="38. 字符串的排列"></a>38. 字符串的排列</h1><p>输入一个字符串，打印该字符串的所有排列。如，输入 abc， 输出 abc, acb, bac, bca, cab, cba</p>
+<h2 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h2><p>把字符串分为两部分，第一部分为首字符，第二部分为剩下的字符，首字符确定下来后，剩下的字符递归进行全排列。这样一趟完了之后。会发生：</p>
+<pre><code>a-bcd
+a-bdc
+a-cbd
+a-cdb
+a-dbc
+a-dcb</code></pre><p>然后把首字符和第二个字符交换，进行第二趟递归全排列</p>
+<pre><code>b-acd
+b-adc
+b-cad
+b-cda
+b-dac
+b-dca</code></pre><p>实现</p>
+<pre><code class="java">private static void permutation(String str, int start, int end){
+
+    if (end &lt;= 1) return;
+
+    char[] cs = str.toCharArray();
+
+    if (start == end){
+        System.out.println(new String(cs));
+    } else {
+        for (int i = start; i &lt;= end; i++) {
+            Swap.swap(cs, i, start);
+            permutation(String.valueOf(cs), start+1, end);
+            Swap.swap(cs, start, i);
+        }
+    }
+}</code></pre>
+<hr>
+<h1 id="40-最小的-k-个数"><a href="#40-最小的-k-个数" class="headerlink" title="40. 最小的 k 个数"></a>40. 最小的 k 个数</h1><p>输入 n 个整数，找出其中最小的 k 个数。</p>
+<h2 id="思路一：用快排的-partition-函数"><a href="#思路一：用快排的-partition-函数" class="headerlink" title="思路一：用快排的 partition 函数"></a>思路一：用快排的 partition 函数</h2><p>因为 partition 函数本质上是将比参考元素大的放左边，比参考元素小的放右边。如果 partition 后参考元素的下标正好是 k ，那说明 k 左边的都是比 k 小的。这种解法时间复杂度只有 O(n)</p>
+<pre><code class="java">public static int[] partitionAndFind(int[] arr, int k){
+
+    if (k &gt; arr.length){
+        return null;
+    }
+
+    int start = 0;
+    int end = arr.length - 1;
+    int index = QuickSort.partition(arr, start, end);
+
+    // 如果 partition 后下标大了，调小，否则调大
+    while (index != k-1){
+        if(index &gt; k-1){
+            end = index - 1;
+        }else{
+            start = index + 1;
+        }
+        index = QuickSort.partition(arr,start, end);
+    }
+
+    int[] output = new int[k];
+    System.arraycopy(arr, 0, output, 0, k);
+
+    return output;
+}</code></pre>
+<h1 id="思路二：优先队列（堆）或红黑树"><a href="#思路二：优先队列（堆）或红黑树" class="headerlink" title="思路二：优先队列（堆）或红黑树"></a>思路二：优先队列（堆）或红黑树</h1><p>用一个大小为 k 的最大堆（本质是二叉树）作为数据容器 （也可以用红黑树作为数据容器），当容器未满，每次输入的数字直接加到堆里面，当容器已满，需要完成，判断堆顶（最大值）和即将添加的元素谁大，保留更小的。</p>
+<p>需要 O(logk)的时间完成删除及插入操作。对于大小为 n 的输入，找到最小的 k 个，时间复杂度是 O(nlogk)，但是这种解法适合海量数据。</p>
+<pre><code class="java">public static int[] heapAndFind(int[] arr, int k){
+    // o2 - o1， 最大堆， o1 - o2（默认） 最小堆
+    PriorityQueue&lt;Integer&gt; q = new PriorityQueue&lt;&gt;(k, (o1, o2) -&gt; o2-o1);
+
+    for (int i = 0; i &lt; arr.length; i++) {
+
+        // 如果容器未满，直接添加
+        if (!isFull(q, k)){
+            q.add(arr[i]);
+        } else { // 如果容器已满，将待添加元素和堆顶（最大值）比较，更小的放进堆里
+            if (arr[i] &lt; q.peek()){
+                q.poll();
+                q.add(arr[i]);
+            }
+        }
+    }
+
+    // 一个新的数组用来存放结果
+    int[] output = new int[k];
+    for (int i = 0; i &lt; k; i++) {
+        output[i] = q.poll();
+    }
+
+    return output;
+}
+
+// 优先队列（堆）是否满了
+private static boolean isFull(PriorityQueue q, int k){
+    return q.size() &gt;= k;
+}</code></pre>
+<hr>
+<p>#</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#1-赋值运算符函数">
+        <span class="has-mr-6">1</span>
+        <span>1.赋值运算符函数</span>
+        </a></li><li>
+        <a class="is-flex" href="#2-实现-Singleton-模式">
+        <span class="has-mr-6">2</span>
+        <span>2.实现 Singleton 模式</span>
+        </a></li><li>
+        <a class="is-flex" href="#3-数组中重复的数字">
+        <span class="has-mr-6">3</span>
+        <span>3.数组中重复的数字</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#思路一：排序">
+        <span class="has-mr-6">3.1</span>
+        <span>思路一：排序</span>
+        </a></li><li>
+        <a class="is-flex" href="#思路二：哈希表">
+        <span class="has-mr-6">3.2</span>
+        <span>思路二：哈希表</span>
+        </a></li><li>
+        <a class="is-flex" href="#思路三：arr-i-交换到下标为-i-的地方">
+        <span class="has-mr-6">3.3</span>
+        <span>思路三：arr[i] 交换到下标为 i 的地方</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#4-二维数组的查找">
+        <span class="has-mr-6">4</span>
+        <span>4. 二维数组的查找</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#思路">
+        <span class="has-mr-6">4.1</span>
+        <span>思路</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#5-替换空格">
+        <span class="has-mr-6">5</span>
+        <span>5. 替换空格</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#思路-1">
+        <span class="has-mr-6">5.1</span>
+        <span>思路</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#6-从尾到头打印链表">
+        <span class="has-mr-6">6</span>
+        <span>6. 从尾到头打印链表</span>
+        </a></li><li>
+        <a class="is-flex" href="#思路-2">
+        <span class="has-mr-6">7</span>
+        <span>思路</span>
+        </a></li><li>
+        <a class="is-flex" href="#7-重建二叉树">
+        <span class="has-mr-6">8</span>
+        <span>7. 重建二叉树</span>
+        </a></li><li>
+        <a class="is-flex" href="#8-二叉树的下一个节点">
+        <span class="has-mr-6">9</span>
+        <span>8. 二叉树的下一个节点</span>
+        </a></li><li>
+        <a class="is-flex" href="#9-用两个栈实现队列">
+        <span class="has-mr-6">10</span>
+        <span>9. 用两个栈实现队列</span>
+        </a></li><li>
+        <a class="is-flex" href="#10-斐波那契数列（Fibonacci）">
+        <span class="has-mr-6">11</span>
+        <span>10. 斐波那契数列（Fibonacci）</span>
+        </a></li><li>
+        <a class="is-flex" href="#11-旋转数组最小数字">
+        <span class="has-mr-6">12</span>
+        <span>11. 旋转数组最小数字</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#思路-3">
+        <span class="has-mr-6">12.1</span>
+        <span>思路</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#12-矩阵中的路径">
+        <span class="has-mr-6">13</span>
+        <span>12. 矩阵中的路径</span>
+        </a></li><li>
+        <a class="is-flex" href="#13-机器人的运动范围">
+        <span class="has-mr-6">14</span>
+        <span>13. 机器人的运动范围</span>
+        </a></li><li>
+        <a class="is-flex" href="#14-剪绳子">
+        <span class="has-mr-6">15</span>
+        <span>14. 剪绳子</span>
+        </a></li><li>
+        <a class="is-flex" href="#15-二进制中1的个数">
+        <span class="has-mr-6">16</span>
+        <span>15. 二进制中1的个数</span>
+        </a></li><li>
+        <a class="is-flex" href="#16-数值的整数次方">
+        <span class="has-mr-6">17</span>
+        <span>16. 数值的整数次方</span>
+        </a></li><li>
+        <a class="is-flex" href="#17-打印从1到最大的n位数">
+        <span class="has-mr-6">18</span>
+        <span>17. 打印从1到最大的n位数</span>
+        </a></li><li>
+        <a class="is-flex" href="#18-删除链表的节点">
+        <span class="has-mr-6">19</span>
+        <span>18. 删除链表的节点</span>
+        </a></li><li>
+        <a class="is-flex" href="#21-调整数组顺序使奇数位于偶数前面">
+        <span class="has-mr-6">20</span>
+        <span>21. 调整数组顺序使奇数位于偶数前面</span>
+        </a></li><li>
+        <a class="is-flex" href="#22-链表中倒数第-k-个节点">
+        <span class="has-mr-6">21</span>
+        <span>22. 链表中倒数第 k 个节点</span>
+        </a></li><li>
+        <a class="is-flex" href="#23-链表中环的入口节点">
+        <span class="has-mr-6">22</span>
+        <span>23. 链表中环的入口节点</span>
+        </a></li><li>
+        <a class="is-flex" href="#24-反转链表">
+        <span class="has-mr-6">23</span>
+        <span>24. 反转链表</span>
+        </a></li><li>
+        <a class="is-flex" href="#25-合并两个排序的链表">
+        <span class="has-mr-6">24</span>
+        <span>25. 合并两个排序的链表</span>
+        </a></li><li>
+        <a class="is-flex" href="#30-包含min函数的栈">
+        <span class="has-mr-6">25</span>
+        <span>30. 包含min函数的栈</span>
+        </a></li><li>
+        <a class="is-flex" href="#38-字符串的排列">
+        <span class="has-mr-6">26</span>
+        <span>38. 字符串的排列</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#思路-4">
+        <span class="has-mr-6">26.1</span>
+        <span>思路</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#40-最小的-k-个数">
+        <span class="has-mr-6">27</span>
+        <span>40. 最小的 k 个数</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#思路一：用快排的-partition-函数">
+        <span class="has-mr-6">27.1</span>
+        <span>思路一：用快排的 partition 函数</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#思路二：优先队列（堆）或红黑树">
+        <span class="has-mr-6">28</span>
+        <span>思路二：优先队列（堆）或红黑树</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="剑指offer" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

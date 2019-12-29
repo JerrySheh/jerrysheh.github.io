@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Java并发编程之并发工具 - J.e</title>
+
+
+    <meta name="description" content="Java自带的平台类库（java.util.concurrent）里面包含了很多有用的工具，来帮助我们更好地处理并发问题。这一篇主要介绍一下几类工具：  atomic原子类：AtomicLong 同步容器类：Vector、Hashtable 并发容器类：concurrentHashMap、ConcurrentLinkedQueue、BlockingQueue（阻塞队列） 并发工具类：闭锁（Latc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java并发编程之并发工具">
+<meta property="og:url" content="https://jerrysheh.me/post/a23f9c20.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="Java自带的平台类库（java.util.concurrent）里面包含了很多有用的工具，来帮助我们更好地处理并发问题。这一篇主要介绍一下几类工具：  atomic原子类：AtomicLong 同步容器类：Vector、Hashtable 并发容器类：concurrentHashMap、ConcurrentLinkedQueue、BlockingQueue（阻塞队列） 并发工具类：闭锁（Latc">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-10-30T07:08:26.000Z">
+<meta property="article:modified_time" content="2019-09-22T14:04:00.573Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="并发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Java并发编程之并发工具" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-10-30T07:08:26.000Z">2018-10-30</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    21 分钟 读完 (大约 3143 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Java并发编程之并发工具
+            
+        </h1>
+        <div class="content">
+            <p>Java自带的平台类库（java.util.concurrent）里面包含了很多有用的工具，来帮助我们更好地处理并发问题。这一篇主要介绍一下几类工具：</p>
+<ol>
+<li><strong>atomic原子类</strong>：AtomicLong</li>
+<li><strong>同步容器类</strong>：Vector、Hashtable</li>
+<li><strong>并发容器类</strong>：concurrentHashMap、ConcurrentLinkedQueue、BlockingQueue（阻塞队列）</li>
+<li><strong>并发工具类</strong>：闭锁（Latch）、栅栏（Barrier）、信号量（Semaphore）</li>
+</ol>
+<a id="more"></a>
+
+<h1 id="atomic原子类"><a href="#atomic原子类" class="headerlink" title="atomic原子类"></a>atomic原子类</h1><h2 id="为什么要用-atomic原子类"><a href="#为什么要用-atomic原子类" class="headerlink" title="为什么要用 atomic原子类"></a>为什么要用 atomic原子类</h2><p>像 <code>i++</code> 这样的操作并不是原子操作，多线程访问可能出现问题，在 <a href="../post/b4ed848b.html">Java并发编程之安全性</a> 就提到可以用 java.util.concurrent.atomic 包的 atomic原子类 来将 <code>i++</code> 封装成原子操作。</p>
+<p><img src="../../../../images/Java/atomic.png" alt="atomic"></p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>非阻塞并发算法（CAS）。</p>
+<h2 id="原子类的更新问题"><a href="#原子类的更新问题" class="headerlink" title="原子类的更新问题"></a>原子类的更新问题</h2><p>用 Atomiclong 的 <code>incrementAndGet()</code> 方法或者 <code>set()</code> 方法更新值。</p>
+<pre><code class="java">private Atomiclong count = new AtomicLong(10);
+count.incrementAndGet(); // 11
+
+long value = 2L;
+count.set(value);  // 2</code></pre>
+<p>当 value 是一个方法的返回值时，如<code>Math.max(count.get(), observed)</code> (选择两者中比较大的)，这个操作也并不安全。</p>
+<p>正确的做法是用<code>compareAndSet(old, new)</code>方法：</p>
+<pre><code class="java">do{
+    oldValue = count.get();
+    newValue = Math.max(count.get(), observed);
+} while(!count.compareAndSet(oldValue,newValue))</code></pre>
+<p>在Java 8中，上述样板代码可以简化为：</p>
+<pre><code class="java">count.updateAndGet(x-&gt;Math.max(count.get(), observed));
+// or
+count.accumulateAndGet(observed, Math::max);</code></pre>
+<h2 id="用-LongAdder-优化高并发性能问题"><a href="#用-LongAdder-优化高并发性能问题" class="headerlink" title="用 LongAdder 优化高并发性能问题"></a>用 LongAdder 优化高并发性能问题</h2><p>如果在高并发情况下 Atomiclong 的 CAS 乐观锁需要太多次重试，这会带来一定的性能下降。Java 8 提供了 LongAdder 类。其思想跟JDK 1.7的 concurrenthashmap类似，采用分段的思想。LongAdder 内部包含多个值，每个线程只更新其中的一个，然后返回所有值的和。</p>
+<p>LongAdder 适用于统计求和计数的场景，例如计算qps。在高并发场景下，qps这个值会被多个线程频繁更新的，所以 LongAdder 很适合。但 LongAdder 并不能替代 Atomiclong。</p>
+<pre><code class="java">final LongAdder adder = new LongAdder();
+// thread 1
+adder.increment();
+
+// thread 2
+adder.increment();
+
+// main thread
+adder.sum();</code></pre>
+<p>LongAccumulator 将这种思想推广到任意的累加操作，而不仅仅是+1</p>
+<hr>
+<h1 id="同步容器类"><a href="#同步容器类" class="headerlink" title="同步容器类"></a>同步容器类</h1><p>同步容器类包括 Vector 和 Hashtable。</p>
+<p>它们实现线程安全的方式十分简单粗暴：<strong>对每个公有方法进行同步，使得每次只有一个线程能够访问容器的状态</strong>。这种线程安全方式对于容器自身来说是安全的，但在调用方可能会出现问题，因此使用时要注意调用方可能需要做一些额外的协调。例如：</p>
+<pre><code class="java">// 获取 Vector 最后一个元素
+public static Object getLast(Vector list){
+  int lastIndex = list.size() - 1;
+  return list.get(lastIndex);
+}
+
+// 删除 Vector 最后一个元素
+public static void deleteLast(Vector list){
+  int lastIndex = list.size() - 1;
+  list.remove(lastIndex);
+}</code></pre>
+<p>从 Vector 的角度，无论你用多少个线程调用多少次<code>deleteLast()</code>方法，都不会让 Vector 内部出问题。然而，从调用者的角度，线程A调用getLast，线程A先观察到size为10，然后时间片切换到线程B调用deleteLast，B也观察到size为10，然后B删除了最后一个元素，然后A获取最后一个元素，发现这个元素不存在，于是抛出<code>ArrayIndexOutOfBoundsException</code>。</p>
+<p>另一个例子是，用一个 for 循环迭代 Vector，循环到一半时，另一个线程删除了后面某些元素，迭代到后面时就会找不到元素抛出<code>ArrayIndexOutOfBoundsException</code>。</p>
+<pre><code class="java">// 如果迭代到一半，另一个线程删除了后面的元素，导致 get(i) 取不到
+for (int i=0; i &lt; vector.size() ;i++ ) {
+  doSomething(vector.get(i));
+}</code></pre>
+<p>我们通常会用 Iterator 可以对集合进行遍历，但是却 <strong>不能在遍历过程对原集合做增、删、改</strong>，会抛出 <code>ConcurrentModificationException</code>。这是 Java 的一种并发预警警示器，叫 fail-fast。告知我们集合在遍历过程中被修改了。</p>
+<p>有时候，我们看起来好像没有迭代，但仍然抛出了<code>ConcurrentModificationException</code>。是因为有些方法隐式地进行了迭代，如打印一个Hashset，事实上会调用 toString 方法，这个方法不断调用 StringBuilder.append 把各个元素转为字符串，这其实就是迭代了。同理，hashCode方法、equals方法、containAll、removeAll、retainAll等方法都是如此。</p>
+<p><font color="red">因此，使用同步容器类时，需要在调用方加 synchronized 同步。</font></p>
+<hr>
+<h1 id="并发容器类"><a href="#并发容器类" class="headerlink" title="并发容器类"></a>并发容器类</h1><p>同步容器简单粗暴地对公有方法加同步，实际上是强行将对容器状态的访问串行化了，这对并发性能带来了很大影响。在 Java 5 之后，增加了如 ConcurrentHashMap、ConcurrentLinkedQueue 这样的并发容器，天生为并发程序设计。<strong>在多线程中应该尽可能用并发容器，而不是同步容器</strong>。</p>
+<h2 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h2><p>ConcurrentHashMap 采用了细粒度的加锁机制，称为分段锁（Lock Striping）。分段锁的原理是，容器内部有多个锁，每一把锁只锁住容器内一部分数据。在 JDK 1.7 里，一个 ConcurrentHashMap 内部是一个 Segment 数组， Segment 数组每个元素都是一个 Entry 数组，Entry 数组每个元素都是 Entry 链表对象。加锁时，不是加锁整个 ConcurrentHashMap，而是加锁 Segment 数组上的每个 Segment 对象。</p>
+<p><img src="../../../../images/Java/concurrentHashMap.png" alt="concurrentHashMap"></p>
+<p><strong>但是在JDK 1.8中，取消了基于 Segment 的分段锁思想，改用 CAS + synchronized 控制并发操作</strong>。</p>
+<p>ConcurrentHashMap 迭代时不会抛出 <code>ConcurrentModificationException</code>，是 fail-safe 的。它实现了 ConcurrentMap 接口，如下：</p>
+<pre><code class="java">public interface ConcurrentMap&lt;K, V&gt; extends Map&lt;K, V&gt; {
+
+    // 仅当 K 没有相应的映射值时才插入
+    V putIfAbsent(K key, V value);
+
+    // 仅当 K 被映射到 value 时才插入
+    boolean remove(Object key, Object value);
+
+    // 仅当 K 被映射到 oldValue 时才替换为 newValue
+    boolean replace(K key, V oldValue, V newValue);
+
+    // 仅当 K 被映射到某个值时才替换为 newValue
+    V replace(K key, V value);
+}</code></pre>
+<p>concurrentHashMap有两个带参构造器</p>
+<pre><code class="java">// initialCapacity - 初始容量（默认16）
+concurrentHashMap&lt;K, V&gt;(int initialCapacity);
+
+// loadactor - 如果每一个桶的平均负载超过这个值，会重新调整大小（默认0.75）
+// concurrencyLevel - 并发写线程的估计数
+concurrentHashMap&lt;K, V&gt;(int initialCapacity, float loadactor, int concurrencyLevel)</code></pre>
+<h3 id="使用-concurrentHashMap-做词频统计的例子"><a href="#使用-concurrentHashMap-做词频统计的例子" class="headerlink" title="使用 concurrentHashMap 做词频统计的例子"></a>使用 concurrentHashMap 做词频统计的例子</h3><p>考虑下面的例子，我们需要在每次访问时将 map 里面的值+1，虽然 concurrentHashMap 内部是线程安全的，但是这段代码并非线程安全，另一个线程可能也正在更新数值。</p>
+<pre><code class="java">ConcurrentHashMap&lt;String,Long&gt; map = new ConcurrentHashMap();
+long oldValue = map.get(word);
+long newValue = oldValue == null ? 1 : oldValue+1;
+map.put(word, newValue);</code></pre>
+<p>一般的改进如下，用到了CAS的思想，使用 replace 方法，如果替换不成功就不断尝试。</p>
+<pre><code class="java">do {
+    oldValue = map.get(word);
+    newValue = oldValue == null ? 1 : oldValue+1;
+} while (!map.replace(word, oldValue, newValue));</code></pre>
+<p>但是我们太讨厌这样的样板代码了，进一步改进如下：</p>
+<pre><code class="java">// 把 Long 换成了 LongAdder
+ConcurrentHashMap&lt;String,LongAdder&gt; map = new ConcurrentHashMap();
+
+// 如果为空，新建
+map.putIfAbsent(word, new LongAdder());
+
+// 获取再+1
+map.get(word).increment();
+
+// 上面两句可以合并为一句
+map.putIfAbsent(word, new LongAdder()).increment();</code></pre>
+<p>Java 8 中，compute 方法传入一个 key 和一个计算新值的函数，用于完成原子更新，推荐使用：</p>
+<pre><code class="java">map.compute(word, (k,v)-&gt; v == null? 1:v+1);</code></pre>
+<h2 id="CopyOnWriteArrayList"><a href="#CopyOnWriteArrayList" class="headerlink" title="CopyOnWriteArrayList"></a>CopyOnWriteArrayList</h2><p>这是一个写入时复制（Copy-On-Write）并发容器，用于替代同步的List。在每次修改时，都会创建并重新发布一个新的容器副本。迭代器不会抛出<code>ConcurrentModificationException</code>，是 fail-safe 的。当迭代操作远远多于修改操作时，应该考虑使用Copy-On-Write容器。</p>
+<h2 id="BlockingQueue（生产者消费者模式）"><a href="#BlockingQueue（生产者消费者模式）" class="headerlink" title="BlockingQueue（生产者消费者模式）"></a>BlockingQueue（生产者消费者模式）</h2><p>BlockingQueue 是一个阻塞队列接口。其 put 方法将一个元素放进队列头端，如果队列已满，就一直阻塞，直到队列空出位置。同理，take 方法将从队列尾端取出一个元素，如果队列未空，就一直阻塞，直到队列有元素。</p>
+<p><img src="../../../../images/Java/blocking-queue.png" alt="blocking-queue"></p>
+<p>BlockingQueue非常适合用来做生产者-消费者模式。其优点是，将生产数据的过程与使用数据的过程解耦。</p>
+<p>BlockingQueue 也提供了一个 offer 方法，如果数据不能添加进队列，返回一个失败状态。offer 方法可以带时间参数，表示在一段时间内尝试添加元素。poll 同理。</p>
+<pre><code class="java">boolean success = queue.offer(x, 100, TimeUnit.MILLSECONDS);</code></pre>
+<p>BlockingQueue 的实现类有 LinkedBlockingQueue 和 ArrayBlockingQueue，以及按优先级排序的 PriorityBlockingQueue。还有一个比较特殊的 SynchronousQueue，它没有存储空间，只是维护一组线程。例如，一个线程 put 会被阻塞，直到另一个线程 take，才算成功交付。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>正常动作</th>
+<th>特殊情况动作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>add</td>
+<td>添加元素</td>
+<td>队列满抛出 IllegalStateException</td>
+</tr>
+<tr>
+<td>offer</td>
+<td>添加元素并返回true</td>
+<td>队列满返回false</td>
+</tr>
+<tr>
+<td>put</td>
+<td>添加元素</td>
+<td>队列满阻塞</td>
+</tr>
+<tr>
+<td>element</td>
+<td>返回队列头元素</td>
+<td>队列空抛出NoSuchElementException</td>
+</tr>
+<tr>
+<td>peek</td>
+<td>返回队列的头元素</td>
+<td>队列空返回null</td>
+</tr>
+<tr>
+<td>poll</td>
+<td>移出并返回队列头元素</td>
+<td>队列空返回null</td>
+</tr>
+<tr>
+<td>remove</td>
+<td>移出并返回队列头元素</td>
+<td>队列空抛出NoSuchElementException</td>
+</tr>
+<tr>
+<td>take</td>
+<td>移出并返回队列头元素</td>
+<td>队列空阻塞</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="同步工具类"><a href="#同步工具类" class="headerlink" title="同步工具类"></a>同步工具类</h1><p>BlockingQueue 阻塞队列不仅能作为保存对象的容器，而且能根据其自身的状态来协调线程的控制流。所以它既是并发容器，也是一个同步工具。我们把能 <strong>根据其自身的状态来协调线程的控制流的工具称为同步工具</strong>。</p>
+<p>同步工具类的特点是：封装了一些状态，这些状态决定执行同步工具类的线程是继续执行还是等待，此外还提供一些方法对状态进行操作。常见的同步工具类有：闭锁（Latch）、栅栏（Barrier）、信号量（Semaphore）。</p>
+<h2 id="闭锁（Latch）"><a href="#闭锁（Latch）" class="headerlink" title="闭锁（Latch）"></a>闭锁（Latch）</h2><p>闭锁相当于一个门，且有一个开门的条件。未开门前，所有线程都不能通过，当门打开后才允许所有线程通过。闭锁打开之后将不能再关上。使用闭锁的场景有：</p>
+<ul>
+<li>确保某个计算在其需要的所有资源都被初始化后才继续执行。</li>
+<li>确保某个服务在其依赖的其他服务都被启动之后才启动。</li>
+<li>等待某个操作的参与者都就绪再继续执行（多人在线游戏）</li>
+</ul>
+<p>CountDownLatch 是一种闭锁的实现。包括一个计数器，一开始为正数，表示需要等待的事件数量。以及 countDown 方法，每当一个等待的事件发生了，计数器就减一。直到为零闭锁打开。如果计数器不为零，那 await 会一直阻塞直到计数器为零，或者等待中的线程中断，或者等待超时。</p>
+<h2 id="栅栏（Barrier）"><a href="#栅栏（Barrier）" class="headerlink" title="栅栏（Barrier）"></a>栅栏（Barrier）</h2><p>栅栏跟闭锁类似，不同点在于，所有线程必须同时到达栅栏位置，才能继续执行。<strong>闭锁用于等待事件，而栅栏用于等待其他线程</strong>，当所有线程到达 <code>barrier.await();</code> 的位置，栅栏放开。</p>
+<pre><code class="java">// param 1 参与的线程数量 ， param 2 栅栏放开后执行的 runnable
+CyclicBarrier barrier = new CyclicBarrier(2, myRunnable);</code></pre>
+<p>CyclicBarrier 与 CountDownLatch 的区别在于 CyclicBarrier 是可以重用的。 CyclicBarrier 可以使一定数据的参与方反复地在栅栏位置汇集，通常用于并行迭代算法。</p>
+<h2 id="信号量（Semaphore）"><a href="#信号量（Semaphore）" class="headerlink" title="信号量（Semaphore）"></a>信号量（Semaphore）</h2><p>计数信号量（Counting Semaphore）用来控制同时访问某个特定资源的操作数量，或者同时执行某个指定操作的数量。</p>
+<p>Semaphore 与 CountDownLatch 的区别在于 Semaphore 的计数器减少之后，还可以再增加，表示可用的资源数量。Semaphore 可以用来实现资源池，如数据库连接池。</p>
+<pre><code class="java">Semaphore semaphore = new Semaphore(1);
+
+//资源被使用代码
+
+semaphore.acquire(); // 资源被获取
+
+// 资源使用完毕代码
+
+semaphore.release(); // 资源被释放</code></pre>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Java/" rel="tag">Java</a>, <a class="has-link-grey -link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/cf93e9b3.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Spring（八）SpringBoot 集成 JPA</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/3bdfeb29.html">
+                <span class="level-item">聊聊并发和并发模型</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#atomic原子类">
+        <span class="has-mr-6">1</span>
+        <span>atomic原子类</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#为什么要用-atomic原子类">
+        <span class="has-mr-6">1.1</span>
+        <span>为什么要用 atomic原子类</span>
+        </a></li><li>
+        <a class="is-flex" href="#原理">
+        <span class="has-mr-6">1.2</span>
+        <span>原理</span>
+        </a></li><li>
+        <a class="is-flex" href="#原子类的更新问题">
+        <span class="has-mr-6">1.3</span>
+        <span>原子类的更新问题</span>
+        </a></li><li>
+        <a class="is-flex" href="#用-LongAdder-优化高并发性能问题">
+        <span class="has-mr-6">1.4</span>
+        <span>用 LongAdder 优化高并发性能问题</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#同步容器类">
+        <span class="has-mr-6">2</span>
+        <span>同步容器类</span>
+        </a></li><li>
+        <a class="is-flex" href="#并发容器类">
+        <span class="has-mr-6">3</span>
+        <span>并发容器类</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#ConcurrentHashMap">
+        <span class="has-mr-6">3.1</span>
+        <span>ConcurrentHashMap</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#使用-concurrentHashMap-做词频统计的例子">
+        <span class="has-mr-6">3.1.1</span>
+        <span>使用 concurrentHashMap 做词频统计的例子</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#CopyOnWriteArrayList">
+        <span class="has-mr-6">3.2</span>
+        <span>CopyOnWriteArrayList</span>
+        </a></li><li>
+        <a class="is-flex" href="#BlockingQueue（生产者消费者模式）">
+        <span class="has-mr-6">3.3</span>
+        <span>BlockingQueue（生产者消费者模式）</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#同步工具类">
+        <span class="has-mr-6">4</span>
+        <span>同步工具类</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#闭锁（Latch）">
+        <span class="has-mr-6">4.1</span>
+        <span>闭锁（Latch）</span>
+        </a></li><li>
+        <a class="is-flex" href="#栅栏（Barrier）">
+        <span class="has-mr-6">4.2</span>
+        <span>栅栏（Barrier）</span>
+        </a></li><li>
+        <a class="is-flex" href="#信号量（Semaphore）">
+        <span class="has-mr-6">4.3</span>
+        <span>信号量（Semaphore）</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Java并发编程之并发工具" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

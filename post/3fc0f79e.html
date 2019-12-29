@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Spring（七）深入理解Spring MVC - J.e</title>
+
+
+    <meta name="description" content="我们通过 Spring Boot 来创建一个 Web 应用，发挥作用的是 Spring MVC 框架。当我们在IDE里敲入以下代码时，究竟发生了什么呢？ @GetMapping(&quot;&#x2F;&quot;) public String hello() {     return &quot;login&quot;; }  @PostMapping(&quot;&#x2F;login&quot;) publi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring（七）深入理解Spring MVC">
+<meta property="og:url" content="https://jerrysheh.me/post/3fc0f79e.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="我们通过 Spring Boot 来创建一个 Web 应用，发挥作用的是 Spring MVC 框架。当我们在IDE里敲入以下代码时，究竟发生了什么呢？ @GetMapping(&quot;&#x2F;&quot;) public String hello() {     return &quot;login&quot;; }  @PostMapping(&quot;&#x2F;login&quot;) publi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-10-11T14:33:15.000Z">
+<meta property="article:modified_time" content="2019-10-08T14:50:31.083Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Spring（七）深入理解Spring MVC" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-10-11T14:33:15.000Z">2018-10-11</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    17 分钟 读完 (大约 2511 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Spring（七）深入理解Spring MVC
+            
+        </h1>
+        <div class="content">
+            <p><img src="../../../../images/Webapp/How_MVC_Works.webp" alt=""></p>
+<p>我们通过 Spring Boot 来创建一个 Web 应用，发挥作用的是 Spring MVC 框架。当我们在IDE里敲入以下代码时，究竟发生了什么呢？</p>
+<pre><code class="java">@GetMapping(&quot;/&quot;)
+public String hello() {
+    return &quot;login&quot;;
+}
+
+@PostMapping(&quot;/login&quot;)
+public ModelAndView login(LoginData loginData) {
+    if (LOGIN.equals(loginData.getLogin())
+      &amp;&amp; PASSWORD.equals(loginData.getPassword())) {
+        return new ModelAndView(&quot;success&quot;,
+          Collections.singletonMap(&quot;login&quot;, loginData.getLogin()));
+    } else {
+        return new ModelAndView(&quot;failure&quot;,
+          Collections.singletonMap(&quot;login&quot;, loginData.getLogin()));
+    }
+}</code></pre>
+<a id="more"></a>
+
+<hr>
+<h1 id="从基本的-Servlet-谈起"><a href="#从基本的-Servlet-谈起" class="headerlink" title="从基本的 Servlet 谈起"></a>从基本的 Servlet 谈起</h1><p>一个 Spring MVC 应用运行后，当我们在浏览器访问 <a href="http://localhost:8080/">http://localhost:8080/</a> 时，发生了什么？我们知道，Spring Boot 内置了一个 Tomcat，而 Tomcat 作为应用服务器，它是一个 Servlet 容器，所有发送给 Tomcat 的 HTTP 请求都会被 Java Servlet 进行处理。</p>
+<p>Servlet 是 Java Web 应用的核心组件。一个 HTTP servlet 用于处理接收、处理一个 HTTP 请求，并进行响应。</p>
+<p>我们自然会猜想，Spring Web 应用程序的入口，应该是一个 Servlet，事实也确实如此。</p>
+<hr>
+<h1 id="DispatcherServlet"><a href="#DispatcherServlet" class="headerlink" title="DispatcherServlet"></a>DispatcherServlet</h1><p>DispatcherServlet 就是 Spring Web 应用程序的入口，它就是一个servlet。</p>
+<h2 id="为什么需要-DispatcherServlet"><a href="#为什么需要-DispatcherServlet" class="headerlink" title="为什么需要 DispatcherServlet"></a>为什么需要 DispatcherServlet</h2><p>对于我们开发者来说，我们关心的是业务逻辑，而不是繁琐无聊的样板代码，什么是样板代码呢？例如：</p>
+<ul>
+<li>将一个 HTTP request 映射到一个处理该 request 的方法</li>
+<li>将 HTTP request 的 data 和 header 转换为 DTO（data transfer objects ）或者 实体类（domain objects）</li>
+<li>model-view-controller 之间的相互连接</li>
+<li>将处理完毕的 DTO 或 实体类转换回 HTTP 的 response</li>
+</ul>
+<p>我们需要框架来帮我们简化这些繁琐的工作，而 Spring 的 DispatcherServlet 正是干这件事的。</p>
+<p>同时，DispatcherServlet 是可扩展的，它允许我们为许多任务添加适配器（adapters），例如：</p>
+<ul>
+<li>将一个 HTTP request映射到到一个可以处理该 request 的方法或类（这部分在 HandlerMapping 接口）</li>
+<li>对不同的 request 做不同的处理，包括常规的 Servlet，复杂的 MVC 工作流，或者 POJO bean 里的方法（这部分在 HandlerAdapter 接口）</li>
+<li>根据不同的模板引擎做不同的处理（这部分在 ViewResolver 接口）</li>
+<li>解析多请求，例如多文件上传，或者你自己写的MultipartResolver解析器</li>
+<li>解析 cookie、session、 Accept HTTP header 等（叫做locale）</li>
+</ul>
+<hr>
+<h1 id="处理-HTTP-request的过程"><a href="#处理-HTTP-request的过程" class="headerlink" title="处理 HTTP request的过程"></a>处理 HTTP request的过程</h1><p>DispatcherServlet 的继承关系：</p>
+<p><img src="../../../../images/Webapp/DispatcherServlet.png" alt=""></p>
+<h2 id="GenericServlet"><a href="#GenericServlet" class="headerlink" title="GenericServlet"></a>GenericServlet</h2><p>GenericServlet 不直接针对 HTTP ，它只是定义了一个 service() 方法，用于接收请求以及产生响应。</p>
+<pre><code class="java">public abstract void service(ServletRequest req, ServletResponse res)
+  throws ServletException, IOException;</code></pre>
+<h2 id="HttpServlet"><a href="#HttpServlet" class="headerlink" title="HttpServlet"></a>HttpServlet</h2><p>HttpServlet是专注于 HTTP 请求的 Servlet。它是一个抽象类，其中的 service() 方法用于区分不同的 HTTP 方法（如 GET、POST）</p>
+<pre><code class="java">protected void service(HttpServletRequest req, HttpServletResponse resp)
+    throws ServletException, IOException {
+    String method = req.getMethod();
+    if (method.equals(METHOD_GET)) {
+        // ...
+        doGet(req, resp);
+    } else if (method.equals(METHOD_HEAD)) {
+        // ...
+        doHead(req, resp);
+    } else if (method.equals(METHOD_POST)) {
+        doPost(req, resp);
+        // ...
+    }
+}</code></pre>
+<h2 id="HttpServletBean"><a href="#HttpServletBean" class="headerlink" title="HttpServletBean"></a>HttpServletBean</h2><p>HttpServletBean 是 Spring 能够感知的类。它从 web.xml 或 WebApplicationInitializer 等配置文件中获取初始化参数，并注入到 Servlet bean 属性当中，可以理解成为 DispatcherServlet 进行初始化。</p>
+<h2 id="FrameworkServlet"><a href="#FrameworkServlet" class="headerlink" title="FrameworkServlet"></a>FrameworkServlet</h2><p>FrameworkServlet 实现了 ApplicationContextAware 接口，在 Web context（上下文）中整合了 Servlet 的功能。 但 FrameworkServlet 自己也能创建一个 web context。</p>
+<p>在其父类 HttpServletBean 中，对 Servlet 注入了一些初始化参数。一旦一个类出现在 contextClass 初始化参数当中，这个类的一个实例就会被创建。否则，就用默认的XmlWebApplicationContext。鉴于 XML 配置有点“过时”，在 Spring Boot 中默认使用的是注解方式，即AnnotationConfigWebApplicationContext</p>
+<p>（这一段看不太懂，参考原文：<a href="https://dzone.com/articles/how-spring-mvc-really-works）">https://dzone.com/articles/how-spring-mvc-really-works）</a></p>
+<h2 id="DispatcherServlet-1"><a href="#DispatcherServlet-1" class="headerlink" title="DispatcherServlet"></a>DispatcherServlet</h2><h3 id="1-统一请求的处理（Unifying-the-Request-Processing）"><a href="#1-统一请求的处理（Unifying-the-Request-Processing）" class="headerlink" title="1.统一请求的处理（Unifying the Request Processing）"></a>1.统一请求的处理（Unifying the Request Processing）</h3><p>DispatcherServlet 用于统一所有请求的处理。如果说，HttpServlet.service()提供了一个底层的视角来区分HTTP请求的方法，那对 Spring MVC 来说，这些方法只是一个参数罢了。</p>
+<p>在 HttpServlet 中区分了很多 HTTP 方法，但在 FrameworkServlet 中这些方法又被统一到 processRequest() 方法进行处理，之后才是 doService() 做具体的业务服务。</p>
+<pre><code class="java">@Override
+protected final void doGet(HttpServletRequest request,
+  HttpServletResponse response) throws ServletException, IOException {
+    processRequest(request, response);
+}
+@Override
+protected final void doPost(HttpServletRequest request,
+  HttpServletResponse response) throws ServletException, IOException {
+    processRequest(request, response);
+}
+// …</code></pre>
+<h3 id="2-扩展请求（Enriching-the-Request）"><a href="#2-扩展请求（Enriching-the-Request）" class="headerlink" title="2.扩展请求（Enriching the Request）"></a>2.扩展请求（Enriching the Request）</h3><p>之后，DispatcherServlet 实现了 doService() 方法，它不仅仅处理 web context，还包括 locale resolver，theme resolver, theme source 等等。</p>
+<pre><code class="java">request.setAttribute(WEB_APPLICATION_CONTEXT_ATTRIBUTE,
+  getWebApplicationContext());
+request.setAttribute(LOCALE_RESOLVER_ATTRIBUTE, this.localeResolver);
+request.setAttribute(THEME_RESOLVER_ATTRIBUTE, this.themeResolver);
+request.setAttribute(THEME_SOURCE_ATTRIBUTE, getThemeSource());</code></pre>
+<p>当然， doService()也准备了输入和输出的映射。Flash map是一种基本的模式，用于从一个请求传递参数到另一个请求，这在重定向的时候非常有用。</p>
+<pre><code class="java">
+FlashMap inputFlashMap = this.flashMapManager
+  .retrieveAndUpdate(request, response);
+if (inputFlashMap != null) {
+    request.setAttribute(INPUT_FLASH_MAP_ATTRIBUTE,
+      Collections.unmodifiableMap(inputFlashMap));
+}
+request.setAttribute(OUTPUT_FLASH_MAP_ATTRIBUTE, new FlashMap());</code></pre>
+<p>之后，doService()调用 doDispatch() 进行请求调度。</p>
+<h3 id="3-调度请求（Dispatching-the-Request）"><a href="#3-调度请求（Dispatching-the-Request）" class="headerlink" title="3.调度请求（Dispatching the Request）"></a>3.调度请求（Dispatching the Request）</h3><p>Dispatch()方法最主要的用途是寻找适合的 handler，handler 可以是任意 Object 而不局限于某些接口。这意味着 Spring 需要为 handler 找到合适的适配器（adapter），从而知道如何与 handler “沟通”。</p>
+<p>Spring 用 HandlerMapping 接口来找到与 request 匹配的 handler，HandlerMapping 有多种不同的实现。例如，SimpleUrlHandlerMapping  就能够根据 URL 找到合适的处理这个 request 的 bean 。</p>
+<pre><code>/welcome.html=ticketController
+/show.html=ticketController</code></pre><p>最广泛使用的 HandlerMapping 是 RequestMappingHandlerMapping。它能够将 <code>@RequestMapping</code> 注解映射到一个 <code>@Controller</code> 类中。</p>
+<h2 id="处理请求（Handling-the-Request）"><a href="#处理请求（Handling-the-Request）" class="headerlink" title="处理请求（Handling the Request）"></a>处理请求（Handling the Request）</h2><p>当 Spring 通过 HandlerMapping 找到 request 对应的 handler 时，HandlerAdapter 的 .handler() 方法将决定如何处理这个 request,之后：</p>
+<ol>
+<li>将数据写进 response object，然后返回 null</li>
+<li>返回一个 ModelAndView object 用于被DispatcherServlet渲染</li>
+</ol>
+<pre><code class="java">@Nullable
+ModelAndView handle(HttpServletRequest request,
+                    HttpServletResponse response,
+                    Object handler) throws Exception;</code></pre>
+<blockquote>
+<p>问：HandlerMapping不是已经可以帮助我们匹配到具体的handle（或者说控制器）了吗?为什么还需要HandlerAdapter？</p>
+</blockquote>
+<blockquote>
+<p>答：这是因为使用了 <strong>适配器模式</strong>， 有很多种控制器(Controller) 一种是带 <code>@Controller</code> 注解的， 还有一种是写一个servlet 当做controller, 所以用适配器做适配，HandlerAdapter 有几个子类，每个子类都是适配某一种类型的控制器，有了 HandlerAdapter，你只需要调用 handle 方法，屏蔽了不一致的细节，否则在DispatcherServlet里面要写很多if else if else。</p>
+</blockquote>
+<p>事实上，有多种 handler 类型。例如，SimpleControllerHandlerAdapter 处理一个  Spring MVC controller 的实例:</p>
+<pre><code class="java">public ModelAndView handle(HttpServletRequest request,
+  HttpServletResponse response, Object handler) throws Exception {
+    return ((Controller) handler).handleRequest(request, response);
+}</code></pre>
+<p>注意，HandlerAdapter返回了一个 ModelAndView object，但是并没有渲染它。</p>
+<p>另一个例子，SimpleServletHandlerAdapter 用于适配一个标准的 Servlet</p>
+<pre><code class="java">public ModelAndView handle(HttpServletRequest request,
+  HttpServletResponse response, Object handler) throws Exception {
+    ((Servlet) handler).service(request, response);
+    return null;
+}</code></pre>
+<p>Servlet 并不知道 ModelAndView ，它只是处理了 request 请求，然后把处理结果写进 response object，但是返回了一个空的 ModelAndView</p>
+<p>而在我们开发的角度，Controller 是一个包含了一些 <code>@RequestMapping</code> 注解的 POJO 类。所以任何的 handler 其实都是包含在 HandlerMethod 实例里面的方法而已。Spring 用 RequestMappingHandlerAdapter 类来适配这种 handler 类型。</p>
+<h2 id="处理参数并返回值"><a href="#处理参数并返回值" class="headerlink" title="处理参数并返回值"></a>处理参数并返回值</h2><p>在编写 Spring MVC 程序时，我们发现 Controller 中并没有用 HttpServletRequest 或者 HttpServletResponsearguments 作为方法的参数，而是用具体的实体类，或者路径变量（path parameter）等。同时还能发现，我们并不返回一个 ModelAndView 实例，而是返回一个视图名字，或者 POJO（将被转为JSON）。</p>
+<p>事实上，RequestMappingHandlerAdapter 确保了从 HttpServletRequest 方法获取中的参数被解析。以及它会从方法的返回值创建一个 ModelAndView object。</p>
+<p>RequestMappingHandlerAdapter 的核心代码如下，上述转换就发生在这里。</p>
+<pre><code class="java">ServletInvocableHandlerMethod invocableMethod
+  = createInvocableHandlerMethod(handlerMethod);
+if (this.argumentResolvers != null) {
+    invocableMethod.setHandlerMethodArgumentResolvers(
+      this.argumentResolvers);
+}
+if (this.returnValueHandlers != null) {
+    invocableMethod.setHandlerMethodReturnValueHandlers(
+      this.returnValueHandlers);
+}</code></pre>
+<p>还有一些其他的比如 HandlerMethodArgumentResolver 、HandlerMethodReturnValueHandler，做的都是类似的转换的工作。</p>
+<p>例如，当你在 controller 的 hello() 方法返回一个 string，ViewNameMethodReturnValueHandler 会处理这个值。而当你返回一个 ModelAndView ，则是 ModelAndViewMethodReturnValueHandler 来处理。</p>
+<h2 id="渲染视图（Rendering-the-View）"><a href="#渲染视图（Rendering-the-View）" class="headerlink" title="渲染视图（Rendering the View）"></a>渲染视图（Rendering the View）</h2><p>到这一步，Spring已经处理了 HTTP request 并得到一个 ModelAndView object，之后，DispatcherServlet 的 render() 方法将使用 LocaleResolver 实例设置 response 的 locale (cookie、session、 Accept HTTP header等) 。 Spring 会根据你用的是哪种模板引擎进行对应的渲染和解析，例如 ThymeleafViewResolver 用于渲染Thymeleaf模板引擎。在 render() 方法执行结束之后，HTML 页面就可以被发送到用户的浏览器进行显示了。</p>
+<hr>
+<h1 id="REST-支持"><a href="#REST-支持" class="headerlink" title="REST 支持"></a>REST 支持</h1><p>除了传统的 MVC 场景，我们也可以用 Spring MVC 框架来创建 REST web 服务。接收参数时，我们可以用 <code>@RequestBody</code> 注解来声明接收一个 POJO （通常是JSON转换成实体类），也可以在方法上面加 <code>@ResponseBody</code> 来声明这个方法返回一个 POJO（Spring会帮你转换成 JSON）</p>
+<pre><code class="java">import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@ResponseBody
+@PostMapping(&quot;/message&quot;)
+public MyOutputResource sendMessage(
+  @RequestBody MyInputResource inputResource) {
+    return new MyOutputResource(&quot;Received: &quot;
+      + inputResource.getRequestMessage());
+}</code></pre>
+<p>Spring 框架是通过 HttpMessageConverter 来完成 DTO 到 REST representation 的转换的。例如，其中一个实现类 MappingJackson2HttpMessageConverter 就用来在 model object 与 JSON 之间互相转换，内部用的是 Jackson 库。</p>
+<p>Spring 还可以在类上声明  <code>@RestController</code> 注解来简化REST API的创建过程。这可比在每一个方法都加上<code>@ResponseBody</code>方便得多。</p>
+<pre><code class="java">import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class RestfulWebServiceController {
+    @GetMapping(&quot;/message&quot;)
+    public MyOutputResource getMessage() {
+        return new MyOutputResource(&quot;Hello!&quot;);
+    }
+}</code></pre>
+<hr>
+<p>参考：<a href="https://dzone.com/articles/how-spring-mvc-really-work">How Spring MVC Really Works</a></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Java/" rel="tag">Java</a>, <a class="has-link-grey -link" href="/tags/Web/" rel="tag">Web</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/a3255dff.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Java虚拟机（五）JVM参数和调优</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/44ca081e.html">
+                <span class="level-item">通过SSH反向代理连接学校内网服务器</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#从基本的-Servlet-谈起">
+        <span class="has-mr-6">1</span>
+        <span>从基本的 Servlet 谈起</span>
+        </a></li><li>
+        <a class="is-flex" href="#DispatcherServlet">
+        <span class="has-mr-6">2</span>
+        <span>DispatcherServlet</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#为什么需要-DispatcherServlet">
+        <span class="has-mr-6">2.1</span>
+        <span>为什么需要 DispatcherServlet</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#处理-HTTP-request的过程">
+        <span class="has-mr-6">3</span>
+        <span>处理 HTTP request的过程</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#GenericServlet">
+        <span class="has-mr-6">3.1</span>
+        <span>GenericServlet</span>
+        </a></li><li>
+        <a class="is-flex" href="#HttpServlet">
+        <span class="has-mr-6">3.2</span>
+        <span>HttpServlet</span>
+        </a></li><li>
+        <a class="is-flex" href="#HttpServletBean">
+        <span class="has-mr-6">3.3</span>
+        <span>HttpServletBean</span>
+        </a></li><li>
+        <a class="is-flex" href="#FrameworkServlet">
+        <span class="has-mr-6">3.4</span>
+        <span>FrameworkServlet</span>
+        </a></li><li>
+        <a class="is-flex" href="#DispatcherServlet-1">
+        <span class="has-mr-6">3.5</span>
+        <span>DispatcherServlet</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#1-统一请求的处理（Unifying-the-Request-Processing）">
+        <span class="has-mr-6">3.5.1</span>
+        <span>1.统一请求的处理（Unifying the Request Processing）</span>
+        </a></li><li>
+        <a class="is-flex" href="#2-扩展请求（Enriching-the-Request）">
+        <span class="has-mr-6">3.5.2</span>
+        <span>2.扩展请求（Enriching the Request）</span>
+        </a></li><li>
+        <a class="is-flex" href="#3-调度请求（Dispatching-the-Request）">
+        <span class="has-mr-6">3.5.3</span>
+        <span>3.调度请求（Dispatching the Request）</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#处理请求（Handling-the-Request）">
+        <span class="has-mr-6">3.6</span>
+        <span>处理请求（Handling the Request）</span>
+        </a></li><li>
+        <a class="is-flex" href="#处理参数并返回值">
+        <span class="has-mr-6">3.7</span>
+        <span>处理参数并返回值</span>
+        </a></li><li>
+        <a class="is-flex" href="#渲染视图（Rendering-the-View）">
+        <span class="has-mr-6">3.8</span>
+        <span>渲染视图（Rendering the View）</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#REST-支持">
+        <span class="has-mr-6">4</span>
+        <span>REST 支持</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Spring（七）深入理解Spring MVC" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

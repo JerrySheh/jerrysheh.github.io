@@ -1,0 +1,1631 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>给自己的 Linux 备忘 - J.e</title>
+
+
+    <meta name="description" content="Linux 学习任重而道远，此文记录了我在 Linux 学习中需要知道或反复查阅使用的命令、表达式等内容，持续更新。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="给自己的 Linux 备忘">
+<meta property="og:url" content="https://jerrysheh.me/post/ee3d8fa1.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="Linux 学习任重而道远，此文记录了我在 Linux 学习中需要知道或反复查阅使用的命令、表达式等内容，持续更新。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2017-09-24T06:28:00.000Z">
+<meta property="article:modified_time" content="2017-09-25T07:40:00.000Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="给自己的 Linux 备忘" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-09-24T06:28:00.000Z">2017-09-24</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/linux/">linux</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    16 分钟 读完 (大约 2389 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                给自己的 Linux 备忘
+            
+        </h1>
+        <div class="content">
+            <p>Linux 学习任重而道远，此文记录了我在 Linux 学习中需要知道或反复查阅使用的命令、表达式等内容，持续更新。</p>
+<a id="more"></a>
+
+<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="常规命令"><a href="#常规命令" class="headerlink" title="常规命令"></a>常规命令</h2><table>
+<thead>
+<tr>
+<th>常规命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mkdir    myweb</td>
+<td>创建目录</td>
+</tr>
+<tr>
+<td>mkdir -p myweb/www/static</td>
+<td>创建多级目录</td>
+</tr>
+<tr>
+<td>rmdir</td>
+<td>删除空目录</td>
+</tr>
+<tr>
+<td>pwd</td>
+<td>显示当前目录</td>
+</tr>
+<tr>
+<td>touch a.txt</td>
+<td>如果 a.txt 不存在，生成一个新的空文档a.txt。如果a.txt存在，那么只更改该文档的时间信息。</td>
+</tr>
+<tr>
+<td>echo</td>
+<td>创建带有内容的文件（见标准输出）</td>
+</tr>
+<tr>
+<td>cat</td>
+<td>查看文件内容（当文件太大无法一页展示时，用more）</td>
+</tr>
+<tr>
+<td>more</td>
+<td>多屏查看文件内容 （ space-翻页 回车-下一行 q-退出）</td>
+</tr>
+<tr>
+<td>less</td>
+<td>多屏可滚动查看文件内容 （space-翻页 回车-下一行 q-退出 up/down-上下滚动 居然还可以用鼠标666）</td>
+</tr>
+<tr>
+<td>whatis ls</td>
+<td>显示ls命令的作用</td>
+</tr>
+<tr>
+<td>man ls</td>
+<td>显示ls命令的手册（space翻页 j下行 k上行 /关键字搜索 n下一个关键字 shift+n上一个关键字）</td>
+</tr>
+</tbody></table>
+<h2 id="文件系统命令"><a href="#文件系统命令" class="headerlink" title="文件系统命令"></a>文件系统命令</h2><table>
+<thead>
+<tr>
+<th>文件系统命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cd</td>
+<td>切换目录</td>
+</tr>
+<tr>
+<td>cp a.txt b.txt</td>
+<td>拷贝. 在工作目录下，将a.txt复制到文件b.txt</td>
+</tr>
+<tr>
+<td>mv a.txt c.txt</td>
+<td>重命名 a.txt 为 c.txt</td>
+</tr>
+<tr>
+<td>mv a.txt /home/jerrysheh</td>
+<td>将 a.txt 移动到 /home/jerrysheh 目录下</td>
+</tr>
+<tr>
+<td>rm</td>
+<td>删除文件</td>
+</tr>
+<tr>
+<td>rm -r</td>
+<td>删除包括子目录和子文件 （-r 表示 recursive，递归）</td>
+</tr>
+<tr>
+<td>rm -f</td>
+<td>强制删除</td>
+</tr>
+<tr>
+<td>apropos -e “list directory contents”</td>
+<td>精确反查带有”“list directory contents”功能的命令</td>
+</tr>
+<tr>
+<td>ll -h</td>
+<td>显示文件夹内文件详细信息</td>
+</tr>
+<tr>
+<td>ls</td>
+<td>显示当前目录下文件</td>
+</tr>
+<tr>
+<td>ls -a</td>
+<td>显示当前目录包括隐藏的文件</td>
+</tr>
+<tr>
+<td>curl -o video.mp4 http:<a href="http://www.example.com/video.mp4">www.example.com/video.mp4</a></td>
+<td>下载网络文件</td>
+</tr>
+</tbody></table>
+<h2 id="压缩命令"><a href="#压缩命令" class="headerlink" title="压缩命令"></a>压缩命令</h2><table>
+<thead>
+<tr>
+<th>压缩命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>tar -zcvf xxxx.tar.gz  /home/test</td>
+<td>压缩 -z 有gzip属性的，，-c 压缩 -v 显示过程，-f 档案名（必须）</td>
+</tr>
+<tr>
+<td>tar -zxvf xxxx.tar.gz -C /tmp</td>
+<td>解压， -x 解压 ， 其他参数同上</td>
+</tr>
+<tr>
+<td>zip -r mydata.zip mydata</td>
+<td>把 mydata 文件夹压缩 -r 递归（包括子目录）</td>
+</tr>
+<tr>
+<td>unzip mydata.zip -d mydatabak</td>
+<td>解压 mydata.zip， -d 解压到指定目录</td>
+</tr>
+</tbody></table>
+<h2 id="系统相关"><a href="#系统相关" class="headerlink" title="系统相关"></a>系统相关</h2><table>
+<thead>
+<tr>
+<th>系统相关</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>shutdown now</td>
+<td>关机</td>
+</tr>
+<tr>
+<td>uname -a</td>
+<td>查看内核信息</td>
+</tr>
+</tbody></table>
+<h2 id="用户相关"><a href="#用户相关" class="headerlink" title="用户相关"></a>用户相关</h2><table>
+<thead>
+<tr>
+<th>用户相关(在root下操作)</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>adduser jerry</td>
+<td>创建 jerry 用户（自动创建/home目录）</td>
+</tr>
+<tr>
+<td>useradd jerry</td>
+<td>创建 jerry 用户 （需要手动配置/home目录）</td>
+</tr>
+<tr>
+<td>passwd jerry</td>
+<td>给 jerry 用户设置密码</td>
+</tr>
+<tr>
+<td>userdel jerry</td>
+<td>删除 jerry 用户</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="关于-ls-l-命令"><a href="#关于-ls-l-命令" class="headerlink" title="关于 ls -l 命令"></a>关于 ls -l 命令</h1><p>终端输入<code>ls -l</code></p>
+<p>返回</p>
+<pre><code>total 8
+drwxrwxr-x 2 jerrysheh jerrysheh 4096 Mar 27 11:59 download
+drwxr-xr-x 3 root      root      4096 Apr 30 10:26 www</code></pre><h2 id="total"><a href="#total" class="headerlink" title="total"></a>total</h2><p>total 是所列出内容的磁盘占用空间总和值（kbytes）。</p>
+<blockquote>
+<p>对于“占”的理解：数据在存放过程中占据的block的大小。比如，1个block占用4k，那8.7k数据，要用3个bolck来存储，也就占用12k空间。</p>
+</blockquote>
+<h2 id="每一行第一个字符"><a href="#每一行第一个字符" class="headerlink" title="每一行第一个字符"></a>每一行第一个字符</h2><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>d</td>
+<td>目录（dirtectory）</td>
+</tr>
+<tr>
+<td>-</td>
+<td>普通文件</td>
+</tr>
+<tr>
+<td>c</td>
+<td>字符设备文件(character)</td>
+</tr>
+<tr>
+<td>l</td>
+<td>链接文件</td>
+</tr>
+<tr>
+<td>b</td>
+<td>块设备文件(block)</td>
+</tr>
+<tr>
+<td>p</td>
+<td>命令管道文件，与shell编程有关</td>
+</tr>
+<tr>
+<td>s</td>
+<td>sock文件，与shell编程有关</td>
+</tr>
+</tbody></table>
+<p>块设备文件：</p>
+<blockquote>
+<p>块设备文件(block)，一般置于/dev目录下，设备文件是普通文件和程序访问硬件设备的入口，是很特殊的文件。没有文件大小，只有一个主设备号和一个辅设备号。一次传输数据为一整块的被称为块设备，如硬盘、光盘等。最小数据传输单位为一个数据块(通常一个数据块的大小为512字节)</p>
+</blockquote>
+<p>字符设备文件(character):</p>
+<blockquote>
+<p>一般置于/dev目录下，一次传输一个字节的设备被称为字符设备，如键盘、字符终端等，传输数据的最小单位为一个字节。</p>
+</blockquote>
+<hr>
+<h1 id="Linux-通配表达式"><a href="#Linux-通配表达式" class="headerlink" title="Linux 通配表达式"></a>Linux 通配表达式</h1><p>Linux 通配表达式 与 正则表达式 相类似，但语法有所不同。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>×</td>
+<td>任意多个字符</td>
+</tr>
+<tr>
+<td>？</td>
+<td>任意一个字符</td>
+</tr>
+<tr>
+<td>[xyz]</td>
+<td>字符 x 或 y 或 z</td>
+</tr>
+<tr>
+<td>[0-3]</td>
+<td>数字 0 到 3 其中一个</td>
+</tr>
+<tr>
+<td>[b-e]</td>
+<td>字符 b 到 e 其中一个</td>
+</tr>
+<tr>
+<td>[^mnp]</td>
+<td>不是 m 或 n 或 p 的 一个字符</td>
+</tr>
+</tbody></table>
+<p>不要在删除文件到时候多敲了一个空格，会删除当前整个目录下的文件～</p>
+<p><code>$rm * .txt</code></p>
+<hr>
+<h1 id="文件权限相关"><a href="#文件权限相关" class="headerlink" title="文件权限相关"></a>文件权限相关</h1><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sudo chmod 755 a.txt</td>
+<td>chmod = change mode ，改变 a.txt 的权限为 755</td>
+</tr>
+<tr>
+<td>sudo chmod g-w a.txt</td>
+<td>删去 同组 的 写（write）权限</td>
+</tr>
+<tr>
+<td>sudo chmod go+r b.txt</td>
+<td>同组 和 其他 用户 增加对 b.txt 的读取（read）权限</td>
+</tr>
+</tbody></table>
+<p>说明：<br>Linux中，每个文件都有 9 位读写执行的权限。分为三组，三位一组。分别对应拥有者用户(user)，拥有组(owner group)中的用户和所有其他用户(other)。 7 = 111（2进制），表示 User 有读/写/执行 的权限， 5 = 101（2进制），表示 Owner group 有 读/执行 的权限，但没有写的权限。见下表。</p>
+<table>
+<thead>
+<tr>
+<th>十进制数</th>
+<th>二进制数</th>
+<th>权限</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>755</td>
+<td>111 101 101</td>
+<td>user 可读/写/执行， group 和 other 只能读/执行，不能写</td>
+</tr>
+<tr>
+<td>710</td>
+<td>111 001 000</td>
+<td>user 可读/写/执行， group 只能执行， other没有任何权限</td>
+</tr>
+</tbody></table>
+<p>功能表</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>u</td>
+<td>用户（user）</td>
+</tr>
+<tr>
+<td>g</td>
+<td>同组（group）</td>
+</tr>
+<tr>
+<td>o</td>
+<td>其他（other）</td>
+</tr>
+<tr>
+<td>a</td>
+<td>所有 （all） 默认值</td>
+</tr>
+<tr>
+<td>+</td>
+<td>增加权限</td>
+</tr>
+<tr>
+<td>-</td>
+<td>减少权限</td>
+</tr>
+<tr>
+<td>=</td>
+<td>给定唯一权限</td>
+</tr>
+<tr>
+<td>r</td>
+<td>读</td>
+</tr>
+<tr>
+<td>w</td>
+<td>写</td>
+</tr>
+<tr>
+<td>x</td>
+<td>可执行</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="快捷操作"><a href="#快捷操作" class="headerlink" title="快捷操作"></a>快捷操作</h1><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ctrl+a</td>
+<td>定位到命令开头</td>
+</tr>
+<tr>
+<td>ctrl+e</td>
+<td>定位到命令结尾</td>
+</tr>
+<tr>
+<td>ctrl+ ←</td>
+<td>定位到上一个单词</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="标准输入，标准输出，标准错误，管道与重新定向"><a href="#标准输入，标准输出，标准错误，管道与重新定向" class="headerlink" title="标准输入，标准输出，标准错误，管道与重新定向"></a>标准输入，标准输出，标准错误，管道与重新定向</h1><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ls &gt; a.txt</td>
+<td>不将 ls 命令的结果输出到屏幕上，而是输出到 a.txt 文件里面</td>
+</tr>
+<tr>
+<td>ls &gt;&gt; a.txt</td>
+<td>将 ls 命令的结果输出添加到 a.txt 文件的末尾</td>
+</tr>
+<tr>
+<td>ls 2&gt;&gt; b.txt</td>
+<td>如果ls命令出错，报错信息输出到 b.txt 的末尾</td>
+</tr>
+<tr>
+<td>ls &gt; c.txt 2&gt;&amp;1</td>
+<td>将结果和错误（如果同时有）都输出到 c.txt</td>
+</tr>
+<tr>
+<td>cat &gt;&gt;filetest 2&gt;&amp;1 &lt;&lt;END</td>
+<td>建立filetest文件，当输入遇到END时，退出</td>
+</tr>
+<tr>
+<td>echo helloworld</td>
+<td>将 helloworld 这段文本输出到标准输出（屏幕）</td>
+</tr>
+<tr>
+<td>echo helloworld &gt; b.txt</td>
+<td>将 helloworld 这段文本输出到 b.txt 文件里面</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>由于STDOUT与STDERR都会默认显示在终端上，为了区分二者的信息，就有了编号的0，1，2的定义，用1表示STDOUT，2表示STDERR。  <code>2&gt;&amp;1</code>，指标准错误重新定向到标准输出，即将标准输出、标准错误指定为同一输出路径。其中， <code>&amp;</code> 表示前面的命令放到后台执行。</p>
+</blockquote>
+<h2 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h2><p>以将一个命令的输出导向另一个命令的输入，从而让两个(或者更多命令)像流水线一样连续工作，不断地处理文本流。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cat</td>
+<td>显示文件内容</td>
+</tr>
+<tr>
+<td>wc    word count</td>
+<td>统计文本中的行、词以及字符的总数</td>
+</tr>
+</tbody></table>
+<p>命令：<br><code>$cat &lt; a.txt | wc</code></p>
+<p>执行步骤：</p>
+<ol>
+<li>输入（标准输入被重定向为 a.txt ） → cat（处理） → 输出（作为wc命令的输入）</li>
+<li>输入（cat命令的输出） → wc（处理） → 输出（标准输出，屏幕）</li>
+</ol>
+<p>执行结果：</p>
+<pre><code>jerrysheh@MI:~$ cat &lt; a.txt | wc
+      2       2      22</code></pre><p>命令：<br><code>$head -n 3 /etc/passwd | sort</code></p>
+<p>将 passwd 文件到前3行输出并排序</p>
+<p>可以使用 <code>xargs</code> 参数，让管道接受命令行参数</p>
+<pre><code>echo /etc/nano | xargs -i cp {} /tmp/dir</code></pre><p>将echo的输出作为参数，填入 cp 中的{}</p>
+<hr>
+<h1 id="使用-grep-和-cut-过滤信息"><a href="#使用-grep-和-cut-过滤信息" class="headerlink" title="使用 grep 和 cut 过滤信息"></a>使用 grep 和 cut 过滤信息</h1><p><code>ls --help | grep &quot;  -l&quot;</code>: 查看 ls 命令的 -l 参数用途</p>
+<p><code>mkdir --help| grep “  -p”</code>：查看 mkdir 命令的 -p 参数用途</p>
+<p><code>grep -inr &quot;int printf&quot; /usr/include &gt;&gt; /tmp/out.txt</code>: 搜索/usr/include目录下，含有 int printf 的文件内容，输出到 /tmp/out.txt 上</p>
+<ul>
+<li>-i  忽略大小写</li>
+<li>-n  打印行号</li>
+<li>-r  包含子目录</li>
+</ul>
+<p><code>grep -inr &quot;int printf&quot; /usr/include | cut -d : -f 1</code>: 搜索/usr/include目录下，含有 int printf 的文件内容，用 cut 剪切每个搜索结果以冒号分隔的第一片</p>
+<p>cut</p>
+<ul>
+<li>-d 分割</li>
+<li>-f 第几片</li>
+</ul>
+<hr>
+<h1 id="vim"><a href="#vim" class="headerlink" title="vim"></a>vim</h1><h2 id="vim命令相关"><a href="#vim命令相关" class="headerlink" title="vim命令相关"></a>vim命令相关</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>:q</td>
+<td>退出</td>
+</tr>
+<tr>
+<td>:q!</td>
+<td>强制退出</td>
+</tr>
+<tr>
+<td>:wq</td>
+<td>保存并退出</td>
+</tr>
+<tr>
+<td>:set number</td>
+<td>显示行号</td>
+</tr>
+<tr>
+<td>:set nonumber</td>
+<td>隐藏行号</td>
+</tr>
+<tr>
+<td>/apache</td>
+<td>在文档中查找apache, n 下一个，shift+n 上一个</td>
+</tr>
+</tbody></table>
+<h2 id="vim操作相关"><a href="#vim操作相关" class="headerlink" title="vim操作相关"></a>vim操作相关</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>h</td>
+<td>左移</td>
+</tr>
+<tr>
+<td>j</td>
+<td>下一行</td>
+</tr>
+<tr>
+<td>k</td>
+<td>上一行</td>
+</tr>
+<tr>
+<td>l</td>
+<td>右移</td>
+</tr>
+<tr>
+<td>a</td>
+<td>补充文本（修改完记得Esc退出编辑模式）</td>
+</tr>
+<tr>
+<td>i</td>
+<td>插入文本（修改完记得Esc退出编辑模式）</td>
+</tr>
+<tr>
+<td>x</td>
+<td>删除光标所指字符</td>
+</tr>
+<tr>
+<td>ra</td>
+<td>替换光标所指字符为a</td>
+</tr>
+<tr>
+<td>u</td>
+<td>撤销</td>
+</tr>
+<tr>
+<td>U</td>
+<td>撤销整行</td>
+</tr>
+<tr>
+<td>0 （zero）</td>
+<td>光标移动到行首</td>
+</tr>
+<tr>
+<td>ce</td>
+<td>删除光标所指到单词末尾，并进入编辑模式</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dw</td>
+<td>从光标处删除至一个单字/单词的末尾</td>
+</tr>
+<tr>
+<td>d2w</td>
+<td>从光标处删除至两个单字/单词的末尾</td>
+</tr>
+<tr>
+<td>d$</td>
+<td>从光标处删除这一行光标后面的内容</td>
+</tr>
+<tr>
+<td>2w</td>
+<td>光标往前两个单词（单词词首）</td>
+</tr>
+<tr>
+<td>2e</td>
+<td>光标往前两个单词（单词词尾）</td>
+</tr>
+<tr>
+<td>dd</td>
+<td>删除行</td>
+</tr>
+<tr>
+<td>2dd</td>
+<td>删除两行</td>
+</tr>
+<tr>
+<td>ddp</td>
+<td>删除光标所在行，光标移动到其他位置，粘贴</td>
+</tr>
+<tr>
+<td>yyp</td>
+<td>复制光标所在行，光标移动到其他位置，粘贴</td>
+</tr>
+</tbody></table>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Linux/" rel="tag">Linux</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/e7cabdd8.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Python 中的 virtualenv</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/63b47f65.html">
+                <span class="level-item">Hexo多终端同步</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#常用命令">
+        <span class="has-mr-6">1</span>
+        <span>常用命令</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#常规命令">
+        <span class="has-mr-6">1.1</span>
+        <span>常规命令</span>
+        </a></li><li>
+        <a class="is-flex" href="#文件系统命令">
+        <span class="has-mr-6">1.2</span>
+        <span>文件系统命令</span>
+        </a></li><li>
+        <a class="is-flex" href="#压缩命令">
+        <span class="has-mr-6">1.3</span>
+        <span>压缩命令</span>
+        </a></li><li>
+        <a class="is-flex" href="#系统相关">
+        <span class="has-mr-6">1.4</span>
+        <span>系统相关</span>
+        </a></li><li>
+        <a class="is-flex" href="#用户相关">
+        <span class="has-mr-6">1.5</span>
+        <span>用户相关</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#关于-ls-l-命令">
+        <span class="has-mr-6">2</span>
+        <span>关于 ls -l 命令</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#total">
+        <span class="has-mr-6">2.1</span>
+        <span>total</span>
+        </a></li><li>
+        <a class="is-flex" href="#每一行第一个字符">
+        <span class="has-mr-6">2.2</span>
+        <span>每一行第一个字符</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Linux-通配表达式">
+        <span class="has-mr-6">3</span>
+        <span>Linux 通配表达式</span>
+        </a></li><li>
+        <a class="is-flex" href="#文件权限相关">
+        <span class="has-mr-6">4</span>
+        <span>文件权限相关</span>
+        </a></li><li>
+        <a class="is-flex" href="#快捷操作">
+        <span class="has-mr-6">5</span>
+        <span>快捷操作</span>
+        </a></li><li>
+        <a class="is-flex" href="#标准输入，标准输出，标准错误，管道与重新定向">
+        <span class="has-mr-6">6</span>
+        <span>标准输入，标准输出，标准错误，管道与重新定向</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#管道">
+        <span class="has-mr-6">6.1</span>
+        <span>管道</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#使用-grep-和-cut-过滤信息">
+        <span class="has-mr-6">7</span>
+        <span>使用 grep 和 cut 过滤信息</span>
+        </a></li><li>
+        <a class="is-flex" href="#vim">
+        <span class="has-mr-6">8</span>
+        <span>vim</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#vim命令相关">
+        <span class="has-mr-6">8.1</span>
+        <span>vim命令相关</span>
+        </a></li><li>
+        <a class="is-flex" href="#vim操作相关">
+        <span class="has-mr-6">8.2</span>
+        <span>vim操作相关</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="给自己的 Linux 备忘" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

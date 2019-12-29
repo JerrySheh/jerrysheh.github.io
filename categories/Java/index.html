@@ -1,0 +1,3931 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>分类: Java - J.e</title>
+
+
+    <meta name="description" content="车顶上绑着飞机发动机的小车也许真的能开，只要你不尝试急转弯">
+<meta property="og:type" content="website">
+<meta property="og:title" content="J.e">
+<meta property="og:url" content="https://jerrysheh.me/categories/Java/index.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="车顶上绑着飞机发动机的小车也许真的能开，只要你不尝试急转弯">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:author" content="Jerry Sheh">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="J.e" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    <div class="card-content">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/categories">分类</a></li>
+            
+            <li class="is-active"><a href="#" aria-current="page">Java</a></li>
+        </ul>
+        </nav>
+    </div>
+</div>
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-06-04T16:25:54.000Z">2019-06-05</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    11 分钟 读完 (大约 1639 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/377edbcb.html">Java并发编程之线程池</a>
+            
+        </h1>
+        <div class="content">
+            <blockquote>
+<p>线程池是线程的管理工具，跟线程本身一样，线程池也有不同的状态。</p>
+</blockquote>
+<p>在并发编程中，我们可能需要创建许多个线程来执行任务，这些线程频繁地被创建、执行，然后又销毁，这个过程的开销是比较大的。能不能弄一个像池子一样的线程池，线程统一创建，需要执行任务时从线程池里取一个线程来执行，执行完把线程放回去。</p>
+<p>但是在聊线程池之前，得先从Java的异步任务讲起。</p>
+<hr>
+<h1 id="Callable"><a href="#Callable" class="headerlink" title="Callable"></a>Callable</h1><p>Runnable 用于一个异步执行的任务，没有参数和返回值。Callable 与 Runnable 类似，区别是，Callable有返回值，且可以抛出异常。</p>
+<pre><code class="java">package java.util.concurrent;
+@FunctionalInterface
+public interface Callable&lt;V&gt; {
+    /**
+     * Computes a result, or throws an exception if unable to do so.
+     *
+     * @return computed result
+     * @throws Exception if unable to compute a result
+     */
+    V call() throws Exception;
+}</code></pre>
+<p>无论是 Runnable 还是 Callable，想要放到独立的线程中去运行，都是需要借助 Thread 类的。</p>
+<pre><code class="java">new Thread(callable).start();</code></pre>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/377edbcb.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-06-04T03:21:31.000Z">2019-06-04</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 分钟 读完 (大约 906 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/b3112bec.html">Java简明笔记（十七）注解</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="注解魔法"><a href="#注解魔法" class="headerlink" title="注解魔法"></a>注解魔法</h1><p>注解是一种标记。在 Java 中，随处可见<code>@Override</code>、<code>@Deprecated</code>这样的注解。说实话，Java的注解经常不被重视，以至于学习的时候习惯性略过。在学了Spring框架后发现Spring使用了大量的注解来简化开发和配置，回过头来才发现注解的魅力。</p>
+<p>插句题外话，一开始让我感受到注解的强大和优雅的，不是Java，而是在学习 Python 时遇到的 <strong>decorator</strong>，如下：</p>
+<pre><code class="python">def draw_lighting_decorator(func):
+    @functools.wraps(func)
+    def wrapper():
+        func()
+        print(&quot;lighting&quot;)
+    return wrapper
+
+
+@draw_lighting_decorator
+def draw():
+    print(&quot;draw&quot;)</code></pre>
+<p>只需通过<code>@draw_lighting_decorator</code>标记，就能让<code>draw()</code>函数执行后自动执行<code>print(&quot;lighting&quot;)</code>，而无需修改<code>draw()</code>函数本身。</p>
+<p>在 Spring 框架中也是，如下：</p>
+<pre><code class="java">@Service
+public class ProductService {
+    @Autowired
+    private ProductMapper productMapper;
+
+    //...
+}</code></pre>
+<p>只需使用<code>@Service</code>标记，就能让框架知道这是一个MVC中的Service，只需通过<code>@Autowired</code> 就能实现在Service中自动注入一个mapper组件。</p>
+<p>这到底是什么魔法？</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/b3112bec.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-01-10T10:01:15.000Z">2019-01-10</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 分钟 读完 (大约 1864 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/bbbc0df0.html">Java简明笔记（十六）网络编程</a>
+            
+        </h1>
+        <div class="content">
+            <p><img src="../../../../images/Java/socket_title.jpg" alt="socket_title"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>网络编程，顾名思义就是编写通过网络通信的计算机程序。提到网络编程，一般指 socket 编程，之前我写过两篇相关的文章，分别是：<a href="../post/bfa70c14.html">浅谈 socket 编程</a> 和 <a href="../post/78265215.html">Socket编程实践（Java &amp; Python实现）</a>，主要侧重于 socket 编程的理解，而这一篇侧重于使用 Java 进行 socket 编程的要点，作为简明笔记，以备后续用到时方便查阅。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/bbbc0df0.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-10-30T07:08:26.000Z">2018-10-30</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    21 分钟 读完 (大约 3143 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/a23f9c20.html">Java并发编程之并发工具</a>
+            
+        </h1>
+        <div class="content">
+            <p>Java自带的平台类库（java.util.concurrent）里面包含了很多有用的工具，来帮助我们更好地处理并发问题。这一篇主要介绍一下几类工具：</p>
+<ol>
+<li><strong>atomic原子类</strong>：AtomicLong</li>
+<li><strong>同步容器类</strong>：Vector、Hashtable</li>
+<li><strong>并发容器类</strong>：concurrentHashMap、ConcurrentLinkedQueue、BlockingQueue（阻塞队列）</li>
+<li><strong>并发工具类</strong>：闭锁（Latch）、栅栏（Barrier）、信号量（Semaphore）</li>
+</ol>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/a23f9c20.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-09-07T12:47:06.000Z">2018-09-07</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    10 分钟 读完 (大约 1497 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/44627f59.html">Java简明笔记（十五）Java NIO</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="什么是-Java-NIO"><a href="#什么是-Java-NIO" class="headerlink" title="什么是 Java NIO"></a>什么是 Java NIO</h1><p>Java NIO， N 可以理解为 New ，也可以理解为 Non-blocking ，是 Java 1.4 之后新的一套区别于标准 Java IO 和 Java Networking 的 API 。</p>
+<h2 id="面向-Channels-和-Buffers"><a href="#面向-Channels-和-Buffers" class="headerlink" title="面向 Channels 和 Buffers"></a>面向 Channels 和 Buffers</h2><p>普通的IO，面向的是 byte streams（字节流，如FileOutputStream） 和 character streams（字符流，如FileReader），但是 NIO 面向的是 channels 和 buffers 。对于 Channel 来说，数据总是从 channel 写进 buffer 里，然后 Java 从 buffer 取出使用，或者 channel 读 buffer 里的数据，传输到外界。</p>
+<p><img src="../../../../images/Java/channel_buffer.png" alt="channel_buffer"></p>
+<p>Channel 有点像流（Stream），在 Java NIO 中，有以下几种 channel：</p>
+<ul>
+<li>FileChannel</li>
+<li>DatagramChannel （用于通过 UDP 读写数据）</li>
+<li>SocketChannel （用于通过 TCP 读写数据）</li>
+<li>ServerSocketChannel</li>
+</ul>
+<p>而 Buffer 就是我们熟悉的缓冲区了。包括：</p>
+<ul>
+<li>ByteBuffer</li>
+<li>CharBuffer</li>
+<li>DoubleBuffer</li>
+<li>FloatBuffer</li>
+<li>IntBuffer</li>
+<li>LongBuffer</li>
+<li>ShortBuffer</li>
+</ul>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/44627f59.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-06-09T01:39:26.000Z">2018-06-09</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 628 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/98aa81f1.html">Java中的回调机制</a>
+            
+        </h1>
+        <div class="content">
+            <p>什么是回调（CallBack）呢？有一个经典的打电话例子。</p>
+<blockquote>
+<p>有一天小王遇到一个很难的问题，问题是“1 + 1 = ?”，就打电话问小李，小李一下子也不知道，就跟小王说，等我办完手上的事情，就去想想答案，小王也不会傻傻的拿着电话去等小李的答案吧，于是小王就对小李说，我还要去逛街，你知道了答案就打我电话告诉我，于是挂了电话，自己办自己的事情，过了一个小时，小李打了小王的电话，告诉他答案是2</p>
+</blockquote>
+<p>所谓回调：就是A类中调用B类中的某个方法C，然后B类中反过来调用A类中的方法D，D这个方法就叫回调方法。</p>
+<p>回调让模块与模块之间解耦，也实现了异步调用。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/98aa81f1.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-04-14T02:35:48.000Z">2018-04-14</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    9 分钟 读完 (大约 1418 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/ae9388fa.html">Java中的引用类型</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="什么是引用类型"><a href="#什么是引用类型" class="headerlink" title="什么是引用类型"></a>什么是引用类型</h1><p><code>引用类型（reference type）</code>是一种基于类的数据类型。Java中，除去基本数据类型外，其它类型都是引用类型。包括Java提供的或者自己定义的class类。</p>
+<p>当我们对某个对象声明一个变量的时候，例如</p>
+<pre><code>Ball b1 = new Ball();</code></pre><p>变量 b1 事实上指向了这个对象的引用，而不是对象本身。</p>
+<pre><code>Ball b2 = b1;</code></pre><p>b2 和 b1 都指向了 ball 类的同一个实例。</p>
+<p>Java中有四种引用：</p>
+<ul>
+<li>强引用（Strong Reference）</li>
+<li>软引用（Soft Reference）</li>
+<li>弱引用（Weak Reference）</li>
+<li>虚引用（Phantom Reference）</li>
+</ul>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/ae9388fa.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-03-31T13:20:17.000Z">2018-03-31</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 分钟 读完 (大约 1948 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/e753fbbb.html">Java简明笔记（十四）反射机制</a>
+            
+        </h1>
+        <div class="content">
+            <p>Java 是完全面向对象语言。事实上，我们创建的每一个类，其实也是对象，称为<code>类对象</code>。类对象提供了类的元信息，比如这个类有几种构造方法，有多少个属性，有哪些普通方法等。</p>
+<p><img src="../../../../images/Java/metaobject.png" alt="meta"></p>
+<p>Java反射机制主要提供了以下功能：</p>
+<ul>
+<li>在运行时判断任意一个对象所属的类；</li>
+<li>在运行时构造任意一个类的对象；</li>
+<li>在运行时判断任意一个类所具有的成员变量和方法；</li>
+<li>在运行时调用任意一个对象的方法；生成动态代理。</li>
+</ul>
+<hr>
+<h1 id="普通对象-VS-类对象"><a href="#普通对象-VS-类对象" class="headerlink" title="普通对象 VS 类对象"></a>普通对象 VS 类对象</h1><p>假设我们定义两个类， student类和teacher类</p>
+<pre><code class="java">public class student{
+    int studentID;
+    String name;
+    String classroom;
+
+    student(){
+        //构造方法
+    }
+
+    //以及一些其他方法
+}
+
+student Jerry = new student();
+student Calm = new student();
+
+public class teacher{
+    int teacherID;
+    String name;
+    long phoneNumber;
+
+    teacher(){
+        //构造方法
+    }
+
+    //以及一些其他方法
+}
+
+teacher Luohao = new teacher();
+teacher YangLiang = new teacher();</code></pre>
+<ul>
+<li>Jerry 和 Calm 都是 student 类的对象，他们的区别在于：有不同的studentID，name…  </li>
+<li>Luohao 和 YangLiang 都是 teacher 类的对象，他们的区别跟 Jerry 和 Calm的区别类似，有不同的teacherID,不同的name…</li>
+</ul>
+<p>然后，我们说 student 和 teacher 都是一个类，他们的区别在于，有不同的属性和方法。</p>
+<p>所谓类对象，就是用于描述这种类，都有什么属性，什么方法的对象。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/e753fbbb.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-03-30T08:08:54.000Z">2018-03-30</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    40 分钟 读完 (大约 5986 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/b4ed848b.html">Java并发编程之安全性</a>
+            
+        </h1>
+        <div class="content">
+            <p>并发编程显然有很多优势，然而，多线程也带来了一定的风险。例如安全性问题、活跃性问题、性能问题等。</p>
+<ul>
+<li><strong>安全性问题</strong>： 含义是“永远不发生糟糕的事情”，例如多个线程同时修改一个共享变量，导致结果跟预期不符。</li>
+<li><strong>活跃性问题</strong>： 关注“某件正确的事情最终会发生”，假若不能，就会产生活跃性问题。例如死锁，A、B进程互相等待对方释放某资源，结果谁也执行不下去。</li>
+<li><strong>性能问题</strong>： 在解决安全性问题和活跃性问题的时候会带来额外开销，我们必须想办法减少开销。</li>
+</ul>
+<p>并发编程的问题，在<a href="../post/727d207c.html">Java简明笔记（十一） 并发编程</a>中就有提及，这一篇，主要就安全性问题，详细谈谈Java并发编程的问题。</p>
+<hr>
+<h1 id="线程安全性"><a href="#线程安全性" class="headerlink" title="线程安全性"></a>线程安全性</h1><p>一个对象是否需要是线程安全的，取决于它是否被多个线程访问。那什么是安全性呢？说白了，就是要保证结果正确！《Java并发编程实战》的作者Brain Goetz对线程安全的定义是：<strong>当多个线程访问某个对象时，不管运行时环境采用何种调度方式或者如何交替执行，并且调用方不需要任何额外的同步操作，调用这个对象的行为都能获得正确的结果，那么就称这个对象是线程安全的</strong>。</p>
+<h2 id="无状态对象-安全"><a href="#无状态对象-安全" class="headerlink" title="无状态对象 - 安全"></a>无状态对象 - 安全</h2><p><strong>无状态对象一定是线程安全的</strong>。比如一个 Servlet , 从 Request 从提取数值，执行计算，然后封装到 Response 中。每个收到要计算的 Servlet 线程实例都是自己算自己的，没有跟其他线程的 Servlet 实例共享状态。因此，它是线程安全的。</p>
+<h2 id="有状态对象-原子性问题（竞争条件）"><a href="#有状态对象-原子性问题（竞争条件）" class="headerlink" title="有状态对象 - 原子性问题（竞争条件）"></a>有状态对象 - 原子性问题（竞争条件）</h2><p>但假设多个 Servlet 之间，要处理共享的一个变量，由于这个变量值是会变的，我们称之为“状态”，又由于这个“状态”可以被多个线程同时读写，我们称之为“共享状态”。这时候多个 Servlet 实例就会产生竞争条件。<font color="red">所谓竞争条件，是指由不恰当的执行时序导致的出现不正确的结果</font>，最常见的竞态条件就是“先观察后执行”，问题就出在观察的值可能是错的。</p>
+<h3 id="竞争条件例子1：计数器"><a href="#竞争条件例子1：计数器" class="headerlink" title="竞争条件例子1：计数器"></a>竞争条件例子1：计数器</h3><p>例如要统计网站访问总人数，用一个 count 共享变量来表示。如下所示：</p>
+<pre><code class="java">// count 是共享变量
+private static long count = 0;
+
+public long getCount(){ return count; }
+
+public void service (ServletRequest req, ServletResponse resp) {
+  //do something
+  ++count; // 线程不安全
+  //do something
+}</code></pre>
+<p>使用 Intellij IDEA 的 jclasslib 插件，可以看到上述 service 方法翻译成JVM字节码后如下：</p>
+<pre><code class="java">0 getstatic #2 &lt;Test/AtomicTest.count&gt; // 获取常量
+3 lconst_1                             //将 long 类型的常量添加进操作栈
+4 ladd                                 // +1
+5 putstatic #2 &lt;Test/AtomicTest.count&gt; // 常量写回
+8 return</code></pre>
+<p>可见 ++count 并非原子操作，它实际上包含 读取 count 的值、计算加一、计算结果写回 count 三个操作（即复合操作）。因此，有可能出现当线程A观察 count 的值，发现为 5，并对其加一，此时线程B观察 count 的值，也发现为 5，并对其加一，之后线程A计算结果将6写回count，线程B也将6写回count。我们预期结果是7，但实际上却是6。这就是竞争条件带来的原子性问题。</p>
+<h3 id="竞争条件例子2：延迟初始化"><a href="#竞争条件例子2：延迟初始化" class="headerlink" title="竞争条件例子2：延迟初始化"></a>竞争条件例子2：延迟初始化</h3><p>延迟初始化是指将对象的初始化操作推迟到实际被使用时才进行。</p>
+<pre><code class="java">public class lazyInitRace{
+    // 当类被加载，先不初始化
+    private ExpensiveObject instance = null;
+
+    //当第一次被使用时，才初始化
+    public ExpensiveObject getInstance(){
+        // 如果第一次被使用发现为 null，先初始化
+        if (instance == null){
+            this.instance = new ExpensiveObject();
+        }
+        // 第二次之后直接返回该对象
+        return instance;
+    }
+}</code></pre>
+<p>假如线程A和线程B同时执行<code>getInstance()</code>方法，线程A观察到 instance 为 null，于是 new 一个实例，由于 new 不是一个原子操作，在 new 还没完成时，instance仍然为null，此时时间片切换到线程B，B也观察到 instance 为 null，又 new 了一个实例。</p>
+<p>竞争条件并不总会发生错误，但在某种不恰当的执行时序下，可能会出错。因此是线程不安全的。</p>
+<h2 id="使用-atomic-原子类解决原子性问题"><a href="#使用-atomic-原子类解决原子性问题" class="headerlink" title="使用 atomic 原子类解决原子性问题"></a>使用 atomic 原子类解决原子性问题</h2><p>在 java.util.concurrent.atomic 包中包含了一些原子变量类，可以提供原子操作。只需把 count 的类型从 <code>long</code> 改为 <code>Atomiclong</code>。在程序员的角度，可以认为 Atomiclong 把上述 读取 count 的值、计算加一、计算结果写回 count 这三个操作，合并成一个原子操作。这跟数据库的事务有点类似。</p>
+<pre><code class="java"> // count 是共享变量
+private Atomiclong count = new AtomicLong(0);
+
+public long getCount(){ return count.get(); }
+
+public void service (ServletRequest req, ServletResponse resp) {
+  //do something
+  count.incrementAndGet(); // 线程安全
+  //do something
+}</code></pre>
+<p>像这样，<font color="red">当一个对象只有一个“状态”时，将该状态交给如 Atomiclong 这类线程安全对象来管理，那么这个类仍然是线程安全的</font>。但并不是添加多个这样的安全对象，程序就线程安全了。当对象不止有一个“状态”时，或者说，涉及多个状态变量时，各个变量之间有时候并不是彼此独立，而是某个变量的值会对其他变量产生影响。这时候修改一个原子变量的同时，也要更新另一个原子变量。这种情况 Atomic 原子类是无法解决的，只能用下文将提到的加锁机制了。</p>
+<h3 id="深入：atomic原子类为什么可以保证原子性？"><a href="#深入：atomic原子类为什么可以保证原子性？" class="headerlink" title="深入：atomic原子类为什么可以保证原子性？"></a>深入：atomic原子类为什么可以保证原子性？</h3><p>atomic原子类底层是用非阻塞并发算法实现的。具体是用了 CAS 算法。<strong>CAS指的是比较并交换(compare and swap)</strong>。它包含三个数：需要读写的内存位置V、进行比较的值A、拟写入的新值B。当 V 和 A 相等时，才将 V 的值更新为 B。无论是否更新成功，都返回当前内存位置 V 值。</p>
+<p>可以这样理解CAS：我认为 V 的值应该为 A，如果是，那么将 V 的值更新为 B，否则不修改并告诉 V 的值实际为多少。</p>
+<p>因此，当多个线程并发修改atomic原子变量时，可能的情况为：</p>
+<pre><code>线程A：观察 V 的值，发现为 5
+线程A：进行加一操作（得到6）
+线程B：观察 V，也发现为 5
+线程B：进行加一操作（得到6）
+线程A：再次观察 V 的值，看看是不是预期值5，发现是，就把加一后的值 6 写回 V
+线程B：再次观察 V 的值，看看是不是预期值5，发现不是，不写回，重试
+线程B：观察 V 的值，发现为 6
+线程B：进行加一操作（得到7）
+线程B：再次观察 V 的值，看看是不是预期值6，发现是，就把加一后的值 7 写回 V</code></pre><p>关于atomic原子类可参考另一篇：<a href="../post/a23f9c20.html">Java并发编程之并发工具</a></p>
+<h2 id="使用-加锁机制-解决原子性问题"><a href="#使用-加锁机制-解决原子性问题" class="headerlink" title="使用 加锁机制 解决原子性问题"></a>使用 加锁机制 解决原子性问题</h2><p>前面提到，Atomic 原子类可以保证一个“状态”是安全的。但是当对象中存在多个“状态”，并且互相影响。那 Atomic 原子类就不再适用。Java 提供了一种内置的锁机制来支持原子性，即 <strong>同步代码块（Synchronized Block）</strong>。</p>
+<pre><code class="java">// synchronized 可用在独立的代码片段，也可以修饰方法
+synchronized (obj) {
+  // do something .. (访问或修改共享变量和状态)
+}</code></pre>
+<p>synchronized 修饰符表示一个锁。括号里是要锁住的对象（称为对象锁，对象锁是Java的内置锁或者叫监视锁，隐式存在于每个对象中）。当线程A进入了 synchronized 块，它就持有了某个对象的锁，当CPU时间片从线程A切换到其他线程，也执行到这里，就会阻塞在 synchronized 块之外，直到线程A退出synchronized块，释放该锁。需要注意，当对一个父类加了对象锁，子类是不会受到影响的，相反也是如此。</p>
+<p>对于有多个状态并且相互影响的对象才使用锁。否则 Atomic 原子类已经足够。此外，synchronized 最好仅仅包含需要互斥同步的临界区代码片段，包含在整个方法的做法有点极端。因为就 Servlet 的例子来说，锁住整个 service 方法，每次只有一个客户端能够响应，多个客户端无法同时使用和计算，服务的响应性能非常低，这就变成一个性能问题了。</p>
+<h3 id="重入"><a href="#重入" class="headerlink" title="重入"></a>重入</h3><p>一个线程请求其他线程持有的锁时，发出请求的线程会被阻塞。但是，如果一个线程试图获得一个 <strong>自己</strong> 持有的锁，则会请求成功。因为 synchronized 内置锁是可重入的。</p>
+<h4 id="重入如何实现？"><a href="#重入如何实现？" class="headerlink" title="重入如何实现？"></a>重入如何实现？</h4><p>重入的一种实现方式是，为每个锁关联一个获取计数值和一个所有者线程。当计数值为0时，锁没有被任何线程持有。当一个线程获取该锁，JVM将记下锁的持有者，并把计数值+1，这个线程第二次请求该锁，计数值再+1。第二次请求的操作执行完毕后，计数值-1，第一次请求的操作执行完毕后，计数值再-1，便恢复到0，锁被释放。</p>
+<h4 id="为什么要重入？"><a href="#为什么要重入？" class="headerlink" title="为什么要重入？"></a>为什么要重入？</h4><p>考虑下面的例子, 如果不可重入，那么会发生死锁。在 LoggingWidget 的 doSomething 方法中，跳出去执行父类 Widget 的 doSomething 方法，之后，调用栈返回，又回到子类 LoggingWidget 的 doSomething 方法，会发现锁已经被占用，然而占用锁的人正是它自己。</p>
+<pre><code class="java">public class Widget{
+  public synchronized void doSomething(){
+    //...
+  }
+}
+
+public class LoggingWidget extends Widget{
+  public synchronized void doSomething(){
+    super.doSomething();
+  }
+}</code></pre>
+<p>好在 synchronized 是可重入的，有了重入，我们就可以在上述 Servlet 的例子中，把需要原子操作的代码片段用 synchronized 封装起来，缩小锁的范围，从而提高并发性了。至于同步代码块的范围要缩小多少，就需要在设计需求之间进行权衡了，包括安全性、简单性和性能等方面。</p>
+<h3 id="深入：synchronized-原理"><a href="#深入：synchronized-原理" class="headerlink" title="深入：synchronized 原理"></a>深入：synchronized 原理</h3><p>同步代码块基于 monitorenter 和 monitorexit 字节码指令来实现。编译后的代码，monitorenter 指令会被插入到同步代码块的开始位置，而 monitorexit 会被插入到代码块结束处和异常处。线程执行到 monitorenter 指令时，将会尝试获取对象所对应的 monitor 所有权。</p>
+<pre><code class="java">static int count = 0;
+
+public static void service(){
+    synchronized (go.class){
+        count++;
+    }
+}</code></pre>
+<pre><code class="java">0 ldc #2 &lt;Test/go&gt;
+2 dup
+3 astore_0
+4 monitorenter  // 获得锁
+5 getstatic #3 &lt;Test/go.count&gt;
+8 iconst_1
+9 iadd
+10 putstatic #3 &lt;Test/go.count&gt;
+13 aload_0
+14 monitorexit  // 正常结束 释放锁
+15 goto 23 (+8)
+18 astore_1
+19 aload_0
+20 monitorexit  // 发生异常 释放锁
+21 aload_1
+22 athrow
+23 return</code></pre>
+<hr>
+<h1 id="对象数据共享"><a href="#对象数据共享" class="headerlink" title="对象数据共享"></a>对象数据共享</h1><p>要实现多个线程之间的数据共享，需要考虑两个问题：</p>
+<ul>
+<li><strong>通信</strong>：通信是指消息在两条线程之间传递</li>
+<li><strong>同步</strong>：既然要传递消息，那接收线程 和 发送线程 之间必须要有个先后关系。此时就需要用到同步，即控制多条线程之间的执行次序。</li>
+</ul>
+<h2 id="如何通信"><a href="#如何通信" class="headerlink" title="如何通信"></a>如何通信</h2><p>一般有两种通信的方式：</p>
+<ol>
+<li><strong>共享内存</strong>：共享内存指的是多条线程共享同一片内存，发送者将消息写入内存，接收者从内存中读取消息，从而实现了消息的传递。</li>
+<li><strong>消息传递</strong>：顾名思义，消息传递指的是发送线程直接将消息传递给接收线程。</li>
+</ol>
+<h3 id="Java选择哪种通信方式？（Java内存模型）"><a href="#Java选择哪种通信方式？（Java内存模型）" class="headerlink" title="Java选择哪种通信方式？（Java内存模型）"></a>Java选择哪种通信方式？（Java内存模型）</h3><p><strong>Java使用共享内存的方式实现多线程之间的消息传递</strong>。使用这种方式，程序员需要编写额外的代码用于线程之间的同步。在 Java 中，所有线程都共享一片主内存（Main Memory），用于存储共享变量。此外，每条线程都有各自的存储空间，存储各自的局部变量、方法参数、异常对象。</p>
+<p><img src="../../../../images/Java/buffers-modes2.png" alt="buffers-modes"></p>
+<hr>
+<h1 id="可见性和失效数据"><a href="#可见性和失效数据" class="headerlink" title="可见性和失效数据"></a>可见性和失效数据</h1><p>可能你不会相信，在 Java 中，一个线程修改了共享对象的状态后，其他线程可能不能及时看到发生的状态变化。为什么其他线程有可能会看不到变化呢？可以从两个角度理解：</p>
+<ol>
+<li>从 Java内存模型（JMM）的角度看，正因为每条线程都有各自的存储空间，在多线程中，假设没有加入同步，如果一个线程修改了一个值，储存在自己的线程内存里，另一个线程就会看不到。又或者，你看到的是一个已经失效的值。</li>
+<li>从计算机的角度看，现代多核计算机中，每个 CPU 都有自己的寄存器，为了和主存读写速度匹配，CPU寄存器和主存中间往往有一层 Cache 缓冲，当一个 CPU 修改了一个共享变量，放在自己的寄存器或 Cache 缓冲中，还未写回主存，另一个 CPU 就可能读不到最新修改的数据。</li>
+</ol>
+<p>考虑下面的例子，</p>
+<pre><code class="java">boolean asleep = false;
+
+// 线程A
+while(!asleep)
+  countSomeSheep();
+
+// 线程B
+asleep = true;</code></pre>
+<p>线程A不断检查 asleep 的值，直到它变成 true 就停止数羊，线程B将 asleep 设置成true，如果不解决可见性问题，线程B的改动，线程A可能永远都看不到。<strong>像这样，一个线程不能及时看到另一个线程对共享变量的修改这种情况，叫做可见性问题</strong>。</p>
+<h2 id="解决可见性问题"><a href="#解决可见性问题" class="headerlink" title="解决可见性问题"></a>解决可见性问题</h2><h3 id="使用-synchronized-解决可见性问题"><a href="#使用-synchronized-解决可见性问题" class="headerlink" title="使用 synchronized 解决可见性问题"></a>使用 synchronized 解决可见性问题</h3><p>解决可见性问题，可以用 synchronized ，因为 synchronized 的语义规定，对一个变量执行 unlock 操作前，必须先把此变量同步回主内存中。但是 synchronized 每次加锁解锁都需要额外的开销，显得太“重”了，会影响性能。</p>
+<h3 id="使用-final-解决可见性问题"><a href="#使用-final-解决可见性问题" class="headerlink" title="使用 final 解决可见性问题"></a>使用 final 解决可见性问题</h3><p>我们也可以用 final 解决可见性问题，被 final 修饰的字段在构造器中一旦初始化完毕（且 this 引用没有逃逸），其他线程立即可以看到 final 字段的值。可惜 final 字段不可再次被修改，有时不满足我们的需求。</p>
+<h3 id="使用-volatile-解决可见性问题"><a href="#使用-volatile-解决可见性问题" class="headerlink" title="使用 volatile 解决可见性问题"></a>使用 volatile 解决可见性问题</h3><p>第三种方法是将变量声明为 volatile 类型。声明为 volatile 的变量，在写操作时，底层的汇编指令会多出一行 Lock 前缀指令。<font color="red">这个指令在多核处理器中引发了两件事情：第一，将当前处理器缓存行的数据写回到系统内存。第二，该操作使在其他CPU里缓存了该内存地址的数据无效。</font></p>
+<p>volatile 保证了变量每次读写时都是最新的值，但不要太过于依赖 volatile，满足以下条件时，才用 volatile：</p>
+<ol>
+<li>对变量的写入操作不依赖变量的当前值（因为会产生竞争条件，count++就不满足），或者你的程序只有一个线程更新该变量的值(其他线程可访问但不可修改)。</li>
+<li>访问变量时不需要加锁</li>
+<li>该变量不会与其他状态变量一起纳入不变性条件中</li>
+</ol>
+<p>也就是说， volatile 是解决 <strong>可见性</strong> 问题的，并不能解决所有原子性问题。另外，当想禁止编译器的重排序功能时，也可以用 volatile。</p>
+<hr>
+<h1 id="重排序问题"><a href="#重排序问题" class="headerlink" title="重排序问题"></a>重排序问题</h1><p>当我们写一个单线程程序时，总以为计算机会一行行地运行代码，然而事实并非如此。编译器、处理器会在不改变程序执行结果的前提下，<strong>重新排列指令的执行顺序</strong>，以达到最佳的运行效率，这就是重排序。多线程环境下，重排序可能带来一些问题。考虑下面的例子：</p>
+<pre><code class="java">class Reorder{
+    int a = 0;
+    boolean flag = false;
+
+    // 线程A
+    public void writer(){
+        a = 2;
+        flag = true;
+    }
+
+    // 线程B
+    public void reader(){
+        if (flag) {
+            int i = a*a;
+        }
+    }
+}</code></pre>
+<p>假设有两个线程，A线程先执行writer方法，之后B线程执行reader方法。按理说，B会将 i 设置成 4，然而事实却不一定，i还可能是0。原因是，<font color="red">编译器和处理器会对没有依赖关系的语句进行一定程度的重排序</font>。在线程A中，可能 flag 先被设置成 true，然后线程B执行reader，发现flag 为 true，执行赋值语句，i = 0 * 0，最后，A线程的 a 才被赋值为 2。</p>
+<p>解决重排序问题，也可以使用 volatile， volatile 本身包含禁止指令重排序的语义。</p>
+<h2 id="深入：为什么-volatile-能解决重排序问题？"><a href="#深入：为什么-volatile-能解决重排序问题？" class="headerlink" title="深入：为什么 volatile 能解决重排序问题？"></a>深入：为什么 volatile 能解决重排序问题？</h2><p>声明为 volatile 的变量，实际上相当于程序员显式地告诉编译器和处理器不要使用重排序。汇编指令中多出来的 Lock，实际上也就是一道内存屏障。处理器遇到内存屏障时，就会知道不要对此处乱序执行。事实上，Linux 或 Windows 作为操作系统，也只是调用 CPU 所实现的内存屏障指令而已，归根结底这个不是操作系统或者编译器去实现，而是硬件实现了然后供软件调用。</p>
+<hr>
+<h1 id="线程封闭"><a href="#线程封闭" class="headerlink" title="线程封闭"></a>线程封闭</h1><p><strong>不共享数据是避免使用同步最好的办法，这称为线程封闭（Thread Confinement）</strong>。线程封闭包括 Ad-hoc 、栈封闭、ThreadLocal类，这里只探讨ThreadLocal。</p>
+<h2 id="ThreadLocal-类"><a href="#ThreadLocal-类" class="headerlink" title="ThreadLocal 类"></a>ThreadLocal 类</h2><p>在单线程 JDBC 程序中，我们通常在程序启动时初始化一个 Connection 连接，从而避免在调用每个方法时都传递一个 Connection 对象。在多线程 JDBC 程序中，我们希望每个线程建立自己的 Connection 对象连接，不互相干扰。这种场景就可以通过 ThreadLocal 来解决。</p>
+<p>ThreadLocal提供了一些比如set、get等来访问接口和方法，每个使用该变量的线程都有一份独立的副本，线程之间互不影响。</p>
+<h3 id="ThreadLocal-类简单例子"><a href="#ThreadLocal-类简单例子" class="headerlink" title="ThreadLocal 类简单例子"></a>ThreadLocal 类简单例子</h3><p>声明一个 ThreadLocal 对象</p>
+<pre><code class="java">private ThreadLocal myThreadLocal = new ThreadLocal();
+// or
+private ThreadLocal&lt;String&gt; myThreadLocal = new ThreadLocal&lt;String&gt;();
+//or
+// 在声明ThreadLocal对象时，即给初值，而不是第一次调用
+private ThreadLocal myThreadLocal = new ThreadLocal&lt;String&gt;() {
+    @Override
+    protected String initialValue() {
+        return &quot;This is the initial value&quot;;
+    }
+};    </code></pre>
+<p>使用<code>set()</code>放置线程封闭变量，使用<code>get()</code>将其取出。</p>
+<pre><code class="java">// 往对象里放置变量
+myThreadLocal.set(&quot;aStringValue&quot;);
+
+// 将 ThreadLocal 里存放的变量取出来
+String threadLocalValue = (String) myThreadLocal.get();</code></pre>
+<p>除了 ThreadLocal 类之外，还有一个 InheritableThreadLocal 是可继承的 ThreadLocal ，只有声明的线程及其子线程可以使用 InheritableThreadLocal 里面存放的变量。</p>
+<p>在 JDK 1.7 之后，还有一个 java.util.concurrent.ThreadLocalRandom 类。</p>
+<pre><code class="java">// 返回特定于当前线程的 Random 类实例
+static ThreadLocalRandom current()</code></pre>
+<hr>
+<h1 id="发布与逸出"><a href="#发布与逸出" class="headerlink" title="发布与逸出"></a>发布与逸出</h1><p>发布（publish）的意思是，在当前作用域之外的代码中使用对象，例如将对象的引用传递到其他类的方法中。在多线程环境下，如果一个对象在构造完成之前就被发布，会破坏线程安全性。而当某个不应该发布的对象被不小心发布出去，就叫逸出（escape）。考虑下面的例子：</p>
+<pre><code class="java">class status{
+  private String[] s = new String[] {&quot;AK&quot;,&quot;AL&quot;,&quot;AJ&quot;};
+
+  public String[] get(){
+    return this.s;
+  }
+}</code></pre>
+<p>外部可以通过 get() 方法获取数组 s 的引用，而 s 是一个 private 数组，外部现在就有权力修改这个数组里面的所有元素，这就是逸出。逸出使得我们的封装变得没有意义。</p>
+<p>还有一种逸出的情况就是发布一个类的内部类实例，因为内部类是隐式持有外部类引用的。</p>
+<h2 id="安全地构造"><a href="#安全地构造" class="headerlink" title="安全地构造"></a>安全地构造</h2><p>在构造方法中启动一个线程，this引用会被新创建的线程共享，此时还没构造完毕，会导致线程安全问题。好的做法是，等构造方法结束时，this引用才逸出。在构造方法中创建一个线程，然后通过一个 <code>start()</code> 方法来启动线程。永远不要在构造过程中使 this 引用逸出。如果想在构造函数中注册一个事件监听或者启动线程，好的办法是使用静态工厂方法（私有构造函数+公共工厂方法）。</p>
+<hr>
+<h1 id="安全发布"><a href="#安全发布" class="headerlink" title="安全发布"></a>安全发布</h1><p>有 Holder 这么一个类</p>
+<pre><code class="java">public class Holder {
+    private int n;
+
+    public Holder(int n){
+        this.n = n;
+    }
+
+    public void assertSanity(){
+        if (n != n) {
+            thorw new AssertionError(&quot;statement false&quot;)
+        }
+    }
+}</code></pre>
+<p>假设线程1对Holder类进行了发布</p>
+<pre><code class="java">public Holder holder;
+
+public void initialize(){
+    holder = new Holder(42);
+}</code></pre>
+<p>然后线程2调用<code>assertSanity()</code>方法，很有可能出现 n != n，抛出 AssertionError 。</p>
+<p>原因：存在可见性问题，线程1的 new 指令使 holder 对象开始构造，构造到一半时线程2即调用<code>assertSanity()</code>方法了,线程2看到的 holder 对象可能是一个空引用，或者是初始化了一半的值。</p>
+<h2 id="安全地发布"><a href="#安全地发布" class="headerlink" title="安全地发布"></a>安全地发布</h2><p>要安全地发布一个对象，对象的引用和对象的状态必须同时对其他线程可见。</p>
+<p>一般可以通过以下几种方式：</p>
+<ul>
+<li>在静态初始化函数中初始化一个对象的引用</li>
+<li>将对象的引用保存到 volatile 类型的域或者 AtomicReferance 对象中</li>
+<li>将对象的引用保存到某个正确构造的 final 类型域中</li>
+<li>将对象的引用保存到一个由锁保护的域中</li>
+</ul>
+<hr>
+<p>参考：</p>
+<ul>
+<li><a href="../post/be1528d7.html">操作系统漫游（二）进程</a></li>
+<li><a href="https://segmentfault.com/q/1010000006767915">volatile是怎么实现防止指令重排序的？</a></li>
+<li><a href="http://ifeve.com/disruptor-memory-barrier/">剖析Disruptor:为什么会这么快？(三)揭秘内存屏障</a></li>
+<li>《Java并发编程实战》</li>
+<li>《Java并发编程的艺术》</li>
+</ul>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-03-20T09:59:50.000Z">2018-03-20</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    17 分钟 读完 (大约 2484 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/f07211ef.html">Java简明笔记（十三）JDBC</a>
+            
+        </h1>
+        <div class="content">
+            <p>假设电脑已经安装有 mySQL，并在里面有一些表。现在，我们想通过 Java，来访问数据库里的表。</p>
+<p>JDBC (Java DataBase Connection) 指的就是通过Java访问数据库。</p>
+<p>这是我的数据库情况。</p>
+<p><img src="../../../../images/Java/JDBC.png" alt=""></p>
+<h1 id="JDBC的连接"><a href="#JDBC的连接" class="headerlink" title="JDBC的连接"></a>JDBC的连接</h1><p>首先到 mySQL 的官网，下载 <a href="https://dev.mysql.com/downloads/connector/j/">Connectors/J 驱动</a>，下载完解压出其中的 jar 包，放到项目的依赖里（IDEA - File - Project Structure - Modules - Dependencies - “+”  选择刚刚解压的jar文件）。</p>
+<h2 id="初始化驱动"><a href="#初始化驱动" class="headerlink" title="初始化驱动"></a>初始化驱动</h2><p>在Java中，使用 <code>Class.forName</code>来初始化驱动（这一步在 jdk 1.6 以后已经不是必须）</p>
+<h2 id="建立数据库连接"><a href="#建立数据库连接" class="headerlink" title="建立数据库连接"></a>建立数据库连接</h2><p>建立与数据库的Connection连接，是通过 <code>DriverManager</code> 类的<code>getConnection</code>方法来实现的，因此首先要创建一个<code>Connection</code>实例。</p>
+<pre><code class="java">Connection c = DriverManager.getConnection(url,user,psw);</code></pre>
+<p><code>getConnection</code>方法接收三个参数，连接地址，用户名、密码。或者接收一个参数连接地址，该连接地址里已经URL构造了用户名和密码。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/f07211ef.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-03-11T02:44:18.000Z">2018-03-11</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    18 分钟 读完 (大约 2725 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/779c6006.html">Java简明笔记（十二） IO编程</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="文件对象-File"><a href="#文件对象-File" class="headerlink" title="文件对象 File"></a>文件对象 File</h1><p>用过 Linux 的一定知道，“一切皆文件”和“一切皆文本流”的思想。在 Java 中，普通文件和文件夹都是文件对象，用<code>File</code>表示。</p>
+<h2 id="文件对象的常用方法"><a href="#文件对象的常用方法" class="headerlink" title="文件对象的常用方法"></a>文件对象的常用方法</h2><p>new 一个文件对象，用<code>getAbsoluteFile()</code>返回这个File对象形式的路径，用<code>getAbsolutePath()</code>返回字符串形式的路径。</p>
+<pre><code class="java">import java.io.File;
+
+public class IO {
+    public static void main(String[] args) {
+        //创建文件
+        File txt = new File(&quot;D:\\JavaTest\\t.txt&quot;);
+        System.out.println(txt.getAbsoluteFile());
+
+        //创建目录
+        File dir = new File(&quot;D:\\JavaTest&quot;);
+        System.out.println(dir.getAbsolutePath());
+
+        //将dir目录作为创建文件的路径
+        File xml = new File(dir,&quot;run.bat&quot;);
+        System.out.println(xml.getAbsolutePath());
+    }
+}</code></pre>
+<p>我们用 new 创建的文件，并不一定在物理磁盘上存在，用<code>exists()</code>判断是否真实存在。</p>
+<pre><code class="java">//如果物理磁盘上存在t.txt，返回 true
+File txt = new File(&quot;D:\\JavaTest\\t.txt&quot;);
+        System.out.println(txt.exists());</code></pre>
+<p>用<code>isDirectory()</code>判断是否是一个目录，用<code>isFile()</code>判断是否是一个普通文件，用<code>length()</code>获取文件长度。</p>
+<p>先在 D:\JavaTest 创建一个 t.txt 文件，然后里面写 hello， 保存</p>
+<p><img src="../../../../images/Java/file.png" alt="txt"></p>
+<pre><code class="java">public static void main(String[] args) {
+    //创建文件
+    File txt = new File(&quot;D:\\JavaTest\\t.txt&quot;);
+    if (txt.exists()){
+        System.out.println(txt.length());
+    }
+}</code></pre>
+<p>输出 <code>5</code>，因为 hello 正好长度是 5 。如果文件在磁盘上不存在，则没有输出。如果是目录，输出 <code>0</code>。</p>
+<ul>
+<li>用<code>getParent()</code>以 <strong>字符串</strong> 形式获取文件所在目录，用<code>getParentFile()</code>以 <strong>File对象</strong> 形式获取文件所在目录。</li>
+<li>用<code>dir.list()</code>以 <strong>字符串数组</strong> 形式获取目录下所有文件（不包含子文件(夹)），当然，有<code>dir.listFile()</code>，相信你知道如何用。</li>
+<li>用<code>f.mkdir()</code>创建文件夹，若父文件夹不存在，则创建无效。用<code>f.mkdirs()</code>创建文件夹，若父文件夹不存在，则先创建父文件夹。</li>
+<li>用<code>f.delete()</code>删除文件。用<code>f.deleteOnExit()</code>在JVM结束的时候删除文件（通常是临时文件）</li>
+</ul>
+<h2 id="例子：遍历找出最大文件"><a href="#例子：遍历找出最大文件" class="headerlink" title="例子：遍历找出最大文件"></a>例子：遍历找出最大文件</h2><p>遍历文件夹下的文件和目录，并找出最大的文件</p>
+<pre><code class="java">public static void main(String[] args) {
+    //定义一个文件目录
+    File folder = new File(&quot;D:\\Documents&quot;);
+
+    //列出目录下的所有子文件和子目录，存入File[]数组
+    File[] foldersAndFiles = folder.listFiles();
+    long length = 0;
+    String name = &quot;&quot;;
+
+    //空指针异常检查
+    if (foldersAndFiles != null){
+
+        //遍历子目录和子文件，记录最大长度的那个
+        for (File eachFile :
+                foldersAndFiles) {
+            if (eachFile.length() &gt; length){
+                length = eachFile.length();
+                name = eachFile.getName();
+            }
+        }
+    }
+    System.out.printf(&quot;最大的文件是：%s \n 其大小为：%d&quot;,name,length);
+}</code></pre>
+<h2 id="例子：遍历输出目录下的文件（包括子目录里的文件）"><a href="#例子：遍历输出目录下的文件（包括子目录里的文件）" class="headerlink" title="例子：遍历输出目录下的文件（包括子目录里的文件）"></a>例子：遍历输出目录下的文件（包括子目录里的文件）</h2><pre><code class="java">import java.io.File;
+import java.io.IOException;
+
+public class IO {
+    public static void main(String[] args)  {
+        File parentFolder = new File(&quot;D:\\Documents&quot;);
+        printSub(parentFolder);
+    }
+
+    private static void printSub (File parentFolder) throws NullPointerException{
+        File[] folders = parentFolder.listFiles();
+
+        //遍历子目录和子文件
+        for (File f :
+                folders) {
+
+            //如果是文件，打印
+            if (f.isFile()){
+                System.out.println(f);
+            }
+
+            //如果是目录，递归调用这个方法
+            if (f.isDirectory()){
+                printSub(f);
+            }
+        }
+    }
+}</code></pre>
+<hr>
+<h1 id="输入输出流"><a href="#输入输出流" class="headerlink" title="输入输出流"></a>输入输出流</h1><p>如果说， File 是表示 <strong>文件</strong> 的对象， 那么流就是表示 <strong>数据在Java程序和文件之间流动</strong> （流动可以是流出，也可以是流入）的对象。</p>
+<h2 id="流的概念"><a href="#流的概念" class="headerlink" title="流的概念"></a>流的概念</h2><p>在 Java API 中，可以从Java程序向外部写入字节序列的对象叫<code>输出流</code>，相反，可以从外部向Java程序读入字节序列的对象叫<code>输入流</code>。</p>
+<ul>
+<li>输出流：Java → 外部</li>
+<li>输入流：外部 → Java</li>
+</ul>
+<p>这里的外部，通常是指文件，当然也可以是网络，甚至内存。</p>
+<h2 id="InputStream-和-OutputStream"><a href="#InputStream-和-OutputStream" class="headerlink" title="InputStream 和 OutputStream"></a>InputStream 和 OutputStream</h2><p>Java中定义了两个抽象类，<code>InputStream</code>和<code>OutputStream</code>，是 Java IO 的基础。这两个抽象类都有一个抽象方法<code>read()</code>和<code>write()</code>，用于读入和写出一个字节并返回该字节（当遇到结尾时返回-1）。因此，实现这两个抽象类的子类，都必须重写<code>read()</code>或<code>write()</code>方法。</p>
+<pre><code class="java">abstract int read(){
+
+}
+
+abstract void write(int b){
+
+}</code></pre>
+<blockquote>
+<p>举个实现的例子，比如 FileInputStream 就实现了从某个文件中读入一个字节。</p>
+</blockquote>
+<p>下面是我们常用的 <code>read()</code>实现方法，它读入一个字节数组，并返回实际读入的字节数。或者在碰到流的结尾时返回-1.</p>
+<pre><code class="java">int read(byte[] b) {
+
+}</code></pre>
+<p><code>read()</code>和<code>write()</code>方法在执行时是阻塞的（通常是因为网络延迟）。可以用<code>available（）</code>方法检查当前可读入的字节数量。</p>
+<p>当我们读写完毕后，切记用<code>close()</code>方法来关闭IO流，以释放系统资源。</p>
+<h2 id="例子：向文件写字节"><a href="#例子：向文件写字节" class="headerlink" title="例子：向文件写字节"></a>例子：向文件写字节</h2><p>创建文件 -&gt; 判断父目录在不在 -&gt;  写入字节</p>
+<pre><code class="java">public static void main(String[] args)  throws IOException {
+    File parentFolder = new File(&quot;D:\\JavaTest&quot;);
+    writeByte(parentFolder);
+}
+
+private static void writeByte (File parentFolder) throws NullPointerException, IOException{
+    //创建新文件
+    File txt = new File(parentFolder,&quot;how2j\\jj\\test.txt&quot;);
+
+    //判断新文件的父目录在不在，如果不在，用 mkdirs()  创建
+    if (!txt.getParentFile().exists()){
+        txt.getParentFile().mkdirs();
+    }
+
+    //写入字节
+    FileOutputStream outputStream = new FileOutputStream(txt);
+    byte[] all = {75,79}; // ASCII 75 = K, 79 = O;
+    outputStream.write(all);
+    outputStream.close();
+}</code></pre>
+<hr>
+<h1 id="不止字节"><a href="#不止字节" class="headerlink" title="不止字节"></a>不止字节</h1><p>继承于<code>InputStream</code>和<code>OutputStream</code>的实现类可以让我们很方便的读写字节。但是，我们很多文件都是 Unicode 字符编码的，不是单个的字节。因此，Java又定义了<code>Reader</code>和<code>Writer</code>两个抽象类，专门处理 Unicode 字符。</p>
+<p><font color="red"> 因此，在 Java 中， Stream 结尾的都是字节流， reader 或 writer结尾都是字符流。 两者的区别是：读写的时候一个是按字节读写，一个是按字符。</font></p>
+<p>相比字节，我们更感兴趣的是数字、字符串和对象，而不是一个一个的字节。Java 当然也提供了很多让我们读取常用格式的数据，而不仅仅是字节！</p>
+<p><img src="http://www.runoob.com/wp-content/uploads/2013/12/iostream2.png" alt=""></p>
+<h2 id="缓存流"><a href="#缓存流" class="headerlink" title="缓存流"></a>缓存流</h2><p>如果我们自己从硬盘中读取或写入数据，每次都要读写磁盘。如果读写的频率比较高的时候，其性能表现不佳。为了解决这一问题，Java提供了<code>BufferedReader</code>和<code>BufferedWriter</code>两个缓存流。</p>
+<p>当我们要从硬盘读数据的时候，<code>BufferedReader</code>缓存流会先从硬盘中一次性读取较多的数据，然后我们的Java程序直接按需从缓存里取出。这样就不用每次都跟硬盘打交道了。</p>
+<p>利用 BufferedWriter 写数据到文件例子</p>
+<ol>
+<li>new 一个 <code>BufferedWriter</code>，参数里面 new 一个 <code>FileWriter</code></li>
+<li>用 <code>foreach</code> 循环，遍历集合</li>
+<li>如果有必要，做一下类型转换</li>
+<li>写数据，写分隔符</li>
+<li>刷新</li>
+</ol>
+<p>注意，<strong>FileWrite 接收第二个参数，为 true 时，不覆盖原有内容</strong>。否则原有内容会被覆盖。</p>
+<pre><code class="java">// 文件读写
+FileWriter fw = new FileWriter(&quot;C:\\Users\\JerrySheh\\exception.dat&quot; , true);
+BufferedWriter bw = new BufferedWriter(fw);</code></pre>
+<h3 id="完整例子"><a href="#完整例子" class="headerlink" title="完整例子"></a>完整例子</h3><ul>
+<li>产生5555个随机数</li>
+<li>写入到文件data.txt中</li>
+<li>从文件data.txt中读取这5555个随机数，写入到data2.txt中</li>
+</ul>
+<p>randomDoubleNumber.java</p>
+<pre><code class="java">package com.jerrysheh;
+
+import java.math.BigDecimal;
+
+public class randomDoubleNumber {
+
+    // 产生 range 以内的随机数
+    public static double getRandomDoubleNumber(int range){
+        BigDecimal b = new BigDecimal(Math.random() * range);
+        return b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
+}</code></pre>
+<p>test.java</p>
+<pre><code>import java.io.*;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+public class main {
+    public static void main(String[] args){
+        ArrayList&lt;Double&gt; l = addDataToList(new ArrayList&lt;&gt;());
+        writeToFile(l);
+        readFromFileAndWrite(l);
+    }
+
+    // 添加随机数数据
+    public static ArrayList&lt;Double&gt; addDataToList(ArrayList&lt;Double&gt; randomNumberList){
+        double d;
+        for (int i = 0; i &lt; 5555; i++) {
+            d = com.jerrysheh.randomDoubleNumber.getRandomDoubleNumber(1000);
+            randomNumberList.add(d);
+        }
+        return randomNumberList;
+    }
+
+    // 数据写入文件
+    public static void writeToFile(List&lt;Double&gt; randomNumberList){
+        DecimalFormat df = new DecimalFormat(&quot;0.00&quot;);
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(&quot;data.txt&quot;))) {
+            for (double dd:
+                    randomNumberList) {
+                String s = df.format(dd);
+                bw.write(s);
+                bw.write(&quot;,&quot;);
+                bw.flush();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    //文件读取数据，写入另一文件
+    public static void readFromFileAndWrite(List&lt;Double&gt; randomNumberList){
+        try(
+                BufferedReader br = new BufferedReader(new FileReader(&quot;data.txt&quot;));
+                BufferedWriter bw = new BufferedWriter(new FileWriter(&quot;data2.txt&quot;))
+        ){
+            String s = br.readLine();
+            String ss[] = s.split(&quot;,&quot;);
+            for (String each:
+                 ss) {
+                bw.write(each);
+                bw.write(&quot;\r\n&quot;);
+                bw.flush();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+}</code></pre><hr>
+<h1 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h1><h2 id="什么是序列化（Serialization）？"><a href="#什么是序列化（Serialization）？" class="headerlink" title="什么是序列化（Serialization）？"></a>什么是序列化（Serialization）？</h2><p>变量从内存中变成可存储或传输的过程称之为序列化（或持久化）。序列化之后，就可以把序列化后的内容写入磁盘，或者通过网络传输到别的机器上。</p>
+<h2 id="Java中的序列化"><a href="#Java中的序列化" class="headerlink" title="Java中的序列化"></a>Java中的序列化</h2><p>在 Java 中，java.io.Serializable 是一个标记接口。要序列化一个对象，只需要实现该接口。但是，对象中并不是所有字段都可以被序列化，使用时需要注意。</p>
+<p>当然，也有一些字段本身是可以被序列化的，但是我们不希望它被序列化，这时可以使用 <code>transient</code> 关键字让它不被序列化。</p>
+<h3 id="一个支持序列化的类"><a href="#一个支持序列化的类" class="headerlink" title="一个支持序列化的类"></a>一个支持序列化的类</h3><pre><code class="java">public class Employee implements java.io.Serializable
+{
+   public String name;
+   public String address;
+   public transient int SSN;
+   public int number;
+   public void mailCheck()
+   {
+      System.out.println(&quot;Mailing a check to &quot; + name
+                           + &quot; &quot; + address);
+   }
+}</code></pre>
+<p>在 Java 中，我们使用  ObjectOutputStream 类来将一个对象转换成输出流。它的 <code>writeObject(Object x)</code> 方法用于序列化一个对象，并将它发送到输出流。</p>
+<h3 id="序列化过程"><a href="#序列化过程" class="headerlink" title="序列化过程"></a>序列化过程</h3><pre><code class="java">public class SerializeDemo
+{
+   public static void main(String [] args)
+   {
+      Employee e = new Employee();
+      e.name = &quot;Reyan Ali&quot;;
+      e.address = &quot;Phokka Kuan, Ambehta Peer&quot;;
+      e.SSN = 11122333;
+      e.number = 101;
+      try
+      {
+         FileOutputStream fileOut =
+         new FileOutputStream(&quot;/tmp/employee.ser&quot;);
+         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+         out.writeObject(e);
+         out.close();
+         fileOut.close();
+         System.out.printf(&quot;Serialized data is saved in /tmp/employee.ser&quot;);
+      }catch(IOException i)
+      {
+          i.printStackTrace();
+      }
+   }
+}</code></pre>
+<p>Java约定序列化的文件后缀名为 .ser ，我们将该对象存入磁盘/tmp/employee.ser文件中</p>
+<h3 id="反序列化过程"><a href="#反序列化过程" class="headerlink" title="反序列化过程"></a>反序列化过程</h3><pre><code class="java">public class DeserializeDemo
+{
+   public static void main(String [] args)
+   {
+      Employee e = null;
+      try
+      {
+
+         // 创建一个文件输入流
+         FileInputStream fileIn = new FileInputStream(&quot;/tmp/employee.ser&quot;);
+
+         // 创建一个对象输入流，传入文件输入流对象
+         ObjectInputStream in = new ObjectInputStream(fileIn);
+
+         // 从对象输入流中获取序列化的数据
+         e = (Employee) in.readObject();
+
+         in.close();
+         fileIn.close();
+      }catch(IOException i)
+      {
+         i.printStackTrace();
+         return;
+      }catch(ClassNotFoundException c)
+      {
+         System.out.println(&quot;Employee class not found&quot;);
+         c.printStackTrace();
+         return;
+      }
+    }
+}</code></pre>
+<p>此时，Employee对象即被“复活”了。但是注意，变量SSN是 transient 的，因此不会被还原。</p>
+<h2 id="为什么一个类实现了Serializable接口，它就可以被序列化？"><a href="#为什么一个类实现了Serializable接口，它就可以被序列化？" class="headerlink" title="为什么一个类实现了Serializable接口，它就可以被序列化？"></a>为什么一个类实现了Serializable接口，它就可以被序列化？</h2><p>查看 ObjectOutputStream 的源码，可以看到，其 writeObject0方法 中，是通过判断该类是否可以转型为 String、Enum 或 Serializable 来为其决定进行何种序列化方式的。实现Serializable接口就用 writeOrdinaryObject 方式。</p>
+<p>如果该类没有实现 Serializable 接口，就抛出 NotSerializableException</p>
+<pre><code class="java">private void writeObject0(Object obj, boolean unshared) throws IOException {
+      ...
+    if (obj instanceof String) {
+        writeString((String) obj, unshared);
+    } else if (cl.isArray()) {
+        writeArray(obj, desc, unshared);
+    } else if (obj instanceof Enum) {
+        writeEnum((Enum) obj, desc, unshared);
+    } else if (obj instanceof Serializable) {
+        writeOrdinaryObject(obj, desc, unshared);
+    } else {
+        if (extendedDebugInfo) {
+            throw new NotSerializableException(cl.getName() + &quot;\n&quot;
+                    + debugInfoStack.toString());
+        } else {
+            throw new NotSerializableException(cl.getName());
+        }
+    }
+    ...
+}</code></pre>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-02-28T16:29:51.000Z">2018-03-01</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    29 分钟 读完 (大约 4299 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/727d207c.html">Java简明笔记（十一）并发编程</a>
+            
+        </h1>
+        <div class="content">
+            <p>关于并发的理论基础，见另一篇 <a href="../post/3bdfeb29.html">聊聊并发和并发模型</a></p>
+<hr>
+<h1 id="在-Java-中创建线程"><a href="#在-Java-中创建线程" class="headerlink" title="在 Java 中创建线程"></a>在 Java 中创建线程</h1><p>在 Java 中，线程是 java.lang.Thread 或其子类中的实例。通过 new 一个线程实例并调用 start 方法来启动线程。</p>
+<pre><code class="java">Thread thread = new Thread();
+thread.start();</code></pre>
+<p>但是我们总得指定线程做一些事，可以用两种方式来指定。</p>
+<h2 id="方式一：继承-Thread-类"><a href="#方式一：继承-Thread-类" class="headerlink" title="方式一：继承 Thread 类"></a>方式一：继承 Thread 类</h2><pre><code class="java">public class MyThread extends Thread {
+    @Override
+    public void run(){
+       System.out.println(&quot;MyThread running&quot;);
+    }
+}
+
+Thread myThread = new myThread();
+myThread.start();</code></pre>
+<h2 id="方式二：实现-Runnable-方法-推荐"><a href="#方式二：实现-Runnable-方法-推荐" class="headerlink" title="方式二：实现 Runnable 方法(推荐)"></a>方式二：实现 Runnable 方法(推荐)</h2><p>创建一个类实现 Runnable 方法</p>
+<pre><code class="java">class MyRunnable implements Runnable {
+    @Override
+    public void run(){
+       System.out.println(&quot;MyRunnable running&quot;);
+    }
+}
+
+MyRunnable myRun = new MyRunnable();
+Thread thread = new Thread(myRun， &quot;第二个参数指定线程名字&quot;);
+thread.start();</code></pre>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/727d207c.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-02-27T07:06:51.000Z">2018-02-27</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 分钟 读完 (大约 307 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/85d8e3e2.html">Java简明笔记（十） 输入与输出</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="文本输入和输出"><a href="#文本输入和输出" class="headerlink" title="文本输入和输出"></a>文本输入和输出</h1><h2 id="文本输入"><a href="#文本输入" class="headerlink" title="文本输入"></a>文本输入</h2><p>对于较短的文本，我们可以直接把文本存到一个String里</p>
+<pre><code class="java">// 整个文本
+String contents = new String(readAllBytes((Paths.get(&quot;alice.txt&quot;))), StandardCharsets.UTF_8);
+
+// 以非字母为分隔符，变成一个个单词
+List&lt;String&gt; words = Arrays.asList(contents.split(&quot;\\PL+&quot;));</code></pre>
+<p>如果想按行读取，可以读文件并存到 List 集合里，集合的每一个元素代表每一行的一个String</p>
+<pre><code class="java">// 按行读取
+List&lt;String&gt; lines = Files.readAllLines(path, charset);</code></pre>
+<p>或者按流处理</p>
+<pre><code>try (Stream&lt;String&gt; lines = Files.lines(path, charset)) {
+  //...
+} catch {
+
+}</code></pre><p>如果想从文件读取数字或单词，可以用 Scanner</p>
+<pre><code class="java">Scanner in = new Scanner(path, &quot;UTF-8&quot;);
+while (in.hasNextDouble()) {
+  double value = in.hasNextDouble();
+  ...
+}</code></pre>
+<p>如果输入源不是来自文件，可以将InputStream再封装到BufferedReader</p>
+<pre><code>try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
+  ...
+}</code></pre><h2 id="文本输出"><a href="#文本输出" class="headerlink" title="文本输出"></a>文本输出</h2><p>如果我们要把文本输出到一个文件（写文件），构造一个PrintWriter</p>
+<pre><code class="java">PrintWriter out = new PrintWriter(Files.newBufferedWriter(path, charset));</code></pre>
+<p>将文本写到另外一个输出流</p>
+<pre><code class="java">PrintWriter out = new PrintWriter(outstream, &quot;UTF-8&quot;);</code></pre>
+<p>将已有的变量写入文件</p>
+<pre><code class="java">Files.write(path, lines, charset);</code></pre>
+<p>追加内容到一个文件</p>
+<ul>
+<li>追加 String</li>
+</ul>
+<pre><code class="java">Files.write(path, content.getBytes(charset), StandardOpenOption.APPEND);</code></pre>
+<ul>
+<li>追加 <code>Collection&lt;String&gt;</code></li>
+</ul>
+<pre><code class="java">Files.write(path, lines, charset, StandardOpenOption.APPEND);</code></pre>
+<hr>
+<p>待补充</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-02-25T16:07:29.000Z">2018-02-26</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    11 分钟 读完 (大约 1642 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/372345f.html">Java简明笔记（九）Stream API</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h1><p>Java 中的 Stream 提供了数据源，让你可以在比集合类更高的概念层上指定操作。<strong>使用 Stream，只需要指定做什么，而不是怎么做</strong>。你只需要将操作的调度执行留给实现。</p>
+<p>简单地说，流就是一组数据，经过某种操作，产生我们所需的新流，或者输出成非流数据。</p>
+<p>流的来源，可以是集合，数组，I/O channel， 生成器（generator）等。流的聚合操作类似 SQL 语句，比如filter, map, reduce, find, match, sorted等。</p>
+<h2 id="从迭代到-Stream-操作"><a href="#从迭代到-Stream-操作" class="headerlink" title="从迭代到 Stream 操作"></a>从迭代到 Stream 操作</h2><p>假设现在有一本电子书<code>alice.txt</code>在我们的硬盘里，我们想统计这本书中所有的长单词（超过12个字母），我们可以用迭代的方法。</p>
+<ol>
+<li>第一步，先将 alice.txt 所有内容读到字符串里</li>
+<li>第二步，创建一个List列表，以非字母为分隔符存放每一个单词字符串</li>
+<li>第三步，foreach循环开始迭代</li>
+</ol>
+<pre><code class="java">// 读文件，放到 String 里
+String contents = new String(readAllBytes((Paths.get(&quot;alice&quot;))), StandardCharsets.UTF_8);
+// 以非字母为分隔符
+List&lt;String&gt; words = Arrays.asList(contents.split(&quot;\\PL+&quot;));
+
+int count = 0;
+// 在 List 里面迭代，如果找到长度＞12的，计数器+1
+for (String w : words) {
+    if (w.length() &gt; 12) count++;
+    }</code></pre>
+<p>在 java 8 中，可以用 stream 来实现相同的功能：</p>
+<pre><code class="java">// 读文件，放到 String 里
+String contents = new String(readAllBytes((Paths.get(&quot;alice.txt&quot;))), StandardCharsets.UTF_8);
+// 以非字母为分隔符
+List&lt;String&gt; words = Arrays.asList(contents.split(&quot;\\PL+&quot;));
+
+// 把 List 转换成 流，用 flilter 方法对流的每一个元素进行判断，筛选出＞12的，并计数
+long count1 = words.stream().filter(w -&gt; w.length() &gt; 12).count();</code></pre>
+<ul>
+<li><code>words.stream()</code>创建的是串行流，<code>words.parallelStream()</code>创建的是并行流。</li>
+</ul>
+<p>只需要一行，就把过滤字母长度大于12的单词和统计实现出来了。</p>
+<p>Stream就是这样遵循 <strong>做什么，而不是怎么去做</strong> 的原则。</p>
+<hr>
+<h1 id="聚合操作（Aggregation）"><a href="#聚合操作（Aggregation）" class="headerlink" title="聚合操作（Aggregation）"></a>聚合操作（Aggregation）</h1><p>简单介绍filter, map, reduce, find, match, sorted</p>
+<ol>
+<li><strong>filter</strong>: 过滤符合的条件,如在集合里面过滤长度大于5的元素<code>.filter(w -&gt; w.length() &gt; 5)</code></li>
+<li><strong>map</strong>：用于映射每个元素到对应的结果，如将每个元素乘方<code>.map( i -&gt; i*i)</code></li>
+<li><strong>reduce</strong>：把结果继续和序列的下一个元素做累积计算（第一个参数是起始值）</li>
+<li><strong>find</strong>：查找</li>
+<li><strong>anyMatch</strong>：匹配，判断的条件里，任意一个元素成功，返回true</li>
+<li><strong>allMatch</strong>：判断条件里的元素，所有的都是，返回true</li>
+<li><strong>noneMatch</strong>：跟 allMatch 相反</li>
+<li><strong>sorted</strong>：排序</li>
+<li><strong>limit</strong>：取集合的前 n 个元素</li>
+</ol>
+<p>关于聚合操作，可参考： <a href="http://www.runoob.com/java/java8-streams.html">runoob.com</a></p>
+<p>一个例子: 将<code>alice.txt</code>的内容读入 String， 以非字母为分隔符存入 List， 通过流取前20个值，过滤出这20个值长度大于5的，并排序，最后存到新的 List 里</p>
+<pre><code class="java">public static void streamTest() {
+    try {
+        String contents = new String(readAllBytes((Paths.get(&quot;alice.txt&quot;))), StandardCharsets.UTF_8);
+        List&lt;String&gt; words = Arrays.asList(contents.split(&quot;\\PL+&quot;));
+        List&lt;String&gt; newwords = words.stream().limit(20).filter(w -&gt; w.length() &gt; 5).sorted().collect(Collectors.toList());
+        System.out.println(newwords);
+    } catch (IOException e) {
+        System.out.println(&quot;IO problem&quot;);
+    };
+}</code></pre>
+<p>另一个例子：为每个订单加上12%的税</p>
+<pre><code class="java">// 不使用lambda表达式
+List costBeforeTax = Arrays.asList(100, 200, 300, 400, 500);
+for (Integer cost : costBeforeTax) {
+    double price = cost + .12*cost;
+    System.out.println(price);
+}
+
+// 使用lambda表达式
+List costBeforeTax = Arrays.asList(100, 200, 300, 400, 500);
+costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::println);</code></pre>
+<p>可见 Lambda 表达式非常地优雅。</p>
+<hr>
+<h1 id="规约方法（reduction）"><a href="#规约方法（reduction）" class="headerlink" title="规约方法（reduction）"></a>规约方法（reduction）</h1><p>有时候我们使用聚合操作，操作完成后还是一个流。但有时会转换成非流值，我们把转换完毕后是非流值的方法称为规约方法。</p>
+<p>比如上面例子的<code>.count()</code>，就把流转换成了数字，<code>.collect(Collectors.toList()</code>转换成 List 集合， <code>.max()</code>和<code>.min()</code>获取成流中最大或最小的值。<code>findFirst()</code>返回非空集合的第一个值，<code>findAny()</code>返回任何符合的值。<code>anyMatch()</code>、<code>noneMatch()</code>和<code>allMatch()</code>返回匹配。</p>
+<p>例子：流中是否有以Q开头的元素？有返回True，没有返回False</p>
+<pre><code class="java">boolean aWordStartWithQ = words.parallel().anyMatch( s -&gt; s.startWith(&quot;Q&quot;));</code></pre>
+<h2 id="Collectors"><a href="#Collectors" class="headerlink" title="Collectors"></a>Collectors</h2><p>Collectors实现了很多规约操作，例如</p>
+<ol>
+<li><code>.collect(Collectors.toList()</code>把流转换成 List</li>
+<li><code>.collect(Collectors.joining(&quot;,&quot;)</code>把流转换成以逗号分割的 String</li>
+</ol>
+<hr>
+<h1 id="parallel-stream"><a href="#parallel-stream" class="headerlink" title="parallel stream"></a>parallel stream</h1><p>parallelStream是并行执行的流，是以多线程的方式运行的。其原理是ForkJoinPool（实现了Executor和ExecutorService接口），主要用分治法(Divide-and-Conquer Algorithm)来解决需要使用相对少的线程处理大量的任务的问题（比如使用4个线程来完成超过200万个任务，任务之间有父子关系），这一点是 ThreadPoolExecutor 做不到的。</p>
+<blockquote>
+<p>提示：当需要处理递归分治算法时，考虑使用ForkJoinPool。</p>
+</blockquote>
+<hr>
+<h1 id="stream-or-parallelStream"><a href="#stream-or-parallelStream" class="headerlink" title="stream or parallelStream"></a>stream or parallelStream</h1><p>使用串行流还是并行流，主要考虑：</p>
+<h2 id="考虑1：是否需要并行？"><a href="#考虑1：是否需要并行？" class="headerlink" title="考虑1：是否需要并行？"></a>考虑1：是否需要并行？</h2><p>在回答这个问题之前，你需要弄清楚你要解决的问题是什么，数据量有多大，计算的特点是什么？并不是所有的问题都适合使用并发程序来求解，<strong>比如当数据量不大时，顺序执行往往比并行执行更快</strong>。毕竟，准备线程池和其它相关资源也是需要时间的。但是，当任务<strong>涉及到I/O操作并且任务之间不互相依赖时</strong>，那么并行化就是一个不错的选择。通常而言，将这类程序并行化之后，执行速度会提升好几个等级。</p>
+<h2 id="考虑2：任务之间是否是独立的？是否会引起任何竞态条件？"><a href="#考虑2：任务之间是否是独立的？是否会引起任何竞态条件？" class="headerlink" title="考虑2：任务之间是否是独立的？是否会引起任何竞态条件？"></a>考虑2：任务之间是否是独立的？是否会引起任何竞态条件？</h2><p>对于问题2，如果任务之间是独立的，并且代码中不涉及到对同一个对象的某个状态或者某个变量的更新操作，那么就表明代码是可以被并行化的。</p>
+<h2 id="考虑3：结果是否取决于任务的调用顺序？"><a href="#考虑3：结果是否取决于任务的调用顺序？" class="headerlink" title="考虑3：结果是否取决于任务的调用顺序？"></a>考虑3：结果是否取决于任务的调用顺序？</h2><p>对于问题3，由于在并行环境中任务的执行顺序是不确定的，因此对于依赖于顺序的任务而言，并行化也许不能给出正确的结果。</p>
+<hr>
+<p>参考：</p>
+<ul>
+<li>《写给大忙人看的Java核心技术》</li>
+<li><a href="http://tutorials.jenkov.com/java-functional-programming/streams.html">Java Functional Programming</a></li>
+<li><a href="https://www.jianshu.com/p/bd825cb89e00">深入浅出parallelStream</a></li>
+</ul>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-02-25T08:55:10.000Z">2018-02-25</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    17 分钟 读完 (大约 2526 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/68278ec8.html">Java简明笔记（八）Lambda和函数式编程</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h1><p>我们平时所采用的 <strong>命令式编程</strong>（OO也是命令式编程的一种）关心解决问题的步骤。你要做什么事情，你得把达到目的的步骤详细的描述出来，然后交给机器去运行。</p>
+<p>而函数式编程关心数据的映射，或者说，关心类型（代数结构）之间的关系。这里的映射就是数学上“函数”的概念，即一种东西和另一种东西之间的对应关系。<strong>所以，函数式编程的“函数”，是数学上的“函数”（映射），而不是编程语言中的函数或方法</strong>。</p>
+<p>函数式编程的思维就是如何将这个关系组合起来，用数学的构造主义将其构造出你设计的程序。用计算来表示程序，用计算的组合来表达程序的组合。</p>
+<h2 id="函数式编程思想"><a href="#函数式编程思想" class="headerlink" title="函数式编程思想"></a>函数式编程思想</h2><p>函数式编程有三个关键点：</p>
+<ol>
+<li><strong>函数第一（Functions as first class objects）</strong>：函数跟其他对象一样，一个引用变量可以指向一个函数，就像我们声明一个引用 s 指向一个字符串 String 一样。可惜的是，在 Java 中，函数不是第一的，但 Scala、Kotlin 里面是。</li>
+<li><strong>纯函数（Pure functions）</strong>：函数内部不依赖于外部变量。</li>
+<li><strong>高阶函数（Higher order functions）</strong>：函数可以作为参数传递进来，也可以作为返回值返回。在 Java 中，一个方法可以接受一个 lambda 表达式，也可以返回一个 lambda 表达式。</li>
+</ol>
+<p>纯函数的四个关键点：</p>
+<ol>
+<li><strong>无状态(No state)</strong>：函数内部不能使用外部变量。</li>
+<li><strong>无副作用（No side effects）</strong>：函数内部不能修改外部变量。</li>
+<li><strong>对象不可变（Immutable variables）</strong>：使用不可变对象来避免副作用。如果要修改一个传进来的参数对象，那修改完毕后返回一个新的对象，而不是修改后的该对象本身。</li>
+<li><strong>递归（Favour recursion over looping）</strong>：使用递归，而非循环。</li>
+</ol>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/68278ec8.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-02-05T16:03:34.000Z">2018-02-06</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 分钟 读完 (大约 1904 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/a3bb075d.html">Java简明笔记（七） 异常和断言</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h1><p>在Java异常处理中，一个方法可以通过 <strong>抛出(throw)</strong> 异常来发出一个严重问题的信号。调用链中的某个方法，负责 <strong>捕获（catch）</strong> 并处理异常。捕获到的异常不仅可以在当前方法中处理，还可以将异常抛给调用它的上一级方法去处理。</p>
+<p>异常处理的根本优点是：将错误检测和错误处理的过程解耦。</p>
+<p>Java 的异常都派生自 Throwable 类，Throwable 又分为 Error 和 Exception。Error 不是我们的程序所能够处理的，比如系统内存耗尽。我们能预知并处理的错误属于 Exception。Exception又分为 unchecked exception 和 checked exception。 unchecked exception 属于 RuntimeException 。</p>
+<blockquote>
+<p>当然，所有的异常都发生在运行时（Runtime），但是 RuntimeException 派生的子类异常在编译时不会被检查。</p>
+</blockquote>
+<p><img src="../../../../images/Java/Throwable.png" alt=""></p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/a3bb075d.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-02-04T16:27:20.000Z">2018-02-05</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    21 分钟 读完 (大约 3080 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/689b9445.html">Java中的 String</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="String-的本质"><a href="#String-的本质" class="headerlink" title="String 的本质"></a>String 的本质</h1><p>在 Java8 中，分析 java.lang.String 类的源码，可以发现 String 内部维护的是一个 char 数组。同时可以发现，String类被 <code>final</code> 修饰，即不可变的。</p>
+<pre><code class="java">public final class String
+    implements java.io.Serializable, Comparable&lt;String&gt;, CharSequence {
+    /** The value is used for character storage. */
+    private final char value[];
+
+    //...
+}</code></pre>
+<p>在 Java9 中，将 char 数组优化成了 byte 数组。</p>
+<pre><code class="java">private final byte value[];</code></pre>
+<h2 id="为什么要将-char-改成-byte-？"><a href="#为什么要将-char-改成-byte-？" class="headerlink" title="为什么要将 char[] 改成 byte[] ？"></a>为什么要将 char[] 改成 byte[] ？</h2><p>char 占用16位，即两字节。每个 byte 占用8位，即1字节。如果我们要存储字符A，则为0x00 0x41，用 char 的话，前面的一个字节空间浪费了。</p>
+<h2 id="为什么要设计成不可变类-？-优缺点？"><a href="#为什么要设计成不可变类-？-优缺点？" class="headerlink" title="为什么要设计成不可变类 ？ 优缺点？"></a>为什么要设计成不可变类 ？ 优缺点？</h2><ul>
+<li><strong>优点</strong>：只读，所以 <strong>多线程并发访问也不会有任何问题</strong>。</li>
+<li><strong>缺点</strong>：每个不同的状态都要一个对象来代表，可能会造成性能上的问题。（所以 Java 标准类库还提供了一个可变版本，即 StringBuffer）</li>
+</ul>
+<p>具体到 String 类中，原因如下：</p>
+<ol>
+<li><strong>字符串常量池的需要</strong><br>维护一个字符串池，可以节省堆内存空间。不同的字符串变量都指向池中的同一个字符串。即字符串常量池数据共享。</li>
+<li><strong>线程安全考虑</strong></li>
+<li><strong>类加载器要用到字符串</strong>，不可变性提供了安全性，以便正确的类被加载。</li>
+<li><strong>支持hash映射和缓存</strong><br>因为字符串是不可变的，所以在它创建的时候hashcode就被缓存了，不需要重新计算。这就使得字符串很适合作为Map中的键，字符串的处理速度要快过其它的键对象。这就是HashMap中的键往往都使用字符串。</li>
+</ol>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/689b9445.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-02-04T14:43:40.000Z">2018-02-04</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    35 分钟 读完 (大约 5230 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/f85bb872.html">Java简明笔记（六） 集合</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="集合和集合框架"><a href="#集合和集合框架" class="headerlink" title="集合和集合框架"></a>集合和集合框架</h1><h2 id="集合是什么？"><a href="#集合是什么？" class="headerlink" title="集合是什么？"></a>集合是什么？</h2><p>集合就是一个放数据的容器，准确的说是放数据对象引用的容器。</p>
+<p>Java集合主要可以划分为三个部分：</p>
+<ol>
+<li>Collection（包含 List 和 Set ）</li>
+<li>Map （键值对）</li>
+<li>工具类（Iterator迭代器、Enumeration枚举类、Arrays和VCollections）</li>
+</ol>
+<p>Java的集合类主要由两个接口派生而来：<strong>Collection</strong> 和 <strong>Map</strong> ，这两个是集合框架的根接口，这两个接口又包含了一些 <strong>子接口</strong> 或 <strong>实现类</strong> 。如下图：</p>
+<p><img src="../../../../images/Java/collection.jpg" alt="collection"></p>
+<p><img src="../../../../images/Java/map.jpg" alt="map"></p>
+<p>所有的集合框架都包含如下内容：</p>
+<ul>
+<li><strong>接口</strong>：是代表集合的<strong>抽象数据类型</strong>。比如Collection接口，以及子接口List。</li>
+<li><strong>实现（类）</strong>：是集合接口的具体实现。从本质上讲，它们是可重复使用的<strong>数据结构</strong>。比如ArrayList是List接口的具体实现。</li>
+<li><strong>算法</strong>：是实现类对象里的方法，用于执行一些有用的计算，例如：搜索和排序。这些算法被称为多态，因为相同的方法可以在相似的接口上有着不同的实现。比如 Collections 工具类提供了<code>sort()</code>、<code>reverse()</code>等方法。</li>
+</ul>
+<p><img src="http://www.runoob.com/wp-content/uploads/2014/01/java-coll.png" alt="集合框架"></p>
+<p>(参考：<a href="http://www.runoob.com/java/java-collections.html">菜鸟教程</a>, <a href="https://zhuanlan.zhihu.com/p/24234059">极乐科技</a>)</p>
+<h2 id="为什么要用集合？"><a href="#为什么要用集合？" class="headerlink" title="为什么要用集合？"></a>为什么要用集合？</h2><p>使用集合框架的优点之一是：当遇到一些基本算法时，不必重新实现。一些例如addAll、removeIf等基本方法是Collection接口已经定义好的。</p>
+<p>Collections工具类包含很多额外的可在集合上操作的算法，你可以对列表进行排序、打乱、旋转、翻转操作；在集合中查询最大或最小元素，或者任意一个元素的位置；生成不含元素或者含一个元素或同一个元素n份拷贝的集合。</p>
+<hr>
+<h1 id="有序集合——List"><a href="#有序集合——List" class="headerlink" title="有序集合——List"></a>有序集合——List</h1><p>List 指有序的集合，List类是一个抽象类。</p>
+<p>实现类 ArrayList 和 LinkedList 实现了 List 接口。所以我们平时用的时候，要指定是 ArrayList 还是 LinkedList。</p>
+<blockquote>
+<p>我应该用 ArrayList 还是 LinkedList ？<br><strong>链表插入操作很快，但遍历很慢</strong>。因此当应用需要有序集合时，用 ArrayList 可能会更好。但是注意， ArrayList 和 LinkedList 都是线程不安全的。</p>
+</blockquote>
+<h2 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h2><p>ArrayList的声明</p>
+<pre><code class="java">//这种是默认创建大小为10的数组，每次扩容大小为1.5倍
+ArrayList list=new ArrayList();   
+
+//这种是指定数组大小的创建，没有扩充
+ArrayList list=new ArrayList(20);  </code></pre>
+<p>ArrayList使用示例：</p>
+<pre><code class="java">public static void main(String[] args) {
+    List&lt;String&gt; groupName = new ArrayList&lt;&gt;();
+    groupName.add(&quot;jerry&quot;);
+    groupName.add(&quot;calm&quot;);
+    groupName.add(&quot;Superman&quot;);
+
+    //输出：groupName的大小：3
+    System.out.println(&quot;groupName的大小：&quot; + groupName.size());
+
+    //输出：groupName原始的内容[jerry, calm, Superman]
+    System.out.println(&quot;groupName原始的内容&quot; + groupName);
+
+    //输出：jerry在容器的位置：0
+    System.out.println(&quot;jerry在容器的位置：&quot; + groupName.indexOf(&quot;jerry&quot;));
+
+    //将下标1的内容替换为 Paul
+    groupName.set(1,&quot;Paul&quot;);
+
+    //输出：groupName替换后的内容[jerry, Paul, Superman]
+    System.out.println(&quot;\ngroupName替换后的内容&quot; + groupName);
+}</code></pre>
+<p>下面是一些常用方法</p>
+<table>
+<thead>
+<tr>
+<th align="left">常用方法</th>
+<th align="left">简介</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">add</td>
+<td align="left">增加，支持直接加在末尾，或者指定位置</td>
+</tr>
+<tr>
+<td align="left">contain</td>
+<td align="left">判断容器中是否存在某个对象（而不是对象值相等）</td>
+</tr>
+<tr>
+<td align="left">get</td>
+<td align="left">获取指定位置的对象（如果越界会报错）</td>
+</tr>
+<tr>
+<td align="left">indexOf</td>
+<td align="left">获取对象所处的位置(从0开始)</td>
+</tr>
+<tr>
+<td align="left">remove</td>
+<td align="left">删除，支持按下标或者按对象</td>
+</tr>
+<tr>
+<td align="left">set (index, object)</td>
+<td align="left">替换</td>
+</tr>
+<tr>
+<td align="left">size</td>
+<td align="left">获取大小</td>
+</tr>
+<tr>
+<td align="left">toArray</td>
+<td align="left">转换为数组</td>
+</tr>
+<tr>
+<td align="left">addAll</td>
+<td align="left">把另一个容器所有对象都加进来</td>
+</tr>
+<tr>
+<td align="left">clear</td>
+<td align="left">清空</td>
+</tr>
+<tr>
+<td align="left">subList</td>
+<td align="left">取子列表 list1 = list2.subList(start, end);</td>
+</tr>
+</tbody></table>
+<h2 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h2><p>使用示例：</p>
+<pre><code class="java">List&lt;String&gt; staff = new LinkedList&lt;&gt;();
+staff.add(&quot;Amy&quot;);
+staff.add(&quot;Bob&quot;);
+staff.add(&quot;Carl&quot;);
+
+// 使用Iterator来遍历，可删不能增
+Iterator iter = staff.iterator;
+String first = iter.next(); // visit first element
+String second = iter.next(); //visit second element
+iter.remove(); // remove last visited element (second element)
+
+// 使用ListIterator可以遍历，也可以增删
+ListIterator&lt;String&gt; lIter = staff.listlterator();
+lIter.next();  // visit first element
+lIter.add(&quot;jerry&quot;); // insert jerry at 2nd position</code></pre>
+<p><code>LinkedList.add()</code> 方法将对象添加到链表的尾部。但是，常常需要将元素添加到链表的中间。这就要借助迭代器 Iterrator 来实现。</p>
+<h3 id="为什么这里用-ListIterator-，而不是Iterator"><a href="#为什么这里用-ListIterator-，而不是Iterator" class="headerlink" title="为什么这里用 ListIterator ，而不是Iterator"></a>为什么这里用 ListIterator ，而不是Iterator</h3><p>原因是 Iterator 是适用于包括无序集合 Set 在内的所有集合类的，因此不提供<code>.add()</code>方法。而子接口 ListIterator，仅仅在 List 集合能用。它提供了 <code>.add()</code> 方法，就可以在中间进行插入操作了。</p>
+<h3 id="ListIterator-和-Iterator-的区别："><a href="#ListIterator-和-Iterator-的区别：" class="headerlink" title="ListIterator 和 Iterator 的区别："></a>ListIterator 和 Iterator 的区别：</h3><ol>
+<li>使用范围不同，Iterator 可以应用于所有的集合，Set、List 和 Map 和这些集合的子类型。而 ListIterator 只能用于 List 及其子类型。</li>
+<li>ListIterator 有 add 方法，可以向 List 中添加对象，而 Iterator 不能。</li>
+<li>ListIterator 和 Iterator 都有 hasNext() 和 next() 方法，可以实现顺序向后遍历，但是 ListIterator 有 hasPrevious() 和 previous() 方法，可以实现逆向（顺序向前）遍历。Iterator 不可以。</li>
+<li>ListIterator 可以定位当前索引的位置，nextIndex() 和 previousIndex() 可以实现。Iterator 没有此功能。</li>
+<li>都可实现删除操作。但是 ListIterator set() 方法可以实现对象的修改。Iterator 仅能遍历，不能修改。</li>
+</ol>
+<h2 id="ArrayList、LinkedList、Vector的区别"><a href="#ArrayList、LinkedList、Vector的区别" class="headerlink" title="ArrayList、LinkedList、Vector的区别"></a>ArrayList、LinkedList、Vector的区别</h2><h3 id="ArrayList-和-Vector"><a href="#ArrayList-和-Vector" class="headerlink" title="ArrayList 和 Vector"></a>ArrayList 和 Vector</h3><p><strong>相同点</strong>：Arraylist和Vector是采用数组方式存储数据。<br><strong>不同点</strong>：Vector由于使用了synchronized方法-线程安全，所以性能上比 ArrayList 要差。但是 ArrayList 是线程不安全的。</p>
+<h3 id="ArrayList-和-LinkedList"><a href="#ArrayList-和-LinkedList" class="headerlink" title="ArrayList 和 LinkedList"></a>ArrayList 和 LinkedList</h3><p><strong>相同点</strong>：ArrayList 和 LinkedList 在末尾插入都很快。<br><strong>不同点</strong>：LinkedList使用 <strong>双向链表</strong> 实现存储，按序号索引数据需要进行向前或向后遍历，插入数据时只需要记录本项前后项即可，因此在中间插入数据较快。ArrayList遍历十分快，LinkedList中间插入特别快。</p>
+<h2 id="List-如何去重"><a href="#List-如何去重" class="headerlink" title="List 如何去重"></a>List 如何去重</h2><p>Java 8 使用 Stream:</p>
+<pre><code class="java">list = list.stream().distinct().collect(Collectors.toList());</code></pre>
+<hr>
+<h1 id="无序集合——Set"><a href="#无序集合——Set" class="headerlink" title="无序集合——Set"></a>无序集合——Set</h1><p>Set 中元素是无序的，且不允许重复的元素，<font color="red"> 只能用 Iterator 迭代器取出 Set 中的元素。</font> Set的 <code>add</code> 方法首先在集合中查找要添加的对象，如果不存在就将这个对象添加进去。</p>
+<p>HashSet 和 TreeSet 实现了 Set 接口，但都是线程不安全的。它们的底层数据结构是 <strong>哈希表</strong>。</p>
+<blockquote>
+<p><strong>哈希表(Hashtable)</strong>，也称散列表，是一种数据结构。 哈希表为每个对象计算一个整数，称为 <strong>散列码（hash code）</strong>。</p>
+</blockquote>
+<h2 id="HashSet"><a href="#HashSet" class="headerlink" title="HashSet"></a>HashSet</h2><p>HashSet 依靠元素的 hashCode方法 和 euqals方法 来确保元素的唯一性。</p>
+<p>HashSet包含敏感词检测的例子</p>
+<pre><code class="java">Set&lt;String&gt; badWords = new HashSet&lt;&gt;();
+badWords.add(&quot;fuck&quot;);
+badWords.add(&quot;drugs&quot;);
+badWords.add(&quot;shit&quot;);
+if (badWords.contain(username.toLowerCase())) {
+  System.out.println(&quot;please choose a different username&quot;)
+}</code></pre>
+<h2 id="TreeSet"><a href="#TreeSet" class="headerlink" title="TreeSet"></a>TreeSet</h2><p>如果想要按顺序遍历Set集合，或者要对Set集合中的元素进行排序，可以使用TreeSet。</p>
+<p>TreeSet通过compareTo或者compare方法中的来保证元素的唯一性。元素是以二叉树的形式存放的，TreeSet使用了红黑树来对元素排序。</p>
+<hr>
+<h1 id="队列集合——Queue"><a href="#队列集合——Queue" class="headerlink" title="队列集合——Queue"></a>队列集合——Queue</h1><p>Queue会记住插入顺序，但只能在尾端插入，头端删除。Deque有两个尾端，头尾都可以插入和删除。上面提到的 LinkedList 就实现了 Deque 接口，是双向链表。</p>
+<p>Queue接口的 <code>add(E e)</code>方法 和 <code>offer(E e)</code>方法都是往队列里添加元素，但二者对插入失败时的处理不同，前者在插入失败时抛出异常让你处理，后则则直接返回false。但在优先队列里这两者无区别，都是调用 offer。</p>
+<h2 id="PriorityQueue-优先队列"><a href="#PriorityQueue-优先队列" class="headerlink" title="PriorityQueue 优先队列"></a>PriorityQueue 优先队列</h2><p>PrioriryQueue是 Queue 接口的一个队列实现类。PriorityQueue的排序是基于堆排序的。不允许空值。PrioriryQueue的 add 方法和 offer 方法是一样的。</p>
+<pre><code class="java">Queue&lt;Integer&gt; p =  new PriorityQueue&lt;&gt;(10 , (o1,o2) -&gt; o2 - o1));
+p.offer(5);  // 往堆里添加元素
+p.offer(8);
+p.peek();  // 获取堆顶但不删除
+p.pool();  // 获取堆顶并删除</code></pre>
+<p>PriorityQueue构造器支持两个参数，第一个参数是优先队列的大小，第二个参数是一个 Comparator 比较器，可以自己实现比较方法。JDK1.8 可以用 lambda 表达式替代匿名类。</p>
+<h2 id="ConcurrentLinkedQueue"><a href="#ConcurrentLinkedQueue" class="headerlink" title="ConcurrentLinkedQueue"></a>ConcurrentLinkedQueue</h2><p>并发情况下安全的先进先出队列。</p>
+<h2 id="BlockingQueue"><a href="#BlockingQueue" class="headerlink" title="BlockingQueue"></a>BlockingQueue</h2><p>阻塞队列。获取一个元素时，如队列为空，则获取操作一直阻塞，直到队列中出现一个可用元素。插入一个元素时，如果队列已满，则插入操作一直阻塞，直到队列中元素减少。BlockingQueue在“生产者-消费者”模式中非常有用。</p>
+<hr>
+<h1 id="键值对集合——Map"><a href="#键值对集合——Map" class="headerlink" title="键值对集合——Map"></a>键值对集合——Map</h1><p>Map存储键值对。不允许重复的键，但不同键允许有相同的值。用<code>put()</code>方法添加新的键值对或者改变原有的值。</p>
+<h2 id="Map的实现类"><a href="#Map的实现类" class="headerlink" title="Map的实现类"></a>Map的实现类</h2><h3 id="1-Hashtable（遗留类，尽量不用）"><a href="#1-Hashtable（遗留类，尽量不用）" class="headerlink" title="1. Hashtable（遗留类，尽量不用）"></a>1. Hashtable（遗留类，尽量不用）</h3><p>Map的一个实现是<code>Hashtable</code>，线程安全，速度慢。底层是 <strong>哈希表</strong> 数据结构。是同步的。不允许null作为键和值。</p>
+<p><strong>注意</strong>：Hashtable 是一个“遗留的”容器类，应该尽可能不用。在需要并发的场景，使用 ConcurrentHashMap 。或者用 Collections 工具类的的 synchronizedMap 方法。</p>
+<pre><code class="java">HashMap hashMap = new HashMap();
+Map map = Collections.synchronizeMap(hashMap);</code></pre>
+<h3 id="2-HashMap-（jdk-1-8实现）"><a href="#2-HashMap-（jdk-1-8实现）" class="headerlink" title="2. HashMap （jdk 1.8实现）"></a>2. HashMap （jdk 1.8实现）</h3><p>Map的另一个实现是<code>HashMap</code>，线程不安全，速度快。其底层也是 <strong>哈希表</strong> 数据结构（即链表+数组，在Java8中又加入了红黑树）。是不同步的。允许null作为键和值。替代了Hashtable。</p>
+<h4 id="为什么-java8-要加入红黑树？"><a href="#为什么-java8-要加入红黑树？" class="headerlink" title="为什么 java8 要加入红黑树？"></a>为什么 java8 要加入红黑树？</h4><p>HashMap使用 <strong>链地址法</strong> 来解决冲突。但是使用链地址法会导致 get 的效率从o（1）降至o（n），所以在 Java8 中，链表长度超过阈值（8）时，将链表转换为红黑树，这样大大减少了查找时间。</p>
+<h4 id="hashMap的-Hash-过程"><a href="#hashMap的-Hash-过程" class="headerlink" title="hashMap的 Hash 过程"></a>hashMap的 Hash 过程</h4><p><img src="../../../../images/Java/hashMap.png" alt="hashMap"></p>
+<h4 id="hashMap的-put-过程"><a href="#hashMap的-put-过程" class="headerlink" title="hashMap的 put 过程"></a>hashMap的 put 过程</h4><ol>
+<li>确定要存入的桶。先使用 hash() 函数获取该对象的 hash 值，高16位和低16位异或后跟 Entry对象数组大小-1 进行与操作，得到应该存入数组的下标。</li>
+<li>链表插入。假如该位置为空，就将value值插入，如果该下标不为空，则要遍历该下标上面的对象，使用equals方法进行判断，如果遇到equals()方法返回真则进行替换，否则将其插入。</li>
+</ol>
+<h4 id="hashMap的-get-过程"><a href="#hashMap的-get-过程" class="headerlink" title="hashMap的 get 过程"></a>hashMap的 get 过程</h4><ol>
+<li>根据 key 对象的 hash 值找到 Entry 对象数组的对应下标。</li>
+<li>判断Entry的 key 和 给定的 key 是否相同（equals或==），以及 hash 是否也相同，如果不是，访问链表下一个 Entry ，如果是，返回 Entry 的 value，如果遍历完了也没有，返回 null</li>
+</ol>
+<h4 id="HashMap的使用例子"><a href="#HashMap的使用例子" class="headerlink" title="HashMap的使用例子"></a>HashMap的使用例子</h4><pre><code class="java">Map&lt;String, Integer&gt; counts = new HashMap();
+counts.put(&quot;Alice&quot;,1);
+counts.put(&quot;Jerry&quot;,2);
+counts.put(&quot;Alice&quot;,3); //改变原有值
+
+int count = counts.get(&quot;Alice&quot;); //获取Alice对应的值，这里是3
+
+//如果Alice对应的值不存在，用get方法会得到空指针异常
+//下面这句避免了空指针异常
+
+//获取Alice对应的值，如果值不存在，返回0
+int count = counts.getOrDefault(&quot;Alice&quot;, 0);
+
+//如果word不存在，将word与1形成键值对，否则将word+1
+counts.merge(word, 1, Integer::sum);</code></pre>
+<h3 id="3-ConcurrentHashMap"><a href="#3-ConcurrentHashMap" class="headerlink" title="3. ConcurrentHashMap"></a>3. ConcurrentHashMap</h3><p>ConcurrentHashMap 是线程安全的 hashMap，其底层也是 哈希表（数组+链表） + 红黑树 实现。</p>
+<h4 id="ConcurrentHashMap-如何保证线程安全？"><a href="#ConcurrentHashMap-如何保证线程安全？" class="headerlink" title="ConcurrentHashMap 如何保证线程安全？"></a>ConcurrentHashMap 如何保证线程安全？</h4><p>JDK1.8 的 ConcurrentHashMap 采用 CAS（compare and swap）+ Synchronized 保证线程安全。 JDK1.7 及以前采用segment的分段锁机制实现线程安全，其中 segment 继承自ReentrantLock，因此采用Lock锁来保证线程安全。</p>
+<h2 id="4-LinkedHashMap"><a href="#4-LinkedHashMap" class="headerlink" title="4. LinkedHashMap"></a>4. LinkedHashMap</h2><p>可以保证HashMap集合有序。存入的顺序和取出的顺序一致。</p>
+<h2 id="5-TreeMap"><a href="#5-TreeMap" class="headerlink" title="5. TreeMap"></a>5. TreeMap</h2><p>可以用来对Map集合中的键进行排序，底层是采用红黑树。</p>
+<hr>
+<h1 id="迭代器-Iterator"><a href="#迭代器-Iterator" class="headerlink" title="迭代器 Iterator"></a>迭代器 Iterator</h1><p>每个集合都提供了某种顺序迭代元素的方式。</p>
+<p>Collection的父接口 Iterable<T> 定义了一个方法：</p>
+<pre><code class="java">Iterator&lt;T&gt; Iterator()</code></pre>
+<p>这个方法生成一个迭代器，用来访问元素。</p>
+<h2 id="迭代-List-和-Set"><a href="#迭代-List-和-Set" class="headerlink" title="迭代 List 和 Set"></a>迭代 List 和 Set</h2><p>在下面这个例子中，iter是一个迭代器，迭代的对象是 groupName ， while循环用来访问元素。</p>
+<pre><code class="java">public static void main(String[] args) {
+    List&lt;String&gt; groupName = new ArrayList&lt;&gt;();
+    groupName.add(&quot;jerry&quot;);
+    groupName.add(&quot;calm&quot;);
+    groupName.add(&quot;Superman&quot;);
+    groupName.set(1,&quot;Paul&quot;);
+
+    // 用迭代器
+    Iterator&lt;String&gt; iter = groupName.iterator();
+    while (iter.hasNext()){
+        String name = iter.next();
+        System.out.println(name);
+    }
+}</code></pre>
+<p>当然这个例子用 foreach 更简单</p>
+<pre><code class="java">//用 foreach
+for (String name :
+        groupName) {
+    System.out.println(name);
+}</code></pre>
+<p>不过 foreach 也有缺点：</p>
+<ul>
+<li>无法用来进行ArrayList的初始化</li>
+<li>无法得知当前是第几个元素了，当需要只打印单数元素的时候，就做不到了。必须再自定下标变量。</li>
+</ul>
+<h2 id="迭代-Map"><a href="#迭代-Map" class="headerlink" title="迭代 Map"></a>迭代 Map</h2><p>迭代 Map 稍微有点不同，需要先将 map 放到一个 set 里面。</p>
+<pre><code class="java">Map&lt;String,Integer&gt; map = new HashMap&lt;String, Integer&gt;();
+Set&lt;Map.Entry&lt;String, Integer&gt;&gt; entry = map.entrySet();
+Iterator&lt;Map.Entry&lt;String, Integer&gt;&gt; iter = enrty.iterator();
+
+while(iter.hasNext()){
+  Map.Entry&lt;String, Integer&gt; next = iter.next();
+}</code></pre>
+<h2 id="遍历过程修改集合内容"><a href="#遍历过程修改集合内容" class="headerlink" title="遍历过程修改集合内容"></a>遍历过程修改集合内容</h2><p>使用 Iterator 可以对集合进行遍历，但是 <strong>不能在遍历过程对原集合做增、删、改</strong>，会抛出 ConcurrentModificationException。</p>
+<pre><code class="java">while(it.hasNext()){  
+    String str = it.next();
+    if(str.equals(&quot;abc&quot;)){
+        // 错误，抛出Concurrent Modification Exception
+        list.remove(str);  
+    }  
+ }</code></pre>
+<p>要对集合进行增删改操作，必须在 Iterrator 对象上操作，而不是原集合 List 上操作，因此，修改如下：</p>
+<pre><code class="java">while(it.hasNext()){  
+    String str = it.next();
+    if(str.equals(&quot;abc&quot;)){
+        // 正确
+        it.remove();  
+    }  
+ }</code></pre>
+<h2 id="快速失败（fail—fast）和-安全失败（fail—safe）"><a href="#快速失败（fail—fast）和-安全失败（fail—safe）" class="headerlink" title="快速失败（fail—fast）和 安全失败（fail—safe）"></a>快速失败（fail—fast）和 安全失败（fail—safe）</h2><h3 id="fail—fast"><a href="#fail—fast" class="headerlink" title="fail—fast"></a>fail—fast</h3><p>在用迭代器遍历一个集合对象时，如果遍历过程中对集合对象的内容进行了修改（增加、删除、修改），则会抛出Concurrent Modification Exception。</p>
+<p>原理：迭代器在遍历时直接访问集合中的内容，并且在遍历过程中使用一个 modCount 变量。集合在被遍历期间如果内容发生变化，就会改变 modCount 的值。每当迭代器使用 hasNext()/next() 遍历下一个元素之前，都会检测 modCount 变量是否为 expectedmodCount 值，是的话就返回遍历；否则抛出异常，终止遍历。</p>
+<p><strong>注意</strong>：这里异常的抛出条件是检测到 <code>modCount！=expectedmodCount</code> 这个条件。如果集合发生变化时修改modCount值刚好又设置为了expectedmodCount值，则异常不会抛出。<strong>因此，不能依赖于这个异常是否抛出而进行并发操作的编程，这个异常只建议用于检测并发修改的bug。</strong></p>
+<p>场景：java.util 包下的集合类都是快速失败（fail—fast）的，不能在多线程下发生并发修改（迭代过程中被修改）。</p>
+<h3 id="fail—safe"><a href="#fail—safe" class="headerlink" title="fail—safe"></a>fail—safe</h3><p>采用安全失败（fail—safe）机制的集合容器，在遍历时不是直接在集合内容上访问的，而是先复制原有集合内容，在拷贝的集合上进行遍历。</p>
+<p>原理：由于迭代时是对原集合的拷贝进行遍历，所以在遍历过程中对原集合所作的修改并不能被迭代器检测到，所以不会触发Concurrent Modification Exception。</p>
+<p>缺点：基于拷贝内容的优点是避免了Concurrent Modification Exception，但同样地，迭代器并不能访问到修改后的内容，即：迭代器遍历的是开始遍历那一刻拿到的集合拷贝，在遍历期间原集合发生的修改迭代器是不知道的。</p>
+<p>场景：java.util.concurrent包下的容器都是安全失败（fail—safe），可以在多线程下并发使用，并发修改。</p>
+<h2 id="ArrayList-使用-Iterator-的实际例子"><a href="#ArrayList-使用-Iterator-的实际例子" class="headerlink" title="ArrayList 使用 Iterator 的实际例子"></a>ArrayList 使用 Iterator 的实际例子</h2><p>ArrayList和Iterator的例子，要求初始化50个 hero，名字为 hero0,hero1,hero2…hero50， 然后删除 hero8,hero16,hero24…</p>
+<ul>
+<li>可以用 foreach ， 也可以用 Iterator</li>
+</ul>
+<pre><code class="java">public static void main(String[] args) {
+    List&lt;String&gt; groupName = new ArrayList&lt;&gt;();
+
+    // 初始化 50 个 hero
+    for (int i = 0; i &lt;= 50; i++) {
+        groupName.add(&quot;hero&quot; + i);
+    }
+
+    System.out.println(groupName);
+
+    //迭代groupName的迭代器
+    Iterator&lt;String&gt; iter = groupName.iterator();
+
+    List&lt;String&gt; waitToRemove = new ArrayList&lt;&gt;();
+
+    //开始迭代，把8的倍数记录下来
+    while (iter.hasNext()){
+        String name = iter.next();
+        int i = groupName.indexOf(name);
+        if (i % 8 ==0 ){
+            waitToRemove.add(name);
+        }
+    }
+
+    groupName.removeAll(waitToRemove);
+    System.out.println(groupName);
+}</code></pre>
+<p>这里有两个坑:</p>
+<ul>
+<li>不能在iterator迭代的过程中，对容器进行增删操作。否则会抛出ConcurrentModificationException</li>
+<li>不要在一次迭代中进行多次 <code>iter.next()</code> 操作</li>
+</ul>
+<p>解决办法是：用一个waitToRemove容器，来存放待删除的数据，迭代完成再一并删除。或者用 ListIterator。</p>
+<hr>
+<h1 id="Collection-和-Collections的区别"><a href="#Collection-和-Collections的区别" class="headerlink" title="Collection 和 Collections的区别"></a>Collection 和 Collections的区别</h1><p>Collection是集合类的上级接口，子接口主要有Set 和List、Map。</p>
+<p>Collections是针对集合类的一个帮助类，提供了操作集合的工具方法：一系列静态方法实现对各种集合的搜索、排序、线程安全化等操作。</p>
+<p>例如，对List进行反转：</p>
+<pre><code class="java">List&lt;Blog&gt; blogList = blogService.findAll();
+Collections.reverse(blogList);</code></pre>
+<hr>
+<h1 id="将-数组（Array）-转换为-集合（ArrayList）"><a href="#将-数组（Array）-转换为-集合（ArrayList）" class="headerlink" title="将 数组（Array） 转换为 集合（ArrayList）"></a>将 数组（Array） 转换为 集合（ArrayList）</h1><p>使用 <code>Arrays.asList()</code>方法将数组转换为ArrayList（注意是 Arrays, 不是 Array）</p>
+<pre><code class="java">// java.util.Arrays 源码第 3799 行
+public static &lt;T&gt; List&lt;T&gt; asList(T... a) {
+    return new ArrayList&lt;&gt;(a);
+}</code></pre>
+<ol>
+<li>asList 方法 <strong>不适用</strong> 于基本数据类型（byte,short,int,long,float,double,boolean），但支持它们的包装类</li>
+<li>该方法将数组与列表链接起来，当更新其中之一时，另一个自动更新</li>
+<li>不支持add和remove，也就是说，转换后不能修改，只能读取</li>
+<li>之所以会把原数组和转换后的集合链接起来，还不支持修改的原因是，<strong>asList方法返回的是 Arrays 类的内部类 <code>java.util.Arrays.ArrayList</code>，而不是集合里面的 <code>java.util.ArrayList</code></strong>。</li>
+</ol>
+<p>Arrays.asList方法使用示例：</p>
+<pre><code class="java">String[] s = {&quot;aa&quot;,&quot;bb&quot;,&quot;cc&quot;};
+        List&lt;String&gt; strlist = Arrays.asList(s);
+        strlist.forEach(n-&gt; System.out.println(n));
+        for(String str:strlist){
+            System.out.println(str);
+        }</code></pre>
+<p>在 jdk 1.8 以上，可以用 lambda 替代 foreach 循环</p>
+<pre><code class="java">strlist.forEach(n-&gt; System.out.println(n));
+strlist.forEach(System.out::println);</code></pre>
+<ul>
+<li>lambda的知识可参考 <a href="../post/68278ec8.html">Lambda表达式</a></li>
+</ul>
+<p>如果你要“真正地”把数组转集合，而不是数组的内部类，应该这么做：</p>
+<pre><code class="java">Object[] arr = {obj1, obj2, obj3};
+List&lt;Object&gt; objectList = new java.util.ArrayList&lt;Object&gt;(Arrays.asList(arr));</code></pre>
+<hr>
+<h1 id="Java集合一览"><a href="#Java集合一览" class="headerlink" title="Java集合一览"></a>Java集合一览</h1><table>
+<thead>
+<tr>
+<th>集合</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ArrayList</td>
+<td>一种可以动态增长和缩减的索引序列</td>
+</tr>
+<tr>
+<td>LinkedList</td>
+<td>一种可以在任何位置进行高效地插人和删除操作的有序序列</td>
+</tr>
+<tr>
+<td>ArrayDeque</td>
+<td>一种用循环数组实现的双端队列</td>
+</tr>
+<tr>
+<td>HashSet</td>
+<td>一种没有重复元素的无序集合</td>
+</tr>
+<tr>
+<td>TreeSet</td>
+<td>一种有序集</td>
+</tr>
+<tr>
+<td>EnumSet</td>
+<td>一种包含枚举类型值的集</td>
+</tr>
+<tr>
+<td>LinkedHashSet</td>
+<td>一种可以记住元素插入次序的集</td>
+</tr>
+<tr>
+<td><strong>PriorityQueue</strong></td>
+<td>一种允许高效删除最小元素的集合</td>
+</tr>
+<tr>
+<td>HashMap</td>
+<td>一种存储键 / 值关联的数据结构</td>
+</tr>
+<tr>
+<td>TreeMap</td>
+<td>一种键值有序排列的映射表</td>
+</tr>
+<tr>
+<td>EnumMap</td>
+<td>一种键值属于枚举类型的映射表</td>
+</tr>
+<tr>
+<td>LinkedHashMap</td>
+<td>一种可以记住键 / 值项添加次序的映射表</td>
+</tr>
+<tr>
+<td>WeakHashMap</td>
+<td>一种其值无用武之地后可以被垃圾回收器回收的映射表</td>
+</tr>
+<tr>
+<td>IdentityHashMap</td>
+<td>一种用 = 而不是用 equals 比较键值的映射表</td>
+</tr>
+</tbody></table>
+<h1 id="简要介绍其他集合"><a href="#简要介绍其他集合" class="headerlink" title="简要介绍其他集合"></a>简要介绍其他集合</h1><h2 id="Properties"><a href="#Properties" class="headerlink" title="Properties"></a>Properties</h2><p>Properties类实现了可以很容易地使用纯文本格式保存和加载的映射。是 map 的一种实现。 用于配置文件的定义和操作，使用频率非常高，同时键和值都是字符串。是集合中可以和IO技术相结合的对象。(到了IO在学习它的特有和io相关的功能。)</p>
+<h2 id="BitSet"><a href="#BitSet" class="headerlink" title="BitSet"></a>BitSet</h2><p>BitSet（位组）类用来存储一系列比特。</p>
+<h2 id="stack、queue、deque、PriorityQueue"><a href="#stack、queue、deque、PriorityQueue" class="headerlink" title="stack、queue、deque、PriorityQueue"></a>stack、queue、deque、PriorityQueue</h2><p>不支持从中间添加元素。如果需要用stack、queue、deque且不关心线程安全问题，建议用 ArrayDeque</p>
+<h2 id="WeakHashMap"><a href="#WeakHashMap" class="headerlink" title="WeakHashMap"></a>WeakHashMap</h2><p>WeakHashMap类用来与垃圾回收器配合，当键的唯一引用来自Hash表条目时，就删除键值对。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-01-24T08:59:55.000Z">2018-01-24</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 678 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/76bad10f.html">Java简明笔记（五） 泛型编程</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="什么是泛型类"><a href="#什么是泛型类" class="headerlink" title="什么是泛型类"></a>什么是泛型类</h1><p>假设我们现在有一个存储字符串字典键值对的类，就像这样</p>
+<pre><code class="Java">public class Entry {
+    private int key;
+    private String value;
+
+    // 构造函数：int 类型的 key， String 类型的 value
+    public Entry(int key, String value) {
+      this.key = key;
+      this.value = value;
+    }
+
+    public int getKey() { return key; }
+    public String getValue() { return value; }
+}</code></pre>
+<p>在这个类中，我们用 int 类型来存储 key 值， 用 String 类型来存储 value 值。</p>
+<p>现在，老板要求，除了 int 类型的 key 和 String 类型的 value之外，还得提供其他类型的 key 和 value 。 比如 double 类型的 key， boolean 类型的value。</p>
+<p>我们不可能写很多个相似的类，只是换一下类型。8种基本数据类型或许可以这么干，但是存储的是抽象数据类型呢？我们不可能所有类型都写一个对应的类。</p>
+<p>为了解决这个问题，我们可以用 Java 泛型： 只写一个类，实例化的时候再写明是什么类型就好了。这就是泛型类。</p>
+<p><strong>注意</strong>：泛型仅仅是java的语法糖，它不会影响java虚拟机生成的汇编代码，在编译阶段，虚拟机就会把泛型的类型擦除，还原成没有泛型的代码。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/76bad10f.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-01-23T10:14:26.000Z">2018-01-23</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    19 分钟 读完 (大约 2860 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/2fJava80.html">Java简明笔记（四） 继承</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="什么是继承"><a href="#什么是继承" class="headerlink" title="什么是继承"></a>什么是继承</h1><p>继承是在现有的类的基础上创建新类的过程。继承一个类，你也就重用了它的方法，而且还可以添加新的方法和域。</p>
+<p>举个例子：员工有薪水，管理者有薪水+奖金， 管理者继承员工，增加 bounus 字段和 setBonus 方法即可。这种情况就是管理者类继承了员工类。</p>
+<pre><code class="Java">public class Manager extends Employee {
+  private double bonus;
+  ...
+
+  public void setBonus (double bouns) {
+    this.bonus = bonus;
+  }
+}</code></pre>
+<p><code>Manager</code>类继承了<code>Employee</code>类，除了获得Employee类的变量和方法外，还额外添加了bonus变量和setBonus方法。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/2fJava80.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-01-20T14:27:27.000Z">2018-01-20</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    22 分钟 读完 (大约 3345 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/32811f1d.html">Java简明笔记（三） 接口</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="什么是接口"><a href="#什么是接口" class="headerlink" title="什么是接口"></a>什么是接口</h1><p>假设有一种整数序列服务，这种服务可以计算前n个整数的平均值。就像这样：</p>
+<pre><code class="Java">public static double average(IntSequence seq, int n){
+  ...
+  return average
+}
+</code></pre>
+<p>我们传入一个序列seq，以及我们想计算这个序列的前n个数，它返回平均数。</p>
+<p>然而，这样的序列可以有很多种形式，比如用户给出的序列、随机数序列、素数序列、整数数组中的元素序列……</p>
+<p>现在，我们想实现一种单一机制，来处理所有的这些序列。要做到这一点，就得考虑上面序列的共性。</p>
+<p>不难知道，我们需要两个方法。</p>
+<ol>
+<li>判断是否还有下一个元素</li>
+<li>获得下一个元素</li>
+</ol>
+<p>我们暂时不去想这两个方法具体怎么实现，只是知道需要有这两个方法。于是，我们的average计算平均数服务可以是这样：</p>
+<pre><code class="Java">public static double average(IntSequence seq, int n) {
+  int count = 0;
+  double sum = 0;
+  while (seq.hasNext() &amp;&amp; count &lt; n){
+    count ++;
+    sum += seq.next();
+  }
+  return count == 0 ? 0 : sum / count;
+}</code></pre>
+<p>在Java中，我们把这两种方法声明出来，但不实现，这就是接口了。</p>
+<pre><code class="Java">public interface IntSequence{
+  boolean hasNext();
+  int next();
+}</code></pre>
+<ul>
+<li>接口中所有的方法默认为public</li>
+</ul>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/32811f1d.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-01-18T14:31:07.000Z">2018-01-18</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    37 分钟 读完 (大约 5517 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/ba7990ce.html">Java简明笔记（二） 面向对象</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="Java-创建对象的过程"><a href="#Java-创建对象的过程" class="headerlink" title="Java 创建对象的过程"></a>Java 创建对象的过程</h1><p>当我们实例化一个对象时，例如：</p>
+<pre><code class="java">Person p = new Person();</code></pre>
+<p>Java首先会在堆中开辟一块内存空间用来存放这个新的 Person 对象，然后在栈中创建一个引用 p ， p 指向堆中的 Person 对象。这样，我们通过 p 就能找到 Person 的内存地址。</p>
+<p>之后，我们执行：</p>
+<pre><code class="java">Person p2 = p;</code></pre>
+<p>我们创建了一个新的引用 p2， p2 跟 p 一样，都是保存在栈中，也指向了 Person 对象。当我们改变 p2 的状态， p 也会跟着改变，因为他们指向同一个对象。</p>
+<p><img src="../../../../images/Java/newperson.png" alt="new"></p>
+<hr>
+<h1 id="类块加载顺序"><a href="#类块加载顺序" class="headerlink" title="类块加载顺序"></a>类块加载顺序</h1><p>在一个类中，可能存在：</p>
+<ul>
+<li><strong>静态块</strong>：用 static{ } 声明，JVM 加载类时执行，仅执行一次（<strong>注意</strong>：如果在静态块中声明了变量，如 <code>int a = 1;</code>, 它是一个局部变量，在该静态块执行结束后就会失效）</li>
+<li><strong>构造块</strong>：类中直接用 { } 定义，每一次创建对象时执行</li>
+</ul>
+<p>在有继承关系的类中，加载顺序如下：</p>
+<ol>
+<li>父类静态块</li>
+<li>子类静态块</li>
+<li>父类构造块</li>
+<li>父类构造方法</li>
+<li>子类构造块</li>
+<li>子类构造方法</li>
+</ol>
+<p>注意：如果 main 在该类下，JVM 先加载类，然后才会执行 main() 方法</p>
+<h2 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h2><pre><code class="java">public class Go {
+
+    {
+        System.out.println(&quot;blockA&quot;);
+    }
+
+    static {
+        System.out.println(&quot;blockB&quot;);
+    }
+
+    public static void main(String[] args) {
+
+    }
+}</code></pre>
+<p>输出结果：</p>
+<pre><code>blockB</code></pre><p>main方法什么都不做，但是当我们执行时这个空的main方法，Go类会被JVM加载，因此输出静态块 <code>blockB</code>。</p>
+<h2 id="示例二"><a href="#示例二" class="headerlink" title="示例二"></a>示例二</h2><pre><code class="java">public class Go {
+
+    public static Go t1 = new Go();
+
+    {
+        System.out.println(&quot;blockA&quot;);
+    }
+
+    static {
+        System.out.println(&quot;blockB&quot;);
+    }
+
+    public static void main(String[] args) {
+
+    }
+}</code></pre>
+<p>输出:</p>
+<pre><code>blockA
+blockB</code></pre><p>main()依然什么都不做，但是在JVM加载Go类时（只会加载一次），第一行 new 一个新的 Go 对象，new 的时候调用了构造快，因此输出 <code>blockA</code>，之后，Go类继续加载，执行静态块，输出 <code>blockB</code>。</p>
+<h2 id="示例三"><a href="#示例三" class="headerlink" title="示例三"></a>示例三</h2><pre><code class="java">public class Go {
+
+    public static Go t1 = new Go();
+
+    {
+        System.out.println(&quot;blockA&quot;);
+    }
+
+    static {
+        System.out.println(&quot;blockB&quot;);
+    }
+
+    public static void main(String[] args) {
+        Go t2 = new Go();
+    }
+}</code></pre>
+<p>输出：</p>
+<pre><code>blockA
+blockB
+blockA</code></pre><p>JVM 加载 Go类 时（只会加载一次），第一行 new 一个新的 Go 对象，new 的时候调用了构造快，因此输出 <code>blockA</code>，之后，Go类继续加载，执行静态块，输出 <code>blockB</code>。</p>
+<p>然后 main 方法执行，new 一个 Go，调用构造块，再次输出<code>blockA</code>。</p>
+<hr>
+<h1 id="面向对象的三个特征"><a href="#面向对象的三个特征" class="headerlink" title="面向对象的三个特征"></a>面向对象的三个特征</h1><p>面向对象的三个特征分别是：<strong>封装</strong>、<strong>继承</strong>、<strong>多态</strong>，如果还有的话，<strong>抽象</strong> 也算一个。</p>
+<h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><p>所谓封装，就是将 <strong>数据项</strong> 与 <strong>相关的操作</strong> 结合为一个整体，并将其从外部可见性划分为若干级别（private、protected、public），从而 <strong>将数据结构的外部特性与其内部实现相分离</strong>，提供一致且标准的对外接口，隐藏内部的实现细节。</p>
+<p>封装不仅仅是 private + getter/setter ，使用封装可以对 setter 进行更深层次的定制，例如你可以对执行方法的对象做规定，也可以对数据做一定的要求，还可以做类型转换等等。</p>
+<h3 id="为什么要使用封装？"><a href="#为什么要使用封装？" class="headerlink" title="为什么要使用封装？"></a>为什么要使用封装？</h3><ol>
+<li>使用封装不仅仅安全，更可以简化操作。</li>
+<li>封装还有一个重要的意义，那就是我们可以对程序的正确性进行分析，并且将无意中破坏设计约束的条件变得更难。（《Java并发编程实战》p33）</li>
+</ol>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>当子类继承父类后，子类是一种特殊的父类，能直接或间接获得父类里的成员。</p>
+<h3 id="为什么要使用继承-？"><a href="#为什么要使用继承-？" class="headerlink" title="为什么要使用继承 ？"></a>为什么要使用继承 ？</h3><p>实现软件复用和扩展。</p>
+<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><p>多态就是 <strong>事物在运行过程中存在不同的状态</strong></p>
+<h3 id="多态的三个前提"><a href="#多态的三个前提" class="headerlink" title="多态的三个前提"></a>多态的三个前提</h3><ol>
+<li>有继承关系</li>
+<li>子类要重写父类的方法</li>
+<li>父类引用指向子类对象</li>
+</ol>
+<h3 id="多态的例子"><a href="#多态的例子" class="headerlink" title="多态的例子"></a>多态的例子</h3><p>例如有 Cat 类继承了 Animal 类 ，并重写了 <code>eat()</code>、<code>sleep()</code> 方法(sleep是静态方法，不属于重写，但我们假设 Cat类 也定义了这个方法)，并增加了一个 Animal 没有的 <code>CatchMouse()</code> 方法。</p>
+<p>在测试类中实例化：</p>
+<pre><code class="java">// 这个语句在堆内存中开辟了子类(Cat)的对象，并把栈内存中的父类(Animal)引用指向了这个 Cat 对象
+Animal am = new Cat();
+
+//调用实例方法，调的是 Cat 的方法
+am.eat();
+
+//调用静态方法，调的是 Animal 的方法
+am.sleep(); // 不建议
+
+Animal.sleep(); // 建议</code></pre>
+<p>可以发现，实例方法 <code>am.eat()</code> 输出的是 Cat 类重写后的方法，而静态方法<code>am.sleep()</code> 输出的是 Animal 类的方法（尽管 Cat 也写了同名的 sleep 方法，但这不算 Override，运行时不被识别）</p>
+<p><strong>扩展</strong>：有趣的是，当我们用对象实例去调用静态方法，如<code>am.sleep();</code>，IDEA会给我们一个提示：Static member ‘Test.Animal.sleep()’ accessed via instance reference 。意思是说，建议我们使用 <code>Animal.sleep()</code> 来调用静态方法而不要用 <code>am.sleep()</code>。此外，使用静态变量也应如此。</p>
+<h3 id="多态的弊端"><a href="#多态的弊端" class="headerlink" title="多态的弊端"></a>多态的弊端</h3><p>假如我们要执行父类没有而子类特有的<code>CatchMouse()</code>方法。</p>
+<pre><code class="java">Animal am = new Cat();
+am.CatchMouse();</code></pre>
+<p>结果却编译报错了。</p>
+<p>可见，多态 <strong>不能使用子类特有的成员属性和子类特有的成员方法。</strong></p>
+<p>那怎么办呢？ 这时候就要用到<code>向下转型</code>。可以使用<code>instanceof</code>操作符判断是不是我们需要的引用类型。</p>
+<pre><code class="java">Animal am = new Cat();
+
+//如果 am 可以向下转型为 Cat 类，则类型转换
+if (am instanceof Cat) {
+    Cat ca = (Cat) am;
+    ca.CatchMouse();
+}</code></pre>
+<h3 id="为什么要使用多态？"><a href="#为什么要使用多态？" class="headerlink" title="为什么要使用多态？"></a>为什么要使用多态？</h3><p>当把不同的子类对象都当作父类类型来看，可以屏蔽不同子类对象之间的实现差异，从而写出通用的代码达到通用编程，以适应需求的不断变化。</p>
+<ul>
+<li>关于继承和多态，见另一篇：<a href="../post/2fJava80.html">Java简明笔记（四） 继承</a></li>
+</ul>
+<hr>
+<h1 id="public、protected、private"><a href="#public、protected、private" class="headerlink" title="public、protected、private"></a>public、protected、private</h1><ul>
+<li><strong>public</strong>：所有类可以访问</li>
+<li><strong>protected</strong>： 同一个包可以访问 + 子类可以访问（无论是不是在同一个包中）</li>
+<li><strong>private</strong>： 只有自己能访问</li>
+<li><strong>不修饰(friendly)</strong>：同一个包内可访问</li>
+</ul>
+<hr>
+<h1 id="对象和方法"><a href="#对象和方法" class="headerlink" title="对象和方法"></a>对象和方法</h1><h2 id="Mutator-方法-和-Accessor-方法"><a href="#Mutator-方法-和-Accessor-方法" class="headerlink" title="Mutator 方法 和 Accessor 方法"></a>Mutator 方法 和 Accessor 方法</h2><p>如果一个方法改变了调用它的对象，我们就说这是一个<code>Mutator</code>方法（更改器），反之如果不改变调用自己的对象，它就是<code>Accessor</code>方法 （访问器）。比如 plusDays 方法如果改变 Date对象 的状态，不返回结果，就是<code>Mutator</code>方法，如果 plusDays 不改变 Date对象，而是返回一个新构造的 LocalDate对象，就是<code>Accessor</code>方法。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>Java中，变量只能持有对象的引用。引用是与实现相关的一种定位对象的方式。</li>
+<li>在类的实例上运行的方法称为<code>实例方法</code>。</li>
+<li>Java中，所有没有被声明为<code>static</code>的方法都是实例方法。</li>
+</ul>
+<hr>
+<h1 id="局部变量和类变量"><a href="#局部变量和类变量" class="headerlink" title="局部变量和类变量"></a>局部变量和类变量</h1><p>类中的变量可以不用初始化，使用相应类型的默认值即可，方法中的定义的局部变量必须初始化，否则调用的时候，会导致编译不通过。</p>
+<pre><code class="java">public class Main {
+    // 有默认值 0 和 0.0
+    public int i;
+    public static double d;
+
+    public static void main(String[] args) {
+        // 类中定义的变量可以直接使用
+        System.out.println(Main.d);
+        Main m = new Main();
+        System.out.println(m.i);
+
+        // 方法中定义的变量，必须赋初值，否则调用时编译报错
+        int k;   // 这一步是允许的
+        System.out.println(k); // 报错
+    }
+}</code></pre>
+<hr>
+<h1 id="this"><a href="#this" class="headerlink" title="this"></a>this</h1><h2 id="用于表示实例变量"><a href="#用于表示实例变量" class="headerlink" title="用于表示实例变量"></a>用于表示实例变量</h2><p>在对象上调用方法时，this引用 指向该对象。this 清晰地区分了局部变量和实例变量。带有this的是实例对象。</p>
+<pre><code class="Java">public void raiseSalary(double byPercent){
+  double raise = this.salary * byPercent / 100;
+  this.salary += raise;
+}</code></pre>
+<p>不想给参数起不同的名称时，也可使用this</p>
+<pre><code class="Java">public void setSalary(double salary){
+  this.salary = salary;
+}</code></pre>
+<h2 id="用于构造函数"><a href="#用于构造函数" class="headerlink" title="用于构造函数"></a>用于构造函数</h2><p>一个类可以有多个构造函数。一个构造函数可以调用另一个构造函数，用this。且只能写在第一行。</p>
+<pre><code class="java">public Employee (double salary){
+    // 调用另一个构造器
+    this(&quot;&quot;, salary);
+    // ...
+}</code></pre>
+<hr>
+<h1 id="值传递"><a href="#值传递" class="headerlink" title="值传递"></a>值传递</h1><ul>
+<li>当你将对象传递给方法，方法获得该对象引用的拷贝。</li>
+<li>Java中，所有参数，对象引用以及基本类型值都是值传递。</li>
+</ul>
+<p>下面的例子无法工作，因为sales被复制进x,然后x增加，然而x只是局部变量，这并不更改sales</p>
+<pre><code class="Java">// 无法工作
+public void increaseRandomly(double x){
+  double amount = x * generator.nextDouble();
+  x += amount;
+}
+
+boss.increaseRandomly(sales);</code></pre>
+<p>同样的，不可能写出一个方法将对象引用修改成其他东西。下面的例子中，引用fred被复制进变量e，在e被设置成不同的引用之前是会影响 fred 的，因为他们指向同一个内存区域，<strong>但是，在e设置成不同的引用之后就不再影响 fred</strong> 。</p>
+<pre><code class="Java">public class EvilManager{
+
+  // e 其实是 fred 的拷贝
+  public void replaceWithZombie(Employee e){
+    // 现在，e的 name 属性被设为 angle， fred的angle也会被设为angle
+    // 因为 e 和 fred 虽然是不同的引用，但是他们指向了同一个内存区域
+    e.setName(&quot;angle&quot;);
+
+    // e现在指向了一个新的 Employee ，跟 fred 没有任何关系了
+    // e 往后的改变都不会影响 fred
+    e = new Employee(&quot;&quot;,0);
+    e.setName(&quot;evil&quot;);
+  }
+}
+
+// 将 fred 传给方法
+boss.replaceWithZombie(fred);</code></pre>
+<hr>
+<h1 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h1><ul>
+<li>构造函数的名称与类名称相同。并且不返回任何类型！</li>
+<li>构造函数没有返回类型，如果你不小心加了void，那这是一个名称跟类名相同的方法，不是构造函数。</li>
+<li>构造函数可以重载。</li>
+<li>如果有多个构造函数，将共有代码放在其中一个构造函数里，然后在其他构造函数可以调用另一个构造函数，这时候调用要使用this。且只能作为构造函数方法体的第一条语句。</li>
+</ul>
+<ul>
+<li>构造函数不能被static、final、synchronized、abstract、native修饰，但可以被public、private、protected修饰；</li>
+</ul>
+<pre><code class="Java">public Employee (double salary){
+  this (&quot;&quot;, salary);  //调用构造函数 Employee (String, salary)
+  //...                 //其他内容
+}</code></pre>
+<ul>
+<li>如果构造函数中没有设置实例变量的值，系统会自动设定：数字为0，boolean为False, 对象引用为null。</li>
+<li><strong>尽量不要忘记给对象引用初始化</strong>。假设我们没有在构造函数中将变量name设置为空字符串，那么当有人调用<code>getName</code>方法，如<code>if (e.getName().equals(&quot;Jerry&quot;))</code>，就会导致空指针异常。</li>
+</ul>
+<ul>
+<li><strong>在调用子类构造器之前，会先调用父类构造器</strong>。当子类构造器中没有使用”super(参数或无参数)”指定调用父类构造器时，是默认调用父类的无参构造器，如果父类中包含有参构造器，却没有无参构造器，则在子类构造器中一定要使用“super(参数)”指定调用父类的有参构造器，不然就会报错。</li>
+</ul>
+<hr>
+<h1 id="static"><a href="#static" class="headerlink" title="static"></a>static</h1><h2 id="static方法"><a href="#static方法" class="headerlink" title="static方法"></a>static方法</h2><p>如果将方法声明为static，该方法就是静态方法，即可以不用运行在对象上的方法。<strong>静态方法没有 this 指针</strong>。</p>
+<p>静态方法要调用实例方法前必须先 new 对象，但静态方法可以直接调用其他静态方法（包括其他类的静态方法）。</p>
+<h2 id="static变量（类变量）"><a href="#static变量（类变量）" class="headerlink" title="static变量（类变量）"></a>static变量（类变量）</h2><p>如果在类中将变量声明为static，那么该变量属于类，而不是属于对象，它在所有的实例中的值是一样的。<font color="red">注意：static静态变量只能在类主体中定义，不能在方法里面定义(无论是静态方法还是实例方法)</font></p>
+<p>像下面这样是错误的：</p>
+<pre><code class="java">public static void main(String[] args) {
+    // 错误，static不能用在方法里面
+    // 无论是静态方法还是实例方法都不可以
+    static int a = 10;
+}</code></pre>
+<h2 id="静态变量和实例变量的区别"><a href="#静态变量和实例变量的区别" class="headerlink" title="静态变量和实例变量的区别"></a>静态变量和实例变量的区别</h2><p>实例变量属于某个对象的属性，必须创建了实例对象，其中的实例变量才会被分配空间，才能使用这个实例变量。静态变量不属于某个实例对象，而是属于类，所以也称为类变量，只要程序加载了类的字节码，不用创建任何实例对象，静态变量就会被分配空间，静态变量就可以被使用了。</p>
+<p><strong>总之，实例变量必须创建对象后才可以通过这个对象来使用，静态变量则可以直接使用类名来引用。</strong></p>
+<h2 id="静态方法可以被-Override-吗？"><a href="#静态方法可以被-Override-吗？" class="headerlink" title="静态方法可以被 Override 吗？"></a>静态方法可以被 Override 吗？</h2><p>不能。因为 Override 是基于运行时动态绑定的，而 static 方法是编译时静态绑定的。static 方法跟类的任何实例都不相关。</p>
+<h2 id="静态方法常见用法"><a href="#静态方法常见用法" class="headerlink" title="静态方法常见用法"></a>静态方法常见用法</h2><p><strong>工厂方法</strong>：工厂方法是指返回一个类的新实例的静态方法。</p>
+<hr>
+<h1 id="final"><a href="#final" class="headerlink" title="final"></a>final</h1><h2 id="final-修饰类"><a href="#final-修饰类" class="headerlink" title="final 修饰类"></a>final 修饰类</h2><p>表示该类不能被继承。此时和 abstract 是反义词。</p>
+<h2 id="final-修饰方法"><a href="#final-修饰方法" class="headerlink" title="final 修饰方法"></a>final 修饰方法</h2><p>表示方法不能被 Override(覆盖)。</p>
+<h2 id="final-修饰变量"><a href="#final-修饰变量" class="headerlink" title="final 修饰变量"></a>final 修饰变量</h2><p>通常用 <code>static final</code> 表示常量，如:</p>
+<pre><code class="java"> public static final double PI = 3.14159265358979323846;</code></pre>
+<p><strong>注意</strong>：当使用可修改对象的引用时，fianl修饰符只是声明该引用永不改变。<font color="red">但修改对象自身是完全合法的。</font></p>
+<p>下面的例子中，ArrayList 集合里面具体的值可以修改，但 friends 这个引用不能改变，尤其是不能变成null。</p>
+<pre><code class="Java">public class Person{
+  private final ArrayList&lt;Person&gt; friends = new ArrayList&lt;&gt;();
+  //可以给该数组列表添加元素
+  ...
+}</code></pre>
+<p><strong>注意</strong>：当 final 变量作为类的成员变量时，必须显示初始化或者在构造函数中初始化。</p>
+<pre><code class="java">public class A{
+  // 允许，但是构造函数中必须初始化 i
+  final int i;
+
+  // 正确
+  final int j = 4;
+}</code></pre>
+<hr>
+<h1 id="abstract"><a href="#abstract" class="headerlink" title="abstract"></a>abstract</h1><p>abstract指的是抽象，即没有实现，也不能被实例化。此外，接口属于特殊的 abstract 类，也是 abstract 类。</p>
+<h2 id="abstract-修饰类"><a href="#abstract-修饰类" class="headerlink" title="abstract 修饰类"></a>abstract 修饰类</h2><p>抽象类。抽象类中可以有抽象方法，也可以有实现方法。抽象类可以有 <code>private</code> 变量。但最好不要这么干。因为实现类继承了将会无法使用。</p>
+<h2 id="abstract-修饰方法"><a href="#abstract-修饰方法" class="headerlink" title="abstract 修饰方法"></a>abstract 修饰方法</h2><p>抽象方法。abstract 方法必须在 abstract 类或接口中。</p>
+<hr>
+<h1 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h1><p>Java 中的内部类分为</p>
+<ol>
+<li>成员内部类</li>
+<li>局部内部类</li>
+<li>静态内部类</li>
+<li>匿名类</li>
+</ol>
+<h2 id="内部类简述"><a href="#内部类简述" class="headerlink" title="内部类简述"></a>内部类简述</h2><h3 id="成员内部类"><a href="#成员内部类" class="headerlink" title="成员内部类"></a>成员内部类</h3><p>即在类里面嵌套另一个类，内部类可以直接访问外部类 private 实例属性。也就是说，成员内部类可以无条件访问外部类的成员。</p>
+<p>实例化方法：</p>
+<pre><code>内部类名 实例名 = 外部类实例名.new 内部类名();</code></pre><h3 id="局部内部类"><a href="#局部内部类" class="headerlink" title="局部内部类"></a>局部内部类</h3><p>局部内部类是定义在一个方法或者一个作用域里面的类，它和成员内部类的区别在于局部内部类的访问仅限于方法内或者该作用域内。局部内部类就像是方法里面的一个局部变量一样，不能有public、protected、private 以及 static 修饰符。</p>
+<h3 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h3><p>与非静态内部类不同，静态内部类的实例化 不需要一个外部类的实例为基础，可以直接实例化。</p>
+<p>只有静态内部类才可以声明静态方法。静态方法不可以使用非静态变量。</p>
+<p>实例化方法：</p>
+<pre><code>内部类名 实例名 = new 内部类名();</code></pre><h3 id="匿名类"><a href="#匿名类" class="headerlink" title="匿名类"></a>匿名类</h3><p>通常情况下，要使用一个接口或者抽象类，都必须创建一个子类，有的时候，为了快速使用，直接实例化一个抽象类，并“当场”实现其抽象方法。这就是匿名类。</p>
+<p>简单地说，匿名类就是声明一个类的同时实例化它。</p>
+<ul>
+<li>匿名类可以用 lambda 表达式替代。</li>
+<li>在匿名类中使用外部的局部变量，外部的局部变量必须修饰为final （但 jdk 1.8 以后不用声明为 final， jdk 会为你加）</li>
+</ul>
+<pre><code class="java">class jump implements Runnable {
+    public void run(){
+        System.out.println(&quot;jump now&quot;);
+    }
+}
+
+public class test {
+    public static void main(String[] args) {
+        //不使用匿名类
+        Runnable r = new jump();
+        Thread t1 = new Thread(r);
+        t1.start();
+
+        //使用匿名类
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(&quot;swim now&quot;);
+            }
+        }).start();
+
+        //使用 lambda 表达式
+        new Thread( () -&gt; System.out.println(&quot;go away now&quot;)).start();
+    }
+}
+</code></pre>
+<h2 id="为什么使用内部类-？"><a href="#为什么使用内部类-？" class="headerlink" title="为什么使用内部类 ？"></a>为什么使用内部类 ？</h2><ol>
+<li>每个内部类都能独立的继承一个接口的实现，所以无论外部类是否已经继承了某个(接口的)实现，对于内部类都没有影响。内部类使得多继承的解决方案变得完整。</li>
+<li>方便将存在一定逻辑关系的类组织在一起，又可以对外界隐藏。</li>
+<li>方便编写事件驱动程序</li>
+<li>方便编写线程代码</li>
+</ol>
+<h2 id="为什么成员内部类可以无条件访问外部类的成员？"><a href="#为什么成员内部类可以无条件访问外部类的成员？" class="headerlink" title="为什么成员内部类可以无条件访问外部类的成员？"></a>为什么成员内部类可以无条件访问外部类的成员？</h2><p>当我们有一个外部类 Outter，里面包含一个成员内部类 Inner，编译之后会生成两个文件：</p>
+<ol>
+<li>Outter.class</li>
+<li>Outter$Inner.class</li>
+</ol>
+<p>在 Outter$Inner.class 文件中，可以找到：</p>
+<pre><code class="java">final com.jerrysheh.Outter this$0;</code></pre>
+<p>也就是说，编译器会默认 <font color="red">为成员内部类添加了一个指向外部类对象的引用</font></p>
+<p>那么这个引用如何赋初值呢？看一下构造器：</p>
+<pre><code class="java">public com.jerrysheh.Outter$Inner(com.jerrysheh.Outter);</code></pre>
+<p>也就是说，<font color="red">内部类对象被构造的时候，自动传入了一个外部类对象的引用，因此可以在成员内部类中随意访问外部类的成员。</font></p>
+<h2 id="为什么局部内部类和匿名内部类只能访问局部final变量？"><a href="#为什么局部内部类和匿名内部类只能访问局部final变量？" class="headerlink" title="为什么局部内部类和匿名内部类只能访问局部final变量？"></a>为什么局部内部类和匿名内部类只能访问局部final变量？</h2><p>方法 A 中定义了局部内部类 B，当 方法A 执行完毕，已经结束作用域，如果内部类 B 的方法（可能由另一个线程执行）还没结束，但由于 A 结束作用域，方法 A 的变量 a 会不可访问。为了解决这一问题， Java 采用了 <strong>复制</strong> 的手段，即把方法 A 的变量 a 复制一份到内部类 B 的常量池。</p>
+<p>但是复制过后会产生不一致的问题，也就是内部类的方法修改了 a ， 但是外部类的 a 没有改变。</p>
+<p>因此，Java 规定，只能访问 final ，以避免上述问题。</p>
+<blockquote>
+<p>引申: Java是如何复制的 ？ 如果局部变量的值在编译期间就可以确定，则直接在匿名内部里面创建一个拷贝。如果局部变量的值无法在编译期间确定，则通过构造器传参的方式来对拷贝进行初始化赋值。</p>
+</blockquote>
+<hr>
+<h1 id="枚举类的用法"><a href="#枚举类的用法" class="headerlink" title="枚举类的用法"></a>枚举类的用法</h1><p>枚举类有多少个实例，就会调用多少次构造方法。</p>
+<h2 id="例子一"><a href="#例子一" class="headerlink" title="例子一"></a>例子一</h2><p>定义了一个枚举类，成员 <code>KBMH(&quot;hello&quot;)</code> ，如果括号里面是 String 的话，下面相应的要定义一个 <code>String ID</code> 。</p>
+<pre><code class="java">public enum ComicTypeEnum {
+    KBMH(&quot;/category/weimanhua/kbmh&quot;),        // 恐怖漫画
+    GSMH(&quot;/category/weimanhua/gushimanhua&quot;),  // 故事漫画
+    QQMH(&quot;/category/weimanhua/qiqumanhua&quot;),   // 奇趣漫画
+    GXMH(&quot;/category/weimanhua/gaoxiaomanhua&quot;); // 搞笑漫画
+
+    String ID;
+
+    ComicTypeEnum(String ID){
+        this.ID = ID;
+    }
+
+    public String getID() {
+        return ID;
+    }
+}</code></pre>
+<p>使用：</p>
+<pre><code class="java">String storyComic = ComicTypeEnum.GSMH.getID();</code></pre>
+<h2 id="例子二"><a href="#例子二" class="headerlink" title="例子二"></a>例子二</h2><p>定义枚举类型：</p>
+<pre><code class="java">enum Weekday {
+    MON,
+    TUE,
+    WED,
+    THU,
+    FRI,
+    SAT,
+    SUN
+};</code></pre>
+<p>使用：</p>
+<pre><code class="java">Weekday startDay = Weekday.MON;</code></pre>
+<hr>
+<h1 id="面向对象的五个基本原则"><a href="#面向对象的五个基本原则" class="headerlink" title="面向对象的五个基本原则"></a>面向对象的五个基本原则</h1><h2 id="单一职责原则（Single-Resposibility-Principle）"><a href="#单一职责原则（Single-Resposibility-Principle）" class="headerlink" title="单一职责原则（Single-Resposibility Principle）"></a>单一职责原则（Single-Resposibility Principle）</h2><p>一个类，最好只做一件事，只有一个引起它的变化。单一职责原则可以看做是低耦合、高内聚在面向对象原则上的引申，将职责定义为引起变化的原因，以提高内聚性来减少引起变化的原因。</p>
+<h2 id="开放封闭原则（Open-Closed-principle）"><a href="#开放封闭原则（Open-Closed-principle）" class="headerlink" title="开放封闭原则（Open-Closed principle）"></a>开放封闭原则（Open-Closed principle）</h2><p>软件实体应该是可扩展的，而不可修改的。也就是，对扩展开放，对修改封闭的。</p>
+<h2 id="Liskov替换原则（Liskov-Substituion-Principle）"><a href="#Liskov替换原则（Liskov-Substituion-Principle）" class="headerlink" title="Liskov替换原则（Liskov-Substituion Principle）"></a>Liskov替换原则（Liskov-Substituion Principle）</h2><p>子类必须能够替换其基类。这一思想体现为对继承机制的约束规范，只有子类能够替换基类时，才能保证系统在运行期内识别子类，这是保证继承复用的基础。</p>
+<h2 id="依赖倒置原则（Dependecy-Inversion-Principle）"><a href="#依赖倒置原则（Dependecy-Inversion-Principle）" class="headerlink" title="依赖倒置原则（Dependecy-Inversion Principle）"></a>依赖倒置原则（Dependecy-Inversion Principle）</h2><p>依赖于抽象。具体而言就是高层模块不依赖于底层模块，二者都同依赖于抽象；抽象不依赖于具体，具体依赖于抽象。</p>
+<h2 id="接口隔离原则（Interface-Segregation-Principle）"><a href="#接口隔离原则（Interface-Segregation-Principle）" class="headerlink" title="接口隔离原则（Interface-Segregation Principle）"></a>接口隔离原则（Interface-Segregation Principle）</h2><p>使用多个小的专门的接口，而不要使用一个大的总接口</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-11-05T14:40:39.000Z">2017-11-05</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    22 分钟 读完 (大约 3264 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/b3088ac5.html">Java简明笔记（一） 基础知识</a>
+            
+        </h1>
+        <div class="content">
+            <p><img src="../../../../images/Java/java.jpg" alt="java"></p>
+<h1 id="Java-与-C-的区别"><a href="#Java-与-C-的区别" class="headerlink" title="Java 与 C++ 的区别"></a>Java 与 C++ 的区别</h1><ol>
+<li>C++支持多重继承，Java不支持，但可以实现多接口。（引申：多重继承菱形问题）</li>
+<li>自动内存管理</li>
+<li>java不支持goto语句</li>
+<li><strong>引用与指针</strong>：在Java中不可能直接操作对象本身，所有的对象都由一个引用指向，必须通过这个引用才能访问对象本身，包括获取成员变量的值，改变对象的成员变量，调用对象的方法等。而在 C++ 中存在引用，对象和指针三个东西，这三个东西都可以访问对象。其实，Java中的引用和C++中的指针在概念上是相似的，他们都是存放的对象在内存中的地址值，只是在Java中，引用丧失了部分灵活性，比如 Java 中的引用不能像 C++ 中的指针那样进行加减运算。</li>
+</ol>
+<hr>
+<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><p>在 Java 中，数据类型分为两类：<strong>基本数据类型（primitive type）</strong> 和 <strong>引用类型（reference type）</strong>。</p>
+<h2 id="八（九）种基本数据类型"><a href="#八（九）种基本数据类型" class="headerlink" title="八（九）种基本数据类型"></a>八（九）种基本数据类型</h2><table>
+<thead>
+<tr>
+<th>基本类型</th>
+<th>大小(字节)</th>
+<th>默认值</th>
+<th>封装类</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>byte</td>
+<td>1</td>
+<td>(byte)0</td>
+<td>Byte</td>
+</tr>
+<tr>
+<td>short</td>
+<td>2</td>
+<td>(short)0</td>
+<td>Short</td>
+</tr>
+<tr>
+<td>int</td>
+<td>4</td>
+<td>0</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>long</td>
+<td>8</td>
+<td>0L</td>
+<td>Long</td>
+</tr>
+<tr>
+<td>float</td>
+<td>4</td>
+<td>0.0f</td>
+<td>Float</td>
+</tr>
+<tr>
+<td>double</td>
+<td>8</td>
+<td>0.0d</td>
+<td>Double</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>-</td>
+<td>false</td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td>char</td>
+<td>2</td>
+<td>\u0000(null)</td>
+<td>Character</td>
+</tr>
+<tr>
+<td>void</td>
+<td>-</td>
+<td>-</td>
+<td>Void</td>
+</tr>
+</tbody></table>
+<ul>
+<li>在数字后面加 L 后缀即表示long类型（如 <code>400000000L</code>），在数字前面类型转换即可表示Byte或short类型 （如 <code>(byte)127</code>）</li>
+<li>在浮点数后面加 f 后缀表示 float，否则默认为double</li>
+<li>关于 void，有些书认为不属于基本数据类型，虽然 Java api 中并未说明，但有些书籍如《Thinking in Java》将其也划进去。</li>
+</ul>
+<h2 id="数据类型转换"><a href="#数据类型转换" class="headerlink" title="数据类型转换"></a>数据类型转换</h2><p>数据类型转换分为 <strong>自动转换</strong> 和 <strong>强制转换</strong>。</p>
+<h3 id="自动转换"><a href="#自动转换" class="headerlink" title="自动转换"></a>自动转换</h3><p>程序在执行过程中 “悄然” 进行的转换，不需要用户提前声明，<font color="red">一般是从位数低的类型向位数高的类型转换。</font></p>
+<p>Java中的 byte，short，char 进行计算时都会提升为 int 类型。</p>
+<p>int &lt; long &lt; float &lt; double， 如果有一个操作数是 double 型，计算结果是double型。</p>
+<pre><code class="java">byte b = 1;
+short s = 2;
+int i = b + s; // b 和 s 会自动转换为 int
+
+double d = i + 3.0; // i 会被自动转换为 double</code></pre>
+<h3 id="强制转换"><a href="#强制转换" class="headerlink" title="强制转换"></a>强制转换</h3><p>必须在代码中声明，转换顺序不受限制。使用 括号（） 来声明要转换的类型。</p>
+<pre><code class="java">Person p = new Student();
+Student s = (Student) p;</code></pre>
+<h2 id="基本数据类型的-操作"><a href="#基本数据类型的-操作" class="headerlink" title="基本数据类型的 ++ 操作"></a>基本数据类型的 ++ 操作</h2><pre><code class="java">public static void main(String[] args) {
+    int i = 0;
+    int j = i++;
+    System.out.println(&quot;i: &quot; + i);
+    System.out.println(&quot;j: &quot;+ j);
+
+    int m = 0;
+    int n = ++m;
+    System.out.println(&quot;m: &quot; + m);
+    System.out.println(&quot;n: &quot;+ n);
+}</code></pre>
+<p>输出：</p>
+<pre><code>i: 1
+j: 0
+m: 1
+n: 1</code></pre><p>这个例子中，<code>i++</code> 先把 i 的值赋给 j，然后 i 自增。</p>
+<p><code>++m</code>，先把 m + 1 的值赋给 n， 然后 m 自增。</p>
+<p>也就是说，无论是 <code>i++</code> 还是 <code>++i</code> ，都是先赋值，后自增。</p>
+<h2 id="左移右移"><a href="#左移右移" class="headerlink" title="左移右移"></a>左移右移</h2><ul>
+<li><code>&lt;&lt;</code>表示左移位</li>
+<li><code>&gt;&gt;</code>表示带符号右移位</li>
+<li><code>&gt;&gt;&gt;</code>表示无符号右移</li>
+<li>没有 <code>&lt;&lt;&lt;</code> 运算符</li>
+</ul>
+<p>右移要特别注意一下，由于计算机数据位以补码表示，正数符号位位0，负数符号位位1，因此，正数的右移（&gt;&gt;）前面补0，负数的右移（&gt;&gt;）前面补1。但是，如果是无符号右移（&gt;&gt;&gt;），符号位失去特权，一律补0。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/b3088ac5.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="J.e" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Java虚拟机（一）JVM 基础和类的加载 - J.e</title>
+
+
+    <meta name="description" content="什么是Java虚拟机Java的理念是“一次编译，到处运行”。我们平时编写的 Java 代码，经过Java编译器编译后会生成一种 .class 文件，称为字节码文件。Java虚拟机（Java Virtual Machine，JVM）就是负责将字节码文件翻译成特定平台下的机器码然后运行的软件，其本身是由C&#x2F;C++编写。  JVM 如何让 Java 程序跨平台？JVM 将字节码翻译成机器码然后运行，也就">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java虚拟机（一）JVM 基础和类的加载">
+<meta property="og:url" content="https://jerrysheh.me/post/3ebede8.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="什么是Java虚拟机Java的理念是“一次编译，到处运行”。我们平时编写的 Java 代码，经过Java编译器编译后会生成一种 .class 文件，称为字节码文件。Java虚拟机（Java Virtual Machine，JVM）就是负责将字节码文件翻译成特定平台下的机器码然后运行的软件，其本身是由C&#x2F;C++编写。  JVM 如何让 Java 程序跨平台？JVM 将字节码翻译成机器码然后运行，也就">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-08-04T04:53:58.000Z">
+<meta property="article:modified_time" content="2019-10-18T11:05:46.531Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JVM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Java虚拟机（一）JVM 基础和类的加载" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-08-04T04:53:58.000Z">2018-08-04</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">Java虚拟机</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    22 分钟 读完 (大约 3317 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Java虚拟机（一）JVM 基础和类的加载
+            
+        </h1>
+        <div class="content">
+            <h1 id="什么是Java虚拟机"><a href="#什么是Java虚拟机" class="headerlink" title="什么是Java虚拟机"></a>什么是Java虚拟机</h1><p>Java的理念是“一次编译，到处运行”。我们平时编写的 Java 代码，经过Java编译器编译后会生成一种 .class 文件，称为字节码文件。<font color="red">Java虚拟机（Java Virtual Machine，JVM）就是负责将字节码文件翻译成特定平台下的机器码然后运行的软件，其本身是由C/C++编写</font>。</p>
+<p><img src="../../../../images/Java/dotclass.png" alt="dotclass"></p>
+<h2 id="JVM-如何让-Java-程序跨平台？"><a href="#JVM-如何让-Java-程序跨平台？" class="headerlink" title="JVM 如何让 Java 程序跨平台？"></a>JVM 如何让 Java 程序跨平台？</h2><p>JVM 将字节码翻译成机器码然后运行，也就是说，只要在不同平台上安装对应的 JVM，就可以运行字节码文件，运行我们编写的 Java 程序。</p>
+<p>而这个过程，我们编写的 Java 程序没有任何改变，仅仅是通过 JVM 这一 “中间层” ，就能在不同平台上运行，真正实现了 “一次编译，到处运行” 的目的。 <font color="red"> 需要注意的是，JVM 本身是用 C/C++ 开发的，是编译后的机器码，不能跨平台，不同平台下需要安装不同版本的 JVM。</font></p>
+<p><img src="../../../../images/Java/JVM.png" alt="JVM"></p>
+<a id="more"></a>
+
+<h2 id="JVM的“无关性”"><a href="#JVM的“无关性”" class="headerlink" title="JVM的“无关性”"></a>JVM的“无关性”</h2><p>JVM 是 <strong>平台无关的</strong>，即不同的操作系统安装的是不同的JVM，但作用一样。JVM 还是 <strong>语言无关的</strong>。Java 源代码通过javac编译器编译成 .class 文件，之后 JVM 执行 .class 文件从而程序开始运行。也就是说，JVM 只认识 .class 文件，而不管何种语言生成了 .class 文件，只要 class 文件符合 JVM 的规范就能运行。因此，除了 Java 之外，像 Scala、Kotlin、Jython 等语言也能够运行在 JVM 上。</p>
+<hr>
+<h1 id="JVM的组成"><a href="#JVM的组成" class="headerlink" title="JVM的组成"></a>JVM的组成</h1><p>JVM由四个部分组成：</p>
+<ul>
+<li><strong>类加载器</strong>：负责在 JVM 启动时或者类运行时将需要的类加载到 JVM 中</li>
+<li><strong>内存区域</strong>：将内存划分为几个区域，模拟实际机器上的存储、记录和调度</li>
+<li><strong>执行引擎</strong>：执行字节码指令，相当于实际机器上的 CPU</li>
+<li><strong>本地方法调用</strong>：调用 C/C++ 实现的本地方法</li>
+</ul>
+<p><img src="../../../../images/Java/JVM_component.png" alt="JVM_component"></p>
+<hr>
+<h1 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h1><h2 id="类加载器的作用"><a href="#类加载器的作用" class="headerlink" title="类加载器的作用"></a>类加载器的作用</h2><p>编译器生成的许多 .class 字节码文件，其实就是一个个的 Java 类。类加载器负责读取这些字节码，加载进JVM的方法区，并在内存中生成 java.lang.Class 类的一个实例对象作为外界访问这个类的接口。每个这样的实例用来表示一个 Java 类。通过此实例的 newInstance() 方法就可以创建出该类的一个对象。实际的情况可能更加复杂，比如 Java 字节代码可能是通过工具动态生成的，也可能是通过网络下载的。</p>
+<blockquote>
+<p>在 JDK 6 中，java.lang.Class 类的实例对象是放在方法区的，但是在 JDK 7 和 8 中放在堆里面。</p>
+</blockquote>
+<h2 id="类加载器如何加载-class-文件？（即把一个类装入JVM）"><a href="#类加载器如何加载-class-文件？（即把一个类装入JVM）" class="headerlink" title="类加载器如何加载 class 文件？（即把一个类装入JVM）"></a>类加载器如何加载 class 文件？（即把一个类装入JVM）</h2><p>在Java中，类加载是在程序运行期间完成的 ，ClassLoader 把一个类装入JVM的步骤如下：</p>
+<p><img src="../../../../images/Java/load.png" alt="classloader"></p>
+<h3 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h3><ol>
+<li><strong>获取二进制字节流</strong>：根据一个类的全限定名来获取其定义的二进制字节流（找到对应的 .class 文件）</li>
+<li><strong>转换数据结构</strong>：将二进制字节流所代表的静态存储结构转化为方法区的运行时数据结构。同时进行初步校验（cafebabe、常量池、文件长度、是否有父类等）</li>
+<li><strong>生成Class类对象</strong>：在内存中生成一个代表这个类的 java.lang.Class 对象，作为这个类的访问入口</li>
+</ol>
+<p>在加载阶段，开发人员既可以使用系统提供的类加载器来完成加载，也可以自定义自己的类加载器来完成加载。加载阶段完成后，虚拟机外部的二进制字节流就按照虚拟机所需的格式存储在方法区之中，而且在 Java 内存中也创建一个 java.lang.Class 类的对象，这样便可以通过该对象访问方法区中的这些数据。</p>
+<p><img src="../../../../images/Java/how_classloader_load_class.png" alt="load"></p>
+<h4 id="从哪里加载？"><a href="#从哪里加载？" class="headerlink" title="从哪里加载？"></a>从哪里加载？</h4><p>一般二进制字节流都是从已经编译好的本地 .class 文件中读取，但其实还可以从 .jar / .war / JSP动态生成的class类 / 数据库 或 网络 中读取。</p>
+<h4 id="类加载-和-数组加载-过程有什么区别？"><a href="#类加载-和-数组加载-过程有什么区别？" class="headerlink" title="类加载 和 数组加载 过程有什么区别？"></a>类加载 和 数组加载 过程有什么区别？</h4><p>当我们声明一个数组，例如：</p>
+<pre><code class="java">String[] str = new String[10];</code></pre>
+<p>这个数组也是有类型的，称为数组类型。在 Java 层面，我们说这个数组的类型是 String[]， 但在 JVM 层面，类型是<code>[Ljava.lang.String</code> (二维数组是 <code>[[Ljava.lang.String</code> ) ，而 java.lang.String 只是数组里面元素的类型。</p>
+<p>当程序在运行过程中遇到 new 关键字创建一个数组时，由 JVM 直接创建数组类，再由类加载器创建数组中的元素类。而普通类的加载由类加载器完成，既可以使用系统提供的引导类加载器，也可以使用用户自定义的类加载器。</p>
+<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p>在这个阶段，JVM需要完成三件事：</p>
+<ol>
+<li><strong>校验</strong>：检查载入的Class文件正确性，包含文件格式验证、元数据验证、字节码验证和符号引用验证。</li>
+<li><strong>准备</strong>：给类的 <font color="red">静态变量</font> 分配内存并设置零值（此时还未赋值）。但被 final 修饰的除外。</li>
+<li><strong>解析</strong>：将符号引用（Symbolic References）转化成直接引用。（符号引用就是一组符号来描述目标，可以是任何字面量。直接引用就是直接指向目标的指针、相对偏移量或一个间接定位到目标的句柄。）</li>
+</ol>
+<h4 id="准备阶段静态变量"><a href="#准备阶段静态变量" class="headerlink" title="准备阶段静态变量"></a>准备阶段静态变量</h4><p>我们在 java 中编写：</p>
+<pre><code class="java">// 在准备阶段， str1 是 null， str2 是 &quot;zxc&quot;
+public static str1 = &quot;jerry&quot;;
+public static final str2 = &quot;zxc&quot;;</code></pre>
+<p>在准备阶段， str1 会先被赋初值 null，此时还没有被赋予 <code>jerry</code> 这个值。但假如是 final 修饰，在编译阶段就会将初始值存入 constantValue 属性中，在准备阶段就将 constantValue 的值赋给该字段，所以此时str2已经是 <code>zxc</code> 了 ，而不是 null 。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>对类的静态变量和静态代码块进行赋值。例如我们在程序中编写：</p>
+<pre><code class="java">// 在初始化阶段，str1 被赋值为 jerry
+public static str1 = &quot;jerry&quot;;</code></pre>
+<p>在链接阶段， str1 还是 null， 在初始化阶段，str1 就被赋值为 <code>jerry</code> 了。</p>
+<h4 id="初始化的步骤"><a href="#初始化的步骤" class="headerlink" title="初始化的步骤"></a>初始化的步骤</h4><ol>
+<li>假如这个类还没有被加载和链接，则程序先加载并链接该类</li>
+<li><strong>假如该类的直接父类还没有被初始化，则先初始化其直接父类</strong></li>
+<li>假如类中有静态初始化语句，则系统依次执行这些初始化语句</li>
+</ol>
+<h4 id="什么时候初始化？-初始化的条件"><a href="#什么时候初始化？-初始化的条件" class="headerlink" title="什么时候初始化？(初始化的条件)"></a>什么时候初始化？(初始化的条件)</h4><ol>
+<li>在运行过程中遇到 new、getstatic、putstatic、invokestatic 这四个字节码指令时，如果类尚未初始化，那就要进行初始化。getstatic 和 putstatic 用于读取、设置一个类的静态成员变量(不包括final修饰的静态变量)，invokestatic用于调用一个类的静态成员函数。</li>
+<li>使用java.lang.reflect进行反射调用的时候，如果类没有初始化，那就需要初始化；</li>
+<li>当初始化一个类的时候，若其父类尚未初始化，那就先要让其父类初始化，然后再初始化本类；</li>
+<li>当虚拟机启动时，虚拟机会首先初始化带有main方法的类，即主类；</li>
+</ol>
+<p>直接满足初始化的这4个条件的情况叫做<strong>主动引用</strong>；间接满足上述初始化过程的情况叫做<strong>被动引用</strong>。下文有举例。</p>
+<h2 id="双亲委派机制"><a href="#双亲委派机制" class="headerlink" title="双亲委派机制"></a>双亲委派机制</h2><p>类加载器 ClassLoader 是具有层次结构的：</p>
+<p><img src="../../../../images/Java/classloader.png" alt="classloader"></p>
+<p>JVM装载类时，使用了双亲委派机制：</p>
+<ul>
+<li><strong>全盘负责</strong>：当一个ClassLoader装载一个类时，除非显示地使用另一个ClassLoader，则该类所依赖及引用的类也由这个ClassLoader载入。</li>
+<li><strong>双亲委派</strong>：加载一个类时，先委托父装载器寻找目标类，找不到时才从自己的类路径找。</li>
+</ul>
+<p>举个栗子，像 java.lang.Object 这些存放在 rt.jar 中的类，无论使用哪个类加载器加载，最终都会委派给最顶端的 RootClassLoader 加载，从而使得不同加载器加载的 Object 类都是同一个。之所以这样设计，是从安全角度考虑的，试想如果有人恶意编写了一个 java.lang.String 类并装载到 JVM 中，我们使用 String 的时候就可能执行了恶意的 String 而不是 Java 提供的 Stirng。有了全盘负责委托机制，java.lang.String 永远是由 RootClassLoader 来加载，避免了上述安全隐患。</p>
+<h3 id="双亲委派过程"><a href="#双亲委派过程" class="headerlink" title="双亲委派过程"></a>双亲委派过程</h3><ol>
+<li>首先检查类是否被加载；</li>
+<li>若未加载，则调用父类加载器的 loadClass 方法；</li>
+<li>若该方法抛出 ClassNotFoundException 异常，则表示父类加载器无法加载，则当前类加载器调用 findClass 加载类；</li>
+<li>若父类加载器可以加载，则直接返回Class对象；</li>
+</ol>
+<h2 id="类加载器如何判断两个-Java-类是相同的-？"><a href="#类加载器如何判断两个-Java-类是相同的-？" class="headerlink" title="类加载器如何判断两个 Java 类是相同的  ？"></a>类加载器如何判断两个 Java 类是相同的  ？</h2><p>Java 虚拟机不仅要看类的全名是否相同，还要看加载此类的类加载器是否一样。只有两者都相同的情况，才认为两个类是相同的。即便是同样的字节代码，被不同的类加载器加载之后所得到的类，也是不同的。</p>
+<h2 id="什么时候需要自定义类加载器？"><a href="#什么时候需要自定义类加载器？" class="headerlink" title="什么时候需要自定义类加载器？"></a>什么时候需要自定义类加载器？</h2><ol>
+<li>需要隔离加载类的时候。在某些框架中，应用和中间件依赖的jar包要隔离开来，用不同的类加载器确保不会互相影响。</li>
+<li>需要修改类的加载方式时</li>
+<li>需要扩展加载源时，例如从网络、数据库等地方加载</li>
+<li>防止源码泄露，用自己的类加载器还原加密的字节码</li>
+</ol>
+<hr>
+<h1 id="主动引用与被动引用"><a href="#主动引用与被动引用" class="headerlink" title="主动引用与被动引用"></a>主动引用与被动引用</h1><p>直接满足初始化4个条件的情况叫做<strong>主动引用</strong>；间接满足上述初始化过程的情况叫做<strong>被动引用</strong>。</p>
+<h2 id="被动引用的例子"><a href="#被动引用的例子" class="headerlink" title="被动引用的例子"></a>被动引用的例子</h2><h3 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h3><pre><code class="java">public class Father{
+    public static String name = &quot;jerry&quot;;
+
+    static{
+        System.out.println(&quot;父类被初始化！&quot;);
+    }
+}
+
+public class Son extends Father{
+    static{
+        System.out.println(&quot;子类被初始化！&quot;);
+    }
+}
+
+public static void main(String[] args){
+    System.out.println(Son.name);
+}</code></pre>
+<p>输出结果：</p>
+<pre><code>父类被初始化！
+jerry</code></pre><p>在这个例子中，似乎满足初始化条件的第一条：<strong>读取、设置一个类的静态成员变量</strong>。那为什么调用的是子类的name，子类却没有被初始化呢？ 原因是：这个静态成员变量属于父类，子类只是间接调用，因此属于被动引用，JVM只会初始化父类。</p>
+<h3 id="示例二"><a href="#示例二" class="headerlink" title="示例二"></a>示例二</h3><p>修改 main 方法，new 一个父类数组</p>
+<pre><code class="java">public static void main(String[] args){
+    Father[] fArr = new Father[10];
+}</code></pre>
+<p>执行结果并没有输出<code>父类被初始化！</code>。在这个例子中，也似乎满足第一条：<strong>遇到 new 指令新建对象</strong>，那为什么父类没有被初始化呢？原因是：现在通过 new 要创建的是一个数组对象，而非父类对象，因此也属于间接引用，不会初始化父类。</p>
+<h3 id="示例三"><a href="#示例三" class="headerlink" title="示例三"></a>示例三</h3><p>修改 Father 类，用 final 修饰 name</p>
+<pre><code class="java">public class Father{
+    public static final String name = &quot;jerry&quot;;
+
+    static{
+        System.out.println(&quot;父类被初始化！&quot;);
+    }
+}
+
+
+public class Go{
+    public static void main(String[] args){
+        System.out.println(Father.name);
+    }
+}</code></pre>
+<p>输出：</p>
+<pre><code>jerry</code></pre><p>这个例子中，只输出了 jerry，却并没有初始化父类。原因是：Father.name 被 <code>final</code> 修饰。被 <code>final</code> 修饰的已经是一个常量，在 Java 代码编译的过程中就会被放入它被引用的class文件的常量池中(这里是Go类的常量池)。所以程序在运行期间如果需要调用这个常量，直接去当前类的常量池中取，而不需要初始化这个类。</p>
+<hr>
+<p>参考：</p>
+<ul>
+<li><a href="https://blog.csdn.net/u010425776/article/details/58145910">深入理解JVM(十)——类加载器</a></li>
+<li><a href="https://www.jianshu.com/p/bfb876565a1e">Java 面试知识点解析(三)——JVM篇</a></li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/JVM/" rel="tag">JVM</a>, <a class="has-link-grey -link" href="/tags/Java/" rel="tag">Java</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/7a1af8ce.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Java虚拟机（二）内存模型和对象创建</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/f65fff79.html">
+                <span class="level-item">数据结构（七）树和二叉树</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#什么是Java虚拟机">
+        <span class="has-mr-6">1</span>
+        <span>什么是Java虚拟机</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#JVM-如何让-Java-程序跨平台？">
+        <span class="has-mr-6">1.1</span>
+        <span>JVM 如何让 Java 程序跨平台？</span>
+        </a></li><li>
+        <a class="is-flex" href="#JVM的“无关性”">
+        <span class="has-mr-6">1.2</span>
+        <span>JVM的“无关性”</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#JVM的组成">
+        <span class="has-mr-6">2</span>
+        <span>JVM的组成</span>
+        </a></li><li>
+        <a class="is-flex" href="#类加载器">
+        <span class="has-mr-6">3</span>
+        <span>类加载器</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#类加载器的作用">
+        <span class="has-mr-6">3.1</span>
+        <span>类加载器的作用</span>
+        </a></li><li>
+        <a class="is-flex" href="#类加载器如何加载-class-文件？（即把一个类装入JVM）">
+        <span class="has-mr-6">3.2</span>
+        <span>类加载器如何加载 class 文件？（即把一个类装入JVM）</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#加载">
+        <span class="has-mr-6">3.2.1</span>
+        <span>加载</span>
+        </a></li><li>
+        <a class="is-flex" href="#链接">
+        <span class="has-mr-6">3.2.2</span>
+        <span>链接</span>
+        </a></li><li>
+        <a class="is-flex" href="#初始化">
+        <span class="has-mr-6">3.2.3</span>
+        <span>初始化</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#双亲委派机制">
+        <span class="has-mr-6">3.3</span>
+        <span>双亲委派机制</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#双亲委派过程">
+        <span class="has-mr-6">3.3.1</span>
+        <span>双亲委派过程</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#类加载器如何判断两个-Java-类是相同的-？">
+        <span class="has-mr-6">3.4</span>
+        <span>类加载器如何判断两个 Java 类是相同的  ？</span>
+        </a></li><li>
+        <a class="is-flex" href="#什么时候需要自定义类加载器？">
+        <span class="has-mr-6">3.5</span>
+        <span>什么时候需要自定义类加载器？</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#主动引用与被动引用">
+        <span class="has-mr-6">4</span>
+        <span>主动引用与被动引用</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#被动引用的例子">
+        <span class="has-mr-6">4.1</span>
+        <span>被动引用的例子</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#示例一">
+        <span class="has-mr-6">4.1.1</span>
+        <span>示例一</span>
+        </a></li><li>
+        <a class="is-flex" href="#示例二">
+        <span class="has-mr-6">4.1.2</span>
+        <span>示例二</span>
+        </a></li><li>
+        <a class="is-flex" href="#示例三">
+        <span class="has-mr-6">4.1.3</span>
+        <span>示例三</span>
+        </a></li></ul></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Java虚拟机（一）JVM 基础和类的加载" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Spark编程入门（二）RDD编程 - J.e</title>
+
+
+    <meta name="description" content="RDD 简介弹性分布式数据集（Resilient Distributed Dataset，RDD），是分布式内存的一个抽象概念，它提供了一种高度受限的内存模型。本质上，RDD是一个只读的分区记录集合。一个RDD可以分成多个分区，每个分区就是一个数据集片段。不同的分区可以保存在集群的不同节点上，从而可以进行并行计算。 RDD是只读的，不能直接修改。但是RDD提供了 转换 和 行动 两种操作。转换操作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark编程入门（二）RDD编程">
+<meta property="og:url" content="https://jerrysheh.me/post/9c5fa7c3.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="RDD 简介弹性分布式数据集（Resilient Distributed Dataset，RDD），是分布式内存的一个抽象概念，它提供了一种高度受限的内存模型。本质上，RDD是一个只读的分区记录集合。一个RDD可以分成多个分区，每个分区就是一个数据集片段。不同的分区可以保存在集群的不同节点上，从而可以进行并行计算。 RDD是只读的，不能直接修改。但是RDD提供了 转换 和 行动 两种操作。转换操作">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-04-05T08:05:40.000Z">
+<meta property="article:modified_time" content="2019-07-20T04:21:46.884Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta property="article:tag" content="大数据">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Spark编程入门（二）RDD编程" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-04-05T08:05:40.000Z">2018-04-05</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    18 分钟 读完 (大约 2727 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Spark编程入门（二）RDD编程
+            
+        </h1>
+        <div class="content">
+            <h1 id="RDD-简介"><a href="#RDD-简介" class="headerlink" title="RDD 简介"></a>RDD 简介</h1><p>弹性分布式数据集（Resilient Distributed Dataset，RDD），是分布式内存的一个抽象概念，它提供了一种高度受限的内存模型。本质上，RDD是一个只读的分区记录集合。一个RDD可以分成多个分区，每个分区就是一个数据集片段。不同的分区可以保存在集群的不同节点上，从而可以进行并行计算。</p>
+<p>RDD是只读的，不能直接修改。但是RDD提供了 <strong>转换</strong> 和 <strong>行动</strong> 两种操作。转换操作返回一个新的RDD，行动操作用于执行计算并指定输出，返回非RDD。</p>
+<p>典型的RDD执行过程如下：</p>
+<ul>
+<li>RDD读入外部数据源（或内存中的集合），进行创建。</li>
+<li>RDD经过一系列的转换操作，每一次都产生不同的RDD，给下一次转换使用。</li>
+<li>最后一个RDD经行动操作进行处理，输出到外部数据源。</li>
+</ul>
+<p>需要注意的是，RDD采用了惰性调用，即转换操作并不会真的进行转换，只是记录。直到行动操作的时候，才从头开始进行一系列计算。</p>
+<hr>
+<h1 id="RDD的依赖关系"><a href="#RDD的依赖关系" class="headerlink" title="RDD的依赖关系"></a>RDD的依赖关系</h1><p>RDD的依赖关系分为 <strong>窄依赖（Narrow Dependency）</strong> 与 <strong>宽依赖（Wide Dependency）</strong>。窄依赖即一个或多个父RDD的分区对应一个子RDD的分区，典型的例子有map、filter、union、join，而宽依赖则是一个父RDD的分区对应多个字RDD的分区，典型的例子有groupByKey、join。</p>
+<p><img src="../../../../images/hadoop/spark_dep.jpg" alt="spark_dep"></p>
+<h2 id="为什么要这样设计依赖关系？"><a href="#为什么要这样设计依赖关系？" class="headerlink" title="为什么要这样设计依赖关系？"></a>为什么要这样设计依赖关系？</h2><p><font color="red">为了提高容错性</font>，以加快 Spark 的执行速度。因为 RDD 通过“血缘关系”记住了它是如何从其它 RDD 演变过来的，血缘关系记录的是粗颗粒度的转换操作行为，<strong>当这个RDD的部分分区数据丢失时，它可以通过血缘关系获取足够的信息来重新运算和恢复丢失的数据分区</strong>，由此带来了性能的提升。</p>
+<a id="more"></a>
+
+<hr>
+<h1 id="RDD运行过程"><a href="#RDD运行过程" class="headerlink" title="RDD运行过程"></a>RDD运行过程</h1><ol>
+<li>创建RDD对象；</li>
+<li>SparkContext负责计算 RDD 之间的依赖关系，构建 DAG；</li>
+<li>DAGScheduler负责把 DAG 图分解成多个阶段，每个阶段中包含了多个任务，每个任务会被任务调度器分发给各个工作节点（Worker Node）上的Executor去执行。</li>
+</ol>
+<p><img src="../../../../images/hadoop/RDD_process.jpg" alt="RDD_process"></p>
+<hr>
+<h1 id="编写-RDD-应用程序"><a href="#编写-RDD-应用程序" class="headerlink" title="编写 RDD 应用程序"></a>编写 RDD 应用程序</h1><p>首先新建一个 maven 工程</p>
+<h2 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h2><p>根据<a href="http://spark.apache.org/docs/latest/rdd-programming-guide.html">官方文档</a>，添加 spark-core 的依赖 （如果要读写 HDFS, 还要添加 hadoop-client 的依赖）</p>
+<p>pom.xml</p>
+<pre><code class="xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;
+    &lt;artifactId&gt;spark-core_2.11&lt;/artifactId&gt;
+    &lt;version&gt;2.3.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+<h2 id="初始化-Spark"><a href="#初始化-Spark" class="headerlink" title="初始化 Spark"></a>初始化 Spark</h2><p>RDDsample.java</p>
+<pre><code class="java">import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.SparkConf;
+
+public class RDDsample {
+    public static void main(String[] args) {
+        SparkConf conf = new SparkConf().setAppName(&quot;RDD sample&quot;).setMaster(&quot;local[4]&quot;);
+        JavaSparkContext sc = new JavaSparkContext(conf);
+    }
+}</code></pre>
+<ul>
+<li>conf 的 <code>setMaster</code> 是设置集群（master is a Spark, Mesos or YARN cluster URL, or a special “local” string to run in local mode）这里以本地四个线程为例，写入 <code>local[4]</code></li>
+</ul>
+<h2 id="创建-RDD"><a href="#创建-RDD" class="headerlink" title="创建 RDD"></a>创建 RDD</h2><p>RDD可以通过两种方式创建：</p>
+<ul>
+<li>第一种：读取一个外部数据集。比如，从本地文件加载数据集，或者从HDFS文件系统、HBase、Cassandra、Amazon S3等外部数据源中加载数据集。Spark可以支持文本文件、SequenceFile文件（Hadoop提供的 SequenceFile是一个由二进制序列化过的key/value的字节流组成的文本存储文件）和其他符合Hadoop InputFormat格式的文件。</li>
+</ul>
+<pre><code class="java">JavaRDD&lt;String&gt; lines = sc.textFile(&quot;file:///home/jerrysheh/data.txt&quot;);</code></pre>
+<p>lines是一个String类型的RDD，可以简单称为RDD[String]，也就是说，这个RDD[String]里面的元素都是String类型。</p>
+<ul>
+<li>第二种：调用SparkContext的parallelize方法，在Driver中一个已经存在的集合（数组）上创建。</li>
+</ul>
+<pre><code class="java">List&lt;Integer&gt; data = Arrays.asList(1, 2, 3, 4, 5);
+JavaRDD&lt;Integer&gt; distData = sc.parallelize(data);</code></pre>
+<h2 id="RDD-操作"><a href="#RDD-操作" class="headerlink" title="RDD 操作"></a>RDD 操作</h2><p>RDD 支持两种操作：</p>
+<ul>
+<li>转换（Transformations）： 基于现有的数据集创建一个新的数据集。</li>
+<li>行动（Actions）：在数据集上进行运算，返回计算值。</li>
+</ul>
+<h3 id="转换"><a href="#转换" class="headerlink" title="转换"></a>转换</h3><p>每一次转换操作都会产生不同的RDD，供给下一个“转换”使用。转换过程只是记录了转换的轨迹，并不会发生真正的计算。</p>
+<p>常见的转换操作（Transformation API）：：</p>
+<ul>
+<li><code>filter(func)</code>：筛选出满足函数func的元素，并返回一个新的数据集</li>
+<li><code>map(func)</code>：将每个元素传递到函数func中，并将结果返回为一个新的数据集</li>
+<li><code>flatMap(func)</code>：与map()相似，但每个输入元素都可以映射到0或多个输出结果</li>
+<li><code>groupByKey()</code>：应用于(K,V)键值对的数据集时，返回一个新的(K, Iterable)形式的数据集</li>
+<li><code>reduceByKey(func)</code>：应用于(K,V)键值对的数据集时，返回一个新的(K, V)形式的数据集，其中的每个值是将每个key传递到函数func中进行聚合。</li>
+</ul>
+<h3 id="行动"><a href="#行动" class="headerlink" title="行动"></a>行动</h3><p>行动操作是真正触发计算的地方。<strong>Spark程序执行到行动操作时，才会执行真正的计算</strong>，包括从文件中加载数据，完成一次又一次转换操作，最终，完成行动操作得到结果。</p>
+<p>常见的行动操作（Action API）：</p>
+<ul>
+<li><code>count()</code>： 返回数据集中的元素个数</li>
+<li><code>collect()</code>： 以数组的形式返回数据集中的所有元素</li>
+<li><code>first()</code>： 返回数据集中的第一个元素</li>
+<li><code>take(n)</code>： 以数组的形式返回数据集中的前n个元素</li>
+<li><code>reduce(func)</code>： 通过函数func（输入两个参数并返回一个值）聚合数据集中的元素</li>
+<li><code>foreach(func)</code>： 将数据集中的每个元素传递到函数func中运行</li>
+</ul>
+<blockquote>
+<p>如果程序中多个地方触发行动操作，每个地方都会从头开始执行。可以用 <code>RDD.cache()</code>来缓存。这样第二次触发行动操作，会从缓存的地方开始计算。</p>
+</blockquote>
+<h2 id="键值对RDD-（pair-RDD）"><a href="#键值对RDD-（pair-RDD）" class="headerlink" title="键值对RDD （pair RDD）"></a>键值对RDD （pair RDD）</h2><p>我们前面创建的是 RDD[String]， 我们还可以创建 RDD[(String, Int)]</p>
+<pre><code class="java">JavaRDD&lt;String&gt; lines = sc.textFile(&quot;data.txt&quot;);
+JavaPairRDD&lt;String, Integer&gt; pairs = lines.mapToPair(s -&gt; new Tuple2(s, 1));
+JavaPairRDD&lt;String, Integer&gt; counts = pairs.reduceByKey((a, b) -&gt; a + b);</code></pre>
+<p>Java比较难理解的话，用 Python理解一遍</p>
+<pre><code class="python">lines = sc.textFile(&quot;data.txt&quot;)
+pairs = lines.map(lambda s: (s, 1))
+counts = pairs.reduceByKey(lambda a, b: a + b)</code></pre>
+<h3 id="键值对转换"><a href="#键值对转换" class="headerlink" title="键值对转换"></a>键值对转换</h3><h4 id="reduceByKey-func"><a href="#reduceByKey-func" class="headerlink" title="reduceByKey(func)"></a>reduceByKey(func)</h4><p>使用func函数合并具有相同键的值</p>
+<p>比如：<code>reduceByKey((a,b) -&gt; a+b)</code></p>
+<p>转换前</p>
+<pre><code>(“spark”,1)、(“spark”,2)、(“hadoop”,3)和(“hadoop”,5)</code></pre><p>转换后</p>
+<pre><code>(“spark”,3)、(“hadoop”,8)</code></pre><h4 id="groupByKey"><a href="#groupByKey" class="headerlink" title="groupByKey()"></a>groupByKey()</h4><p>对具有相同键的值进行分组</p>
+<p>转换前</p>
+<pre><code>(“spark”,1)、(“spark”,2)、(“hadoop”,3)和(“hadoop”,5)</code></pre><p>转换后</p>
+<pre><code>(“spark”,(1,2))，(“hadoop”,(3,5))</code></pre><h4 id="keys"><a href="#keys" class="headerlink" title="keys"></a>keys</h4><p>把键值对RDD中的key返回形成一个新的RDD</p>
+<p>转换前：四个键值对构成的RDD</p>
+<pre><code>(“spark”,1)、(“spark”,2)、(“hadoop”,3)和(“hadoop”,5)</code></pre><p>转换后：一个RDD[Int]</p>
+<pre><code>{“spark”,”spark”,”hadoop”,”hadoop”}</code></pre><h4 id="values"><a href="#values" class="headerlink" title="values"></a>values</h4><p>把键值对RDD中的value返回形成一个新的RDD</p>
+<p>转换前：四个键值对构成的RDD</p>
+<pre><code>(“spark”,1)、(“spark”,2)、(“hadoop”,3)和(“hadoop”,5)</code></pre><p>转换后：一个RDD[Int]</p>
+<pre><code>{1,2,3,5}</code></pre><h4 id="sortByKey"><a href="#sortByKey" class="headerlink" title="sortByKey()"></a>sortByKey()</h4><p>返回一个根据键排序的RDD</p>
+<h4 id="mapValues-func"><a href="#mapValues-func" class="headerlink" title="mapValues(func)`"></a>mapValues(func)`</h4><p>只对键值对RDD的value部分进行处理，而不是同时对key和value进行处理。对键值对RDD中的每个value都应用一个函数，但是，key不会发生变化。</p>
+<p>转换前</p>
+<pre><code>(“spark”,1)、(“spark”,2)、(“hadoop”,3)、(“hadoop”,5)</code></pre><p>使用 <code>pairRDD.mapValues(x -&gt; x+1)</code> 转换后</p>
+<pre><code>(“spark”,2)、(“spark”,3)、(“hadoop”,4)、(“hadoop”,6)。</code></pre><h4 id="join-（内连接）"><a href="#join-（内连接）" class="headerlink" title="join （内连接）"></a>join （内连接）</h4><p>对于给定的两个输入数据集(K,V1)和(K,V2)，<strong>只有在两个数据集中都存在的key才会被输出</strong>，最终得到一个(K,(V1,V2))类型的数据集。</p>
+<p>pairRDD1 （键值对集合）</p>
+<pre><code>{(“spark”,1)、(“spark”,2)、(“hadoop”,3)、(“hadoop”,5)}</code></pre><p>pairRDD2 （键值对集合）</p>
+<pre><code>{(“spark”,”fast”)}</code></pre><p>进行 <code>pairRDD1.join(pairRDD2)</code> 操作</p>
+<p>转换后</p>
+<pre><code>{(“spark”,1,”fast”),(“spark”,2,”fast”)}</code></pre><hr>
+<h1 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h1><p>RDD是弹性分布式数据集，通常RDD很大，会被分成很多个分区，分别保存在不同的节点上。RDD分区的一个分区原则是使得分区的个数尽量等于集群中的CPU核心（core）数目。<br>对于不同的Spark部署模式而言（本地模式、Standalone模式、YARN模式、Mesos模式），都可以通过设置<code>spark.default.parallelism</code>这个参数的值，来配置默认的分区数目。</p>
+<p>一般而言：</p>
+<ul>
+<li><strong>本地模式</strong>：默认为本地机器的CPU数目，若设置了local[N],则默认为N；</li>
+<li><strong>Apache Mesos</strong>：默认的分区数为8；</li>
+<li><strong>Standalone 或 YARN</strong>：在“集群中所有CPU核心数目总和”和“2”二者中取较大值作为默认值；</li>
+</ul>
+<p>因此，在创建RDD的第二种方法中，<code>parallelize()</code>可以接收第二个参数（可选），表示多少个分区。如：</p>
+<hr>
+<pre><code class="java">JavaRDD&lt;Integer&gt; distData = sc.parallelize(data, 2); //设置2个分区</code></pre>
+<h1 id="打印元素"><a href="#打印元素" class="headerlink" title="打印元素"></a>打印元素</h1><p>本地模式：<code>rdd.foreach(println)</code>或者<code>rdd.map(println)</code></p>
+<p>集群模式：</p>
+<ul>
+<li><code>rdd.collect().foreach(println)</code>（可能导致内存溢出）</li>
+<li><code>rdd.take(100).foreach(println)</code></li>
+</ul>
+<hr>
+<h1 id="共享变量和累加器"><a href="#共享变量和累加器" class="headerlink" title="共享变量和累加器"></a>共享变量和累加器</h1><p>Spark在集群的多个不同节点的多个任务上并行运行一个函数时，它会把函数中涉及到的每个变量，在每个任务上都生成一个副本。但是我们有时候需要在多个任务之间，或者在任务（Task）和任务控制节点（Driver Program）之间共享变量。</p>
+<p>Spark提供了两种类型的变量：<code>广播变量（broadcast variables）</code>和<code>累加器（accumulators）</code>。广播变量用来把变量在所有节点的内存之间进行共享。累加器则支持在所有不同节点之间进行累加计算（比如计数或者求和）。</p>
+<ul>
+<li>使用<code>SparkContext.broadcast(v)</code>来从一个普通变量v中创建一个广播变量</li>
+<li>一个数值型的累加器，可以通过调用<code>SparkContext.longAccumulator()</code>或者<code>SparkContext.doubleAccumulator()</code>来创建</li>
+</ul>
+<hr>
+<p>参考：</p>
+<ul>
+<li><a href="http://dblab.xmu.edu.cn/blog/1312-2/">厦门大学数据库实验室</a></li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/bcfe91a1.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">使用 Spark Streaming 进行实时流计算(一)</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/a08d78bf.html">
+                <span class="level-item">Spark编程入门（一） QuickStart</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            156
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            35
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#RDD-简介">
+        <span class="has-mr-6">1</span>
+        <span>RDD 简介</span>
+        </a></li><li>
+        <a class="is-flex" href="#RDD的依赖关系">
+        <span class="has-mr-6">2</span>
+        <span>RDD的依赖关系</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#为什么要这样设计依赖关系？">
+        <span class="has-mr-6">2.1</span>
+        <span>为什么要这样设计依赖关系？</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#RDD运行过程">
+        <span class="has-mr-6">3</span>
+        <span>RDD运行过程</span>
+        </a></li><li>
+        <a class="is-flex" href="#编写-RDD-应用程序">
+        <span class="has-mr-6">4</span>
+        <span>编写 RDD 应用程序</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#添加依赖">
+        <span class="has-mr-6">4.1</span>
+        <span>添加依赖</span>
+        </a></li><li>
+        <a class="is-flex" href="#初始化-Spark">
+        <span class="has-mr-6">4.2</span>
+        <span>初始化 Spark</span>
+        </a></li><li>
+        <a class="is-flex" href="#创建-RDD">
+        <span class="has-mr-6">4.3</span>
+        <span>创建 RDD</span>
+        </a></li><li>
+        <a class="is-flex" href="#RDD-操作">
+        <span class="has-mr-6">4.4</span>
+        <span>RDD 操作</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#转换">
+        <span class="has-mr-6">4.4.1</span>
+        <span>转换</span>
+        </a></li><li>
+        <a class="is-flex" href="#行动">
+        <span class="has-mr-6">4.4.2</span>
+        <span>行动</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#键值对RDD-（pair-RDD）">
+        <span class="has-mr-6">4.5</span>
+        <span>键值对RDD （pair RDD）</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#键值对转换">
+        <span class="has-mr-6">4.5.1</span>
+        <span>键值对转换</span>
+        </a></li></ul></li></ul></li><li>
+        <a class="is-flex" href="#分区">
+        <span class="has-mr-6">5</span>
+        <span>分区</span>
+        </a></li><li>
+        <a class="is-flex" href="#打印元素">
+        <span class="has-mr-6">6</span>
+        <span>打印元素</span>
+        </a></li><li>
+        <a class="is-flex" href="#共享变量和累加器">
+        <span class="has-mr-6">7</span>
+        <span>共享变量和累加器</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">23</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">Java虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            <span class="level-start">
+                <span class="level-item">微服务</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/cc85a16e.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
+                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Spark编程入门（二）RDD编程" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'folded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
