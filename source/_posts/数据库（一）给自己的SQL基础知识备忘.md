@@ -53,7 +53,7 @@ RDBMS（Relational Database Management System，关系型数据库管理系统�
 
 ```
 sudo apt-get --purge remove mysql-server mysql-common mysql-client
-sudo apt-get install mysql-server mysql-common mysql-client
+sudo apt-get install mysql-server
 ```
 
 设置 root 密码
@@ -61,6 +61,12 @@ sudo apt-get install mysql-server mysql-common mysql-client
 ```
 mysqladmin -u root password your-new-password
 sudo /etc/init.d/mysql restart
+```
+
+或者，直接运行安全脚本配置
+
+```
+sudo mysql_secure_installation
 ```
 
 ## 安装完毕后发现没有登录权限
@@ -93,16 +99,23 @@ mysql> FLUSH PRIVILEGES;
 
 ## 允许远程访问
 
+```sql
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+
+mysql> FLUSH PRIVILEGES;
+```
+
 打开 /etc/mysql/mysql.conf.d/mysqld.cnf 文件
 
 ```
 sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
 ```
 
-注释掉下面这一行
+把 bind-address 改为 0.0.0.0
 
 ```
-bind-address = 127.0.0.1
+#bind-address = 127.0.0.1
+bind-address = 0.0.0.0
 ```
 
 ---
@@ -451,23 +464,13 @@ BETWEEN 'Adams' AND 'Carter'
 
 ## ALIAS （AS）
 
-ALIAS 用于给列名或表名指定“别名”。
+ALIAS 用于给列名或表名指定“别名”，方便阅读。
 
 ```SQL
 SELECT o.OrderId, p.LastName
 FROM Persons AS p, Orders AS o
 WHERE p.LastName = "Adams"
 ```
-
-如果不用别名的话
-
-```SQL
-SELECT Orders.OrderId, Persons.LastName
-FROM Persons, Orders
-WHERE Persons.LastName = "Adams"
-```
-
-可见，别名使查询程序更易阅读和书写
 
 ---
 
@@ -495,7 +498,7 @@ ON p.PersonId = a.PersonId
 * **JOIN** 或 **INNER JOIN**：有匹配时才显示
 * **LEFT JOIN**：即使右表没有匹配，也从左表返回所有行
 * **RIGHT JOIN**：即使左表没有匹配，也从右表返回所有行
-* **FULL JOIN** ：必须左右表都有匹配才返回行
+* **FULL JOIN** ：返回左右表中所有的行，即使另一边没有匹配
 
 注意：MySQL不支持 FULL JOIN，可以用 `UNION` 联合 LEFT JOIN 和 RIGHT JOIN，如果需要重复行，用 `UNION ALL`
 
@@ -517,15 +520,13 @@ ON p.Id_p = o.Id_p
 
 合并两个或多个 SELECT 语句的结果集
 
-合并两个表的员工名字，如果名字一样，只出现一次
+合并两个表的员工名字，如果名字一样，只出现一次（UNION有去重功能，不想去重，可以用 `UNION ALL`）
 
 ```SQL
 SELECT E_Name FROM Employees_China
 UNION
 SELECT E_Name FROM Employees_USA
 ```
-
-* 不要去重，可以用 `UNION ALL`
 
 ---
 
