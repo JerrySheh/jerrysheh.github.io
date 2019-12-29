@@ -228,7 +228,7 @@ git remote add nsd https://原作者的地址.git
 把原作者的更新 fetch 到本地
 
 ```
-git fetch hunter
+git fetch nsd
 ```
 
 查看分支
