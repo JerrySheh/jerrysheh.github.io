@@ -1,7 +1,7 @@
 ---
 title: Spring（八）SpringBoot 集成 JPA
 comments: true
-categories: Java Web
+categories: Spring
 tags:
   - Java
   - Web
@@ -114,7 +114,7 @@ public void testUpdate(){
 }
 ```
 
-## 5. 
+## 5.
 
 ---
 

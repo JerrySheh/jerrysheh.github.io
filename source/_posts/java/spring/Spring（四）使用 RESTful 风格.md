@@ -1,7 +1,7 @@
 ---
 title: Spring（四）使用 RESTful 风格
 comments: true
-categories: Java Web
+categories: Spring
 tags: Java Web
 abbrlink: 3479b7db
 date: 2018-07-05 16:16:42

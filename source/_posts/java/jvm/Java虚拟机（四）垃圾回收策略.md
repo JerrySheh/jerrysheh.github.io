@@ -1,7 +1,7 @@
 ---
 title: Java虚拟机（四）垃圾回收策略
 comments: true
-categories: Java虚拟机
+categories: JVM
 tags: Java
 abbrlink: 2191536a
 date: 2018-08-10 21:32:32

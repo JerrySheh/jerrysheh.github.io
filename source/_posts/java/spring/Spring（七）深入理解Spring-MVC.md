@@ -1,7 +1,7 @@
 ---
 title: Spring（七）深入理解Spring MVC
 comments: true
-categories: Java Web
+categories: Spring
 tags:
   - Java
   - Web

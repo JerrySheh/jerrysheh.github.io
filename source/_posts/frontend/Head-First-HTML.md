@@ -1,7 +1,6 @@
 ---
 title: Head First HTML
-comments: true
-categories: Java Web
+categories: 前端
 tags:
   - HTML
   - Web

@@ -3,7 +3,7 @@ title: 使用 Mybatis 简化 JDBC 操作
 comments: true
 abbrlink: f251f1b
 date: 2018-04-16 21:58:52
-categories: Java Web
+categories: Java
 tags:
  - Java
  - Web

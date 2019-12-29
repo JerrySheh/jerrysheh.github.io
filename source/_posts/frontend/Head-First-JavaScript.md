@@ -1,7 +1,7 @@
 ---
 title: Head First JavaScript
 comments: true
-categories: Java Web
+categories: 前端
 tags:
   - JavaScript
   - Web

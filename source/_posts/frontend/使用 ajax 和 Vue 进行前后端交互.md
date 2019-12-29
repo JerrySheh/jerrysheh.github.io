@@ -1,10 +1,9 @@
 ---
 title: 使用 ajax 和 Vue 进行前后端交互
-comments: true
 abbrlink: a24bf899
 date: 2018-07-28 11:33:30
-categories: Java Web
-tags: Java Web
+categories: 前端
+tags: 前端
 ---
 
 ![Separation](../../../../images/Webapp/Separation.jpg)

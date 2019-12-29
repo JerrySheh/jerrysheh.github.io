@@ -3,7 +3,7 @@ title: Spring（二） SpringBoot 集成 Mybatis
 comments: true
 abbrlink: 72ef7508
 date: 2018-04-17 23:48:59
-categories: Java Web
+categories: Spring
 tags:
  - Java
  - Web

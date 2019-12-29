@@ -2,7 +2,7 @@
 title: Crash Course Computer Science（1-10）
 comments: true
 date: 2019-07-27 10:43:59
-categories: 计算机
+categories: 计算机科学速成课
 abbrlink: 7a4edbf1
 tags: 计算机科学
 ---
