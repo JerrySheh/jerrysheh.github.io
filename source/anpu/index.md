@@ -1,13 +1,13 @@
 ---
-title: 與你握手
+title: 安溥 - 與你握手
 comments: false
 ---
 
-<p align="center">[安溥 anpu - 官方網站](https://www.anpu-oystermusic.com/)</p>
+
+[安溥 anpu - 官方網站](https://www.anpu-oystermusic.com/)
+
 
 ![](../../../../images/anpu_cszy.jpg)
-
-<br>
 
 # 2012 - 超级面对面 第14期 张悬：歌者也可以是战士
 
