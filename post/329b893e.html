@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -171,70 +171,22 @@
 <p>假如搜索 hello，以 stars 数目排序，那么构造的链接是</p>
 <p><a href="https://api.github.com/search/repositories?q=Hello&amp;sort=stars">https://api.github.com/search/repositories?q=Hello&amp;sort=stars</a></p>
 <p>创建一个工具类 NetworkUtils.java， 写一个 buildUrl 方法用来生成URL</p>
-<pre><code class="java">public class NetworkUtils {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NetworkUtils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">static</span> String GITHUB_BASE_URL =</span><br><span class="line">            <span class="string">"https://api.github.com/search/repositories"</span>;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">static</span> String PARAM_QUERY = <span class="string">"q"</span>;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">static</span> String PARAM_SORT = <span class="string">"sort"</span>;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">static</span> String sortBy = <span class="string">"stars"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> URL <span class="title">buildUrl</span><span class="params">(String githubSearchQuery)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// TODO (1) Fill in this method to build the proper Github query URL</span></span><br><span class="line">        Uri builtUri = Uri.parse(GITHUB_BASE_URL).buildUpon()</span><br><span class="line">                .appendQueryParameter(PARAM_QUERY,githubSearchQuery)</span><br><span class="line">                .appendQueryParameter(PARAM_SORT,sortBy)</span><br><span class="line">                .build();</span><br><span class="line"></span><br><span class="line">        URL url = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            url = <span class="keyword">new</span> URL(builtUri.toString());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (MalformedURLException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> url;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    final static String GITHUB_BASE_URL =
-            &quot;https://api.github.com/search/repositories&quot;;
-    final static String PARAM_QUERY = &quot;q&quot;;
-    final static String PARAM_SORT = &quot;sort&quot;;
-    final static String sortBy = &quot;stars&quot;;
-
-    public static URL buildUrl(String githubSearchQuery) {
-        // TODO (1) Fill in this method to build the proper Github query URL
-        Uri builtUri = Uri.parse(GITHUB_BASE_URL).buildUpon()
-                .appendQueryParameter(PARAM_QUERY,githubSearchQuery)
-                .appendQueryParameter(PARAM_SORT,sortBy)
-                .build();
-
-        URL url = null;
-
-        try {
-            url = new URL(builtUri.toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        return url;
-    }
-}</code></pre>
 <ul>
 <li>用 <code>Uri</code> 来生成 Uri ，再转换为 <code>URL</code></li>
 </ul>
 <p>然后在 MainActivity.java 中调用</p>
-<pre><code class="java">// 将 EditText 转为 String
-String githubQuery = mSearchBoxEditText.getText().toString();
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将 EditText 转为 String</span></span><br><span class="line">String githubQuery = mSearchBoxEditText.getText().toString();</span><br><span class="line"></span><br><span class="line"><span class="comment">//构造 URL</span></span><br><span class="line">URL githubSearchUrl = NetworkUtils.buildUrl(githubQuery);</span><br></pre></td></tr></table></figure>
 
-//构造 URL
-URL githubSearchUrl = NetworkUtils.buildUrl(githubQuery);</code></pre>
 <hr>
 <h1 id="获取-Response-内容"><a href="#获取-Response-内容" class="headerlink" title="获取 Response 内容"></a>获取 Response 内容</h1><p>实际上从 Http 响应中获取数据，就是一个输入流。将输入流转换为 String 可以用 Scanner。或者IOUtils。</p>
 <h2 id="使用-Scanner"><a href="#使用-Scanner" class="headerlink" title="使用 Scanner"></a>使用 Scanner</h2><p>在上面的工具类 NetworkUtils.java 中添加一个静态方法，用于获取Http响应的内容</p>
-<pre><code class="java">public static String getResponseFromHttpUrl(URL url) throws IOException {
-    // 建立一个 HTTP 连接
-    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getResponseFromHttpUrl</span><span class="params">(URL url)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="comment">// 建立一个 HTTP 连接</span></span><br><span class="line">    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 从 HTTP 连接中获取输入流</span></span><br><span class="line">        InputStream in = urlConnection.getInputStream();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 以 \\A 为分隔符</span></span><br><span class="line">        Scanner scanner = <span class="keyword">new</span> Scanner(in);</span><br><span class="line">        scanner.useDelimiter(<span class="string">"\\A"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">boolean</span> hasInput = scanner.hasNext();</span><br><span class="line">        <span class="keyword">if</span> (hasInput) &#123;</span><br><span class="line">            <span class="keyword">return</span> scanner.next();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        urlConnection.disconnect();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    try {
-        // 从 HTTP 连接中获取输入流
-        InputStream in = urlConnection.getInputStream();
-
-        // 以 \\A 为分隔符
-        Scanner scanner = new Scanner(in);
-        scanner.useDelimiter(&quot;\\A&quot;);
-
-        boolean hasInput = scanner.hasNext();
-        if (hasInput) {
-            return scanner.next();
-        } else {
-            return null;
-        }
-    } finally {
-        urlConnection.disconnect();
-    }
-}</code></pre>
 <h2 id="扩展-使用-IOUtils-工具类"><a href="#扩展-使用-IOUtils-工具类" class="headerlink" title="扩展:使用 IOUtils 工具类"></a>扩展:使用 IOUtils 工具类</h2><p>除了 Scanner 之外，还可以用IOUtils</p>
-<pre><code class="java">StringWriter writer = new StringWriter();
-IOUtils.copy(inputStream, writer, encoding);
-String theString = writer.toString();</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">StringWriter writer = <span class="keyword">new</span> StringWriter();</span><br><span class="line">IOUtils.copy(inputStream, writer, encoding);</span><br><span class="line">String theString = writer.toString();</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>或许还有其他的方法，参考：<a href="https://stackoverflow.com/questions/309424/read-convert-an-inputstream-to-a-string">read-convert-an-inputstream-to-a-string</a></li>
 </ul>
@@ -246,26 +198,8 @@ String theString = writer.toString();</code></pre>
 <li>getResponseFromHttpUrl建立一个HTTP连接并返回String类型的结果</li>
 <li>在TextView把 response 的结果显示出来</li>
 </ul>
-<pre><code class="java">private void makeGithubSearchQuery() {
-    // 将 EditText 的内容转为 String
-    String githubQuery = mSearchBoxEditText.getText().toString();
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">makeGithubSearchQuery</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 将 EditText 的内容转为 String</span></span><br><span class="line">    String githubQuery = mSearchBoxEditText.getText().toString();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 用上面的NetworkUtils工具类的buildUrl方法，构建URL</span></span><br><span class="line">    URL githubSearchUrl = NetworkUtils.buildUrl(githubQuery);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将构建好的 URL 显示在 TextView 上，作为直观测试</span></span><br><span class="line">    mUrlDisplayTextView.setText(githubSearchUrl.toString());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//用上面的NetworkUtils工具类的getResponseFromHttpUrl方法</span></span><br><span class="line">    <span class="comment">//获取 HTTP response 的内容，并显示在 TextView 上</span></span><br><span class="line">    String githubSearchResults = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        githubSearchResults = NetworkUtils.getResponseFromHttpUrl(githubSearchUrl);</span><br><span class="line">        mSearchResultsTextView.setText(githubSearchResults);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 用上面的NetworkUtils工具类的buildUrl方法，构建URL
-    URL githubSearchUrl = NetworkUtils.buildUrl(githubQuery);
-
-    //将构建好的 URL 显示在 TextView 上，作为直观测试
-    mUrlDisplayTextView.setText(githubSearchUrl.toString());
-
-    //用上面的NetworkUtils工具类的getResponseFromHttpUrl方法
-    //获取 HTTP response 的内容，并显示在 TextView 上
-    String githubSearchResults = null;
-    try {
-        githubSearchResults = NetworkUtils.getResponseFromHttpUrl(githubSearchUrl);
-        mSearchResultsTextView.setText(githubSearchResults);
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}</code></pre>
 <p>理论上这样做没问题，但如果真的运行，会发现抛出<code>NetworkOnMainThreadException</code>，应用程序强退。</p>
 <p>原因是对于需要一定时间的任务（比如网络请求），需要开独立的线程来执行，不能在主线程执行。否则会阻塞UI绘制，导致app假死。</p>
 <p>所以我们应该把获取 HTTP 请求写在后台线程里。</p>
@@ -294,32 +228,15 @@ String theString = writer.toString();</code></pre>
 <li>重写<code>onPostExecute()</code>方法，传入结果集（该方法在主线程运行），将结果集显示在 TextView 上面</li>
 <li></li>
 </ul>
-<pre><code class="java">public class GithubQueryTask extends AsyncTask&lt;URL, Void, String&gt;{
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GithubQueryTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">URL</span>, <span class="title">Void</span>, <span class="title">String</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> String <span class="title">doInBackground</span><span class="params">(URL... params)</span> </span>&#123;</span><br><span class="line">        URL searchUrl = params[<span class="number">0</span>];</span><br><span class="line">        String githubSearchResults = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            githubSearchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> githubSearchResults;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(String githubSearchResults)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (githubSearchResults != <span class="keyword">null</span> &amp;&amp; !githubSearchResults.equals(<span class="string">""</span>)) &#123;</span><br><span class="line">            mSearchResultsTextView.setText(githubSearchResults);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    @Override
-    protected String doInBackground(URL... params) {
-        URL searchUrl = params[0];
-        String githubSearchResults = null;
-        try {
-            githubSearchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return githubSearchResults;
-    }
-
-    @Override
-    protected void onPostExecute(String githubSearchResults) {
-        if (githubSearchResults != null &amp;&amp; !githubSearchResults.equals(&quot;&quot;)) {
-            mSearchResultsTextView.setText(githubSearchResults);
-        }
-    }
-}</code></pre>
 <h2 id="添加网络访问权限"><a href="#添加网络访问权限" class="headerlink" title="添加网络访问权限"></a>添加网络访问权限</h2><p>在 AndroidManifest.xml 中需要添加访问权限</p>
-<pre><code class="xml">&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot; /&gt;</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.INTERNET"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>否则会报<code>SecurityException</code>异常</p>
 <h2 id="在onCreate-中调用"><a href="#在onCreate-中调用" class="headerlink" title="在onCreate()中调用"></a>在onCreate()中调用</h2><p>因为GithubQueryTask是一个继承于AsyncTask的类，使用 new 语句来启动后台</p>
-<pre><code class="java">new GithubQueryTask().execute(githubSearchUrl);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> GithubQueryTask().execute(githubSearchUrl);</span><br></pre></td></tr></table></figure>
+
 <p>效果：</p>
 <p><img src="../../../../images/Learn_Android/network.jpg" alt="network"></p>
 <ul>
@@ -417,7 +334,7 @@ String theString = writer.toString();</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -429,7 +346,7 @@ String theString = writer.toString();</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -441,7 +358,7 @@ String theString = writer.toString();</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -570,25 +487,25 @@ String theString = writer.toString();</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -602,6 +519,14 @@ String theString = writer.toString();</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -610,20 +535,20 @@ String theString = writer.toString();</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -655,7 +580,7 @@ String theString = writer.toString();</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -663,7 +588,15 @@ String theString = writer.toString();</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -698,6 +631,25 @@ String theString = writer.toString();</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -728,7 +680,7 @@ String theString = writer.toString();</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -765,25 +717,6 @@ String theString = writer.toString();</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -849,6 +782,25 @@ String theString = writer.toString();</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -879,7 +831,7 @@ String theString = writer.toString();</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -916,25 +868,6 @@ String theString = writer.toString();</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -997,7 +930,7 @@ String theString = writer.toString();</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1051,7 +984,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

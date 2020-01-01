@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -164,7 +164,9 @@
 <h1 id="什么是-Docker"><a href="#什么是-Docker" class="headerlink" title="什么是 Docker"></a>什么是 Docker</h1><p>知乎上有一个高赞回答通俗地解释了 <a href="https://www.zhihu.com/question/28300645/answer/67707287">Docker 是什么</a>，我的理解是，一台大型服务器（云计算机器）可以看成是一艘大货轮，计算资源就是货轮的荷载。而 Docker 是集装箱，我们只需要把我们的应用规整地打包到集装箱里面，这样我们就无需关心集装箱外部的环境了（一个应用在 Ubuntu 下部署和在 CentOs 下部署配置往往不同，而 Docker 屏蔽了这些不同）。这样，当换一艘货轮，我们只要把集装箱迁走，而不需要对货物进行拆卸重组，省时省力。</p>
 <p>在初步理解 Docker 概念的时候，看到国外的一篇文章<a href="https://rominirani.com/docker-use-cases-ca12afba75b0">Docker Use Cases</a>（<a href="https://blog.csdn.net/qq_37788081/article/details/79044119">中文翻译</a>），里面提到，<strong>Docker 是一个便携的应用容器</strong>。我们可以在 Docker 里面运行几乎任何 Linux 应用，数据库、Node.js服务、Web服务等等。<strong>Docker 并不在乎你的应用程序是什么、做什么，Docker 提供了一组应用打包、传输和部署的方法，以便你能更好地在容器内运行任何应用。</strong></p>
 <h1 id="Docker用在哪里？"><a href="#Docker用在哪里？" class="headerlink" title="Docker用在哪里？"></a>Docker用在哪里？</h1><h2 id="快速搭建环境，尝试新软件"><a href="#快速搭建环境，尝试新软件" class="headerlink" title="快速搭建环境，尝试新软件"></a>快速搭建环境，尝试新软件</h2><p>很多新技术要去使用前可能要搭建环境并测试，而 Docker 让你用一条命令搭建好特定的环境。比如，Docker 只需要一条命令便可以运行 MySQL 数据库：</p>
-<pre><code>docker run -d -p 3306:3306 tutum/mysql</code></pre><p>普通用户大概需要一天的时间去搭建 Gitlab 平台，而 Docker 则只需要一条命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 3306:3306 tutum&#x2F;mysql</span><br></pre></td></tr></table></figure>
+
+<p>普通用户大概需要一天的时间去搭建 Gitlab 平台，而 Docker 则只需要一条命令。</p>
 <h2 id="避免“我机器上可以运行”"><a href="#避免“我机器上可以运行”" class="headerlink" title="避免“我机器上可以运行”"></a>避免“我机器上可以运行”</h2><p>有时候一个项目，在开发电脑上运行得好好的，到测试机器或生产环境就会出现各种各样的问题（通常是环境和依赖问题）。Docker 镜像并不会因为环境的变化而不能运行，也不会在不同的电脑上有不同的运行结果。可以给测试人员提交含有应用的 Docker 镜像，这样便不再会发生“在我机器上是可以运行的”这种事情。</p>
 <h1 id="虚拟机和-Docker-的区别"><a href="#虚拟机和-Docker-的区别" class="headerlink" title="虚拟机和 Docker 的区别"></a>虚拟机和 Docker 的区别</h1><p>StackOverFlow 有一个问答 <a href="https://stackoverflow.com/questions/16047306/how-is-docker-different-from-a-virtual-machine">How is Docker different from a virtual machine? [closed]
 </a> 解释了 VM 和 Docker 的区别。其中最重要的一点是，Docker用了 runC(libcontainer) 技术，让运行在 Docker 中的应用能够在共享操作系统上的资源。例如，假如我们有 1GB 的容器镜像要跑在5台机器上，如果我们用5台虚拟机，就分别需要5个1GB。而使用 Docker，仍然只需要1GB因为它们共享了操作系统资源。</p>
@@ -182,14 +184,20 @@
 <p>详细可参阅<a href="https://docs.docker.com/get-started/">Docker官方文档</a>。</p>
 <h1 id="Docker-安装"><a href="#Docker-安装" class="headerlink" title="Docker 安装"></a>Docker 安装</h1><p>到 <a href="https://www.docker.com/">docker官网</a> 下载对应系统的 docker 安装程序。用 Windows 开发，下载<a href="https://hub.docker.com/editions/community/docker-ce-desktop-windows"><br>Docker Desktop (Windows)</a>。<strong>注意：Docker 需要 Hyper-V，因而只有专业版 Windows 10 才能正常安装，但是家庭版也能绕过，如果很不幸你是家庭版，参考<a href="https://www.jianshu.com/p/1329954aa329">这篇文章</a></strong>。安装过程参考官网：<a href="https://hub.docker.com/editions/community/docker-ce-desktop-windows">https://hub.docker.com/editions/community/docker-ce-desktop-windows</a></p>
 <p>安装完毕后，打开任意终端，输入</p>
-<pre><code>docker version</code></pre><p>看到版本信息，即安装成功。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker version</span><br></pre></td></tr></table></figure>
+
+<p>看到版本信息，即安装成功。</p>
 <h1 id="运行-Docker-应用"><a href="#运行-Docker-应用" class="headerlink" title="运行 Docker 应用"></a>运行 Docker 应用</h1><p>把 Docker 想象成虚拟机，你可以在 Docker 里面运行任何应用。</p>
 <p>例如，在win10 Powershell 或 CMD 输入：</p>
-<pre><code>docker run ubuntu:16.04 /bin/echo &quot;hello world&quot;</code></pre><p>意思是，在 ubuntu:16.04 的环境下（尽管你现在在用着Windows），运行 <code>/bin/echo</code> 这个程序，<code>echo</code> 在linux系统里是输出文字，这里我们输出<code>hello world</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run ubuntu:16.04 &#x2F;bin&#x2F;echo &quot;hello world&quot;</span><br></pre></td></tr></table></figure>
+
+<p>意思是，在 ubuntu:16.04 的环境下（尽管你现在在用着Windows），运行 <code>/bin/echo</code> 这个程序，<code>echo</code> 在linux系统里是输出文字，这里我们输出<code>hello world</code>。</p>
 <p><img src="../../../../images/docker_helloworld.png" alt="docker_helloworld"></p>
 <p>可以看到，我们电脑上没有 ubuntu:16.04 镜像，于是 docker 自动从网上拉取，完成后执行我们的程序。</p>
 <p>用以下命令来交互式：</p>
-<pre><code>docker run -i -t ubuntu:16.04 /bin/bash</code></pre><ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -i -t ubuntu:16.04 &#x2F;bin&#x2F;bash</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li><strong>-i</strong>:允许你对容器内的标准输入 (STDIN) 进行交互。</li>
 <li><strong>-t</strong>:在新容器内指定一个伪终端或终端。</li>
 </ul>
@@ -290,7 +298,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -302,7 +310,7 @@
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -314,7 +322,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -455,25 +463,25 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -487,6 +495,14 @@
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -495,20 +511,20 @@
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -540,7 +556,7 @@
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -548,7 +564,15 @@
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -583,6 +607,25 @@
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -613,7 +656,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -650,25 +693,6 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -734,6 +758,25 @@
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -764,7 +807,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -801,25 +844,6 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -882,7 +906,7 @@
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -936,7 +960,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

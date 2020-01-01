@@ -38,7 +38,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -174,17 +174,8 @@
 
 <hr>
 <h1 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h1><h2 id="Servlet-是什么"><a href="#Servlet-是什么" class="headerlink" title="Servlet 是什么"></a>Servlet 是什么</h2><p>简而言之，Servlet 就是一个接口，它规定了一个后端逻辑初始化的时候做什么、业务逻辑是什么、销毁的时候做什么。</p>
-<pre><code class="java">public interface Servlet {
-    void init(ServletConfig var1) throws ServletException;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Servlet</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(ServletConfig var1)</span> <span class="keyword">throws</span> ServletException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">ServletConfig <span class="title">getServletConfig</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">service</span><span class="params">(ServletRequest var1, ServletResponse var2)</span> <span class="keyword">throws</span> ServletException, IOException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">String <span class="title">getServletInfo</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    ServletConfig getServletConfig();
-
-    void service(ServletRequest var1, ServletResponse var2) throws ServletException, IOException;
-
-    String getServletInfo();
-
-    void destroy();
-}</code></pre>
 <p>如果想开发一个Java程序向浏览器输出数据，需要完成以下2个步骤：</p>
 <ol>
 <li>编写一个Java类，实现servlet接口(然而现实情况是，servlet开发者已经帮我们实现了一个httpServlet的抽象类，我们只需继承httpServlet并重写doGet和doPost方法)。</li>
@@ -221,58 +212,16 @@
 </ul>
 <h2 id="后端：GET"><a href="#后端：GET" class="headerlink" title="后端：GET"></a>后端：GET</h2><p>src/main/java 下，new 一个 servlet</p>
 <p>helloServlet.java</p>
-<pre><code class="java">import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.servlet.annotation.WebServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.ServletException;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line"><span class="meta">@WebServlet</span>(<span class="string">"/hello"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">helloServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String message;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> <span class="keyword">throws</span> ServletException</span>&#123;</span><br><span class="line">        message = <span class="string">"hello world!!"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置响应内容类型</span></span><br><span class="line">        response.setContentType(<span class="string">"text/html"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 实际的逻辑是在这里</span></span><br><span class="line">        PrintWriter out = response.getWriter();</span><br><span class="line">        out.println(<span class="string">"&lt;h1&gt;"</span> + message + <span class="string">"&lt;/h1&gt;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-@WebServlet(&quot;/hello&quot;)
-public class helloServlet extends HttpServlet {
-    private String message;
-
-    public void init() throws ServletException{
-        message = &quot;hello world!!&quot;;
-    }
-
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        // 设置响应内容类型
-        response.setContentType(&quot;text/html&quot;);
-
-        // 实际的逻辑是在这里
-        PrintWriter out = response.getWriter();
-        out.println(&quot;&lt;h1&gt;&quot; + message + &quot;&lt;/h1&gt;&quot;);
-    }
-}</code></pre>
 <p>访问 <code>localhost:8080/hello</code>，能看到 hello world!!</p>
 <ul>
 <li><code>@WebServlet(&quot;/hello&quot;)</code>是一个注解，我们用这种方式来表示该 Servlet 的路径是 ./hello 。更原始的，我们可以在项目工程下找到 web.xml 文件，在这里面配置映射路径。（参考：<a href="http://how2j.cn/k/idea/idea-web-project/1352.html">WEB PROJECT</a>）</li>
 </ul>
 <h2 id="后端：POST"><a href="#后端：POST" class="headerlink" title="后端：POST"></a>后端：POST</h2><p>src/main/java 下，new 一个 servlet</p>
 <p>postServlet.java</p>
-<pre><code class="java">@WebServlet(&quot;/login&quot;)
-public class postServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding(&quot;UTF-8&quot;);  // 解决中文问题
-        String name = request.getParameter(&quot;name&quot;);
-        String password = request.getParameter(&quot;password&quot;);
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet</span>(<span class="string">"/login"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">postServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        request.setCharacterEncoding(<span class="string">"UTF-8"</span>);  <span class="comment">// 解决中文问题</span></span><br><span class="line">        String name = request.getParameter(<span class="string">"name"</span>);</span><br><span class="line">        String password = request.getParameter(<span class="string">"password"</span>);</span><br><span class="line"></span><br><span class="line">        String html = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="string">"admin"</span>.equals(name) &amp;&amp; <span class="string">"123456"</span>.equals(password))</span><br><span class="line">            html = <span class="string">"&lt;div style='color:green'&gt;success&lt;/div&gt;"</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            html = <span class="string">"&lt;div style='color:red'&gt;fail&lt;/div&gt;"</span>;</span><br><span class="line"></span><br><span class="line">        response.setContentType(<span class="string">"text/html; charset=UTF-8"</span>);<span class="comment">// 解决中文问题    </span></span><br><span class="line">        PrintWriter pw = response.getWriter();</span><br><span class="line">        pw.println(html);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        String html = null;
-
-        if (&quot;admin&quot;.equals(name) &amp;&amp; &quot;123456&quot;.equals(password))
-            html = &quot;&lt;div style=&#39;color:green&#39;&gt;success&lt;/div&gt;&quot;;
-        else
-            html = &quot;&lt;div style=&#39;color:red&#39;&gt;fail&lt;/div&gt;&quot;;
-
-        response.setContentType(&quot;text/html; charset=UTF-8&quot;);// 解决中文问题    
-        PrintWriter pw = response.getWriter();
-        pw.println(html);
-    }
-}</code></pre>
 <ul>
 <li>使用<code>request.setCharacterEncoding(&quot;UTF-8&quot;);</code>和<code>response.setContentType(&quot;text/html; charset=UTF-8&quot;);</code>解决中文问题</li>
 <li><code>&quot;字面量&quot;.equals(str)</code>是个好习惯</li>
@@ -280,24 +229,8 @@ public class postServlet extends HttpServlet {
 </ul>
 <h2 id="前端：HTML"><a href="#前端：HTML" class="headerlink" title="前端：HTML"></a>前端：HTML</h2><p>web目录下，new 一个 login.html</p>
 <p>login.html</p>
-<pre><code class="html">&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;请登录&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;div align=&quot;center&quot;&gt;
-        &lt;h1&gt;请登录&lt;/h1&gt;
-            &lt;form action=&quot;login&quot; method=&quot;post&quot;&gt;
-                账号：&lt;input type=&quot;text&quot;, name=&quot;name&quot;&gt; &lt;br&gt;
-                密码：&lt;input type=&quot;password&quot;, name=&quot;password&quot;&gt; &lt;br&gt;
-                &lt;input type=&quot;submit&quot;, value=&quot;登录&quot;&gt;
-                &lt;input type=&quot;reset&quot;, value=&quot;重置&quot;&gt;
-            &lt;/form&gt;
-    &lt;/div&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>请登录<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">align</span>=<span class="string">"center"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>请登录<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"login"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></span><br><span class="line">                账号：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span>, <span class="attr">name</span>=<span class="string">"name"</span>&gt;</span> <span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">                密码：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span>, <span class="attr">name</span>=<span class="string">"password"</span>&gt;</span> <span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span>, <span class="attr">value</span>=<span class="string">"登录"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"reset"</span>, <span class="attr">value</span>=<span class="string">"重置"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <ul>
 <li><code>&lt;meta charset=&quot;UTF-8&quot;&gt;</code>解决中文问题</li>
 <li><code>action</code>属性表示要提交的服务器页面地址为 ./login</li>
@@ -309,41 +242,20 @@ public class postServlet extends HttpServlet {
 <p><img src="../../../../images/Webapp/login.png" alt="login"></p>
 <h2 id="跳转"><a href="#跳转" class="headerlink" title="跳转"></a>跳转</h2><p>登录成功或是失败后，分别会跳转到不同的页面。 跳转分为<code>服务端跳转</code>和<code>客户端跳转</code>。</p>
 <h3 id="服务端跳转-forward"><a href="#服务端跳转-forward" class="headerlink" title="服务端跳转(forward)"></a>服务端跳转(forward)</h3><p>forward 是服务器请求资源,服务器直接访问目标地址的URL,把那个URL的响应内容读取过来,然后把这些内容再发给浏览器.浏览器根本不知道服务器发送的内容从哪里来的,所以它的地址栏还是原来的地址。<font color="red"> 因此，用户看到的网址没有变化 </font>。 在这个过程中，控制权并没有转交给另一服务器对象。</p>
-<pre><code class="java">request.getRequestDispatcher(&quot;success.html&quot;).forward(request, response);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">request.getRequestDispatcher(<span class="string">"success.html"</span>).forward(request, response);</span><br></pre></td></tr></table></figure>
+
 <h3 id="客户端跳转-redirect"><a href="#客户端跳转-redirect" class="headerlink" title="客户端跳转(redirect)"></a>客户端跳转(redirect)</h3><p>redirect是服务端根据逻辑,发送一个状态码,告诉浏览器重新去请求那个地址.所以地址栏显示的是新的URL.</p>
-<pre><code class="java">response.sendRedirect(&quot;fail.html&quot;);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.sendRedirect(<span class="string">"fail.html"</span>);</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>用户看到的网址变为 127.0.0.1:8080/fail.html</li>
 </ul>
 <h2 id="Web-xml"><a href="#Web-xml" class="headerlink" title="Web.xml"></a>Web.xml</h2><p>在项目中有一个 Web.xml 文件，这个文件是一些配置参数。</p>
-<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;web-app xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns=&quot;http://xmlns.jcp.org/xml/ns/javaee&quot; xsi:schemaLocation=&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd&quot; id=&quot;WebApp_ID&quot; version=&quot;3.1&quot;&gt;
-  &lt;display-name&gt;JspDemo&lt;/display-name&gt;
-  &lt;welcome-file-list&gt;
-    &lt;welcome-file&gt;login.jsp&lt;/welcome-file&gt;
-  &lt;/welcome-file-list&gt;
-  &lt;context-param&gt;  
-    &lt;param-name&gt;database_driver&lt;/param-name&gt;  
-    &lt;param-value&gt;com.mysql.jdbc.Driver&lt;/param-value&gt;
-  &lt;/context-param&gt;
-  &lt;context-param&gt;  
-    &lt;param-name&gt;database_url&lt;/param-name&gt;  
-    &lt;param-value&gt;jdbc:mysql://localhost:3306/sms?serverTimezone=GMT%2B8&amp;amp;characterEncoding=UTF-8&lt;/param-value&gt;
-  &lt;/context-param&gt;
-  &lt;context-param&gt;  
-    &lt;param-name&gt;database_user&lt;/param-name&gt;  
-    &lt;param-value&gt;root&lt;/param-value&gt;
-  &lt;/context-param&gt;
-  &lt;context-param&gt;  
-    &lt;param-name&gt;database_pwd&lt;/param-name&gt;  
-    &lt;param-value&gt;123456&lt;/param-value&gt;
-  &lt;/context-param&gt;
-&lt;/web-app&gt;</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns</span>=<span class="string">"http://xmlns.jcp.org/xml/ns/javaee"</span> <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"</span> <span class="attr">id</span>=<span class="string">"WebApp_ID"</span> <span class="attr">version</span>=<span class="string">"3.1"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">display-name</span>&gt;</span>JspDemo<span class="tag">&lt;/<span class="name">display-name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">welcome-file-list</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">welcome-file</span>&gt;</span>login.jsp<span class="tag">&lt;/<span class="name">welcome-file</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">welcome-file-list</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">context-param</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>database_driver<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">context-param</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">context-param</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>database_url<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>jdbc:mysql://localhost:3306/sms?serverTimezone=GMT%2B8<span class="symbol">&amp;amp;</span>characterEncoding=UTF-8<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">context-param</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">context-param</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>database_user<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">context-param</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">context-param</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>database_pwd<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">context-param</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>然后我们可以在 Java 中取出这些参数</p>
-<pre><code class="java">this.driver = request.getSession().getServletContext().getInitParameter(&quot;database_driver&quot;);
-this.url = request.getSession().getServletContext().getInitParameter(&quot;database_url&quot;);
-this.user = request.getSession().getServletContext().getInitParameter(&quot;database_user&quot;);
-this.pwd = request.getSession().getServletContext().getInitParameter(&quot;database_pwd&quot;);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.driver = request.getSession().getServletContext().getInitParameter(<span class="string">"database_driver"</span>);</span><br><span class="line"><span class="keyword">this</span>.url = request.getSession().getServletContext().getInitParameter(<span class="string">"database_url"</span>);</span><br><span class="line"><span class="keyword">this</span>.user = request.getSession().getServletContext().getInitParameter(<span class="string">"database_user"</span>);</span><br><span class="line"><span class="keyword">this</span>.pwd = request.getSession().getServletContext().getInitParameter(<span class="string">"database_pwd"</span>);</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="Request常用方法"><a href="#Request常用方法" class="headerlink" title="Request常用方法"></a>Request常用方法</h1><p>获取信息</p>
 <table>
@@ -445,9 +357,8 @@ this.pwd = request.getSession().getServletContext().getInitParameter(&quot;datab
 </tr>
 </tbody></table>
 <p>可以用以下方法设置不使用缓存</p>
-<pre><code class="java">response.setDateHeader(&quot;Expires&quot;,0 );
-response.setHeader(&quot;Cache-Control&quot;,&quot;no-cache&quot;);
-response.setHeader(&quot;pragma&quot;,&quot;no-cache&quot;);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">response.setDateHeader(<span class="string">"Expires"</span>,<span class="number">0</span> );</span><br><span class="line">response.setHeader(<span class="string">"Cache-Control"</span>,<span class="string">"no-cache"</span>);</span><br><span class="line">response.setHeader(<span class="string">"pragma"</span>,<span class="string">"no-cache"</span>);</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="Servlet的线程安全问题"><a href="#Servlet的线程安全问题" class="headerlink" title="Servlet的线程安全问题"></a>Servlet的线程安全问题</h1><p>当多个客户端并发访问同一个Servlet时，web服务器会为每一个客户端的访问请求创建一个线程，并在这个线程上调用Servlet的service方法，因此service方法内如果访问了同一个资源的话，就有可能引发线程安全问题。</p>
 <p>线程安全问题只存在多个线程并发操作同一个资源的情况下，所以在编写Servlet的时候，如果并发访问某一个资源(变量，集合等)，就会存在线程安全问题。</p>
@@ -544,7 +455,7 @@ response.setHeader(&quot;pragma&quot;,&quot;no-cache&quot;);</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -556,7 +467,7 @@ response.setHeader(&quot;pragma&quot;,&quot;no-cache&quot;);</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -568,7 +479,7 @@ response.setHeader(&quot;pragma&quot;,&quot;no-cache&quot;);</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -745,25 +656,25 @@ response.setHeader(&quot;pragma&quot;,&quot;no-cache&quot;);</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -777,6 +688,14 @@ response.setHeader(&quot;pragma&quot;,&quot;no-cache&quot;);</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -785,20 +704,20 @@ response.setHeader(&quot;pragma&quot;,&quot;no-cache&quot;);</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -830,7 +749,7 @@ response.setHeader(&quot;pragma&quot;,&quot;no-cache&quot;);</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -838,7 +757,15 @@ response.setHeader(&quot;pragma&quot;,&quot;no-cache&quot;);</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -873,6 +800,25 @@ response.setHeader(&quot;pragma&quot;,&quot;no-cache&quot;);</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -903,7 +849,7 @@ response.setHeader(&quot;pragma&quot;,&quot;no-cache&quot;);</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -940,25 +886,6 @@ response.setHeader(&quot;pragma&quot;,&quot;no-cache&quot;);</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1024,6 +951,25 @@ response.setHeader(&quot;pragma&quot;,&quot;no-cache&quot;);</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1054,7 +1000,7 @@ response.setHeader(&quot;pragma&quot;,&quot;no-cache&quot;);</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1091,25 +1037,6 @@ response.setHeader(&quot;pragma&quot;,&quot;no-cache&quot;);</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1172,7 +1099,7 @@ response.setHeader(&quot;pragma&quot;,&quot;no-cache&quot;);</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1226,7 +1153,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -201,10 +201,8 @@
 </ul>
 <p>MEMORY 存储引擎不支持 BLOB 和 TEXT，如果使用到了，将不得不转换成 MyISAM 磁盘临时表，这将带来很大的开销。MEMORY中最好避免使用 BLOB 和 TEXT。</p>
 <h2 id="枚举类代替字符串"><a href="#枚举类代替字符串" class="headerlink" title="枚举类代替字符串"></a>枚举类代替字符串</h2><p>有时候可以用枚举类代替不重复的字符串。其内部是用整数实际存储的，而不是字符串。因此最好不要往里面插入常量（如’1’,’2’）以避免混乱。但是也有缺点，添加或删除字符串需要用 <code>ALTER TABLE</code>，因此对于一些未来可能会改变的字符串，使用枚举是不明智的。</p>
-<pre><code class="sql">CREATE TABLE enum_test(
-  e ENUM(&#39;fish&#39;,&#39;apple&#39;,&#39;dog&#39;) NOT NULL
-);
-INSERT INTO enum_test(e) VALUES (&#39;fish&#39;, &#39;dog&#39;, &#39;apple&#39;);</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> enum_test(</span><br><span class="line">  e ENUM(<span class="string">'fish'</span>,<span class="string">'apple'</span>,<span class="string">'dog'</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> enum_test(e) <span class="keyword">VALUES</span> (<span class="string">'fish'</span>, <span class="string">'dog'</span>, <span class="string">'apple'</span>);</span><br></pre></td></tr></table></figure>
+
 <h2 id="DATETIME-和-TIMESTAMP"><a href="#DATETIME-和-TIMESTAMP" class="headerlink" title="DATETIME 和 TIMESTAMP"></a>DATETIME 和 TIMESTAMP</h2><ul>
 <li><strong>DATETIME</strong>：能保存1001年-9999年，精度为秒。将日期和时间封装到 YYYYMMDDHHMMSS 格式的整数中，与时区无关。使用8个字节的存储空间。</li>
 <li><strong>TIMESTAMP</strong>：能保存1970-2038年，只使用4个字节，存储的是1970年1月1日到现在的秒数，时区相关。</li>
@@ -216,34 +214,31 @@ INSERT INTO enum_test(e) VALUES (&#39;fish&#39;, &#39;dog&#39;, &#39;apple&#39;)
 </ul>
 <hr>
 <h1 id="MySQL-高效索引"><a href="#MySQL-高效索引" class="headerlink" title="MySQL 高效索引"></a>MySQL 高效索引</h1><h2 id="1-独立的列"><a href="#1-独立的列" class="headerlink" title="1.独立的列"></a>1.独立的列</h2><p>对于独立的列来说，要创建高效索引，必须满足：<strong>索引列不能是表达式的一部分，也不能是函数的参数</strong>。例如：</p>
-<pre><code class="sql">// 使用了表达式，索引失效
-SELECT actor_id FROM sakila.actor WHERE actor_id + 1 = 5;
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 使用了表达式，索引失效</span><br><span class="line"><span class="keyword">SELECT</span> actor_id <span class="keyword">FROM</span> sakila.actor <span class="keyword">WHERE</span> actor_id + <span class="number">1</span> = <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> ... <span class="keyword">WHERE</span> <span class="keyword">TO_DAYS</span>(<span class="keyword">CURRENT_DATE</span>) - <span class="keyword">TO_DAYS</span>(DATE_COL) &lt;= <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
 
-SELECT ... WHERE TO_DAYS(CURRENT_DATE) - TO_DAYS(DATE_COL) &lt;= 10;</code></pre>
 <p>应该养成简化 WHERE 条件的习惯，<strong>始终将索引列放在比较符号的一侧</strong>。</p>
 <h2 id="2-前缀索引"><a href="#2-前缀索引" class="headerlink" title="2.前缀索引"></a>2.前缀索引</h2><p>有时候要索引很长的字符列，这会让索引变得很大且慢。一种解决办法是在索引上再建哈希索引。但还可以用 <strong>前缀索引</strong> 来解决。</p>
 <p>前缀索引，顾名思义，只索引字符串的前面一部分，例如，对于数据<code>University</code>，我们可以建立索引<code>Uni</code>。但这样会降低索引的选择性，<font color="red">索引选择性是指不重复的索引值 和 表记录数的比值</font>。选择性越高，说明索引越多。唯一索引的选择性是1，因此性能最高。</p>
 <p>在 MySQL 里面，BLOB、TEXT 和 很长的 VARCHAR 必须使用前缀索引。</p>
 <p>查看前缀为3的情况</p>
-<pre><code class="sql">SELECT COUNT(*) AS cnt, LEFT(city, 3) AS pref
-FROM city_demo
-GROUP BY pref
-ORDER BY cnt DESC LIMIT 10;</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*) <span class="keyword">AS</span> cnt, <span class="keyword">LEFT</span>(city, <span class="number">3</span>) <span class="keyword">AS</span> pref</span><br><span class="line"><span class="keyword">FROM</span> city_demo</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> pref</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> <span class="keyword">LIMIT</span> <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
 <p>那索引前缀多长比较合适呢？诀窍是，<strong>前缀应该足够长，使得选择性接近于整个列，但不能太长（以便节约空间）</strong>。</p>
 <p>计算完整列的选择性方法：</p>
-<pre><code class="sql">SELECT COUNT(DISTINCT city) / COUNT(*) FROM city_demo;</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(<span class="keyword">DISTINCT</span> city) / <span class="keyword">COUNT</span>(*) <span class="keyword">FROM</span> city_demo;</span><br></pre></td></tr></table></figure>
+
 <p>假如计算出来结果是 0.0312，那么选择性接近 0.0312 的前缀就差不多了。</p>
 <p>测试各个前缀的选择性：</p>
-<pre><code class="sql">SELECT COUNT(DISTINCT LEFT(city, 3)) AS sel3,
-       COUNT(DISTINCT LEFT(city, 4)) AS sel4,
-       COUNT(DISTINCT LEFT(city, 5)) AS sel5
-FROM city_demo;</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="keyword">LEFT</span>(city, <span class="number">3</span>)) <span class="keyword">AS</span> sel3,</span><br><span class="line">       <span class="keyword">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="keyword">LEFT</span>(city, <span class="number">4</span>)) <span class="keyword">AS</span> sel4,</span><br><span class="line">       <span class="keyword">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="keyword">LEFT</span>(city, <span class="number">5</span>)) <span class="keyword">AS</span> sel5</span><br><span class="line"><span class="keyword">FROM</span> city_demo;</span><br></pre></td></tr></table></figure>
+
 <p>当我们找到一个合适的前缀，比如是5，用下面的方式来创建前缀为5的前缀索引：</p>
-<pre><code class="sql">ALTER TABLE city_demo ADD KEY (city(5));</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> city_demo <span class="keyword">ADD</span> <span class="keyword">KEY</span> (city(<span class="number">5</span>));</span><br></pre></td></tr></table></figure>
+
 <h3 id="前缀索引的缺点"><a href="#前缀索引的缺点" class="headerlink" title="前缀索引的缺点"></a>前缀索引的缺点</h3><p>无法使用前缀索引做 GROUP BY 和 ORDER BY 和 覆盖扫描。</p>
 <h2 id="3-多列索引"><a href="#3-多列索引" class="headerlink" title="3.多列索引"></a>3.多列索引</h2><p>常见多列索引的错误有：为每一列创建独立的索引，或者按照错误的顺序创建索引。那什么是正确的顺序呢？一个经验法则是：<strong>当不需要考虑排序和分组时，将选择性最高的列放在最前面</strong>。</p>
 <p>一个简单的例子</p>
-<pre><code class="sql">SELECT * FROM payment WHERE staff_id = 2 AND customer_id = 584;</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> payment <span class="keyword">WHERE</span> staff_id = <span class="number">2</span> <span class="keyword">AND</span> customer_id = <span class="number">584</span>;</span><br></pre></td></tr></table></figure>
+
 <p>创建索引时，是应该创建 (staff_id, customer_id) 还是 (customer_id,staff_id) ？这取决于哪一列的选择性更高。但这也不是绝对的，还要考虑WHERE 子句中的排序、分组、范围条件等其他因素。</p>
 <h2 id="4-聚簇索引"><a href="#4-聚簇索引" class="headerlink" title="4.聚簇索引"></a>4.聚簇索引</h2><p>聚簇的意思是：数据行和相邻的键值紧凑地存储在一起。当表有聚簇索引时，数据行本身存放在索引的叶子页。InnoDB的实现是，通过主键聚集数据，被索引的列就是主键列。如果没有主键，InnoDB会选择一个非空索引代替，如果没有这样的索引，就隐式创建一个。</p>
 <p>InnoDB支持聚簇索引，而MyISAM不支持，使用了聚簇索引和非聚簇索引的存储方式区别可参考 <a href="../post/4c81d70.html#%E7%B4%A2%E5%BC%95%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0">数据库（二）MySQL必知必会概念</a></p>
@@ -272,49 +267,26 @@ FROM city_demo;</code></pre>
 <li><strong>重复查询相同的数据</strong>。需要多次重复查询的数据，最好第一次查询后缓存起来，可以使用 redis 等。</li>
 </ol>
 <h2 id="重构查询的两种方法"><a href="#重构查询的两种方法" class="headerlink" title="重构查询的两种方法"></a>重构查询的两种方法</h2><h3 id="1-切分查询"><a href="#1-切分查询" class="headerlink" title="1.切分查询"></a>1.切分查询</h3><p>一次大查询（例如删除旧的数据）可能需要一次锁住很多数据，占满整个事务日志、耗尽系统资源、阻塞很多其他重要的查询。可以把大查询切分成很多个小查询。</p>
-<pre><code class="sql">// 原始 大查询
-DELETE FROM messages WHERE created &lt; DATE_SUB(NOW(), INTERVEL 3 MONTH);
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 原始 大查询</span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> messages <span class="keyword">WHERE</span> created &lt; <span class="keyword">DATE_SUB</span>(<span class="keyword">NOW</span>(), INTERVEL <span class="number">3</span> <span class="keyword">MONTH</span>);</span><br><span class="line"></span><br><span class="line">// 切分 小查询</span><br><span class="line">rows_affected = 0;</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    rows_affected = do_query(</span><br><span class="line">      <span class="string">"DELETE FROM messages WHERE created &lt; DATE_SUB(NOW(), INTERVEL 3 LIMIT 10000"</span></span><br><span class="line">    )</span><br><span class="line">&#125; <span class="keyword">while</span> rows_affected &gt; <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
 
-// 切分 小查询
-rows_affected = 0;
-do {
-    rows_affected = do_query(
-      &quot;DELETE FROM messages WHERE created &lt; DATE_SUB(NOW(), INTERVEL 3 LIMIT 10000&quot;
-    )
-} while rows_affected &gt; 0;</code></pre>
 <h3 id="2-分解关联查询"><a href="#2-分解关联查询" class="headerlink" title="2.分解关联查询"></a>2.分解关联查询</h3><p>高性能应用都会对关联查询进行分解，先对每一个表进行单表查询，再将结果在应用程序进行关联。</p>
-<pre><code class="sql">// 分解前
-SELECT * FROM tag
-  JOIN tag_post ON tag_post.tag_id = tag.id
-  JOIN post ON tag_post.post_id = post.id
-WHERE tag.tag = &#39;mysql&#39;;
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 分解前</span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> tag</span><br><span class="line">  <span class="keyword">JOIN</span> tag_post <span class="keyword">ON</span> tag_post.tag_id = tag.id</span><br><span class="line">  <span class="keyword">JOIN</span> post <span class="keyword">ON</span> tag_post.post_id = post.id</span><br><span class="line"><span class="keyword">WHERE</span> tag.tag = <span class="string">'mysql'</span>;</span><br><span class="line"></span><br><span class="line">//分解后</span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> tag <span class="keyword">WHERE</span> tag = <span class="string">'mysql'</span>;</span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> tag_post <span class="keyword">WHERE</span> tag_id = <span class="number">1234</span>;</span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> post <span class="keyword">WHERE</span> post.id <span class="keyword">in</span> (<span class="number">123</span>,<span class="number">456</span>,<span class="number">7897</span>,<span class="number">9090</span>)</span><br></pre></td></tr></table></figure>
 
-//分解后
-SELECT * FROM tag WHERE tag = &#39;mysql&#39;;
-SELECT * FROM tag_post WHERE tag_id = 1234;
-SELECT * FROM post WHERE post.id in (123,456,7897,9090)</code></pre>
 <h2 id="优化特定类型的查询"><a href="#优化特定类型的查询" class="headerlink" title="优化特定类型的查询"></a>优化特定类型的查询</h2><h3 id="优化COUNT"><a href="#优化COUNT" class="headerlink" title="优化COUNT()"></a>优化COUNT()</h3><ul>
 <li>如果要统计所有行，用 <code>COUNT(*)</code> 而不是 <code>COUNT(col)</code> 。</li>
 <li><code>COUNT(col)</code>统计的是不为NULL的行</li>
 <li><code>COUNT(distinct col)</code>统计不为NULL且不重复的行</li>
 <li><code>COUNT(distinct col 1, col 2)</code> 如果其中一列全为 NULL ，那么即使另一列有不同的值，也返回为 0</li>
 </ul>
-<pre><code class="sql">// 统计行数，假如该表有100行，返回100
-count(*);
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 统计行数，假如该表有100行，返回100</span><br><span class="line">count(*);</span><br><span class="line"></span><br><span class="line">// 统计 last_name 这一列不为NULL的数量</span><br><span class="line">count(last_name);</span><br></pre></td></tr></table></figure>
 
-// 统计 last_name 这一列不为NULL的数量
-count(last_name);</code></pre>
 <ul>
 <li>MyISAM中，不带 WHERE 的 <code>COUNT(*)</code> 速度非常快，因为可以直接利用存储引擎的特征获取这个值。但是带 WHERE 的跟其他存储引擎没区别</li>
 <li>如果某列col不可能为NULL，那 <code>COUNT(col)</code> 将被自动优化成 <code>COUNT(*)</code></li>
 </ul>
 <p>借助 MyISAM <code>COUNT(*)</code> 非常快的特性，我们可以优化如下：</p>
-<pre><code class="sql">// 原语句，求大于5
-SELECT COUNT(*) FROM city WHERE id &gt; 5;
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 原语句，求大于5</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*) <span class="keyword">FROM</span> city <span class="keyword">WHERE</span> <span class="keyword">id</span> &gt; <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line">// 优化后，总数 - 小于等于5</span><br><span class="line"><span class="keyword">SELECT</span> (<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*) <span class="keyword">FROM</span> city) - <span class="keyword">COUNT</span>(*)</span><br><span class="line"><span class="keyword">FROM</span> city <span class="keyword">WHERE</span> <span class="keyword">id</span> &lt;= <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
 
-// 优化后，总数 - 小于等于5
-SELECT (SELECT COUNT(*) FROM city) - COUNT(*)
-FROM city WHERE id &lt;= 5;</code></pre>
 <h3 id="优化关联查询"><a href="#优化关联查询" class="headerlink" title="优化关联查询"></a>优化关联查询</h3><ul>
 <li>确保 ON 或 USING 子句的列上有索引。也就是说，表A和表B用列c关联时，如果优化器的关联顺序是B、A，那只需要在 <strong>第二张表</strong>（A表） 的相应列上创建索引。</li>
 <li>确保 GROUP BY 和 ORDER BY 中的表达式 <strong>只涉及到一个表中的列</strong>，这样MySQL才有可能使用索引来优化这个过程。</li>
@@ -322,33 +294,17 @@ FROM city WHERE id &lt;= 5;</code></pre>
 <h3 id="优化-GROUP-BY"><a href="#优化-GROUP-BY" class="headerlink" title="优化 GROUP BY"></a>优化 GROUP BY</h3><p>MySQL在无法使用索引时，GROUP BY会用临时表或文件排序来做分组。在 GROUP BY 的时候，如果标识列（如用户id）和查找列（如用户名）是对应的，那用标识列做分组，效率会比查找列高，GROUP BY右表标识列比GROUP BY左表标识列高。</p>
 <p>如果不关心结果集的顺序，但GROUP BY默认会按分组的字段排序从而使用了文件排序功能，不需要的时候可以<code>ORDER BY NULL</code>。</p>
 <h3 id="优化-LIMIT-分页"><a href="#优化-LIMIT-分页" class="headerlink" title="优化 LIMIT 分页"></a>优化 LIMIT 分页</h3><p>MySQL limit接收一个或两个参数，如</p>
-<pre><code class="sql">// 取出前18条记录
-SELECT ... limit 18;
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 取出前18条记录</span><br><span class="line"><span class="keyword">SELECT</span> ... <span class="keyword">limit</span> <span class="number">18</span>;</span><br><span class="line"></span><br><span class="line">// 取出第51-53条记录</span><br><span class="line"><span class="keyword">SELECT</span> ... <span class="keyword">limit</span> <span class="number">50</span>,<span class="number">3</span></span><br></pre></td></tr></table></figure>
 
-// 取出第51-53条记录
-SELECT ... limit 50,3</code></pre>
 <p>但有两个参数的时候，且第一个参数（偏移量）非常大，如 <code>limit 10000,30</code>，那MySQL需要查询 10030 条记录，然后抛弃前面 10000 条，返回最后30条。这样的代价是非常高的。</p>
 <p>一个优化思路是：<strong>尽可能使用索引覆盖扫描，而不是查询所有的列，然后根据需要做一次关联操作再返回所需的列</strong>。考虑下面的例子：</p>
-<pre><code class="sql"># 改写前
-SELECT film_id, description FROM sakila.film
-ORDER BY title
-LIMIT 50000,5;
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 改写前</span></span><br><span class="line"><span class="keyword">SELECT</span> film_id, description <span class="keyword">FROM</span> sakila.film</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> title</span><br><span class="line"><span class="keyword">LIMIT</span> <span class="number">50000</span>,<span class="number">5</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改写后</span></span><br><span class="line"><span class="keyword">SELECT</span> film.film_id, film.description <span class="keyword">FROM</span> sakila.film</span><br><span class="line">  <span class="keyword">INNER</span> <span class="keyword">JOIN</span> (</span><br><span class="line">    <span class="keyword">SELECT</span> film_id <span class="keyword">FROM</span> sakila.film</span><br><span class="line">    <span class="keyword">ORDER</span> <span class="keyword">BY</span> title</span><br><span class="line">    <span class="keyword">LIMIT</span> <span class="number">50000</span>,<span class="number">5</span>;</span><br><span class="line">  ) AS lim USING(film_id);</span><br><span class="line"></span><br><span class="line"><span class="comment"># 另一种改写</span></span><br><span class="line"><span class="keyword">SELECT</span> film_id, description <span class="keyword">FROM</span> sakila.film</span><br><span class="line"><span class="keyword">WHERE</span> film_id &gt; <span class="number">50000</span></span><br><span class="line"><span class="keyword">LIMIT</span> <span class="number">5</span></span><br></pre></td></tr></table></figure>
 
-# 改写后
-SELECT film.film_id, film.description FROM sakila.film
-  INNER JOIN (
-    SELECT film_id FROM sakila.film
-    ORDER BY title
-    LIMIT 50000,5;
-  ) AS lim USING(film_id);
-
-# 另一种改写
-SELECT film_id, description FROM sakila.film
-WHERE film_id &gt; 50000
-LIMIT 5</code></pre>
 <p>先快速定位需要获取的 id 段，然后再关联。</p>
-<pre><code class="sql">SELECT a.* FROM 表 1 a, (select id from 表 1 where 条件 LIMIT 100000,20 ) b
-where a.id=b.id</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a.* <span class="keyword">FROM</span> 表 <span class="number">1</span> a, (<span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> 表 <span class="number">1</span> <span class="keyword">where</span> 条件 <span class="keyword">LIMIT</span> <span class="number">100000</span>,<span class="number">20</span> ) b</span><br><span class="line"><span class="keyword">where</span> a.id=b.id</span><br></pre></td></tr></table></figure>
+
+
+
 <h3 id="优化-UNION"><a href="#优化-UNION" class="headerlink" title="优化 UNION"></a>优化 UNION</h3><p>MySQL 总是通过创建并填充临时表的方式来执行 UNION。除非确实需要消除重复的行，否则一定要使用 UNION ALL，没有 ALL 时 MySQL 会给临时表加 IDSTINCT 对数据做唯一性检查，这样做的代价非常高。</p>
 <hr>
 <p>参考：</p>
@@ -444,7 +400,7 @@ where a.id=b.id</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -456,7 +412,7 @@ where a.id=b.id</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -468,7 +424,7 @@ where a.id=b.id</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -689,25 +645,25 @@ where a.id=b.id</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -721,6 +677,14 @@ where a.id=b.id</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -729,20 +693,20 @@ where a.id=b.id</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -774,7 +738,7 @@ where a.id=b.id</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -782,7 +746,15 @@ where a.id=b.id</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -817,6 +789,25 @@ where a.id=b.id</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -847,7 +838,7 @@ where a.id=b.id</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -884,25 +875,6 @@ where a.id=b.id</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -968,6 +940,25 @@ where a.id=b.id</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -998,7 +989,7 @@ where a.id=b.id</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1035,25 +1026,6 @@ where a.id=b.id</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1116,7 +1088,7 @@ where a.id=b.id</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1170,7 +1142,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

@@ -10,12 +10,12 @@
 <title>Java简明笔记（十七）注解 - J.e</title>
 
 
-    <meta name="description" content="注解魔法注解是一种标记。在 Java 中，随处可见@Override、@Deprecated这样的注解。说实话，Java的注解经常不被重视，以至于学习的时候习惯性略过。在学了Spring框架后发现Spring使用了大量的注解来简化开发和配置，回过头来才发现注解的魅力。 插句题外话，一开始让我感受到注解的强大和优雅的，不是Java，而是在学习 Python 时遇到的 decorator，如下： de">
+    <meta name="description" content="注解魔法注解是一种标记。在 Java 中，随处可见@Override、@Deprecated这样的注解。说实话，Java的注解经常不被重视，以至于学习的时候习惯性略过。在学了Spring框架后发现Spring使用了大量的注解来简化开发和配置，回过头来才发现注解的魅力。 插句题外话，一开始让我感受到注解的强大和优雅的，不是Java，而是在学习 Python 时遇到的 decorator，如下： 12">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java简明笔记（十七）注解">
 <meta property="og:url" content="https://jerrysheh.me/post/b3112bec.html">
 <meta property="og:site_name" content="J.e">
-<meta property="og:description" content="注解魔法注解是一种标记。在 Java 中，随处可见@Override、@Deprecated这样的注解。说实话，Java的注解经常不被重视，以至于学习的时候习惯性略过。在学了Spring框架后发现Spring使用了大量的注解来简化开发和配置，回过头来才发现注解的魅力。 插句题外话，一开始让我感受到注解的强大和优雅的，不是Java，而是在学习 Python 时遇到的 decorator，如下： de">
+<meta property="og:description" content="注解魔法注解是一种标记。在 Java 中，随处可见@Override、@Deprecated这样的注解。说实话，Java的注解经常不被重视，以至于学习的时候习惯性略过。在学了Spring框架后发现Spring使用了大量的注解来简化开发和配置，回过头来才发现注解的魅力。 插句题外话，一开始让我感受到注解的强大和优雅的，不是Java，而是在学习 Python 时遇到的 decorator，如下： 12">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2019-06-04T03:21:31.000Z">
@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -159,47 +159,25 @@
         <div class="content">
             <h1 id="注解魔法"><a href="#注解魔法" class="headerlink" title="注解魔法"></a>注解魔法</h1><p>注解是一种标记。在 Java 中，随处可见<code>@Override</code>、<code>@Deprecated</code>这样的注解。说实话，Java的注解经常不被重视，以至于学习的时候习惯性略过。在学了Spring框架后发现Spring使用了大量的注解来简化开发和配置，回过头来才发现注解的魅力。</p>
 <p>插句题外话，一开始让我感受到注解的强大和优雅的，不是Java，而是在学习 Python 时遇到的 <strong>decorator</strong>，如下：</p>
-<pre><code class="python">def draw_lighting_decorator(func):
-    @functools.wraps(func)
-    def wrapper():
-        func()
-        print(&quot;lighting&quot;)
-    return wrapper
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">draw_lighting_decorator</span><span class="params">(func)</span>:</span></span><br><span class="line"><span class="meta">    @functools.wraps(func)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">()</span>:</span></span><br><span class="line">        func()</span><br><span class="line">        print(<span class="string">"lighting"</span>)</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@draw_lighting_decorator</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">draw</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">"draw"</span>)</span><br></pre></td></tr></table></figure>
 
-
-@draw_lighting_decorator
-def draw():
-    print(&quot;draw&quot;)</code></pre>
 <p>只需通过<code>@draw_lighting_decorator</code>标记，就能让<code>draw()</code>函数执行后自动执行<code>print(&quot;lighting&quot;)</code>，而无需修改<code>draw()</code>函数本身。</p>
 <p>在 Spring 框架中也是，如下：</p>
-<pre><code class="java">@Service
-public class ProductService {
-    @Autowired
-    private ProductMapper productMapper;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ProductMapper productMapper;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    //...
-}</code></pre>
 <p>只需使用<code>@Service</code>标记，就能让框架知道这是一个MVC中的Service，只需通过<code>@Autowired</code> 就能实现在Service中自动注入一个mapper组件。</p>
 <p>这到底是什么魔法？</p>
 <a id="more"></a>
 
 <hr>
 <h1 id="Override注解探究"><a href="#Override注解探究" class="headerlink" title="Override注解探究"></a>Override注解探究</h1><p>Override是一个注解接口，在 java.lang 包下：</p>
-<pre><code class="java">package java.lang;
-import java.lang.annotation.*;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> java.lang;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Target</span>(ElementType.METHOD)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.SOURCE)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Override &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.SOURCE)
-public @interface Override {
-}</code></pre>
 <p>它似乎什么都没干，就能检查父类中有一个同名的方法。然而，不是这样的！<strong>Annotations仅仅是元数据，和业务逻辑无关</strong>。也就是说，Annotations只是一个标记，而对做了这个标记的地方要做什么业务逻辑，是由其他代码来实现的。就<code>@Override</code>这个注解来说，用户是JVM，它在字节码层面来实现检查重写的业务逻辑。</p>
 <p>我们完全可以写自己的注解，在需要的地方标记上，然后在另一个地方提供业务逻辑。</p>
 <hr>
-<h1 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h1><h2 id="定义注解"><a href="#定义注解" class="headerlink" title="定义注解"></a>定义注解</h2><pre><code class="java">@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface IpAddress {
-    String ip() default &quot;127.0.0.1&quot;;
-}</code></pre>
+<h1 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h1><h2 id="定义注解"><a href="#定义注解" class="headerlink" title="定义注解"></a>定义注解</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(ElementType.METHOD)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> IpAddress &#123;</span><br><span class="line">    <span class="function">String <span class="title">ip</span><span class="params">()</span> <span class="keyword">default</span> "127.0.0.1"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li><code>@Target</code>表示该注解可以作用在哪里（方法、类、属性）</li>
 <li><code>@Retention</code>表示该注解的生命周期</li>
@@ -209,20 +187,8 @@ public @interface IpAddress {
 <p>RetentionPolicy.CLASS – 在类加载的时候丢弃。在字节码文件的处理中有用。注解默认使用这种方式。</p>
 <p>RetentionPolicy.RUNTIME– 始终不会丢弃，运行期也保留该注解，因此可以使用反射机制读取该注解的信息。我们自定义的注解通常使用这种方式。</p>
 </blockquote>
-<h2 id="使用注解"><a href="#使用注解" class="headerlink" title="使用注解"></a>使用注解</h2><pre><code class="java">public class AnnotationExample {
+<h2 id="使用注解"><a href="#使用注解" class="headerlink" title="使用注解"></a>使用注解</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AnnotationExample</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@IpAddress</span>(ip = <span class="string">"192.168.1.1"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"do"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> NoSuchMethodException </span>&#123;</span><br><span class="line">        AnnotationExample exam = <span class="keyword">new</span> AnnotationExample();</span><br><span class="line">        IpAddress addr = exam.getClass().getMethod(<span class="string">"doSomething"</span>).getAnnotation(IpAddress<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        String ip = addr.ip(); <span class="comment">// 192.168.1.1</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    @IpAddress(ip = &quot;192.168.1.1&quot;)
-    public void doSomething(){
-        System.out.println(&quot;do&quot;);
-    }
-
-    public static void main(String[] args) throws NoSuchMethodException {
-        AnnotationExample exam = new AnnotationExample();
-        IpAddress addr = exam.getClass().getMethod(&quot;doSomething&quot;).getAnnotation(IpAddress.class);
-        String ip = addr.ip(); // 192.168.1.1
-    }
-
-}</code></pre>
 <p>在 <code>doSomething()</code> 方法上的<code>@IpAddress</code> 注解只是标记，真正的业务逻辑在<code>main()</code>方法里做。通过反射的方式，获取类中某个方法的注解，再对注解进行解析。</p>
 <hr>
 <h1 id="注解-AOP-实现业务增强"><a href="#注解-AOP-实现业务增强" class="headerlink" title="注解 + AOP 实现业务增强"></a>注解 + AOP 实现业务增强</h1><p>在 Spring 框架中，经常可以见到使用 <code>@Translaction</code> 注解就可以自带事务，叫做 <strong>声明式事务</strong>。事实上，被 <code>@Translaction</code> 标记的方法，Spring 在另一个地方会通过反射+动态代理的方式，对该方法进行增强，从而加入事务功能，确实很“魔法”。</p>
@@ -320,7 +286,7 @@ public @interface IpAddress {
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -332,7 +298,7 @@ public @interface IpAddress {
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -344,7 +310,7 @@ public @interface IpAddress {
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -465,25 +431,25 @@ public @interface IpAddress {
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -497,6 +463,14 @@ public @interface IpAddress {
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -505,20 +479,20 @@ public @interface IpAddress {
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -550,7 +524,7 @@ public @interface IpAddress {
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -558,7 +532,15 @@ public @interface IpAddress {
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -593,6 +575,25 @@ public @interface IpAddress {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -623,7 +624,7 @@ public @interface IpAddress {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -660,25 +661,6 @@ public @interface IpAddress {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -744,6 +726,25 @@ public @interface IpAddress {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -774,7 +775,7 @@ public @interface IpAddress {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -811,25 +812,6 @@ public @interface IpAddress {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -892,7 +874,7 @@ public @interface IpAddress {
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -946,7 +928,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

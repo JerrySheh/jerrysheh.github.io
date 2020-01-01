@@ -34,7 +34,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -165,30 +165,42 @@
 <p>温馨提示：点击页面右下角按钮，打开目录。</p>
 </blockquote>
 <h1 id="一、-Connection-refused"><a href="#一、-Connection-refused" class="headerlink" title="一、 Connection refused"></a>一、 Connection refused</h1><p>根据官方文档 Hadoop 3.0 配置，在</p>
-<pre><code>sbin/start-dfs.sh</code></pre><p>的时候报错，</p>
-<pre><code>pdsh@ubuntu: localhost: connect: Connection refused</code></pre><p>原因是pdsh默认采用的是rsh登录，修改成ssh登录即可，在环境变量/etc/profile里加入：</p>
-<pre><code>export PDSH_RCMD_TYPE=ssh</code></pre><p>然后<code>source /etc/profile</code> 之后重新sbin/start-dfs.sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sbin&#x2F;start-dfs.sh</span><br></pre></td></tr></table></figure>
+<p>的时候报错，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pdsh@ubuntu: localhost: connect: Connection refused</span><br></pre></td></tr></table></figure>
+
+<p>原因是pdsh默认采用的是rsh登录，修改成ssh登录即可，在环境变量/etc/profile里加入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PDSH_RCMD_TYPE&#x3D;ssh</span><br></pre></td></tr></table></figure>
+
+<p>然后<code>source /etc/profile</code> 之后重新sbin/start-dfs.sh</p>
 <hr>
 <h1 id="二、jps-没有-namenode-或者-datanode"><a href="#二、jps-没有-namenode-或者-datanode" class="headerlink" title="二、jps 没有 namenode 或者 datanode"></a>二、jps 没有 namenode 或者 datanode</h1><p>每次开机都得重新格式化一下namenode才可以看到namenode</p>
 <p>格式化了namenode，datanode又没有了</p>
 <p>其实问题就出在tmp文件，默认的tmp文件每次重新开机会被清空，与此同时namenode的格式化信息就会丢失</p>
 <p>于是我们得重新配置一个tmp文件目录</p>
 <p>首先在home目录下建立一个hadoop_tmp目录</p>
-<pre><code>sudo mkdir ~/hadoop_tmp</code></pre><p>然后修改hadoop-3.0.0/etc/hadoop目录里面的core-site.xml文件，加入以下节点：</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;
-  &lt;value&gt;/home/jerrysheh/hadoop_tmp&lt;/value&gt;
-    &lt;description&gt;A base for other temporary directories.&lt;/description&gt;
-&lt;/property&gt;</code></pre><p>注意：我的用户是jerrysheh，所以目录是/home/jerrysheh/hadoop_tmp        </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir ~&#x2F;hadoop_tmp</span><br></pre></td></tr></table></figure>
+
+<p>然后修改hadoop-3.0.0/etc/hadoop目录里面的core-site.xml文件，加入以下节点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hadoop.tmp.dir&lt;&#x2F;name&gt;</span><br><span class="line">  &lt;value&gt;&#x2F;home&#x2F;jerrysheh&#x2F;hadoop_tmp&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;description&gt;A base for other temporary directories.&lt;&#x2F;description&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br></pre></td></tr></table></figure>
+
+<p>注意：我的用户是jerrysheh，所以目录是/home/jerrysheh/hadoop_tmp        </p>
 <p>OK了，重新格式化Namenode</p>
-<pre><code>hadoop namenode -format</code></pre><p>然后启动</p>
-<pre><code>hadoopstart-all.sh</code></pre><p>然后输入 jps， namenode 和 datanode 应该都出来了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop namenode -format</span><br></pre></td></tr></table></figure>
+
+<p>然后启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoopstart-all.sh</span><br></pre></td></tr></table></figure>
+
+<p>然后输入 jps， namenode 和 datanode 应该都出来了</p>
 <hr>
 <h1 id="三、关于-HDFS-文件夹位置"><a href="#三、关于-HDFS-文件夹位置" class="headerlink" title="三、关于 HDFS 文件夹位置"></a>三、关于 HDFS 文件夹位置</h1><p>根据 <a href="https://hadoop.apache.org/docs/r3.0.0/hadoop-project-dist/hadoop-common/SingleCluster.html">官方文档</a></p>
 <p>第一次运行，启动 <code>start-dfs.sh</code> 之后，要先创建用户</p>
-<pre><code>bin/hdfs dfs -mkdir /user
-bin/hdfs dfs -mkdir /user/&lt;username&gt;</code></pre><p>然后创建一个 <code>input</code> 文件夹，用来放数据</p>
-<pre><code>bin/hdfs dfs -mkdir input</code></pre><p><img src="../../../../images/hadoop/dfs.png" alt="dfs"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin&#x2F;hdfs dfs -mkdir &#x2F;user</span><br><span class="line">bin&#x2F;hdfs dfs -mkdir &#x2F;user&#x2F;&lt;username&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然后创建一个 <code>input</code> 文件夹，用来放数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin&#x2F;hdfs dfs -mkdir input</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../images/hadoop/dfs.png" alt="dfs"></p>
 <p>发现了吗？ -mkdir /user 和 -mkdir /user/&lt;username&gt; 是在根目录下创建 user 文件夹，然后在 user 文件夹里创建 username 文件夹， 这没有问题。</p>
 <p>但是创建 input 文件夹的时候， 前面没有 /</p>
 <p>意味着，是在默认的 username 文件夹里面创建了这个 input ！</p>
@@ -197,65 +209,44 @@ bin/hdfs dfs -mkdir /user/&lt;username&gt;</code></pre><p>然后创建一个 <co
 <p><img src="../../../../images/hadoop/dfs_2.png" alt="dfs"></p>
 <p>果然如此</p>
 <p>另，</p>
-<pre><code>hdfs dfs -ls .   /*表示当前用户目录*/
-hdfs dfs -ls /   /*表示根目录*/</code></pre><ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hdfs dfs -ls .   &#x2F;*表示当前用户目录*&#x2F;</span><br><span class="line">hdfs dfs -ls &#x2F;   &#x2F;*表示根目录*&#x2F;</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li>使用 <code>hdfs dfs -ls .</code> 的时候， HDFS 上的 username 必须和你本地linux系统的 username 一致！否则会显示没有该目录或文件。</li>
 </ul>
 <hr>
 <h1 id="四、Windows-环境下-JAVA-HOME-路径不对"><a href="#四、Windows-环境下-JAVA-HOME-路径不对" class="headerlink" title="四、Windows 环境下 JAVA_HOME 路径不对"></a>四、Windows 环境下 JAVA_HOME 路径不对</h1><p>配置好环境以后，执行格式化</p>
-<pre><code>hdfs namenode -format</code></pre><p>然后报错</p>
-<pre><code>Error: JAVA_HOME is incorrectly set.
-       Please update F:\hadoop\conf\hadoop-env.cmd</code></pre><p>原因是蛋疼的微软， Program Files文件夹有一个空格，导致不能被 Hadoop 识别。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdfs namenode -format</span><br></pre></td></tr></table></figure>
+
+<p>然后报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Error: JAVA_HOME is incorrectly set.</span><br><span class="line">       Please update F:\hadoop\conf\hadoop-env.cmd</span><br></pre></td></tr></table></figure>
+
+<p>原因是蛋疼的微软， Program Files文件夹有一个空格，导致不能被 Hadoop 识别。</p>
 <p>解决办法：</p>
 <ul>
 <li><p>方法1：用路径替代符</p>
-<pre><code>C:\PROGRA~1\Java\jdk1.8.0_91</code></pre><p><code>PROGRA~1</code>  ===== <code>C:\Program Files</code> 目录的dos文件名模式下的缩写<br>长于8个字符的文件名和文件夹名，都被简化成前面6个有效字符，后面<del>1，有重名的就 ~2,</del>3,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\PROGRA~1\Java\jdk1.8.0_91</span><br></pre></td></tr></table></figure>
+
+<p><code>PROGRA~1</code>  ===== <code>C:\Program Files</code> 目录的dos文件名模式下的缩写<br>长于8个字符的文件名和文件夹名，都被简化成前面6个有效字符，后面<del>1，有重名的就 ~2,</del>3,</p>
 </li>
 <li><p>方法2：用引号括起来</p>
-<pre><code>&quot;C:\Program Files&quot;\Java\jdk1.8.0_91</code></pre></li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;C:\Program Files&quot;\Java\jdk1.8.0_91</span><br></pre></td></tr></table></figure>
+
+</li>
 </ul>
 <hr>
 <h1 id="五、IDEA-报-java-lang-ClassNotFoundException-问题"><a href="#五、IDEA-报-java-lang-ClassNotFoundException-问题" class="headerlink" title="五、IDEA 报 java.lang.ClassNotFoundException 问题"></a>五、IDEA 报 java.lang.ClassNotFoundException 问题</h1><p>在 IDEA 本地环境运行 hadoop 程序时， IDEA报错</p>
-<pre><code>java.lang.ClassNotFoundException: org.apache.hadoop.conf.Configuration</code></pre><p>原因：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.lang.ClassNotFoundException: org.apache.hadoop.conf.Configuration</span><br></pre></td></tr></table></figure>
+
+<p>原因：</p>
 <p>在 maven 中， 把依赖项的 <code>provided</code> 标签删掉即可 。因为加上<code>provided</code>标签意味着 the scope tag tells Maven that you’re using this dependency for building, but it indicates that the dependency will be provided during runtime, so you’ll either need to remove this tag or … (具体可到 <a href="https://stackoverflow.com/questions/29092926/java-lang-classnotfoundexception-org-apache-hadoop-conf-configuration">StackOverFlow</a> 看)</p>
 <p>感谢 StackOverFlow 解决困扰了我一天一夜的问题</p>
-<pre><code class="xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
-    &lt;artifactId&gt;hadoop-common&lt;/artifactId&gt;
-    &lt;version&gt;3.0.0&lt;/version&gt;
-     &lt;!--&lt;scope&gt;provided&lt;/scope&gt;--&gt;
-&lt;/dependency&gt;</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">     <span class="comment">&lt;!--&lt;scope&gt;provided&lt;/scope&gt;--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="六、IDEA-Hadoop程序-单机运行-和-在本地伪分布式-运行"><a href="#六、IDEA-Hadoop程序-单机运行-和-在本地伪分布式-运行" class="headerlink" title="六、IDEA Hadoop程序 单机运行 和 在本地伪分布式 运行"></a>六、IDEA Hadoop程序 单机运行 和 在本地伪分布式 运行</h1><h2 id="单机运行"><a href="#单机运行" class="headerlink" title="单机运行"></a>单机运行</h2><p>新建 Java Maven 工程，<code>pom.xml</code>添加依赖</p>
-<pre><code class="xml">&lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
-            &lt;artifactId&gt;hadoop-common&lt;/artifactId&gt;
-            &lt;version&gt;3.0.0&lt;/version&gt;
-             &lt;!--&lt;scope&gt;provided&lt;/scope&gt;--&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
-            &lt;artifactId&gt;hadoop-client&lt;/artifactId&gt;
-            &lt;version&gt;3.0.0&lt;/version&gt;
-            &lt;scope&gt;provided&lt;/scope&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
-            &lt;artifactId&gt;hadoop-mapreduce-client-core&lt;/artifactId&gt;
-            &lt;version&gt;3.0.0&lt;/version&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
-            &lt;artifactId&gt;hadoop-mapreduce-client-common&lt;/artifactId&gt;
-            &lt;version&gt;3.0.0&lt;/version&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
-            &lt;artifactId&gt;hadoop-hdfs&lt;/artifactId&gt;
-            &lt;version&gt;3.0.0&lt;/version&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">             <span class="comment">&lt;!--&lt;scope&gt;provided&lt;/scope&gt;--&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-mapreduce-client-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-mapreduce-client-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-hdfs<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>依赖去哪里找？ 有一个 mavenrepository 仓库，地址是：<a href="https://mvnrepository.com/">mavenrepository</a></p>
 </blockquote>
@@ -264,7 +255,9 @@ hdfs dfs -ls /   /*表示根目录*/</code></pre><ul>
 </blockquote>
 <p>然后右下角 import， maven 会自动帮我们下载依赖包</p>
 <p>点 Run -&gt; Edit configuration， Program argument填入</p>
-<pre><code>input/ output/</code></pre><p>Main class 填你的main程序所在的 class ，可以输入前几个字母然后 IDEA 会自动帮我们检索</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">input&#x2F; output&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>Main class 填你的main程序所在的 class ，可以输入前几个字母然后 IDEA 会自动帮我们检索</p>
 <p>然后在项目目录下，新建一个文件夹 input ， 往里面放你输入的数据（比如 mydata.log），可以放多个文件</p>
 <p>然后运行即可</p>
 <h2 id="本地伪分布式运行"><a href="#本地伪分布式运行" class="headerlink" title="本地伪分布式运行"></a>本地伪分布式运行</h2><p>本地Hadoop环境先配起来，具体看这篇</p>
@@ -277,13 +270,14 @@ hdfs dfs -ls /   /*表示根目录*/</code></pre><ul>
 <p>然后运行。DONE！</p>
 <hr>
 <h1 id="七、Spark-standalone-模式集群配置"><a href="#七、Spark-standalone-模式集群配置" class="headerlink" title="七、Spark standalone 模式集群配置"></a>七、Spark standalone 模式集群配置</h1><p>记得关防火墙</p>
-<pre><code>service iptables status
-service iptables stop</code></pre><p>有一个WARN，提示你本地ip是127.0.0.1，应该该到 172.x.x.x 或 192.x.x.x ，否则局域网机器访问不到。</p>
-<pre><code>cp ./conf/spark-env.sh.template ./conf/spark-env.sh
-vim ./conf/spark-env.sh</code></pre><p>添加</p>
-<pre><code>SPARK_LOCAL_IP=172.x.x.x
-SPARK_MASTER_HOST=172.x.x.x
-SPARK_EXECUTOR__MEMORY=16G</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service iptables status</span><br><span class="line">service iptables stop</span><br></pre></td></tr></table></figure>
+
+<p>有一个WARN，提示你本地ip是127.0.0.1，应该该到 172.x.x.x 或 192.x.x.x ，否则局域网机器访问不到。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp .&#x2F;conf&#x2F;spark-env.sh.template .&#x2F;conf&#x2F;spark-env.sh</span><br><span class="line">vim .&#x2F;conf&#x2F;spark-env.sh</span><br></pre></td></tr></table></figure>
+
+<p>添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SPARK_LOCAL_IP&#x3D;172.x.x.x</span><br><span class="line">SPARK_MASTER_HOST&#x3D;172.x.x.x</span><br><span class="line">SPARK_EXECUTOR__MEMORY&#x3D;16G</span><br></pre></td></tr></table></figure>
+
         </div>
         
         
@@ -427,7 +421,7 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -439,7 +433,7 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -451,7 +445,7 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -536,25 +530,25 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -568,6 +562,14 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -576,20 +578,20 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -621,7 +623,7 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -629,7 +631,15 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -664,6 +674,25 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -694,7 +723,7 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -731,25 +760,6 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -815,6 +825,25 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -845,7 +874,7 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -882,25 +911,6 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -963,7 +973,7 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1017,7 +1027,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

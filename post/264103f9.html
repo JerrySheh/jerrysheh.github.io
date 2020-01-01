@@ -38,7 +38,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -178,20 +178,9 @@
 <p>make的执行:<br>make  默认搜索当前目录下的makefile，或者Makefile文件,可以指定特殊的makefile文件，比如<br><code>make  -f  makefile_xxxx(文件名)</code></p>
 <p>make默认实现makefile里的第一个目标，一般是二进制可执行文件<br>也可以指定目标，比如<code>make  clean</code></p>
 <p>一个简单的方法：</p>
-<pre><code>main : main.o hello.o world.o
-    gcc main.o hello.o world.o -o main
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">main : main.o hello.o world.o</span><br><span class="line">	gcc main.o hello.o world.o -o main</span><br><span class="line"></span><br><span class="line">main.o : main.c hello.c world.c</span><br><span class="line">	gcc -c main.c -o main.o</span><br><span class="line"></span><br><span class="line">hello.o : hello.c</span><br><span class="line">	gcc -c hello.c -o hello.o</span><br><span class="line"></span><br><span class="line">world.o : world.c</span><br><span class="line">	gcc -c world.c -o world.o</span><br><span class="line"></span><br><span class="line">clean :</span><br><span class="line">	rm *.o main</span><br></pre></td></tr></table></figure>
 
-main.o : main.c hello.c world.c
-    gcc -c main.c -o main.o
-
-hello.o : hello.c
-    gcc -c hello.c -o hello.o
-
-world.o : world.c
-    gcc -c world.c -o world.o
-
-clean :
-    rm *.o main</code></pre><p>解析：</p>
+<p>解析：</p>
 <ol>
 <li>main是一个可执行文件（目标），它依赖于main.o hello.o world.o这三个文件（依赖），所以我们要用gcc编译main.o hello.o world.o，以生成main</li>
 <li>我们的目录下现在还没有main.o hello.o world.o这三个文件，makefile会根据依赖文件 xxxx.o 去寻找和执行下面的依赖关系。以此类推。一步步生成上来。</li>
@@ -200,57 +189,21 @@ clean :
 <h2 id="二、常量替换类似于C语言的宏定义"><a href="#二、常量替换类似于C语言的宏定义" class="headerlink" title="二、常量替换类似于C语言的宏定义"></a>二、常量替换类似于C语言的宏定义</h2><p>为了方便，我们可以这样写makefile：</p>
 <p>在前面使用编程语言的赋值语句<code>=</code>，定义变量</p>
 <p>在使用变量的地方用<code>$(var)</code>的方式表示</p>
-<pre><code>cc         = gcc
-target     = test
-objects = test.o mystrlen.o
-
-$(target) : $(objects)
-    $(cc) $(objects) -o $(target)
-
-test.o : test.c mystrlen.h
-    $(cc) -c test.c -o test.o
-
-mystrlen.o : mystrlen.c
-    $(cc) -c  mystrlen.c -o mystrlen.o
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">cc 		&#x3D; gcc</span><br><span class="line">target 	&#x3D; test</span><br><span class="line">objects &#x3D; test.o mystrlen.o</span><br><span class="line"></span><br><span class="line">$(target) : $(objects)</span><br><span class="line">	$(cc) $(objects) -o $(target)</span><br><span class="line"></span><br><span class="line">test.o : test.c mystrlen.h</span><br><span class="line">	$(cc) -c test.c -o test.o</span><br><span class="line"></span><br><span class="line">mystrlen.o : mystrlen.c</span><br><span class="line">	$(cc) -c  mystrlen.c -o mystrlen.o</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">clean :</span><br><span class="line">	rm $(objects) $(target)</span><br></pre></td></tr></table></figure>
 
 
-clean :
-    rm $(objects) $(target)</code></pre><hr>
+<hr>
 <h2 id="三、隐式规则"><a href="#三、隐式规则" class="headerlink" title="三、隐式规则"></a>三、隐式规则</h2><p>还可以再精简：</p>
-<pre><code>cc         = gcc
-target     = test
-headers = mystrlen.h
-objects = test.o mystrlen.o
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cc 		&#x3D; gcc</span><br><span class="line">target 	&#x3D; test</span><br><span class="line">headers &#x3D; mystrlen.h</span><br><span class="line">objects &#x3D; test.o mystrlen.o</span><br><span class="line"></span><br><span class="line">$(target) : $(objects)</span><br><span class="line">	$(cc) -o $(target) $(objects)</span><br><span class="line"></span><br><span class="line">%.o : %.c $(headers)</span><br><span class="line">	$(cc) -c $&lt; -o $@</span><br><span class="line"></span><br><span class="line">clean :</span><br><span class="line">	rm $(objects) $(target)</span><br></pre></td></tr></table></figure>
 
-$(target) : $(objects)
-    $(cc) -o $(target) $(objects)
-
-%.o : %.c $(headers)
-    $(cc) -c $&lt; -o $@
-
-clean :
-    rm $(objects) $(target)
-</code></pre><hr>
+<hr>
 <h2 id="四、shell-隐式规则"><a href="#四、shell-隐式规则" class="headerlink" title="四、shell + 隐式规则"></a>四、shell + 隐式规则</h2><p>结合shell命令，使用函数完成makefile，使其能够自动寻找目录下h文件和c文件，同时把c文件替换成o文件共object常量使用。</p>
-<pre><code>cc = gcc
-target = main
-headers = $(shell find ./ -name &quot;*.h&quot;)
-sources = $(shell find ./ -name &quot;*.c&quot;)
-objects = $(sources:%.c=%.o)
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">cc &#x3D; gcc</span><br><span class="line">target &#x3D; main</span><br><span class="line">headers &#x3D; $(shell find .&#x2F; -name &quot;*.h&quot;)</span><br><span class="line">sources &#x3D; $(shell find .&#x2F; -name &quot;*.c&quot;)</span><br><span class="line">objects &#x3D; $(sources:%.c&#x3D;%.o)</span><br><span class="line"></span><br><span class="line">$(target) : $(objects)</span><br><span class="line">	$(cc) -o $(target) $(objects)</span><br><span class="line"></span><br><span class="line">%.o : %.c $(headers)</span><br><span class="line">	$(cc) -c $&lt; -o $@</span><br><span class="line"></span><br><span class="line">clean:</span><br><span class="line">	-rm -rf $(objects) $(target)</span><br></pre></td></tr></table></figure>
 
-$(target) : $(objects)
-    $(cc) -o $(target) $(objects)
+<p>或者是需要目录的地方可以用 shell 语句找出目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">obj-m &#x3D; hello.o</span><br><span class="line">all:</span><br><span class="line">    make -C &#x2F;lib&#x2F;modules&#x2F;$(shell uname -r)&#x2F;build&#x2F; M&#x3D;$(PWD) modules</span><br><span class="line">clean:</span><br><span class="line">    make -C &#x2F;lib&#x2F;modules&#x2F;$(shell uname -r)&#x2F;build M&#x3D;$(PWD) clean</span><br></pre></td></tr></table></figure>
 
-%.o : %.c $(headers)
-    $(cc) -c $&lt; -o $@
-
-clean:
-    -rm -rf $(objects) $(target)</code></pre><p>或者是需要目录的地方可以用 shell 语句找出目录</p>
-<pre><code>obj-m = hello.o
-all:
-    make -C /lib/modules/$(shell uname -r)/build/ M=$(PWD) modules
-clean:
-    make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean</code></pre><hr>
+<hr>
 <h1 id="gcc常用参数"><a href="#gcc常用参数" class="headerlink" title="gcc常用参数"></a>gcc常用参数</h1><ol>
 <li>gcc  -c  main.c  -o  main.o   编译main.c,生成main.o目标文件</li>
 <li>gcc  test1.o  test2.o  -o  test  链接两个目标文件test1.o和test2.o生成可执行文件test</li>
@@ -349,7 +302,7 @@ clean:
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -361,7 +314,7 @@ clean:
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -373,7 +326,7 @@ clean:
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -494,25 +447,25 @@ clean:
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -526,6 +479,14 @@ clean:
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -534,20 +495,20 @@ clean:
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -579,7 +540,7 @@ clean:
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -587,7 +548,15 @@ clean:
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -622,6 +591,25 @@ clean:
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -652,7 +640,7 @@ clean:
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -689,25 +677,6 @@ clean:
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -773,6 +742,25 @@ clean:
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -803,7 +791,7 @@ clean:
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -840,25 +828,6 @@ clean:
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -921,7 +890,7 @@ clean:
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -975,7 +944,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

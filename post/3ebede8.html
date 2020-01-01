@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2018-08-04T04:53:58.000Z">
-<meta property="article:modified_time" content="2019-10-18T11:05:46.531Z">
+<meta property="article:modified_time" content="2019-12-29T13:43:58.047Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="JVM">
@@ -38,7 +38,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -138,7 +138,7 @@
                 <time class="level-item has-text-grey" datetime="2018-08-04T04:53:58.000Z">2018-08-04</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">Java虚拟机</a>
+                <a class="has-link-grey -link" href="/categories/JVM/">JVM</a>
                 </div>
                 
                 
@@ -191,7 +191,8 @@
 <p><img src="../../../../images/Java/how_classloader_load_class.png" alt="load"></p>
 <h4 id="从哪里加载？"><a href="#从哪里加载？" class="headerlink" title="从哪里加载？"></a>从哪里加载？</h4><p>一般二进制字节流都是从已经编译好的本地 .class 文件中读取，但其实还可以从 .jar / .war / JSP动态生成的class类 / 数据库 或 网络 中读取。</p>
 <h4 id="类加载-和-数组加载-过程有什么区别？"><a href="#类加载-和-数组加载-过程有什么区别？" class="headerlink" title="类加载 和 数组加载 过程有什么区别？"></a>类加载 和 数组加载 过程有什么区别？</h4><p>当我们声明一个数组，例如：</p>
-<pre><code class="java">String[] str = new String[10];</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String[] str = <span class="keyword">new</span> String[<span class="number">10</span>];</span><br></pre></td></tr></table></figure>
+
 <p>这个数组也是有类型的，称为数组类型。在 Java 层面，我们说这个数组的类型是 String[]， 但在 JVM 层面，类型是<code>[Ljava.lang.String</code> (二维数组是 <code>[[Ljava.lang.String</code> ) ，而 java.lang.String 只是数组里面元素的类型。</p>
 <p>当程序在运行过程中遇到 new 关键字创建一个数组时，由 JVM 直接创建数组类，再由类加载器创建数组中的元素类。而普通类的加载由类加载器完成，既可以使用系统提供的引导类加载器，也可以使用用户自定义的类加载器。</p>
 <h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p>在这个阶段，JVM需要完成三件事：</p>
@@ -201,13 +202,12 @@
 <li><strong>解析</strong>：将符号引用（Symbolic References）转化成直接引用。（符号引用就是一组符号来描述目标，可以是任何字面量。直接引用就是直接指向目标的指针、相对偏移量或一个间接定位到目标的句柄。）</li>
 </ol>
 <h4 id="准备阶段静态变量"><a href="#准备阶段静态变量" class="headerlink" title="准备阶段静态变量"></a>准备阶段静态变量</h4><p>我们在 java 中编写：</p>
-<pre><code class="java">// 在准备阶段， str1 是 null， str2 是 &quot;zxc&quot;
-public static str1 = &quot;jerry&quot;;
-public static final str2 = &quot;zxc&quot;;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在准备阶段， str1 是 null， str2 是 "zxc"</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> str1 = <span class="string">"jerry"</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> str2 = <span class="string">"zxc"</span>;</span><br></pre></td></tr></table></figure>
+
 <p>在准备阶段， str1 会先被赋初值 null，此时还没有被赋予 <code>jerry</code> 这个值。但假如是 final 修饰，在编译阶段就会将初始值存入 constantValue 属性中，在准备阶段就将 constantValue 的值赋给该字段，所以此时str2已经是 <code>zxc</code> 了 ，而不是 null 。</p>
 <h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>对类的静态变量和静态代码块进行赋值。例如我们在程序中编写：</p>
-<pre><code class="java">// 在初始化阶段，str1 被赋值为 jerry
-public static str1 = &quot;jerry&quot;;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在初始化阶段，str1 被赋值为 jerry</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> str1 = <span class="string">"jerry"</span>;</span><br></pre></td></tr></table></figure>
+
 <p>在链接阶段， str1 还是 null， 在初始化阶段，str1 就被赋值为 <code>jerry</code> 了。</p>
 <h4 id="初始化的步骤"><a href="#初始化的步骤" class="headerlink" title="初始化的步骤"></a>初始化的步骤</h4><ol>
 <li>假如这个类还没有被加载和链接，则程序先加载并链接该类</li>
@@ -244,48 +244,23 @@ public static str1 = &quot;jerry&quot;;</code></pre>
 </ol>
 <hr>
 <h1 id="主动引用与被动引用"><a href="#主动引用与被动引用" class="headerlink" title="主动引用与被动引用"></a>主动引用与被动引用</h1><p>直接满足初始化4个条件的情况叫做<strong>主动引用</strong>；间接满足上述初始化过程的情况叫做<strong>被动引用</strong>。</p>
-<h2 id="被动引用的例子"><a href="#被动引用的例子" class="headerlink" title="被动引用的例子"></a>被动引用的例子</h2><h3 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h3><pre><code class="java">public class Father{
-    public static String name = &quot;jerry&quot;;
+<h2 id="被动引用的例子"><a href="#被动引用的例子" class="headerlink" title="被动引用的例子"></a>被动引用的例子</h2><h3 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String name = <span class="string">"jerry"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"父类被初始化！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"子类被初始化！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">    System.out.println(Son.name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    static{
-        System.out.println(&quot;父类被初始化！&quot;);
-    }
-}
-
-public class Son extends Father{
-    static{
-        System.out.println(&quot;子类被初始化！&quot;);
-    }
-}
-
-public static void main(String[] args){
-    System.out.println(Son.name);
-}</code></pre>
 <p>输出结果：</p>
-<pre><code>父类被初始化！
-jerry</code></pre><p>在这个例子中，似乎满足初始化条件的第一条：<strong>读取、设置一个类的静态成员变量</strong>。那为什么调用的是子类的name，子类却没有被初始化呢？ 原因是：这个静态成员变量属于父类，子类只是间接调用，因此属于被动引用，JVM只会初始化父类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">父类被初始化！</span><br><span class="line">jerry</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，似乎满足初始化条件的第一条：<strong>读取、设置一个类的静态成员变量</strong>。那为什么调用的是子类的name，子类却没有被初始化呢？ 原因是：这个静态成员变量属于父类，子类只是间接调用，因此属于被动引用，JVM只会初始化父类。</p>
 <h3 id="示例二"><a href="#示例二" class="headerlink" title="示例二"></a>示例二</h3><p>修改 main 方法，new 一个父类数组</p>
-<pre><code class="java">public static void main(String[] args){
-    Father[] fArr = new Father[10];
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">    Father[] fArr = <span class="keyword">new</span> Father[<span class="number">10</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>执行结果并没有输出<code>父类被初始化！</code>。在这个例子中，也似乎满足第一条：<strong>遇到 new 指令新建对象</strong>，那为什么父类没有被初始化呢？原因是：现在通过 new 要创建的是一个数组对象，而非父类对象，因此也属于间接引用，不会初始化父类。</p>
 <h3 id="示例三"><a href="#示例三" class="headerlink" title="示例三"></a>示例三</h3><p>修改 Father 类，用 final 修饰 name</p>
-<pre><code class="java">public class Father{
-    public static final String name = &quot;jerry&quot;;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String name = <span class="string">"jerry"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"父类被初始化！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Go</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        System.out.println(Father.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    static{
-        System.out.println(&quot;父类被初始化！&quot;);
-    }
-}
-
-
-public class Go{
-    public static void main(String[] args){
-        System.out.println(Father.name);
-    }
-}</code></pre>
 <p>输出：</p>
-<pre><code>jerry</code></pre><p>这个例子中，只输出了 jerry，却并没有初始化父类。原因是：Father.name 被 <code>final</code> 修饰。被 <code>final</code> 修饰的已经是一个常量，在 Java 代码编译的过程中就会被放入它被引用的class文件的常量池中(这里是Go类的常量池)。所以程序在运行期间如果需要调用这个常量，直接去当前类的常量池中取，而不需要初始化这个类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jerry</span><br></pre></td></tr></table></figure>
+
+<p>这个例子中，只输出了 jerry，却并没有初始化父类。原因是：Father.name 被 <code>final</code> 修饰。被 <code>final</code> 修饰的已经是一个常量，在 Java 代码编译的过程中就会被放入它被引用的class文件的常量池中(这里是Go类的常量池)。所以程序在运行期间如果需要调用这个常量，直接去当前类的常量池中取，而不需要初始化这个类。</p>
 <hr>
 <p>参考：</p>
 <ul>
@@ -380,7 +355,7 @@ public class Go{
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -392,7 +367,7 @@ public class Go{
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -404,7 +379,7 @@ public class Go{
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -577,25 +552,25 @@ public class Go{
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -609,6 +584,14 @@ public class Go{
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -617,20 +600,20 @@ public class Go{
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -662,7 +645,7 @@ public class Go{
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -670,7 +653,15 @@ public class Go{
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -705,6 +696,25 @@ public class Go{
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -735,7 +745,7 @@ public class Go{
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -772,25 +782,6 @@ public class Go{
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -856,6 +847,25 @@ public class Go{
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -886,7 +896,7 @@ public class Go{
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -923,25 +933,6 @@ public class Go{
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1004,7 +995,7 @@ public class Go{
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1058,7 +1049,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

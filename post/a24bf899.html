@@ -19,9 +19,9 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2018-07-28T03:33:30.000Z">
-<meta property="article:modified_time" content="2019-10-08T14:50:31.090Z">
+<meta property="article:modified_time" content="2019-12-29T13:40:10.567Z">
 <meta property="article:author" content="Jerry Sheh">
-<meta property="article:tag" content="Java Web">
+<meta property="article:tag" content="前端">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
 
@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -137,7 +137,7 @@
                 <time class="level-item has-text-grey" datetime="2018-07-28T03:33:30.000Z">2018-07-28</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                <a class="has-link-grey -link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
                 </div>
                 
                 
@@ -171,78 +171,22 @@
 <h1 id="Ajax"><a href="#Ajax" class="headerlink" title="Ajax"></a>Ajax</h1><p>Ajax 的全称是 Asynchronous JavaScript and XML （异步的 JavaScript 和 XML）</p>
 <p>Ajax 不是新的编程语言，而是一种使用现有标准的新方法。其最大的优点是提供了异步请求的能力，即在不重新加载整个页面的情况下，可以与服务器交换数据并更新部分网页内容。想象一下，如果有一个验证注册用户名是否可用的服务，按照传统的方法，前端向后端请求数据后需要刷新页面才能看到。而使用 Ajax，可以直接在当前页面更新数据内容。</p>
 <h2 id="使用原生-Ajax"><a href="#使用原生-Ajax" class="headerlink" title="使用原生 Ajax"></a>使用原生 Ajax</h2><p>原生 Ajax 的语法大概如下：</p>
-<pre><code class="javascript">var xmlhttp;
-function check(){
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xmlhttp;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 创建一个 http请求</span></span><br><span class="line">  xmlhttp =<span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line"></span><br><span class="line">  <span class="comment">//响应函数</span></span><br><span class="line">  xmlhttp.onreadystatechange=checkResult;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//设置访问的页面</span></span><br><span class="line">  xmlhttp.open(<span class="string">"GET"</span>, url, <span class="literal">true</span>);   </span><br><span class="line"></span><br><span class="line">  <span class="comment">//执行访问</span></span><br><span class="line">  xmlhttp.send(<span class="literal">null</span>);  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkResult</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (xmlhttp.readyState==<span class="number">4</span> &amp;&amp; xmlhttp.status==<span class="number">200</span>)&#123;</span><br><span class="line">      <span class="comment">// 更新页面数据</span></span><br><span class="line">      <span class="built_in">document</span>.getElementById(<span class="string">'checkResult'</span>).innerHTML=xmlhttp.responseText;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  // 创建一个 http请求
-  xmlhttp =new XMLHttpRequest();
-
-  //响应函数
-  xmlhttp.onreadystatechange=checkResult;
-
-  //设置访问的页面
-  xmlhttp.open(&quot;GET&quot;, url, true);   
-
-  //执行访问
-  xmlhttp.send(null);  
-}
-
-function checkResult(){
-  if (xmlhttp.readyState==4 &amp;&amp; xmlhttp.status==200){
-      // 更新页面数据
-      document.getElementById(&#39;checkResult&#39;).innerHTML=xmlhttp.responseText;
-  }
-
-}</code></pre>
 <h2 id="使用-jQuery"><a href="#使用-jQuery" class="headerlink" title="使用 jQuery"></a>使用 jQuery</h2><p>现在几乎没有人用原生 Ajax 去发起 HTTP 请求，因为语法太啰嗦了，都是用一些js框架简化请求过程。使用 jQuery 发起 Ajax 大概如下：</p>
-<h3 id="发起-GET-请求"><a href="#发起-GET-请求" class="headerlink" title="发起 GET 请求"></a>发起 GET 请求</h3><pre><code class="javascript">$.get(
-    url,                //参数1，url
-    success: function (data) {   //参数，返回处理函数
-        // data 就是服务器返回的数据
-    },
-    error : function() {
-        alert(&quot;服务器发生错误！请稍后再试&quot;);
-    }
-);
-</code></pre>
-<h3 id="发起-POST-请求"><a href="#发起-POST-请求" class="headerlink" title="发起 POST 请求"></a>发起 POST 请求</h3><pre><code class="javascript">// 提供一个 json
-var loginjson = {
-    &quot;username&quot;: username,
-    &quot;password&quot;: password
-};
+<h3 id="发起-GET-请求"><a href="#发起-GET-请求" class="headerlink" title="发起 GET 请求"></a>发起 GET 请求</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$.<span class="keyword">get</span>(</span><br><span class="line">    url,                //参数1，url</span><br><span class="line">    success: function (data) &#123;   <span class="comment">//参数，返回处理函数</span></span><br><span class="line">        <span class="comment">// data 就是服务器返回的数据</span></span><br><span class="line">    &#125;,</span><br><span class="line">    error : <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        alert(<span class="string">"服务器发生错误！请稍后再试"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 
-// 将 json 变成字符串
-var jsonData = JSON.stringify(loginjson);
+<h3 id="发起-POST-请求"><a href="#发起-POST-请求" class="headerlink" title="发起 POST 请求"></a>发起 POST 请求</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 提供一个 json</span></span><br><span class="line"><span class="keyword">var</span> loginjson = &#123;</span><br><span class="line">    <span class="string">"username"</span>: username,</span><br><span class="line">    <span class="string">"password"</span>: password</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将 json 变成字符串</span></span><br><span class="line"><span class="keyword">var</span> jsonData = <span class="built_in">JSON</span>.stringify(loginjson);</span><br><span class="line"></span><br><span class="line">$.ajax(&#123;</span><br><span class="line">    type: <span class="string">"POST"</span>,  <span class="comment">//请求方法</span></span><br><span class="line">    contentType: <span class="string">"application/json;charset=UTF-8"</span>, <span class="comment">// 要发送的数据类型</span></span><br><span class="line">    dataType: <span class="string">"text"</span>, <span class="comment">//预期服务器返回的数据类型 json text html</span></span><br><span class="line">    url: <span class="string">"/api/user/login"</span> , <span class="comment">//url</span></span><br><span class="line">    data: jsonData,</span><br><span class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(data);   <span class="comment">//打印服务端返回的数据(调试用)</span></span><br><span class="line">    &#125;,</span><br><span class="line">    error : <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        alert(<span class="string">"服务器发生错误！请稍后再试"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
-$.ajax({
-    type: &quot;POST&quot;,  //请求方法
-    contentType: &quot;application/json;charset=UTF-8&quot;, // 要发送的数据类型
-    dataType: &quot;text&quot;, //预期服务器返回的数据类型 json text html
-    url: &quot;/api/user/login&quot; , //url
-    data: jsonData,
-    success: function (data) {
-        console.log(data);   //打印服务端返回的数据(调试用)
-    },
-    error : function() {
-        alert(&quot;服务器发生错误！请稍后再试&quot;);
-    }
-});</code></pre>
 <h4 id="javascript-中-json对象-和-字符串-的转换"><a href="#javascript-中-json对象-和-字符串-的转换" class="headerlink" title="javascript 中 json对象 和 字符串 的转换"></a>javascript 中 json对象 和 字符串 的转换</h4><ul>
 <li><code>JSON.parse(data)</code>：字符串 → json对象</li>
 <li><code>JSON.stringify(data)</code>：json对象 → 字符串</li>
 </ul>
 <p>例子：</p>
-<pre><code class="javascript">
-//定义一个字符串
-var data=&#39;{&quot;name&quot;:&quot;goatling&quot;}&#39;
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//定义一个字符串</span></span><br><span class="line"><span class="keyword">var</span> data=<span class="string">'&#123;"name":"goatling"&#125;'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//变成对象​</span></span><br><span class="line">​<span class="built_in">JSON</span>.parse(data)  <span class="comment">// ​name:"goatling"</span></span><br></pre></td></tr></table></figure>
 
-//变成对象​
-​JSON.parse(data)  // ​name:&quot;goatling&quot;</code></pre>
-<pre><code class="javascript">// 定义一个 json对象
-var data={name:&#39;goatling&#39;}
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义一个 json对象</span></span><br><span class="line"><span class="keyword">var</span> data=&#123;<span class="attr">name</span>:<span class="string">'goatling'</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 变成字符串</span></span><br><span class="line"><span class="built_in">JSON</span>.stringify(data)  <span class="comment">//'&#123;"name":"goatling"&#125;'</span></span><br></pre></td></tr></table></figure>
 
-// 变成字符串
-JSON.stringify(data)  //&#39;{&quot;name&quot;:&quot;goatling&quot;}&#39;</code></pre>
 <h2 id="使用-axios"><a href="#使用-axios" class="headerlink" title="使用 axios"></a>使用 axios</h2><p>axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js 中。关于 promise 的内容，可以参考 <a href="https://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/0014345008539155e93fc16046d4bb7854943814c4f9dc2000">廖雪峰的javascript教程</a></p>
 <p>axios 的特点是：</p>
 <ul>
@@ -256,52 +200,14 @@ JSON.stringify(data)  //&#39;{&quot;name&quot;:&quot;goatling&quot;}&#39;</code>
 <li>客户端支持防御 XSRF</li>
 </ul>
 <p>要使用 axios ，首先需要在 html 中引入axios.min.js</p>
-<pre><code class="html">&lt;script src=&quot;https://unpkg.com/axios/dist/axios.min.js&quot;&gt;&lt;/script&gt;</code></pre>
-<h3 id="发起-GET-请求-1"><a href="#发起-GET-请求-1" class="headerlink" title="发起 GET 请求"></a>发起 GET 请求</h3><pre><code class="javascript">// 为给定 ID 的 user 创建请求
-axios.get(&#39;/user?name=jerry&amp;age=18&#39;)
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://unpkg.com/axios/dist/axios.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-// 可选地，上面的请求可以这样做
-// param 就是 url 问号后面的参数
-axios.get(&#39;/user&#39;, {
-    params: {
-      name: &quot;jerry&quot;,
-      age: 18
-    }
-  })
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });</code></pre>
-<h3 id="发起-POST-请求-1"><a href="#发起-POST-请求-1" class="headerlink" title="发起 POST 请求"></a>发起 POST 请求</h3><pre><code class="javascript">axios.post(&#39;/user&#39;, {
-    firstName: &#39;Fred&#39;,
-    lastName: &#39;Flintstone&#39;
-  })
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });</code></pre>
-<h3 id="执行多个并发请求"><a href="#执行多个并发请求" class="headerlink" title="执行多个并发请求"></a>执行多个并发请求</h3><pre><code class="javascript">function getUserAccount() {
-  return axios.get(&#39;/user/12345&#39;);
-}
+<h3 id="发起-GET-请求-1"><a href="#发起-GET-请求-1" class="headerlink" title="发起 GET 请求"></a>发起 GET 请求</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 为给定 ID 的 user 创建请求</span></span><br><span class="line">axios.get(<span class="string">'/user?name=jerry&amp;age=18'</span>)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(response);</span><br><span class="line">  &#125;)</span><br><span class="line">  .catch(<span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(error);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可选地，上面的请求可以这样做</span></span><br><span class="line"><span class="comment">// param 就是 url 问号后面的参数</span></span><br><span class="line">axios.get(<span class="string">'/user'</span>, &#123;</span><br><span class="line">    params: &#123;</span><br><span class="line">      name: <span class="string">"jerry"</span>,</span><br><span class="line">      age: <span class="number">18</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(response);</span><br><span class="line">  &#125;)</span><br><span class="line">  .catch(<span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(error);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
 
-function getUserPermissions() {
-  return axios.get(&#39;/user/12345/permissions&#39;);
-}
+<h3 id="发起-POST-请求-1"><a href="#发起-POST-请求-1" class="headerlink" title="发起 POST 请求"></a>发起 POST 请求</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">axios.post(<span class="string">'/user'</span>, &#123;</span><br><span class="line">    firstName: <span class="string">'Fred'</span>,</span><br><span class="line">    lastName: <span class="string">'Flintstone'</span></span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(response);</span><br><span class="line">  &#125;)</span><br><span class="line">  .catch(<span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(error);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
 
-axios.all([getUserAccount(), getUserPermissions()])
-  .then(axios.spread(function (acct, perms) {
-    // 两个请求现在都执行完成
-  }));</code></pre>
+<h3 id="执行多个并发请求"><a href="#执行多个并发请求" class="headerlink" title="执行多个并发请求"></a>执行多个并发请求</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUserAccount</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> axios.get(<span class="string">'/user/12345'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUserPermissions</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> axios.get(<span class="string">'/user/12345/permissions'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">axios.all([getUserAccount(), getUserPermissions()])</span><br><span class="line">  .then(axios.spread(<span class="function"><span class="keyword">function</span> (<span class="params">acct, perms</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 两个请求现在都执行完成</span></span><br><span class="line">  &#125;));</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>更多关于 axios 的内容，请参考 <a href="https://www.kancloud.cn/yunye/axios/234845">Axios 中文说明
 </a></li>
@@ -312,94 +218,15 @@ axios.all([getUserAccount(), getUserPermissions()])
 <p>Vue.js要系统学习起来需要花费比较大的学习成本，作为一个定位并非专业前端工程师的开发者来说，先暂且达到会用的水平就足够了。因此下面只是简要说一下我在项目中是如何使用 Vue 的。</p>
 <p>想象一个场景，在基本页面加载完毕后，我需要异步去获取一份购买订单数据，并显示在 HTML 上。如果使用 JavaScript 或者 jQuery，我们一般是用操作 HTML DOM 的方式，把数据显示上去。例如<code>document.getElementById(&quot;some_id&quot;).innerHTML = data</code>。但如果使用Vue, 只需提供数据，以及数据要绑定到的元素的id就行了,不再需要显式地操作HTML DOM。这正是 Vue 的优势所在。</p>
 <p>要使用 Vue.js，首先需要在 HTML 中引入：</p>
-<pre><code class="html">&lt;!-- 开发环境版本，包含了有帮助的命令行警告 --&gt;
-&lt;!-- 开发的时候用这个 --&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 开发环境版本，包含了有帮助的命令行警告 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 开发的时候用这个 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.jsdelivr.net/npm/vue/dist/vue.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 生产环境版本，优化了尺寸和速度 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 上线的时候换成这个 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.jsdelivr.net/npm/vue"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-&lt;!-- 生产环境版本，优化了尺寸和速度 --&gt;
-&lt;!-- 上线的时候换成这个 --&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue&quot;&gt;&lt;/script&gt;</code></pre>
 <p>order.js</p>
-<pre><code class="javascript">// 首先 new 一个 Vue 对象
-var buy_v = new Vue({
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 首先 new 一个 Vue 对象</span></span><br><span class="line"><span class="keyword">var</span> buy_v = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//  绑定 HTML 的某个div</span></span><br><span class="line">    el:<span class="string">'#IBuy_pageinfo_div'</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 即将从服务器获取的数据，这里暂时为空</span></span><br><span class="line">    data:&#123;</span><br><span class="line">        pageinfo: []</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这个 VUE 对象拥有的方法，可以在 HTML 中调用</span></span><br><span class="line">    methods:&#123;</span><br><span class="line">        getDate:<span class="function"><span class="keyword">function</span> (<span class="params">strDate</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>(strDate);</span><br><span class="line">            <span class="keyword">return</span> d.getFullYear() + <span class="string">'-'</span> + (d.getMonth() + <span class="number">1</span>) + <span class="string">'-'</span> + d.getDate();</span><br><span class="line">        &#125;,</span><br><span class="line">        getData(self, u)&#123;</span><br><span class="line">            axios.get(u).then(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</span><br><span class="line">                <span class="comment">// 将服务器返回的结果赋值给VUE数据</span></span><br><span class="line">                self.pageinfo = response.data;</span><br><span class="line">                <span class="comment">// ... 其他逻辑处理</span></span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取我的订单（购买）</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getMyBuy</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> url = <span class="string">"/api/exchange"</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 调用 VUE 对象的方法</span></span><br><span class="line">    buy_v.getData(buy_v._self, url);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    //  绑定 HTML 的某个div
-    el:&#39;#IBuy_pageinfo_div&#39;,
 
-    // 即将从服务器获取的数据，这里暂时为空
-    data:{
-        pageinfo: []
-    },
-
-    // 这个 VUE 对象拥有的方法，可以在 HTML 中调用
-    methods:{
-        getDate:function (strDate) {
-            var d = new Date(strDate);
-            return d.getFullYear() + &#39;-&#39; + (d.getMonth() + 1) + &#39;-&#39; + d.getDate();
-        },
-        getData(self, u){
-            axios.get(u).then(function (response) {
-                // 将服务器返回的结果赋值给VUE数据
-                self.pageinfo = response.data;
-                // ... 其他逻辑处理
-            })
-        }
-    }
-});
-
-// 获取我的订单（购买）
-function getMyBuy() {
-    const url = &quot;/api/exchange&quot;
-
-    // 调用 VUE 对象的方法
-    buy_v.getData(buy_v._self, url);
-}</code></pre>
 <p>order.html</p>
-<pre><code class="html">&lt;!--购买订单 --&gt;
-&lt;div class=&quot;tab-pane &quot; id=&quot;panel-3&quot;&gt;
-    &lt;div class=&quot;myOrder&quot;&gt;
-        &lt;div class=&quot;container&quot; style=&quot;margin-top: 20px&quot;&gt;
-            &lt;div class=&quot;card&quot; style=&quot;border-radius: 20px&quot;&gt;
-                &lt;div class=&quot;card-header&quot;&gt;我的订单&lt;/div&gt;
-                &lt;div class=&quot;card-body&quot;&gt;
-                    &lt;!-- 这里的 id 跟上面 VUE 的el 绑定起来  --&gt;
-                    &lt;div class=&quot;container&quot; id=&quot;IBuy_pageinfo_div&quot;&gt;
-                        &lt;table class=&quot;&quot;&gt;
-                            &lt;!-- pageinfo是服务器返回的json数据对象，list是pageinfo下的某个对象 --&gt;
-                            &lt;tr v-for=&quot;exchange in pageinfo.list&quot;&gt;
-                                &lt;td&gt;
-                                    &lt;div style=&quot;width: 260px;height: 240px;background-color: white&quot; class=&quot;container&quot;&gt;
-                                        &lt;a :href=&quot;/product/ + exchange.product.id&quot;&gt;
-                                            &lt;img :src=&quot;exchange.product.images[0]&quot; style=&quot;width: 240px;height: 220px&quot;/&gt;
-                                        &lt;/a&gt;
-                                    &lt;/div&gt;
-                                &lt;/td&gt;
-                                &lt;td&gt;
-                                    &lt;div class=&quot;container&quot;&gt;
-                                        &lt;p&gt; 商品名字：{{exchange.product.name}}&lt;/p&gt;
-                                        &lt;p&gt; 商品单价：{{exchange.product.price}}元&lt;/p&gt;
-                                        &lt;p&gt; 交易金额：{{exchange.trade_number}}件，共{{exchange.total}}元&lt;/p&gt;
-                                        &lt;p&gt; 成交时间：{{getDate(exchange.trade_time)}}&lt;/p&gt;
-                                        &lt;p&gt; 商品状态： &lt;span style=&quot;color: green&quot;&gt;{{exchange.status}}&lt;/span&gt;&lt;/p&gt;
-                                    &lt;/div&gt;
-                                &lt;/td&gt;
-                            &lt;/tr&gt;
-                             &lt;!-- 循环结束 --&gt;
-                        &lt;/table&gt;
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--购买订单 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"tab-pane "</span> <span class="attr">id</span>=<span class="string">"panel-3"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"myOrder"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span> <span class="attr">style</span>=<span class="string">"margin-top: 20px"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"card"</span> <span class="attr">style</span>=<span class="string">"border-radius: 20px"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"card-header"</span>&gt;</span>我的订单<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"card-body"</span>&gt;</span></span><br><span class="line">                    <span class="comment">&lt;!-- 这里的 id 跟上面 VUE 的el 绑定起来  --&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span> <span class="attr">id</span>=<span class="string">"IBuy_pageinfo_div"</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">table</span> <span class="attr">class</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">                            <span class="comment">&lt;!-- pageinfo是服务器返回的json数据对象，list是pageinfo下的某个对象 --&gt;</span></span><br><span class="line">                            <span class="tag">&lt;<span class="name">tr</span> <span class="attr">v-for</span>=<span class="string">"exchange in pageinfo.list"</span>&gt;</span></span><br><span class="line">                                <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">                                    <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"width: 260px;height: 240px;background-color: white"</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">                                        <span class="tag">&lt;<span class="name">a</span> <span class="attr">:href</span>=<span class="string">"/product/ + exchange.product.id"</span>&gt;</span></span><br><span class="line">                                            <span class="tag">&lt;<span class="name">img</span> <span class="attr">:src</span>=<span class="string">"exchange.product.images[0]"</span> <span class="attr">style</span>=<span class="string">"width: 240px;height: 220px"</span>/&gt;</span></span><br><span class="line">                                        <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">                                    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">                                <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                                <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">                                    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">                                        <span class="tag">&lt;<span class="name">p</span>&gt;</span> 商品名字：&#123;&#123;exchange.product.name&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">                                        <span class="tag">&lt;<span class="name">p</span>&gt;</span> 商品单价：&#123;&#123;exchange.product.price&#125;&#125;元<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">                                        <span class="tag">&lt;<span class="name">p</span>&gt;</span> 交易金额：&#123;&#123;exchange.trade_number&#125;&#125;件，共&#123;&#123;exchange.total&#125;&#125;元<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">                                        <span class="tag">&lt;<span class="name">p</span>&gt;</span> 成交时间：&#123;&#123;getDate(exchange.trade_time)&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">                                        <span class="tag">&lt;<span class="name">p</span>&gt;</span> 商品状态： <span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"color: green"</span>&gt;</span>&#123;&#123;exchange.status&#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">                                    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">                                <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                            <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">                             <span class="comment">&lt;!-- 循环结束 --&gt;</span></span><br><span class="line">                        <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"></span><br><span class="line">                        <span class="comment">&lt;!-- 加载更多 --&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">div</span> <span class="attr">align</span>=<span class="string">"center"</span>&gt;</span></span><br><span class="line">                            <span class="comment">&lt;!-- 调用方法也是没问题的 --&gt;</span></span><br><span class="line">                            <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"IBuy_loadmore_btn"</span> <span class="attr">style</span>=<span class="string">"color: #787878;"</span> <span class="attr">class</span>=<span class="string">"btn btn-default btn-lg"</span> <span class="attr">role</span>=<span class="string">"button"</span></span></span><br><span class="line"><span class="tag">                                    <span class="attr">onclick</span>=<span class="string">"getMyBuy()"</span>&gt;</span>加载更多</span><br><span class="line">                            <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">                 <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-                        &lt;!-- 加载更多 --&gt;
-                        &lt;div align=&quot;center&quot;&gt;
-                            &lt;!-- 调用方法也是没问题的 --&gt;
-                            &lt;button id=&quot;IBuy_loadmore_btn&quot; style=&quot;color: #787878;&quot; class=&quot;btn btn-default btn-lg&quot; role=&quot;button&quot;
-                                    onclick=&quot;getMyBuy()&quot;&gt;加载更多
-                            &lt;/button&gt;
-                        &lt;/div&gt;
-                    &lt;/div&gt;
-                 &lt;/div&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-     &lt;/div&gt;
-&lt;/div&gt;</code></pre>
 <p>关于 Vue 的更多内容，参考：</p>
 <ul>
 <li><a href="https://cn.vuejs.org/">官方文档</a></li>
@@ -412,7 +239,7 @@ function getMyBuy() {
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/Java-Web/" rel="tag">Java Web</a>
+                    <a class="has-link-grey -link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a>
                 </div>
             </div>
         </div>
@@ -493,7 +320,7 @@ function getMyBuy() {
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -505,7 +332,7 @@ function getMyBuy() {
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -517,7 +344,7 @@ function getMyBuy() {
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -654,25 +481,25 @@ function getMyBuy() {
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -686,6 +513,14 @@ function getMyBuy() {
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -694,20 +529,20 @@ function getMyBuy() {
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -739,7 +574,7 @@ function getMyBuy() {
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -747,7 +582,15 @@ function getMyBuy() {
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -782,6 +625,25 @@ function getMyBuy() {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -812,7 +674,7 @@ function getMyBuy() {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -849,25 +711,6 @@ function getMyBuy() {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -933,6 +776,25 @@ function getMyBuy() {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -963,7 +825,7 @@ function getMyBuy() {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1000,25 +862,6 @@ function getMyBuy() {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1081,7 +924,7 @@ function getMyBuy() {
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1135,7 +978,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

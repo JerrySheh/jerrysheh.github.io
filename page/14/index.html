@@ -34,7 +34,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -121,6 +121,106 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-03-07T05:03:26.000Z">2018-03-07</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/linux/">linux</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    9 分钟 读完 (大约 1294 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/75b0adbf.html">Linux内核模块编程 HelloWorld</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="微内核和宏内核"><a href="#微内核和宏内核" class="headerlink" title="微内核和宏内核"></a>微内核和宏内核</h1><h2 id="微内核"><a href="#微内核" class="headerlink" title="微内核"></a>微内核</h2><p>内核中只有最基本的调度、内存管理。其他的比如驱动、文件系统等都是用户态的守护进程去实现的。比如Windows NT、OS X</p>
+<p>优点是超级稳定，驱动等的错误只会导致相应进程死掉，不会导致整个系统都崩溃，做驱动开发时，发现错误，只需要kill掉进程，修正后重启进程就行了，比较方便。</p>
+<p>缺点是效率低。典型代表QNX，QNX的文件系统是跑在用户态的进程，称为resmgr的东西，是订阅发布机制，文件系统的错误只会导致这个守护进程挂掉。</p>
+<h2 id="宏内核"><a href="#宏内核" class="headerlink" title="宏内核"></a>宏内核</h2><p>简单来说，就是把很多东西都集成进内核，例如Linux内核，除了最基本的进程、线程管理、内存管理外，文件系统，驱动，网络协议等等都在内核里面。优点是效率高。缺点是稳定性差，开发过程中的bug经常会导致整个系统挂掉。做驱动开发的应该经常有按电源键强行关机的经历。</p>
+<hr>
+<h1 id="内核模块"><a href="#内核模块" class="headerlink" title="内核模块"></a>内核模块</h1><p>由于 Linux 内核是宏内核，集成性比较高，随着内核版本的迭代，内核变得非常大（Linux内核约50M），我们想定制自己的内核时，需要整个重新编译，比较繁琐。而且，定制内核时，有些功能我们是不需要的。</p>
+<p>因此 Linux 内核采用了模块化的方式。当我们编译内核时，可以只选择我们需要的模块。而且，我们自己编写的模块，可以采用安装/卸载的方式，集成到内核里。</p>
+<p>内核模块的优点是：开发效率更高，而且可以在内核运行时<code>动态加载</code>。由于Linux内核模块是动态加载的，所以它也叫<code>可加载内核模块(Loadable Kernel Module, LKM)</code>。Linux内核镜像位于/boot目录下，启动时最先加载，LKM总是在内核启动之后加载。</p>
+<p>LKM主要用于：设备驱动、文件系统驱动和系统调用。</p>
+<ul>
+<li><strong>注意</strong>：LKM是内核空间程序，不是用户空间程序，你可以把它看成是内核的一部分。也就是LKM没有任何保护，一不小心可能就会导致系统崩溃。</li>
+</ul>
+<hr>
+<h1 id="编译LKM"><a href="#编译LKM" class="headerlink" title="编译LKM"></a>编译LKM</h1><h2 id="安装C编译器和Linux内核头文件"><a href="#安装C编译器和Linux内核头文件" class="headerlink" title="安装C编译器和Linux内核头文件"></a>安装C编译器和Linux内核头文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install build-essential linux-headers-$(uname -r)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Hello-World内核模块代码（hello-c）"><a href="#Hello-World内核模块代码（hello-c）" class="headerlink" title="Hello World内核模块代码（hello.c）"></a>Hello World内核模块代码（hello.c）</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/module.h&gt;     /* 模块头文件，必不可少 */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/kernel.h&gt;     /* KERN_INFO在这里 */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/init.h&gt;       /* 使用的宏 */</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// LICENSE</span></span><br><span class="line">MODULE_LICENSE(<span class="string">"GPL"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 作者</span></span><br><span class="line">MODULE_AUTHOR(<span class="string">"blog.topspeedsnail.com"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 描述</span></span><br><span class="line">MODULE_DESCRIPTION(<span class="string">"hello world"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 模块版本</span></span><br><span class="line">MODULE_VERSION(<span class="string">"3.14"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> __<span class="function">init <span class="title">hello_start</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    printk(KERN_INFO <span class="string">"Hello World\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> __<span class="function"><span class="built_in">exit</span> <span class="title">hello_end</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    printk(KERN_INFO <span class="string">"Go to Hell\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module_init(hello_start);</span><br><span class="line">module_exit(hello_end);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>module_init</strong> 定义了模块的入口函数，在模块加载 insmoded (插入模块)时执行</li>
+<li><strong>module_exit</strong> 定义了模块的退出函数，在模块卸载 rmmoded （移除模块）时执行</li>
+</ul>
+<h2 id="创建Makefile"><a href="#创建Makefile" class="headerlink" title="创建Makefile"></a>创建Makefile</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">obj-m &#x3D; hello.o</span><br><span class="line">all:</span><br><span class="line">    make -C &#x2F;lib&#x2F;modules&#x2F;$(shell uname -r)&#x2F;build&#x2F; M&#x3D;$(PWD) modules</span><br><span class="line">clean:</span><br><span class="line">    make -C &#x2F;lib&#x2F;modules&#x2F;$(shell uname -r)&#x2F;build M&#x3D;$(PWD) clean</span><br><span class="line"># make命令前是tab，不是空格</span><br></pre></td></tr></table></figure>
+
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>make命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">jerrysheh@ubuntu:~&#x2F;Desktop$ make</span><br><span class="line">make -C &#x2F;lib&#x2F;modules&#x2F;4.13.0-31-generic&#x2F;build&#x2F; M&#x3D;&#x2F;home&#x2F;jerrysheh&#x2F;Desktop modules</span><br><span class="line">make[1]: Entering directory &#39;&#x2F;usr&#x2F;src&#x2F;linux-headers-4.13.0-31-generic&#39;</span><br><span class="line">  CC [M]  &#x2F;home&#x2F;jerrysheh&#x2F;Desktop&#x2F;helloworld.o</span><br><span class="line">  Building modules, stage 2.</span><br><span class="line">  MODPOST 1 modules</span><br><span class="line">  CC      &#x2F;home&#x2F;jerrysheh&#x2F;Desktop&#x2F;helloworld.mod.o</span><br><span class="line">  LD [M]  &#x2F;home&#x2F;jerrysheh&#x2F;Desktop&#x2F;helloworld.ko</span><br><span class="line">make[1]: Leaving directory &#39;&#x2F;usr&#x2F;src&#x2F;linux-headers-4.13.0-31-generic&#39;</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h2><p>使用<code>modinfo hello.ko</code>来查看模块信息</p>
+<p>使用<code>sudo insmod hello.ko</code>来加载模块到内核</p>
+<p>使用<code>lsmod</code>来查看已加载的内核（结合管道<code>lsmod | grep hello</code>）</p>
+<p>使用<code>sudo rmmod hello</code>来卸载模块</p>
+<h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><p>使用<code>tail /var/log/kern.log</code>来查看模块的输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">jerrysheh@ubuntu:~&#x2F;Desktop$ tail &#x2F;var&#x2F;log&#x2F;kern.log</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   gateway 192.168.224.2</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   server identifier 192.168.224.254</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   lease time 1800</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   nameserver &#39;192.168.224.2&#39;</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   domain name &#39;localdomain&#39;</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   wins &#39;192.168.224.2&#39;</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9771] dhcp4 (ens33): state changed bound -&gt; bound</span><br><span class="line">Mar  7 12:56:41 ubuntu kernel: [ 1170.100050] helloworld: loading out-of-tree module taints kernel.</span><br><span class="line">Mar  7 12:56:41 ubuntu kernel: [ 1170.100085] helloworld: module verification failed: signature and&#x2F;or required key missing - tainting kernel</span><br><span class="line">Mar  7 12:56:41 ubuntu kernel: [ 1170.100760] Hello World</span><br></pre></td></tr></table></figure>
+
+<p>看到最后一行输出了 Hello World，正是我们编写的 helloworld.ko 模块输出的。</p>
+<p>可以使用<code>tail -f /var/log/kern.lo</code>来动态监控内核的输出</p>
+<h2 id="作为字符型驱动"><a href="#作为字符型驱动" class="headerlink" title="作为字符型驱动"></a>作为字符型驱动</h2><p>在 insmod 的时候把设备的主设备号打印出来。</p>
+<p>如果要把内核模块作为字符型驱动设备，首先</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f &#x2F;var&#x2F;log&#x2F;messgaes</span><br></pre></td></tr></table></figure>
+
+<p>查看设备的主设备号，比如是 254</p>
+<p>然后创建目录和节点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir &#x2F;dev&#x2F;demo</span><br><span class="line">mknod &#x2F;dev&#x2F;demo&#x2F;newdev c 254 0</span><br></pre></td></tr></table></figure>
+
+<p>这样就创建了一个虚拟的字符型驱动设备。</p>
+<hr>
+<p>本文引用的文章：</p>
+<ul>
+<li><p><a href="http://blog.topspeedsnail.com/archives/10053">编写第一个Linux内核模块: Hello World</a></p>
+</li>
+<li><p><a href="http://blog.csdn.net/silencegll/article/details/51496158">宏内核与微内核、Linux内核与Unix内核的区别</a></p>
+</li>
+</ul>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
     
 <div class="card">
     
@@ -421,18 +521,8 @@
 <p>有一对兔子，从出生后第3个月起每个月都生一对兔子，小兔子长到第三个月后每个月又生一对兔子，假如兔子都不死，问每个月的兔子对数为多少？</p>
 </blockquote>
 <p>我一开始的解法是这样的：</p>
-<pre><code class="java">public static void rabbit2(){
-    int last_month_num = 0;
-    int current_month_num = 1;
-    int next_month_num = last_month_num + current_month_num;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">rabbit2</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> last_month_num = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> current_month_num = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> next_month_num = last_month_num + current_month_num;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> months = <span class="number">1</span>; months &lt;= <span class="number">12</span>; months++) &#123;</span><br><span class="line">        current_month_num = next_month_num;</span><br><span class="line">        System.out.printf(<span class="string">"第 %d 个月兔子的对数为 %d\n"</span>,months,current_month_num);</span><br><span class="line">        next_month_num = current_month_num + last_month_num;</span><br><span class="line">        last_month_num = current_month_num;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    for (int months = 1; months &lt;= 12; months++) {
-        current_month_num = next_month_num;
-        System.out.printf(&quot;第 %d 个月兔子的对数为 %d\n&quot;,months,current_month_num);
-        next_month_num = current_month_num + last_month_num;
-        last_month_num = current_month_num;
-    }
-}</code></pre>
 <p>我的想法是，根据题意，可以得出规律: 1、1、2、3、5、8、13…</p>
 <p>总结规律：前两个月的数量和等于下个月</p>
         </div>
@@ -490,29 +580,13 @@
             <p>关于并发的理论基础，见另一篇 <a href="../post/3bdfeb29.html">聊聊并发和并发模型</a></p>
 <hr>
 <h1 id="在-Java-中创建线程"><a href="#在-Java-中创建线程" class="headerlink" title="在 Java 中创建线程"></a>在 Java 中创建线程</h1><p>在 Java 中，线程是 java.lang.Thread 或其子类中的实例。通过 new 一个线程实例并调用 start 方法来启动线程。</p>
-<pre><code class="java">Thread thread = new Thread();
-thread.start();</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Thread thread = <span class="keyword">new</span> Thread();</span><br><span class="line">thread.start();</span><br></pre></td></tr></table></figure>
+
 <p>但是我们总得指定线程做一些事，可以用两种方式来指定。</p>
-<h2 id="方式一：继承-Thread-类"><a href="#方式一：继承-Thread-类" class="headerlink" title="方式一：继承 Thread 类"></a>方式一：继承 Thread 类</h2><pre><code class="java">public class MyThread extends Thread {
-    @Override
-    public void run(){
-       System.out.println(&quot;MyThread running&quot;);
-    }
-}
+<h2 id="方式一：继承-Thread-类"><a href="#方式一：继承-Thread-类" class="headerlink" title="方式一：继承 Thread 类"></a>方式一：继承 Thread 类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">       System.out.println(<span class="string">"MyThread running"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Thread myThread = <span class="keyword">new</span> myThread();</span><br><span class="line">myThread.start();</span><br></pre></td></tr></table></figure>
 
-Thread myThread = new myThread();
-myThread.start();</code></pre>
 <h2 id="方式二：实现-Runnable-方法-推荐"><a href="#方式二：实现-Runnable-方法-推荐" class="headerlink" title="方式二：实现 Runnable 方法(推荐)"></a>方式二：实现 Runnable 方法(推荐)</h2><p>创建一个类实现 Runnable 方法</p>
-<pre><code class="java">class MyRunnable implements Runnable {
-    @Override
-    public void run(){
-       System.out.println(&quot;MyRunnable running&quot;);
-    }
-}
-
-MyRunnable myRun = new MyRunnable();
-Thread thread = new Thread(myRun， &quot;第二个参数指定线程名字&quot;);
-thread.start();</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">       System.out.println(<span class="string">"MyRunnable running"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MyRunnable myRun = <span class="keyword">new</span> MyRunnable();</span><br><span class="line">Thread thread = <span class="keyword">new</span> Thread(myRun， <span class="string">"第二个参数指定线程名字"</span>);</span><br><span class="line">thread.start();</span><br></pre></td></tr></table></figure>
         </div>
         
         
@@ -566,43 +640,40 @@ thread.start();</code></pre>
         </h1>
         <div class="content">
             <h1 id="文本输入和输出"><a href="#文本输入和输出" class="headerlink" title="文本输入和输出"></a>文本输入和输出</h1><h2 id="文本输入"><a href="#文本输入" class="headerlink" title="文本输入"></a>文本输入</h2><p>对于较短的文本，我们可以直接把文本存到一个String里</p>
-<pre><code class="java">// 整个文本
-String contents = new String(readAllBytes((Paths.get(&quot;alice.txt&quot;))), StandardCharsets.UTF_8);
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 整个文本</span></span><br><span class="line">String contents = <span class="keyword">new</span> String(readAllBytes((Paths.get(<span class="string">"alice.txt"</span>))), StandardCharsets.UTF_8);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 以非字母为分隔符，变成一个个单词</span></span><br><span class="line">List&lt;String&gt; words = Arrays.asList(contents.split(<span class="string">"\\PL+"</span>));</span><br></pre></td></tr></table></figure>
 
-// 以非字母为分隔符，变成一个个单词
-List&lt;String&gt; words = Arrays.asList(contents.split(&quot;\\PL+&quot;));</code></pre>
 <p>如果想按行读取，可以读文件并存到 List 集合里，集合的每一个元素代表每一行的一个String</p>
-<pre><code class="java">// 按行读取
-List&lt;String&gt; lines = Files.readAllLines(path, charset);</code></pre>
-<p>或者按流处理</p>
-<pre><code>try (Stream&lt;String&gt; lines = Files.lines(path, charset)) {
-  //...
-} catch {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 按行读取</span></span><br><span class="line">List&lt;String&gt; lines = Files.readAllLines(path, charset);</span><br></pre></td></tr></table></figure>
 
-}</code></pre><p>如果想从文件读取数字或单词，可以用 Scanner</p>
-<pre><code class="java">Scanner in = new Scanner(path, &quot;UTF-8&quot;);
-while (in.hasNextDouble()) {
-  double value = in.hasNextDouble();
-  ...
-}</code></pre>
+<p>或者按流处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">try (Stream&lt;String&gt; lines &#x3D; Files.lines(path, charset)) &#123;</span><br><span class="line">  &#x2F;&#x2F;...</span><br><span class="line">&#125; catch &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果想从文件读取数字或单词，可以用 Scanner</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Scanner in = <span class="keyword">new</span> Scanner(path, <span class="string">"UTF-8"</span>);</span><br><span class="line"><span class="keyword">while</span> (in.hasNextDouble()) &#123;</span><br><span class="line">  <span class="keyword">double</span> value = in.hasNextDouble();</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>如果输入源不是来自文件，可以将InputStream再封装到BufferedReader</p>
-<pre><code>try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
-  ...
-}</code></pre><h2 id="文本输出"><a href="#文本输出" class="headerlink" title="文本输出"></a>文本输出</h2><p>如果我们要把文本输出到一个文件（写文件），构造一个PrintWriter</p>
-<pre><code class="java">PrintWriter out = new PrintWriter(Files.newBufferedWriter(path, charset));</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">try (BufferedReader reader &#x3D; new BufferedReader(new InputStreamReader(url.openStream()))) &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="文本输出"><a href="#文本输出" class="headerlink" title="文本输出"></a>文本输出</h2><p>如果我们要把文本输出到一个文件（写文件），构造一个PrintWriter</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PrintWriter out = <span class="keyword">new</span> PrintWriter(Files.newBufferedWriter(path, charset));</span><br></pre></td></tr></table></figure>
+
 <p>将文本写到另外一个输出流</p>
-<pre><code class="java">PrintWriter out = new PrintWriter(outstream, &quot;UTF-8&quot;);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PrintWriter out = <span class="keyword">new</span> PrintWriter(outstream, <span class="string">"UTF-8"</span>);</span><br></pre></td></tr></table></figure>
+
 <p>将已有的变量写入文件</p>
-<pre><code class="java">Files.write(path, lines, charset);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Files.write(path, lines, charset);</span><br></pre></td></tr></table></figure>
+
 <p>追加内容到一个文件</p>
 <ul>
 <li>追加 String</li>
 </ul>
-<pre><code class="java">Files.write(path, content.getBytes(charset), StandardOpenOption.APPEND);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Files.write(path, content.getBytes(charset), StandardOpenOption.APPEND);</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>追加 <code>Collection&lt;String&gt;</code></li>
 </ul>
-<pre><code class="java">Files.write(path, lines, charset, StandardOpenOption.APPEND);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Files.write(path, lines, charset, StandardOpenOption.APPEND);</span><br></pre></td></tr></table></figure>
+
 <hr>
 <p>待补充</p>
 
@@ -659,24 +730,11 @@ while (in.hasNextDouble()) {
 <li>第二步，创建一个List列表，以非字母为分隔符存放每一个单词字符串</li>
 <li>第三步，foreach循环开始迭代</li>
 </ol>
-<pre><code class="java">// 读文件，放到 String 里
-String contents = new String(readAllBytes((Paths.get(&quot;alice&quot;))), StandardCharsets.UTF_8);
-// 以非字母为分隔符
-List&lt;String&gt; words = Arrays.asList(contents.split(&quot;\\PL+&quot;));
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 读文件，放到 String 里</span></span><br><span class="line">String contents = <span class="keyword">new</span> String(readAllBytes((Paths.get(<span class="string">"alice"</span>))), StandardCharsets.UTF_8);</span><br><span class="line"><span class="comment">// 以非字母为分隔符</span></span><br><span class="line">List&lt;String&gt; words = Arrays.asList(contents.split(<span class="string">"\\PL+"</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="comment">// 在 List 里面迭代，如果找到长度＞12的，计数器+1</span></span><br><span class="line"><span class="keyword">for</span> (String w : words) &#123;</span><br><span class="line">    <span class="keyword">if</span> (w.length() &gt; <span class="number">12</span>) count++;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
-int count = 0;
-// 在 List 里面迭代，如果找到长度＞12的，计数器+1
-for (String w : words) {
-    if (w.length() &gt; 12) count++;
-    }</code></pre>
 <p>在 java 8 中，可以用 stream 来实现相同的功能：</p>
-<pre><code class="java">// 读文件，放到 String 里
-String contents = new String(readAllBytes((Paths.get(&quot;alice.txt&quot;))), StandardCharsets.UTF_8);
-// 以非字母为分隔符
-List&lt;String&gt; words = Arrays.asList(contents.split(&quot;\\PL+&quot;));
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 读文件，放到 String 里</span></span><br><span class="line">String contents = <span class="keyword">new</span> String(readAllBytes((Paths.get(<span class="string">"alice.txt"</span>))), StandardCharsets.UTF_8);</span><br><span class="line"><span class="comment">// 以非字母为分隔符</span></span><br><span class="line">List&lt;String&gt; words = Arrays.asList(contents.split(<span class="string">"\\PL+"</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 把 List 转换成 流，用 flilter 方法对流的每一个元素进行判断，筛选出＞12的，并计数</span></span><br><span class="line"><span class="keyword">long</span> count1 = words.stream().filter(w -&gt; w.length() &gt; <span class="number">12</span>).count();</span><br></pre></td></tr></table></figure>
 
-// 把 List 转换成 流，用 flilter 方法对流的每一个元素进行判断，筛选出＞12的，并计数
-long count1 = words.stream().filter(w -&gt; w.length() &gt; 12).count();</code></pre>
 <ul>
 <li><code>words.stream()</code>创建的是串行流，<code>words.parallelStream()</code>创建的是并行流。</li>
 </ul>
@@ -697,33 +755,18 @@ long count1 = words.stream().filter(w -&gt; w.length() &gt; 12).count();</code><
 </ol>
 <p>关于聚合操作，可参考： <a href="http://www.runoob.com/java/java8-streams.html">runoob.com</a></p>
 <p>一个例子: 将<code>alice.txt</code>的内容读入 String， 以非字母为分隔符存入 List， 通过流取前20个值，过滤出这20个值长度大于5的，并排序，最后存到新的 List 里</p>
-<pre><code class="java">public static void streamTest() {
-    try {
-        String contents = new String(readAllBytes((Paths.get(&quot;alice.txt&quot;))), StandardCharsets.UTF_8);
-        List&lt;String&gt; words = Arrays.asList(contents.split(&quot;\\PL+&quot;));
-        List&lt;String&gt; newwords = words.stream().limit(20).filter(w -&gt; w.length() &gt; 5).sorted().collect(Collectors.toList());
-        System.out.println(newwords);
-    } catch (IOException e) {
-        System.out.println(&quot;IO problem&quot;);
-    };
-}</code></pre>
-<p>另一个例子：为每个订单加上12%的税</p>
-<pre><code class="java">// 不使用lambda表达式
-List costBeforeTax = Arrays.asList(100, 200, 300, 400, 500);
-for (Integer cost : costBeforeTax) {
-    double price = cost + .12*cost;
-    System.out.println(price);
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">streamTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        String contents = <span class="keyword">new</span> String(readAllBytes((Paths.get(<span class="string">"alice.txt"</span>))), StandardCharsets.UTF_8);</span><br><span class="line">        List&lt;String&gt; words = Arrays.asList(contents.split(<span class="string">"\\PL+"</span>));</span><br><span class="line">        List&lt;String&gt; newwords = words.stream().limit(<span class="number">20</span>).filter(w -&gt; w.length() &gt; <span class="number">5</span>).sorted().collect(Collectors.toList());</span><br><span class="line">        System.out.println(newwords);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        System.out.println(<span class="string">"IO problem"</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-// 使用lambda表达式
-List costBeforeTax = Arrays.asList(100, 200, 300, 400, 500);
-costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::println);</code></pre>
+<p>另一个例子：为每个订单加上12%的税</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不使用lambda表达式</span></span><br><span class="line">List costBeforeTax = Arrays.asList(<span class="number">100</span>, <span class="number">200</span>, <span class="number">300</span>, <span class="number">400</span>, <span class="number">500</span>);</span><br><span class="line"><span class="keyword">for</span> (Integer cost : costBeforeTax) &#123;</span><br><span class="line">    <span class="keyword">double</span> price = cost + .<span class="number">12</span>*cost;</span><br><span class="line">    System.out.println(price);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用lambda表达式</span></span><br><span class="line">List costBeforeTax = Arrays.asList(<span class="number">100</span>, <span class="number">200</span>, <span class="number">300</span>, <span class="number">400</span>, <span class="number">500</span>);</span><br><span class="line">costBeforeTax.stream().map((cost) -&gt; cost + .<span class="number">12</span>*cost).forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+
 <p>可见 Lambda 表达式非常地优雅。</p>
 <hr>
 <h1 id="规约方法（reduction）"><a href="#规约方法（reduction）" class="headerlink" title="规约方法（reduction）"></a>规约方法（reduction）</h1><p>有时候我们使用聚合操作，操作完成后还是一个流。但有时会转换成非流值，我们把转换完毕后是非流值的方法称为规约方法。</p>
 <p>比如上面例子的<code>.count()</code>，就把流转换成了数字，<code>.collect(Collectors.toList()</code>转换成 List 集合， <code>.max()</code>和<code>.min()</code>获取成流中最大或最小的值。<code>findFirst()</code>返回非空集合的第一个值，<code>findAny()</code>返回任何符合的值。<code>anyMatch()</code>、<code>noneMatch()</code>和<code>allMatch()</code>返回匹配。</p>
 <p>例子：流中是否有以Q开头的元素？有返回True，没有返回False</p>
-<pre><code class="java">boolean aWordStartWithQ = words.parallel().anyMatch( s -&gt; s.startWith(&quot;Q&quot;));</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> aWordStartWithQ = words.parallel().anyMatch( s -&gt; s.startWith(<span class="string">"Q"</span>));</span><br></pre></td></tr></table></figure>
+
 <h2 id="Collectors"><a href="#Collectors" class="headerlink" title="Collectors"></a>Collectors</h2><p>Collectors实现了很多规约操作，例如</p>
 <ol>
 <li><code>.collect(Collectors.toList()</code>把流转换成 List</li>
@@ -829,77 +872,6 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
 
 
 
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-02-10T16:21:18.000Z">2018-02-11</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/linux/">linux</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    28 分钟 读完 (大约 4207 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/9cf7e81b.html">Linux系统漫游（二）从进程到并发</a>
-            
-        </h1>
-        <div class="content">
-            <p>漫游式梳理一下关于 Linux 的知识。</p>
-<p><a href="https://jerrysheh.github.io/post/4f4dc2a9.html">上一篇</a>：</p>
-<ul>
-<li>Linux简介与版本</li>
-<li>从开机到启动</li>
-<li>文件系统</li>
-<li>文本流</li>
-<li>标准输入、标准输出、标准错误、重定向</li>
-<li>管道</li>
-<li>Linux 架构</li>
-</ul>
-<p>本篇：</p>
-<ul>
-<li>进程</li>
-<li>进程空间</li>
-<li>信号</li>
-<li>进程间通信</li>
-<li>并发与同步</li>
-</ul>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/9cf7e81b.html#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -974,7 +946,7 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -986,7 +958,7 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -998,7 +970,7 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -1083,25 +1055,25 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -1115,6 +1087,14 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -1123,20 +1103,20 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -1168,7 +1148,7 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -1176,7 +1156,15 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -1211,6 +1199,25 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1241,7 +1248,7 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1278,25 +1285,6 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1362,6 +1350,25 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1392,7 +1399,7 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1429,25 +1436,6 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1510,7 +1498,7 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1564,7 +1552,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -165,11 +165,8 @@
 <h1 id="高阶函数概念"><a href="#高阶函数概念" class="headerlink" title="高阶函数概念"></a>高阶函数概念</h1><p>在 Python 中，<code>abs(-10)</code>用于取绝对值， 其中，-10 是参数，abs 是函数本身，<code>abs()</code>才是函数调用。我们可以把函数本身作为变量，赋值给另一变量。</p>
 <p>如假设我们定义<code>f = abs</code>，现在，<code>f(-10)</code> 和 <code>abs(-10)</code> 完全一样。</p>
 <p>既然函数本身可以作为变量赋值，那么它就可以作为参数，传给另一个函数。 如</p>
-<pre><code class="python">def add(x, y, f):
-    return f(x) + f(y)
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y, f)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> f(x) + f(y)</span><br><span class="line"></span><br><span class="line">f = abs</span><br><span class="line">add(<span class="number">-5</span>, <span class="number">6</span>, f)</span><br></pre></td></tr></table></figure>
 
-f = abs
-add(-5, 6, f)</code></pre>
 <p>当我们调用<code>add()</code> 的时候， 把函数<code>f</code>本身传递了进去。</p>
 <p>像这样，如果有一个函数，它可以接收另一个函数作为参数，这种函数就称之为<code>高阶函数（Higher-order function）</code>。</p>
 <hr>
@@ -181,24 +178,19 @@ add(-5, 6, f)</code></pre>
 <hr>
 <h1 id="Python内置的高阶函数"><a href="#Python内置的高阶函数" class="headerlink" title="Python内置的高阶函数"></a>Python内置的高阶函数</h1><h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><p>map 函数接收两个参数，一个是函数，一个是<code>Iterable</code>。返回一个<code>Iterator</code>。</p>
 <p>举个例子：</p>
-<pre><code class="python">def pow(x):
-    return x*x;
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pow</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> x*x;</span><br><span class="line"></span><br><span class="line">r = map(pow, [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>])</span><br><span class="line">print(list(r))</span><br></pre></td></tr></table></figure>
 
-r = map(pow, [1,2,3,4,5])
-print(list(r))</code></pre>
 <p>输出</p>
-<pre><code>[1, 4, 9, 16, 25]</code></pre><p>[1,2,3,4,5] 是一个可迭代对象，map会将函数pow分别作用于其中的每一个元素。结果r是一个<code>Iterator</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[1, 4, 9, 16, 25]</span><br></pre></td></tr></table></figure>
+
+<p>[1,2,3,4,5] 是一个可迭代对象，map会将函数pow分别作用于其中的每一个元素。结果r是一个<code>Iterator</code>。</p>
 <h2 id="reduce"><a href="#reduce" class="headerlink" title="reduce"></a>reduce</h2><p>reduce函数能把结果继续和序列的下一个元素做累积计算。结果就是计算的结果。</p>
-<pre><code class="python">from functools import reduce
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> reduce</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(x, y)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> x+y</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">r = reduce(sum, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line">print(r)</span><br></pre></td></tr></table></figure>
 
-def sum(x, y):
-    return x+y
-
-
-r = reduce(sum, [1, 2, 3, 4, 5])
-print(r)</code></pre>
 <p>输出</p>
-<pre><code>15</code></pre><p>reduce的执行过程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">15</span><br></pre></td></tr></table></figure>
+
+<p>reduce的执行过程：</p>
 <ol>
 <li>1+2，结果为3</li>
 <li>3+3，结果为6</li>
@@ -208,38 +200,29 @@ print(r)</code></pre>
 <h2 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h2><p><code>filter()</code>函数用于过滤序列。和<code>map()</code>类似，<code>filter()</code>也接收一个函数和一个序列。</p>
 <p>但是<code>filter()</code>把传入的函数依次作用于每个元素，然后根据返回值是 <code>True</code> 还是 <code>False</code> 决定保留还是丢弃该元素。其作用是筛选。</p>
 <p><code>filter()</code>返回的也是一个<code>Iterator</code>。</p>
-<pre><code class="python">def is_odd(n):
-    return n % 2 == 1
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_odd</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> n % <span class="number">2</span> == <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">r = filter(is_odd, [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>])</span><br><span class="line">print(list(r))</span><br></pre></td></tr></table></figure>
 
-
-r = filter(is_odd, [1,2,3,4,5])
-print(list(r))</code></pre>
 <p>输出：</p>
-<pre><code>[1, 3, 5]</code></pre><h2 id="sorted"><a href="#sorted" class="headerlink" title="sorted"></a>sorted</h2><blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[1, 3, 5]</span><br></pre></td></tr></table></figure>
+
+<h2 id="sorted"><a href="#sorted" class="headerlink" title="sorted"></a>sorted</h2><blockquote>
 <p>在 Java 中，我们对一个类实现 Comparable 接口，那么它就有了默认的比较方法。但是我们有时候要自己定义比较的方式（比如String默认是根据首字母来比较，而我们现在想比较的是字符串的长度），就必须得实现 Comparator 接口的 compare 方法了。</p>
 </blockquote>
 <p>在 Python 中， <code>sorted()</code>函数提供了默认的排序方法，但也支持自己定义，只需要指定第二个参数。</p>
 <p>比如，按绝对值比较</p>
-<pre><code class="python"># 默认比较
-sorted([36, 5, -12, 9, -21])
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认比较</span></span><br><span class="line">sorted([<span class="number">36</span>, <span class="number">5</span>, <span class="number">-12</span>, <span class="number">9</span>, <span class="number">-21</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 按绝对值比较</span></span><br><span class="line">sorted([<span class="number">36</span>, <span class="number">5</span>, <span class="number">-12</span>, <span class="number">9</span>, <span class="number">-21</span>], key=abs)</span><br></pre></td></tr></table></figure>
 
-# 按绝对值比较
-sorted([36, 5, -12, 9, -21], key=abs)</code></pre>
 <p>怎么实现的呢？实际上，是先对<code>[36, 5, -12, 9, -21]</code>进行<code>key=abs</code>操作，先生成一个key列表<code>[36, 5,  12, 9,  21]</code>，然后对key所对应的value进行 <code>sorted()</code>操作。所以最终的输出还是原始数字。</p>
 <p>下面的例子为忽略大小写按首字母排列字符串</p>
-<pre><code class="python">sorted([&#39;bob&#39;, &#39;about&#39;, &#39;Zoo&#39;, &#39;Credit&#39;], key=str.lower)</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sorted([<span class="string">'bob'</span>, <span class="string">'about'</span>, <span class="string">'Zoo'</span>, <span class="string">'Credit'</span>], key=str.lower)</span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>sorted还支持第三个参数，reverse=True 即可将结果反转。</p>
 </blockquote>
 <hr>
 <h1 id="返回函数"><a href="#返回函数" class="headerlink" title="返回函数"></a>返回函数</h1><p>在 Python 高阶函数中，可以把函数作为结果值返回。</p>
-<pre><code class="python">def lazy_sum(*args):
-    def sum():
-        ax = 0
-        for n in args:
-            ax = ax + n
-        return ax
-    return sum</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lazy_sum</span><span class="params">(*args)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">()</span>:</span></span><br><span class="line">        ax = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> n <span class="keyword">in</span> args:</span><br><span class="line">            ax = ax + n</span><br><span class="line">        <span class="keyword">return</span> ax</span><br><span class="line">    <span class="keyword">return</span> sum</span><br></pre></td></tr></table></figure>
+
 <p>当我们调用 <code>lazy_sum()</code> 时，返回的是 <code>sum</code> 函数本身，而不是一个具体的数据类型。</p>
 <h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><p>在函数中定义另一函数，内部函数可以引用外部函数的参数和局部变量。当外部函数返回内部函数时，相关的参数和变量都保存在返回的内部函数中。这种程序结构，称为<code>闭包</code>。</p>
 <blockquote>
@@ -247,63 +230,37 @@ sorted([36, 5, -12, 9, -21], key=abs)</code></pre>
 </blockquote>
 <hr>
 <h1 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h1><p>在使用 <code>map()</code> 函数的时候，我们传入一个函数参数和一个<code>Iterable</code>。我们还要特地去定义传入的函数，比如：</p>
-<pre><code class="python">def f(x):
-    return x * x
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> x * x</span><br><span class="line"></span><br><span class="line">map(f(x), [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>])</span><br></pre></td></tr></table></figure>
 
-map(f(x), [1, 2, 3, 4, 5, 6, 7, 8, 9])</code></pre>
 <p>我们可以使用 lambda 表达式，直接表示 f(x) ，而不用特地去定义。</p>
-<pre><code class="python">map(lambda x: x * x, [1, 2, 3, 4, 5, 6, 7, 8, 9])</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map(<span class="keyword">lambda</span> x: x * x, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>])</span><br></pre></td></tr></table></figure>
+
 <p>这就是匿名函数和lambda表达式的用法。</p>
 <hr>
 <h1 id="装饰器（Decorator）"><a href="#装饰器（Decorator）" class="headerlink" title="装饰器（Decorator）"></a>装饰器（Decorator）</h1><h2 id="函数对象"><a href="#函数对象" class="headerlink" title="函数对象"></a>函数对象</h2><p>在 Python 中，函数是对象，可以赋值给变量</p>
-<pre><code class="python">def now():
-    print(&quot;2018-05-17&quot;)
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">now</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">"2018-05-17"</span>)</span><br><span class="line"></span><br><span class="line">myfun = now</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可以通过 __name__ 属性获取函数的名字</span></span><br><span class="line">now.__name__</span><br><span class="line">myfun.__name__</span><br></pre></td></tr></table></figure>
 
-myfun = now
-
-# 可以通过 __name__ 属性获取函数的名字
-now.__name__
-myfun.__name__</code></pre>
 <h2 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h2><p>现在，我们要在调用 now() 函数前，执行日志打印，但又不希望修改 <code>now()</code> 函数的内容。这时候可以用<code>装饰器（Decorator）</code>。</p>
 <p>在代码运行期间动态增加功能的方式就是 Decorator，本质上 Decorator 就是一个返回函数的高阶函数。</p>
-<pre><code class="python">def log(func):
-    def wrapper(*args, **kw):
-        print(&#39;call %s():&#39; % func.__name__)
-        return func(*args, **kw)
-    return wrapper
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">log</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args, **kw)</span>:</span></span><br><span class="line">        print(<span class="string">'call %s():'</span> % func.__name__)</span><br><span class="line">        <span class="keyword">return</span> func(*args, **kw)</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">now</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'2018-05-17'</span>)</span><br><span class="line"></span><br><span class="line">now = log(now)</span><br><span class="line"></span><br><span class="line">now()</span><br></pre></td></tr></table></figure>
 
-def now():
-    print(&#39;2018-05-17&#39;)
-
-now = log(now)
-
-now()</code></pre>
 <p>我们把 <code>now()</code> 函数作为参数，传给 <code>log()</code> 函数，然后<code>log()</code> 函数返回一个内部函数 wrapper。 而 wrapper 在返回前打印了日志，然后返回了传进去的 <code>now()</code> 函数。</p>
 <p>现在， now 这个变量保存了 wrapper() 函数。（注意：wrapper并没有执行，只是保存了状态）</p>
 <p>最后，我们调用 <code>now()</code>，<code>now()</code> 执行刚刚保存的 wrapper() ，也就是打印日志，然后返回 now() 本身，也就是打印<code>2018-05-17</code>。</p>
 <p>所以，我们最后看到的结果是：</p>
-<pre><code>call now():
-2018-05-17</code></pre><p>这就实现了我们想要的功能：在调用 now() 函数前，执行日志打印。</p>
-<p>事实上，为了方便，我们可以用 <code>@log</code> 来修饰函数 ，如</p>
-<pre><code class="python">@log
-def now():
-    print(&#39;2015-3-25&#39;)</code></pre>
-<p>等同于</p>
-<pre><code class="python">def now():
-    print(&#39;2018-05-17&#39;)
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">call now():</span><br><span class="line">2018-05-17</span><br></pre></td></tr></table></figure>
 
-now = log(now)</code></pre>
+<p>这就实现了我们想要的功能：在调用 now() 函数前，执行日志打印。</p>
+<p>事实上，为了方便，我们可以用 <code>@log</code> 来修饰函数 ，如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@log</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">now</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'2015-3-25'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>等同于</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">now</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'2018-05-17'</span>)</span><br><span class="line"></span><br><span class="line">now = log(now)</span><br></pre></td></tr></table></figure>
+
 <p>用装饰器装饰过后的函数， <code>__name__</code> 会变成装饰函数的内部函数，以这个例子为例， <code>now.__name__</code> 从 <code>now</code> 变成了 <code>wrapper</code>。所以我们要在装饰器函数里把原始函数的 <strong>name</strong> 属性复制到 <code>wrapper()</code> 内部函数中。</p>
 <p>你可能马上想到用<code>wrapper.__name__ = func.__name__</code>，事实可以直接<code>@functools.wraps(func)</code>。</p>
 <p>一个完整的Decorator：</p>
-<pre><code class="python">import functools
-
-def log(func):
-    @functools.wraps(func)
-    def wrapper(*args, **kw):
-        print(&#39;call %s():&#39; % func.__name__)
-        return func(*args, **kw)
-    return wrapper</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> functools</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">log</span><span class="params">(func)</span>:</span></span><br><span class="line"><span class="meta">    @functools.wraps(func)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args, **kw)</span>:</span></span><br><span class="line">        print(<span class="string">'call %s():'</span> % func.__name__)</span><br><span class="line">        <span class="keyword">return</span> func(*args, **kw)</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br></pre></td></tr></table></figure>
 
         </div>
         
@@ -392,7 +349,7 @@ def log(func):
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -404,7 +361,7 @@ def log(func):
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -416,7 +373,7 @@ def log(func):
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -565,25 +522,25 @@ def log(func):
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -597,6 +554,14 @@ def log(func):
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -605,20 +570,20 @@ def log(func):
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -650,7 +615,7 @@ def log(func):
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -658,7 +623,15 @@ def log(func):
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -693,6 +666,25 @@ def log(func):
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -723,7 +715,7 @@ def log(func):
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -760,25 +752,6 @@ def log(func):
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -844,6 +817,25 @@ def log(func):
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -874,7 +866,7 @@ def log(func):
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -911,25 +903,6 @@ def log(func):
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -992,7 +965,7 @@ def log(func):
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1046,7 +1019,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

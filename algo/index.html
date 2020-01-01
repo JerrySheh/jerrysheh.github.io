@@ -10,12 +10,12 @@
 <title>数据结构和算法 - J.e</title>
 
 
-    <meta name="description" content="1. 选择排序、冒泡排序、插入排序的区别选择选择排序是先遍历数组，找到最小的元素，放到前面。第二趟从第二个元素开始，找到次小元素，放到前面。每次都选出当前躺最小的元素，放到前面。 public static void selectSort(int[] arr){     int size &#x3D; arr.length;     for (int i &#x3D; 0; i &lt; size; i++) {">
+    <meta name="description" content="1. 选择排序、冒泡排序、插入排序的区别选择选择排序是先遍历数组，找到最小的元素，放到前面。第二趟从第二个元素开始，找到次小元素，放到前面。每次都选出当前躺最小的元素，放到前面。 1234567891011public static void selectSort(int[] arr)&amp;#123;    int size &#x3D; arr.length;    for (int i &#x3D; 0; i &amp;lt">
 <meta property="og:type" content="website">
 <meta property="og:title" content="数据结构和算法">
 <meta property="og:url" content="https://jerrysheh.me/algo/index.html">
 <meta property="og:site_name" content="J.e">
-<meta property="og:description" content="1. 选择排序、冒泡排序、插入排序的区别选择选择排序是先遍历数组，找到最小的元素，放到前面。第二趟从第二个元素开始，找到次小元素，放到前面。每次都选出当前躺最小的元素，放到前面。 public static void selectSort(int[] arr){     int size &#x3D; arr.length;     for (int i &#x3D; 0; i &lt; size; i++) {">
+<meta property="og:description" content="1. 选择排序、冒泡排序、插入排序的区别选择选择排序是先遍历数组，找到最小的元素，放到前面。第二趟从第二个元素开始，找到次小元素，放到前面。每次都选出当前躺最小的元素，放到前面。 1234567891011public static void selectSort(int[] arr)&amp;#123;    int size &#x3D; arr.length;    for (int i &#x3D; 0; i &amp;lt">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2018-10-19T13:13:51.000Z">
@@ -36,7 +36,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -138,66 +138,22 @@
         </h1>
         <div class="content">
             <h1 id="1-选择排序、冒泡排序、插入排序的区别"><a href="#1-选择排序、冒泡排序、插入排序的区别" class="headerlink" title="1. 选择排序、冒泡排序、插入排序的区别"></a>1. 选择排序、冒泡排序、插入排序的区别</h1><h2 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h2><p>选择排序是先遍历数组，找到最小的元素，放到前面。第二趟从第二个元素开始，找到次小元素，放到前面。每次都选出当前躺最小的元素，放到前面。</p>
-<pre><code class="java">public static void selectSort(int[] arr){
-    int size = arr.length;
-    for (int i = 0; i &lt; size; i++) {
-        int min = i;
-        // 第二个for循环找出最小元素
-        for (int j = i; j &lt; size; j++) {
-            if (arr[j] &lt; arr[min]) min = j;
-        }
-        Swap.swap(arr, min, i);
-    }
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">selectSort</span><span class="params">(<span class="keyword">int</span>[] arr)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> size = arr.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> min = i;</span><br><span class="line">        <span class="comment">// 第二个for循环找出最小元素</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt; size; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (arr[j] &lt; arr[min]) min = j;</span><br><span class="line">        &#125;</span><br><span class="line">        Swap.swap(arr, min, i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="冒泡"><a href="#冒泡" class="headerlink" title="冒泡"></a>冒泡</h2><p>冒泡排序是比较两两相邻的两个元素，如果前一个元素比后一个元素大，就交换。不断地往后换下去。</p>
-<pre><code class="java">public static void bubbleSort(int[] arr){
-    int size = arr.length;
-    for (int i = 0; i &lt; size; i++) {
-        // 第一躺结束后，最右元素一定是最大的，因此第二趟最右元素不参与，即 size - i - 1
-        for (int j = 0; j &lt; size - i - 1; j++) {
-            if (arr[j] &gt; arr[j+1]) Swap.swap(arr, j, j+1);
-        }
-    }
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">bubbleSort</span><span class="params">(<span class="keyword">int</span>[] arr)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> size = arr.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">        <span class="comment">// 第一躺结束后，最右元素一定是最大的，因此第二趟最右元素不参与，即 size - i - 1</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size - i - <span class="number">1</span>; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (arr[j] &gt; arr[j+<span class="number">1</span>]) Swap.swap(arr, j, j+<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入排序是将待排序的元素插入到前面已经有序的元素里面。它是将待排序元素不断从后往前换到前面的,如果待排序元素比前一个元素小，就换到前面去。</p>
-<pre><code class="java">private static void sort(int[] arr){
-    for (int i = 1; i &lt; arr.length; i++) {
-        for (int j = i; j &gt; 0 &amp;&amp; arr[j] &lt; arr[j-1]; j--) {
-            Swap.swap(arr, j, j-1);
-        }
-    }
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span>[] arr)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &gt; <span class="number">0</span> &amp;&amp; arr[j] &lt; arr[j-<span class="number">1</span>]; j--) &#123;</span><br><span class="line">            Swap.swap(arr, j, j-<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>三者的时间复杂度都是 O(n^2)，空间复杂度为 1</p>
 <hr>
 <h1 id="2-归并排序和快速排序的区别"><a href="#2-归并排序和快速排序的区别" class="headerlink" title="2. 归并排序和快速排序的区别"></a>2. 归并排序和快速排序的区别</h1><h2 id="归并"><a href="#归并" class="headerlink" title="归并"></a>归并</h2><p>归并排序的思想是，找到中间点，将数组分成两个子数组，排序左半边，再排序右半边，再将两边合并起来。</p>
-<pre><code class="java">public static void mergeSort(int[] arr, int low, int high){
-    if (high &lt;= low ) return;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">mergeSort</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (high &lt;= low ) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 找到中间点</span></span><br><span class="line">    <span class="keyword">int</span> mid = (low + high) / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 排序左半边</span></span><br><span class="line">    mergeSort(arr, low, mid);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 排序右半边</span></span><br><span class="line">    mergeSort(arr, mid+<span class="number">1</span>, high);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 左右两边归并</span></span><br><span class="line">    merge(arr, low, mid, high);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 找到中间点
-    int mid = (low + high) / 2;
-
-    // 排序左半边
-    mergeSort(arr, low, mid);
-
-    // 排序右半边
-    mergeSort(arr, mid+1, high);
-
-    // 左右两边归并
-    merge(arr, low, mid, high);
-}</code></pre>
 <h2 id="快速"><a href="#快速" class="headerlink" title="快速"></a>快速</h2><p>快速排序的思想是，选一个参考元素，比参考元素小的放左边，比参考元素大的放右边。然后左边排序，右边排序。</p>
-<pre><code class="java">public static void quickSort(int[] arr, int low, int high){
-    if (high &lt;= low) return;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (high &lt;= low) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// partition返回的是参考元素的下标</span></span><br><span class="line">    <span class="keyword">int</span> refer = partition(arr, low, high);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将切分的左半部分快排</span></span><br><span class="line">    quickSort(arr, low, refer - <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将切分的右半部分快排</span></span><br><span class="line">    quickSort(arr, refer + <span class="number">1</span>, high);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // partition返回的是参考元素的下标
-    int refer = partition(arr, low, high);
-
-    // 将切分的左半部分快排
-    quickSort(arr, low, refer - 1);
-
-    // 将切分的右半部分快排
-    quickSort(arr, refer + 1, high);
-}</code></pre>
 <p>快速排序和归并排序的时间复杂度都是 O(NlogN)，但是快速排序在最糟糕的情况下可能会是 O(n^2)。</p>
 <hr>
 <h1 id="3-快速排序的-partition-方法"><a href="#3-快速排序的-partition-方法" class="headerlink" title="3.快速排序的 partition 方法"></a>3.快速排序的 partition 方法</h1><ol>
@@ -209,42 +165,8 @@
 <li>把参考元素放在正确的位置（swap low right）</li>
 <li>返回参考元素（return right）</li>
 </ol>
-<pre><code class="java">public static int partition(int[] arr, int low, int high) {
-    // 1.选取第一个元素为参考元素
-    int refer = arr[low];
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1.选取第一个元素为参考元素</span></span><br><span class="line">    <span class="keyword">int</span> refer = arr[low];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> left = low;</span><br><span class="line">    <span class="keyword">int</span> right = high + <span class="number">1</span> ; <span class="comment">// 这里要加一</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重复 2.3.4</span></span><br><span class="line">    <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2.从左边向右，每一个元素都跟参考元素做比较，直到找到比参考元素大的</span></span><br><span class="line">        <span class="keyword">while</span> ( arr[++left] &lt; refer )&#123;</span><br><span class="line">            <span class="comment">// 如果到达最右了，不再向右</span></span><br><span class="line">            <span class="keyword">if</span> (left == high) <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3.从右边向左，每一个元素都跟参考元素做比较，直到找到比参考元素小的</span></span><br><span class="line">        <span class="keyword">while</span> ( arr[--right] &gt; refer )&#123;</span><br><span class="line">            <span class="comment">// 如果到达最左了，不再向左</span></span><br><span class="line">            <span class="keyword">if</span> (right == low) <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 5. 检查是否扫描完</span></span><br><span class="line">        <span class="keyword">if</span> (left &gt;= right) <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4. 交换刚刚两个元素</span></span><br><span class="line">        Swap.swap(arr, left, right);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 6. 将参考元素`arr[low]`放到中间位置</span></span><br><span class="line">    Swap.swap(arr, low, right);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回的是下标</span></span><br><span class="line">    <span class="keyword">return</span> right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    int left = low;
-    int right = high + 1 ; // 这里要加一
-
-    // 重复 2.3.4
-    while (true){
-
-        // 2.从左边向右，每一个元素都跟参考元素做比较，直到找到比参考元素大的
-        while ( arr[++left] &lt; refer ){
-            // 如果到达最右了，不再向右
-            if (left == high) break;
-        }
-
-        // 3.从右边向左，每一个元素都跟参考元素做比较，直到找到比参考元素小的
-        while ( arr[--right] &gt; refer ){
-            // 如果到达最左了，不再向左
-            if (right == low) break;
-        }
-
-        // 5. 检查是否扫描完
-        if (left &gt;= right) break;
-
-        // 4. 交换刚刚两个元素
-        Swap.swap(arr, left, right);
-
-    }
-
-    // 6. 将参考元素`arr[low]`放到中间位置
-    Swap.swap(arr, low, right);
-
-    // 返回的是下标
-    return right;
-}</code></pre>
 <hr>
 <h1 id="4-归并排序的-merge-方法"><a href="#4-归并排序的-merge-方法" class="headerlink" title="4.归并排序的 merge 方法"></a>4.归并排序的 merge 方法</h1><ol>
 <li>先将原数组全部复制到辅助数组 tempArr[] 中，然后依次判断（from low to high）</li>
@@ -252,136 +174,34 @@
 <li>右半边是否用尽，如果用尽，取左半边的元素，否则3</li>
 <li>右&lt;左？取右，否则取左（取比较小的）</li>
 </ol>
-<pre><code class="java">public static void merge(int[] arr, int low, int mid, int high){
-    int left = low;
-    int right = mid + 1;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> low, <span class="keyword">int</span> mid, <span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> left = low;</span><br><span class="line">    <span class="keyword">int</span> right = mid + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将数组复制到一个新的临时数组中</span></span><br><span class="line">    <span class="keyword">int</span>[] tempArr = <span class="keyword">new</span> <span class="keyword">int</span>[high+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = low; i &lt;= high; i++) &#123;</span><br><span class="line">        tempArr[i] = arr[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = low; i &lt;= high; i++) &#123;</span><br><span class="line">        <span class="comment">// 左半边是否用尽，如果用尽，取右半边的元素</span></span><br><span class="line">        <span class="keyword">if</span> ( left &gt; mid ) arr[i] = tempArr[right++];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 右半边是否用尽，如果用尽，取左半边的元素</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ( right &gt; high ) arr[i] = tempArr[left++];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 右半边的当前元素是否小于左半边的当前元素，如果是，取右半边的元素</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ( tempArr[right] &lt; tempArr[left]) arr[i] = tempArr[right++];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 否则取左半边的元素</span></span><br><span class="line">        <span class="keyword">else</span> arr[i] = tempArr[left++];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 将数组复制到一个新的临时数组中
-    int[] tempArr = new int[high+1];
-    for (int i = low; i &lt;= high; i++) {
-        tempArr[i] = arr[i];
-    }
-
-    for (int i = low; i &lt;= high; i++) {
-        // 左半边是否用尽，如果用尽，取右半边的元素
-        if ( left &gt; mid ) arr[i] = tempArr[right++];
-
-        // 右半边是否用尽，如果用尽，取左半边的元素
-        else if ( right &gt; high ) arr[i] = tempArr[left++];
-
-        // 右半边的当前元素是否小于左半边的当前元素，如果是，取右半边的元素
-        else if ( tempArr[right] &lt; tempArr[left]) arr[i] = tempArr[right++];
-
-        // 否则取左半边的元素
-        else arr[i] = tempArr[left++];
-    }
-
-}</code></pre>
 <hr>
 <h1 id="5-找出1到1000之间的素数"><a href="#5-找出1到1000之间的素数" class="headerlink" title="5. 找出1到1000之间的素数"></a>5. 找出1到1000之间的素数</h1><p>判断一个数是否素数：</p>
 <p>一个数 n，分别去除以 [2,(√n)] 的每个数，如果都不能整数（n % i != 0），那这个数就是素数。</p>
-<pre><code class="java">private static boolean isPrime(int n){
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isPrime</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ( n &lt; <span class="number">0</span> ) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span> ( n ==<span class="number">1</span> ) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= Math.sqrt(n); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> ( n % i == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    if ( n &lt; 0 ) return false;
-    if ( n ==1 ) return true;
-
-    for (int i = 2; i &lt;= Math.sqrt(n); i++) {
-        if ( n % i == 0) return false;
-    }
-
-    return true;
-}</code></pre>
 <p>找出1到1000之间的素数，除了暴力遍历 isPrime() ，有没有什么高效方法？<strong>埃拉托色尼筛选法</strong>。用一个bool数组，存储n个数的状态，初始化都为true，然后从2开始，如果2的状态为true，就开始遍历比n小的所有的2的倍数，将其全部置为false。把2的倍数遍历完后，继续往下找下一个状态为true的数，即3，遍历比n小的所有的3的倍数（按3<em>3，3</em>4，3<em>5这样遍历，注意不需要从3</em>2开始了）。最后剩下的状态为true的数全为质数。</p>
-<pre><code class="java">private static void printPrime(int range){
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printPrime</span><span class="params">(<span class="keyword">int</span> range)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 一个 boolean 数组，一开始全部是 true</span></span><br><span class="line">    <span class="keyword">boolean</span>[] status = <span class="keyword">new</span> <span class="keyword">boolean</span>[range];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; range; i++) &#123;</span><br><span class="line">        status[i] = <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt; range; i++) &#123;</span><br><span class="line">        <span class="comment">// 如果 i 为 true ，是素数</span></span><br><span class="line">        <span class="keyword">if</span> (status[i])&#123;</span><br><span class="line">            <span class="comment">// 那 i 的倍数肯定不是素数，置为 false</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j * i &lt; range; j++) &#123;</span><br><span class="line">                status[i*j] = <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 剩下为 true 的就都是素数了</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; range; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (status[i]) System.out.println(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 一个 boolean 数组，一开始全部是 true
-    boolean[] status = new boolean[range];
-    for (int i = 0; i &lt; range; i++) {
-        status[i] = true;
-    }
-
-    for (int i = 2; i &lt; range; i++) {
-        // 如果 i 为 true ，是素数
-        if (status[i]){
-            // 那 i 的倍数肯定不是素数，置为 false
-            for (int j = i; j * i &lt; range; j++) {
-                status[i*j] = false;
-            }
-        }
-    }
-
-    // 剩下为 true 的就都是素数了
-    for (int i = 0; i &lt; range; i++) {
-        if (status[i]) System.out.println(i);
-    }
-
-}</code></pre>
 <hr>
 <h1 id="6-字符串-给定一个-32-位有符号整数，将整数中的数字进行反转。"><a href="#6-字符串-给定一个-32-位有符号整数，将整数中的数字进行反转。" class="headerlink" title="6. [字符串]给定一个 32 位有符号整数，将整数中的数字进行反转。"></a>6. [字符串]给定一个 32 位有符号整数，将整数中的数字进行反转。</h1><p>Leetcode 第七题</p>
 <p>如，输入 123，输出 321 。 自然想到要栈来实现 ，但是可以用代数方法模拟栈：一个数 n ，比如 123，要取出其末位，只需要 n % 10， 如 123 % 10 = 3， 然后 123 / 10 = 12, 把数字规模缩小。反过来，入栈的时候，一个数 m 从0开始， 只需要 m * 10 + n % 10 即可。</p>
 <p>溢出处理：如果一个数溢出，那反回去运算肯定不会得到先前的数字，可借助这一点来判断是否溢出了。</p>
-<pre><code class="java">public int reverse(int n) {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> temp = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> ( n != <span class="number">0</span> )&#123;</span><br><span class="line">        temp = result * <span class="number">10</span> + n % <span class="number">10</span>; <span class="comment">// 可能导致溢出</span></span><br><span class="line">        <span class="keyword">if</span> ( temp/<span class="number">10</span> != result )&#123;   <span class="comment">// 检查溢出</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        result = temp;</span><br><span class="line">        n = n / <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    int result = 0;
-    int temp = 0;
-    while ( n != 0 ){
-        temp = result * 10 + n % 10; // 可能导致溢出
-        if ( temp/10 != result ){   // 检查溢出
-            return 0;
-        }
-        result = temp;
-        n = n / 10;
-    }
-
-    return result;
-}</code></pre>
 <p>另一种思路是，用一个 long 来存储临时的数 temp， 如果 temp &gt; MAX_INT ，那肯定溢出。</p>
 <hr>
 <h1 id="7-字符串-回文数"><a href="#7-字符串-回文数" class="headerlink" title="7. [字符串]回文数"></a>7. [字符串]回文数</h1><p>判断一个整数是否是回文数。回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。</p>
 <p>转换成字符串，两个指针，A指针从前往后，B指针从后往前，依次比较。</p>
-<pre><code class="java">private static boolean isPalindrome(int x) {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isPalindrome</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当测试用例有大量负数时，才加这一句</span></span><br><span class="line">    <span class="keyword">if</span> (x &lt; <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span>[] cs = String.valueOf(x).toCharArray();</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> right = cs.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> ( left &lt;= right ) &#123;</span><br><span class="line">        <span class="keyword">if</span> (cs[left++] != cs[right--]) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 当测试用例有大量负数时，才加这一句
-    if (x &lt; 0) return false;
-
-    char[] cs = String.valueOf(x).toCharArray();
-    int left = 0;
-    int right = cs.length - 1;
-    while ( left &lt;= right ) {
-        if (cs[left++] != cs[right--]) return false;
-    }
-
-    return true;
-}</code></pre>
 <hr>
 <h1 id="8-排序-位运算-文件排序"><a href="#8-排序-位运算-文件排序" class="headerlink" title="8. [排序] [位运算]文件排序"></a>8. [排序] [位运算]文件排序</h1><p>编程珠玑开篇题目</p>
 <p>有一个电话簿文件，里面记录的都是7位数的电话号码（如 3485712），没有重复数字，请排序并输出。</p>
 <p>用一个容量为10000000的 boolean 数组，依次读取input.txt，并把对应的下标置为 true 。 例如读取到 1258021 ，就把 boolean[1258021] 置为 true 。然后遍历boolean数组，遇到 true 的把下标写入 output.txt</p>
-<pre><code class="java">private static void readAndSort() throws IOException {
-    // 初始化 boolean 数组
-    boolean[] set = new boolean[10000000];
-    for (int i = 0; i &lt; set.length; i++) {
-        set[i] = false;
-    }
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">readAndSort</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="comment">// 初始化 boolean 数组</span></span><br><span class="line">    <span class="keyword">boolean</span>[] set = <span class="keyword">new</span> <span class="keyword">boolean</span>[<span class="number">10000000</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; set.length; i++) &#123;</span><br><span class="line">        set[i] = <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 遍历输入文件</span></span><br><span class="line">    BufferedReader br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> FileReader(<span class="string">"input.txt"</span>));</span><br><span class="line">    String s;</span><br><span class="line">    <span class="keyword">while</span> ( (s = br.readLine()) != <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">int</span> index = Integer.parseInt(s);</span><br><span class="line">        set[index] = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 输出</span></span><br><span class="line">    BufferedWriter bw = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> FileWriter(<span class="string">"output.txt"</span>));</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; set.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (set[i])&#123;</span><br><span class="line">            bw.write(Integer.valueOf(i).toString());</span><br><span class="line">            bw.write(<span class="string">"\r\n"</span>);</span><br><span class="line">            bw.flush();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 遍历输入文件
-    BufferedReader br = new BufferedReader(new FileReader(&quot;input.txt&quot;));
-    String s;
-    while ( (s = br.readLine()) != null){
-        int index = Integer.parseInt(s);
-        set[index] = true;
-
-    // 输出
-    BufferedWriter bw = new BufferedWriter(new FileWriter(&quot;output.txt&quot;));
-    for (int i = 0; i &lt; set.length; i++) {
-        if (set[i]){
-            bw.write(Integer.valueOf(i).toString());
-            bw.write(&quot;\r\n&quot;);
-            bw.flush();
-        }
-    }
-
-}</code></pre>
 <hr>
 
         </div>
@@ -441,7 +261,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -453,7 +273,7 @@
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -465,7 +285,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -614,25 +434,25 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -646,6 +466,14 @@
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -654,20 +482,20 @@
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -699,7 +527,7 @@
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -707,7 +535,15 @@
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -742,6 +578,25 @@
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -772,7 +627,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -809,25 +664,6 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -893,6 +729,25 @@
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -923,7 +778,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -960,25 +815,6 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1041,7 +877,7 @@
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1095,7 +931,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

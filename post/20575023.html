@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2019-08-08T15:11:15.000Z">
-<meta property="article:modified_time" content="2019-09-22T14:13:02.831Z">
+<meta property="article:modified_time" content="2019-12-29T13:36:53.000Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta property="article:tag" content="计算机科学">
 <meta name="twitter:card" content="summary">
@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -137,7 +137,7 @@
                 <time class="level-item has-text-grey" datetime="2019-08-08T15:11:15.000Z">2019-08-08</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>
+                <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">计算机科学速成课</a>
                 </div>
                 
                 
@@ -169,18 +169,13 @@
 
 <h1 id="P12-编程原理-语句和函数"><a href="#P12-编程原理-语句和函数" class="headerlink" title="P12 编程原理 - 语句和函数"></a>P12 编程原理 - 语句和函数</h1><p><code>a = 5</code> 这是高级语言 Python 中的语句，意思是把值5赋给变量a，这叫做 <strong>赋值语句</strong>，也是初始化语句。<code>if</code> 、<code>while</code> 和 <code>for</code> 是常见的 <strong>控制流语句</strong>，表示条件判断和循环。高级编程语言都是通过特定的语句和语法组织起来的，跟英语、中文等自然语言没有本质不同。</p>
 <p>当程序中有一部分代码在很多地方都要重复使用时，我们可以把它抽出来作为 <strong>函数</strong>。函数有参数和返回值，任何调用它的地方都能执行这段代码。下面是 Python 计算一个数的平方的函数：</p>
-<pre><code class="python">def pow(x):
-    return x*x;</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pow</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> x*x;</span><br></pre></td></tr></table></figure>
+
 <p>函数有助于模块化编程，帮助团队协作写出大型的程序。现代编程语言中，很多语言已经提前写好了一些常用的函数集合，叫做 <strong>库(libraries)</strong>。</p>
 <h1 id="P13-算法入门"><a href="#P13-算法入门" class="headerlink" title="P13 算法入门"></a>P13 算法入门</h1><p>解决问题的步骤，称为 <strong>算法</strong>。不同的算法可能得出相同的结果，但有些效率更高。</p>
 <h2 id="排序和算法的复杂度"><a href="#排序和算法的复杂度" class="headerlink" title="排序和算法的复杂度"></a>排序和算法的复杂度</h2><p><strong>排序</strong> 是一种常见的算法需求，<strong>选择排序</strong> 是一种最简单的排序算法。其思想是，从第一个数开始，找到数组中最小的一个数，跟第一个数交换，然后从第二个数开始，找到数组剩下的数字中最小的一个，跟第二个数交换，以此类推。下面是 Python 选择排序的实现：</p>
-<pre><code class="python">def select_sort(arr):
-    for i in range(0, len(arr)):
-        min = i
-        for j in range(i, len(arr)):
-            if arr[j] &lt; arr[min]:
-                min = j
-        arr[min], arr[i] = arr[i], arr[min]</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">select_sort</span><span class="params">(arr)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(arr)):</span><br><span class="line">        min = i</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(i, len(arr)):</span><br><span class="line">            <span class="keyword">if</span> arr[j] &lt; arr[min]:</span><br><span class="line">                min = j</span><br><span class="line">        arr[min], arr[i] = arr[i], arr[min]</span><br></pre></td></tr></table></figure>
+
 <p>可以看到，选择排序用了两个 for 循环，如果循环一次需要 n 个步骤，那么两个 for 循环大概需要 n * n 个步骤。 <strong>算法的输入大小和运行步骤之间的关系，叫做算法的复杂度</strong>。计算机科学家把算法复杂度描述为 <strong>大O表示法</strong>。需要 n * n 个步骤的算法，记为 O(n*n)。如果一个步骤需要1秒，当 n 为 8，这个算法需要 8 * 8 = 64 秒，当 n 为 80 ，这个算法需要 80 * 80 = 6400 秒，n增大了10倍，时间却增加了100倍，可见 O(n*n) 是呈指数级增长的，是一种效率很低的算法。</p>
 <p>一种效率比较高的排序算法是 <strong>归并排序</strong>。它通过分治的思想，把一个大数组一分为二，分开的两个小数组又分别再一分为二，一直分到每个小数组都只有两个元素，排完序，再向上归并起来。这种算法的复杂度为 O(n*logn)，n是需要比较的次数，logn是合并步骤的次数，例如，在有8个元素的数组中，有8个数需要比较，所以n是8，从2合并到4再合并到8，需要3次，也就是 log8=3。 O(n*logn) 呈对数级增长，效率比较高。</p>
 <h2 id="图搜索"><a href="#图搜索" class="headerlink" title="图搜索"></a>图搜索</h2><p>图搜索是另一种算法，图是一种用线连起来的一堆节点，从一个节点到另一个节点有不同的成本，称为 <strong>权重</strong>。如何用最少的成本，从一个节点到达另一个不相邻的节点呢？最简单粗暴的方法是把所有可能的走法都列出来，但这样的复杂度是 O(n!)，比 O(n*n) 还糟糕。解决这个问题的一个经典算法是一位理论计算机科学家 Edsger Dijkstra 发明的，因此称为 <strong>Dijkstra 算法</strong>，他会从开始节点向相邻节点走，并记录每个节点的成本，到达下一个节点后，再继续向相邻的节点走，记录第一步跟第二步的成本和，一直到目标节点，找出成本最小的一条路径。</p>
@@ -188,23 +183,16 @@
 <h1 id="P14-数据结构"><a href="#P14-数据结构" class="headerlink" title="P14 数据结构"></a>P14 数据结构</h1><p>算法处理的是数据，然而在内存中，数据有多种存法。数据结构化存储的方式，称为 <strong>数据结构</strong>。</p>
 <h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p>一种简单的数据结构是 <strong>数组（array）</strong>，或者叫向量（vecror）、列表（list）。定义数组时，需要先申请固定的内存空间，数据在内存中是连续存储的，通过下标（index）来获取对应的值。字符串本质上是字符数组，其最后一位是 zero，表示字符串结束。如果数组里面的每一个元素也都是数组，这样的数组称为 <strong>二维数组</strong> 或 <strong>矩阵（matrix）</strong>。因为数组在内存中连续存储，所以遍历很快，但从中间插入元素需要把后面的元素都相应地往后移动，因此插入效率不高，而且，数组的容量是事先定义好的，不能动态扩容。</p>
 <h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><p>把不同的数据类型打包在一起，叫做一个 <strong>结构体(struct)</strong>，例如要表示坐标，需要 x 和 y，就可以把它定义成一个 Point 结构体：</p>
-<pre><code class="c">typedef struct {
-    int x;
-    int y;
-} Point;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> x;</span><br><span class="line">    <span class="keyword">int</span> y;</span><br><span class="line">&#125; Point;</span><br></pre></td></tr></table></figure>
+
 <h2 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h2><p>一种很有用的结构体叫做 <strong>节点（node）</strong>，节点包含一个变量值，以及指向下一个值的指针。</p>
-<pre><code class="c">struct node{
-    var i;
-    pointer next;
-}</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span>&#123;</span></span><br><span class="line">    var i;</span><br><span class="line">    pointer next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>一个节点有一个指针指向另一个节点，这样的数据结构叫做 <strong>链表（linked list）</strong>，链表在内存中是不连续的，通过指针来指向下一个元素的位置，所以插入很快，但遍历比较慢，跟数组相反。链表理论上可以存无限节点，无需事先申请一片固定的内存区域。</p>
 <h2 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h2><p>栈(stack)和队列(queue)通常用链表来实现，当然也可以用数组。栈是一种后进先出（LIFO）的数据结构，而队列是先进先出（FIFO）的，跟栈相反。</p>
 <h2 id="树和图"><a href="#树和图" class="headerlink" title="树和图"></a>树和图</h2><p>链表只指向下一个节点（双向链表除外），如果我们在节点中再加多一个指针，像这样一个节点指向两个子节点的数据结构，叫做 <strong>二叉树</strong>。当然，我们也可以指向多个子节点，但前提是节点之间有固定方向，这叫做 <strong>树</strong>。树是一种很有用的数据结构，可以用在文件系统中，或者大规模数据的索引。著名的开源数据库MySQL的默认引擎InnoDB就是用二叉搜索树（B+树）作为索引的。</p>
-<pre><code class="c">struct node{
-    var i;
-    pointer left_child;
-    pointer right_child;
-}</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span>&#123;</span></span><br><span class="line">    var i;</span><br><span class="line">    pointer left_child;</span><br><span class="line">    pointer right_child;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>如果节点可以有任意个指向其他节点的指针，且方向不受约束，那这个数据结构叫做 <strong>图</strong>。上面提到的图搜索算法就需要用到图结构。</p>
 <h1 id="P15-艾伦·图灵"><a href="#P15-艾伦·图灵" class="headerlink" title="P15 艾伦·图灵"></a>P15 艾伦·图灵</h1><p>艾伦·图灵被誉为计算机科学之父，1912年出生于英国伦敦。他在剑桥读硕士期间，开始解决一个“可判定性问题”——是否存在一种算法，输入正式逻辑语句，输出准确的是或否。1935年美国数学家丘奇发明了 lambda算子 的数学表达系统，证明了这样的算法不存在，但其中的数学技巧太过于难理解。与此同时，图灵自己想了一种方法来解决这个问题，他提出了一种我们现在叫 <strong>图灵机</strong> 的假想计算机。包含了读写端、规则、状态和处理。他证明了这种计算机如果有足够的时间和内存，就可以执行任何的计算，这种强大之处称为 <strong>图灵完备</strong>。他利用图灵机模拟了 <strong>停机问题</strong>，证明了并不是所有的问题都可以用计算来解决。</p>
 <p><img src="../../../../images/crachcoursecs/330px-Alan-Turing.jpg" alt=""></p>
@@ -325,7 +313,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -337,7 +325,7 @@
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -349,7 +337,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -538,25 +526,25 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -570,6 +558,14 @@
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -578,20 +574,20 @@
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -623,7 +619,7 @@
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -631,7 +627,15 @@
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -666,6 +670,25 @@
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -696,7 +719,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -733,25 +756,6 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -817,6 +821,25 @@
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -847,7 +870,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -884,25 +907,6 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -965,7 +969,7 @@
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1019,7 +1023,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

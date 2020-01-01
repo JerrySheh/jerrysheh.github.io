@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -169,32 +169,8 @@
 </ul>
 <hr>
 <h1 id="运行时权限在部分Android手机上无效"><a href="#运行时权限在部分Android手机上无效" class="headerlink" title="运行时权限在部分Android手机上无效"></a>运行时权限在部分Android手机上无效</h1><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>按照 Google 文档的开发模型，写的运行时权限模型代码，在一加手机5T上，点击拒绝后没有任何提示，也就是说依然返回了有权限的STATUE_CODE，但是什么都没发生。</p>
-<pre><code class="java">if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-    // 没有权限。
-    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)) {
-            // 用户拒绝过这个权限了，应该提示用户，为什么需要这个权限。
-    } else {
-        // 申请授权。
-        ActivityCompat.requestPermissions(thisActivity, new String[]{Manifest.permission.READ_CONTACTS}, MMM);
-    }
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (ContextCompat.checkSelfPermission(<span class="keyword">this</span>, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">    <span class="comment">// 没有权限。</span></span><br><span class="line">    <span class="keyword">if</span> (ActivityCompat.shouldShowRequestPermissionRationale(<span class="keyword">this</span>, Manifest.permission.READ_CONTACTS)) &#123;</span><br><span class="line">            <span class="comment">// 用户拒绝过这个权限了，应该提示用户，为什么需要这个权限。</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 申请授权。</span></span><br><span class="line">        ActivityCompat.requestPermissions(thisActivity, <span class="keyword">new</span> String[]&#123;Manifest.permission.READ_CONTACTS&#125;, MMM);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRequestPermissionsResult</span><span class="params">(<span class="keyword">int</span> requestCode, String permissions[], <span class="keyword">int</span>[] grantResults)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (requestCode) &#123;</span><br><span class="line">        <span class="keyword">case</span> MMM: &#123;</span><br><span class="line">            <span class="keyword">if</span> (grantResults.length &gt; <span class="number">0</span></span><br><span class="line">                &amp;&amp; grantResults[<span class="number">0</span>] == PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">                <span class="comment">// 权限被用户同意，可以去放肆了。</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// 权限被用户拒绝了，洗洗睡吧。</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-...
-
-@Override
-public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-    switch (requestCode) {
-        case MMM: {
-            if (grantResults.length &gt; 0
-                &amp;&amp; grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // 权限被用户同意，可以去放肆了。
-            } else {
-                // 权限被用户拒绝了，洗洗睡吧。
-            }
-            return;
-        }
-    }
-}</code></pre>
 <h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>很多国产ROM都有这个坑。因此不要用上面的开发模型，推荐开源库：AndPermission</p>
 <p>项目地址： <a href="https://github.com/yanzhenjie/AndPermission">https://github.com/yanzhenjie/AndPermission</a></p>
 <p>使用方法可参考：<a href="http://blog.csdn.net/yanzhenjie1003/article/details/52503533/">Android 6.0 运行时权限管理最佳实践</a></p>
@@ -202,42 +178,9 @@ public void onRequestPermissionsResult(int requestCode, String permissions[], in
 <h1 id="Android-Device-Monitor-打不开的问题"><a href="#Android-Device-Monitor-打不开的问题" class="headerlink" title="Android Device Monitor 打不开的问题"></a>Android Device Monitor 打不开的问题</h1><p><img src="../../../../images/Learn_Android/monitor_error.png" alt=""></p>
 <p>查看Log：C:\Users\Jerrysheh\AppData\Local\Android\Sdk\tools\lib\monitor-x86_64\configuration\1520661867795.log</p>
 <p>关键报错</p>
-<pre><code>!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.224
-!MESSAGE Bundle reference:file:org.apache.ant_1.8.3.v201301120609/@4 not found.
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.224</span><br><span class="line">!MESSAGE Bundle reference:file:org.apache.ant_1.8.3.v201301120609&#x2F;@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.255</span><br><span class="line">!MESSAGE Bundle reference:file:org.apache.jasper.glassfish_2.2.2.v201205150955.jar@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.255</span><br><span class="line">!MESSAGE Bundle reference:file:org.apache.lucene.core_2.9.1.v201101211721.jar@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.458</span><br><span class="line">!MESSAGE Bundle reference:file:org.eclipse.help.base_3.6.101.v201302041200.jar@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.474</span><br><span class="line">!MESSAGE Bundle reference:file:org.eclipse.help.ui_3.5.201.v20130108-092756.jar@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.474</span><br><span class="line">!MESSAGE Bundle reference:file:org.eclipse.help.webapp_3.6.101.v20130116-182509.jar@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.474</span><br><span class="line">!MESSAGE Bundle reference:file:org.eclipse.jetty.server_8.1.3.v20120522.jar@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.521</span><br><span class="line">!MESSAGE Bundle reference:file:org.eclipse.ui.intro_3.4.200.v20120521-2344.jar@4 not found.</span><br><span class="line"></span><br><span class="line">java.lang.IllegalStateException: Unable to acquire application service. Ensure that the org.eclipse.core.runtime bundle is resolved and started (see config.ini).</span><br><span class="line">	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:74)</span><br><span class="line">	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)</span><br><span class="line">	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)</span><br><span class="line">	at java.base&#x2F;jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at java.base&#x2F;jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)</span><br><span class="line">	at java.base&#x2F;jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)</span><br><span class="line">	at java.base&#x2F;java.lang.reflect.Method.invoke(Unknown Source)</span><br><span class="line">	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:629)</span><br><span class="line">	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:584)</span><br><span class="line">	at org.eclipse.equinox.launcher.Main.run(Main.java:1438)</span><br><span class="line">	at org.eclipse.equinox.launcher.Main.main(Main.java:1414)</span><br></pre></td></tr></table></figure>
 
-!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.255
-!MESSAGE Bundle reference:file:org.apache.jasper.glassfish_2.2.2.v201205150955.jar@4 not found.
-
-!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.255
-!MESSAGE Bundle reference:file:org.apache.lucene.core_2.9.1.v201101211721.jar@4 not found.
-
-!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.458
-!MESSAGE Bundle reference:file:org.eclipse.help.base_3.6.101.v201302041200.jar@4 not found.
-
-!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.474
-!MESSAGE Bundle reference:file:org.eclipse.help.ui_3.5.201.v20130108-092756.jar@4 not found.
-
-!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.474
-!MESSAGE Bundle reference:file:org.eclipse.help.webapp_3.6.101.v20130116-182509.jar@4 not found.
-
-!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.474
-!MESSAGE Bundle reference:file:org.eclipse.jetty.server_8.1.3.v20120522.jar@4 not found.
-
-!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.521
-!MESSAGE Bundle reference:file:org.eclipse.ui.intro_3.4.200.v20120521-2344.jar@4 not found.
-
-java.lang.IllegalStateException: Unable to acquire application service. Ensure that the org.eclipse.core.runtime bundle is resolved and started (see config.ini).
-    at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:74)
-    at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)
-    at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)
-    at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-    at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-    at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-    at java.base/java.lang.reflect.Method.invoke(Unknown Source)
-    at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:629)
-    at org.eclipse.equinox.launcher.Main.basicRun(Main.java:584)
-    at org.eclipse.equinox.launcher.Main.run(Main.java:1438)
-    at org.eclipse.equinox.launcher.Main.main(Main.java:1414)</code></pre><h2 id="解决办法-1"><a href="#解决办法-1" class="headerlink" title="解决办法"></a>解决办法</h2><p>卸载 JRE 9。 （JDK 9 可以不用卸载） ， 然后装 JDK 8 。</p>
+<h2 id="解决办法-1"><a href="#解决办法-1" class="headerlink" title="解决办法"></a>解决办法</h2><p>卸载 JRE 9。 （JDK 9 可以不用卸载） ， 然后装 JDK 8 。</p>
 <p>然后启动 Android Studio 时，使用管理员权限打开。</p>
 
         </div>
@@ -327,7 +270,7 @@ java.lang.IllegalStateException: Unable to acquire application service. Ensure t
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -339,7 +282,7 @@ java.lang.IllegalStateException: Unable to acquire application service. Ensure t
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -351,7 +294,7 @@ java.lang.IllegalStateException: Unable to acquire application service. Ensure t
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -472,25 +415,25 @@ java.lang.IllegalStateException: Unable to acquire application service. Ensure t
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -504,6 +447,14 @@ java.lang.IllegalStateException: Unable to acquire application service. Ensure t
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -512,20 +463,20 @@ java.lang.IllegalStateException: Unable to acquire application service. Ensure t
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -557,7 +508,7 @@ java.lang.IllegalStateException: Unable to acquire application service. Ensure t
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -565,7 +516,15 @@ java.lang.IllegalStateException: Unable to acquire application service. Ensure t
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -600,6 +559,25 @@ java.lang.IllegalStateException: Unable to acquire application service. Ensure t
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -630,7 +608,7 @@ java.lang.IllegalStateException: Unable to acquire application service. Ensure t
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -667,25 +645,6 @@ java.lang.IllegalStateException: Unable to acquire application service. Ensure t
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -751,6 +710,25 @@ java.lang.IllegalStateException: Unable to acquire application service. Ensure t
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -781,7 +759,7 @@ java.lang.IllegalStateException: Unable to acquire application service. Ensure t
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -818,25 +796,6 @@ java.lang.IllegalStateException: Unable to acquire application service. Ensure t
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -899,7 +858,7 @@ java.lang.IllegalStateException: Unable to acquire application service. Ensure t
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -953,7 +912,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

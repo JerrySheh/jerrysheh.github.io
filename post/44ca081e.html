@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -182,11 +182,8 @@
 <h2 id="正向代理和反向代理的区别"><a href="#正向代理和反向代理的区别" class="headerlink" title="正向代理和反向代理的区别"></a>正向代理和反向代理的区别</h2><p><img src="../../../../images/Linux/proxy_4.png" alt="proxy2"></p>
 <hr>
 <h1 id="使用-SSH-反向代理"><a href="#使用-SSH-反向代理" class="headerlink" title="使用 SSH 反向代理"></a>使用 SSH 反向代理</h1><p>回到文章开头的问题，如何使用反向代理，让我无论在哪里都可以访问学校内网的服务器呢？这就需要用到 SSH 的反向代理功能了。在学校内网服务器中，我们可以通过 SSH 设置反向代理，指向一个有公网ip的服务器（作为我们的反向代理服务器），之后用客户端连接公网服务器时，公网服务器会把请求转交给内网服务器，从而间接登录学校的内网服务器，<strong>整个过程，我们作为客户端是感知不到代理服务器的存在的。客户端是否能感知代理服务器的存在，是区别正向代理和反向代理的关键。</strong></p>
-<h2 id="SSH-参数介绍"><a href="#SSH-参数介绍" class="headerlink" title="SSH 参数介绍"></a>SSH 参数介绍</h2><pre><code class="shell"># 反向代理命令
-ssh -fCNR
+<h2 id="SSH-参数介绍"><a href="#SSH-参数介绍" class="headerlink" title="SSH 参数介绍"></a>SSH 参数介绍</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 反向代理命令</span></span><br><span class="line">ssh -fCNR</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 正向代理命令</span></span><br><span class="line">ssh -fCNL</span><br></pre></td></tr></table></figure>
 
-# 正向代理命令
-ssh -fCNL</code></pre>
 <p>参数说明：</p>
 <table>
 <thead>
@@ -221,34 +218,41 @@ ssh -fCNL</code></pre>
 </tr>
 </tbody></table>
 <h2 id="学校内网服务器操作"><a href="#学校内网服务器操作" class="headerlink" title="学校内网服务器操作"></a>学校内网服务器操作</h2><p>先跑一趟实验室或图书馆，在内网里面进行操作。</p>
-<pre><code class="shell"># ssh -fCNR 远程端口:localhost:本地端口 远程用户@远程ip
-ssh -fCNR 2999:localhost:22 remote_user@123.123.123.123</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ssh -fCNR 远程端口:localhost:本地端口 远程用户@远程ip</span></span><br><span class="line">ssh -fCNR 2999:localhost:22 remote_user@123.123.123.123</span><br></pre></td></tr></table></figure>
+
 <p>这句命令的意思是，将远程公网服务器 2999 端口转发至本地 22 端口， <code>remote_user@123.123.123.123</code>是远程服务器用户名和ip</p>
 <ul>
 <li>使用 <code>ps aux | grep ssh</code> 来查看是否运行。</li>
 </ul>
 <h2 id="公网服务器操作"><a href="#公网服务器操作" class="headerlink" title="公网服务器操作"></a>公网服务器操作</h2><p>恰好我有一台腾讯云服务器学生机，配有公网ip，可以拿这台服务器作为跳板机（远程代理服务器）。</p>
-<pre><code class="shell"># ssh -fCNL *:客户端登录端口:localhost:本地端口 localhost
-ssh -fCNL *:11111:localhost:2999 localhost</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ssh -fCNL *:客户端登录端口:localhost:本地端口 localhost</span></span><br><span class="line">ssh -fCNL *:11111:localhost:2999 localhost</span><br></pre></td></tr></table></figure>
+
 <p>这句命令的意思是，将 11111 端口作为本地转发端口，用于与互联网进行通信，并将数据转发至 2999 端口，而 2999 端口的数据会被刚刚配置的学校内网服务器接收。</p>
 <h2 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h2><p>现在，用一台位于任意地方的电脑</p>
-<pre><code class="shell">ssh -p11111 学校内网用户名@公网ip地址</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p11111 学校内网用户名@公网ip地址</span><br></pre></td></tr></table></figure>
+
 <p>这样就可以访问到学校内网了。</p>
-<h2 id="免密登录"><a href="#免密登录" class="headerlink" title="免密登录"></a>免密登录</h2><pre><code>ssh-copy-id 公网用户名@公网ip</code></pre><h2 id="用autossh建立稳定隧道"><a href="#用autossh建立稳定隧道" class="headerlink" title="用autossh建立稳定隧道"></a>用autossh建立稳定隧道</h2><p>autossh 跟 shh 不同的地方在于，当隧道断开的时候，autossh 会自动重新连接，而ssh不会。</p>
+<h2 id="免密登录"><a href="#免密登录" class="headerlink" title="免密登录"></a>免密登录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id 公网用户名@公网ip</span><br></pre></td></tr></table></figure>
+
+<h2 id="用autossh建立稳定隧道"><a href="#用autossh建立稳定隧道" class="headerlink" title="用autossh建立稳定隧道"></a>用autossh建立稳定隧道</h2><p>autossh 跟 shh 不同的地方在于，当隧道断开的时候，autossh 会自动重新连接，而ssh不会。</p>
 <p>centos 安装（内网服务器操作）</p>
-<pre><code>yum install autossh</code></pre><p>反向代理（内网服务器操作）</p>
-<pre><code>autossh -M 6666 -fCNR 2999:localhost:22 公网用户名@公网ip</code></pre><p>-M参数指定一个端口，这个端口是公网机器用来接收内网机器的信息，如果隧道不正常而返回给内网机器让他实现重新连接。</p>
-<h2 id="配置开机启动（内网服务器操作）"><a href="#配置开机启动（内网服务器操作）" class="headerlink" title="配置开机启动（内网服务器操作）"></a>配置开机启动（内网服务器操作）</h2><pre><code>vi /etc/rc.d/rc.local
-autossh -M 6666 -fCNR 2999:localhost:22 公网用户名@公网ip
-chmod +x /etc/rc.d/rc.local</code></pre><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install autossh</span><br></pre></td></tr></table></figure>
+
+<p>反向代理（内网服务器操作）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">autossh -M 6666 -fCNR 2999:localhost:22 公网用户名@公网ip</span><br></pre></td></tr></table></figure>
+
+<p>-M参数指定一个端口，这个端口是公网机器用来接收内网机器的信息，如果隧道不正常而返回给内网机器让他实现重新连接。</p>
+<h2 id="配置开机启动（内网服务器操作）"><a href="#配置开机启动（内网服务器操作）" class="headerlink" title="配置开机启动（内网服务器操作）"></a>配置开机启动（内网服务器操作）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;rc.d&#x2F;rc.local</span><br><span class="line">autossh -M 6666 -fCNR 2999:localhost:22 公网用户名@公网ip</span><br><span class="line">chmod +x &#x2F;etc&#x2F;rc.d&#x2F;rc.local</span><br></pre></td></tr></table></figure>
+
+<hr>
 <h1 id="不止SSH"><a href="#不止SSH" class="headerlink" title="不止SSH"></a>不止SSH</h1><p>到这里就已经解决了文章一开始的问题了。但是突发奇想，除了ssh之外，有没有办法，能够远程访问没有公网ip的电脑上面架设的Web服务或者Ftp服务呢？例如，在家里的电脑（没有公网ip）上架了一个网站，那出门的时候有没有办法远程访问家里的整个网站？事实上，这是完全可行的，借助的也是反向代理，但有了一个新的名词——<strong>内网穿透</strong>。现在市面上内网穿透的软件很多，比如花生壳、ngrok，使用这些工具，不仅仅可以反向代理ssh的22端口，还可以代理任意 tcp 或 udp 端口，非常有用。</p>
 <hr>
 <h1 id="使用-ngrok-进行内网穿透"><a href="#使用-ngrok-进行内网穿透" class="headerlink" title="使用 ngrok 进行内网穿透"></a>使用 ngrok 进行内网穿透</h1><p>ngrok 的官网是 <a href="https://ngrok.com/">https://ngrok.com/</a> ，是一个专注于建立反向代理隧道的软件。</p>
 <p><img src="../../../../images/Linux/ngrok.png" alt="ngrok"></p>
 <h2 id="客户端使用方法"><a href="#客户端使用方法" class="headerlink" title="客户端使用方法"></a>客户端使用方法</h2><p>到官网申请一个账号，会得到一个 TOKEN ，下载安装完客户端软件后，执行以下命令即可：</p>
-<pre><code>unzip /path/to/ngrok.zip
-./ngrok authtoken &lt;YOUR_AUTH_TOKEN&gt;
-./ngrok http 8080</code></pre><p>这样，你内网机器的80端口即会被映射到公网上了。例如，访问 <a href="http://myapp.ngrok.io">http://myapp.ngrok.io</a> ，即相当于访问了你内网里面的 127.0.0.1:8080</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">unzip &#x2F;path&#x2F;to&#x2F;ngrok.zip</span><br><span class="line">.&#x2F;ngrok authtoken &lt;YOUR_AUTH_TOKEN&gt;</span><br><span class="line">.&#x2F;ngrok http 8080</span><br></pre></td></tr></table></figure>
+
+<p>这样，你内网机器的80端口即会被映射到公网上了。例如，访问 <a href="http://myapp.ngrok.io">http://myapp.ngrok.io</a> ，即相当于访问了你内网里面的 127.0.0.1:8080</p>
 <h2 id="自己编译服务端软件"><a href="#自己编译服务端软件" class="headerlink" title="自己编译服务端软件"></a>自己编译服务端软件</h2><p>ngrok是开源的，可以自己编译服务端软件，并将自己的公网服务器作为反向代理服务器。前提是得有公网ip + 域名（国内需备案）。</p>
 <p>由于我没有域名，所以这部分就没有实践了。具体步骤可以参考官方文档教程：<a href="https://developer.github.com/webhooks/configuring/">https://developer.github.com/webhooks/configuring/</a></p>
 <hr>
@@ -344,7 +348,7 @@ chmod +x /etc/rc.d/rc.local</code></pre><hr>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -356,7 +360,7 @@ chmod +x /etc/rc.d/rc.local</code></pre><hr>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -368,7 +372,7 @@ chmod +x /etc/rc.d/rc.local</code></pre><hr>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -541,25 +545,25 @@ chmod +x /etc/rc.d/rc.local</code></pre><hr>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -573,6 +577,14 @@ chmod +x /etc/rc.d/rc.local</code></pre><hr>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -581,20 +593,20 @@ chmod +x /etc/rc.d/rc.local</code></pre><hr>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -626,7 +638,7 @@ chmod +x /etc/rc.d/rc.local</code></pre><hr>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -634,7 +646,15 @@ chmod +x /etc/rc.d/rc.local</code></pre><hr>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -669,6 +689,25 @@ chmod +x /etc/rc.d/rc.local</code></pre><hr>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -699,7 +738,7 @@ chmod +x /etc/rc.d/rc.local</code></pre><hr>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -736,25 +775,6 @@ chmod +x /etc/rc.d/rc.local</code></pre><hr>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -820,6 +840,25 @@ chmod +x /etc/rc.d/rc.local</code></pre><hr>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -850,7 +889,7 @@ chmod +x /etc/rc.d/rc.local</code></pre><hr>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -887,25 +926,6 @@ chmod +x /etc/rc.d/rc.local</code></pre><hr>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -968,7 +988,7 @@ chmod +x /etc/rc.d/rc.local</code></pre><hr>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1022,7 +1042,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2018-04-02T03:07:25.000Z">
-<meta property="article:modified_time" content="2019-10-08T14:50:31.078Z">
+<meta property="article:modified_time" content="2019-12-29T13:40:15.664Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta property="article:tag" content="Web">
 <meta property="article:tag" content="JavaScript">
@@ -38,7 +38,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -138,7 +138,7 @@
                 <time class="level-item has-text-grey" datetime="2018-04-02T03:07:25.000Z">2018-04-02</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                <a class="has-link-grey -link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
                 </div>
                 
                 
@@ -169,25 +169,16 @@
 
 <hr>
 <h1 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h1><h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h2><p>JavaScript 必须写在 <code>&lt;script&gt;</code> 里</p>
-<pre><code class="html">&lt;html&gt;
-  &lt;head&gt;
-   &lt;script&gt;
-      document.write(&quot;这是 javascript&quot;);
-   &lt;/script&gt;
-  &lt;/head&gt;
-&lt;/html&gt;</code></pre>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">document</span>.write(<span class="string">"这是 javascript"</span>);</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>在文档加载结束后使用 document.write，会覆盖整个HTML的内容</p>
 </blockquote>
 <p>也可以在HTML中引用 .js 文件</p>
-<pre><code class="html">&lt;html&gt;
-  &lt;script src=&quot;http://jerrysheh.com/study/hello.js&quot;&gt;&lt;/script&gt;
-&lt;/html&gt;</code></pre>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://jerrysheh.com/study/hello.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>用 var 声明变量，关键字<code>var</code> 也可以省略</p>
-<pre><code class="html">&lt;script&gt;
-  var x = 10;
-  document.write(&quot;变量x的值:&quot;+x);
-&lt;/script&gt;</code></pre>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">  <span class="keyword">var</span> x = <span class="number">10</span>;</span></span><br><span class="line"><span class="javascript">  <span class="built_in">document</span>.write(<span class="string">"变量x的值:"</span>+x);</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h2><table>
 <thead>
 <tr>
@@ -230,9 +221,8 @@
 <li>当不确定某个变量是什么类型的时候，可以用使用typeof来进行判断数据类型</li>
 </ul>
 <p>JavaScript中的变量类型是动态的</p>
-<pre><code class="JavaScript">var x                // x 为 undefined
-var x = 6;           // x 为数字
-var x = &quot;Bill&quot;;      // x 为字符串</code></pre>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x                <span class="comment">// x 为 undefined</span></span><br><span class="line"><span class="keyword">var</span> x = <span class="number">6</span>;           <span class="comment">// x 为数字</span></span><br><span class="line"><span class="keyword">var</span> x = <span class="string">"Bill"</span>;      <span class="comment">// x 为字符串</span></span><br></pre></td></tr></table></figure>
+
 <!-- more -->
 
 <h3 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h3><p>使用内置函数<code>toString()</code>转换为字符串。</p>
@@ -259,17 +249,12 @@ var x = &quot;Bill&quot;;      // x 为字符串</code></pre>
 <p>例如，数字1和字符串1，值都是1，但是类型是不一样的</p>
 <hr>
 <h1 id="函数和语句"><a href="#函数和语句" class="headerlink" title="函数和语句"></a>函数和语句</h1><h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>定义了函数，必须调用才能执行。return、作用域等跟 Java 类似。不再赘述。</p>
-<pre><code class="html">&lt;script&gt;
-function print(message){
-  document.write(message);
-}
-print(&quot;hello&quot;);
-print(&quot;&lt;br&gt;&quot;);
-print(&quot;world&quot;);
-&lt;/script&gt;</code></pre>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript"><span class="function"><span class="keyword">function</span> <span class="title">print</span><span class="params">(message)</span></span>&#123;</span></span><br><span class="line"><span class="javascript">  <span class="built_in">document</span>.write(message);</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="actionscript">print(<span class="string">"hello"</span>);</span></span><br><span class="line"><span class="actionscript">print(<span class="string">"&lt;br&gt;"</span>);</span></span><br><span class="line"><span class="actionscript">print(<span class="string">"world"</span>);</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>输出</p>
-<pre><code>hello
-world</code></pre><blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hello</span><br><span class="line">world</span><br></pre></td></tr></table></figure>
+
+<blockquote>
 <p>在写前端文件的时候，通常把 JavaScript 脚本写在最后面，以提高网页的加载速度。当需要在加载时立即执行 JavaScript 代码，可以用 <code>onload=&quot;jfun()&quot;</code> 属性。其中 <code>jfun()</code> 是 JS 函数名称。</p>
 </blockquote>
 <ul>
@@ -277,25 +262,15 @@ world</code></pre><blockquote>
 </ul>
 <h2 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h2><p>跟Java类似， JavaScript也支持 <strong>条件语句</strong>、<strong>循环语句</strong>、<strong>try-catch语句</strong></p>
 <p>其中循环语句还支持 forEach 循环。 但是跟 Java 的 forEach 有点不一样</p>
-<pre><code class="javascript">var strs = [&quot;America&quot;,&quot;Greece&quot;,&quot;Britain&quot;,&quot;Canada&quot;,&quot;China&quot;,&quot;Egypt&quot;];
-var count = 0;
-for (var str in strs) {
-    if (strs[str].match(&quot;a&quot;) != null) {
-        count++;
-    }
-}</code></pre>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> strs = [<span class="string">"America"</span>,<span class="string">"Greece"</span>,<span class="string">"Britain"</span>,<span class="string">"Canada"</span>,<span class="string">"China"</span>,<span class="string">"Egypt"</span>];</span><br><span class="line"><span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> str <span class="keyword">in</span> strs) &#123;</span><br><span class="line">    <span class="keyword">if</span> (strs[str].match(<span class="string">"a"</span>) != <span class="literal">null</span>) &#123;</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>这里的str，是strs的下标，因此要表达数组的每个元素，用<code>strs[str]</code></p>
 <p>continue、break 什么的当然也是存在的啦</p>
 <hr>
 <h1 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h1><p>用户任何对网页的操作，都会产生一个事件。</p>
 <p>事件有很多种，比如鼠标移动，鼠标点击，键盘点击等等。</p>
-<h2 id="鼠标点击事件"><a href="#鼠标点击事件" class="headerlink" title="鼠标点击事件"></a>鼠标点击事件</h2><pre><code class="html">&lt;script&gt;
-function showHello(){
-   alert(&quot;Hello JavaScript&quot;);
-}
-&lt;/script&gt;
+<h2 id="鼠标点击事件"><a href="#鼠标点击事件" class="headerlink" title="鼠标点击事件"></a>鼠标点击事件</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript"><span class="function"><span class="keyword">function</span> <span class="title">showHello</span><span class="params">()</span></span>&#123;</span></span><br><span class="line"><span class="actionscript">   alert(<span class="string">"Hello JavaScript"</span>);</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"showHello()"</span>&gt;</span>点击一下<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-&lt;button onclick=&quot;showHello()&quot;&gt;点击一下&lt;/button&gt;</code></pre>
 <p>效果如下</p>
 <script>
 function showHello(){
@@ -308,10 +283,8 @@ function showHello(){
 <h1 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h1><p>对象是有属性和方法的一种特殊数据类型。</p>
 <p>常见的对象有数字Number，字符串String，日期Date，数组Array等。</p>
 <p>跟 Java 一样，可以通过 new 来创建一个对象</p>
-<pre><code class="html">&lt;script&gt;
-    var x = &quot;5&quot;;
-    var y = new String(x);
-&lt;/script&gt;</code></pre>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> x = <span class="string">"5"</span>;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> y = <span class="keyword">new</span> <span class="built_in">String</span>(x);</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="常用的数字方法"><a href="#常用的数字方法" class="headerlink" title="常用的数字方法"></a>常用的数字方法</h2><table>
 <thead>
 <tr>
@@ -480,32 +453,13 @@ function showHello(){
 <td>随机数</td>
 </tr>
 </tbody></table>
-<h2 id="自定义对象"><a href="#自定义对象" class="headerlink" title="自定义对象"></a>自定义对象</h2><h3 id="直接定义对象"><a href="#直接定义对象" class="headerlink" title="直接定义对象"></a>直接定义对象</h3><pre><code class="javascript">var person={
-firstname : &quot;Bill&quot;,
-lastname  : &quot;Gates&quot;,
-id        :  5566
-};
+<h2 id="自定义对象"><a href="#自定义对象" class="headerlink" title="自定义对象"></a>自定义对象</h2><h3 id="直接定义对象"><a href="#直接定义对象" class="headerlink" title="直接定义对象"></a>直接定义对象</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person=&#123;</span><br><span class="line">firstname : <span class="string">"Bill"</span>,</span><br><span class="line">lastname  : <span class="string">"Gates"</span>,</span><br><span class="line">id        :  <span class="number">5566</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> n = person.name; <span class="comment">// n是 ”Gates</span></span><br></pre></td></tr></table></figure>
 
-var n = person.name; // n是 ”Gates</code></pre>
-<h3 id="函数封装对象"><a href="#函数封装对象" class="headerlink" title="函数封装对象"></a>函数封装对象</h3><pre><code class="JavaScript">function Hero(name){
-  this.name = name;
-  this.go = function(){
-     document.write(this.name + &quot;正在前进&lt;br&gt;&quot;);
-  }
-}
+<h3 id="函数封装对象"><a href="#函数封装对象" class="headerlink" title="函数封装对象"></a>函数封装对象</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Hero</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.go = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">     <span class="built_in">document</span>.write(<span class="keyword">this</span>.name + <span class="string">"正在前进&lt;br&gt;"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> gareen = <span class="keyword">new</span> Hero(<span class="string">"盖伦"</span>);</span><br><span class="line">gareen.go();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> teemo = <span class="keyword">new</span> Hero(<span class="string">"提莫"</span>);</span><br><span class="line">teemo.go();</span><br></pre></td></tr></table></figure>
 
-var gareen = new Hero(&quot;盖伦&quot;);
-gareen.go();
-
-var teemo = new Hero(&quot;提莫&quot;);
-teemo.go();</code></pre>
 <p>用prototype实现为已存在的对象增添新的方法，例如为 <code>Hero</code> 增添 <code>back</code> 方法</p>
-<pre><code class="javascript">
-Hero.prototype.back = function(){
-  document.write(this.name + &quot;正在后退&lt;br&gt;&quot;);
-}
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Hero.prototype.back = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">document</span>.write(<span class="keyword">this</span>.name + <span class="string">"正在后退&lt;br&gt;"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">gareen.back();</span><br></pre></td></tr></table></figure>
 
-gareen.back();</code></pre>
 <hr>
 <h1 id="浏览器对象模型-Brower-Object-Model"><a href="#浏览器对象模型-Brower-Object-Model" class="headerlink" title="浏览器对象模型(Brower Object Model)"></a>浏览器对象模型(Brower Object Model)</h1><p><code>浏览器对象模型(Brower Object Model)</code> 就是所谓的 BOM</p>
 <p>浏览器对象包括：</p>
@@ -568,41 +522,21 @@ function openNewWindow(){
 <li>用<code>prompt</code>显示一个输入框</li>
 </ul>
 <p>确认框例子</p>
-<pre><code class="html">&lt;script&gt;
-function del(){
-var d = confirm(&quot;是否要删除&quot;); // d 是 boolean 类型
-}
-&lt;/script&gt;
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript"><span class="function"><span class="keyword">function</span> <span class="title">del</span><span class="params">()</span></span>&#123;</span></span><br><span class="line"><span class="actionscript"><span class="keyword">var</span> d = confirm(<span class="string">"是否要删除"</span>); <span class="comment">// d 是 boolean 类型</span></span></span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"del()"</span>&gt;</span>删除<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-&lt;br&gt;
-&lt;button onclick=&quot;del()&quot;&gt;删除&lt;/button&gt;</code></pre>
 <p>输入框例子</p>
-<pre><code class="html">&lt;script&gt;
-function p(){
-var name = prompt(&quot;请输入用户名:&quot;); // name 是 string 类型
-alert(&quot;您输入的用户名是:&quot; + name);
-}
-&lt;/script&gt;
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript"><span class="function"><span class="keyword">function</span> <span class="title">p</span><span class="params">()</span></span>&#123;</span></span><br><span class="line"><span class="actionscript"><span class="keyword">var</span> name = prompt(<span class="string">"请输入用户名:"</span>); <span class="comment">// name 是 string 类型</span></span></span><br><span class="line"><span class="actionscript">alert(<span class="string">"您输入的用户名是:"</span> + name);</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"p()"</span>&gt;</span>请输入用户名<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-&lt;br&gt;
-&lt;button onclick=&quot;p()&quot;&gt;请输入用户名&lt;/button&gt;</code></pre>
 <h2 id="Location"><a href="#Location" class="headerlink" title="Location"></a>Location</h2><p>Location 对象包含有关当前 URL 的信息。</p>
-<pre><code class="html">&lt;script&gt;
-// url的值为当前URL
-var url = location.href
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript"><span class="comment">// url的值为当前URL</span></span></span><br><span class="line"><span class="actionscript"><span class="keyword">var</span> url = location.href</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript"><span class="comment">// 跳转到谷歌</span></span></span><br><span class="line"><span class="actionscript">location.href = <span class="string">"https://www.google.com"</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-// 跳转到谷歌
-location.href = &quot;https://www.google.com&quot;
-&lt;/script&gt;</code></pre>
 <p>参考：</p>
 <ul>
 <li><a href="http://www.w3school.com.cn/jsref/dom_obj_location.asp">Location 对象</a></li>
 </ul>
 <hr>
-<h1 id="日期格式化函数"><a href="#日期格式化函数" class="headerlink" title="日期格式化函数"></a>日期格式化函数</h1><pre><code class="JavaScript">getDate:function (strDate) {
-    var d = new Date(strDate);
-    return d.getFullYear() + &#39;-&#39; + (d.getMonth() + 1) + &#39;-&#39; + d.getDate() + &#39; &#39; + d.getHours() + &#39;:&#39; + d.getMinutes() + &#39;:&#39; + d.getSeconds();
-}</code></pre>
+<h1 id="日期格式化函数"><a href="#日期格式化函数" class="headerlink" title="日期格式化函数"></a>日期格式化函数</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">getDate:<span class="function"><span class="keyword">function</span> (<span class="params">strDate</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>(strDate);</span><br><span class="line">    <span class="keyword">return</span> d.getFullYear() + <span class="string">'-'</span> + (d.getMonth() + <span class="number">1</span>) + <span class="string">'-'</span> + d.getDate() + <span class="string">' '</span> + d.getHours() + <span class="string">':'</span> + d.getMinutes() + <span class="string">':'</span> + d.getSeconds();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <hr>
 <p><a href="../post/f75e92e9.html">下一篇</a>介绍Javascript中的DOM（文档对象模型）</p>
 
@@ -693,7 +627,7 @@ location.href = &quot;https://www.google.com&quot;
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -705,7 +639,7 @@ location.href = &quot;https://www.google.com&quot;
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -717,7 +651,7 @@ location.href = &quot;https://www.google.com&quot;
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -914,25 +848,25 @@ location.href = &quot;https://www.google.com&quot;
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -946,6 +880,14 @@ location.href = &quot;https://www.google.com&quot;
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -954,20 +896,20 @@ location.href = &quot;https://www.google.com&quot;
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -999,7 +941,7 @@ location.href = &quot;https://www.google.com&quot;
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -1007,7 +949,15 @@ location.href = &quot;https://www.google.com&quot;
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -1042,6 +992,25 @@ location.href = &quot;https://www.google.com&quot;
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1072,7 +1041,7 @@ location.href = &quot;https://www.google.com&quot;
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1109,25 +1078,6 @@ location.href = &quot;https://www.google.com&quot;
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1193,6 +1143,25 @@ location.href = &quot;https://www.google.com&quot;
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1223,7 +1192,7 @@ location.href = &quot;https://www.google.com&quot;
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1260,25 +1229,6 @@ location.href = &quot;https://www.google.com&quot;
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1341,7 +1291,7 @@ location.href = &quot;https://www.google.com&quot;
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1395,7 +1345,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

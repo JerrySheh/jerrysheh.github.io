@@ -10,12 +10,12 @@
 <title>设计模式（一）会飞的鸭子（策略模式） - J.e</title>
 
 
-    <meta name="description" content="设计原则:  多用组合（composition），少用继承。   鸭子类首先我们有一个鸭子类 public abstract class duck{     quack();     swim();     display(); } 然后具体是哪种鸭子，只要去继承这个鸭子类就好了。 比如 MallardDuck 重写 display() 方法，它就是绿头鸭。 public class Mallar">
+    <meta name="description" content="设计原则:  多用组合（composition），少用继承。   鸭子类首先我们有一个鸭子类 12345public abstract class duck&amp;#123;    quack();    swim();    display();&amp;#125;  然后具体是哪种鸭子，只要去继承这个鸭子类就好了。 比如 MallardDuck 重写 display() 方法，它就是绿头鸭。 123456p">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式（一）会飞的鸭子（策略模式）">
 <meta property="og:url" content="https://jerrysheh.me/post/69895030.html">
 <meta property="og:site_name" content="J.e">
-<meta property="og:description" content="设计原则:  多用组合（composition），少用继承。   鸭子类首先我们有一个鸭子类 public abstract class duck{     quack();     swim();     display(); } 然后具体是哪种鸭子，只要去继承这个鸭子类就好了。 比如 MallardDuck 重写 display() 方法，它就是绿头鸭。 public class Mallar">
+<meta property="og:description" content="设计原则:  多用组合（composition），少用继承。   鸭子类首先我们有一个鸭子类 12345public abstract class duck&amp;#123;    quack();    swim();    display();&amp;#125;  然后具体是哪种鸭子，只要去继承这个鸭子类就好了。 比如 MallardDuck 重写 display() 方法，它就是绿头鸭。 123456p">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2018-04-22T15:17:05.000Z">
@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -163,26 +163,15 @@
 </blockquote>
 <hr>
 <h1 id="鸭子类"><a href="#鸭子类" class="headerlink" title="鸭子类"></a>鸭子类</h1><p>首先我们有一个鸭子类</p>
-<pre><code class="java">public abstract class duck{
-    quack();
-    swim();
-    display();
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">duck</span></span>&#123;</span><br><span class="line">    quack();</span><br><span class="line">    swim();</span><br><span class="line">    display();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>然后具体是哪种鸭子，只要去继承这个鸭子类就好了。</p>
 <p>比如 MallardDuck 重写 <code>display()</code> 方法，它就是绿头鸭。</p>
-<pre><code class="java">public class MallardDuck extends duck{
-    @Overwrite
-    display(){
-        //... green
-    }
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MallardDuck</span> <span class="keyword">extends</span> <span class="title">duck</span></span>&#123;</span><br><span class="line">    <span class="meta">@Overwrite</span></span><br><span class="line">    display()&#123;</span><br><span class="line">        <span class="comment">//... green</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>现在，我们得让鸭子能飞</p>
-<pre><code class="java">public abstract class duck{
-    quack();
-    swim();
-    display();
-    fly(); // it fly
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">duck</span></span>&#123;</span><br><span class="line">    quack();</span><br><span class="line">    swim();</span><br><span class="line">    display();</span><br><span class="line">    fly(); <span class="comment">// it fly</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>然后你会惊奇地发现，橡皮鸭（RubberDuck）居然飞起来了。这不科学！</p>
 <a id="more"></a>
 
@@ -210,54 +199,14 @@
 <h2 id="具体实施"><a href="#具体实施" class="headerlink" title="具体实施"></a>具体实施</h2><p>定义<code>FlyBehavior</code>接口，里面有一个 <code>fly()</code> 方法。<code>FlyWithWings</code>类实现了这个接口，表示用翅膀飞，<code>FlyNoWay</code>类也实现这个接口，表示不会飞，<code>FlyWithRocket</code>类也实现这个接口，表示用火箭发动机飞。</p>
 <p>同理，定义<code>QuackBehavior</code>接口，然后有几个不同的实现类。比如<code>Quack()</code>表示呱呱叫，<code>MuteQuack()</code>表示不会叫。</p>
 <p>现在，鸭子类是这样的</p>
-<pre><code class="java">public abstract class duck{
-    QuackBehavior quackBehavior;
-    FlyBehavior flyBehavior;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">duck</span></span>&#123;</span><br><span class="line">    QuackBehavior quackBehavior;</span><br><span class="line">    FlyBehavior flyBehavior;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">performQuack</span><span class="params">()</span></span>&#123;</span><br><span class="line">        quackBehavior.quack();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">performFly</span><span class="params">()</span></span>&#123;</span><br><span class="line">        flyBehavior.fly();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//设定鸭子的飞行行为</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFlyBehavior</span><span class="params">(FlyBehavior fb)</span></span>&#123;</span><br><span class="line">        flyBehavior = fb;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//设定鸭子的叫声行为</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setQuackBehavior</span><span class="params">(QuackBehavior qb)</span></span>&#123;</span><br><span class="line">        quackBehavior = qb;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//... more</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    public void performQuack(){
-        quackBehavior.quack();
-    }
-
-    public void performFly(){
-        flyBehavior.fly();
-    }
-
-    //设定鸭子的飞行行为
-    public void setFlyBehavior(FlyBehavior fb){
-        flyBehavior = fb;
-    }
-
-    //设定鸭子的叫声行为
-    public void setQuackBehavior(QuackBehavior qb){
-        quackBehavior = qb;
-    }
-
-    //... more
-}</code></pre>
 <p>现在，橡皮鸭（RubberDuck）类看起来是这样的</p>
-<pre><code class="java">public class RubberDuck extends Duck {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RubberDuck</span> <span class="keyword">extends</span> <span class="title">Duck</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RubberDuck</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//一开始，橡皮鸭并不会飞</span></span><br><span class="line">        flyBehavior = <span class="keyword">new</span> FlyNoWay();</span><br><span class="line">        QuackBehavior = <span class="keyword">new</span> Quack();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    public RubberDuck(){
-        //一开始，橡皮鸭并不会飞
-        flyBehavior = new FlyNoWay();
-        QuackBehavior = new Quack();
-    }
-}</code></pre>
 <p>测试类</p>
-<pre><code class="java">public static void main(String[] args){
-    // 创建一个橡皮鸭实例，此时调用橡皮鸭的构造方法
-    //也就是为橡皮鸭设定了不会飞，呱呱叫
-    Duck rubber = new RubberDuck();
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">    <span class="comment">// 创建一个橡皮鸭实例，此时调用橡皮鸭的构造方法</span></span><br><span class="line">    <span class="comment">//也就是为橡皮鸭设定了不会飞，呱呱叫</span></span><br><span class="line">    Duck rubber = <span class="keyword">new</span> RubberDuck();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 飞一下看看（结果：不会飞）</span></span><br><span class="line">    rubber.performFly();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//设定新的飞行行为</span></span><br><span class="line">    rubber.setFlyBehavior(<span class="keyword">new</span> FlyWithRocket());</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 再飞一下看看（结果：火箭动力飞）</span></span><br><span class="line">    rubber.performFly();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 飞一下看看（结果：不会飞）
-    rubber.performFly();
-
-    //设定新的飞行行为
-    rubber.setFlyBehavior(new FlyWithRocket());
-
-    // 再飞一下看看（结果：火箭动力飞）
-    rubber.performFly();
-}</code></pre>
 <p>至此，我们的鸭子就飞起来了。</p>
 <p>所谓组合，就是鸭子类和鸭子行为类的组合。实例化一个鸭子的时候，给它组装上对应的行为。</p>
 <hr>
@@ -355,7 +304,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -367,7 +316,7 @@
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -379,7 +328,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -492,25 +441,25 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -524,6 +473,14 @@
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -532,20 +489,20 @@
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -577,7 +534,7 @@
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -585,7 +542,15 @@
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -620,6 +585,25 @@
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -650,7 +634,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -687,25 +671,6 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -771,6 +736,25 @@
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -801,7 +785,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -838,25 +822,6 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -919,7 +884,7 @@
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -973,7 +938,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

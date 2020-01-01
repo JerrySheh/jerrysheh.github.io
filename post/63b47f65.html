@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -162,47 +162,60 @@
 <a id="more"></a>
 
 <h1 id="一、将网站文件上传到-github"><a href="#一、将网站文件上传到-github" class="headerlink" title="一、将网站文件上传到 github"></a>一、将网站文件上传到 github</h1><p>hexo部署完毕之后，在 yourname.github.io 上面默认 master 分支是 hexo 编译生成的静态网站，而我们需要将原始网站文件同步到一个新分支上。</p>
-<h2 id="1-新建一个-stat-分支并切换到这个分支"><a href="#1-新建一个-stat-分支并切换到这个分支" class="headerlink" title="1. 新建一个 stat 分支并切换到这个分支"></a>1. 新建一个 stat 分支并切换到这个分支</h2><pre><code>git checkout -b stat</code></pre><h2 id="2-将本地文件上传到-stat-分支"><a href="#2-将本地文件上传到-stat-分支" class="headerlink" title="2. 将本地文件上传到 stat 分支"></a>2. 将本地文件上传到 stat 分支</h2><pre><code>git add .
-git commit -m &quot;upload static file&quot;
-git push origin stat:stat</code></pre><p>现在，你的 github 仓库 yourname.github.io 下就有两个分支了，一个是 master，存放 hexo编译生成的静态网站，一个是 stat，也就是原始文件。</p>
+<h2 id="1-新建一个-stat-分支并切换到这个分支"><a href="#1-新建一个-stat-分支并切换到这个分支" class="headerlink" title="1. 新建一个 stat 分支并切换到这个分支"></a>1. 新建一个 stat 分支并切换到这个分支</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b stat</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-将本地文件上传到-stat-分支"><a href="#2-将本地文件上传到-stat-分支" class="headerlink" title="2. 将本地文件上传到 stat 分支"></a>2. 将本地文件上传到 stat 分支</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;upload static file&quot;</span><br><span class="line">git push origin stat:stat</span><br></pre></td></tr></table></figure>
+
+<p>现在，你的 github 仓库 yourname.github.io 下就有两个分支了，一个是 master，存放 hexo编译生成的静态网站，一个是 stat，也就是原始文件。</p>
 <hr>
-<h1 id="二、-在新电脑下同步你的原始文件"><a href="#二、-在新电脑下同步你的原始文件" class="headerlink" title="二、 在新电脑下同步你的原始文件"></a>二、 在新电脑下同步你的原始文件</h1><h2 id="1-首先安装-nodejs"><a href="#1-首先安装-nodejs" class="headerlink" title="1. 首先安装 nodejs"></a>1. 首先安装 nodejs</h2><pre><code>sudo add-apt-repository ppa:chris-lea/node.js
-sudo apt-get update
-sudo apt-get install nodejs</code></pre><h2 id="2-安装-git"><a href="#2-安装-git" class="headerlink" title="2. 安装 git"></a>2. 安装 git</h2><pre><code>sudo apt-get install git</code></pre><h2 id="3-安装-hexo"><a href="#3-安装-hexo" class="headerlink" title="3. 安装 hexo"></a>3. 安装 hexo</h2><pre><code>sudo npm install hexo -g</code></pre><h2 id="4-配置-git-SSH-key"><a href="#4-配置-git-SSH-key" class="headerlink" title="4. 配置 git SSH key"></a>4. 配置 git SSH key</h2><p>如果是第一次在这台电脑用git，需要先添加 user.name 和 user.email</p>
+<h1 id="二、-在新电脑下同步你的原始文件"><a href="#二、-在新电脑下同步你的原始文件" class="headerlink" title="二、 在新电脑下同步你的原始文件"></a>二、 在新电脑下同步你的原始文件</h1><h2 id="1-首先安装-nodejs"><a href="#1-首先安装-nodejs" class="headerlink" title="1. 首先安装 nodejs"></a>1. 首先安装 nodejs</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:chris-lea&#x2F;node.js</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install nodejs</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-安装-git"><a href="#2-安装-git" class="headerlink" title="2. 安装 git"></a>2. 安装 git</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-安装-hexo"><a href="#3-安装-hexo" class="headerlink" title="3. 安装 hexo"></a>3. 安装 hexo</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install hexo -g</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-配置-git-SSH-key"><a href="#4-配置-git-SSH-key" class="headerlink" title="4. 配置 git SSH key"></a>4. 配置 git SSH key</h2><p>如果是第一次在这台电脑用git，需要先添加 user.name 和 user.email</p>
 <p>可参考我之前写的 <a href="https://jerrysheh.github.io/post/9f9a74a3.html">git 备忘</a></p>
 <p>然后再配置SSH key</p>
 <p>参考：<a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001374385852170d9c7adf13c30429b9660d0eb689dd43a000">配置SSH key详细教程</a></p>
-<h2 id="5-在合适的位置新建一个目录，并在这个目录下打开终端"><a href="#5-在合适的位置新建一个目录，并在这个目录下打开终端" class="headerlink" title="5. 在合适的位置新建一个目录，并在这个目录下打开终端"></a><del>5. 在合适的位置新建一个目录，并在这个目录下打开终端</del></h2><h2 id="5-打开一个合适的目录位置"><a href="#5-打开一个合适的目录位置" class="headerlink" title="5. 打开一个合适的目录位置"></a>5. 打开一个合适的目录位置</h2><h2 id="6-克隆原始文件（stat）分支到本地"><a href="#6-克隆原始文件（stat）分支到本地" class="headerlink" title="6. 克隆原始文件（stat）分支到本地"></a>6. 克隆原始文件（stat）分支到本地</h2><pre><code>git clone git@github.com:JerrySheh/JerrySheh.github.io.git -b stat blog</code></pre><p>这里的 stat 是远程分支名字， blog是新建名为blog的文件夹并把这个分支clone到这个文件夹里</p>
-<h2 id="7-切换到克隆生成的目录"><a href="#7-切换到克隆生成的目录" class="headerlink" title="7. 切换到克隆生成的目录"></a>7. 切换到克隆生成的目录</h2><pre><code>cd blog</code></pre><h2 id="8-依次执行"><a href="#8-依次执行" class="headerlink" title="8. 依次执行"></a>8. 依次执行</h2><pre><code>npm install hexo
-npm install
-npm install hexo-deployer-git</code></pre><p>注意：不需要 hexo init ！</p>
+<h2 id="5-在合适的位置新建一个目录，并在这个目录下打开终端"><a href="#5-在合适的位置新建一个目录，并在这个目录下打开终端" class="headerlink" title="5. 在合适的位置新建一个目录，并在这个目录下打开终端"></a><del>5. 在合适的位置新建一个目录，并在这个目录下打开终端</del></h2><h2 id="5-打开一个合适的目录位置"><a href="#5-打开一个合适的目录位置" class="headerlink" title="5. 打开一个合适的目录位置"></a>5. 打开一个合适的目录位置</h2><h2 id="6-克隆原始文件（stat）分支到本地"><a href="#6-克隆原始文件（stat）分支到本地" class="headerlink" title="6. 克隆原始文件（stat）分支到本地"></a>6. 克隆原始文件（stat）分支到本地</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:JerrySheh&#x2F;JerrySheh.github.io.git -b stat blog</span><br></pre></td></tr></table></figure>
+
+<p>这里的 stat 是远程分支名字， blog是新建名为blog的文件夹并把这个分支clone到这个文件夹里</p>
+<h2 id="7-切换到克隆生成的目录"><a href="#7-切换到克隆生成的目录" class="headerlink" title="7. 切换到克隆生成的目录"></a>7. 切换到克隆生成的目录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd blog</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-依次执行"><a href="#8-依次执行" class="headerlink" title="8. 依次执行"></a>8. 依次执行</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo</span><br><span class="line">npm install</span><br><span class="line">npm install hexo-deployer-git</span><br></pre></td></tr></table></figure>
+
+<p>注意：不需要 hexo init ！</p>
 <ul>
 <li>这里有一个坑</li>
 </ul>
 <p>由于Ubuntu下已经有一个名叫node的库，因此Node.js在ubuntu下默认叫nodejs，需要额外处理一下</p>
-<pre><code>sudo ln -s /usr/bin/nodejs /usr/bin/node</code></pre><h2 id="9-尝试修改些什么，然后执行"><a href="#9-尝试修改些什么，然后执行" class="headerlink" title="9. 尝试修改些什么，然后执行"></a>9. 尝试修改些什么，然后执行</h2><pre><code>hexo clean
-hexo g
-hexo s --debug</code></pre><p>如果出现Error: Cannot find module ‘hexo-util’错误，尝试重装util</p>
-<pre><code>npm install -- save-dev hexo-util</code></pre><p>没问题了，开始部署</p>
-<pre><code>hexo d</code></pre><h2 id="10-将静态文件上传到-github-stat分支"><a href="#10-将静态文件上传到-github-stat分支" class="headerlink" title="10. 将静态文件上传到 github stat分支"></a>10. 将静态文件上传到 github stat分支</h2><pre><code>git add .
-git commit -m &quot;somethings update&quot;
-git push origin stat</code></pre><hr>
-<h1 id="三、-回到旧电脑，拉取新电脑的更新"><a href="#三、-回到旧电脑，拉取新电脑的更新" class="headerlink" title="三、 回到旧电脑，拉取新电脑的更新"></a>三、 回到旧电脑，拉取新电脑的更新</h1><h2 id="1-同步"><a href="#1-同步" class="headerlink" title="1. 同步"></a>1. 同步</h2><pre><code>git pull origin stat:stat</code></pre><p>如果遇到以下报错</p>
-<pre><code>There is no tracking information for the current branch.
-Please specify which branch you want to merge with.
-See git-pull(1) for details
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s &#x2F;usr&#x2F;bin&#x2F;nodejs &#x2F;usr&#x2F;bin&#x2F;node</span><br></pre></td></tr></table></figure>
 
-    git pull &lt;remote&gt; &lt;branch&gt;
+<h2 id="9-尝试修改些什么，然后执行"><a href="#9-尝试修改些什么，然后执行" class="headerlink" title="9. 尝试修改些什么，然后执行"></a>9. 尝试修改些什么，然后执行</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s --debug</span><br></pre></td></tr></table></figure>
 
-If you wish to set tracking information for this branch you can do so with:
+<p>如果出现Error: Cannot find module ‘hexo-util’错误，尝试重装util</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -- save-dev hexo-util</span><br></pre></td></tr></table></figure>
 
-git branch --set-upstream-to=origin/&lt;branch&gt;</code></pre><p>将本地 static 和 远程 origin/static 链接即可</p>
-<pre><code>git branch --set-upstream-to=origin/stat stat</code></pre><h2 id="2-开始写文章"><a href="#2-开始写文章" class="headerlink" title="2. 开始写文章"></a>2. 开始写文章</h2><h2 id="3-重新部署"><a href="#3-重新部署" class="headerlink" title="3. 重新部署"></a>3. 重新部署</h2><pre><code>hexo clean
-hexo g
-hexo d</code></pre><p>部署前最好先在本地测试一下 ， 使用 <code>hexo s --debug</code>，然后在 127.0.0.1:4000 查看</p>
-<h2 id="4-提交静态文件并推送到远程"><a href="#4-提交静态文件并推送到远程" class="headerlink" title="4. 提交静态文件并推送到远程"></a>4. 提交静态文件并推送到远程</h2><pre><code>git add .
-git commit -m &quot;somethings update&quot;
-git push origin stat</code></pre>
+<p>没问题了，开始部署</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<h2 id="10-将静态文件上传到-github-stat分支"><a href="#10-将静态文件上传到-github-stat分支" class="headerlink" title="10. 将静态文件上传到 github stat分支"></a>10. 将静态文件上传到 github stat分支</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;somethings update&quot;</span><br><span class="line">git push origin stat</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="三、-回到旧电脑，拉取新电脑的更新"><a href="#三、-回到旧电脑，拉取新电脑的更新" class="headerlink" title="三、 回到旧电脑，拉取新电脑的更新"></a>三、 回到旧电脑，拉取新电脑的更新</h1><h2 id="1-同步"><a href="#1-同步" class="headerlink" title="1. 同步"></a>1. 同步</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull origin stat:stat</span><br></pre></td></tr></table></figure>
+
+<p>如果遇到以下报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">There is no tracking information for the current branch.</span><br><span class="line">Please specify which branch you want to merge with.</span><br><span class="line">See git-pull(1) for details</span><br><span class="line"></span><br><span class="line">    git pull &lt;remote&gt; &lt;branch&gt;</span><br><span class="line"></span><br><span class="line">If you wish to set tracking information for this branch you can do so with:</span><br><span class="line"></span><br><span class="line">git branch --set-upstream-to&#x3D;origin&#x2F;&lt;branch&gt;</span><br></pre></td></tr></table></figure>
+
+<p>将本地 static 和 远程 origin/static 链接即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch --set-upstream-to&#x3D;origin&#x2F;stat stat</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-开始写文章"><a href="#2-开始写文章" class="headerlink" title="2. 开始写文章"></a>2. 开始写文章</h2><h2 id="3-重新部署"><a href="#3-重新部署" class="headerlink" title="3. 重新部署"></a>3. 重新部署</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<p>部署前最好先在本地测试一下 ， 使用 <code>hexo s --debug</code>，然后在 127.0.0.1:4000 查看</p>
+<h2 id="4-提交静态文件并推送到远程"><a href="#4-提交静态文件并推送到远程" class="headerlink" title="4. 提交静态文件并推送到远程"></a>4. 提交静态文件并推送到远程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;somethings update&quot;</span><br><span class="line">git push origin stat</span><br></pre></td></tr></table></figure>
+
         </div>
         
         <div class="level is-size-7 is-uppercase">
@@ -290,7 +303,7 @@ git push origin stat</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -302,7 +315,7 @@ git push origin stat</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -314,7 +327,7 @@ git push origin stat</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -491,25 +504,25 @@ git push origin stat</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -523,6 +536,14 @@ git push origin stat</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -531,20 +552,20 @@ git push origin stat</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -576,7 +597,7 @@ git push origin stat</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -584,7 +605,15 @@ git push origin stat</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -619,6 +648,25 @@ git push origin stat</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -649,7 +697,7 @@ git push origin stat</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -686,25 +734,6 @@ git push origin stat</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -770,6 +799,25 @@ git push origin stat</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -800,7 +848,7 @@ git push origin stat</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -837,25 +885,6 @@ git push origin stat</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -918,7 +947,7 @@ git push origin stat</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -972,7 +1001,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

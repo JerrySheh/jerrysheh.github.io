@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -161,14 +161,13 @@
 <a id="more"></a>
 
 <h1 id="Ubuntu-16-04-QT安装"><a href="#Ubuntu-16-04-QT安装" class="headerlink" title="Ubuntu 16.04 QT安装"></a>Ubuntu 16.04 QT安装</h1><p>由于实验室和课程安排都是基于 QT4，因此这里安装QT4</p>
-<pre><code>sudo apt install qt4*
-sudo apt install qtcreator</code></pre><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install qt4*</span><br><span class="line">sudo apt install qtcreator</span><br></pre></td></tr></table></figure>
+
+<hr>
 <h1 id="QT-基本操作"><a href="#QT-基本操作" class="headerlink" title="QT 基本操作"></a>QT 基本操作</h1><h2 id="屏幕自适应"><a href="#屏幕自适应" class="headerlink" title="屏幕自适应"></a>屏幕自适应</h2><p>先布局一个 layout，然后在全局框里，设置 layout</p>
 <p>用以下代码自动全屏</p>
-<pre><code class="C++">QDesktopWidget* desktopWidget = QApplication::desktop();
-QRect screenRect = desktopWidget-&gt;screenGeometry();
-resize(screenRect.width(),screenRect.height());
-this-&gt;showMaximized();</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">QDesktopWidget* desktopWidget = QApplication::desktop();</span><br><span class="line">QRect screenRect = desktopWidget-&gt;screenGeometry();</span><br><span class="line">resize(screenRect.<span class="built_in">width</span>(),screenRect.<span class="built_in">height</span>());</span><br><span class="line"><span class="keyword">this</span>-&gt;showMaximized();</span><br></pre></td></tr></table></figure>
+
 <h2 id="显示图片"><a href="#显示图片" class="headerlink" title="显示图片"></a>显示图片</h2><ol>
 <li>布局一个 label</li>
 <li>头文件添加 <code>#include &lt;QPixmap&gt;</code></li>
@@ -179,42 +178,47 @@ this-&gt;showMaximized();</code></pre>
 <li>头文件添加 <code>#include &lt;QTimer&gt;</code></li>
 <li>构造函数添加</li>
 </ol>
-<pre><code class="c++">display_timer = new QTimer(this);
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">display_timer = <span class="keyword">new</span> QTimer(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//槽函数</span></span><br><span class="line"><span class="built_in">connect</span>(display_timer,SIGNAL(timeout()), <span class="keyword">this</span>, SLOT(doChange()));</span><br><span class="line">display_timer-&gt;start(<span class="number">10000</span>);</span><br></pre></td></tr></table></figure>
 
-//槽函数
-connect(display_timer,SIGNAL(timeout()), this, SLOT(doChange()));
-display_timer-&gt;start(10000);</code></pre>
 <ol start="4">
 <li>头文件 public slots: 声明 <code>doChange();</code></li>
 <li>实现<code>doChange();</code>函数</li>
 </ol>
-<pre><code class="c++">void MainWindow::doChange(){
-    qDebug(&quot;doChange&quot;);
-    ui-&gt;label-&gt;setPixmap(QPixmap(QString::number(num) + &quot;.png&quot;));
-}</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> MainWindow::doChange()&#123;</span><br><span class="line">    qDebug(<span class="string">"doChange"</span>);</span><br><span class="line">    ui-&gt;label-&gt;setPixmap(QPixmap(QString::number(num) + <span class="string">".png"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>使用<code>display_timer-&gt;start(1000);</code>来开启定时器</li>
 <li>使用<code>display_timer-&gt;stop(1000);</code>来关闭定时器</li>
 </ul>
 <hr>
 <h1 id="实验室环境QT交叉编译"><a href="#实验室环境QT交叉编译" class="headerlink" title="实验室环境QT交叉编译"></a>实验室环境QT交叉编译</h1><p>将QT程序编译成实验室开发板 ARM-linux 下能执行的程序。</p>
-<h2 id="将工程文件拷贝到编译目录"><a href="#将工程文件拷贝到编译目录" class="headerlink" title="将工程文件拷贝到编译目录"></a>将工程文件拷贝到编译目录</h2><pre><code>cp myproject /usr/local/Trolltech/QtEmbedded-4.8.5-arm/examples/ -a</code></pre><h2 id="执行-qmake"><a href="#执行-qmake" class="headerlink" title="执行 qmake"></a>执行 qmake</h2><p>这一步主要是生成 Makefile</p>
+<h2 id="将工程文件拷贝到编译目录"><a href="#将工程文件拷贝到编译目录" class="headerlink" title="将工程文件拷贝到编译目录"></a>将工程文件拷贝到编译目录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp myproject &#x2F;usr&#x2F;local&#x2F;Trolltech&#x2F;QtEmbedded-4.8.5-arm&#x2F;examples&#x2F; -a</span><br></pre></td></tr></table></figure>
+
+<h2 id="执行-qmake"><a href="#执行-qmake" class="headerlink" title="执行 qmake"></a>执行 qmake</h2><p>这一步主要是生成 Makefile</p>
 <p>实验室里为了区分，把 qmake 命令换成了 qmake-arm</p>
-<pre><code>qmake-arm</code></pre><h2 id="执行-make"><a href="#执行-make" class="headerlink" title="执行 make"></a>执行 make</h2><pre><code>make</code></pre><p>make完成后，可执行文件就生成了。通过串口传输到ARM实验箱上。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qmake-arm</span><br></pre></td></tr></table></figure>
+
+<h2 id="执行-make"><a href="#执行-make" class="headerlink" title="执行 make"></a>执行 make</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<p>make完成后，可执行文件就生成了。通过串口传输到ARM实验箱上。</p>
 <p>串口连接过程略。</p>
-<h2 id="串口-本地-gt-ARM"><a href="#串口-本地-gt-ARM" class="headerlink" title="串口:本地 -&gt; ARM"></a>串口:本地 -&gt; ARM</h2><pre><code>rx myAPP</code></pre><p>选择 传输 -&gt; 发生 Xmodem</p>
+<h2 id="串口-本地-gt-ARM"><a href="#串口-本地-gt-ARM" class="headerlink" title="串口:本地 -&gt; ARM"></a>串口:本地 -&gt; ARM</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rx myAPP</span><br></pre></td></tr></table></figure>
+
+<p>选择 传输 -&gt; 发生 Xmodem</p>
 <h2 id="解决ARM实验箱的坑"><a href="#解决ARM实验箱的坑" class="headerlink" title="解决ARM实验箱的坑"></a>解决ARM实验箱的坑</h2><ul>
 <li><p>kill掉以下三个进程</p>
-<pre><code>/opt/Qtopia/bin/qpe
-/opt/Qtopia/bin/qss
-/opt/Qtioua/bin/quicklauncher</code></pre></li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;opt&#x2F;Qtopia&#x2F;bin&#x2F;qpe</span><br><span class="line">&#x2F;opt&#x2F;Qtopia&#x2F;bin&#x2F;qss</span><br><span class="line">&#x2F;opt&#x2F;Qtioua&#x2F;bin&#x2F;quicklauncher</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>初始化环境变量</p>
 </li>
 </ul>
-<pre><code>. setqt4env  # 不要漏了中间的空格</code></pre><ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">. setqt4env  # 不要漏了中间的空格</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li>运行</li>
 </ul>
-<pre><code>./myApp -qws</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;myApp -qws</span><br></pre></td></tr></table></figure>
+
         </div>
         
         <div class="level is-size-7 is-uppercase">
@@ -302,7 +306,7 @@ display_timer-&gt;start(10000);</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -314,7 +318,7 @@ display_timer-&gt;start(10000);</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -326,7 +330,7 @@ display_timer-&gt;start(10000);</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -467,25 +471,25 @@ display_timer-&gt;start(10000);</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -499,6 +503,14 @@ display_timer-&gt;start(10000);</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -507,20 +519,20 @@ display_timer-&gt;start(10000);</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -552,7 +564,7 @@ display_timer-&gt;start(10000);</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -560,7 +572,15 @@ display_timer-&gt;start(10000);</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -595,6 +615,25 @@ display_timer-&gt;start(10000);</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -625,7 +664,7 @@ display_timer-&gt;start(10000);</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -662,25 +701,6 @@ display_timer-&gt;start(10000);</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -746,6 +766,25 @@ display_timer-&gt;start(10000);</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -776,7 +815,7 @@ display_timer-&gt;start(10000);</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -813,25 +852,6 @@ display_timer-&gt;start(10000);</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -894,7 +914,7 @@ display_timer-&gt;start(10000);</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -948,7 +968,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

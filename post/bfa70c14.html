@@ -39,7 +39,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -168,7 +168,8 @@
 <a id="more"></a>
 
 <h1 id="socket函数"><a href="#socket函数" class="headerlink" title="socket函数"></a>socket函数</h1><h2 id="1-socket"><a href="#1-socket" class="headerlink" title="1. socket()"></a>1. socket()</h2><p><code>socket()</code>可以理解成初始化：</p>
-<pre><code class="c">int socket(int domain, int type, int protocol);</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">socket</span><span class="params">(<span class="keyword">int</span> domain, <span class="keyword">int</span> type, <span class="keyword">int</span> protocol)</span></span>;</span><br></pre></td></tr></table></figure>
+
 <table>
 <thead>
 <tr>
@@ -201,7 +202,8 @@
 <li>type 和 protocol 并不是可以随意组合，比如使用<code>SOCK_STREAM</code>（这是TCP相关类型）的时候就不能用<code>IPPROTO_UDP</code>（UDP相关类型）。</li>
 </ul>
 <h2 id="2-bind"><a href="#2-bind" class="headerlink" title="2. bind()"></a>2. bind()</h2><p><code>bind()</code>函数赋予socket以固定的地址和端口，例如AF_INET就是把一个 <strong>ipv4地址和端口号组合</strong> 赋给socket。</p>
-<pre><code class="c">int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bind</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">const</span> struct sockaddr *addr, <span class="keyword">socklen_t</span> addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
+
 <table>
 <thead>
 <tr>
@@ -227,22 +229,14 @@
 </tr>
 </tbody></table>
 <p>ipv4地址结构的具体实现</p>
-<pre><code class="c">struct sockaddr_in {
-    sa_family_t    sin_family; // address family: AF_INET
-    in_port_t      sin_port;   // port in network byte order
-    struct in_addr sin_addr;   // internet address
-};
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> &#123;</span></span><br><span class="line">    <span class="keyword">sa_family_t</span>    sin_family; <span class="comment">// address family: AF_INET</span></span><br><span class="line">    <span class="keyword">in_port_t</span>      sin_port;   <span class="comment">// port in network byte order</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">in_addr</span> <span class="title">sin_addr</span>;</span>   <span class="comment">// internet address</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Internet address.</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">in_addr</span> &#123;</span></span><br><span class="line">    <span class="keyword">uint32_t</span>       s_addr;     <span class="comment">// address in network byte order</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-// Internet address.
-struct in_addr {
-    uint32_t       s_addr;     // address in network byte order
-};
-</code></pre>
 <ul>
 <li>创建socket时的地址协议族, 如果不是 AF_INET（ipv4），那么上面这个结构体的内容也是不一样的。第二个参数的指针就是指向你创建socket时对应协议族的协议地址。</li>
 </ul>
 <h2 id="3-listen-、connect"><a href="#3-listen-、connect" class="headerlink" title="3. listen()、connect()"></a>3. listen()、connect()</h2><p><code>listen()</code>用于服务器监听，<code>connect()</code>用于客户端连接。</p>
-<pre><code class="c">int listen(int sockfd, int backlog);</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">listen</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">int</span> backlog)</span></span>;</span><br></pre></td></tr></table></figure>
+
 <table>
 <thead>
 <tr>
@@ -262,7 +256,8 @@ struct in_addr {
 <td>最大连接个数</td>
 </tr>
 </tbody></table>
-<pre><code class="c">int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">connect</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">const</span> struct sockaddr *addr, <span class="keyword">socklen_t</span> addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
+
 <table>
 <thead>
 <tr>
@@ -291,7 +286,8 @@ struct in_addr {
 <p>TCP客户端依次调用<code>socket()</code>、<code>connect()</code>之后就向TCP服务器发送了一个连接请求。</p>
 <p>TCP服务器监听到这个请求之后，就会调用<code>accept()</code>函数取接收这个请求，这样连接就建立好了。</p>
 <p>之后就可以开始网络I/O操作，类同于普通文件的读写I/O操作。</p>
-<pre><code class="c">int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">accept</span><span class="params">(<span class="keyword">int</span> sockfd, struct sockaddr *addr, <span class="keyword">socklen_t</span> *addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
+
 <table>
 <thead>
 <tr>
@@ -329,189 +325,17 @@ struct in_addr {
 <li>recvfrom() / sendto()</li>
 </ul>
 <p>它们的声明如下：</p>
-<pre><code class="c">#include &lt;unistd.h&gt;
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">       <span class="keyword">ssize_t</span> <span class="built_in">read</span>(<span class="keyword">int</span> fd, <span class="keyword">void</span> *buf, <span class="keyword">size_t</span> count);</span><br><span class="line">       <span class="keyword">ssize_t</span> <span class="built_in">write</span>(<span class="keyword">int</span> fd, <span class="keyword">const</span> <span class="keyword">void</span> *buf, <span class="keyword">size_t</span> count);</span><br><span class="line"></span><br><span class="line">       <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line">       <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">       <span class="keyword">ssize_t</span> send(<span class="keyword">int</span> sockfd, <span class="keyword">const</span> <span class="keyword">void</span> *buf, <span class="keyword">size_t</span> len, <span class="keyword">int</span> flags);</span><br><span class="line">       <span class="keyword">ssize_t</span> recv(<span class="keyword">int</span> sockfd, <span class="keyword">void</span> *buf, <span class="keyword">size_t</span> len, <span class="keyword">int</span> flags);</span><br><span class="line"></span><br><span class="line">       <span class="keyword">ssize_t</span> sendto(<span class="keyword">int</span> sockfd, <span class="keyword">const</span> <span class="keyword">void</span> *buf, <span class="keyword">size_t</span> len, <span class="keyword">int</span> flags,</span><br><span class="line">                      <span class="keyword">const</span> struct sockaddr *dest_addr, <span class="keyword">socklen_t</span> addrlen);</span><br><span class="line">       <span class="keyword">ssize_t</span> recvfrom(<span class="keyword">int</span> sockfd, <span class="keyword">void</span> *buf, <span class="keyword">size_t</span> len, <span class="keyword">int</span> flags,</span><br><span class="line">                        struct sockaddr *src_addr, <span class="keyword">socklen_t</span> *addrlen);</span><br><span class="line"></span><br><span class="line">       <span class="keyword">ssize_t</span> sendmsg(<span class="keyword">int</span> sockfd, <span class="keyword">const</span> struct msghdr *msg, <span class="keyword">int</span> flags);</span><br><span class="line">       <span class="keyword">ssize_t</span> recvmsg(<span class="keyword">int</span> sockfd, struct msghdr *msg, <span class="keyword">int</span> flags);</span><br></pre></td></tr></table></figure>
 
-       ssize_t read(int fd, void *buf, size_t count);
-       ssize_t write(int fd, const void *buf, size_t count);
-
-       #include &lt;sys/types.h&gt;
-       #include &lt;sys/socket.h&gt;
-
-       ssize_t send(int sockfd, const void *buf, size_t len, int flags);
-       ssize_t recv(int sockfd, void *buf, size_t len, int flags);
-
-       ssize_t sendto(int sockfd, const void *buf, size_t len, int flags,
-                      const struct sockaddr *dest_addr, socklen_t addrlen);
-       ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags,
-                        struct sockaddr *src_addr, socklen_t *addrlen);
-
-       ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags);
-       ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags);</code></pre>
 <p>具体用法可参见man文档</p>
 <h2 id="6-close"><a href="#6-close" class="headerlink" title="6. close()"></a>6. close()</h2><p>在服务器与客户端建立连接之后，会进行一些读写操作，完成读写操作之后要关闭相应的socket描述字。</p>
-<pre><code class="c">int close(int fd);</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">close</span><span class="params">(<span class="keyword">int</span> fd)</span></span>;</span><br></pre></td></tr></table></figure>
+
 <hr>
-<h1 id="一个客户端与服务器通信的例子（C语言）"><a href="#一个客户端与服务器通信的例子（C语言）" class="headerlink" title="一个客户端与服务器通信的例子（C语言）"></a>一个客户端与服务器通信的例子（C语言）</h1><h2 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h2><pre><code class="c">#include &lt;sys/types.h&gt;
-#include &lt;sys/socket.h&gt;
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;errno.h&gt;
-#include &lt;string.h&gt;
-#include &lt;unistd.h&gt;
-#include &lt;netinet/in.h&gt;
-#define SERVPORT 14001
-#define BACKLOG 10
-#define MAX_CONNECTED_NO 10
-#define MAXDATASIZE 50
+<h1 id="一个客户端与服务器通信的例子（C语言）"><a href="#一个客户端与服务器通信的例子（C语言）" class="headerlink" title="一个客户端与服务器通信的例子（C语言）"></a>一个客户端与服务器通信的例子（C语言）</h1><h2 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SERVPORT 14001</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BACKLOG 10</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_CONNECTED_NO 10</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXDATASIZE 50</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 声明服务器和客户端的socket结构体</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">server_sockaddr</span>,<span class="title">client_sockaddr</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 声明数据大小</span></span><br><span class="line">	<span class="keyword">int</span> sin_size,recvbytes;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 声明socket文件描述符</span></span><br><span class="line">	<span class="keyword">int</span> sockfd,client_fd;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当前时间</span></span><br><span class="line">	<span class="keyword">time_t</span> currentTime;</span><br><span class="line">	<span class="keyword">char</span> timebuffer[MAXDATASIZE+<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 缓存</span></span><br><span class="line">	<span class="keyword">char</span> buf[MAXDATASIZE];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化socket</span></span><br><span class="line">	<span class="keyword">if</span>((sockfd = socket(AF_INET,SOCK_STREAM,<span class="number">0</span>))==<span class="number">-1</span>)&#123;</span><br><span class="line">		perror(<span class="string">"socket"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"socket success!,sockfd=%d\n"</span>,sockfd);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 声明协议</span></span><br><span class="line">	server_sockaddr.sin_family=AF_INET;</span><br><span class="line">	server_sockaddr.sin_port=htons(SERVPORT);</span><br><span class="line">	server_sockaddr.sin_addr.s_addr=INADDR_ANY;</span><br><span class="line">	bzero(&amp;(server_sockaddr.sin_zero),<span class="number">8</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 绑定</span></span><br><span class="line">	<span class="keyword">if</span>(bind(sockfd,(struct sockaddr *)&amp;server_sockaddr,<span class="keyword">sizeof</span>(struct sockaddr))==<span class="number">-1</span>)&#123;</span><br><span class="line">		perror(<span class="string">"bind"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"bind success!\n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 监听</span></span><br><span class="line">	<span class="keyword">if</span>(<span class="built_in">listen</span>(sockfd,BACKLOG)==<span class="number">-1</span>)&#123;</span><br><span class="line">		perror(<span class="string">"listen"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"listening....\n"</span>);</span><br><span class="line"></span><br><span class="line">    sin_size = <span class="keyword">sizeof</span>(struct sockaddr);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 接收</span></span><br><span class="line">	<span class="keyword">if</span>((client_fd=accept(sockfd,(struct sockaddr *)&amp;client_sockaddr,&amp;sin_size))==<span class="number">-1</span>)&#123;</span><br><span class="line">		perror(<span class="string">"accept"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	currentTime = time(<span class="literal">NULL</span>);</span><br><span class="line">	<span class="built_in">snprintf</span>(timebuffer, MAXDATASIZE, <span class="string">"%s\n"</span>, ctime(&amp;currentTime));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 向socket客户端写数据</span></span><br><span class="line">	<span class="keyword">if</span> ((recvbytes =<span class="built_in">write</span>(client_fd, timebuffer, <span class="built_in">strlen</span>(timebuffer))) &lt;<span class="number">0</span> ) &#123;</span><br><span class="line">		perror(<span class="string">"write"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">		<span class="keyword">if</span>((recvbytes=recv(client_fd,buf,MAXDATASIZE,<span class="number">0</span>))==<span class="number">-1</span>)&#123;</span><br><span class="line">			perror(<span class="string">"recv"</span>);</span><br><span class="line">			<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		buf[recvbytes] = <span class="string">'\0'</span>;</span><br><span class="line">	 	<span class="built_in">printf</span>(<span class="string">"received msg from clients :%s\n"</span>,buf);</span><br><span class="line"></span><br><span class="line">	    currentTime = time(<span class="literal">NULL</span>);</span><br><span class="line">	    <span class="built_in">snprintf</span>(timebuffer, MAXDATASIZE, <span class="string">"%s\n"</span>, ctime(&amp;currentTime));</span><br><span class="line">		<span class="built_in">write</span>(client_fd, timebuffer, <span class="built_in">strlen</span>(timebuffer));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 关闭socket</span></span><br><span class="line">	<span class="built_in">close</span>(sockfd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-int main()
-{
-    // 声明服务器和客户端的socket结构体
-    struct sockaddr_in server_sockaddr,client_sockaddr;
+<h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netdb.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SERVPORT 14001</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXDATASIZE 300</span></span><br><span class="line">main(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span> sockfd,sendbytes;</span><br><span class="line">	<span class="keyword">char</span> buf[MAXDATASIZE];</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">hostent</span> * <span class="title">host</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">serv_addr</span>;</span></span><br><span class="line">	<span class="keyword">if</span>(argc &lt; <span class="number">2</span>)&#123;</span><br><span class="line">		<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"Please enter the server's hostname!\n"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>((host=gethostbyname(argv[<span class="number">1</span>]))==<span class="literal">NULL</span>)&#123;</span><br><span class="line">		perror(<span class="string">"gethostbyname"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>((sockfd=socket(AF_INET,SOCK_STREAM,<span class="number">0</span>))==<span class="number">-1</span>)&#123;</span><br><span class="line">		perror(<span class="string">"socket"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	serv_addr.sin_family=AF_INET;</span><br><span class="line">	serv_addr.sin_port=htons(SERVPORT);</span><br><span class="line">	serv_addr.sin_addr=* ((struct in_addr * )host-&gt;h_addr);</span><br><span class="line">	bzero(&amp;(serv_addr.sin_zero),<span class="number">8</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 连接</span></span><br><span class="line">	<span class="keyword">if</span>(<span class="built_in">connect</span>(sockfd,(struct sockaddr *)&amp;serv_addr,\</span><br><span class="line">		<span class="keyword">sizeof</span>(struct sockaddr))==<span class="number">-1</span>)&#123;</span><br><span class="line">		perror(<span class="string">"connect"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 接收数据</span></span><br><span class="line">	<span class="keyword">if</span>((sendbytes=recv(sockfd,buf,MAXDATASIZE,<span class="number">0</span>))==<span class="number">-1</span>)&#123;</span><br><span class="line">		perror(<span class="string">"recv"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	buf[sendbytes] = <span class="string">'\0'</span>;</span><br><span class="line"> 	<span class="built_in">printf</span>(<span class="string">"received msg from server:%s\n"</span>,buf);</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">        	<span class="built_in">printf</span>(<span class="string">"Enter the message  : "</span>);</span><br><span class="line">        	<span class="keyword">if</span>(fgets(buf, <span class="keyword">sizeof</span>(buf) - <span class="number">1</span>, <span class="built_in">stdin</span>) == <span class="literal">NULL</span>)</span><br><span class="line">        	&#123;</span><br><span class="line">        		<span class="keyword">break</span>;</span><br><span class="line">        	&#125;</span><br><span class="line">		<span class="keyword">if</span>((sendbytes=send(sockfd,buf,<span class="built_in">strlen</span>(buf),<span class="number">0</span>))==<span class="number">-1</span>)&#123;</span><br><span class="line">			perror(<span class="string">"send"</span>);</span><br><span class="line">			<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"sent %d bytes \n"</span>, sendbytes);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>((sendbytes=recv(sockfd,buf,MAXDATASIZE,<span class="number">0</span>))==<span class="number">-1</span>)&#123;</span><br><span class="line">		perror(<span class="string">"recv"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	    &#125;</span><br><span class="line"></span><br><span class="line">		buf[sendbytes] = <span class="string">'\0'</span>;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"received time from server:%s\n"</span>,buf);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 关闭socket</span></span><br><span class="line">	<span class="built_in">close</span>(sockfd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 声明数据大小
-    int sin_size,recvbytes;
-
-    // 声明socket文件描述符
-    int sockfd,client_fd;
-
-    // 当前时间
-    time_t currentTime;
-    char timebuffer[MAXDATASIZE+1];
-
-    // 缓存
-    char buf[MAXDATASIZE];
-
-    // 初始化socket
-    if((sockfd = socket(AF_INET,SOCK_STREAM,0))==-1){
-        perror(&quot;socket&quot;);
-        exit(1);
-    }
-    printf(&quot;socket success!,sockfd=%d\n&quot;,sockfd);
-
-    // 声明协议
-    server_sockaddr.sin_family=AF_INET;
-    server_sockaddr.sin_port=htons(SERVPORT);
-    server_sockaddr.sin_addr.s_addr=INADDR_ANY;
-    bzero(&amp;(server_sockaddr.sin_zero),8);
-
-    // 绑定
-    if(bind(sockfd,(struct sockaddr *)&amp;server_sockaddr,sizeof(struct sockaddr))==-1){
-        perror(&quot;bind&quot;);
-        exit(1);
-    }
-    printf(&quot;bind success!\n&quot;);
-
-    // 监听
-    if(listen(sockfd,BACKLOG)==-1){
-        perror(&quot;listen&quot;);
-        exit(1);
-    }
-    printf(&quot;listening....\n&quot;);
-
-    sin_size = sizeof(struct sockaddr);
-
-    // 接收
-    if((client_fd=accept(sockfd,(struct sockaddr *)&amp;client_sockaddr,&amp;sin_size))==-1){
-        perror(&quot;accept&quot;);
-        exit(1);
-    }
-    currentTime = time(NULL);
-    snprintf(timebuffer, MAXDATASIZE, &quot;%s\n&quot;, ctime(&amp;currentTime));
-
-    // 向socket客户端写数据
-    if ((recvbytes =write(client_fd, timebuffer, strlen(timebuffer))) &lt;0 ) {
-        perror(&quot;write&quot;);
-        exit(1);
-    }
-    while (1) {
-        if((recvbytes=recv(client_fd,buf,MAXDATASIZE,0))==-1){
-            perror(&quot;recv&quot;);
-            exit(1);
-        }
-        buf[recvbytes] = &#39;\0&#39;;
-         printf(&quot;received msg from clients :%s\n&quot;,buf);
-
-        currentTime = time(NULL);
-        snprintf(timebuffer, MAXDATASIZE, &quot;%s\n&quot;, ctime(&amp;currentTime));
-        write(client_fd, timebuffer, strlen(timebuffer));
-    }
-
-    // 关闭socket
-    close(sockfd);
-}</code></pre>
-<h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><pre><code class="c">#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;errno.h&gt;
-#include &lt;string.h&gt;
-#include &lt;netdb.h&gt;
-#include &lt;sys/types.h&gt;
-#include &lt;netinet/in.h&gt;
-#include &lt;sys/socket.h&gt;
-#define SERVPORT 14001
-#define MAXDATASIZE 300
-main(int argc,char *argv[])
-{
-    int sockfd,sendbytes;
-    char buf[MAXDATASIZE];
-    struct hostent * host;
-    struct sockaddr_in serv_addr;
-    if(argc &lt; 2){
-        fprintf(stderr,&quot;Please enter the server&#39;s hostname!\n&quot;);
-        exit(1);
-    }
-    if((host=gethostbyname(argv[1]))==NULL){
-        perror(&quot;gethostbyname&quot;);
-        exit(1);
-    }
-    if((sockfd=socket(AF_INET,SOCK_STREAM,0))==-1){
-        perror(&quot;socket&quot;);
-        exit(1);
-    }
-    serv_addr.sin_family=AF_INET;
-    serv_addr.sin_port=htons(SERVPORT);
-    serv_addr.sin_addr=* ((struct in_addr * )host-&gt;h_addr);
-    bzero(&amp;(serv_addr.sin_zero),8);
-
-    // 连接
-    if(connect(sockfd,(struct sockaddr *)&amp;serv_addr,\
-        sizeof(struct sockaddr))==-1){
-        perror(&quot;connect&quot;);
-        exit(1);
-    }
-
-    // 接收数据
-    if((sendbytes=recv(sockfd,buf,MAXDATASIZE,0))==-1){
-        perror(&quot;recv&quot;);
-        exit(1);
-    }
-    buf[sendbytes] = &#39;\0&#39;;
-     printf(&quot;received msg from server:%s\n&quot;,buf);
-    while (1)
-    {
-            printf(&quot;Enter the message  : &quot;);
-            if(fgets(buf, sizeof(buf) - 1, stdin) == NULL)
-            {
-                break;
-            }
-        if((sendbytes=send(sockfd,buf,strlen(buf),0))==-1){
-            perror(&quot;send&quot;);
-            exit(1);
-        }
-        printf(&quot;sent %d bytes \n&quot;, sendbytes);
-
-        if((sendbytes=recv(sockfd,buf,MAXDATASIZE,0))==-1){
-        perror(&quot;recv&quot;);
-        exit(1);
-        }
-
-        buf[sendbytes] = &#39;\0&#39;;
-        printf(&quot;received time from server:%s\n&quot;,buf);
-    }
-
-    // 关闭socket
-    close(sockfd);
-}</code></pre>
 <hr>
 <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
 <li><a href="https://www.cnblogs.com/skynet/archive/2010/12/12/1903949.html">Linux Socket编程</a></li>
@@ -606,7 +430,7 @@ main(int argc,char *argv[])
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -618,7 +442,7 @@ main(int argc,char *argv[])
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -630,7 +454,7 @@ main(int argc,char *argv[])
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -779,25 +603,25 @@ main(int argc,char *argv[])
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -811,6 +635,14 @@ main(int argc,char *argv[])
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -819,20 +651,20 @@ main(int argc,char *argv[])
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -864,7 +696,7 @@ main(int argc,char *argv[])
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -872,7 +704,15 @@ main(int argc,char *argv[])
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -907,6 +747,25 @@ main(int argc,char *argv[])
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -937,7 +796,7 @@ main(int argc,char *argv[])
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -974,25 +833,6 @@ main(int argc,char *argv[])
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1058,6 +898,25 @@ main(int argc,char *argv[])
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1088,7 +947,7 @@ main(int argc,char *argv[])
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1125,25 +984,6 @@ main(int argc,char *argv[])
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1206,7 +1046,7 @@ main(int argc,char *argv[])
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1260,7 +1100,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

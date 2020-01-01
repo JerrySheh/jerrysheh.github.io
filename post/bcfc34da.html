@@ -38,7 +38,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -168,17 +168,19 @@
 <hr>
 <h1 id="函数字面量"><a href="#函数字面量" class="headerlink" title="函数字面量"></a>函数字面量</h1><p>在面向过程和面向对象编程中，数据包括：<strong>类型</strong> + <strong>值</strong>。在函数式编程中，函数也可以跟其他数据类型一样，进行传递和操作。函数的使用跟其他数据类型没什么区别。函数也包括 <strong>类型</strong> + <strong>值</strong>。函数的值，就是函数字面量。</p>
 <h2 id="函数的类型"><a href="#函数的类型" class="headerlink" title="函数的类型"></a>函数的类型</h2><p>考虑下面的例子</p>
-<pre><code class="scala">def counter(value: Int): Int = {
-     value += 1
- }</code></pre>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">counter</span></span>(value: <span class="type">Int</span>): <span class="type">Int</span> = &#123;</span><br><span class="line">     value += <span class="number">1</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
 <p>输入一个 Int， 输出一个 Int ，因此这个函数的类型是：<code>Int =&gt; Int</code></p>
 <h2 id="函数的值"><a href="#函数的值" class="headerlink" title="函数的值"></a>函数的值</h2><p>把函数的类型声明部分（def counter）去掉，剩下的就是函数的值了。</p>
 <p>在上面的例子中，输入 value， 输出 value+1 ，因此这个函数的值是：</p>
-<pre><code class="scala">(value) =&gt; {value += 1}</code></pre>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(value) =&gt; &#123;value += <span class="number">1</span>&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="用函数式的方法定义函数"><a href="#用函数式的方法定义函数" class="headerlink" title="用函数式的方法定义函数"></a>用函数式的方法定义函数</h2><p>定义一个 Int 类型变量，可以：</p>
-<pre><code class="scala">val num: Int = 5</code></pre>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> num: <span class="type">Int</span> = <span class="number">5</span></span><br></pre></td></tr></table></figure>
+
 <p>有了函数式编程的思想后，定义一个函数，可以：</p>
-<pre><code class="scala">val counter: Int =&gt; Int = { (value) =&gt; value += 1}</code></pre>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> counter: <span class="type">Int</span> =&gt; <span class="type">Int</span> = &#123; (value) =&gt; value += <span class="number">1</span>&#125;</span><br></pre></td></tr></table></figure>
+
 <ol>
 <li>我们定义了一个 counter 函数。</li>
 <li>这个函数的类型是<code>Int =&gt; Int</code>，输入一个 Int，输出一个 Int</li>
@@ -186,86 +188,57 @@
 </ol>
 <hr>
 <h1 id="Lambda表达式与闭包"><a href="#Lambda表达式与闭包" class="headerlink" title="Lambda表达式与闭包"></a>Lambda表达式与闭包</h1><p>像 <code>(参数) =&gt; 表达式</code> 这样的定义形式，我们称之为 Lambda 表达式。其实就是用函数式的方法定义函数。例如：</p>
-<pre><code class="scala">val myNumFunc: Int =&gt; Int = (num: Int) =&gt; num * 2</code></pre>
-<p>Scala有类型推断，因此可以简化为：</p>
-<pre><code class="scala">// 省略前面类型
-val myNumFunc = (num: Int) =&gt; num * 2
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> myNumFunc: <span class="type">Int</span> =&gt; <span class="type">Int</span> = (num: <span class="type">Int</span>) =&gt; num * <span class="number">2</span></span><br></pre></td></tr></table></figure>
 
-// 省略后面类型
-val myNumFunc: Int=&gt;Int = (num) =&gt; num * 2</code></pre>
+<p>Scala有类型推断，因此可以简化为：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 省略前面类型</span></span><br><span class="line"><span class="keyword">val</span> myNumFunc = (num: <span class="type">Int</span>) =&gt; num * <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 省略后面类型</span></span><br><span class="line"><span class="keyword">val</span> myNumFunc: <span class="type">Int</span>=&gt;<span class="type">Int</span> = (num) =&gt; num * <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><p>闭包是一种比较特殊的函数。闭包会引用函数外部的变量。</p>
 <blockquote>
 <p>vczh：闭包不是“封闭内部状态”，而是“封闭外部状态”。一个函数如何能封闭外部状态呢？当外部状态的 scope 失效的时候，还有一份留在内部状态里面。</p>
 </blockquote>
 <p>例如，定义一个函数：</p>
-<pre><code class="scala">val addMore = (x: Int) =&gt; x + more</code></pre>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> addMore = (x: <span class="type">Int</span>) =&gt; x + more</span><br></pre></td></tr></table></figure>
+
 <p>变量<code>more</code>并不是在函数内部定义的，而是函数外部的变量。</p>
 <p>闭包（是一个函数）对捕获的外部变量做出的改变，<strong>在闭包之外是可见的！</strong></p>
 <hr>
 <h1 id="高阶函数"><a href="#高阶函数" class="headerlink" title="高阶函数"></a>高阶函数</h1><p>一个接受其他函数作为参数 或者 返回一个函数 的函数就是高阶函数。</p>
 <p>以求和函数为例：</p>
-<h2 id="不使用高阶函数"><a href="#不使用高阶函数" class="headerlink" title="不使用高阶函数"></a>不使用高阶函数</h2><pre><code class="scala">def sumInts(a: Int, b: Int): Int = {
-    if (a &gt; b) 0 else a + sumInts(a+1, b)
-}</code></pre>
-<h2 id="使用高阶函数"><a href="#使用高阶函数" class="headerlink" title="使用高阶函数"></a>使用高阶函数</h2><pre><code class="scala">// 求和函数，传入一个函数、两个 Int
-def sum(func: Int =&gt; Int, a: Int, b: Int): Int = {
-    if (a &gt; b) 0 else a + sum(func, a+1, b)
-}
+<h2 id="不使用高阶函数"><a href="#不使用高阶函数" class="headerlink" title="不使用高阶函数"></a>不使用高阶函数</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sumInts</span></span>(a: <span class="type">Int</span>, b: <span class="type">Int</span>): <span class="type">Int</span> = &#123;</span><br><span class="line">    <span class="keyword">if</span> (a &gt; b) <span class="number">0</span> <span class="keyword">else</span> a + sumInts(a+<span class="number">1</span>, b)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-// self函数
-def self(x: Int): Int = x
+<h2 id="使用高阶函数"><a href="#使用高阶函数" class="headerlink" title="使用高阶函数"></a>使用高阶函数</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 求和函数，传入一个函数、两个 Int</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span></span>(func: <span class="type">Int</span> =&gt; <span class="type">Int</span>, a: <span class="type">Int</span>, b: <span class="type">Int</span>): <span class="type">Int</span> = &#123;</span><br><span class="line">    <span class="keyword">if</span> (a &gt; b) <span class="number">0</span> <span class="keyword">else</span> a + sum(func, a+<span class="number">1</span>, b)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// self函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">self</span></span>(x: <span class="type">Int</span>): <span class="type">Int</span> = x</span><br><span class="line"></span><br><span class="line"><span class="comment">// 重新定义sumInts函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sumInts</span></span>(a: <span class="type">Int</span>, b: <span class="type">Int</span>): <span class="type">Int</span> = sum(self, a, b)</span><br></pre></td></tr></table></figure>
 
-// 重新定义sumInts函数
-def sumInts(a: Int, b: Int): Int = sum(self, a, b)</code></pre>
 <p>sum 函数的参数是 <code>（Int=&gt;Int, Int, Int）</code>， 结果是 <code>Int</code>， 因此， sum 函数的类型是：</p>
-<pre><code>（Int=&gt;Int, Int, Int） =&gt; Int</code></pre><p>也就是说，函数sum是一个接受函数参数的函数，因此，是一个高阶函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">（Int&#x3D;&gt;Int, Int, Int） &#x3D;&gt; Int</span><br></pre></td></tr></table></figure>
+
+<p>也就是说，函数sum是一个接受函数参数的函数，因此，是一个高阶函数。</p>
 <hr>
 <h1 id="占位符语法"><a href="#占位符语法" class="headerlink" title="占位符语法"></a>占位符语法</h1><p>当每个参数在函数中最多出现一次时，可以使用 <code>_</code> 占位符来表示一个或多个参数。</p>
-<pre><code class="scala">object Run {
-  def main(args: Array[String]): Unit = {
-
-    val list = List(-3, -5, 1, 9, 6, -99)
-
-    val list2 = rList.filter(x=&gt;x &gt; 0)
-    println(list2)
-
-    val list3 = List.filter(_ &gt; 0)
-    println(list3)
-
-  }
-}</code></pre>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">Run</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> list = <span class="type">List</span>(<span class="number">-3</span>, <span class="number">-5</span>, <span class="number">1</span>, <span class="number">9</span>, <span class="number">6</span>, <span class="number">-99</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> list2 = rList.filter(x=&gt;x &gt; <span class="number">0</span>)</span><br><span class="line">    println(list2)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> list3 = <span class="type">List</span>.filter(_ &gt; <span class="number">0</span>)</span><br><span class="line">    println(list3)</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>list2 和 list3 完全一样。也就是说，在这个例子中，<code>x =&gt; x</code> 和 <code>_</code> 完全一样。即把 List 中的每一个元素作为 x 传入。</p>
 <hr>
 <h1 id="Scala内置的高阶函数"><a href="#Scala内置的高阶函数" class="headerlink" title="Scala内置的高阶函数"></a>Scala内置的高阶函数</h1><h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><p>map 对集合中的每个元素进行操作。</p>
-<pre><code class="scala">val numberList = List(-3, -5, 1, 9, 6, -99)
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> numberList = <span class="type">List</span>(<span class="number">-3</span>, <span class="number">-5</span>, <span class="number">1</span>, <span class="number">9</span>, <span class="number">6</span>, <span class="number">-99</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> numberList2 = numberList.map(x =&gt; x+<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">println(numberList2)</span><br></pre></td></tr></table></figure>
 
-val numberList2 = numberList.map(x =&gt; x+1)
-
-println(numberList2)</code></pre>
 <p>输出： <code>List(-2, -4, 2, 10, 7, -98)</code></p>
 <h2 id="flatMap"><a href="#flatMap" class="headerlink" title="flatMap"></a>flatMap</h2><p>flatMap是map的一种扩展。跟 map 不同的是， flatMap 会将子集合进行合并。</p>
-<pre><code class="scala">val books = List(&quot;haddop&quot;, &quot;spark&quot;, &quot;scala&quot;)
-println(books.map(s=&gt;s.toList))</code></pre>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> books = <span class="type">List</span>(<span class="string">"haddop"</span>, <span class="string">"spark"</span>, <span class="string">"scala"</span>)</span><br><span class="line">println(books.map(s=&gt;s.toList))</span><br></pre></td></tr></table></figure>
+
 <p>输出：<code>List(List(h, a, d, d, o, p), List(s, p, a, r, k), List(s, c, a, l, a))</code></p>
-<pre><code class="scala">val books = List(&quot;haddop&quot;, &quot;spark&quot;, &quot;scala&quot;)
-println(books.flatMap(s=&gt;s.toList))</code></pre>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> books = <span class="type">List</span>(<span class="string">"haddop"</span>, <span class="string">"spark"</span>, <span class="string">"scala"</span>)</span><br><span class="line">println(books.flatMap(s=&gt;s.toList))</span><br></pre></td></tr></table></figure>
+
 <p>输出：<code>List(h, a, d, d, o, p, s, p, a, r, k, s, c, a, l, a)</code></p>
 <h2 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h2><p>遍历一个集合，并从中获取满足指定条件的元素组成一个新的集合。</p>
 <h2 id="reduce"><a href="#reduce" class="headerlink" title="reduce"></a>reduce</h2><p>reduce函数能把结果继续和序列的下一个元素做累积计算。结果就是计算的结果。</p>
-<pre><code class="scala">val numberList = List(-3, -5, 1, 9, 6, -99)
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> numberList = <span class="type">List</span>(<span class="number">-3</span>, <span class="number">-5</span>, <span class="number">1</span>, <span class="number">9</span>, <span class="number">6</span>, <span class="number">-99</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> numberList2 = numberList.reduce(_ + _)</span><br><span class="line">println(numberList2)</span><br></pre></td></tr></table></figure>
 
-val numberList2 = numberList.reduce(_ + _)
-println(numberList2)</code></pre>
 <p>输出：-91</p>
-<h3 id="reduceLeft-和-reduceRight"><a href="#reduceLeft-和-reduceRight" class="headerlink" title="reduceLeft 和 reduceRight"></a>reduceLeft 和 reduceRight</h3><pre><code class="scala">val a = List(1,7,2,9)
-val a1 = a.reduceLeft(_ - _)  //      ((1-7) - 2) - 9 = -17
+<h3 id="reduceLeft-和-reduceRight"><a href="#reduceLeft-和-reduceRight" class="headerlink" title="reduceLeft 和 reduceRight"></a>reduceLeft 和 reduceRight</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> a = <span class="type">List</span>(<span class="number">1</span>,<span class="number">7</span>,<span class="number">2</span>,<span class="number">9</span>)</span><br><span class="line"><span class="keyword">val</span> a1 = a.reduceLeft(_ - _)  <span class="comment">//      ((1-7) - 2) - 9 = -17</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> a4 = a.reduceRight(_ - _)<span class="comment">//     1 - (7 - (2-9) ) = -13</span></span><br></pre></td></tr></table></figure>
 
-val a4 = a.reduceRight(_ - _)//     1 - (7 - (2-9) ) = -13</code></pre>
 <h2 id="fold"><a href="#fold" class="headerlink" title="fold"></a>fold</h2><p>fold意为折叠，跟reduce类似。只不过 fold 提供了一个种子值，集合的第一个元素首先会跟种子值进行运算。</p>
-<pre><code class="scala">val numberList = List(1, 9, 6)
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> numberList = <span class="type">List</span>(<span class="number">1</span>, <span class="number">9</span>, <span class="number">6</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> numberList2 = numberList.fold(<span class="number">4</span>)(_ + _)</span><br><span class="line">println(numberList2)</span><br></pre></td></tr></table></figure>
 
-val numberList2 = numberList.fold(4)(_ + _)
-println(numberList2)</code></pre>
 <p>输出：20</p>
 
         </div>
@@ -355,7 +328,7 @@ println(numberList2)</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -367,7 +340,7 @@ println(numberList2)</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -379,7 +352,7 @@ println(numberList2)</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -544,25 +517,25 @@ println(numberList2)</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -576,6 +549,14 @@ println(numberList2)</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -584,20 +565,20 @@ println(numberList2)</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -629,7 +610,7 @@ println(numberList2)</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -637,7 +618,15 @@ println(numberList2)</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -672,6 +661,25 @@ println(numberList2)</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -702,7 +710,7 @@ println(numberList2)</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -739,25 +747,6 @@ println(numberList2)</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -823,6 +812,25 @@ println(numberList2)</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -853,7 +861,7 @@ println(numberList2)</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -890,25 +898,6 @@ println(numberList2)</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -971,7 +960,7 @@ println(numberList2)</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1025,7 +1014,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

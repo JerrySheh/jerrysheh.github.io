@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -186,43 +186,56 @@
 <hr>
 <h1 id="Ubuntu-18-04-安装-Mysql-5-7"><a href="#Ubuntu-18-04-安装-Mysql-5-7" class="headerlink" title="Ubuntu 18.04 安装 Mysql 5.7"></a>Ubuntu 18.04 安装 Mysql 5.7</h1><p>注：如果要安装 Mysql 8.0 ，可以参考 <a href="https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/">官方文档</a></p>
 <h2 id="卸载和安装"><a href="#卸载和安装" class="headerlink" title="卸载和安装"></a>卸载和安装</h2><p>干净卸载后安装</p>
-<pre><code>sudo apt-get --purge remove mysql-server mysql-common mysql-client
-sudo apt-get install mysql-server</code></pre><p>设置 root 密码</p>
-<pre><code>mysqladmin -u root password your-new-password
-sudo /etc/init.d/mysql restart</code></pre><p>或者，直接运行安全脚本配置</p>
-<pre><code>sudo mysql_secure_installation</code></pre><h2 id="安装完毕后发现没有登录权限"><a href="#安装完毕后发现没有登录权限" class="headerlink" title="安装完毕后发现没有登录权限"></a>安装完毕后发现没有登录权限</h2><pre><code>ERROR 1045: Access denied for user: &#39;root@localhost&#39; (Using
-password: YES)</code></pre><p>首先无密码登录</p>
-<pre><code>sudo mysql -u root</code></pre><p>然后查看当前用户，删除后重新创建 ROOT 账户，并授权</p>
-<pre><code class="sql">mysql&gt; SELECT User,Host FROM mysql.user;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get --purge remove mysql-server mysql-common mysql-client</span><br><span class="line">sudo apt-get install mysql-server</span><br></pre></td></tr></table></figure>
 
-mysql&gt; DROP USER &#39;root&#39;@&#39;localhost&#39;;
+<p>设置 root 密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root password your-new-password</span><br><span class="line">sudo &#x2F;etc&#x2F;init.d&#x2F;mysql restart</span><br></pre></td></tr></table></figure>
 
-mysql&gt; CREATE USER &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;123456&#39;;
+<p>或者，直接运行安全脚本配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mysql_secure_installation</span><br></pre></td></tr></table></figure>
 
-mysql&gt; GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; WITH GRANT OPTION;
+<h2 id="安装完毕后发现没有登录权限"><a href="#安装完毕后发现没有登录权限" class="headerlink" title="安装完毕后发现没有登录权限"></a>安装完毕后发现没有登录权限</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ERROR 1045: Access denied for user: &#39;root@localhost&#39; (Using</span><br><span class="line">password: YES)</span><br></pre></td></tr></table></figure>
 
-mysql&gt; FLUSH PRIVILEGES;</code></pre>
-<h2 id="允许远程访问"><a href="#允许远程访问" class="headerlink" title="允许远程访问"></a>允许远程访问</h2><pre><code class="sql">mysql&gt; GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; WITH GRANT OPTION;
+<p>首先无密码登录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mysql -u root</span><br></pre></td></tr></table></figure>
 
-mysql&gt; FLUSH PRIVILEGES;</code></pre>
+
+<p>然后查看当前用户，删除后重新创建 ROOT 账户，并授权</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT User,Host FROM mysql.user;</span><br><span class="line"></span><br><span class="line">mysql&gt; DROP USER 'root'@'localhost';</span><br><span class="line"></span><br><span class="line">mysql&gt; CREATE USER 'root'@'%' IDENTIFIED BY '123456';</span><br><span class="line"></span><br><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">mysql&gt; FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+
+<h2 id="允许远程访问"><a href="#允许远程访问" class="headerlink" title="允许远程访问"></a>允许远程访问</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">mysql&gt; FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+
 <p>打开 /etc/mysql/mysql.conf.d/mysqld.cnf 文件</p>
-<pre><code>sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf</code></pre><p>把 bind-address 改为 0.0.0.0</p>
-<pre><code>#bind-address = 127.0.0.1
-bind-address = 0.0.0.0</code></pre><hr>
-<h1 id="修改ROOT密码"><a href="#修改ROOT密码" class="headerlink" title="修改ROOT密码"></a>修改ROOT密码</h1><h2 id="方法1：-用SET-PASSWORD命令"><a href="#方法1：-用SET-PASSWORD命令" class="headerlink" title="方法1： 用SET PASSWORD命令"></a>方法1： 用SET PASSWORD命令</h2><pre><code>MySQL -u root
-mysql&gt; SET PASSWORD FOR &#39;root&#39;@&#39;localhost&#39; = PASSWORD(&#39;newpass&#39;);</code></pre><h2 id="方法2：用mysqladmin"><a href="#方法2：用mysqladmin" class="headerlink" title="方法2：用mysqladmin"></a>方法2：用mysqladmin</h2><pre><code>mysqladmin -u root password &quot;newpass&quot;</code></pre><p>如果root已经设置过密码，采用如下方法</p>
-<pre><code>mysqladmin -u root password oldpass &quot;newpass&quot;</code></pre><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;mysql&#x2F;mysql.conf.d&#x2F;mysqld.cnf</span><br></pre></td></tr></table></figure>
+
+<p>把 bind-address 改为 0.0.0.0</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#bind-address &#x3D; 127.0.0.1</span><br><span class="line">bind-address &#x3D; 0.0.0.0</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="修改ROOT密码"><a href="#修改ROOT密码" class="headerlink" title="修改ROOT密码"></a>修改ROOT密码</h1><h2 id="方法1：-用SET-PASSWORD命令"><a href="#方法1：-用SET-PASSWORD命令" class="headerlink" title="方法1： 用SET PASSWORD命令"></a>方法1： 用SET PASSWORD命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MySQL -u root</span><br><span class="line">mysql&gt; SET PASSWORD FOR &#39;root&#39;@&#39;localhost&#39; &#x3D; PASSWORD(&#39;newpass&#39;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="方法2：用mysqladmin"><a href="#方法2：用mysqladmin" class="headerlink" title="方法2：用mysqladmin"></a>方法2：用mysqladmin</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root password &quot;newpass&quot;</span><br></pre></td></tr></table></figure>
+
+<p>如果root已经设置过密码，采用如下方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root password oldpass &quot;newpass&quot;</span><br></pre></td></tr></table></figure>
+
+<hr>
 <h1 id="如何导入数据库文件"><a href="#如何导入数据库文件" class="headerlink" title="如何导入数据库文件"></a>如何导入数据库文件</h1><p>假设我们已经有了一个数据库脚本， projectDB.sql，如何导入到MySQL？</p>
 <p>方法一：直接通过 mysql 命令运行</p>
-<pre><code>mysql -u root -p123456 --port 3306 &lt; /home/jerrysheh/projectDB.sql</code></pre><p>方法二：登录 mysql 后使用 source 命令</p>
-<pre><code>mysql&gt;create database &lt;database-name&gt;;
-mysql&gt;use &lt;database-name&gt;;
-mysql&gt;source /home/jerrysheh/projectDB.sql;</code></pre><h2 id="解决导入慢的问题"><a href="#解决导入慢的问题" class="headerlink" title="解决导入慢的问题"></a>解决导入慢的问题</h2><p>当数据库非常大（&gt;100M）时，导入时间可能要花费几小时，优化方式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p123456 --port 3306 &lt; &#x2F;home&#x2F;jerrysheh&#x2F;projectDB.sql</span><br></pre></td></tr></table></figure>
+
+<p>方法二：登录 mysql 后使用 source 命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;create database &lt;database-name&gt;;</span><br><span class="line">mysql&gt;use &lt;database-name&gt;;</span><br><span class="line">mysql&gt;source &#x2F;home&#x2F;jerrysheh&#x2F;projectDB.sql;</span><br></pre></td></tr></table></figure>
+
+<h2 id="解决导入慢的问题"><a href="#解决导入慢的问题" class="headerlink" title="解决导入慢的问题"></a>解决导入慢的问题</h2><p>当数据库非常大（&gt;100M）时，导入时间可能要花费几小时，优化方式如下：</p>
 <p>假设要讲A数据库的数据导入到B数据库</p>
 <p>1、首先确定目标库(B)的参数值，登录数据库B，执行以下命令</p>
-<pre><code>mysql&gt;show variables like &#39;max_allowed_packet&#39;;
-mysql&gt;show variables like &#39;net_buffer_length&#39;;</code></pre><p>2、根据参数值，在A数据库中使用 mysqldump 命令，如：</p>
-<pre><code>C:\Program Files\MySQL\MySQL Server 8.0\bin&gt;mysqldump.exe -uroot -p mall  -e --max_allowed_packet=67108864 --net_buffer_length=16384 &gt; mall.sql</code></pre><p>各个参数的意思：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;show variables like &#39;max_allowed_packet&#39;;</span><br><span class="line">mysql&gt;show variables like &#39;net_buffer_length&#39;;</span><br></pre></td></tr></table></figure>
+
+<p>2、根据参数值，在A数据库中使用 mysqldump 命令，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Program Files\MySQL\MySQL Server 8.0\bin&gt;mysqldump.exe -uroot -p mall  -e --max_allowed_packet&#x3D;67108864 --net_buffer_length&#x3D;16384 &gt; mall.sql</span><br></pre></td></tr></table></figure>
+
+<p>各个参数的意思：</p>
 <ul>
 <li><strong>-e</strong>： 使用包括几个VALUES列表的多行INSERT语法;</li>
 <li><strong>–max_allowed_packet=XXX</strong>：客户端/服务器之间通信的缓存区的最大大小;</li>
@@ -231,30 +244,35 @@ mysql&gt;show variables like &#39;net_buffer_length&#39;;</code></pre><p>2、根
 <p>注意：max_allowed_packet和net_buffer_length不能比目标数据库的设定数值 大，否则可能出错。</p>
 <p>3、登录数据库B，执行 source 命令导入</p>
 <hr>
-<h1 id="修改默认字符集"><a href="#修改默认字符集" class="headerlink" title="修改默认字符集"></a>修改默认字符集</h1><pre><code>ALTER DATABASE db_name CHARACTER SET utf8mb4;
-ALTER TABLE db_name DEFAULT CHARACTER SET utf8mb4;
-ALTER TABLE db_name CONVERT TO CHARACTER SET utf8mb4;</code></pre><hr>
-<h1 id="SQL的单表操作"><a href="#SQL的单表操作" class="headerlink" title="SQL的单表操作"></a>SQL的单表操作</h1><h2 id="SELECT"><a href="#SELECT" class="headerlink" title="SELECT"></a>SELECT</h2><p>从表里选择列</p>
-<pre><code class="SQL">SELECT column FROM table
+<h1 id="修改默认字符集"><a href="#修改默认字符集" class="headerlink" title="修改默认字符集"></a>修改默认字符集</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ALTER DATABASE db_name CHARACTER SET utf8mb4;</span><br><span class="line">ALTER TABLE db_name DEFAULT CHARACTER SET utf8mb4;</span><br><span class="line">ALTER TABLE db_name CONVERT TO CHARACTER SET utf8mb4;</span><br></pre></td></tr></table></figure>
 
-SELECT LastName,Address FROM Persons</code></pre>
+<hr>
+<h1 id="SQL的单表操作"><a href="#SQL的单表操作" class="headerlink" title="SQL的单表操作"></a>SQL的单表操作</h1><h2 id="SELECT"><a href="#SELECT" class="headerlink" title="SELECT"></a>SELECT</h2><p>从表里选择列</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">column</span> <span class="keyword">FROM</span> <span class="keyword">table</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> LastName,Address <span class="keyword">FROM</span> Persons</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h2 id="DISTINCT"><a href="#DISTINCT" class="headerlink" title="DISTINCT"></a>DISTINCT</h2><p>从表里选择列（不出现重复值）</p>
-<pre><code class="SQL">SELECT DISTINCT column FROM table</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> <span class="keyword">column</span> <span class="keyword">FROM</span> <span class="keyword">table</span></span><br></pre></td></tr></table></figure>
+
 <p>多列 DISTINCT</p>
-<pre><code class="SQL">SELECT DISTINCT column1, column2, column3 FROM table</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> column1, column2, column3 <span class="keyword">FROM</span> <span class="keyword">table</span></span><br></pre></td></tr></table></figure>
+
 <p>这里的 DISTINCT 是 column1, column2, column3 组合起来的去重，相当于：</p>
-<pre><code class="sql">SELECT column1, column2, column3 FROM table group by column1, column2, column3</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> column1, column2, column3 <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">group</span> <span class="keyword">by</span> column1, column2, column3</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h2 id="WHERE"><a href="#WHERE" class="headerlink" title="WHERE"></a>WHERE</h2><p>从表里中选择 city 列等于 Beijing 的所有行</p>
-<pre><code class="SQL">SELECT * FROM Persons WHERE city = &#39;Beijing&#39;</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Persons <span class="keyword">WHERE</span> city = <span class="string">'Beijing'</span></span><br></pre></td></tr></table></figure>
+
 <p>WHERE 语句中，<code>&lt;&gt;</code>或<code>!=</code>都可表示不等于，除了<code>=</code>、<code>&gt;</code>、<code>&lt;</code>、<code>&gt;=</code>、<code>&lt;=</code>之外，还可以用 <code>BETWEEN</code>（表示某个范围） 和 <code>LIKE</code>（搜索某种模式）。</p>
 <p><strong>注意</strong>：这里是使用 <strong>单引号</strong>，但是大部分数据库也接受双引号。如果是数值类型，不要加引号！</p>
 <hr>
 <h2 id="AND、OR"><a href="#AND、OR" class="headerlink" title="AND、OR"></a>AND、OR</h2><p>从表里中选择 FirstName 是’Thomas’ 并且 LastName 是 ‘Carter’ 的行</p>
-<pre><code class="SQL">SELECT * FROM Persons WHERE FirstName = &#39;Thomas&#39; AND LastName=&#39;Carter&#39;</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Persons <span class="keyword">WHERE</span> FirstName = <span class="string">'Thomas'</span> <span class="keyword">AND</span> LastName=<span class="string">'Carter'</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>注意</strong>：当既有 AND 又有 OR 的时候，SQL 默认先执行 AND，如果要让 OR 先执行，用括号括起来即可。</p>
-<pre><code class="SQL">SELECT * FROM product WHERE (id &gt; 3000 OR id &lt; 1000 ) AND price &gt; 50;</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> product <span class="keyword">WHERE</span> (<span class="keyword">id</span> &gt; <span class="number">3000</span> <span class="keyword">OR</span> <span class="keyword">id</span> &lt; <span class="number">1000</span> ) <span class="keyword">AND</span> price &gt; <span class="number">50</span>;</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h2 id="ORDER-BY-排列"><a href="#ORDER-BY-排列" class="headerlink" title="ORDER BY 排列"></a>ORDER BY 排列</h2><ul>
 <li>ASC 升序（小→大）（默认）</li>
@@ -262,7 +280,7 @@ SELECT LastName,Address FROM Persons</code></pre>
 </ul>
 <p>例1：</p>
 <p>优先以 Company 升序排列，然后以 OrderNumber 升序排列</p>
-<pre><code class="SQL">SELECT Company, OrderNumber FROM Orders ORDER BY Company,OrderNumber</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Company, OrderNumber <span class="keyword">FROM</span> Orders <span class="keyword">ORDER</span> <span class="keyword">BY</span> Company,OrderNumber</span><br></pre></td></tr></table></figure>
 <p>假设这是一个记录公司订购了多少数量的物品的表，Google公司订购了两次，先以 A - G - I 升序排列，然后在相同值Google的两次订购中以数字升序排列</p>
 <table>
 <thead>
@@ -290,13 +308,15 @@ SELECT LastName,Address FROM Persons</code></pre>
 </tbody></table>
 <p>例2：</p>
 <p>从商品表中根据id倒序取出前2个</p>
-<pre><code class="SQL">SELECT * FROM product ORDER BY id DESC LIMIT 2</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> product <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="keyword">id</span> <span class="keyword">DESC</span> <span class="keyword">LIMIT</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>MySql 是没有 top 关键字的，用 LIMIT 来完成相同功能。</li>
 </ul>
 <hr>
 <h2 id="INSERT-INTO"><a href="#INSERT-INTO" class="headerlink" title="INSERT INTO"></a>INSERT INTO</h2><h3 id="顺序依次插入"><a href="#顺序依次插入" class="headerlink" title="顺序依次插入"></a>顺序依次插入</h3><p>往 Person 表的1、2、3、4列依次填入值</p>
-<pre><code class="SQL">INSERT INTO Persons VALUES(&#39;Jerry&#39;,&quot;Sheh&quot;,&quot;Guangdong&quot;,&quot;China&quot;)</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Persons <span class="keyword">VALUES</span>(<span class="string">'Jerry'</span>,<span class="string">"Sheh"</span>,<span class="string">"Guangdong"</span>,<span class="string">"China"</span>)</span><br></pre></td></tr></table></figure>
+
 <p>那么在 Persons 表的最后一行会新增如下</p>
 <table>
 <thead>
@@ -315,55 +335,42 @@ SELECT LastName,Address FROM Persons</code></pre>
 </tr>
 </tbody></table>
 <h3 id="指定列插入"><a href="#指定列插入" class="headerlink" title="指定列插入"></a>指定列插入</h3><p>往 Person 表的 LastName 列插入 Wilson，Age列插入 18</p>
-<pre><code class="SQL">INSERT INTO Persons(LastName, Age) VALUES (&#39;Wilson&#39;, 18)</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Persons(LastName, Age) <span class="keyword">VALUES</span> (<span class="string">'Wilson'</span>, <span class="number">18</span>)</span><br></pre></td></tr></table></figure>
+
 <p>Firstname|LastName|Province|Country|Age<br>—|—|—|—|—|—<br> | |Wilson| | |18</p>
 <hr>
 <h2 id="UPDATE"><a href="#UPDATE" class="headerlink" title="UPDATE"></a>UPDATE</h2><p>修改 Persons表 中 LastName 是 Wilson 的 Address列 和 City列</p>
-<pre><code class="SQL">UPDATE Persons
-SET Address=&#39;Xueyuan Road&#39;,City=&#39;Zhongshan&#39;
-WHERE LastName=&#39;Wilson&#39;</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> Persons</span><br><span class="line"><span class="keyword">SET</span> Address=<span class="string">'Xueyuan Road'</span>,City=<span class="string">'Zhongshan'</span></span><br><span class="line"><span class="keyword">WHERE</span> LastName=<span class="string">'Wilson'</span></span><br></pre></td></tr></table></figure>
+
 <hr>
 <h2 id="DELETE"><a href="#DELETE" class="headerlink" title="DELETE"></a>DELETE</h2><p>删除某行</p>
-<pre><code class="SQL">DELETE FROM Persons
-WHERE LastName=&#39;Wilson&#39;</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> Persons</span><br><span class="line"><span class="keyword">WHERE</span> LastName=<span class="string">'Wilson'</span></span><br></pre></td></tr></table></figure>
+
 <p>删除所有行（表并没有被删除，结构、属性、索引都是完整的）</p>
-<pre><code class="SQL">DELETE * FROM table</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> * <span class="keyword">FROM</span> <span class="keyword">table</span></span><br></pre></td></tr></table></figure>
+
 <hr>
 <h2 id="TOP-LIMIT"><a href="#TOP-LIMIT" class="headerlink" title="TOP / LIMIT"></a>TOP / LIMIT</h2><p>显示前多少条</p>
-<pre><code class="SQL"># 显示前 2 条
-SELECT TOP 2 * FROM Persons
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示前 2 条</span></span><br><span class="line"><span class="keyword">SELECT</span> TOP <span class="number">2</span> * <span class="keyword">FROM</span> Persons</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示前50%，PERCENT表示百分比</span></span><br><span class="line"><span class="keyword">SELECT</span> TOP <span class="number">50</span> <span class="keyword">PERCENT</span> * <span class="keyword">FROM</span> Persons</span><br></pre></td></tr></table></figure>
 
-# 显示前50%，PERCENT表示百分比
-SELECT TOP 50 PERCENT * FROM Persons</code></pre>
 <ul>
 <li>SQL Server 可用 TOP ，但 MySQL 不行，用 limit 代替。</li>
 </ul>
-<pre><code class="sql"># 显示前 2 条
-SELECT * FROM Persons
-LIMIT 2
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示前 2 条</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Persons</span><br><span class="line"><span class="keyword">LIMIT</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 从第 6+1 行开始，显示 2 条</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Persons</span><br><span class="line"><span class="keyword">LIMIT</span> <span class="number">6</span>,<span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 从第 6+1 行开始，显示 2 条</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Persons</span><br><span class="line"><span class="keyword">LIMIT</span> <span class="number">2</span> <span class="keyword">offset</span> <span class="number">6</span></span><br></pre></td></tr></table></figure>
 
-# 从第 6+1 行开始，显示 2 条
-SELECT * FROM Persons
-LIMIT 6,2
-
-# 从第 6+1 行开始，显示 2 条
-SELECT * FROM Persons
-LIMIT 2 offset 6</code></pre>
 <ul>
 <li><strong>注意</strong>：LIMIT 用 逗号 和 用 offset 是相反的。</li>
 </ul>
 <hr>
 <h2 id="LIKE"><a href="#LIKE" class="headerlink" title="LIKE"></a>LIKE</h2><p>在 WHERE 子句中搜索列中的指定模式</p>
-<pre><code class="SQL">SELECT * FROM Persons
-WHERE city
-LIKE &#39;%N&#39;</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Persons</span><br><span class="line"><span class="keyword">WHERE</span> city</span><br><span class="line"><span class="keyword">LIKE</span> <span class="string">'%N'</span></span><br></pre></td></tr></table></figure>
+
 <p>同理，<code>NOT LIKE</code>是不包含</p>
 <p>符号 <code>%</code> 定义了通配符：<code>N%</code>表示以N开头， <code>%g</code>表示以g结尾，<code>%lon%</code>表示包含lon</p>
 <p>模糊查询例子：</p>
 <p>选出商品表中，标签包含 “爱情” 的</p>
-<pre><code class="SQL">SELECT * FROM product
-WHERE tags
-like &#39;%爱情%&#39;</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> product</span><br><span class="line"><span class="keyword">WHERE</span> tags</span><br><span class="line"><span class="keyword">like</span> <span class="string">'%爱情%'</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="SQL-通配符"><a href="#SQL-通配符" class="headerlink" title="SQL 通配符"></a>SQL 通配符</h3><ul>
 <li><strong><code>%</code></strong> ：代替一个或多个字符</li>
 <li><strong><code>_</code></strong> ：代替一个字符</li>
@@ -371,44 +378,33 @@ like &#39;%爱情%&#39;</code></pre>
 <li><strong>[^charlist]</strong> 或 <strong>[!charlist]</strong> ：非字符列中的任何单一字符</li>
 </ul>
 <p>选取 c 开头，然后一个任意字符，然后 r，然后任意字符，最后 er</p>
-<pre><code class="SQL">SELECT * FROM Persons
-Where LastName
-LIKE `c_r_er`</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Persons</span><br><span class="line"><span class="keyword">Where</span> LastName</span><br><span class="line"><span class="keyword">LIKE</span> <span class="string">`c_r_er`</span></span><br></pre></td></tr></table></figure>
+
 <p>选取以 A 或者 L 或者 N 开头</p>
-<pre><code class="SQL">SELECT * FROM Persons
-Where LastName
-LIKE `[ALN]%`</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Persons</span><br><span class="line"><span class="keyword">Where</span> LastName</span><br><span class="line"><span class="keyword">LIKE</span> <span class="string">`[ALN]%`</span></span><br></pre></td></tr></table></figure>
 <hr>
 <h2 id="IN"><a href="#IN" class="headerlink" title="IN"></a>IN</h2><p>在 Persons 表中选取姓氏为 Adams 和 Carter 的人</p>
-<pre><code class="sql">SELECT * FROM Persons
-Where LastName
-IN (&#39;Adams&#39;,&#39;Carter&#39;)</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Persons</span><br><span class="line"><span class="keyword">Where</span> LastName</span><br><span class="line"><span class="keyword">IN</span> (<span class="string">'Adams'</span>,<span class="string">'Carter'</span>)</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h2 id="BETWEEN"><a href="#BETWEEN" class="headerlink" title="BETWEEN"></a>BETWEEN</h2><p>选取介于两个值之间的数据范围 （数值、文本、日期）</p>
-<pre><code class="sql">SELECT * FROM Persons
-Where LastName
-BETWEEN &#39;Adams&#39; AND &#39;Carter&#39;</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Persons</span><br><span class="line"><span class="keyword">Where</span> LastName</span><br><span class="line"><span class="keyword">BETWEEN</span> <span class="string">'Adams'</span> <span class="keyword">AND</span> <span class="string">'Carter'</span></span><br></pre></td></tr></table></figure>
+
 <ul>
 <li><code>NOT BETWEEN</code>，不在某范围内</li>
 <li>不同数据库 BETWEEN…AND… 包括的范围可能不一样</li>
 </ul>
 <hr>
 <h1 id="多表操作"><a href="#多表操作" class="headerlink" title="多表操作"></a>多表操作</h1><h2 id="ALIAS-（AS）"><a href="#ALIAS-（AS）" class="headerlink" title="ALIAS （AS）"></a>ALIAS （AS）</h2><p>ALIAS 用于给列名或表名指定“别名”，方便阅读。</p>
-<pre><code class="SQL">SELECT o.OrderId, p.LastName
-FROM Persons AS p, Orders AS o
-WHERE p.LastName = &quot;Adams&quot;</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> o.OrderId, p.LastName</span><br><span class="line"><span class="keyword">FROM</span> Persons <span class="keyword">AS</span> p, Orders <span class="keyword">AS</span> o</span><br><span class="line"><span class="keyword">WHERE</span> p.LastName = <span class="string">"Adams"</span></span><br></pre></td></tr></table></figure>
+
 <hr>
 <h2 id="JOIN"><a href="#JOIN" class="headerlink" title="JOIN"></a>JOIN</h2><p>将 Persons表 和 Orders表 的 Id_p 列关联起来</p>
-<pre><code class="sql">SELECT Persons.LastName, Persons.FirstName, Orders.OrderNo
-FROM Persons
-INNER JOIN Orders
-ON Person.Id_p = Orders.Id_p
-ORDER BY Person.LastName</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Persons.LastName, Persons.FirstName, Orders.OrderNo</span><br><span class="line"><span class="keyword">FROM</span> Persons</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Orders</span><br><span class="line"><span class="keyword">ON</span> Person.Id_p = Orders.Id_p</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> Person.LastName</span><br></pre></td></tr></table></figure>
+
 <p>记住，SELECT 要选多个表而且有 JOIN 时， FROM 一个表， JOIN 一个表，不要都写在 FROM 里。</p>
-<pre><code class="sql">SELECT p.FirstName, p.LastName, a.City, a.State
-FROM Person as p
-LEFT JOIN Address as a
-ON p.PersonId = a.PersonId</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> p.FirstName, p.LastName, a.City, a.State</span><br><span class="line"><span class="keyword">FROM</span> Person <span class="keyword">as</span> p</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> Address <span class="keyword">as</span> a</span><br><span class="line"><span class="keyword">ON</span> p.PersonId = a.PersonId</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li><strong>JOIN</strong> 或 <strong>INNER JOIN</strong>：有匹配时才显示</li>
 <li><strong>LEFT JOIN</strong>：即使右表没有匹配，也从左表返回所有行</li>
@@ -416,36 +412,27 @@ ON p.PersonId = a.PersonId</code></pre>
 <li><strong>FULL JOIN</strong> ：返回左右表中所有的行，即使另一边没有匹配</li>
 </ul>
 <p>注意：MySQL不支持 FULL JOIN，可以用 <code>UNION</code> 联合 LEFT JOIN 和 RIGHT JOIN，如果需要重复行，用 <code>UNION ALL</code></p>
-<pre><code class="sql">SELECT p.FirstName, p.LastName, o.OrderNo
-FROM persons AS p
-LEFT JOIN Orders AS o
-ON p.Id_p = o.Id_p
-UNION
-SELECT p.FirstName, p.LastName, o.OrderNo
-FROM persons AS p
-RIGHT JOIN Orders AS o
-ON p.Id_p = o.Id_p</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> p.FirstName, p.LastName, o.OrderNo</span><br><span class="line"><span class="keyword">FROM</span> persons <span class="keyword">AS</span> p</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> Orders <span class="keyword">AS</span> o</span><br><span class="line"><span class="keyword">ON</span> p.Id_p = o.Id_p</span><br><span class="line"><span class="keyword">UNION</span></span><br><span class="line"><span class="keyword">SELECT</span> p.FirstName, p.LastName, o.OrderNo</span><br><span class="line"><span class="keyword">FROM</span> persons <span class="keyword">AS</span> p</span><br><span class="line"><span class="keyword">RIGHT</span> <span class="keyword">JOIN</span> Orders <span class="keyword">AS</span> o</span><br><span class="line"><span class="keyword">ON</span> p.Id_p = o.Id_p</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h2 id="UNION"><a href="#UNION" class="headerlink" title="UNION"></a>UNION</h2><p>合并两个或多个 SELECT 语句的结果集</p>
 <p>合并两个表的员工名字，如果名字一样，只出现一次（UNION有去重功能，不想去重，可以用 <code>UNION ALL</code>）</p>
-<pre><code class="SQL">SELECT E_Name FROM Employees_China
-UNION
-SELECT E_Name FROM Employees_USA</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> E_Name <span class="keyword">FROM</span> Employees_China</span><br><span class="line"><span class="keyword">UNION</span></span><br><span class="line"><span class="keyword">SELECT</span> E_Name <span class="keyword">FROM</span> Employees_USA</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="GROUP-BY"><a href="#GROUP-BY" class="headerlink" title="GROUP BY"></a>GROUP BY</h1><p>根据一个或多个列对结果集进行分组</p>
-<pre><code class="SQL">SELECT Customer,SUM(OrderPrice) FROM Orders
-GROUP BY Customer</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Customer,<span class="keyword">SUM</span>(OrderPrice) <span class="keyword">FROM</span> Orders</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> Customer</span><br></pre></td></tr></table></figure>
+
 <p>有了 GROUP BY 之后 ，SUM 是以 Customer 分组，对每一组的OrderPrice记录进行计算，而不是表中全部的OrderPrice记录。</p>
 <hr>
 <h1 id="HAVING"><a href="#HAVING" class="headerlink" title="HAVING"></a>HAVING</h1><p>HAVING 通常与 GROUP BY 和 函数 一起使用。</p>
 <p>找出成绩全部大于80分的学生学号</p>
-<pre><code class="sql">SELECT number
-FROM grade
-GROUP BY number
-HAVING MIN(grade.grade &gt; 80)</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">number</span></span><br><span class="line"><span class="keyword">FROM</span> grade</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="built_in">number</span></span><br><span class="line"><span class="keyword">HAVING</span> <span class="keyword">MIN</span>(grade.grade &gt; <span class="number">80</span>)</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h2 id="SELECT-INTO等"><a href="#SELECT-INTO等" class="headerlink" title="SELECT INTO等"></a>SELECT INTO等</h2><p>从一张表选择数据，然后插入到另一张表里（常用于创建表的备份附件，或者用于对记录进行存档）</p>
-<pre><code class="SQL">SELECT * INTO new_table FROM old_table</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">INTO</span> new_table <span class="keyword">FROM</span> old_table</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>可结合 <code>WHERE</code> 或者 <code>JOIN</code> 使用</li>
 </ul>
@@ -496,16 +483,16 @@ HAVING MIN(grade.grade &gt; 80)</code></pre>
 </tbody></table>
 <hr>
 <h1 id="MySQL-函数"><a href="#MySQL-函数" class="headerlink" title="MySQL 函数"></a>MySQL 函数</h1><h2 id="Concat"><a href="#Concat" class="headerlink" title="Concat"></a>Concat</h2><p>用来拼接字段</p>
-<pre><code class="sql">SELECT Concat( name, &#39;(&#39;, age ,&quot;)&quot;)
-FROM People
-WHERE age &gt; 18</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">Concat</span>( <span class="keyword">name</span>, <span class="string">'('</span>, age ,<span class="string">")"</span>)</span><br><span class="line"><span class="keyword">FROM</span> People</span><br><span class="line"><span class="keyword">WHERE</span> age &gt; <span class="number">18</span></span><br></pre></td></tr></table></figure>
+
 <p>输出：</p>
-<pre><code>小明（18）
-小白（20）
-Jerry（23）</code></pre><h2 id="Upper"><a href="#Upper" class="headerlink" title="Upper"></a>Upper</h2><p>转换成大写</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">小明（18）</span><br><span class="line">小白（20）</span><br><span class="line">Jerry（23）</span><br></pre></td></tr></table></figure>
+
+<h2 id="Upper"><a href="#Upper" class="headerlink" title="Upper"></a>Upper</h2><p>转换成大写</p>
 <hr>
 <h1 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h1><h2 id="CREATE-DATABASE"><a href="#CREATE-DATABASE" class="headerlink" title="CREATE DATABASE"></a>CREATE DATABASE</h2><p>创建数据库</p>
-<pre><code class="SQL">CREATE DATABASE mydb</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> mydb</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>在 MYSQL 中， 也可以用 <code>CREATE SCHEMA mydb</code></li>
 </ul>
@@ -514,45 +501,29 @@ Jerry（23）</code></pre><h2 id="Upper"><a href="#Upper" class="headerlink" tit
 <p>CREATE DATABASE creates a database with the given name.<br>To use this statement, you need the CREATE privilege for the database.<br>CREATE SCHEMA is a synonym for CREATE DATABASE as of MySQL 5.0.2.</p>
 </blockquote>
 <h2 id="CREATE-TABLE"><a href="#CREATE-TABLE" class="headerlink" title="CREATE TABLE"></a>CREATE TABLE</h2><p>创建表</p>
-<pre><code class="SQL">CREATE TABLE Persons
-(
-  Id_p int AUTO_INCREMENT,
-  LastName varchar(255),
-  FirstName varchar(255),
-  Address Varchar(255),
-) DEFAULT CHARSET=utf8;</code></pre>
-<h2 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h2><h3 id="属性约束"><a href="#属性约束" class="headerlink" title="属性约束"></a>属性约束</h3><pre><code class="SQL">CREATE TABLE Persons
-(
-  Id_p int NOT NULL,
-  LastName varchar(255),
-  ...
-)</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Persons</span><br><span class="line">(</span><br><span class="line">  Id_p <span class="built_in">int</span> AUTO_INCREMENT,</span><br><span class="line">  LastName <span class="built_in">varchar</span>(<span class="number">255</span>),</span><br><span class="line">  FirstName <span class="built_in">varchar</span>(<span class="number">255</span>),</span><br><span class="line">  Address <span class="built_in">Varchar</span>(<span class="number">255</span>),</span><br><span class="line">) <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br></pre></td></tr></table></figure>
+
+<h2 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h2><h3 id="属性约束"><a href="#属性约束" class="headerlink" title="属性约束"></a>属性约束</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Persons</span><br><span class="line">(</span><br><span class="line">  Id_p <span class="built_in">int</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  LastName <span class="built_in">varchar</span>(<span class="number">255</span>),</span><br><span class="line">  ...</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li><strong>NOT NULL</strong>: 不接受NULL值</li>
 <li><strong>UNIQUE</strong>:为列或者列集合提供唯一性保证</li>
 <li><strong>PRIMARY KEY</strong>：主键</li>
 </ul>
-<h3 id="CHECK约束"><a href="#CHECK约束" class="headerlink" title="CHECK约束"></a>CHECK约束</h3><pre><code class="sql">CREATE TABLE Persons
-(
-  Id_p int NOT NULL CHECK (Id_p &gt; 0),
-  LastName varchar(255) NOT NULL,
-  ...
-)</code></pre>
-<h3 id="CHECK约束-1"><a href="#CHECK约束-1" class="headerlink" title="CHECK约束"></a>CHECK约束</h3><pre><code class="SQL">CREATE TABLE Persons
-(
-  ...
-  CONSTRAINT CHK_Persons CHECK (Id_p &gt; 0 AND City=&#39;Sandnes&#39;)
-)</code></pre>
+<h3 id="CHECK约束"><a href="#CHECK约束" class="headerlink" title="CHECK约束"></a>CHECK约束</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Persons</span><br><span class="line">(</span><br><span class="line">  Id_p <span class="built_in">int</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">CHECK</span> (Id_p &gt; <span class="number">0</span>),</span><br><span class="line">  LastName <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  ...</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="CHECK约束-1"><a href="#CHECK约束-1" class="headerlink" title="CHECK约束"></a>CHECK约束</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Persons</span><br><span class="line">(</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">CONSTRAINT</span> CHK_Persons <span class="keyword">CHECK</span> (Id_p &gt; <span class="number">0</span> <span class="keyword">AND</span> City=<span class="string">'Sandnes'</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
 <p>如果表已经存在，新增 CHECK 约束，用</p>
-<pre><code class="sql">ALTER table Persons
-    ADD CHECK (ip_p &gt; 0)</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">table</span> Persons</span><br><span class="line">    <span class="keyword">ADD</span> <span class="keyword">CHECK</span> (ip_p &gt; <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
 <h3 id="DEFAULT约束"><a href="#DEFAULT约束" class="headerlink" title="DEFAULT约束"></a>DEFAULT约束</h3><p>设置默认值</p>
 <hr>
-<h2 id="CREATE-INDEX-创建索引"><a href="#CREATE-INDEX-创建索引" class="headerlink" title="CREATE INDEX 创建索引"></a>CREATE INDEX 创建索引</h2><pre><code class="sql">CREATE UNIQUE INDEX index_name
-ON table_name(column_name)</code></pre>
+<h2 id="CREATE-INDEX-创建索引"><a href="#CREATE-INDEX-创建索引" class="headerlink" title="CREATE INDEX 创建索引"></a>CREATE INDEX 创建索引</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> <span class="keyword">INDEX</span> index_name</span><br><span class="line"><span class="keyword">ON</span> table_name(column_name)</span><br></pre></td></tr></table></figure>
+
 <hr>
-<h2 id="DROP-撤销操作"><a href="#DROP-撤销操作" class="headerlink" title="DROP 撤销操作"></a>DROP 撤销操作</h2><h2 id="ALTER-在已有表-添加-修改-删除-列"><a href="#ALTER-在已有表-添加-修改-删除-列" class="headerlink" title="ALTER 在已有表 添加/修改/删除 列"></a>ALTER 在已有表 添加/修改/删除 列</h2><pre><code class="sql">ALTER TABLE table_name
-ADD column_name datatype</code></pre>
+<h2 id="DROP-撤销操作"><a href="#DROP-撤销操作" class="headerlink" title="DROP 撤销操作"></a>DROP 撤销操作</h2><h2 id="ALTER-在已有表-添加-修改-删除-列"><a href="#ALTER-在已有表-添加-修改-删除-列" class="headerlink" title="ALTER 在已有表 添加/修改/删除 列"></a>ALTER 在已有表 添加/修改/删除 列</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name</span><br><span class="line"><span class="keyword">ADD</span> column_name datatype</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="实战一"><a href="#实战一" class="headerlink" title="实战一"></a>实战一</h1><p>有两张表，学生表和成绩表。</p>
 <p><img src="../../../../images/SQL/student_grade.png" alt=""></p>
@@ -560,40 +531,23 @@ ADD column_name datatype</code></pre>
 <p>方法一：用 HAVING + 函数</p>
 <ol>
 <li>先用 join 把两张表连起来</li>
-<li>用 group by 分组，分组条件是 分数大于 80<pre><code class="SQL">SELECT s.name
-FROM student AS s
-JOIN grade AS g ON s.number = g.number
-GROUP BY s.`name`
-HAVING MIN(grade) &gt; 80</code></pre>
+<li>用 group by 分组，分组条件是 分数大于 80<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> s.name</span><br><span class="line"><span class="keyword">FROM</span> student <span class="keyword">AS</span> s</span><br><span class="line"><span class="keyword">JOIN</span> grade <span class="keyword">AS</span> g <span class="keyword">ON</span> s.number = g.number</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> s.<span class="string">`name`</span></span><br><span class="line"><span class="keyword">HAVING</span> <span class="keyword">MIN</span>(grade) &gt; <span class="number">80</span></span><br></pre></td></tr></table></figure>
+
 </li>
 </ol>
 <p>方法二：用 WHERE + NOT IN</p>
-<pre><code class="SQL">SELECT DISTINCT s.name
-FROM student AS s
-JOIN grade AS g
-ON s.number = g.number
-WHERE s.number
-NOT IN
-(SELECT g.number
-FROM grade AS g
-WHERE g.grade &lt; 80)</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> s.name</span><br><span class="line"><span class="keyword">FROM</span> student <span class="keyword">AS</span> s</span><br><span class="line"><span class="keyword">JOIN</span> grade <span class="keyword">AS</span> g</span><br><span class="line"><span class="keyword">ON</span> s.number = g.number</span><br><span class="line"><span class="keyword">WHERE</span> s.number</span><br><span class="line"><span class="keyword">NOT</span> <span class="keyword">IN</span></span><br><span class="line">(<span class="keyword">SELECT</span> g.number</span><br><span class="line"><span class="keyword">FROM</span> grade <span class="keyword">AS</span> g</span><br><span class="line"><span class="keyword">WHERE</span> g.grade &lt; <span class="number">80</span>)</span><br></pre></td></tr></table></figure>
+
 <p>求所有人成绩的平均分</p>
-<pre><code class="SQL">SELECT s.name AS name, AVG(g.grade) AS avg
-FROM student AS s
-JOIN grade AS g
-ON s.number = g.number
-GROUP BY s.name</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> s.name <span class="keyword">AS</span> <span class="keyword">name</span>, <span class="keyword">AVG</span>(g.grade) <span class="keyword">AS</span> <span class="keyword">avg</span></span><br><span class="line"><span class="keyword">FROM</span> student <span class="keyword">AS</span> s</span><br><span class="line"><span class="keyword">JOIN</span> grade <span class="keyword">AS</span> g</span><br><span class="line"><span class="keyword">ON</span> s.number = g.number</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> s.name</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="实战二"><a href="#实战二" class="headerlink" title="实战二"></a>实战二</h1><p>查找表中多余的重复记录，重复记录是根据单个字段（peopleId）来判断</p>
-<pre><code class="sql">SELECT * FROM people
-WHERE peopleId IN (SELECT  peopleId  FROM  people  GROUP  BY      
-                  peopleId  HAVING  count(peopleId) &gt; 1)</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> people</span><br><span class="line"><span class="keyword">WHERE</span> peopleId <span class="keyword">IN</span> (<span class="keyword">SELECT</span>  peopleId  <span class="keyword">FROM</span>  people  <span class="keyword">GROUP</span>  <span class="keyword">BY</span>      </span><br><span class="line">                  peopleId  <span class="keyword">HAVING</span>  <span class="keyword">count</span>(peopleId) &gt; <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="实战三"><a href="#实战三" class="headerlink" title="实战三"></a>实战三</h1><p>JOIN 两张表，右表只取一条记录</p>
-<pre><code class="sql">SELECT a.name b.num
-FROM lefttable as a
-JOIN (SELECT num FROM righttable GROUP BY num) as b
-ON a.name = b.num</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a.name b.num</span><br><span class="line"><span class="keyword">FROM</span> lefttable <span class="keyword">as</span> a</span><br><span class="line"><span class="keyword">JOIN</span> (<span class="keyword">SELECT</span> <span class="keyword">num</span> <span class="keyword">FROM</span> righttable <span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="keyword">num</span>) <span class="keyword">as</span> b</span><br><span class="line"><span class="keyword">ON</span> a.name = b.num</span><br></pre></td></tr></table></figure>
 
         </div>
         
@@ -682,7 +636,7 @@ ON a.name = b.num</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -694,7 +648,7 @@ ON a.name = b.num</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -706,7 +660,7 @@ ON a.name = b.num</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -1023,25 +977,25 @@ ON a.name = b.num</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -1055,6 +1009,14 @@ ON a.name = b.num</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -1063,20 +1025,20 @@ ON a.name = b.num</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -1108,7 +1070,7 @@ ON a.name = b.num</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -1116,7 +1078,15 @@ ON a.name = b.num</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -1151,6 +1121,25 @@ ON a.name = b.num</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1181,7 +1170,7 @@ ON a.name = b.num</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1218,25 +1207,6 @@ ON a.name = b.num</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1302,6 +1272,25 @@ ON a.name = b.num</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1332,7 +1321,7 @@ ON a.name = b.num</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1369,25 +1358,6 @@ ON a.name = b.num</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1450,7 +1420,7 @@ ON a.name = b.num</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1504,7 +1474,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

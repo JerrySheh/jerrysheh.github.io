@@ -34,7 +34,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -128,6 +128,77 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-03-31T13:20:17.000Z">2018-03-31</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 分钟 读完 (大约 1948 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/e753fbbb.html">Java简明笔记（十四）反射机制</a>
+            
+        </h1>
+        <div class="content">
+            <p>Java 是完全面向对象语言。事实上，我们创建的每一个类，其实也是对象，称为<code>类对象</code>。类对象提供了类的元信息，比如这个类有几种构造方法，有多少个属性，有哪些普通方法等。</p>
+<p><img src="../../../../images/Java/metaobject.png" alt="meta"></p>
+<p>Java反射机制主要提供了以下功能：</p>
+<ul>
+<li>在运行时判断任意一个对象所属的类；</li>
+<li>在运行时构造任意一个类的对象；</li>
+<li>在运行时判断任意一个类所具有的成员变量和方法；</li>
+<li>在运行时调用任意一个对象的方法；生成动态代理。</li>
+</ul>
+<hr>
+<h1 id="普通对象-VS-类对象"><a href="#普通对象-VS-类对象" class="headerlink" title="普通对象 VS 类对象"></a>普通对象 VS 类对象</h1><p>假设我们定义两个类， student类和teacher类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">student</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> studentID;</span><br><span class="line">    String name;</span><br><span class="line">    String classroom;</span><br><span class="line"></span><br><span class="line">    student()&#123;</span><br><span class="line">        <span class="comment">//构造方法</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//以及一些其他方法</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">student Jerry = <span class="keyword">new</span> student();</span><br><span class="line">student Calm = <span class="keyword">new</span> student();</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">teacher</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> teacherID;</span><br><span class="line">    String name;</span><br><span class="line">    <span class="keyword">long</span> phoneNumber;</span><br><span class="line"></span><br><span class="line">    teacher()&#123;</span><br><span class="line">        <span class="comment">//构造方法</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//以及一些其他方法</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">teacher Luohao = <span class="keyword">new</span> teacher();</span><br><span class="line">teacher YangLiang = <span class="keyword">new</span> teacher();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Jerry 和 Calm 都是 student 类的对象，他们的区别在于：有不同的studentID，name…  </li>
+<li>Luohao 和 YangLiang 都是 teacher 类的对象，他们的区别跟 Jerry 和 Calm的区别类似，有不同的teacherID,不同的name…</li>
+</ul>
+<p>然后，我们说 student 和 teacher 都是一个类，他们的区别在于，有不同的属性和方法。</p>
+<p>所谓类对象，就是用于描述这种类，都有什么属性，什么方法的对象。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/e753fbbb.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2018-03-30T08:08:54.000Z">2018-03-30</time>
                 
                 <div class="level-item">
@@ -163,111 +234,43 @@
 <h2 id="无状态对象-安全"><a href="#无状态对象-安全" class="headerlink" title="无状态对象 - 安全"></a>无状态对象 - 安全</h2><p><strong>无状态对象一定是线程安全的</strong>。比如一个 Servlet , 从 Request 从提取数值，执行计算，然后封装到 Response 中。每个收到要计算的 Servlet 线程实例都是自己算自己的，没有跟其他线程的 Servlet 实例共享状态。因此，它是线程安全的。</p>
 <h2 id="有状态对象-原子性问题（竞争条件）"><a href="#有状态对象-原子性问题（竞争条件）" class="headerlink" title="有状态对象 - 原子性问题（竞争条件）"></a>有状态对象 - 原子性问题（竞争条件）</h2><p>但假设多个 Servlet 之间，要处理共享的一个变量，由于这个变量值是会变的，我们称之为“状态”，又由于这个“状态”可以被多个线程同时读写，我们称之为“共享状态”。这时候多个 Servlet 实例就会产生竞争条件。<font color="red">所谓竞争条件，是指由不恰当的执行时序导致的出现不正确的结果</font>，最常见的竞态条件就是“先观察后执行”，问题就出在观察的值可能是错的。</p>
 <h3 id="竞争条件例子1：计数器"><a href="#竞争条件例子1：计数器" class="headerlink" title="竞争条件例子1：计数器"></a>竞争条件例子1：计数器</h3><p>例如要统计网站访问总人数，用一个 count 共享变量来表示。如下所示：</p>
-<pre><code class="java">// count 是共享变量
-private static long count = 0;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// count 是共享变量</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">long</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getCount</span><span class="params">()</span></span>&#123; <span class="keyword">return</span> count; &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span> <span class="params">(ServletRequest req, ServletResponse resp)</span> </span>&#123;</span><br><span class="line">  <span class="comment">//do something</span></span><br><span class="line">  ++count; <span class="comment">// 线程不安全</span></span><br><span class="line">  <span class="comment">//do something</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-public long getCount(){ return count; }
-
-public void service (ServletRequest req, ServletResponse resp) {
-  //do something
-  ++count; // 线程不安全
-  //do something
-}</code></pre>
 <p>使用 Intellij IDEA 的 jclasslib 插件，可以看到上述 service 方法翻译成JVM字节码后如下：</p>
-<pre><code class="java">0 getstatic #2 &lt;Test/AtomicTest.count&gt; // 获取常量
-3 lconst_1                             //将 long 类型的常量添加进操作栈
-4 ladd                                 // +1
-5 putstatic #2 &lt;Test/AtomicTest.count&gt; // 常量写回
-8 return</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">0 getstatic #2 &lt;Test/AtomicTest.count&gt; // 获取常量</span><br><span class="line"><span class="number">3</span> lconst_1                             <span class="comment">//将 long 类型的常量添加进操作栈</span></span><br><span class="line"><span class="number">4</span> ladd                                 <span class="comment">// +1</span></span><br><span class="line">5 putstatic #2 &lt;Test/AtomicTest.count&gt; // 常量写回</span><br><span class="line"><span class="number">8</span> <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
 <p>可见 ++count 并非原子操作，它实际上包含 读取 count 的值、计算加一、计算结果写回 count 三个操作（即复合操作）。因此，有可能出现当线程A观察 count 的值，发现为 5，并对其加一，此时线程B观察 count 的值，也发现为 5，并对其加一，之后线程A计算结果将6写回count，线程B也将6写回count。我们预期结果是7，但实际上却是6。这就是竞争条件带来的原子性问题。</p>
 <h3 id="竞争条件例子2：延迟初始化"><a href="#竞争条件例子2：延迟初始化" class="headerlink" title="竞争条件例子2：延迟初始化"></a>竞争条件例子2：延迟初始化</h3><p>延迟初始化是指将对象的初始化操作推迟到实际被使用时才进行。</p>
-<pre><code class="java">public class lazyInitRace{
-    // 当类被加载，先不初始化
-    private ExpensiveObject instance = null;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">lazyInitRace</span></span>&#123;</span><br><span class="line">    <span class="comment">// 当类被加载，先不初始化</span></span><br><span class="line">    <span class="keyword">private</span> ExpensiveObject instance = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//当第一次被使用时，才初始化</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ExpensiveObject <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">// 如果第一次被使用发现为 null，先初始化</span></span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">this</span>.instance = <span class="keyword">new</span> ExpensiveObject();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 第二次之后直接返回该对象</span></span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    //当第一次被使用时，才初始化
-    public ExpensiveObject getInstance(){
-        // 如果第一次被使用发现为 null，先初始化
-        if (instance == null){
-            this.instance = new ExpensiveObject();
-        }
-        // 第二次之后直接返回该对象
-        return instance;
-    }
-}</code></pre>
 <p>假如线程A和线程B同时执行<code>getInstance()</code>方法，线程A观察到 instance 为 null，于是 new 一个实例，由于 new 不是一个原子操作，在 new 还没完成时，instance仍然为null，此时时间片切换到线程B，B也观察到 instance 为 null，又 new 了一个实例。</p>
 <p>竞争条件并不总会发生错误，但在某种不恰当的执行时序下，可能会出错。因此是线程不安全的。</p>
 <h2 id="使用-atomic-原子类解决原子性问题"><a href="#使用-atomic-原子类解决原子性问题" class="headerlink" title="使用 atomic 原子类解决原子性问题"></a>使用 atomic 原子类解决原子性问题</h2><p>在 java.util.concurrent.atomic 包中包含了一些原子变量类，可以提供原子操作。只需把 count 的类型从 <code>long</code> 改为 <code>Atomiclong</code>。在程序员的角度，可以认为 Atomiclong 把上述 读取 count 的值、计算加一、计算结果写回 count 这三个操作，合并成一个原子操作。这跟数据库的事务有点类似。</p>
-<pre><code class="java"> // count 是共享变量
-private Atomiclong count = new AtomicLong(0);
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// count 是共享变量</span></span><br><span class="line"><span class="keyword">private</span> Atomiclong count = <span class="keyword">new</span> AtomicLong(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getCount</span><span class="params">()</span></span>&#123; <span class="keyword">return</span> count.get(); &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span> <span class="params">(ServletRequest req, ServletResponse resp)</span> </span>&#123;</span><br><span class="line">  <span class="comment">//do something</span></span><br><span class="line">  count.incrementAndGet(); <span class="comment">// 线程安全</span></span><br><span class="line">  <span class="comment">//do something</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-public long getCount(){ return count.get(); }
-
-public void service (ServletRequest req, ServletResponse resp) {
-  //do something
-  count.incrementAndGet(); // 线程安全
-  //do something
-}</code></pre>
 <p>像这样，<font color="red">当一个对象只有一个“状态”时，将该状态交给如 Atomiclong 这类线程安全对象来管理，那么这个类仍然是线程安全的</font>。但并不是添加多个这样的安全对象，程序就线程安全了。当对象不止有一个“状态”时，或者说，涉及多个状态变量时，各个变量之间有时候并不是彼此独立，而是某个变量的值会对其他变量产生影响。这时候修改一个原子变量的同时，也要更新另一个原子变量。这种情况 Atomic 原子类是无法解决的，只能用下文将提到的加锁机制了。</p>
 <h3 id="深入：atomic原子类为什么可以保证原子性？"><a href="#深入：atomic原子类为什么可以保证原子性？" class="headerlink" title="深入：atomic原子类为什么可以保证原子性？"></a>深入：atomic原子类为什么可以保证原子性？</h3><p>atomic原子类底层是用非阻塞并发算法实现的。具体是用了 CAS 算法。<strong>CAS指的是比较并交换(compare and swap)</strong>。它包含三个数：需要读写的内存位置V、进行比较的值A、拟写入的新值B。当 V 和 A 相等时，才将 V 的值更新为 B。无论是否更新成功，都返回当前内存位置 V 值。</p>
 <p>可以这样理解CAS：我认为 V 的值应该为 A，如果是，那么将 V 的值更新为 B，否则不修改并告诉 V 的值实际为多少。</p>
 <p>因此，当多个线程并发修改atomic原子变量时，可能的情况为：</p>
-<pre><code>线程A：观察 V 的值，发现为 5
-线程A：进行加一操作（得到6）
-线程B：观察 V，也发现为 5
-线程B：进行加一操作（得到6）
-线程A：再次观察 V 的值，看看是不是预期值5，发现是，就把加一后的值 6 写回 V
-线程B：再次观察 V 的值，看看是不是预期值5，发现不是，不写回，重试
-线程B：观察 V 的值，发现为 6
-线程B：进行加一操作（得到7）
-线程B：再次观察 V 的值，看看是不是预期值6，发现是，就把加一后的值 7 写回 V</code></pre><p>关于atomic原子类可参考另一篇：<a href="../post/a23f9c20.html">Java并发编程之并发工具</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">线程A：观察 V 的值，发现为 5</span><br><span class="line">线程A：进行加一操作（得到6）</span><br><span class="line">线程B：观察 V，也发现为 5</span><br><span class="line">线程B：进行加一操作（得到6）</span><br><span class="line">线程A：再次观察 V 的值，看看是不是预期值5，发现是，就把加一后的值 6 写回 V</span><br><span class="line">线程B：再次观察 V 的值，看看是不是预期值5，发现不是，不写回，重试</span><br><span class="line">线程B：观察 V 的值，发现为 6</span><br><span class="line">线程B：进行加一操作（得到7）</span><br><span class="line">线程B：再次观察 V 的值，看看是不是预期值6，发现是，就把加一后的值 7 写回 V</span><br></pre></td></tr></table></figure>
+
+<p>关于atomic原子类可参考另一篇：<a href="../post/a23f9c20.html">Java并发编程之并发工具</a></p>
 <h2 id="使用-加锁机制-解决原子性问题"><a href="#使用-加锁机制-解决原子性问题" class="headerlink" title="使用 加锁机制 解决原子性问题"></a>使用 加锁机制 解决原子性问题</h2><p>前面提到，Atomic 原子类可以保证一个“状态”是安全的。但是当对象中存在多个“状态”，并且互相影响。那 Atomic 原子类就不再适用。Java 提供了一种内置的锁机制来支持原子性，即 <strong>同步代码块（Synchronized Block）</strong>。</p>
-<pre><code class="java">// synchronized 可用在独立的代码片段，也可以修饰方法
-synchronized (obj) {
-  // do something .. (访问或修改共享变量和状态)
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// synchronized 可用在独立的代码片段，也可以修饰方法</span></span><br><span class="line"><span class="keyword">synchronized</span> (obj) &#123;</span><br><span class="line">  <span class="comment">// do something .. (访问或修改共享变量和状态)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>synchronized 修饰符表示一个锁。括号里是要锁住的对象（称为对象锁，对象锁是Java的内置锁或者叫监视锁，隐式存在于每个对象中）。当线程A进入了 synchronized 块，它就持有了某个对象的锁，当CPU时间片从线程A切换到其他线程，也执行到这里，就会阻塞在 synchronized 块之外，直到线程A退出synchronized块，释放该锁。需要注意，当对一个父类加了对象锁，子类是不会受到影响的，相反也是如此。</p>
 <p>对于有多个状态并且相互影响的对象才使用锁。否则 Atomic 原子类已经足够。此外，synchronized 最好仅仅包含需要互斥同步的临界区代码片段，包含在整个方法的做法有点极端。因为就 Servlet 的例子来说，锁住整个 service 方法，每次只有一个客户端能够响应，多个客户端无法同时使用和计算，服务的响应性能非常低，这就变成一个性能问题了。</p>
 <h3 id="重入"><a href="#重入" class="headerlink" title="重入"></a>重入</h3><p>一个线程请求其他线程持有的锁时，发出请求的线程会被阻塞。但是，如果一个线程试图获得一个 <strong>自己</strong> 持有的锁，则会请求成功。因为 synchronized 内置锁是可重入的。</p>
 <h4 id="重入如何实现？"><a href="#重入如何实现？" class="headerlink" title="重入如何实现？"></a>重入如何实现？</h4><p>重入的一种实现方式是，为每个锁关联一个获取计数值和一个所有者线程。当计数值为0时，锁没有被任何线程持有。当一个线程获取该锁，JVM将记下锁的持有者，并把计数值+1，这个线程第二次请求该锁，计数值再+1。第二次请求的操作执行完毕后，计数值-1，第一次请求的操作执行完毕后，计数值再-1，便恢复到0，锁被释放。</p>
 <h4 id="为什么要重入？"><a href="#为什么要重入？" class="headerlink" title="为什么要重入？"></a>为什么要重入？</h4><p>考虑下面的例子, 如果不可重入，那么会发生死锁。在 LoggingWidget 的 doSomething 方法中，跳出去执行父类 Widget 的 doSomething 方法，之后，调用栈返回，又回到子类 LoggingWidget 的 doSomething 方法，会发现锁已经被占用，然而占用锁的人正是它自己。</p>
-<pre><code class="java">public class Widget{
-  public synchronized void doSomething(){
-    //...
-  }
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Widget</span></span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoggingWidget</span> <span class="keyword">extends</span> <span class="title">Widget</span></span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.doSomething();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-public class LoggingWidget extends Widget{
-  public synchronized void doSomething(){
-    super.doSomething();
-  }
-}</code></pre>
 <p>好在 synchronized 是可重入的，有了重入，我们就可以在上述 Servlet 的例子中，把需要原子操作的代码片段用 synchronized 封装起来，缩小锁的范围，从而提高并发性了。至于同步代码块的范围要缩小多少，就需要在设计需求之间进行权衡了，包括安全性、简单性和性能等方面。</p>
 <h3 id="深入：synchronized-原理"><a href="#深入：synchronized-原理" class="headerlink" title="深入：synchronized 原理"></a>深入：synchronized 原理</h3><p>同步代码块基于 monitorenter 和 monitorexit 字节码指令来实现。编译后的代码，monitorenter 指令会被插入到同步代码块的开始位置，而 monitorexit 会被插入到代码块结束处和异常处。线程执行到 monitorenter 指令时，将会尝试获取对象所对应的 monitor 所有权。</p>
-<pre><code class="java">static int count = 0;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (go<span class="class">.<span class="keyword">class</span>)</span>&#123;</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-public static void service(){
-    synchronized (go.class){
-        count++;
-    }
-}</code></pre>
-<pre><code class="java">0 ldc #2 &lt;Test/go&gt;
-2 dup
-3 astore_0
-4 monitorenter  // 获得锁
-5 getstatic #3 &lt;Test/go.count&gt;
-8 iconst_1
-9 iadd
-10 putstatic #3 &lt;Test/go.count&gt;
-13 aload_0
-14 monitorexit  // 正常结束 释放锁
-15 goto 23 (+8)
-18 astore_1
-19 aload_0
-20 monitorexit  // 发生异常 释放锁
-21 aload_1
-22 athrow
-23 return</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">0 ldc #2 &lt;Test/go&gt;</span><br><span class="line"><span class="number">2</span> dup</span><br><span class="line"><span class="number">3</span> astore_0</span><br><span class="line"><span class="number">4</span> monitorenter  <span class="comment">// 获得锁</span></span><br><span class="line">5 getstatic #3 &lt;Test/go.count&gt;</span><br><span class="line"><span class="number">8</span> iconst_1</span><br><span class="line"><span class="number">9</span> iadd</span><br><span class="line">10 putstatic #3 &lt;Test/go.count&gt;</span><br><span class="line"><span class="number">13</span> aload_0</span><br><span class="line"><span class="number">14</span> monitorexit  <span class="comment">// 正常结束 释放锁</span></span><br><span class="line"><span class="number">15</span> goto <span class="number">23</span> (+<span class="number">8</span>)</span><br><span class="line"><span class="number">18</span> astore_1</span><br><span class="line"><span class="number">19</span> aload_0</span><br><span class="line"><span class="number">20</span> monitorexit  <span class="comment">// 发生异常 释放锁</span></span><br><span class="line"><span class="number">21</span> aload_1</span><br><span class="line"><span class="number">22</span> athrow</span><br><span class="line"><span class="number">23</span> <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="对象数据共享"><a href="#对象数据共享" class="headerlink" title="对象数据共享"></a>对象数据共享</h1><p>要实现多个线程之间的数据共享，需要考虑两个问题：</p>
 <ul>
@@ -288,14 +291,8 @@ public static void service(){
 <li>从计算机的角度看，现代多核计算机中，每个 CPU 都有自己的寄存器，为了和主存读写速度匹配，CPU寄存器和主存中间往往有一层 Cache 缓冲，当一个 CPU 修改了一个共享变量，放在自己的寄存器或 Cache 缓冲中，还未写回主存，另一个 CPU 就可能读不到最新修改的数据。</li>
 </ol>
 <p>考虑下面的例子，</p>
-<pre><code class="java">boolean asleep = false;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> asleep = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 线程A</span></span><br><span class="line"><span class="keyword">while</span>(!asleep)</span><br><span class="line">  countSomeSheep();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 线程B</span></span><br><span class="line">asleep = <span class="keyword">true</span>;</span><br></pre></td></tr></table></figure>
 
-// 线程A
-while(!asleep)
-  countSomeSheep();
-
-// 线程B
-asleep = true;</code></pre>
 <p>线程A不断检查 asleep 的值，直到它变成 true 就停止数羊，线程B将 asleep 设置成true，如果不解决可见性问题，线程B的改动，线程A可能永远都看不到。<strong>像这样，一个线程不能及时看到另一个线程对共享变量的修改这种情况，叫做可见性问题</strong>。</p>
 <h2 id="解决可见性问题"><a href="#解决可见性问题" class="headerlink" title="解决可见性问题"></a>解决可见性问题</h2><h3 id="使用-synchronized-解决可见性问题"><a href="#使用-synchronized-解决可见性问题" class="headerlink" title="使用 synchronized 解决可见性问题"></a>使用 synchronized 解决可见性问题</h3><p>解决可见性问题，可以用 synchronized ，因为 synchronized 的语义规定，对一个变量执行 unlock 操作前，必须先把此变量同步回主内存中。但是 synchronized 每次加锁解锁都需要额外的开销，显得太“重”了，会影响性能。</p>
 <h3 id="使用-final-解决可见性问题"><a href="#使用-final-解决可见性问题" class="headerlink" title="使用 final 解决可见性问题"></a>使用 final 解决可见性问题</h3><p>我们也可以用 final 解决可见性问题，被 final 修饰的字段在构造器中一旦初始化完毕（且 this 引用没有逃逸），其他线程立即可以看到 final 字段的值。可惜 final 字段不可再次被修改，有时不满足我们的需求。</p>
@@ -309,23 +306,8 @@ asleep = true;</code></pre>
 <p>也就是说， volatile 是解决 <strong>可见性</strong> 问题的，并不能解决所有原子性问题。另外，当想禁止编译器的重排序功能时，也可以用 volatile。</p>
 <hr>
 <h1 id="重排序问题"><a href="#重排序问题" class="headerlink" title="重排序问题"></a>重排序问题</h1><p>当我们写一个单线程程序时，总以为计算机会一行行地运行代码，然而事实并非如此。编译器、处理器会在不改变程序执行结果的前提下，<strong>重新排列指令的执行顺序</strong>，以达到最佳的运行效率，这就是重排序。多线程环境下，重排序可能带来一些问题。考虑下面的例子：</p>
-<pre><code class="java">class Reorder{
-    int a = 0;
-    boolean flag = false;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Reorder</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 线程A</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writer</span><span class="params">()</span></span>&#123;</span><br><span class="line">        a = <span class="number">2</span>;</span><br><span class="line">        flag = <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 线程B</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reader</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (flag) &#123;</span><br><span class="line">            <span class="keyword">int</span> i = a*a;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 线程A
-    public void writer(){
-        a = 2;
-        flag = true;
-    }
-
-    // 线程B
-    public void reader(){
-        if (flag) {
-            int i = a*a;
-        }
-    }
-}</code></pre>
 <p>假设有两个线程，A线程先执行writer方法，之后B线程执行reader方法。按理说，B会将 i 设置成 4，然而事实却不一定，i还可能是0。原因是，<font color="red">编译器和处理器会对没有依赖关系的语句进行一定程度的重排序</font>。在线程A中，可能 flag 先被设置成 true，然后线程B执行reader，发现flag 为 true，执行赋值语句，i = 0 * 0，最后，A线程的 a 才被赋值为 2。</p>
 <p>解决重排序问题，也可以使用 volatile， volatile 本身包含禁止指令重排序的语义。</p>
 <h2 id="深入：为什么-volatile-能解决重排序问题？"><a href="#深入：为什么-volatile-能解决重排序问题？" class="headerlink" title="深入：为什么 volatile 能解决重排序问题？"></a>深入：为什么 volatile 能解决重排序问题？</h2><p>声明为 volatile 的变量，实际上相当于程序员显式地告诉编译器和处理器不要使用重排序。汇编指令中多出来的 Lock，实际上也就是一道内存屏障。处理器遇到内存屏障时，就会知道不要对此处乱序执行。事实上，Linux 或 Windows 作为操作系统，也只是调用 CPU 所实现的内存屏障指令而已，归根结底这个不是操作系统或者编译器去实现，而是硬件实现了然后供软件调用。</p>
@@ -334,60 +316,30 @@ asleep = true;</code></pre>
 <h2 id="ThreadLocal-类"><a href="#ThreadLocal-类" class="headerlink" title="ThreadLocal 类"></a>ThreadLocal 类</h2><p>在单线程 JDBC 程序中，我们通常在程序启动时初始化一个 Connection 连接，从而避免在调用每个方法时都传递一个 Connection 对象。在多线程 JDBC 程序中，我们希望每个线程建立自己的 Connection 对象连接，不互相干扰。这种场景就可以通过 ThreadLocal 来解决。</p>
 <p>ThreadLocal提供了一些比如set、get等来访问接口和方法，每个使用该变量的线程都有一份独立的副本，线程之间互不影响。</p>
 <h3 id="ThreadLocal-类简单例子"><a href="#ThreadLocal-类简单例子" class="headerlink" title="ThreadLocal 类简单例子"></a>ThreadLocal 类简单例子</h3><p>声明一个 ThreadLocal 对象</p>
-<pre><code class="java">private ThreadLocal myThreadLocal = new ThreadLocal();
-// or
-private ThreadLocal&lt;String&gt; myThreadLocal = new ThreadLocal&lt;String&gt;();
-//or
-// 在声明ThreadLocal对象时，即给初值，而不是第一次调用
-private ThreadLocal myThreadLocal = new ThreadLocal&lt;String&gt;() {
-    @Override
-    protected String initialValue() {
-        return &quot;This is the initial value&quot;;
-    }
-};    </code></pre>
-<p>使用<code>set()</code>放置线程封闭变量，使用<code>get()</code>将其取出。</p>
-<pre><code class="java">// 往对象里放置变量
-myThreadLocal.set(&quot;aStringValue&quot;);
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> ThreadLocal myThreadLocal = <span class="keyword">new</span> ThreadLocal();</span><br><span class="line"><span class="comment">// or</span></span><br><span class="line"><span class="keyword">private</span> ThreadLocal&lt;String&gt; myThreadLocal = <span class="keyword">new</span> ThreadLocal&lt;String&gt;();</span><br><span class="line"><span class="comment">//or</span></span><br><span class="line"><span class="comment">// 在声明ThreadLocal对象时，即给初值，而不是第一次调用</span></span><br><span class="line"><span class="keyword">private</span> ThreadLocal myThreadLocal = <span class="keyword">new</span> ThreadLocal&lt;String&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> String <span class="title">initialValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"This is the initial value"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-// 将 ThreadLocal 里存放的变量取出来
-String threadLocalValue = (String) myThreadLocal.get();</code></pre>
+<p>使用<code>set()</code>放置线程封闭变量，使用<code>get()</code>将其取出。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 往对象里放置变量</span></span><br><span class="line">myThreadLocal.set(<span class="string">"aStringValue"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将 ThreadLocal 里存放的变量取出来</span></span><br><span class="line">String threadLocalValue = (String) myThreadLocal.get();</span><br></pre></td></tr></table></figure>
+
+
 <p>除了 ThreadLocal 类之外，还有一个 InheritableThreadLocal 是可继承的 ThreadLocal ，只有声明的线程及其子线程可以使用 InheritableThreadLocal 里面存放的变量。</p>
 <p>在 JDK 1.7 之后，还有一个 java.util.concurrent.ThreadLocalRandom 类。</p>
-<pre><code class="java">// 返回特定于当前线程的 Random 类实例
-static ThreadLocalRandom current()</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 返回特定于当前线程的 Random 类实例</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> ThreadLocalRandom <span class="title">current</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="发布与逸出"><a href="#发布与逸出" class="headerlink" title="发布与逸出"></a>发布与逸出</h1><p>发布（publish）的意思是，在当前作用域之外的代码中使用对象，例如将对象的引用传递到其他类的方法中。在多线程环境下，如果一个对象在构造完成之前就被发布，会破坏线程安全性。而当某个不应该发布的对象被不小心发布出去，就叫逸出（escape）。考虑下面的例子：</p>
-<pre><code class="java">class status{
-  private String[] s = new String[] {&quot;AK&quot;,&quot;AL&quot;,&quot;AJ&quot;};
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">status</span></span>&#123;</span><br><span class="line">  <span class="keyword">private</span> String[] s = <span class="keyword">new</span> String[] &#123;<span class="string">"AK"</span>,<span class="string">"AL"</span>,<span class="string">"AJ"</span>&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> String[] get()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.s;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  public String[] get(){
-    return this.s;
-  }
-}</code></pre>
 <p>外部可以通过 get() 方法获取数组 s 的引用，而 s 是一个 private 数组，外部现在就有权力修改这个数组里面的所有元素，这就是逸出。逸出使得我们的封装变得没有意义。</p>
 <p>还有一种逸出的情况就是发布一个类的内部类实例，因为内部类是隐式持有外部类引用的。</p>
 <h2 id="安全地构造"><a href="#安全地构造" class="headerlink" title="安全地构造"></a>安全地构造</h2><p>在构造方法中启动一个线程，this引用会被新创建的线程共享，此时还没构造完毕，会导致线程安全问题。好的做法是，等构造方法结束时，this引用才逸出。在构造方法中创建一个线程，然后通过一个 <code>start()</code> 方法来启动线程。永远不要在构造过程中使 this 引用逸出。如果想在构造函数中注册一个事件监听或者启动线程，好的办法是使用静态工厂方法（私有构造函数+公共工厂方法）。</p>
 <hr>
 <h1 id="安全发布"><a href="#安全发布" class="headerlink" title="安全发布"></a>安全发布</h1><p>有 Holder 这么一个类</p>
-<pre><code class="java">public class Holder {
-    private int n;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Holder</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> n;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Holder</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.n = n;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">assertSanity</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n != n) &#123;</span><br><span class="line">            <span class="function">thorw new <span class="title">AssertionError</span><span class="params">(<span class="string">"statement false"</span>)</span></span></span><br><span class="line"><span class="function">        &#125;</span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
 
-    public Holder(int n){
-        this.n = n;
-    }
-
-    public void assertSanity(){
-        if (n != n) {
-            thorw new AssertionError(&quot;statement false&quot;)
-        }
-    }
-}</code></pre>
 <p>假设线程1对Holder类进行了发布</p>
-<pre><code class="java">public Holder holder;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Holder holder;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initialize</span><span class="params">()</span></span>&#123;</span><br><span class="line">    holder = <span class="keyword">new</span> Holder(<span class="number">42</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-public void initialize(){
-    holder = new Holder(42);
-}</code></pre>
 <p>然后线程2调用<code>assertSanity()</code>方法，很有可能出现 n != n，抛出 AssertionError 。</p>
 <p>原因：存在可见性问题，线程1的 new 指令使 holder 对象开始构造，构造到一半时线程2即调用<code>assertSanity()</code>方法了,线程2看到的 holder 对象可能是一个空引用，或者是初始化了一半的值。</p>
 <h2 id="安全地发布"><a href="#安全地发布" class="headerlink" title="安全地发布"></a>安全地发布</h2><p>要安全地发布一个对象，对象的引用和对象的状态必须同时对其他线程可见。</p>
@@ -462,19 +414,12 @@ public void initialize(){
 <li>本身是一个对象，允许对指针进行赋值和拷贝，而且在指针的生命周期内可以先后指向几个不同的对象。</li>
 <li>无须在定义时赋初始值</li>
 </ul>
-<h2 id="一个简单例子"><a href="#一个简单例子" class="headerlink" title="一个简单例子"></a>一个简单例子</h2><pre><code>#include &lt;stdio.h&gt;
+<h2 id="一个简单例子"><a href="#一个简单例子" class="headerlink" title="一个简单例子"></a>一个简单例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    int ival &#x3D; 42;</span><br><span class="line">    int *p &#x3D; &amp;ival;</span><br><span class="line"></span><br><span class="line">    printf(&quot;p是一个指针，P为%p\n&quot;,p);</span><br><span class="line">    printf(&quot;*p是指针指向的变量，*p为%d\n&quot;,*p);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-int main() {
-    int ival = 42;
-    int *p = &amp;ival;
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">p是一个指针，P为0x7ffe09031b1c</span><br><span class="line">*p是指针指向的变量，*p为42</span><br></pre></td></tr></table></figure>
 
-    printf(&quot;p是一个指针，P为%p\n&quot;,p);
-    printf(&quot;*p是指针指向的变量，*p为%d\n&quot;,*p);
-    return 0;
-}
-</code></pre><p>输出</p>
-<pre><code>p是一个指针，P为0x7ffe09031b1c
-*p是指针指向的变量，*p为42</code></pre><p>在这个例子中，我们用 <code>int *p</code>来定义指针，这时候<code>p</code>是一个指针。<code>&amp;ival</code>的意思是取<code>int</code>型变量<code>ival</code>的地址。</p>
+<p>在这个例子中，我们用 <code>int *p</code>来定义指针，这时候<code>p</code>是一个指针。<code>&amp;ival</code>的意思是取<code>int</code>型变量<code>ival</code>的地址。</p>
 <p>而在输出的时候，<code>*p</code>是指针指向的变量，也就是说，<code>*</code>号在这里成了解引用符号。仅在指针确实指向了某个对象，即指针确实有效的情况下，<code>*p</code>才适用。</p>
 <blockquote>
 <p>理解的关键：在定义阶段， 用<code>int *p</code>用来定义指针。在操作阶段，<code>*p</code>是解引用。</p>
@@ -670,7 +615,8 @@ int main() {
 <h1 id="JDBC的连接"><a href="#JDBC的连接" class="headerlink" title="JDBC的连接"></a>JDBC的连接</h1><p>首先到 mySQL 的官网，下载 <a href="https://dev.mysql.com/downloads/connector/j/">Connectors/J 驱动</a>，下载完解压出其中的 jar 包，放到项目的依赖里（IDEA - File - Project Structure - Modules - Dependencies - “+”  选择刚刚解压的jar文件）。</p>
 <h2 id="初始化驱动"><a href="#初始化驱动" class="headerlink" title="初始化驱动"></a>初始化驱动</h2><p>在Java中，使用 <code>Class.forName</code>来初始化驱动（这一步在 jdk 1.6 以后已经不是必须）</p>
 <h2 id="建立数据库连接"><a href="#建立数据库连接" class="headerlink" title="建立数据库连接"></a>建立数据库连接</h2><p>建立与数据库的Connection连接，是通过 <code>DriverManager</code> 类的<code>getConnection</code>方法来实现的，因此首先要创建一个<code>Connection</code>实例。</p>
-<pre><code class="java">Connection c = DriverManager.getConnection(url,user,psw);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Connection c = DriverManager.getConnection(url,user,psw);</span><br></pre></td></tr></table></figure>
+
 <p><code>getConnection</code>方法接收三个参数，连接地址，用户名、密码。或者接收一个参数连接地址，该连接地址里已经URL构造了用户名和密码。</p>
         </div>
         
@@ -785,30 +731,42 @@ int main() {
 <p>温馨提示：点击页面右下角按钮，打开目录。</p>
 </blockquote>
 <h1 id="一、-Connection-refused"><a href="#一、-Connection-refused" class="headerlink" title="一、 Connection refused"></a>一、 Connection refused</h1><p>根据官方文档 Hadoop 3.0 配置，在</p>
-<pre><code>sbin/start-dfs.sh</code></pre><p>的时候报错，</p>
-<pre><code>pdsh@ubuntu: localhost: connect: Connection refused</code></pre><p>原因是pdsh默认采用的是rsh登录，修改成ssh登录即可，在环境变量/etc/profile里加入：</p>
-<pre><code>export PDSH_RCMD_TYPE=ssh</code></pre><p>然后<code>source /etc/profile</code> 之后重新sbin/start-dfs.sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sbin&#x2F;start-dfs.sh</span><br></pre></td></tr></table></figure>
+<p>的时候报错，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pdsh@ubuntu: localhost: connect: Connection refused</span><br></pre></td></tr></table></figure>
+
+<p>原因是pdsh默认采用的是rsh登录，修改成ssh登录即可，在环境变量/etc/profile里加入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PDSH_RCMD_TYPE&#x3D;ssh</span><br></pre></td></tr></table></figure>
+
+<p>然后<code>source /etc/profile</code> 之后重新sbin/start-dfs.sh</p>
 <hr>
 <h1 id="二、jps-没有-namenode-或者-datanode"><a href="#二、jps-没有-namenode-或者-datanode" class="headerlink" title="二、jps 没有 namenode 或者 datanode"></a>二、jps 没有 namenode 或者 datanode</h1><p>每次开机都得重新格式化一下namenode才可以看到namenode</p>
 <p>格式化了namenode，datanode又没有了</p>
 <p>其实问题就出在tmp文件，默认的tmp文件每次重新开机会被清空，与此同时namenode的格式化信息就会丢失</p>
 <p>于是我们得重新配置一个tmp文件目录</p>
 <p>首先在home目录下建立一个hadoop_tmp目录</p>
-<pre><code>sudo mkdir ~/hadoop_tmp</code></pre><p>然后修改hadoop-3.0.0/etc/hadoop目录里面的core-site.xml文件，加入以下节点：</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;
-  &lt;value&gt;/home/jerrysheh/hadoop_tmp&lt;/value&gt;
-    &lt;description&gt;A base for other temporary directories.&lt;/description&gt;
-&lt;/property&gt;</code></pre><p>注意：我的用户是jerrysheh，所以目录是/home/jerrysheh/hadoop_tmp        </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir ~&#x2F;hadoop_tmp</span><br></pre></td></tr></table></figure>
+
+<p>然后修改hadoop-3.0.0/etc/hadoop目录里面的core-site.xml文件，加入以下节点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hadoop.tmp.dir&lt;&#x2F;name&gt;</span><br><span class="line">  &lt;value&gt;&#x2F;home&#x2F;jerrysheh&#x2F;hadoop_tmp&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;description&gt;A base for other temporary directories.&lt;&#x2F;description&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br></pre></td></tr></table></figure>
+
+<p>注意：我的用户是jerrysheh，所以目录是/home/jerrysheh/hadoop_tmp        </p>
 <p>OK了，重新格式化Namenode</p>
-<pre><code>hadoop namenode -format</code></pre><p>然后启动</p>
-<pre><code>hadoopstart-all.sh</code></pre><p>然后输入 jps， namenode 和 datanode 应该都出来了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop namenode -format</span><br></pre></td></tr></table></figure>
+
+<p>然后启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoopstart-all.sh</span><br></pre></td></tr></table></figure>
+
+<p>然后输入 jps， namenode 和 datanode 应该都出来了</p>
 <hr>
 <h1 id="三、关于-HDFS-文件夹位置"><a href="#三、关于-HDFS-文件夹位置" class="headerlink" title="三、关于 HDFS 文件夹位置"></a>三、关于 HDFS 文件夹位置</h1><p>根据 <a href="https://hadoop.apache.org/docs/r3.0.0/hadoop-project-dist/hadoop-common/SingleCluster.html">官方文档</a></p>
 <p>第一次运行，启动 <code>start-dfs.sh</code> 之后，要先创建用户</p>
-<pre><code>bin/hdfs dfs -mkdir /user
-bin/hdfs dfs -mkdir /user/&lt;username&gt;</code></pre><p>然后创建一个 <code>input</code> 文件夹，用来放数据</p>
-<pre><code>bin/hdfs dfs -mkdir input</code></pre><p><img src="../../../../images/hadoop/dfs.png" alt="dfs"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin&#x2F;hdfs dfs -mkdir &#x2F;user</span><br><span class="line">bin&#x2F;hdfs dfs -mkdir &#x2F;user&#x2F;&lt;username&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然后创建一个 <code>input</code> 文件夹，用来放数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin&#x2F;hdfs dfs -mkdir input</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../images/hadoop/dfs.png" alt="dfs"></p>
 <p>发现了吗？ -mkdir /user 和 -mkdir /user/&lt;username&gt; 是在根目录下创建 user 文件夹，然后在 user 文件夹里创建 username 文件夹， 这没有问题。</p>
 <p>但是创建 input 文件夹的时候， 前面没有 /</p>
 <p>意味着，是在默认的 username 文件夹里面创建了这个 input ！</p>
@@ -817,65 +775,44 @@ bin/hdfs dfs -mkdir /user/&lt;username&gt;</code></pre><p>然后创建一个 <co
 <p><img src="../../../../images/hadoop/dfs_2.png" alt="dfs"></p>
 <p>果然如此</p>
 <p>另，</p>
-<pre><code>hdfs dfs -ls .   /*表示当前用户目录*/
-hdfs dfs -ls /   /*表示根目录*/</code></pre><ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hdfs dfs -ls .   &#x2F;*表示当前用户目录*&#x2F;</span><br><span class="line">hdfs dfs -ls &#x2F;   &#x2F;*表示根目录*&#x2F;</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li>使用 <code>hdfs dfs -ls .</code> 的时候， HDFS 上的 username 必须和你本地linux系统的 username 一致！否则会显示没有该目录或文件。</li>
 </ul>
 <hr>
 <h1 id="四、Windows-环境下-JAVA-HOME-路径不对"><a href="#四、Windows-环境下-JAVA-HOME-路径不对" class="headerlink" title="四、Windows 环境下 JAVA_HOME 路径不对"></a>四、Windows 环境下 JAVA_HOME 路径不对</h1><p>配置好环境以后，执行格式化</p>
-<pre><code>hdfs namenode -format</code></pre><p>然后报错</p>
-<pre><code>Error: JAVA_HOME is incorrectly set.
-       Please update F:\hadoop\conf\hadoop-env.cmd</code></pre><p>原因是蛋疼的微软， Program Files文件夹有一个空格，导致不能被 Hadoop 识别。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdfs namenode -format</span><br></pre></td></tr></table></figure>
+
+<p>然后报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Error: JAVA_HOME is incorrectly set.</span><br><span class="line">       Please update F:\hadoop\conf\hadoop-env.cmd</span><br></pre></td></tr></table></figure>
+
+<p>原因是蛋疼的微软， Program Files文件夹有一个空格，导致不能被 Hadoop 识别。</p>
 <p>解决办法：</p>
 <ul>
 <li><p>方法1：用路径替代符</p>
-<pre><code>C:\PROGRA~1\Java\jdk1.8.0_91</code></pre><p><code>PROGRA~1</code>  ===== <code>C:\Program Files</code> 目录的dos文件名模式下的缩写<br>长于8个字符的文件名和文件夹名，都被简化成前面6个有效字符，后面<del>1，有重名的就 ~2,</del>3,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\PROGRA~1\Java\jdk1.8.0_91</span><br></pre></td></tr></table></figure>
+
+<p><code>PROGRA~1</code>  ===== <code>C:\Program Files</code> 目录的dos文件名模式下的缩写<br>长于8个字符的文件名和文件夹名，都被简化成前面6个有效字符，后面<del>1，有重名的就 ~2,</del>3,</p>
 </li>
 <li><p>方法2：用引号括起来</p>
-<pre><code>&quot;C:\Program Files&quot;\Java\jdk1.8.0_91</code></pre></li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;C:\Program Files&quot;\Java\jdk1.8.0_91</span><br></pre></td></tr></table></figure>
+
+</li>
 </ul>
 <hr>
 <h1 id="五、IDEA-报-java-lang-ClassNotFoundException-问题"><a href="#五、IDEA-报-java-lang-ClassNotFoundException-问题" class="headerlink" title="五、IDEA 报 java.lang.ClassNotFoundException 问题"></a>五、IDEA 报 java.lang.ClassNotFoundException 问题</h1><p>在 IDEA 本地环境运行 hadoop 程序时， IDEA报错</p>
-<pre><code>java.lang.ClassNotFoundException: org.apache.hadoop.conf.Configuration</code></pre><p>原因：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.lang.ClassNotFoundException: org.apache.hadoop.conf.Configuration</span><br></pre></td></tr></table></figure>
+
+<p>原因：</p>
 <p>在 maven 中， 把依赖项的 <code>provided</code> 标签删掉即可 。因为加上<code>provided</code>标签意味着 the scope tag tells Maven that you’re using this dependency for building, but it indicates that the dependency will be provided during runtime, so you’ll either need to remove this tag or … (具体可到 <a href="https://stackoverflow.com/questions/29092926/java-lang-classnotfoundexception-org-apache-hadoop-conf-configuration">StackOverFlow</a> 看)</p>
 <p>感谢 StackOverFlow 解决困扰了我一天一夜的问题</p>
-<pre><code class="xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
-    &lt;artifactId&gt;hadoop-common&lt;/artifactId&gt;
-    &lt;version&gt;3.0.0&lt;/version&gt;
-     &lt;!--&lt;scope&gt;provided&lt;/scope&gt;--&gt;
-&lt;/dependency&gt;</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">     <span class="comment">&lt;!--&lt;scope&gt;provided&lt;/scope&gt;--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="六、IDEA-Hadoop程序-单机运行-和-在本地伪分布式-运行"><a href="#六、IDEA-Hadoop程序-单机运行-和-在本地伪分布式-运行" class="headerlink" title="六、IDEA Hadoop程序 单机运行 和 在本地伪分布式 运行"></a>六、IDEA Hadoop程序 单机运行 和 在本地伪分布式 运行</h1><h2 id="单机运行"><a href="#单机运行" class="headerlink" title="单机运行"></a>单机运行</h2><p>新建 Java Maven 工程，<code>pom.xml</code>添加依赖</p>
-<pre><code class="xml">&lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
-            &lt;artifactId&gt;hadoop-common&lt;/artifactId&gt;
-            &lt;version&gt;3.0.0&lt;/version&gt;
-             &lt;!--&lt;scope&gt;provided&lt;/scope&gt;--&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
-            &lt;artifactId&gt;hadoop-client&lt;/artifactId&gt;
-            &lt;version&gt;3.0.0&lt;/version&gt;
-            &lt;scope&gt;provided&lt;/scope&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
-            &lt;artifactId&gt;hadoop-mapreduce-client-core&lt;/artifactId&gt;
-            &lt;version&gt;3.0.0&lt;/version&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
-            &lt;artifactId&gt;hadoop-mapreduce-client-common&lt;/artifactId&gt;
-            &lt;version&gt;3.0.0&lt;/version&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
-            &lt;artifactId&gt;hadoop-hdfs&lt;/artifactId&gt;
-            &lt;version&gt;3.0.0&lt;/version&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">             <span class="comment">&lt;!--&lt;scope&gt;provided&lt;/scope&gt;--&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-mapreduce-client-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-mapreduce-client-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-hdfs<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>依赖去哪里找？ 有一个 mavenrepository 仓库，地址是：<a href="https://mvnrepository.com/">mavenrepository</a></p>
 </blockquote>
@@ -884,7 +821,9 @@ hdfs dfs -ls /   /*表示根目录*/</code></pre><ul>
 </blockquote>
 <p>然后右下角 import， maven 会自动帮我们下载依赖包</p>
 <p>点 Run -&gt; Edit configuration， Program argument填入</p>
-<pre><code>input/ output/</code></pre><p>Main class 填你的main程序所在的 class ，可以输入前几个字母然后 IDEA 会自动帮我们检索</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">input&#x2F; output&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>Main class 填你的main程序所在的 class ，可以输入前几个字母然后 IDEA 会自动帮我们检索</p>
 <p>然后在项目目录下，新建一个文件夹 input ， 往里面放你输入的数据（比如 mydata.log），可以放多个文件</p>
 <p>然后运行即可</p>
 <h2 id="本地伪分布式运行"><a href="#本地伪分布式运行" class="headerlink" title="本地伪分布式运行"></a>本地伪分布式运行</h2><p>本地Hadoop环境先配起来，具体看这篇</p>
@@ -897,99 +836,16 @@ hdfs dfs -ls /   /*表示根目录*/</code></pre><ul>
 <p>然后运行。DONE！</p>
 <hr>
 <h1 id="七、Spark-standalone-模式集群配置"><a href="#七、Spark-standalone-模式集群配置" class="headerlink" title="七、Spark standalone 模式集群配置"></a>七、Spark standalone 模式集群配置</h1><p>记得关防火墙</p>
-<pre><code>service iptables status
-service iptables stop</code></pre><p>有一个WARN，提示你本地ip是127.0.0.1，应该该到 172.x.x.x 或 192.x.x.x ，否则局域网机器访问不到。</p>
-<pre><code>cp ./conf/spark-env.sh.template ./conf/spark-env.sh
-vim ./conf/spark-env.sh</code></pre><p>添加</p>
-<pre><code>SPARK_LOCAL_IP=172.x.x.x
-SPARK_MASTER_HOST=172.x.x.x
-SPARK_EXECUTOR__MEMORY=16G</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service iptables status</span><br><span class="line">service iptables stop</span><br></pre></td></tr></table></figure>
+
+<p>有一个WARN，提示你本地ip是127.0.0.1，应该该到 172.x.x.x 或 192.x.x.x ，否则局域网机器访问不到。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp .&#x2F;conf&#x2F;spark-env.sh.template .&#x2F;conf&#x2F;spark-env.sh</span><br><span class="line">vim .&#x2F;conf&#x2F;spark-env.sh</span><br></pre></td></tr></table></figure>
+
+<p>添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SPARK_LOCAL_IP&#x3D;172.x.x.x</span><br><span class="line">SPARK_MASTER_HOST&#x3D;172.x.x.x</span><br><span class="line">SPARK_EXECUTOR__MEMORY&#x3D;16G</span><br></pre></td></tr></table></figure>
+
         </div>
         
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-03-14T10:47:46.000Z">2018-03-14</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    18 分钟 读完 (大约 2766 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/e2142b57.html">Hadoop 笔记（一）初识</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>当数据量变大的时候，一台机器完成一个问题要计算好久好久。这时候就需要多台机器并行运算。然而，每台机器不能用单台机器运行的算法，自己算自己的。而是要有不同的分工，联合起来共同算完这个问题。</p>
-<p>Hadoop就是这样的一个大数据处理框架。其中包括很多开源的处理框架，比如：</p>
-<ul>
-<li><strong>文件存储</strong>：Hadoop HDFS、Tachyon、KFS</li>
-<li><strong>离线计算</strong>：Hadoop MapReduce、Spark</li>
-<li><strong>流式、实时计算</strong>：Storm、Spark Streaming、S4、Heron</li>
-<li><strong>K-V、NOSQL数据库</strong>：HBase、Redis、MongoDB</li>
-<li><strong>资源管理</strong>：YARN、Mesos</li>
-<li><strong>日志收集</strong>：Flume、Scribe、Logstash、Kibana</li>
-<li><strong>消息系统</strong>：Kafka、StormMQ、ZeroMQ、RabbitMQ</li>
-<li><strong>查询分析</strong>：Hive、Impala、Pig、Presto、Phoenix、SparkSQL、Drill、Flink、Kylin、Druid</li>
-<li><strong>分布式协调服务</strong>：Zookeeper</li>
-<li><strong>集群管理与监控</strong>：Ambari、Ganglia、Nagios、Cloudera Manager</li>
-<li><strong>数据挖掘、机器学习</strong>：Mahout、Spark MLLib</li>
-<li><strong>数据同步</strong>：Sqoop</li>
-<li><strong>任务调度</strong>：Oozie</li>
-</ul>
-<p>那这么多，要怎么学呢？吴军博士在《数学之美》中提到：</p>
-<blockquote>
-<p>分治算法是计算机科学中最漂亮的工具之一，我称为“各个击破”法。</p>
-</blockquote>
-<p>我们就来各个击破。当然，先挑重点的学习。</p>
-<hr>
-<h1 id="MapReduce"><a href="#MapReduce" class="headerlink" title="MapReduce"></a>MapReduce</h1><p>假设我们要统计一本10000页的书里面，”apple”、”banana”、”orange”这三个单词出现的次数。由于规模很大，用一台机器来算，要算很久。我们能不能把规模缩小，交给多台机器去算呢？我们容易想到，可以拿4台服务器，假设为1，2，3，4，每台服务器计算2500页，各自算各自的。</p>
-<p>好了，现在每台服务器把各自负责的2500页统计完了。但我们关心的是 10000 页这个总量里面单词出现的次数，而不是4个独立的2500页。这 4 个 2500 页的结果分别保存在1，2，3，4四台服务器上。我们现在要想办法合并结果。</p>
-<p>于是我们找来另外三台服务器，假设为A，B，C：</p>
-<ul>
-<li>让 A 计算在机器1，2，3，4上面 “apple” 单词出现的总次数。</li>
-<li>让 B 计算在机器1，2，3，4上面 “banana” 单词出现的总次数。</li>
-<li>让 C 计算在机器1，2，3，4上面 “orange” 单词出现的总次数。</li>
-</ul>
-<p>这样，我们就知道每个单词出现的总次数了。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/e2142b57.html#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
         
         
     </div>
@@ -1076,7 +932,7 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -1088,7 +944,7 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -1100,7 +956,7 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -1185,25 +1041,25 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -1217,6 +1073,14 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -1225,20 +1089,20 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -1270,7 +1134,7 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -1278,7 +1142,15 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -1313,6 +1185,25 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1343,7 +1234,7 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1380,25 +1271,6 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1464,6 +1336,25 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1494,7 +1385,7 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1531,25 +1422,6 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1612,7 +1484,7 @@ SPARK_EXECUTOR__MEMORY=16G</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1666,7 +1538,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

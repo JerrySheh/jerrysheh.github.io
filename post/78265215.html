@@ -38,7 +38,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -174,29 +174,9 @@
 <p>对于应用程序来说，<code>客户端Socket</code>和<code>服务器连接Socket</code>（注意不是欢迎Socket）直接通过一根管道连接。服务器和客户端可以互相发送或接收字节。</p>
 <p><img src="../../../../images/TCPconnect.gif" alt="Socket"></p>
 <hr>
-<h1 id="Python-实现-TCP-Socket-的例子"><a href="#Python-实现-TCP-Socket-的例子" class="headerlink" title="Python 实现 TCP Socket 的例子"></a>Python 实现 TCP Socket 的例子</h1><h2 id="TCPClient-py-客户端"><a href="#TCPClient-py-客户端" class="headerlink" title="TCPClient.py 客户端"></a>TCPClient.py 客户端</h2><pre><code class="Python">from socket import *
+<h1 id="Python-实现-TCP-Socket-的例子"><a href="#Python-实现-TCP-Socket-的例子" class="headerlink" title="Python 实现 TCP Socket 的例子"></a>Python 实现 TCP Socket 的例子</h1><h2 id="TCPClient-py-客户端"><a href="#TCPClient-py-客户端" class="headerlink" title="TCPClient.py 客户端"></a>TCPClient.py 客户端</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">serverName = <span class="string">"servername"</span></span><br><span class="line">serverPort = <span class="number">12000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化客户端socket</span></span><br><span class="line">clientSocket = socket(AF_INET,SOCK_STREAM)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端socket向服务器发起连接</span></span><br><span class="line">clientSocket.connect((serverName,serverPort))</span><br><span class="line"></span><br><span class="line">sentence = input(<span class="string">"Input lowercase sentence:"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端socket向服务器发送内容</span></span><br><span class="line">clientSocket.send(sentence)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端socket接收来自服务器的内容</span></span><br><span class="line">modifiedSentence = clientSocket.recv(<span class="number">1024</span>)</span><br><span class="line">print(<span class="string">"From Server:"</span>, modifiedSentence)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭客户端socket</span></span><br><span class="line">clientSocket.close()</span><br></pre></td></tr></table></figure>
 
-serverName = &quot;servername&quot;
-serverPort = 12000
 
-# 初始化客户端socket
-clientSocket = socket(AF_INET,SOCK_STREAM)
-
-# 客户端socket向服务器发起连接
-clientSocket.connect((serverName,serverPort))
-
-sentence = input(&quot;Input lowercase sentence:&quot;)
-
-# 客户端socket向服务器发送内容
-clientSocket.send(sentence)
-
-# 客户端socket接收来自服务器的内容
-modifiedSentence = clientSocket.recv(1024)
-print(&quot;From Server:&quot;, modifiedSentence)
-
-# 关闭客户端socket
-clientSocket.close()
-</code></pre>
 <p>逐行解释:</p>
 <h3 id="1-clientSocket-socket-AF-INET-SOCK-STREAM"><a href="#1-clientSocket-socket-AF-INET-SOCK-STREAM" class="headerlink" title="1. clientSocket = socket(AF_INET,SOCK_STREAM)"></a>1. clientSocket = socket(AF_INET,SOCK_STREAM)</h3><p>使用<code>socket()</code>初始化函数，创建了一个<code>客户端Socket</code>，第一个参数<code>AF_INET</code>指明底层网络使用的是IPv4，第二个参数<code>SOCK_STREAM</code>指明该Socket是SOCK_STREAM类型，也就是TCP。 <code>clientSocket</code>就是一个 Socket对象，它具有connect、send、recv等方法。</p>
 <h3 id="2-clientSocket-connect-serverName-serverPort"><a href="#2-clientSocket-connect-serverName-serverPort" class="headerlink" title="2. clientSocket.connect((serverName,serverPort))"></a>2. clientSocket.connect((serverName,serverPort))</h3><p>前面提到，当客户端创建完一个TCP Socket之后，就可以向服务器发起三次握手并建立与服务器的TCP连接了，这一句就是连接。第一个参数<code>serverName</code>指明服务器的名字（即ip地址），第二个参数<code>serverPort</code>指明了服务器进程的端口。</p>
@@ -204,31 +184,7 @@ clientSocket.close()
 <h3 id="4-clientSocket-send-sentence"><a href="#4-clientSocket-send-sentence" class="headerlink" title="4. clientSocket.send(sentence)"></a>4. clientSocket.send(sentence)</h3><p>clientSocket对象的<code>send</code>方法，将用户输入的句子放到TCP连接中去，交给TCP去发送。</p>
 <h3 id="5-modifiedSentence-clientSocket-recv-1024"><a href="#5-modifiedSentence-clientSocket-recv-1024" class="headerlink" title="5. modifiedSentence = clientSocket.recv(1024)"></a>5. modifiedSentence = clientSocket.recv(1024)</h3><p>当字符到达服务器时，就会被放在modifiedSentence这个字符串变量中，字符持续积累，直到遇到结束符。clientSocket对象的<code>recv</code>方法，把服务器发回来的字符串放入modifiedSentence中。</p>
 <h3 id="6-clientSocket-close"><a href="#6-clientSocket-close" class="headerlink" title="6. clientSocket.close()"></a>6. clientSocket.close()</h3><p>关闭Socket，关闭了客户端和服务器之间的TCP连接。</p>
-<h2 id="TCPServer-py-服务器"><a href="#TCPServer-py-服务器" class="headerlink" title="TCPServer.py 服务器"></a>TCPServer.py 服务器</h2><pre><code class="Python">from socket import *
-serverPort = 12000
-
-# 初始化服务器Socket
-serverSocket = socket(AF_INET,SOCK_STREAM)
-
-# 绑定端口号
-serverSocket.bind((&quot;&quot;,serverPort))
-
-# 服务器开始监听
-serverSocket.listen(1)
-print(&quot;The server is ready to receive&quot;)
-
-# 一旦收到客户端的connect，立即接受（accept）并建立连接，成立特定服务于该客户端的 connectionSocket
-while True:
-  connectionSocket, addr = serverSocket.accept()
-  sentence = connectionSocket.recv(1024)
-  capitalizedSentence = sentence.upper()
-
-  # 服务器连接socket向客户端发送数据
-  connectionSocket.send(capitalizedSentence)
-
-  # 关闭连接socket
-  connectionSocket.close()
-</code></pre>
+<h2 id="TCPServer-py-服务器"><a href="#TCPServer-py-服务器" class="headerlink" title="TCPServer.py 服务器"></a>TCPServer.py 服务器</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line">serverPort = <span class="number">12000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化服务器Socket</span></span><br><span class="line">serverSocket = socket(AF_INET,SOCK_STREAM)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绑定端口号</span></span><br><span class="line">serverSocket.bind((<span class="string">""</span>,serverPort))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 服务器开始监听</span></span><br><span class="line">serverSocket.listen(<span class="number">1</span>)</span><br><span class="line">print(<span class="string">"The server is ready to receive"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一旦收到客户端的connect，立即接受（accept）并建立连接，成立特定服务于该客户端的 connectionSocket</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">  connectionSocket, addr = serverSocket.accept()</span><br><span class="line">  sentence = connectionSocket.recv(<span class="number">1024</span>)</span><br><span class="line">  capitalizedSentence = sentence.upper()</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 服务器连接socket向客户端发送数据</span></span><br><span class="line">  connectionSocket.send(capitalizedSentence)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 关闭连接socket</span></span><br><span class="line">  connectionSocket.close()</span><br></pre></td></tr></table></figure>
 <p>逐行解释:</p>
 <h3 id="1-serverSocket-socket-AF-INET-SOCK-STREAM"><a href="#1-serverSocket-socket-AF-INET-SOCK-STREAM" class="headerlink" title="1. serverSocket = socket(AF_INET,SOCK_STREAM)"></a>1. serverSocket = socket(AF_INET,SOCK_STREAM)</h3><p>使用<code>socket()</code>初始化函数，创建了一个服务器Socket。也就是<code>serverSocket</code>，这是上文提到的欢迎Socket。</p>
 <h3 id="2-serverSocket-bind-“”-serverPort"><a href="#2-serverSocket-bind-“”-serverPort" class="headerlink" title="2. serverSocket.bind((“”,serverPort))"></a>2. serverSocket.bind((“”,serverPort))</h3><p><code>bind</code>方法绑定一个端口号。</p>
@@ -238,25 +194,8 @@ while True:
 <hr>
 <h1 id="Python-实现-UDP-Socket-的例子"><a href="#Python-实现-UDP-Socket-的例子" class="headerlink" title="Python 实现 UDP Socket 的例子"></a>Python 实现 UDP Socket 的例子</h1><p>UDP是无连接的，不可靠的数据传送服务。当使用UDP时，必须先将<code>目的地址</code>和<code>源地址</code>附在分组上面。目的地址和源地址，都包括其<code>IP地址</code>和Socket应用程序的<code>端口号</code>。</p>
 <p>需要注意的是，将源地址附在分组上这个动作是由底层操作系统来完成的，不用我们关心。</p>
-<h2 id="UDPClient-py-客户端"><a href="#UDPClient-py-客户端" class="headerlink" title="UDPClient.py 客户端"></a>UDPClient.py 客户端</h2><pre><code class="Python">from socket import *
-serverName = &#39;hostname&#39;
-serverPort = 12000
+<h2 id="UDPClient-py-客户端"><a href="#UDPClient-py-客户端" class="headerlink" title="UDPClient.py 客户端"></a>UDPClient.py 客户端</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line">serverName = <span class="string">'hostname'</span></span><br><span class="line">serverPort = <span class="number">12000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化一个客户端Socket</span></span><br><span class="line">clientSocket = socket(AF_INET, SOCK_DGRAM)</span><br><span class="line"></span><br><span class="line">message = input(<span class="string">'Input lowercase sentence:'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端socket向服务器发送数据</span></span><br><span class="line">clientSocket.sendto(message,(serverName,serverPort))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端socket接收来自服务器的数据</span></span><br><span class="line">modifiedMessage, serverAddress = clientSocket.recvfrom(<span class="number">2048</span>)</span><br><span class="line">print(modifiedMessage)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭客户端socket</span></span><br><span class="line">clientSocket.close()</span><br></pre></td></tr></table></figure>
 
-# 初始化一个客户端Socket
-clientSocket = socket(AF_INET, SOCK_DGRAM)
-
-message = input(&#39;Input lowercase sentence:&#39;)
-
-# 客户端socket向服务器发送数据
-clientSocket.sendto(message,(serverName,serverPort))
-
-# 客户端socket接收来自服务器的数据
-modifiedMessage, serverAddress = clientSocket.recvfrom(2048)
-print(modifiedMessage)
-
-# 关闭客户端socket
-clientSocket.close()
-</code></pre>
 <p>逐行解释：</p>
 <h3 id="1-clientSocket-socket-AF-INET-SOCK-DGRAM"><a href="#1-clientSocket-socket-AF-INET-SOCK-DGRAM" class="headerlink" title="1. clientSocket = socket(AF_INET, SOCK_DGRAM)"></a>1. clientSocket = socket(AF_INET, SOCK_DGRAM)</h3><p>使用<code>socket()</code>初始化函数，创建了一个<code>客户端Socket</code>，第一个参数<code>AF_INET</code>指明底层网络使用的是IPv4，第二个参数<code>SOCK_DGRAM</code>指明该Socket是SOCK_DGRAM类型，也就是UDP。 <code>clientSocket</code>就是一个 Socket对象，它具有connect、send、recv等方法。</p>
 <p><font color="red">注意，创建客户端Socket时，并没有指定<code>客户端的端口号</code>，这件事由操作系统来做。</font></p>
@@ -264,22 +203,8 @@ clientSocket.close()
 <h3 id="3-clientSocket-sendto-message-serverName-serverPort"><a href="#3-clientSocket-sendto-message-serverName-serverPort" class="headerlink" title="3. clientSocket.sendto(message,(serverName,serverPort))"></a>3. clientSocket.sendto(message,(serverName,serverPort))</h3><p>clientSocket对象的<code>sendto</code>方法，将用户输入的句子放到UDP连接中去，交给UDP去发送。第一个参数是刚刚用户输入的内容，第二个参数指定了服务器的地址和端口号。</p>
 <h3 id="4-modifiedMessage-serverAddress-clientSocket-recvfrom-2048"><a href="#4-modifiedMessage-serverAddress-clientSocket-recvfrom-2048" class="headerlink" title="4. modifiedMessage, serverAddress = clientSocket.recvfrom(2048)"></a>4. <code>modifiedMessage, serverAddress = clientSocket.recvfrom(2048)</code></h3><p>当一个来自服务器的分组到达这个客户端Socket的时候，该分组的数据就会被放到<code>modifiedMessage</code>这个变量中，对方的源地址（包含IP和端口号）被放置到变量<code>serverAddress</code>中。事实上，在这个UDP的例子中，UDPClient并不需要服务器的地址信息，因为它一开始就已经知道了。但这行代码仍然提供了服务器的地址。</p>
 <h3 id="5-clientSocket-close"><a href="#5-clientSocket-close" class="headerlink" title="5. clientSocket.close()"></a>5. clientSocket.close()</h3><p>关闭Socket，关闭了客户端和服务器之间的UDP连接。</p>
-<h2 id="UDPServer-py-服务器"><a href="#UDPServer-py-服务器" class="headerlink" title="UDPServer.py 服务器"></a>UDPServer.py 服务器</h2><pre><code class="Python">from socket import *
-serverPort = 12000
+<h2 id="UDPServer-py-服务器"><a href="#UDPServer-py-服务器" class="headerlink" title="UDPServer.py 服务器"></a>UDPServer.py 服务器</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line">serverPort = <span class="number">12000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化服务器socket</span></span><br><span class="line">serverSocket = socket(AF_INET, SOCK_DGRAM)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绑定服务器端口</span></span><br><span class="line">serverSocket.bind((<span class="string">''</span>, serverPort))</span><br><span class="line">print(<span class="string">"The server is ready to receive"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 接收来自客户端的消息，处理并发送</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">  message, clientAddress = serverSocket.recvfrom(<span class="number">2048</span>)</span><br><span class="line">  modifiedMessage = message.upper()</span><br><span class="line">  serverSocket.sendto(modifiedMessage, clientAddress)</span><br></pre></td></tr></table></figure>
 
-# 初始化服务器socket
-serverSocket = socket(AF_INET, SOCK_DGRAM)
-
-# 绑定服务器端口
-serverSocket.bind((&#39;&#39;, serverPort))
-print(&quot;The server is ready to receive&quot;)
-
-# 接收来自客户端的消息，处理并发送
-while True:
-  message, clientAddress = serverSocket.recvfrom(2048)
-  modifiedMessage = message.upper()
-  serverSocket.sendto(modifiedMessage, clientAddress)
-</code></pre>
 <p>逐行解释：</p>
 <h3 id="1-serverSocket-socket-AF-INET-SOCK-DGRAM"><a href="#1-serverSocket-socket-AF-INET-SOCK-DGRAM" class="headerlink" title="1. serverSocket = socket(AF_INET, SOCK_DGRAM)"></a>1. serverSocket = socket(AF_INET, SOCK_DGRAM)</h3><p>使用<code>socket()</code>初始化函数，创建了一个服务器Socket。</p>
 <h3 id="2-serverSocket-bind-‘’-serverPort"><a href="#2-serverSocket-bind-‘’-serverPort" class="headerlink" title="2. serverSocket.bind((‘’, serverPort))"></a>2. serverSocket.bind((‘’, serverPort))</h3><p><code>bind</code>方法绑定一个端口号。</p>
@@ -287,100 +212,10 @@ while True:
 <h3 id="4-modifiedMessage-message-upper"><a href="#4-modifiedMessage-message-upper" class="headerlink" title="4. modifiedMessage = message.upper()"></a>4. modifiedMessage = message.upper()</h3><p>把接收到的数据<code>message</code>，转化成大写，并存在<code>modifiedMessage</code>这个变量中。</p>
 <h3 id="5-serverSocket-sendto-modifiedMessage-clientAddress"><a href="#5-serverSocket-sendto-modifiedMessage-clientAddress" class="headerlink" title="5. serverSocket.sendto(modifiedMessage, clientAddress)"></a>5. serverSocket.sendto(modifiedMessage, clientAddress)</h3><p>erverSocket对象的<code>sendto</code>方法，将转换成大写的数据，放到UDP连接中去，交给UDP去发送。第一个参数是刚刚转换过的内容，第二个参数指定了客户端的地址和端口号。（客户端的地址和端口号在第3步就接收到了）</p>
 <hr>
-<h1 id="Java-实现-TCP-socket"><a href="#Java-实现-TCP-socket" class="headerlink" title="Java 实现 TCP socket"></a>Java 实现 TCP socket</h1><h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><pre><code class="java">import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
+<h1 id="Java-实现-TCP-socket"><a href="#Java-实现-TCP-socket" class="headerlink" title="Java 实现 TCP socket"></a>Java 实现 TCP socket</h1><h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.net.ServerSocket;</span><br><span class="line"><span class="keyword">import</span> java.net.Socket;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">server</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 服务器端口</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SERVER_PORT = <span class="number">7767</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">boolean</span> STOP = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">        ServerSocket serverSocket = <span class="keyword">new</span> ServerSocket(SERVER_PORT);</span><br><span class="line">        System.out.println(<span class="string">"服务已启动，监听端口："</span> + SERVER_PORT);</span><br><span class="line">        <span class="keyword">while</span> (!STOP)&#123;</span><br><span class="line">            <span class="comment">// accept方法是阻塞的</span></span><br><span class="line">            Socket connectSocket = serverSocket.accept();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    System.out.println(<span class="string">"远程计算机 "</span> + connectSocket.getRemoteSocketAddress() + <span class="string">"已连接"</span>);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 从连接socket获取来自客户端的输入流</span></span><br><span class="line">                    InputStream in = connectSocket.getInputStream();</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 将输入流封装到数据流中（方便后续操作字符串）</span></span><br><span class="line">                    DataInputStream dataIn = <span class="keyword">new</span> DataInputStream(in);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 从数据流中读UTF</span></span><br><span class="line">                    String recv = dataIn.readUTF();</span><br><span class="line">                    System.out.println(<span class="string">"成功接收来自 "</span> + connectSocket.getRemoteSocketAddress() + <span class="string">"的数据："</span> + recv);</span><br><span class="line"></span><br><span class="line">                    String send = recv.toUpperCase();</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 封装输出流</span></span><br><span class="line">                    OutputStream out = connectSocket.getOutputStream();</span><br><span class="line">                    DataOutputStream dataOut = <span class="keyword">new</span> DataOutputStream(out);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 发送</span></span><br><span class="line">                    dataOut.writeUTF(send);</span><br><span class="line">                    System.out.println(<span class="string">"向"</span> + connectSocket.getRemoteSocketAddress() + <span class="string">"发送转换后的数据："</span> + send);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 关闭资源</span></span><br><span class="line">                    dataIn.close();</span><br><span class="line">                    dataOut.close();</span><br><span class="line">                    connectSocket.close();</span><br><span class="line"></span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-public class server {
+<h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.net.Socket;</span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">client</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设定服务器地址</span></span><br><span class="line">        Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        System.out.println(<span class="string">"请输入服务器地址，如 192.168.1.1"</span>);</span><br><span class="line">        String serverName = scanner.nextLine();</span><br><span class="line"></span><br><span class="line">        Socket client = <span class="keyword">new</span> Socket(serverName, <span class="number">7767</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 封装输出流</span></span><br><span class="line">        OutputStream out = client.getOutputStream();</span><br><span class="line">        DataOutputStream dataOut = <span class="keyword">new</span> DataOutputStream(out);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 控制台获取输入</span></span><br><span class="line">        System.out.println(<span class="string">"\n请输入要发送的数据："</span>);</span><br><span class="line">        String send = scanner.next();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 发送数据</span></span><br><span class="line">        dataOut.writeUTF(send);</span><br><span class="line">        System.out.println(<span class="string">"向服务器 "</span> + client.getRemoteSocketAddress() + <span class="string">"发送了："</span> + send);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 接收数据</span></span><br><span class="line">        InputStream in = client.getInputStream();</span><br><span class="line">        DataInputStream dataIn = <span class="keyword">new</span> DataInputStream(in);</span><br><span class="line">        String recv = dataIn.readUTF();</span><br><span class="line">        System.out.println(<span class="string">"接收来自服务器的数据："</span> + recv + <span class="string">'\n'</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 关闭资源</span></span><br><span class="line">        dataIn.close();</span><br><span class="line">        dataOut.close();</span><br><span class="line">        client.close();</span><br><span class="line">        scanner.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 服务器端口
-    private static final int SERVER_PORT = 7767;
-
-    public static void main(String[] args) throws IOException {
-
-        boolean STOP = false;
-
-        ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
-        System.out.println(&quot;服务已启动，监听端口：&quot; + SERVER_PORT);
-        while (!STOP){
-            // accept方法是阻塞的
-            Socket connectSocket = serverSocket.accept();
-
-                try {
-                    System.out.println(&quot;远程计算机 &quot; + connectSocket.getRemoteSocketAddress() + &quot;已连接&quot;);
-
-                    // 从连接socket获取来自客户端的输入流
-                    InputStream in = connectSocket.getInputStream();
-
-                    // 将输入流封装到数据流中（方便后续操作字符串）
-                    DataInputStream dataIn = new DataInputStream(in);
-
-                    // 从数据流中读UTF
-                    String recv = dataIn.readUTF();
-                    System.out.println(&quot;成功接收来自 &quot; + connectSocket.getRemoteSocketAddress() + &quot;的数据：&quot; + recv);
-
-                    String send = recv.toUpperCase();
-
-                    // 封装输出流
-                    OutputStream out = connectSocket.getOutputStream();
-                    DataOutputStream dataOut = new DataOutputStream(out);
-
-                    // 发送
-                    dataOut.writeUTF(send);
-                    System.out.println(&quot;向&quot; + connectSocket.getRemoteSocketAddress() + &quot;发送转换后的数据：&quot; + send);
-
-                    // 关闭资源
-                    dataIn.close();
-                    dataOut.close();
-                    connectSocket.close();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-        }
-    }
-}</code></pre>
-<h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><pre><code class="java">import java.io.*;
-import java.net.Socket;
-import java.util.Scanner;
-
-public class client {
-
-    public static void main(String[] args) throws IOException {
-
-        // 设定服务器地址
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(&quot;请输入服务器地址，如 192.168.1.1&quot;);
-        String serverName = scanner.nextLine();
-
-        Socket client = new Socket(serverName, 7767);
-
-        // 封装输出流
-        OutputStream out = client.getOutputStream();
-        DataOutputStream dataOut = new DataOutputStream(out);
-
-        // 控制台获取输入
-        System.out.println(&quot;\n请输入要发送的数据：&quot;);
-        String send = scanner.next();
-
-        // 发送数据
-        dataOut.writeUTF(send);
-        System.out.println(&quot;向服务器 &quot; + client.getRemoteSocketAddress() + &quot;发送了：&quot; + send);
-
-        // 接收数据
-        InputStream in = client.getInputStream();
-        DataInputStream dataIn = new DataInputStream(in);
-        String recv = dataIn.readUTF();
-        System.out.println(&quot;接收来自服务器的数据：&quot; + recv + &#39;\n&#39;);
-
-        // 关闭资源
-        dataIn.close();
-        dataOut.close();
-        client.close();
-        scanner.close();
-    }
-
-}</code></pre>
 <p>Java 的 UDP socket ？ 下次再说吧。</p>
 
         </div>
@@ -470,7 +305,7 @@ public class client {
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -482,7 +317,7 @@ public class client {
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -494,7 +329,7 @@ public class client {
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -723,25 +558,25 @@ public class client {
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -755,6 +590,14 @@ public class client {
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -763,20 +606,20 @@ public class client {
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -808,7 +651,7 @@ public class client {
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -816,7 +659,15 @@ public class client {
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -851,6 +702,25 @@ public class client {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -881,7 +751,7 @@ public class client {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -918,25 +788,6 @@ public class client {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1002,6 +853,25 @@ public class client {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1032,7 +902,7 @@ public class client {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1069,25 +939,6 @@ public class client {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1150,7 +1001,7 @@ public class client {
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1204,7 +1055,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

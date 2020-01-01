@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -170,77 +170,40 @@
 <li><strong>注意</strong>：LKM是内核空间程序，不是用户空间程序，你可以把它看成是内核的一部分。也就是LKM没有任何保护，一不小心可能就会导致系统崩溃。</li>
 </ul>
 <hr>
-<h1 id="编译LKM"><a href="#编译LKM" class="headerlink" title="编译LKM"></a>编译LKM</h1><h2 id="安装C编译器和Linux内核头文件"><a href="#安装C编译器和Linux内核头文件" class="headerlink" title="安装C编译器和Linux内核头文件"></a>安装C编译器和Linux内核头文件</h2><pre><code>sudo apt-get install build-essential linux-headers-$(uname -r)</code></pre><h2 id="Hello-World内核模块代码（hello-c）"><a href="#Hello-World内核模块代码（hello-c）" class="headerlink" title="Hello World内核模块代码（hello.c）"></a>Hello World内核模块代码（hello.c）</h2><pre><code class="c">#include &lt;linux/module.h&gt;     /* 模块头文件，必不可少 */
-#include &lt;linux/kernel.h&gt;     /* KERN_INFO在这里 */
-#include &lt;linux/init.h&gt;       /* 使用的宏 */
+<h1 id="编译LKM"><a href="#编译LKM" class="headerlink" title="编译LKM"></a>编译LKM</h1><h2 id="安装C编译器和Linux内核头文件"><a href="#安装C编译器和Linux内核头文件" class="headerlink" title="安装C编译器和Linux内核头文件"></a>安装C编译器和Linux内核头文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install build-essential linux-headers-$(uname -r)</span><br></pre></td></tr></table></figure>
 
-// LICENSE
-MODULE_LICENSE(&quot;GPL&quot;);
+<h2 id="Hello-World内核模块代码（hello-c）"><a href="#Hello-World内核模块代码（hello-c）" class="headerlink" title="Hello World内核模块代码（hello.c）"></a>Hello World内核模块代码（hello.c）</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/module.h&gt;     /* 模块头文件，必不可少 */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/kernel.h&gt;     /* KERN_INFO在这里 */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/init.h&gt;       /* 使用的宏 */</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// LICENSE</span></span><br><span class="line">MODULE_LICENSE(<span class="string">"GPL"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 作者</span></span><br><span class="line">MODULE_AUTHOR(<span class="string">"blog.topspeedsnail.com"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 描述</span></span><br><span class="line">MODULE_DESCRIPTION(<span class="string">"hello world"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 模块版本</span></span><br><span class="line">MODULE_VERSION(<span class="string">"3.14"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> __<span class="function">init <span class="title">hello_start</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    printk(KERN_INFO <span class="string">"Hello World\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> __<span class="function"><span class="built_in">exit</span> <span class="title">hello_end</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    printk(KERN_INFO <span class="string">"Go to Hell\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module_init(hello_start);</span><br><span class="line">module_exit(hello_end);</span><br></pre></td></tr></table></figure>
 
-// 作者
-MODULE_AUTHOR(&quot;blog.topspeedsnail.com&quot;);
-
-// 描述
-MODULE_DESCRIPTION(&quot;hello world&quot;);
-
-// 模块版本
-MODULE_VERSION(&quot;3.14&quot;);
-
-static int __init hello_start(void)
-{
-    printk(KERN_INFO &quot;Hello World\n&quot;);
-    return 0;
-}
-
-static void __exit hello_end(void)
-{
-    printk(KERN_INFO &quot;Go to Hell\n&quot;);
-}
-
-module_init(hello_start);
-module_exit(hello_end);</code></pre>
 <ul>
 <li><strong>module_init</strong> 定义了模块的入口函数，在模块加载 insmoded (插入模块)时执行</li>
 <li><strong>module_exit</strong> 定义了模块的退出函数，在模块卸载 rmmoded （移除模块）时执行</li>
 </ul>
-<h2 id="创建Makefile"><a href="#创建Makefile" class="headerlink" title="创建Makefile"></a>创建Makefile</h2><pre><code>obj-m = hello.o
-all:
-    make -C /lib/modules/$(shell uname -r)/build/ M=$(PWD) modules
-clean:
-    make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-# make命令前是tab，不是空格</code></pre><h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>make命令</p>
-<pre><code>make</code></pre><p>输出</p>
-<pre><code>jerrysheh@ubuntu:~/Desktop$ make
-make -C /lib/modules/4.13.0-31-generic/build/ M=/home/jerrysheh/Desktop modules
-make[1]: Entering directory &#39;/usr/src/linux-headers-4.13.0-31-generic&#39;
-  CC [M]  /home/jerrysheh/Desktop/helloworld.o
-  Building modules, stage 2.
-  MODPOST 1 modules
-  CC      /home/jerrysheh/Desktop/helloworld.mod.o
-  LD [M]  /home/jerrysheh/Desktop/helloworld.ko
-make[1]: Leaving directory &#39;/usr/src/linux-headers-4.13.0-31-generic&#39;</code></pre><h2 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h2><p>使用<code>modinfo hello.ko</code>来查看模块信息</p>
+<h2 id="创建Makefile"><a href="#创建Makefile" class="headerlink" title="创建Makefile"></a>创建Makefile</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">obj-m &#x3D; hello.o</span><br><span class="line">all:</span><br><span class="line">    make -C &#x2F;lib&#x2F;modules&#x2F;$(shell uname -r)&#x2F;build&#x2F; M&#x3D;$(PWD) modules</span><br><span class="line">clean:</span><br><span class="line">    make -C &#x2F;lib&#x2F;modules&#x2F;$(shell uname -r)&#x2F;build M&#x3D;$(PWD) clean</span><br><span class="line"># make命令前是tab，不是空格</span><br></pre></td></tr></table></figure>
+
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>make命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">jerrysheh@ubuntu:~&#x2F;Desktop$ make</span><br><span class="line">make -C &#x2F;lib&#x2F;modules&#x2F;4.13.0-31-generic&#x2F;build&#x2F; M&#x3D;&#x2F;home&#x2F;jerrysheh&#x2F;Desktop modules</span><br><span class="line">make[1]: Entering directory &#39;&#x2F;usr&#x2F;src&#x2F;linux-headers-4.13.0-31-generic&#39;</span><br><span class="line">  CC [M]  &#x2F;home&#x2F;jerrysheh&#x2F;Desktop&#x2F;helloworld.o</span><br><span class="line">  Building modules, stage 2.</span><br><span class="line">  MODPOST 1 modules</span><br><span class="line">  CC      &#x2F;home&#x2F;jerrysheh&#x2F;Desktop&#x2F;helloworld.mod.o</span><br><span class="line">  LD [M]  &#x2F;home&#x2F;jerrysheh&#x2F;Desktop&#x2F;helloworld.ko</span><br><span class="line">make[1]: Leaving directory &#39;&#x2F;usr&#x2F;src&#x2F;linux-headers-4.13.0-31-generic&#39;</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h2><p>使用<code>modinfo hello.ko</code>来查看模块信息</p>
 <p>使用<code>sudo insmod hello.ko</code>来加载模块到内核</p>
 <p>使用<code>lsmod</code>来查看已加载的内核（结合管道<code>lsmod | grep hello</code>）</p>
 <p>使用<code>sudo rmmod hello</code>来卸载模块</p>
 <h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><p>使用<code>tail /var/log/kern.log</code>来查看模块的输出</p>
-<pre><code>jerrysheh@ubuntu:~/Desktop$ tail /var/log/kern.log
-Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   gateway 192.168.224.2
-Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   server identifier 192.168.224.254
-Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   lease time 1800
-Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   nameserver &#39;192.168.224.2&#39;
-Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   domain name &#39;localdomain&#39;
-Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   wins &#39;192.168.224.2&#39;
-Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9771] dhcp4 (ens33): state changed bound -&gt; bound
-Mar  7 12:56:41 ubuntu kernel: [ 1170.100050] helloworld: loading out-of-tree module taints kernel.
-Mar  7 12:56:41 ubuntu kernel: [ 1170.100085] helloworld: module verification failed: signature and/or required key missing - tainting kernel
-Mar  7 12:56:41 ubuntu kernel: [ 1170.100760] Hello World</code></pre><p>看到最后一行输出了 Hello World，正是我们编写的 helloworld.ko 模块输出的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">jerrysheh@ubuntu:~&#x2F;Desktop$ tail &#x2F;var&#x2F;log&#x2F;kern.log</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   gateway 192.168.224.2</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   server identifier 192.168.224.254</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   lease time 1800</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   nameserver &#39;192.168.224.2&#39;</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   domain name &#39;localdomain&#39;</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   wins &#39;192.168.224.2&#39;</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9771] dhcp4 (ens33): state changed bound -&gt; bound</span><br><span class="line">Mar  7 12:56:41 ubuntu kernel: [ 1170.100050] helloworld: loading out-of-tree module taints kernel.</span><br><span class="line">Mar  7 12:56:41 ubuntu kernel: [ 1170.100085] helloworld: module verification failed: signature and&#x2F;or required key missing - tainting kernel</span><br><span class="line">Mar  7 12:56:41 ubuntu kernel: [ 1170.100760] Hello World</span><br></pre></td></tr></table></figure>
+
+<p>看到最后一行输出了 Hello World，正是我们编写的 helloworld.ko 模块输出的。</p>
 <p>可以使用<code>tail -f /var/log/kern.lo</code>来动态监控内核的输出</p>
 <h2 id="作为字符型驱动"><a href="#作为字符型驱动" class="headerlink" title="作为字符型驱动"></a>作为字符型驱动</h2><p>在 insmod 的时候把设备的主设备号打印出来。</p>
 <p>如果要把内核模块作为字符型驱动设备，首先</p>
-<pre><code>tail -f /var/log/messgaes</code></pre><p>查看设备的主设备号，比如是 254</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f &#x2F;var&#x2F;log&#x2F;messgaes</span><br></pre></td></tr></table></figure>
+
+<p>查看设备的主设备号，比如是 254</p>
 <p>然后创建目录和节点</p>
-<pre><code>mkdir /dev/demo
-mknod /dev/demo/newdev c 254 0</code></pre><p>这样就创建了一个虚拟的字符型驱动设备。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir &#x2F;dev&#x2F;demo</span><br><span class="line">mknod &#x2F;dev&#x2F;demo&#x2F;newdev c 254 0</span><br></pre></td></tr></table></figure>
+
+<p>这样就创建了一个虚拟的字符型驱动设备。</p>
 <hr>
 <p>本文引用的文章：</p>
 <ul>
@@ -337,7 +300,7 @@ mknod /dev/demo/newdev c 254 0</code></pre><p>这样就创建了一个虚拟的�
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -349,7 +312,7 @@ mknod /dev/demo/newdev c 254 0</code></pre><p>这样就创建了一个虚拟的�
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -361,7 +324,7 @@ mknod /dev/demo/newdev c 254 0</code></pre><p>这样就创建了一个虚拟的�
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -506,25 +469,25 @@ mknod /dev/demo/newdev c 254 0</code></pre><p>这样就创建了一个虚拟的�
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -538,6 +501,14 @@ mknod /dev/demo/newdev c 254 0</code></pre><p>这样就创建了一个虚拟的�
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -546,20 +517,20 @@ mknod /dev/demo/newdev c 254 0</code></pre><p>这样就创建了一个虚拟的�
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -591,7 +562,7 @@ mknod /dev/demo/newdev c 254 0</code></pre><p>这样就创建了一个虚拟的�
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -599,7 +570,15 @@ mknod /dev/demo/newdev c 254 0</code></pre><p>这样就创建了一个虚拟的�
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -634,6 +613,25 @@ mknod /dev/demo/newdev c 254 0</code></pre><p>这样就创建了一个虚拟的�
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -664,7 +662,7 @@ mknod /dev/demo/newdev c 254 0</code></pre><p>这样就创建了一个虚拟的�
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -701,25 +699,6 @@ mknod /dev/demo/newdev c 254 0</code></pre><p>这样就创建了一个虚拟的�
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -785,6 +764,25 @@ mknod /dev/demo/newdev c 254 0</code></pre><p>这样就创建了一个虚拟的�
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -815,7 +813,7 @@ mknod /dev/demo/newdev c 254 0</code></pre><p>这样就创建了一个虚拟的�
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -852,25 +850,6 @@ mknod /dev/demo/newdev c 254 0</code></pre><p>这样就创建了一个虚拟的�
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -933,7 +912,7 @@ mknod /dev/demo/newdev c 254 0</code></pre><p>这样就创建了一个虚拟的�
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -987,7 +966,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

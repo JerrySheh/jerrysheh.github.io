@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Spring了然于心 - J.e</title>
+
+
+    <meta name="description" content="1. MVC 结构流程 Web浏览器发送HTTP请求到服务端，被Controller(Servlet)获取并进行处理（例如参数解析、请求转发） Controller 调用核心业务逻辑——Model部分 Model进行数据库存取操作，并将操作结果返回 Controller 将业务逻辑处理结果交给View（JSP），动态输出HTML内容 动态生成的HTML内容返回到浏览器显示  2. 什么是 Ioc">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Spring了然于心">
+<meta property="og:url" content="https://jerrysheh.me/spring/index.html">
+<meta property="og:site_name" content="J.e">
+<meta property="og:description" content="1. MVC 结构流程 Web浏览器发送HTTP请求到服务端，被Controller(Servlet)获取并进行处理（例如参数解析、请求转发） Controller 调用核心业务逻辑——Model部分 Model进行数据库存取操作，并将操作结果返回 Controller 将业务逻辑处理结果交给View（JSP），动态输出HTML内容 动态生成的HTML内容返回到浏览器显示  2. 什么是 Ioc">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
+<meta property="article:published_time" content="2018-10-11T13:13:51.000Z">
+<meta property="article:modified_time" content="2020-01-01T13:39:48.484Z">
+<meta property="article:author" content="Jerry Sheh">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Spring了然于心" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">首页</a>
+                
+                <a class="navbar-item"
+                href="/archives">时间线</a>
+                
+                <a class="navbar-item"
+                href="/categories">文章分类</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+                <a class="navbar-item"
+                href="/anpu">Anpu</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Spring了然于心
+            
+        </h1>
+        <div class="content">
+            <h1 id="1-MVC-结构流程"><a href="#1-MVC-结构流程" class="headerlink" title="1. MVC 结构流程"></a>1. MVC 结构流程</h1><ol>
+<li>Web浏览器发送HTTP请求到服务端，被Controller(Servlet)获取并进行处理（例如参数解析、请求转发）</li>
+<li>Controller 调用核心业务逻辑——Model部分</li>
+<li>Model进行数据库存取操作，并将操作结果返回</li>
+<li>Controller 将业务逻辑处理结果交给View（JSP），动态输出HTML内容</li>
+<li>动态生成的HTML内容返回到浏览器显示</li>
+</ol>
+<h1 id="2-什么是-Ioc-？"><a href="#2-什么是-Ioc-？" class="headerlink" title="2. 什么是 Ioc ？"></a>2. 什么是 Ioc ？</h1><p>Ioc（Inversion of Control）是控制反转，具体做法的依赖注入（DI，Dependency Inject）。即 <strong>某一接口的实现类的选择控制权从调用类中移除，转交由第三方决定</strong>，当需要的时候，由第三方进行注入，而不由调用类 new，这就是反转控制。</p>
+<p>Spring 提供了一个反转控制容器，当我们要使用某个对象，只需要从 Spring 容器中获取需要使用的对象，不关心对象的创建过程，把创建对象的控制权反转给了 Spring 框架，而 Spring 容器是通过 DI，在创建对象的过程中将对象依赖属性（简单值，集合，对象）通过配置设值给该对象。</p>
+<h1 id="3-Ioc是如何实现的"><a href="#3-Ioc是如何实现的" class="headerlink" title="3. Ioc是如何实现的?"></a>3. Ioc是如何实现的?</h1><ol>
+<li>读取注解或者配置文件，看看 bean 依赖的是哪个Source，拿到类名</li>
+<li>使用反射的API，基于类名实例化对应的对象实例</li>
+<li>将对象实例通过构造函数或者 setter，注入给 bean</li>
+</ol>
+<h1 id="4-什么是-AOP-？"><a href="#4-什么是-AOP-？" class="headerlink" title="4. 什么是 AOP ？"></a>4. 什么是 AOP ？</h1><p>Aspect Oriented Program，面向切面编程。即把功能分为 核心业务功能 和 周边功能。两者分别独立进行开发，然后把切面功能和核心业务功能 “编织” 在一起。</p>
+<p>AOP 的好处是允许我们把遍布应用各处的功能分离出来形成可重用的组件。</p>
+<h1 id="5-什么是-Spring-Boot-？"><a href="#5-什么是-Spring-Boot-？" class="headerlink" title="5. 什么是 Spring Boot ？"></a>5. 什么是 Spring Boot ？</h1><p>Spring Boot并不是什么新的框架，而是默认配置了很多框架的使用方式，就像 Maven 整合了所有的 jar 包一样，Spring Boot 整合了大部分框架，比如Mybatis、Hibernate、Spring MVC。</p>
+<p>Spring Boot使用 “习惯优于配置” （项目中存在大量的配置，此外还内置一个习惯性的配置）的理念让你的项目快速运行起来。</p>
+<h1 id="6-什么是-Spring-？"><a href="#6-什么是-Spring-？" class="headerlink" title="6. 什么是 Spring ？"></a>6. 什么是 Spring ？</h1><p>Spring 是一个开源框架大家族，包含很多子项目，例如 Spring Core、Spring data、Spring Web MVC 以及最新的 Spring Boot 和 Spirng Could。它的核心理念是 依赖注入 和 面向切面。</p>
+<p>传统的 Java 项目，类和类之间经常有依赖关系，一般调用类通过 new 关键字构造依赖类的实例。当工程变大，依赖关系会变得十分复杂，使项目难以维护。Spring 提供了依赖注入容器，相当于在 Java 类当中充当一个中间人，管理着类与类之间的依赖关系。</p>
+<h1 id="7-什么是-Spring-Cloud-？"><a href="#7-什么是-Spring-Cloud-？" class="headerlink" title="7. 什么是 Spring Cloud ？"></a>7. 什么是 Spring Cloud ？</h1><p>Spring Cloud是一套分布式服务治理的框架。可以理解成是一个注册中心，提供如服务发现注册、配置中心、消息总线、负载均衡、断路器、数据监控等。</p>
+<p>Spring Cloud + Spring Boot 非常适合做微服务架构，Boot的轻量级适合开发单个微服务，多个服务再统一在 Cloud 中注册。</p>
+<h1 id="8-BeanFactory-和-ApplicationContext-的区别"><a href="#8-BeanFactory-和-ApplicationContext-的区别" class="headerlink" title="8. BeanFactory 和 ApplicationContext 的区别"></a>8. BeanFactory 和 ApplicationContext 的区别</h1><p>一般称 BeanFactory 为 IoC 容器，而 ApplicationContext 为应用上下文。</p>
+<p>BeanFactory 是解析、管理、实例化所有容器的 Bean 的入口，<strong>面向 Spring 本身</strong>。且是 Spring Framework 最核心的接口，提供了高级的 Ioc 配置机制，使管理不同类型的 Java 对象成为可能。</p>
+<p>ApplicationContext <strong>面向框架的开发者</strong>，提供国际化支持、统一的资源文件读取方式、框架事件体系等。</p>
+<p>BeanFactory 在启动的时候不会实例化Bean，getBean() 的时候才会实例化。ApplicationContext在解析配置文件时会对配置文件所有对象都初始化（默认情况下）。</p>
+<h1 id="9-Spring-Bean的5种作用域-Scope"><a href="#9-Spring-Bean的5种作用域-Scope" class="headerlink" title="9. Spring Bean的5种作用域(Scope)"></a>9. Spring Bean的5种作用域(Scope)</h1><p>在 applicationContext.xml 中声明 scope:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span></span></span><br><span class="line"><span class="tag">  <span class="attr">id</span>=<span class="string">"hello"</span> <span class="attr">scope</span>=<span class="string">"singleton"</span> <span class="attr">class</span>=<span class="string">"io.jerrysheh.Hello"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>singleton</strong>: 是 Spring Bean 的默认配置，这个 Bean 在 Spring 容器是 单例 的。</li>
+<li><strong>prototype</strong>: 和 singleton 相反，为每个 Bean 请求提供一个 Bean 实例</li>
+<li><strong>request</strong>：在请求 Bean 范围内会给每个客户端的网络请求创建一个实例，请求结束之后会回收</li>
+<li><strong>session</strong>: 在每个 session 中有一个 Bean 的实例，session 结束后回收</li>
+<li><strong>global-session</strong>: 所有 Portlet 共享的 Bean</li>
+</ol>
+<p>注意，Singleton Bean不是线程安全的，需要自行保证线程安全。</p>
+<h1 id="10-Spring-的5种自动装配模式"><a href="#10-Spring-的5种自动装配模式" class="headerlink" title="10. Spring 的5种自动装配模式"></a>10. Spring 的5种自动装配模式</h1><ol>
+<li><strong>no</strong>：Spring 框架的默认设置，开发者要在 Bean 中明确定义依赖</li>
+<li><strong>byName</strong>：在配置文件中查找相同名字的 Bean 进行装配</li>
+<li><strong>byType</strong>：在配置文件中查找相同类型的 Bean 进行装配</li>
+<li><strong>constructor</strong>：寻找有相同构造参数的 Bean 进行装配</li>
+<li><strong>autodetect</strong>：先尝试以 constructor 的方法进行装配，失败后 byType 进行装配</li>
+</ol>
+<h1 id="11-SpringMVC处理请求的流程"><a href="#11-SpringMVC处理请求的流程" class="headerlink" title="11. SpringMVC处理请求的流程"></a>11. SpringMVC处理请求的流程</h1><ol>
+<li>用户发送请求，被DispatcherServlet拦截，DispatcherServlet收到请求之后自己不处理，而是交给其他的Handler进行处理</li>
+<li>DispatcherServlet初始化HandlerMapping，HandlerMapping会把请求映射成一个HandlerExecutionChain对象，这个对象包括一个Handler和多个Interceptor，然后把这个Handler适配成HandlerAdapter</li>
+<li>DispatcherServlet传过来的请求会和HandlerAdapter进行适配，先要进行一些数据转换，然后调用HandlerAdapter的handle()，返回一个ModelAndView对象</li>
+<li>mv.render()，通过ViewResolver进行渲染，把刚才HandlerAdapter返回的Model渲染到View上</li>
+<li>最后进行请求的转发</li>
+</ol>
+<h1 id="12-什么是微服务？"><a href="#12-什么是微服务？" class="headerlink" title="12. 什么是微服务？"></a>12. 什么是微服务？</h1><p>微服务是一个松耦合的分布式服务。微服务允许将一个大型的应用分解成许多独立的组件，每个组件单独部署。</p>
+<h2 id="微服务有什么好处？"><a href="#微服务有什么好处？" class="headerlink" title="微服务有什么好处？"></a>微服务有什么好处？</h2><ul>
+<li><strong>职责明确</strong>：细粒度组件，组件职责领域明确，并且可以完全独立部署</li>
+<li><strong>组件复用</strong>：一个微服务组件可以跨多个应用程序复用</li>
+<li><strong>通信规范</strong>：组件之间通过 HTTP 、JSON 进行轻量级通信</li>
+<li><strong>底层透明</strong>：一个服务的底层用什么技术实现并没有什么影响，不同的开发小组可以用不同的技术栈</li>
+</ul>
+<hr>
+<h1 id="13-什么是REST"><a href="#13-什么是REST" class="headerlink" title="13. 什么是REST"></a>13. 什么是REST</h1><p>REST（Representational State Transfer）省略了主语 Resource，翻译成中文是：资源表述性状态转移。简单地说，就是用 URI 来定位资源，用 http 方法（GET、POST、DELETE、PUT等动词）来表示行为，用 http 状态码来表示结果。</p>
+<hr>
+<h1 id="14-AOP底层怎么实现？两种代理有什么区别？"><a href="#14-AOP底层怎么实现？两种代理有什么区别？" class="headerlink" title="14. AOP底层怎么实现？两种代理有什么区别？"></a>14. AOP底层怎么实现？两种代理有什么区别？</h1><p>AOP底层实现是动态代理。</p>
+<h2 id="什么是动态代理"><a href="#什么是动态代理" class="headerlink" title="什么是动态代理"></a>什么是动态代理</h2><p>动态代理，即利用 Java 的反射技术(Java Reflection)，在运行时创建一个实现某些给定接口的新类（也称“动态代理类”）及其实例（对象）。代理的是接口(Interfaces)，不是类(Class)，更不是抽象类。</p>
+<p>动态代理用来解决一个接口的实现在编译时无法知道，需要在运行时才能实现的问题。也可以用来实现某些设计模式，如适配器(Adapter)或修饰器(Decorator)。以及实现面向切面编程：如AOP in Spring。</p>
+<h2 id="AOP底层的两种代理和区别？"><a href="#AOP底层的两种代理和区别？" class="headerlink" title="AOP底层的两种代理和区别？"></a>AOP底层的两种代理和区别？</h2><p>JDK动态代理 和 Cglib动态代理 。</p>
+<hr>
+<h1 id="15-SpringMVC启动会加装几种容器？他们的关系是怎样的？"><a href="#15-SpringMVC启动会加装几种容器？他们的关系是怎样的？" class="headerlink" title="15. SpringMVC启动会加装几种容器？他们的关系是怎样的？"></a>15. SpringMVC启动会加装几种容器？他们的关系是怎样的？</h1><p>todo</p>
+<hr>
+<h1 id="16-SpringMVC-如何知道要加装的-Spring-配置在哪里？"><a href="#16-SpringMVC-如何知道要加装的-Spring-配置在哪里？" class="headerlink" title="16. SpringMVC 如何知道要加装的 Spring 配置在哪里？"></a>16. SpringMVC 如何知道要加装的 Spring 配置在哪里？</h1><p>todo</p>
+<hr>
+<h1 id="17-Spring-容器创建对象的时机"><a href="#17-Spring-容器创建对象的时机" class="headerlink" title="17. Spring 容器创建对象的时机"></a>17. Spring 容器创建对象的时机</h1><p>默认情况下，当我们启动 Spring applicationContext 时：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ApplicationContext context = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>applicationContext 会去寻找 applicationContext.xml 配置文件，里面有许多 <bean> 的定义，遇到 <bean> 时就创建对象。</p>
+<p>当我们给 bean 加上 <code>lazy-init=&quot;true&quot;</code> 属性</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span></span></span><br><span class="line"><span class="tag">  <span class="attr">id</span>=<span class="string">"hello"</span> <span class="attr">lazy-init</span>=<span class="string">"true"</span> <span class="attr">class</span>=<span class="string">"io.jerrysheh.Hello"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>则在应用中，遇到 getBean 时才创建。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello h = (Hello) context.getBean(<span class="string">"hello"</span>);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="18-AutoWired-自动装配如果有多个符合的bean"><a href="#18-AutoWired-自动装配如果有多个符合的bean" class="headerlink" title="18. AutoWired 自动装配如果有多个符合的bean"></a>18. AutoWired 自动装配如果有多个符合的bean</h1><p>在 Service 层自动注入一个 Dao，通常：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PersonService</span></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@AutoWired</span></span><br><span class="line">  <span class="keyword">private</span> PersonDao personDao;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果 PersonDao 有多个实现如何解决？</p>
+<p>第一种方法，改名字，改为实现类的名字。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AutoWired</span></span><br><span class="line"><span class="keyword">private</span> PersonDao personMysqlDaoImpl;</span><br><span class="line"></span><br><span class="line"><span class="meta">@AutoWired</span></span><br><span class="line"><span class="keyword">private</span> PersonDao personOracleDaoImpl;</span><br></pre></td></tr></table></figure>
+
+<p>第二种方法，配合 <code>@Qualifier</code> 注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AutoWired</span></span><br><span class="line"><span class="meta">@Qualifier</span>(<span class="string">"personMysqlDaoImpl"</span>)</span><br><span class="line"><span class="keyword">private</span> PersonDao personDao;</span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Jerry Sheh
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        车顶上绑着飞机发动机
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            157
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            20
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            34
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
+                联系我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/Jerrysheh">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="email" href="mailto:jerrysheh@gmail.com">
+                
+                <i class="fa fa-envelope"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#1-MVC-结构流程">
+        <span class="has-mr-6">1</span>
+        <span>1. MVC 结构流程</span>
+        </a></li><li>
+        <a class="is-flex" href="#2-什么是-Ioc-？">
+        <span class="has-mr-6">2</span>
+        <span>2. 什么是 Ioc ？</span>
+        </a></li><li>
+        <a class="is-flex" href="#3-Ioc是如何实现的">
+        <span class="has-mr-6">3</span>
+        <span>3. Ioc是如何实现的?</span>
+        </a></li><li>
+        <a class="is-flex" href="#4-什么是-AOP-？">
+        <span class="has-mr-6">4</span>
+        <span>4. 什么是 AOP ？</span>
+        </a></li><li>
+        <a class="is-flex" href="#5-什么是-Spring-Boot-？">
+        <span class="has-mr-6">5</span>
+        <span>5. 什么是 Spring Boot ？</span>
+        </a></li><li>
+        <a class="is-flex" href="#6-什么是-Spring-？">
+        <span class="has-mr-6">6</span>
+        <span>6. 什么是 Spring ？</span>
+        </a></li><li>
+        <a class="is-flex" href="#7-什么是-Spring-Cloud-？">
+        <span class="has-mr-6">7</span>
+        <span>7. 什么是 Spring Cloud ？</span>
+        </a></li><li>
+        <a class="is-flex" href="#8-BeanFactory-和-ApplicationContext-的区别">
+        <span class="has-mr-6">8</span>
+        <span>8. BeanFactory 和 ApplicationContext 的区别</span>
+        </a></li><li>
+        <a class="is-flex" href="#9-Spring-Bean的5种作用域-Scope">
+        <span class="has-mr-6">9</span>
+        <span>9. Spring Bean的5种作用域(Scope)</span>
+        </a></li><li>
+        <a class="is-flex" href="#10-Spring-的5种自动装配模式">
+        <span class="has-mr-6">10</span>
+        <span>10. Spring 的5种自动装配模式</span>
+        </a></li><li>
+        <a class="is-flex" href="#11-SpringMVC处理请求的流程">
+        <span class="has-mr-6">11</span>
+        <span>11. SpringMVC处理请求的流程</span>
+        </a></li><li>
+        <a class="is-flex" href="#12-什么是微服务？">
+        <span class="has-mr-6">12</span>
+        <span>12. 什么是微服务？</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#微服务有什么好处？">
+        <span class="has-mr-6">12.1</span>
+        <span>微服务有什么好处？</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#13-什么是REST">
+        <span class="has-mr-6">13</span>
+        <span>13. 什么是REST</span>
+        </a></li><li>
+        <a class="is-flex" href="#14-AOP底层怎么实现？两种代理有什么区别？">
+        <span class="has-mr-6">14</span>
+        <span>14. AOP底层怎么实现？两种代理有什么区别？</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#什么是动态代理">
+        <span class="has-mr-6">14.1</span>
+        <span>什么是动态代理</span>
+        </a></li><li>
+        <a class="is-flex" href="#AOP底层的两种代理和区别？">
+        <span class="has-mr-6">14.2</span>
+        <span>AOP底层的两种代理和区别？</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#15-SpringMVC启动会加装几种容器？他们的关系是怎样的？">
+        <span class="has-mr-6">15</span>
+        <span>15. SpringMVC启动会加装几种容器？他们的关系是怎样的？</span>
+        </a></li><li>
+        <a class="is-flex" href="#16-SpringMVC-如何知道要加装的-Spring-配置在哪里？">
+        <span class="has-mr-6">16</span>
+        <span>16. SpringMVC 如何知道要加装的 Spring 配置在哪里？</span>
+        </a></li><li>
+        <a class="is-flex" href="#17-Spring-容器创建对象的时机">
+        <span class="has-mr-6">17</span>
+        <span>17. Spring 容器创建对象的时机</span>
+        </a></li><li>
+        <a class="is-flex" href="#18-AutoWired-自动装配如果有多个符合的bean">
+        <span class="has-mr-6">18</span>
+        <span>18. AutoWired 自动装配如果有多个符合的bean</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/C-C/">
+            <span class="level-start">
+                <span class="level-item">C/C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Effective-Java/">
+            <span class="level-start">
+                <span class="level-item">Effective Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Golang/">
+            <span class="level-start">
+                <span class="level-item">Golang</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">24</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java-Web/">
+            <span class="level-start">
+                <span class="level-item">Java Web</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+            <span class="level-start">
+                <span class="level-item">大数据</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+            <span class="level-start">
+                <span class="level-item">操作系统</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+            <span class="level-start">
+                <span class="level-item">数据库</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
+            <span class="level-start">
+                <span class="level-item">数据结构和算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E7%94%9F%E6%B4%BB/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">计算机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <span class="level-start">
+                <span class="level-item">计算机网络</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/4e34dae4.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
+                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/a0972c39.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
+                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/7d5810ff.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
+                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/post/387fb533.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
+                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            推荐链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">我没有三颗心脏</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Spring了然于心" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Jerry Sheh&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://jerrysheh.me',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

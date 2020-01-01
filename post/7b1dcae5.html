@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -163,17 +163,8 @@
 <p>参阅<a href="https://developer.android.com/guide/components/activities.html?hl=zh-cn#Creating">Activity Google官方文档</a></p>
 <hr>
 <h1 id="布局-XML"><a href="#布局-XML" class="headerlink" title="布局 XML"></a>布局 XML</h1><p>Android 项目中的布局在 res/layouts 目录下的 XML 文件编写。</p>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><pre><code class="xml">&lt;TextView
-    android:id=&quot;@+id/hello&quot;
-    android:layout_width=&quot;wrap_content&quot;
-    android:layout_height=&quot;wrap_content&quot;
-    android:text=&quot;Hello World!&quot;  /&gt;
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:id</span>=<span class="string">"@+id/hello"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:text</span>=<span class="string">"Hello World!"</span>  /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:id</span>=<span class="string">"@+id/button"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:text</span>=<span class="string">"确定"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
 
-&lt;Button
-    android:id=&quot;@+id/button&quot;
-    android:layout_width=&quot;wrap_content&quot;
-    android:layout_height=&quot;wrap_content&quot;
-    android:text=&quot;确定&quot;/&gt;</code></pre>
 <a id="more"></a>
 
 <h2 id="常用控件"><a href="#常用控件" class="headerlink" title="常用控件"></a>常用控件</h2><table>
@@ -265,33 +256,8 @@
 <p>关于颜色，可以到 <a href="https://material.io/design/color/#tools-for-picking-colors">Materia Design</a>官网选取颜色</p>
 </blockquote>
 <h2 id="几种基本布局"><a href="#几种基本布局" class="headerlink" title="几种基本布局"></a>几种基本布局</h2><h3 id="线性布局（LinearLayout）"><a href="#线性布局（LinearLayout）" class="headerlink" title="线性布局（LinearLayout）"></a>线性布局（LinearLayout）</h3><p>一种依靠线性方向排列的布局。</p>
-<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-   xmlns:tools=&quot;http://schemas.android.com/tools&quot;
-   android:layout_width=&quot;match_parent&quot;
-   android:layout_height=&quot;match_parent&quot;
-   android:orientation=&quot;vertical&quot;
-   android:padding=&quot;16dp&quot;
-   tools:context=&quot;com.example.android.exampleapp.MainActivity&quot;&gt;
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">   <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:padding</span>=<span class="string">"16dp"</span></span></span><br><span class="line"><span class="tag">   <span class="attr">tools:context</span>=<span class="string">"com.example.android.exampleapp.MainActivity"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="tag">&lt;<span class="name">EditText</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:id</span>=<span class="string">"@+id/edit_text_name_input"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:background</span>=<span class="string">"@color/colorAccent"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:hint</span>=<span class="string">"Enter your name"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:padding</span>=<span class="string">"4dp"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:textSize</span>=<span class="string">"24sp"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:id</span>=<span class="string">"@+id/text_view_name_display"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:layout_marginTop</span>=<span class="string">"8dp"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:text</span>=<span class="string">"Your name appears here"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:textSize</span>=<span class="string">"30sp"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-   &lt;EditText
-       android:id=&quot;@+id/edit_text_name_input&quot;
-       android:layout_width=&quot;match_parent&quot;
-       android:layout_height=&quot;wrap_content&quot;
-       android:background=&quot;@color/colorAccent&quot;
-       android:hint=&quot;Enter your name&quot;
-       android:padding=&quot;4dp&quot;
-       android:textSize=&quot;24sp&quot; /&gt;
-
-   &lt;TextView
-       android:id=&quot;@+id/text_view_name_display&quot;
-       android:layout_width=&quot;wrap_content&quot;
-       android:layout_height=&quot;wrap_content&quot;
-       android:layout_gravity=&quot;center&quot;
-       android:layout_marginTop=&quot;8dp&quot;
-       android:text=&quot;Your name appears here&quot;
-       android:textSize=&quot;30sp&quot; /&gt;
-&lt;/LinearLayout&gt;</code></pre>
 <h3 id="相对布局（RelativeLayout）"><a href="#相对布局（RelativeLayout）" class="headerlink" title="相对布局（RelativeLayout）"></a>相对布局（RelativeLayout）</h3><p>一种依靠相对关系排列的布局。</p>
 <p>控件可以用<code>android:layout_above=&quot;@id/other_widget&quot;</code>之类的语句来定位。</p>
 <p>相对布局属性：</p>
@@ -405,50 +371,11 @@
 </ul>
 <h3 id="帧布局（FrameLayout）"><a href="#帧布局（FrameLayout）" class="headerlink" title="帧布局（FrameLayout）"></a>帧布局（FrameLayout）</h3><p>默认摆放在左上角的布局。</p>
 <p>在下面的例子中， FrameLayout嵌套了ScrollView</p>
-<pre><code class="xml">&lt;FrameLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;&gt;
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">FrameLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ScrollView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">"@+id/tv_toy_names"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:padding</span>=<span class="string">"16dp"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:textSize</span>=<span class="string">"20sp"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ScrollView</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">FrameLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-    &lt;ScrollView
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;wrap_content&quot;&gt;
-
-        &lt;TextView
-            android:id=&quot;@+id/tv_toy_names&quot;
-            android:layout_width=&quot;wrap_content&quot;
-            android:layout_height=&quot;wrap_content&quot;
-            android:padding=&quot;16dp&quot;
-            android:textSize=&quot;20sp&quot; /&gt;
-    &lt;/ScrollView&gt;
-&lt;/FrameLayout&gt;</code></pre>
 <h3 id="约束布局（ConstraintLayout）"><a href="#约束布局（ConstraintLayout）" class="headerlink" title="约束布局（ConstraintLayout）"></a>约束布局（ConstraintLayout）</h3><p>Android Project默认采用的布局。功能强大。</p>
-<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
-    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;
-    tools:context=&quot;com.jerrysheh.sunshine.MainActivity&quot;&gt;
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">android.support.constraint.ConstraintLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">"com.jerrysheh.sunshine.MainActivity"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/hello"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"Hello World!"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintBottom_toBottomOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintLeft_toLeftOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintRight_toRightOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintTop_toTopOf</span>=<span class="string">"parent"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/button"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"确定"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">android.support.constraint.ConstraintLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-    &lt;TextView
-        android:id=&quot;@+id/hello&quot;
-        android:layout_width=&quot;wrap_content&quot;
-        android:layout_height=&quot;wrap_content&quot;
-        android:text=&quot;Hello World!&quot;
-        app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
-        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
-        app:layout_constraintRight_toRightOf=&quot;parent&quot;
-        app:layout_constraintTop_toTopOf=&quot;parent&quot; /&gt;
-
-    &lt;Button
-        android:id=&quot;@+id/button&quot;
-        android:layout_width=&quot;wrap_content&quot;
-        android:layout_height=&quot;wrap_content&quot;
-        android:text=&quot;确定&quot;/&gt;
-
-&lt;/android.support.constraint.ConstraintLayout&gt;
-
-</code></pre>
 <ul>
 <li><p>注意，ConstraintLayout定义在support库中，需要在 app/build.gradle 中的 dependencies 闭包中添加<code>implementation &#39;com.android.support.constraint:constraint-layout:1.0.2&#39;</code></p>
 </li>
@@ -463,15 +390,8 @@
 <hr>
 <h1 id="XML-布局与-Java-Activity-的关系"><a href="#XML-布局与-Java-Activity-的关系" class="headerlink" title="XML 布局与 Java Activity 的关系"></a>XML 布局与 Java Activity 的关系</h1><p>创建 XML 布局后，你需要将其与你的 Activity 相关联。</p>
 <p>你可以在 Activity 的 <code>onCreate</code> 方法中使用 <code>setContentView</code> 方法进行关联。你可以以 <code>R.layout.name_of_layout</code> 的形式引用布局文件。例如，如果你的布局名称为 activity_main.xml，则如下所示：</p>
-<pre><code class="java">public class MainActivity extends AppCompatActivity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-       super.onCreate(savedInstanceState);
-       setContentView(R.layout.activity_main);
-       // other code to setup the activity
-    }
-    // other code
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">       setContentView(R.layout.activity_main);</span><br><span class="line">       <span class="comment">// other code to setup the activity</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// other code</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="什么是-R-layout-？"><a href="#什么是-R-layout-？" class="headerlink" title="什么是 R.layout ？"></a>什么是 R.layout ？</h2><p>当你的应用被编译时，系统会生成 R 类。它会创建常量，使你能够动态地确定 res 文件夹的各种内容，包括布局。</p>
 <p>详细可参阅<a href="http://developer.android.youdaxue.com/guide/topics/resources/accessing-resources.html">资源</a>的文档。</p>
 <h2 id="setContentView-是干什么的"><a href="#setContentView-是干什么的" class="headerlink" title="setContentView 是干什么的"></a>setContentView 是干什么的</h2><p> setContentView 它会扩展布局。本质上是 Android 会读取你的 XML 文件并为你的布局文件中的每个标记生成 Java 对象。然后，你可以在 Java 代码中通过对 Java 对象调用方法修改这些对象。</p>
@@ -479,29 +399,18 @@
 <h1 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h1><p>每个 Android 项目都包含一个 res 目录。这是放置图片、字符串和布局等的地方。</p>
 <h2 id="在-XML-和-Java-中使用资源"><a href="#在-XML-和-Java-中使用资源" class="headerlink" title="在 XML 和 Java 中使用资源"></a>在 XML 和 Java 中使用资源</h2><p>在上一篇中提到，<code>setContentView(R.layout.activity_main)</code>表示 java 引用了 activity_main.xml 这个xml资源。</p>
 <p>可以在 res/value/string 中声明一些资源文件，如</p>
-<pre><code class="xml">&lt;resources&gt;
-    &lt;string name=&quot;app_name&quot;&gt;Github Query&lt;/string&gt;
-&lt;/resources&gt;</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"app_name"</span>&gt;</span>Github Query<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>然后在java中</p>
-<pre><code class="java">// myString 的值为 app_name
-String myString = getString(R.string.app_name);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// myString 的值为 app_name</span></span><br><span class="line">String myString = getString(R.string.app_name);</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="在Activity中使用Toast和Menu"><a href="#在Activity中使用Toast和Menu" class="headerlink" title="在Activity中使用Toast和Menu"></a>在Activity中使用Toast和Menu</h1><h2 id="使用Toast"><a href="#使用Toast" class="headerlink" title="使用Toast"></a>使用Toast</h2><p>Toast是一种显示在屏幕下方的提示，我们经常可以看到有时候app会提醒你没有联网，或者再按一次返回键退出应用之类，这些提醒在短时间内消失，不会打扰用户。</p>
 <p><img src="../../../../images/Learn_Android/Toast.png" alt="Toast"></p>
 <p>假设我们已经在 xml 里添加了一个 button</p>
 <p>然后转到MainActivity.java，重写<code>onCreate</code>方法</p>
-<pre><code class="java">@Override
-protected void onCreate(Bundle savedInstanceState) {
-   super.onCreate(savedInstanceState);
-   setContentView(R.layout.activity_main);
-   Button buttonOK = (Button) findViewById(R.id.toast_button);
-   buttonOK.setOnClickListener(new View.OnClickListener() {
-       @Override
-       public void onClick(View view) {
-           Toast.makeText(MainActivity.this, &quot;yeah, you click it&quot;, Toast.LENGTH_SHORT).show();
-       }
-   });
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">   setContentView(R.layout.activity_main);</span><br><span class="line">   Button buttonOK = (Button) findViewById(R.id.toast_button);</span><br><span class="line">   buttonOK.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">           Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"yeah, you click it"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>先实例化一个Button类型的变量 buttonOK，用<code>findViewById</code>指向button的ID</li>
 <li>调用buttonOK的<code>setOnClickListener</code>，传入一个点击事件监听器</li>
@@ -510,47 +419,13 @@ protected void onCreate(Bundle savedInstanceState) {
 <li>最后<code>.show()</code> 让Toast显示出来</li>
 </ul>
 <h3 id="Toast单例"><a href="#Toast单例" class="headerlink" title="Toast单例"></a>Toast单例</h3><p>如果点击很多次按钮，会创建很多个 Toast 重叠在一起，可以封装成工具类，使之只有一个实例</p>
-<pre><code class="java">public class ToastUtil {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ToastUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Toast toast;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 显示Toast</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context 上下文</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> content 要显示的内容</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">showToast</span><span class="params">(Context context, String content)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (toast == <span class="keyword">null</span>) &#123;</span><br><span class="line">            toast = Toast.makeText(context, content, Toast.LENGTH_SHORT);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            toast.setText(content);</span><br><span class="line">        &#125;</span><br><span class="line">        toast.show();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 显示Toast</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context 上下文</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> resId 要显示的资源id</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">showToast</span><span class="params">(Context context, <span class="keyword">int</span> resId)</span> </span>&#123;</span><br><span class="line">        showToast(context, (String) context.getResources().getText(resId));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    private static Toast toast;
-
-    /**
-     * 显示Toast
-     * @param context 上下文
-     * @param content 要显示的内容
-     */
-    public static void showToast(Context context, String content) {
-        if (toast == null) {
-            toast = Toast.makeText(context, content, Toast.LENGTH_SHORT);
-        } else {
-            toast.setText(content);
-        }
-        toast.show();
-    }
-
-    /**
-     * 显示Toast
-     * @param context 上下文
-     * @param resId 要显示的资源id
-     */
-    public static void showToast(Context context, int resId) {
-        showToast(context, (String) context.getResources().getText(resId));
-    }
-}</code></pre>
 <!-- more -->
 
 <h2 id="使用Menu"><a href="#使用Menu" class="headerlink" title="使用Menu"></a>使用Menu</h2><p>在 res 新建文件夹 menu ， 在 menu里面新建 MenuResource file， 命名为 menu.xml，内容如下</p>
-<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;menu xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
-   &lt;item
-       android:orderInCategory=&quot;1&quot;
-       android:id=&quot;@+id/add_item&quot;
-       android:title=&quot;Add&quot;
-       /&gt;
-   &lt;item
-       android:id=&quot;@+id/remove_item&quot;
-       android:title=&quot;Remove&quot;/&gt;
-&lt;/menu&gt;</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">menu</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">item</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:orderInCategory</span>=<span class="string">"1"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:id</span>=<span class="string">"@+id/add_item"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:title</span>=<span class="string">"Add"</span></span></span><br><span class="line"><span class="tag">       /&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">item</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:id</span>=<span class="string">"@+id/remove_item"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:title</span>=<span class="string">"Remove"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">menu</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>使用 <code>android:orderInCategory=&quot;1&quot;</code> 来对菜单项进行排序</li>
 <li>使用 <code>app:showAsAction=&quot;ifRoom&quot;</code> 固定到顶栏而不是右上角三个点里面</li>
@@ -560,124 +435,26 @@ protected void onCreate(Bundle savedInstanceState) {
 </blockquote>
 <p>这样我们就布局了两个按钮，一个 add ， 一个 remove</p>
 <p>然后在 MainActivity.java 里 重写<code>onCreateOptionsmenu</code>方法和<code>onOptionItemSelected</code>方法，如下</p>
-<pre><code class="java">@Override
-public boolean onCreateOptionsMenu(Menu menu) {
-   getMenuInflater().inflate(R.menu.main, menu);
-   return true;
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onCreateOptionsMenu</span><span class="params">(Menu menu)</span> </span>&#123;</span><br><span class="line">   getMenuInflater().inflate(R.menu.main, menu);</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onOptionsItemSelected</span><span class="params">(MenuItem item)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">switch</span> (item.getItemId()) &#123;</span><br><span class="line">       <span class="keyword">case</span> R.id.add_item:</span><br><span class="line">           Toast.makeText(<span class="keyword">this</span>, <span class="string">"added"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">           <span class="keyword">break</span>;</span><br><span class="line">       <span class="keyword">case</span> R.id.remove_item:</span><br><span class="line">           Toast.makeText(<span class="keyword">this</span>,<span class="string">"removed"</span>,Toast.LENGTH_SHORT).show();</span><br><span class="line">           <span class="keyword">break</span>;</span><br><span class="line">       <span class="keyword">default</span>:</span><br><span class="line">           Toast.makeText(<span class="keyword">this</span>,<span class="string">"nothing"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-@Override
-public boolean onOptionsItemSelected(MenuItem item) {
-   switch (item.getItemId()) {
-       case R.id.add_item:
-           Toast.makeText(this, &quot;added&quot;, Toast.LENGTH_SHORT).show();
-           break;
-       case R.id.remove_item:
-           Toast.makeText(this,&quot;removed&quot;,Toast.LENGTH_SHORT).show();
-           break;
-       default:
-           Toast.makeText(this,&quot;nothing&quot;, Toast.LENGTH_SHORT).show();
-
-   }
-   return true;
-}</code></pre>
 <p><code>onCreateOptionsmenu</code>方法根据R.menu.main找到我们的布局</p>
 <p><code>onOptionsItemSelected</code>方法根据id定义了每个按键按下后的动作</p>
 <hr>
 <h1 id="实践：从界面到逻辑"><a href="#实践：从界面到逻辑" class="headerlink" title="实践：从界面到逻辑"></a>实践：从界面到逻辑</h1><p>现在我们有很多个String，我们想把这些 String 放到一个activity里，然后在 Android 设备上显示出来。由于 String 很多，一屏不够显示，因此需要实现可以滑动屏幕上下滚动的功能。</p>
 <h2 id="1-编辑布局"><a href="#1-编辑布局" class="headerlink" title="1. 编辑布局"></a>1. 编辑布局</h2><p>首先我们在 activity_main.xml 中编辑好界面布局</p>
-<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">FrameLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ScrollView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">"@+id/tv_toy_names"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:padding</span>=<span class="string">"16dp"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:textSize</span>=<span class="string">"20sp"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ScrollView</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">FrameLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-&lt;FrameLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;&gt;
-
-    &lt;ScrollView
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;wrap_content&quot;&gt;
-        &lt;TextView
-            android:id=&quot;@+id/tv_toy_names&quot;
-            android:layout_width=&quot;wrap_content&quot;
-            android:layout_height=&quot;wrap_content&quot;
-            android:padding=&quot;16dp&quot;
-            android:textSize=&quot;20sp&quot; /&gt;
-    &lt;/ScrollView&gt;
-
-&lt;/FrameLayout&gt;</code></pre>
 <p>这个界面有一个ScrollView，用于滚动显示内容。ScrollView里面是一个TextView，用于显示文字。</p>
 <ul>
 <li>如果用到了一些 support 库的界面，记得去 app/build.gradle 中的 dependencies 闭包中添加支持。</li>
 </ul>
 <h2 id="2-ToyBox-java"><a href="#2-ToyBox-java" class="headerlink" title="2. ToyBox.java"></a>2. ToyBox.java</h2><p>现在我们在 app/src/main/java/[包名]/ 里创建一个类，这是一个String数组，里面有很多String。</p>
 <p>方法getToyNames返回了这个String数组。</p>
-<pre><code class="java">public final class ToyBox {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ToyBox</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * This method returns a list of popular toy names from the 20th and early 21st centuries.</span></span><br><span class="line"><span class="comment">     * I don't know about you guys, but this definitely brings me back to my childhood...</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> A list of popular toys</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String[] getToyNames() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> String[] &#123;</span><br><span class="line">                <span class="string">"Red Toy Wagon"</span>,</span><br><span class="line">                <span class="string">"Chemistry Set"</span>,</span><br><span class="line">                <span class="string">"Yo-Yo"</span>,</span><br><span class="line">                <span class="string">"Pop-Up Book"</span>,</span><br><span class="line">                <span class="string">"Generic Uncopyrighted Mouse"</span>,</span><br><span class="line">                <span class="string">"Finger Paint"</span>,</span><br><span class="line">                <span class="string">"Sock Monkey"</span>,</span><br><span class="line">                <span class="string">"Microscope Set"</span>,</span><br><span class="line">                <span class="string">"Beach Ball"</span>,</span><br><span class="line">                <span class="string">"BB Gun"</span>,</span><br><span class="line">                <span class="string">"Green Soldiers"</span>,</span><br><span class="line">                <span class="string">"Bubbles"</span>,</span><br><span class="line">                <span class="string">"Spring Toy"</span>,</span><br><span class="line">                <span class="string">"Fortune Telling Ball"</span>,</span><br><span class="line">                <span class="string">"Plastic Connecting Blocks"</span>,</span><br><span class="line">                <span class="string">"Water Balloon"</span>,</span><br><span class="line">                <span class="string">"Paint-by-Numbers Kit"</span>,</span><br><span class="line">                <span class="string">"Tuber Head"</span>,</span><br><span class="line">                <span class="string">"Cool Ball with Holes in It"</span>,</span><br><span class="line">                <span class="string">"Toy Truck"</span>,</span><br><span class="line">                <span class="string">"Flying Disc"</span>,</span><br><span class="line">                <span class="string">"Two-Handed Pogo Stick"</span>,</span><br><span class="line">                <span class="string">"Toy Hoop"</span>,</span><br><span class="line">                <span class="string">"Dysmorphia Doll"</span>,</span><br><span class="line">                <span class="string">"Toy Train"</span>,</span><br><span class="line">                <span class="string">"Fake Vomit"</span>,</span><br><span class="line">                <span class="string">"Toy Telephone"</span>,</span><br><span class="line">                <span class="string">"Barrel of Primates"</span>,</span><br><span class="line">                <span class="string">"Remote Control Car"</span>,</span><br><span class="line">                <span class="string">"Square Puzzle Cube"</span>,</span><br><span class="line">                <span class="string">"Football"</span>,</span><br><span class="line">                <span class="string">"Intergalactic Electronic Phasers"</span>,</span><br><span class="line">                <span class="string">"Baby Horse Dolls"</span>,</span><br><span class="line">                <span class="string">"Machines that turn into other Machines"</span>,</span><br><span class="line">                <span class="string">"Teddy Bears"</span>,</span><br><span class="line">                <span class="string">"Shaved Ice Maker"</span>,</span><br><span class="line">                <span class="string">"Glow Stick"</span>,</span><br><span class="line">                <span class="string">"Squirt Guns"</span>,</span><br><span class="line">                <span class="string">"Miniature Replica Animals Stuffed with Beads that you swore to your parents would be worth lots of money one day"</span>,</span><br><span class="line">                <span class="string">"Creepy Gremlin Doll"</span>,</span><br><span class="line">                <span class="string">"Neodymium-Magnet Toy"</span></span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    /**
-     * This method returns a list of popular toy names from the 20th and early 21st centuries.
-     * I don&#39;t know about you guys, but this definitely brings me back to my childhood...
-     *
-     * @return A list of popular toys
-     */
-    public static String[] getToyNames() {
-        return new String[] {
-                &quot;Red Toy Wagon&quot;,
-                &quot;Chemistry Set&quot;,
-                &quot;Yo-Yo&quot;,
-                &quot;Pop-Up Book&quot;,
-                &quot;Generic Uncopyrighted Mouse&quot;,
-                &quot;Finger Paint&quot;,
-                &quot;Sock Monkey&quot;,
-                &quot;Microscope Set&quot;,
-                &quot;Beach Ball&quot;,
-                &quot;BB Gun&quot;,
-                &quot;Green Soldiers&quot;,
-                &quot;Bubbles&quot;,
-                &quot;Spring Toy&quot;,
-                &quot;Fortune Telling Ball&quot;,
-                &quot;Plastic Connecting Blocks&quot;,
-                &quot;Water Balloon&quot;,
-                &quot;Paint-by-Numbers Kit&quot;,
-                &quot;Tuber Head&quot;,
-                &quot;Cool Ball with Holes in It&quot;,
-                &quot;Toy Truck&quot;,
-                &quot;Flying Disc&quot;,
-                &quot;Two-Handed Pogo Stick&quot;,
-                &quot;Toy Hoop&quot;,
-                &quot;Dysmorphia Doll&quot;,
-                &quot;Toy Train&quot;,
-                &quot;Fake Vomit&quot;,
-                &quot;Toy Telephone&quot;,
-                &quot;Barrel of Primates&quot;,
-                &quot;Remote Control Car&quot;,
-                &quot;Square Puzzle Cube&quot;,
-                &quot;Football&quot;,
-                &quot;Intergalactic Electronic Phasers&quot;,
-                &quot;Baby Horse Dolls&quot;,
-                &quot;Machines that turn into other Machines&quot;,
-                &quot;Teddy Bears&quot;,
-                &quot;Shaved Ice Maker&quot;,
-                &quot;Glow Stick&quot;,
-                &quot;Squirt Guns&quot;,
-                &quot;Miniature Replica Animals Stuffed with Beads that you swore to your parents would be worth lots of money one day&quot;,
-                &quot;Creepy Gremlin Doll&quot;,
-                &quot;Neodymium-Magnet Toy&quot;
-        };
-    }
-}</code></pre>
 <h2 id="3-MainActivity-java"><a href="#3-MainActivity-java" class="headerlink" title="3. MainActivity.java"></a>3. MainActivity.java</h2><p>一开始这个MainActivity.java只有初始化代码：</p>
-<pre><code class="java">package com.example.android.favoritetoys;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.android.favoritetoys;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.support.v7.app.AppCompatActivity;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-
-public class MainActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
-}</code></pre>
 <p>修改如下</p>
 <ul>
 <li>导入<code>android.widget.TextView;</code>包，Android Studio会自动为我们做。</li>
@@ -686,30 +463,8 @@ public class MainActivity extends AppCompatActivity {
 <li>声明一个  String[] ，存放上面提到的很多String</li>
 <li>一个eachfor循环，分别存放每一个String</li>
 </ul>
-<pre><code class="java">package com.example.android.favoritetoys;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.android.favoritetoys;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.support.v7.app.AppCompatActivity;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> TextView mToysListTextView;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        mToysListTextView = (TextView) findViewById(R.id.tv_toy_names);</span><br><span class="line"></span><br><span class="line">        String[] toyNames = ToyBox.getToyNames();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (String toyName : toyNames) &#123;</span><br><span class="line">            mToysListTextView.append(toyName + <span class="string">"\n\n\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
-
-public class MainActivity extends AppCompatActivity {
-
-    private TextView mToysListTextView;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        mToysListTextView = (TextView) findViewById(R.id.tv_toy_names);
-
-        String[] toyNames = ToyBox.getToyNames();
-
-        for (String toyName : toyNames) {
-            mToysListTextView.append(toyName + &quot;\n\n\n&quot;);
-        }
-    }
-}</code></pre>
 <p>最终效果如下：</p>
 <p><img src="../../../../images/Learn_Android/Scroll.gif" alt="scroll"></p>
 
@@ -800,7 +555,7 @@ public class MainActivity extends AppCompatActivity {
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -812,7 +567,7 @@ public class MainActivity extends AppCompatActivity {
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -824,7 +579,7 @@ public class MainActivity extends AppCompatActivity {
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -1017,25 +772,25 @@ public class MainActivity extends AppCompatActivity {
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -1049,6 +804,14 @@ public class MainActivity extends AppCompatActivity {
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -1057,20 +820,20 @@ public class MainActivity extends AppCompatActivity {
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -1102,7 +865,7 @@ public class MainActivity extends AppCompatActivity {
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -1110,7 +873,15 @@ public class MainActivity extends AppCompatActivity {
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -1145,6 +916,25 @@ public class MainActivity extends AppCompatActivity {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1175,7 +965,7 @@ public class MainActivity extends AppCompatActivity {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1212,25 +1002,6 @@ public class MainActivity extends AppCompatActivity {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1296,6 +1067,25 @@ public class MainActivity extends AppCompatActivity {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1326,7 +1116,7 @@ public class MainActivity extends AppCompatActivity {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1363,25 +1153,6 @@ public class MainActivity extends AppCompatActivity {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1444,7 +1215,7 @@ public class MainActivity extends AppCompatActivity {
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1498,7 +1269,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

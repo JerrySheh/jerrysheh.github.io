@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -170,8 +170,12 @@
 
 <hr>
 <h1 id="git使用流程"><a href="#git使用流程" class="headerlink" title="git使用流程"></a>git使用流程</h1><h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>于一个目录下，初始化git</p>
-<pre><code>git init</code></pre><h2 id="add"><a href="#add" class="headerlink" title="add"></a>add</h2><p>新建/修改文件后，把修改内容 add 到 git 上面</p>
-<pre><code>git add .</code></pre><h3 id="三个-add-的区别"><a href="#三个-add-的区别" class="headerlink" title="三个 add 的区别"></a>三个 add 的区别</h3><ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+
+<h2 id="add"><a href="#add" class="headerlink" title="add"></a>add</h2><p>新建/修改文件后，把修改内容 add 到 git 上面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
+
+<h3 id="三个-add-的区别"><a href="#三个-add-的区别" class="headerlink" title="三个 add 的区别"></a>三个 add 的区别</h3><ul>
 <li><p><code>git add .</code><br>他会监控工作区的状态树，使用它会把工作时的所有变化提交到暂存区，包括文件内容修改(modified)以及新文件(new)，但不包括被删除的文件。</p>
 </li>
 <li><p><code>git add -u</code><br>他仅监控已经被add的文件（即tracked file），他会将被修改的文件提交到暂存区。add -u 不会提交新文件（untracked file）。（git add –update的缩写）</p>
@@ -179,10 +183,20 @@
 <li><p><code>git add -A</code><br>是上面两个功能的合集（git add –all的缩写）</p>
 </li>
 </ul>
-<h2 id="commit-提交到仓库"><a href="#commit-提交到仓库" class="headerlink" title="commit 提交到仓库"></a>commit 提交到仓库</h2><pre><code>git commit -m &quot;modified&quot;</code></pre><hr>
-<h1 id="关联和同步"><a href="#关联和同步" class="headerlink" title="关联和同步"></a>关联和同步</h1><h2 id="关联远程仓库"><a href="#关联远程仓库" class="headerlink" title="关联远程仓库"></a>关联远程仓库</h2><pre><code>git remote add origin git@github.com:JerrySheh/repository_name.git</code></pre><h2 id="推送到远程"><a href="#推送到远程" class="headerlink" title="推送到远程"></a>推送到远程</h2><p>第一次推送，加 -u 参数</p>
-<pre><code>git push origin branch_name</code></pre><h2 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h2><p>如果远程已经有文件，需要先 pull</p>
-<pre><code>git pull origin master</code></pre><h2 id="从远程仓库克隆"><a href="#从远程仓库克隆" class="headerlink" title="从远程仓库克隆"></a>从远程仓库克隆</h2><pre><code>git clone git@github.com:jerrysheh/helloworld</code></pre><hr>
+<h2 id="commit-提交到仓库"><a href="#commit-提交到仓库" class="headerlink" title="commit 提交到仓库"></a>commit 提交到仓库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &quot;modified&quot;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="关联和同步"><a href="#关联和同步" class="headerlink" title="关联和同步"></a>关联和同步</h1><h2 id="关联远程仓库"><a href="#关联远程仓库" class="headerlink" title="关联远程仓库"></a>关联远程仓库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin git@github.com:JerrySheh&#x2F;repository_name.git</span><br></pre></td></tr></table></figure>
+
+<h2 id="推送到远程"><a href="#推送到远程" class="headerlink" title="推送到远程"></a>推送到远程</h2><p>第一次推送，加 -u 参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin branch_name</span><br></pre></td></tr></table></figure>
+
+<h2 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h2><p>如果远程已经有文件，需要先 pull</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull origin master</span><br></pre></td></tr></table></figure>
+
+<h2 id="从远程仓库克隆"><a href="#从远程仓库克隆" class="headerlink" title="从远程仓库克隆"></a>从远程仓库克隆</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:jerrysheh&#x2F;helloworld</span><br></pre></td></tr></table></figure>
+
+<hr>
 <h2 id="diff"><a href="#diff" class="headerlink" title="diff"></a>diff</h2><p><code>git diff  filepath</code> 工作区与暂存区比较</p>
 <p><code>git diff HEAD filepath</code> 工作区与HEAD ( 当前工作分支) 比较</p>
 <p><code>git diff --staged</code> 或 <code>--cached  filepath</code> 暂存区与HEAD比较</p>
@@ -190,69 +204,86 @@
 <p><code>git diff commitId filepath</code> 与某一次提交进行比较</p>
 <hr>
 <h1 id="git-分支管理"><a href="#git-分支管理" class="headerlink" title="git 分支管理"></a>git 分支管理</h1><p>新建并切换到分支</p>
-<pre><code>git checkout -b branch_name</code></pre><p>把新建的本地分支 push 到远程</p>
-<pre><code>git push origin branch_name:branch_name</code></pre><p>删除远程分支</p>
-<pre><code>git push origin -d branch_name</code></pre><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b branch_name</span><br></pre></td></tr></table></figure>
+
+<p>把新建的本地分支 push 到远程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin branch_name:branch_name</span><br></pre></td></tr></table></figure>
+
+<p>删除远程分支</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin -d branch_name</span><br></pre></td></tr></table></figure>
+
+<hr>
 <h1 id="git-撤销"><a href="#git-撤销" class="headerlink" title="git 撤销"></a>git 撤销</h1><p>查看更改日志，找到你想返回去的commit_id （一般第一条是你搞错了的，第二条就是上次你想返回去的id）</p>
-<pre><code>git log</code></pre><p>撤销提交和修改过的代码</p>
-<pre><code>git reset --hard commit_id</code></pre><p>只撤销提交，不撤销修改过的代码（可以直接通过 <code>git commit</code> 重新提交对本地代码的修改）</p>
-<pre><code>git reset commit_id</code></pre><p>如果想撤销的commit已经提交到远程仓库了，在本地 reset 修改后，重新强制提交。这样上次的错误提交就消失了。但是这样做有个弊端，就是如果你的错误commit（如commit3）之后还有其他人再提交了(commit4)， commit4也会消失。</p>
-<pre><code>git push --force</code></pre><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log</span><br></pre></td></tr></table></figure>
+
+<p>撤销提交和修改过的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard commit_id</span><br></pre></td></tr></table></figure>
+
+<p>只撤销提交，不撤销修改过的代码（可以直接通过 <code>git commit</code> 重新提交对本地代码的修改）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset commit_id</span><br></pre></td></tr></table></figure>
+
+<p>如果想撤销的commit已经提交到远程仓库了，在本地 reset 修改后，重新强制提交。这样上次的错误提交就消失了。但是这样做有个弊端，就是如果你的错误commit（如commit3）之后还有其他人再提交了(commit4)， commit4也会消失。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push --force</span><br></pre></td></tr></table></figure>
+
+<hr>
 <h1 id="在新电脑配置git，并连接到githiub"><a href="#在新电脑配置git，并连接到githiub" class="headerlink" title="在新电脑配置git，并连接到githiub"></a>在新电脑配置git，并连接到githiub</h1><p>设置 git 的username 和 usermail</p>
-<pre><code>git config --global user.name &quot;yourname&quot;
-git config --global user.email &quot;youremail&quot;</code></pre><p>生成SSH密钥</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;yourname&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br></pre></td></tr></table></figure>
+
+<p>生成SSH密钥</p>
 <p>查看是否已经有了ssh密钥：<code>cd ~/.ssh</code><br>如果没有密钥则不会有此文件夹，有则备份删除<br>生成密钥：</p>
-<pre><code>ssh-keygen -t rsa -C “haiyan.xu.vip@gmail.com”</code></pre><p>按3个回车，密码为空。</p>
-<pre><code>Your identification has been saved in /home/tekkub/.ssh/id_rsa.
-Your public key has been saved in /home/tekkub/.ssh/id_rsa.pub.
-The key fingerprint is:
-………………</code></pre><p>最后得到了两个文件：id_rsa和id_rsa.pub</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C “haiyan.xu.vip@gmail.com”</span><br></pre></td></tr></table></figure>
+
+<p>按3个回车，密码为空。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Your identification has been saved in &#x2F;home&#x2F;tekkub&#x2F;.ssh&#x2F;id_rsa.</span><br><span class="line">Your public key has been saved in &#x2F;home&#x2F;tekkub&#x2F;.ssh&#x2F;id_rsa.pub.</span><br><span class="line">The key fingerprint is:</span><br><span class="line">………………</span><br></pre></td></tr></table></figure>
+
+<p>最后得到了两个文件：id_rsa和id_rsa.pub</p>
 <p>在 .ssh 文件夹中执行 <code>ssh-add id_rsa</code>，再输入正确密码</p>
 <p>在github上添加ssh密钥，这要添加的是“id_rsa.pub”里面的公钥。</p>
 <p>打开  <a href="https://github.com/">https://github.com/</a> ,在设置中添加密钥</p>
 <p>测试：</p>
-<pre><code>$: ssh git@github.com
-The authenticity of host ‘github.com (207.97.227.239)’ can’t be established.
-RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.
-Are you sure you want to continue connecting (yes/no)? yes
-Warning: Permanently added ‘github.com,207.97.227.239′ (RSA) to the list of known hosts.
-ERROR: Hi Jerrysheh! You’ve successfully authenticated, but GitHub does not provide shell access</code></pre><p>测试成功就可以push code和 git clone 之类的操作了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$: ssh git@github.com</span><br><span class="line">The authenticity of host ‘github.com (207.97.227.239)’ can’t be established.</span><br><span class="line">RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.</span><br><span class="line">Are you sure you want to continue connecting (yes&#x2F;no)? yes</span><br><span class="line">Warning: Permanently added ‘github.com,207.97.227.239′ (RSA) to the list of known hosts.</span><br><span class="line">ERROR: Hi Jerrysheh! You’ve successfully authenticated, but GitHub does not provide shell access</span><br></pre></td></tr></table></figure>
+
+<p>测试成功就可以push code和 git clone 之类的操作了。</p>
 <hr>
 <h1 id="fork"><a href="#fork" class="headerlink" title="fork"></a>fork</h1><p>一般如果要参与开源项目，都是先 fork 别人的项目到自己的github，然后通过 <code>git clone</code> 自己的仓库克隆到本地进行修改。修改完毕后，通过<code>pull request</code>向原作者提交合并申请。</p>
 <p>但是我们 fork 了别人的项目之后， 原作者 commit 了新内容， 我们 fork 的项目并不会更新。解决办法为：在本地建立两个库的中介，把两个远程库都clone到本地，然后拉取原项目更新到本地，合并更新，最后push到你的github。</p>
 <p>流程如下：</p>
-<pre><code>git clone https://我们fork的地址.git</code></pre><p>cd 进入该目录，<code>git remote -v</code>，可以看到只有两条我们自己的。</p>
-<pre><code>git remote add nsd https://原作者的地址.git  </code></pre><p>再次<code>git remote -v</code>，可以看到多出来两条。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;我们fork的地址.git</span><br></pre></td></tr></table></figure>
+
+<p>cd 进入该目录，<code>git remote -v</code>，可以看到只有两条我们自己的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add nsd https:&#x2F;&#x2F;原作者的地址.git</span><br></pre></td></tr></table></figure>
+
+<p>再次<code>git remote -v</code>，可以看到多出来两条。</p>
 <blockquote>
 <p>nsd 只是一个别名，可以任意取</p>
 </blockquote>
 <p>把原作者的更新 fetch 到本地</p>
-<pre><code>git fetch nsd</code></pre><p>查看分支</p>
-<pre><code>git branch -av</code></pre><p>可以看到，出现一条 <code>remotes/nsd/master xxxxx</code> 的更新</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch nsd</span><br></pre></td></tr></table></figure>
+
+<p>查看分支</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -av</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，出现一条 <code>remotes/nsd/master xxxxx</code> 的更新</p>
 <p>合并</p>
-<pre><code>git checkout master
-git merge nsd/master</code></pre><p>如果有冲突，需要丢掉本地分支</p>
-<pre><code>git reset –hard hunter/master</code></pre><p>这时你的当前本地的项目变成和原作者的主项目一样了，可以把它提交到你的GitHub库</p>
-<pre><code>$ git commit -am ‘更新到原作者的主分支’
-$ git push origin
-$ git push -u origin master -f –强制提交</code></pre><ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br><span class="line">git merge nsd&#x2F;master</span><br></pre></td></tr></table></figure>
+
+<p>如果有冲突，需要丢掉本地分支</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset –hard hunter&#x2F;master</span><br></pre></td></tr></table></figure>
+
+<p>这时你的当前本地的项目变成和原作者的主项目一样了，可以把它提交到你的GitHub库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -am ‘更新到原作者的主分支’</span><br><span class="line">$ git push origin</span><br><span class="line">$ git push -u origin master -f –强制提交</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li>参考：<a href="https://www.jianshu.com/p/633ae5c491f5">https://www.jianshu.com/p/633ae5c491f5</a></li>
 </ul>
 <hr>
 <h1 id="LF-CRLF"><a href="#LF-CRLF" class="headerlink" title="LF/CRLF"></a>LF/CRLF</h1><p>LF will be replaced by CRLF</p>
 <p>禁用自动转换即可</p>
-<pre><code>git config –global core.autocrlf false</code></pre><hr>
-<h1 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h1><pre><code class="shell"># 设置sock5代理
-git config --global http.proxy &#39;socks5://127.0.0.1:1080&#39;
-git config --global https.proxy &#39;socks5://127.0.0.1:1080&#39;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config –global core.autocrlf false</span><br></pre></td></tr></table></figure>
 
-# 设置http代理
-git config --global https.proxy http://127.0.0.1:1080
-git config --global https.proxy https://127.0.0.1:1080
+<hr>
+<h1 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 设置sock5代理</span></span><br><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080'</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置http代理</span></span><br><span class="line">git config --global https.proxy http://127.0.0.1:1080</span><br><span class="line">git config --global https.proxy https://127.0.0.1:1080</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 取消代理</span></span><br><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
 
-# 取消代理
-git config --global --unset http.proxy
-git config --global --unset https.proxy</code></pre>
 <hr>
 <h1 id="IDEA-git项目颜色含义"><a href="#IDEA-git项目颜色含义" class="headerlink" title="IDEA git项目颜色含义"></a>IDEA git项目颜色含义</h1><ul>
 <li>绿色： 创建了仓库没有的新文件，还未提交</li>
@@ -344,7 +375,7 @@ git config --global --unset https.proxy</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -356,7 +387,7 @@ git config --global --unset https.proxy</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -368,7 +399,7 @@ git config --global --unset https.proxy</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -537,25 +568,25 @@ git config --global --unset https.proxy</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -569,6 +600,14 @@ git config --global --unset https.proxy</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -577,20 +616,20 @@ git config --global --unset https.proxy</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -622,7 +661,7 @@ git config --global --unset https.proxy</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -630,7 +669,15 @@ git config --global --unset https.proxy</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -665,6 +712,25 @@ git config --global --unset https.proxy</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -695,7 +761,7 @@ git config --global --unset https.proxy</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -732,25 +798,6 @@ git config --global --unset https.proxy</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -816,6 +863,25 @@ git config --global --unset https.proxy</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -846,7 +912,7 @@ git config --global --unset https.proxy</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -883,25 +949,6 @@ git config --global --unset https.proxy</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -964,7 +1011,7 @@ git config --global --unset https.proxy</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1018,7 +1065,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

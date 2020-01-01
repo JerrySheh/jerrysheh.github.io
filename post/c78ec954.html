@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -164,103 +164,57 @@
 
 <hr>
 <h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><p>首先我的歌曲全都是放在<code>D:\CloudMusic</code>这个目录下，而这个目录下还有很多子目录，现在要做的就是把<code>D:\CloudMusic</code>和它的子目录下所有<code>.wav</code>、<code>.mp3</code>格式的音乐找出来。</p>
-<pre><code class="Python">import os
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">music_dir = <span class="string">"D:\\CloudMusic"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(music_dir):</span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> files:</span><br><span class="line">        target = os.path.join(root, file)</span><br><span class="line">        <span class="keyword">if</span> file.endswith(<span class="string">".mp3"</span>) <span class="keyword">or</span> file.endswith(<span class="string">".wav"</span>):</span><br><span class="line">            print(target)</span><br></pre></td></tr></table></figure>
 
-music_dir = &quot;D:\\CloudMusic&quot;
-
-for root, dirs, files in os.walk(music_dir):
-    for file in files:
-        target = os.path.join(root, file)
-        if file.endswith(&quot;.mp3&quot;) or file.endswith(&quot;.wav&quot;):
-            print(target)</code></pre>
 <p>先看<code>os.walk()</code>的用法：</p>
 <p><code>os.walk(top[, topdown=True[, onerror=None[, followlinks=False]]])</code></p>
 <p><code>top</code> 参数让 <code>os.walk()</code> 根目录下每一个文件夹（包括根目录）产生一个3-元组 (dirpath, dirnames, filenames)【文件夹路径, 文件夹名字, 文件名】</p>
 <p>因此，<code>for root, dirs, files in os.walk(music_dir):</code>中的<code>root</code>、<code>dirs</code>、<code>files</code>分别表示文件夹路径, 文件夹名字, 文件名。</p>
 <hr>
-<pre><code class="Python">&gt;&gt;&gt;for root, dirs, files in os.walk(music_dir):
-&gt;&gt;&gt;    print(root)
-</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(music_dir):</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>   print(root)</span><br></pre></td></tr></table></figure>
+
 <p>输出的是<code>CloudMusic</code>目录下的所有子文件夹路径：</p>
-<pre><code>D:\CloudMusic
-D:\CloudMusic\Cache
-D:\CloudMusic\IU
-D:\CloudMusic\IU\IU - Last.Fantasy
-D:\CloudMusic\IU\IU - Real 2010 FLAC
-D:\CloudMusic\IU\IU - 꽃갈피(花书签)
-D:\CloudMusic\IU\IU chat-shire
-D:\CloudMusic\IU\IU-Can You Hear Me
-D:\CloudMusic\IU\Palette
-D:\CloudMusic\MV</code></pre><pre><code class="Python">&gt;&gt;&gt;for root, dirs, files in os.walk(music_dir):
-&gt;&gt;&gt;    print(dirs)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">D:\CloudMusic</span><br><span class="line">D:\CloudMusic\Cache</span><br><span class="line">D:\CloudMusic\IU</span><br><span class="line">D:\CloudMusic\IU\IU - Last.Fantasy</span><br><span class="line">D:\CloudMusic\IU\IU - Real 2010 FLAC</span><br><span class="line">D:\CloudMusic\IU\IU - 꽃갈피(花书签)</span><br><span class="line">D:\CloudMusic\IU\IU chat-shire</span><br><span class="line">D:\CloudMusic\IU\IU-Can You Hear Me</span><br><span class="line">D:\CloudMusic\IU\Palette</span><br><span class="line">D:\CloudMusic\MV</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(music_dir):</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>   print(dirs)</span><br></pre></td></tr></table></figure>
+
 <p>输出的是<code>CloudMusic</code>目录下的所有子文件夹名字(放在一个list里)：</p>
-<pre><code>[&#39;Cache&#39;, &#39;IU&#39;, &#39;MV&#39;]
-[]
-[&#39;IU - Last.Fantasy&#39;, &#39;IU - Real 2010 FLAC&#39;, &#39;IU - 꽃갈피(花书签)&#39;, &#39;IU chat-shire&#39;, &#39;IU-Can You Hear Me&#39;, &#39;Palette&#39;]
-[]
-[]
-[]
-[]
-[]
-[]
-[]</code></pre><p>第一个空list表示 Cache 里没有子文件夹了， 第二个空list表示 IU - Last.Fantasy 里没有子文件夹了，以此类推。</p>
-<pre><code class="Python">&gt;&gt;&gt;for root, dirs, files in os.walk(music_dir):
-&gt;&gt;&gt;    print(files)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[&#39;Cache&#39;, &#39;IU&#39;, &#39;MV&#39;]</span><br><span class="line">[]</span><br><span class="line">[&#39;IU - Last.Fantasy&#39;, &#39;IU - Real 2010 FLAC&#39;, &#39;IU - 꽃갈피(花书签)&#39;, &#39;IU chat-shire&#39;, &#39;IU-Can You Hear Me&#39;, &#39;Palette&#39;]</span><br><span class="line">[]</span><br><span class="line">[]</span><br><span class="line">[]</span><br><span class="line">[]</span><br><span class="line">[]</span><br><span class="line">[]</span><br><span class="line">[]</span><br></pre></td></tr></table></figure>
+
+<p>第一个空list表示 Cache 里没有子文件夹了， 第二个空list表示 IU - Last.Fantasy 里没有子文件夹了，以此类推。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(music_dir):</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>   print(files)</span><br></pre></td></tr></table></figure>
+
+
 <p>输出的是<code>CloudMusic</code>目录下(包括子文件夹)的所有文件名字(放在一个list里)：</p>
-<pre><code>[&#39;01 Welcome To New York.flac&#39;, &#39;02 Blank Space.flac&#39;, &#39;03 Style.flac&#39;, &#39;04 - Mean.flac&#39;, &#39;05 All You Had To Do Was Stay.flac&#39;, &#39;06 Shake It Off.flac&#39;, &#39;07 I Wish You Would.flac&#39;, &#39;08 Bad Blood.flac&#39;, &#39;09 Wildest Dreams.flac&#39;, &#39;10 How You Get The Girl.flac&#39;, &#39;11 This Love.flac&#39;, &#39;12 I Know Places.flac&#39;, &#39;13 Clean.flac&#39;, &#39;14 Wonderland.flac&#39;, &#39;15 You Are In Love.flac&#39;, &#39;16 New Romantics.flac&#39;, &#39;17 I Know Places - Voice Memos.flac&#39;, &#39;18 I Wish You Would - Voice Memos.flac&#39;, &#39;19 Blank Space - Voice Memos.flac&#39;, &#39;AlbumArtSmall.jpg&#39;, &#39;C Allstar - 天梯.flac&#39;, &#39;Chen、Punch - Everytime.ape&#39;, &#39;Davichi - 这份爱.ape&#39;, &#39;desktop.ini&#39;, &#39;Folder.jpg&#39;, &#39;G.E.M.邓紫棋 - 喜欢你.flac&#39;, &#39;Gummy - You Are My Everything(English Ver.).flac&#39;, &#39;Gummy - You Are My Everything.flac&#39;, &#39;K.Will - 说干什么呢.flac&#39;, &#39;LYn - With You.flac&#39;, &#39;M.C. The Max - 为你化成风.flac&#39;, &#39;Mad Clown、金娜英 - 再次见到你.flac&#39;, &#39;SG WANNABE - 让我们相爱.flac&#39;, &#39;____.flac&#39;, &#39;光良 - 第一次.flac&#39;, &#39;其实我介意.flac&#39;, &#39;孙燕姿 - 雨天.flac&#39;, &#39;小幸运.flac&#39;, &#39;曲婉婷 - Drenched.flac&#39;, &#39;李克勤 - 友情岁月.flac&#39;, &#39;林宥嘉-想自由.flac&#39;, &#39;林宥嘉-浪费.flac&#39;, &#39;林宥嘉-说谎.APE&#39;, &#39;梁静茹 - 爱久见人心.flac&#39;, &#39;荒木毬菜 - 小雨と君.wav&#39;, &#39;许美静 - 倾城.wav&#39;, &#39;许美静-遗憾.WAV&#39;, &#39;逃跑计划 - 夜空中最亮的星.flac&#39;, &#39;金俊秀 - How Can I Love You.flac&#39;, &#39;陈奕迅 - 富士山下.flac&#39;, &#39;陈奕迅 - 最佳损友.flac&#39;, &#39;陈奕迅 - 陪你度过漫长岁月.flac&#39;][&#39;IU - 至少有那天 【视频from：微博@德米安】.mp3&#39;, &#39;IU - 너의 의미(你的意义).mp4&#39;, &#39;[onlyU字幕组][MV] IU아이유–Through the Night 夜信[1080P精效中字].mp4&#39;, &#39;（中字720P）《至少有那天》饭拍：wj_淮.mp4&#39;]
-[&#39;01. 비밀.flac&#39;, &#39;02. 잠자는 숲 속의 왕자 (feat. 윤상).flac&#39;, &#39;03. 별을 찾는 아이 (feat. 김광진).flac&#39;, &#39;04. 너랑 나.flac&#39;, &#39;05. 벽지무늬.flac&#39;, &#39;06. 삼촌 (feat. 이적).flac&#39;, &#39;07. 사랑니.flac&#39;, &quot;08. Everything&#39;s Alright (feat. 김현철).flac&quot;, &#39;09. Last Fantasy.flac&#39;, &#39;10. Teacher (feat. Ra.D).flac&#39;, &#39;11. 길 잃은 강아지.flac&#39;, &#39;12. 4AM.flac&#39;, &quot;13. 라망 (L&#39;amant).flac&quot;]
-[&#39;01. 이게 아닌데.flac&#39;, &#39;02. 느리게 하는 일.flac&#39;, &#39;03. 좋은 날.flac&#39;, &#39;04. 첫 이별 그날 밤.flac&#39;, &#39;05. 혼자 있는 방.flac&#39;, &#39;06. 미리 메리 크리스마스.flac&#39;, &#39;07. 좋은 날 (Inst.).flac&#39;, &#39;cover.jpg&#39;]
-[&#39;01. 나의 옛날이야기.flac&#39;, &#39;02. 꽃（花）.flac&#39;, &#39;03. 삐에로는 우릴 보고 웃지（小丑在对着我们微笑）.flac&#39;, &#39;04. 사랑이 지나가면（当爱已逝去）.flac&#39;, &#39;05. 너의 의미 (Feat. 김창완)（你的意义）.flac&#39;, &#39;06. 여름밤의 꿈（仲夏夜之梦）.flac&#39;, &#39;07. 꿍따리 샤바라 (Feat. 클론)（Kungtari Shabara）.flac&#39;, &#39;AlbumArtSmall.jpg&#39;, &#39;Folder.jpg&#39;]
-[&#39;Red Queen.flac&#39;, &#39;Zezé.flac&#39;, &#39;무릎(膝盖).flac&#39;, &#39;새 신발(新鞋).flac&#39;, &#39;스물셋(二十三).flac&#39;, &#39;안경(眼镜).flac&#39;, &#39;푸르던(曾经蔚蓝).flac&#39;]
-[&#39;01 Beautiful Dancer.wav&#39;, &#39;02 Truth.wav&#39;, &#39;03 Fairytale.wav&#39;, &#39;04 Voice-mail.wav&#39;, &#39;05 New World.wav&#39;, &#39;06 The Age Of The Cathedrals.wav&#39;, &#39;IU Can You Hear Me cover pics.jpg&#39;]
-[&#39;01 這一刻.flac&#39;, &#39;02 Palette.flac&#39;, &#39;03 這種結局.flac&#39;, &#39;04 爱情很好.flac&#39;, &#39;05 Jam Jam.flac&#39;, &#39;06 Black Out.flac&#39;, &#39;07 終止符.flac&#39;, &#39;08 夜信.flac&#39;, &#39;09 愛情就那樣.flac&#39;, &#39;10 致名字.flac&#39;]
-[]</code></pre><p>用<code>os.remove()</code>删除</p>
-<pre><code class="Python">import os
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[&#39;01 Welcome To New York.flac&#39;, &#39;02 Blank Space.flac&#39;, &#39;03 Style.flac&#39;, &#39;04 - Mean.flac&#39;, &#39;05 All You Had To Do Was Stay.flac&#39;, &#39;06 Shake It Off.flac&#39;, &#39;07 I Wish You Would.flac&#39;, &#39;08 Bad Blood.flac&#39;, &#39;09 Wildest Dreams.flac&#39;, &#39;10 How You Get The Girl.flac&#39;, &#39;11 This Love.flac&#39;, &#39;12 I Know Places.flac&#39;, &#39;13 Clean.flac&#39;, &#39;14 Wonderland.flac&#39;, &#39;15 You Are In Love.flac&#39;, &#39;16 New Romantics.flac&#39;, &#39;17 I Know Places - Voice Memos.flac&#39;, &#39;18 I Wish You Would - Voice Memos.flac&#39;, &#39;19 Blank Space - Voice Memos.flac&#39;, &#39;AlbumArtSmall.jpg&#39;, &#39;C Allstar - 天梯.flac&#39;, &#39;Chen、Punch - Everytime.ape&#39;, &#39;Davichi - 这份爱.ape&#39;, &#39;desktop.ini&#39;, &#39;Folder.jpg&#39;, &#39;G.E.M.邓紫棋 - 喜欢你.flac&#39;, &#39;Gummy - You Are My Everything(English Ver.).flac&#39;, &#39;Gummy - You Are My Everything.flac&#39;, &#39;K.Will - 说干什么呢.flac&#39;, &#39;LYn - With You.flac&#39;, &#39;M.C. The Max - 为你化成风.flac&#39;, &#39;Mad Clown、金娜英 - 再次见到你.flac&#39;, &#39;SG WANNABE - 让我们相爱.flac&#39;, &#39;____.flac&#39;, &#39;光良 - 第一次.flac&#39;, &#39;其实我介意.flac&#39;, &#39;孙燕姿 - 雨天.flac&#39;, &#39;小幸运.flac&#39;, &#39;曲婉婷 - Drenched.flac&#39;, &#39;李克勤 - 友情岁月.flac&#39;, &#39;林宥嘉-想自由.flac&#39;, &#39;林宥嘉-浪费.flac&#39;, &#39;林宥嘉-说谎.APE&#39;, &#39;梁静茹 - 爱久见人心.flac&#39;, &#39;荒木毬菜 - 小雨と君.wav&#39;, &#39;许美静 - 倾城.wav&#39;, &#39;许美静-遗憾.WAV&#39;, &#39;逃跑计划 - 夜空中最亮的星.flac&#39;, &#39;金俊秀 - How Can I Love You.flac&#39;, &#39;陈奕迅 - 富士山下.flac&#39;, &#39;陈奕迅 - 最佳损友.flac&#39;, &#39;陈奕迅 - 陪你度过漫长岁月.flac&#39;][&#39;IU - 至少有那天 【视频from：微博@德米安】.mp3&#39;, &#39;IU - 너의 의미(你的意义).mp4&#39;, &#39;[onlyU字幕组][MV] IU아이유–Through the Night 夜信[1080P精效中字].mp4&#39;, &#39;（中字720P）《至少有那天》饭拍：wj_淮.mp4&#39;]</span><br><span class="line">[&#39;01. 비밀.flac&#39;, &#39;02. 잠자는 숲 속의 왕자 (feat. 윤상).flac&#39;, &#39;03. 별을 찾는 아이 (feat. 김광진).flac&#39;, &#39;04. 너랑 나.flac&#39;, &#39;05. 벽지무늬.flac&#39;, &#39;06. 삼촌 (feat. 이적).flac&#39;, &#39;07. 사랑니.flac&#39;, &quot;08. Everything&#39;s Alright (feat. 김현철).flac&quot;, &#39;09. Last Fantasy.flac&#39;, &#39;10. Teacher (feat. Ra.D).flac&#39;, &#39;11. 길 잃은 강아지.flac&#39;, &#39;12. 4AM.flac&#39;, &quot;13. 라망 (L&#39;amant).flac&quot;]</span><br><span class="line">[&#39;01. 이게 아닌데.flac&#39;, &#39;02. 느리게 하는 일.flac&#39;, &#39;03. 좋은 날.flac&#39;, &#39;04. 첫 이별 그날 밤.flac&#39;, &#39;05. 혼자 있는 방.flac&#39;, &#39;06. 미리 메리 크리스마스.flac&#39;, &#39;07. 좋은 날 (Inst.).flac&#39;, &#39;cover.jpg&#39;]</span><br><span class="line">[&#39;01. 나의 옛날이야기.flac&#39;, &#39;02. 꽃（花）.flac&#39;, &#39;03. 삐에로는 우릴 보고 웃지（小丑在对着我们微笑）.flac&#39;, &#39;04. 사랑이 지나가면（当爱已逝去）.flac&#39;, &#39;05. 너의 의미 (Feat. 김창완)（你的意义）.flac&#39;, &#39;06. 여름밤의 꿈（仲夏夜之梦）.flac&#39;, &#39;07. 꿍따리 샤바라 (Feat. 클론)（Kungtari Shabara）.flac&#39;, &#39;AlbumArtSmall.jpg&#39;, &#39;Folder.jpg&#39;]</span><br><span class="line">[&#39;Red Queen.flac&#39;, &#39;Zezé.flac&#39;, &#39;무릎(膝盖).flac&#39;, &#39;새 신발(新鞋).flac&#39;, &#39;스물셋(二十三).flac&#39;, &#39;안경(眼镜).flac&#39;, &#39;푸르던(曾经蔚蓝).flac&#39;]</span><br><span class="line">[&#39;01 Beautiful Dancer.wav&#39;, &#39;02 Truth.wav&#39;, &#39;03 Fairytale.wav&#39;, &#39;04 Voice-mail.wav&#39;, &#39;05 New World.wav&#39;, &#39;06 The Age Of The Cathedrals.wav&#39;, &#39;IU Can You Hear Me cover pics.jpg&#39;]</span><br><span class="line">[&#39;01 這一刻.flac&#39;, &#39;02 Palette.flac&#39;, &#39;03 這種結局.flac&#39;, &#39;04 爱情很好.flac&#39;, &#39;05 Jam Jam.flac&#39;, &#39;06 Black Out.flac&#39;, &#39;07 終止符.flac&#39;, &#39;08 夜信.flac&#39;, &#39;09 愛情就那樣.flac&#39;, &#39;10 致名字.flac&#39;]</span><br><span class="line">[]</span><br></pre></td></tr></table></figure>
 
-music_dir = &quot;D:\\CloudMusic&quot;
+<p>用<code>os.remove()</code>删除</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">music_dir = <span class="string">"D:\\CloudMusic"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(music_dir):</span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> files:</span><br><span class="line">        target = os.path.join(root, file)</span><br><span class="line">        <span class="keyword">if</span> file.endswith(<span class="string">".mp3"</span>) <span class="keyword">or</span> file.endswith(<span class="string">".wav"</span>):</span><br><span class="line">            print(<span class="string">"deleting "</span> + target)</span><br><span class="line">            os.remove(target)</span><br></pre></td></tr></table></figure>
 
-for root, dirs, files in os.walk(music_dir):
-    for file in files:
-        target = os.path.join(root, file)
-        if file.endswith(&quot;.mp3&quot;) or file.endswith(&quot;.wav&quot;):
-            print(&quot;deleting &quot; + target)
-            os.remove(target)</code></pre>
 <p><code>target</code>这个变量主要是把文件夹路径和文件名拼接起来，构成一个完整的文件路径，比如：</p>
-<pre><code>D:\CloudMusic\IU\IU-Can You Hear Me\06 The Age Of The Cathedrals.wav</code></pre><p>后面的就是判断后缀名是否为 <code>.mp3</code> 和 <code>.wav</code> ， 是的话就删除之。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\CloudMusic\IU\IU-Can You Hear Me\06 The Age Of The Cathedrals.wav</span><br></pre></td></tr></table></figure>
+
+<p>后面的就是判断后缀名是否为 <code>.mp3</code> 和 <code>.wav</code> ， 是的话就删除之。</p>
 <hr>
 <h1 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h1><p>写这篇记录的目录主要还是学习一个知识点：</p>
 <p>输入：</p>
-<pre><code class="Python">L = [[1,2,3],[4,5,6],[7,8,9],[10,11,12]]
-for i in L:
-    print(i)</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">L = [[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],[<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>],[<span class="number">10</span>,<span class="number">11</span>,<span class="number">12</span>]]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> L:</span><br><span class="line">    print(i)</span><br></pre></td></tr></table></figure>
+
 <p>输出：</p>
-<pre><code>[1, 2, 3]
-[4, 5, 6]
-[7, 8, 9]
-[10, 11, 12]</code></pre><p>输入：</p>
-<pre><code class="Python">L = [[[1,11,111],2,3],[[4,44,444],5,6],[[7,77,777],8,9]]
-for i,j,k in L:
-    print(i)</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[1, 2, 3]</span><br><span class="line">[4, 5, 6]</span><br><span class="line">[7, 8, 9]</span><br><span class="line">[10, 11, 12]</span><br></pre></td></tr></table></figure>
+
+<p>输入：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">L = [[[<span class="number">1</span>,<span class="number">11</span>,<span class="number">111</span>],<span class="number">2</span>,<span class="number">3</span>],[[<span class="number">4</span>,<span class="number">44</span>,<span class="number">444</span>],<span class="number">5</span>,<span class="number">6</span>],[[<span class="number">7</span>,<span class="number">77</span>,<span class="number">777</span>],<span class="number">8</span>,<span class="number">9</span>]]</span><br><span class="line"><span class="keyword">for</span> i,j,k <span class="keyword">in</span> L:</span><br><span class="line">    print(i)</span><br></pre></td></tr></table></figure>
+
 <p>输出：</p>
-<pre><code>[1, 11, 111]
-[4, 44, 444]
-[7, 77, 777]</code></pre><p>输入：</p>
-<pre><code class="Python">L = [[[1,11,111],2,3],[[4,44,444],5,6],[[7,77,777],8,9]]
-for i,j,k in L:
-    for ii in i:
-        print(ii)</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[1, 11, 111]</span><br><span class="line">[4, 44, 444]</span><br><span class="line">[7, 77, 777]</span><br></pre></td></tr></table></figure>
+
+<p>输入：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">L = [[[<span class="number">1</span>,<span class="number">11</span>,<span class="number">111</span>],<span class="number">2</span>,<span class="number">3</span>],[[<span class="number">4</span>,<span class="number">44</span>,<span class="number">444</span>],<span class="number">5</span>,<span class="number">6</span>],[[<span class="number">7</span>,<span class="number">77</span>,<span class="number">777</span>],<span class="number">8</span>,<span class="number">9</span>]]</span><br><span class="line"><span class="keyword">for</span> i,j,k <span class="keyword">in</span> L:</span><br><span class="line">    <span class="keyword">for</span> ii <span class="keyword">in</span> i:</span><br><span class="line">        print(ii)</span><br></pre></td></tr></table></figure>
+
 <p>输出：</p>
-<pre><code>1
-11
-111
-4
-44
-444
-7
-77
-777</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">11</span><br><span class="line">111</span><br><span class="line">4</span><br><span class="line">44</span><br><span class="line">444</span><br><span class="line">7</span><br><span class="line">77</span><br><span class="line">777</span><br></pre></td></tr></table></figure>
+
         </div>
         
         <div class="level is-size-7 is-uppercase">
@@ -348,7 +302,7 @@ for i,j,k in L:
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -360,7 +314,7 @@ for i,j,k in L:
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -372,7 +326,7 @@ for i,j,k in L:
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -477,25 +431,25 @@ for i,j,k in L:
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -509,6 +463,14 @@ for i,j,k in L:
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -517,20 +479,20 @@ for i,j,k in L:
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -562,7 +524,7 @@ for i,j,k in L:
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -570,7 +532,15 @@ for i,j,k in L:
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -605,6 +575,25 @@ for i,j,k in L:
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -635,7 +624,7 @@ for i,j,k in L:
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -672,25 +661,6 @@ for i,j,k in L:
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -756,6 +726,25 @@ for i,j,k in L:
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -786,7 +775,7 @@ for i,j,k in L:
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -823,25 +812,6 @@ for i,j,k in L:
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -904,7 +874,7 @@ for i,j,k in L:
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -958,7 +928,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

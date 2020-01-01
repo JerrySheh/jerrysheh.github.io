@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -225,72 +225,63 @@
 <p>在 MySQL 中，子串用 <code>substring(&#39;abcd&#39;,2, 2)</code></p>
 <p>注意：mysql的 start 从 1 开始，如果 start 为 0 ，那么返回空</p>
 <p>Oracle</p>
-<pre><code class="sql">substr(&#39;shit&#39;, 0, 1) -- 返回 s
-substr(&#39;shit&#39;, 1, 1) -- 返回 s</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">substr('shit', 0, 1) <span class="comment">-- 返回 s</span></span><br><span class="line">substr('shit', 1, 1) <span class="comment">-- 返回 s</span></span><br></pre></td></tr></table></figure>
+
 <p>MySQL</p>
-<pre><code class="sql">substring(&#39;shit&#39;,0, 1) -- 返回空串
-substring(&#39;shit&#39;,1, 1) -- 返回 s</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">substring('shit',0, 1) <span class="comment">-- 返回空串</span></span><br><span class="line">substring('shit',1, 1) <span class="comment">-- 返回 s</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="时间转char"><a href="#时间转char" class="headerlink" title="时间转char"></a>时间转char</h2><p>在 Oracle 中，用 <code>to_char(time, format)</code>：</p>
-<pre><code class="sql">SELECT to_char(sysdate, &#39;yyyy-mm-dd&#39;) from dual;
-SELECT to_char(sysdate, &#39;hh24-mi-ss&#39;) from dual;</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> to_char(<span class="keyword">sysdate</span>, <span class="string">'yyyy-mm-dd'</span>) <span class="keyword">from</span> dual;</span><br><span class="line"><span class="keyword">SELECT</span> to_char(<span class="keyword">sysdate</span>, <span class="string">'hh24-mi-ss'</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></table></figure>
+
 <p>在 MySQL 中，用 <code>date_format(time, format)</code>（可表示年月日时分秒多种格式） 或 <code>time_format(time, format)</code>（只可表示时分秒）</p>
-<pre><code class="sql">SELECT date_format(now(), &#39;%Y-%m-%d %H:%i:%S&#39;);
-SELECT time_format(now(), &#39;%H:%i:%S&#39;);</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">date_format</span>(<span class="keyword">now</span>(), <span class="string">'%Y-%m-%d %H:%i:%S'</span>);</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">time_format</span>(<span class="keyword">now</span>(), <span class="string">'%H:%i:%S'</span>);</span><br></pre></td></tr></table></figure>
+
 <h2 id="char-转时间"><a href="#char-转时间" class="headerlink" title="char 转时间"></a>char 转时间</h2><p>在 Oracle 中，用 <code>to_date(str,format)</code>：</p>
-<pre><code class="sql">SELECT to_date(`2019-3-6`, &#39;yyyy-mm-dd&#39;)</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">to_date</span>(<span class="string">`2019-3-6`</span>, <span class="string">'yyyy-mm-dd'</span>)</span><br></pre></td></tr></table></figure>
+
 <p>在 MySQL 中， 用 <code>str_to_date(str,format)</code>：</p>
-<pre><code class="sql">SELECT str_to_date(&#39;2019-3-6 16:53:58&#39;, &#39;%Y-%m-%d %H:%i:%S&#39;)</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">str_to_date</span>(<span class="string">'2019-3-6 16:53:58'</span>, <span class="string">'%Y-%m-%d %H:%i:%S'</span>)</span><br></pre></td></tr></table></figure>
+
 <h4 id="YYYYMM-注意点"><a href="#YYYYMM-注意点" class="headerlink" title="YYYYMM 注意点"></a>YYYYMM 注意点</h4><p>Oracle</p>
-<pre><code class="sql">to_date(&#39;201907&#39;, &#39;YYYYMM&#39;) -- 返回 2019-7-1</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">to_date('201907', 'YYYYMM') <span class="comment">-- 返回 2019-7-1</span></span><br></pre></td></tr></table></figure>
+
 <p>MySQL`</p>
-<pre><code class="sql">str_to_date(&#39;201907&#39;, &#39;%Y%m&#39;) -- 返回空串
-str_to_date(&#39;20190701&#39;, &#39;%Y%m%d&#39;) -- 返回 2019-07-01</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">str_to_date('201907', '%Y%m') <span class="comment">-- 返回空串</span></span><br><span class="line">str_to_date('20190701', '%Y%m%d') <span class="comment">-- 返回 2019-07-01</span></span><br></pre></td></tr></table></figure>
+
 <p>所以，遇到 <code>201907</code> 这样的 char 要转成日期，只能用 <code>concat(&#39;201907&#39;, &#39;01&#39;)</code></p>
 <h2 id="时间截取"><a href="#时间截取" class="headerlink" title="时间截取"></a>时间截取</h2><p>在 Oracle 中，sysdate在当天的零时零分零秒等于 <code>trunc(sysdate)</code> ， trunc 函数用来截取时间。</p>
-<pre><code class="sql"># 当年的第一天
-trunc(sysdate, &#39;yy&#39;)
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当年的第一天</span></span><br><span class="line">trunc(sysdate, 'yy')</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当月的第一天</span></span><br><span class="line">trunc(sysdate, 'mm')</span><br><span class="line"></span><br><span class="line"><span class="comment"># 本周的第一天（周日）</span></span><br><span class="line">trunc(sysdate, 'd')</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当天（零时零分零秒）</span></span><br><span class="line">trunc(sysdate)</span><br></pre></td></tr></table></figure>
 
-# 当月的第一天
-trunc(sysdate, &#39;mm&#39;)
-
-# 本周的第一天（周日）
-trunc(sysdate, &#39;d&#39;)
-
-# 当天（零时零分零秒）
-trunc(sysdate)</code></pre>
 <p>在 MySQL 中，只能用 DATE_FORMAT 函数来格式化时间。</p>
-<pre><code class="sql"># 自定义日期格式
-SELECT date_format(now(), &#39;%Y-%m-%d&#39;);
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 自定义日期格式</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">date_format</span>(<span class="keyword">now</span>(), <span class="string">'%Y-%m-%d'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当月的第一天</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">date_format</span>(<span class="keyword">now</span>(), <span class="string">'%Y-%m-01'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下个月的第一天</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">date_add</span>(<span class="keyword">date_format</span>(<span class="keyword">now</span>(), <span class="string">'%Y-%m-01'</span>), <span class="built_in">INTERVAL</span> <span class="number">1</span> <span class="keyword">MONTH</span>)</span><br></pre></td></tr></table></figure>
 
-# 当月的第一天
-SELECT date_format(now(), &#39;%Y-%m-01&#39;);
-
-# 下个月的第一天
-SELECT date_add(date_format(now(), &#39;%Y-%m-01&#39;), INTERVAL 1 MONTH)</code></pre>
 <p>不过，如果要取当天，Oracle 里的 trunc(sysdate) 在 MySQL 可以直接写成 CURDATE()</p>
 <h2 id="日期相加"><a href="#日期相加" class="headerlink" title="日期相加"></a>日期相加</h2><p>在 Oracle 中，当前时间的三个月后，写法为：</p>
-<pre><code class="sql">add_months(sysdate, 3)</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add_months(sysdate, 3)</span><br></pre></td></tr></table></figure>
+
 <p>在 MySQL 中，写法为：</p>
-<pre><code class="sql">date_add(now(), INTERVAL 3 montn)</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">date_add(now(), INTERVAL 3 montn)</span><br></pre></td></tr></table></figure>
+
 <h2 id="相差月数"><a href="#相差月数" class="headerlink" title="相差月数"></a>相差月数</h2><p>在 Oracle 中，用 <code>months_between(日期1，日期2)</code> 计算日期相差的月数</p>
 <p>在 MySQL 中，用 <code>timestampdiff(month, 日期1，日期2)</code></p>
 <h2 id="nvl"><a href="#nvl" class="headerlink" title="nvl"></a>nvl</h2><p>nvl(a, b) 如果 a 为 null，则函数结果为b，否则函数结果为a</p>
 <p>在 MySQL 中，用 ifnull(a, b) ，注意 ifnull 不能判空串</p>
 <h2 id="nvl2"><a href="#nvl2" class="headerlink" title="nvl2"></a>nvl2</h2><p>在 Oracle 中，<code>nvl2(a,b,c)</code> 的逻辑是： 如果 a 为 null ，则c，否则 b</p>
 <p>在 MySQL 中写法为：</p>
-<pre><code>IF ( ISNULL(a), c, b );</code></pre><p>注意 b 和 c 的位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IF ( ISNULL(a), c, b );</span><br></pre></td></tr></table></figure>
+
+<p>注意 b 和 c 的位置</p>
 <h2 id="decode"><a href="#decode" class="headerlink" title="decode()"></a>decode()</h2><p>在 Oracle 中，decode(条件，值1，返回值1，值2，返回值2, ……) 用来选择数据</p>
 <p>在 MySQL 中，用 case when 代替</p>
-<pre><code class="sql">case 条件
-  when &#39;值1&#39; then &#39;返回值1&#39;
-  when &#39;值2&#39; then &#39;返回值2&#39;
-  when ...   then ...      END</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">case 条件</span><br><span class="line">  when '值1' then '返回值1'</span><br><span class="line">  when '值2' then '返回值2'</span><br><span class="line">  when ...   then ...      <span class="keyword">END</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="保留两位小数"><a href="#保留两位小数" class="headerlink" title="保留两位小数"></a>保留两位小数</h2><p>在 Oracle 中，用 <code>to_char(123.345, &#39;0.99&#39;)</code> 保留两位小数并转换成字符串</p>
 <p>在 MySQL 中，用 <code>convert(123.345, decimal(10,2))</code> 来保留两位小数</p>
 <h2 id="位数不够补空格"><a href="#位数不够补空格" class="headerlink" title="位数不够补空格"></a>位数不够补空格</h2><p>Oracle，用 <code>to_char(num, &#39;999&#39;)</code> ， 会补齐到四位</p>
 <p>如：</p>
-<pre><code>[空格]100
-[空格][空格]83</code></pre><p>MySQL，用 <code>LPAD(char, 4, &#39; &#39;)</code>，第一个参数是传入的字符串，第二个是要补齐到多少位，第三个是补什么。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[空格]100</span><br><span class="line">[空格][空格]83</span><br></pre></td></tr></table></figure>
+
+<p>MySQL，用 <code>LPAD(char, 4, &#39; &#39;)</code>，第一个参数是传入的字符串，第二个是要补齐到多少位，第三个是补什么。</p>
 <p>Oracle 也有 LPAD 函数。</p>
 <hr>
 <h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="获取当前用户"><a href="#获取当前用户" class="headerlink" title="获取当前用户"></a>获取当前用户</h2><p>在 Oracle 中，用 USER 获取当前数据库连接用户</p>
@@ -300,42 +291,25 @@ SELECT date_add(date_format(now(), &#39;%Y-%m-01&#39;), INTERVAL 1 MONTH)</code>
 <h2 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h2><p>在 Oracle 中，可以使用 check 约束某些值的范围，如 Y N</p>
 <p>在 MySQL 中，可以使用 check 约束，但没有任何效果，因为 MySQL 底层没有实现。一般这种检查在应用层做。</p>
 <h2 id="计列"><a href="#计列" class="headerlink" title="计列"></a>计列</h2><p>在 Oracle 中，有时候用</p>
-<pre><code class="sql">SELECT rownum num FROM table</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">rownum</span> <span class="keyword">num</span> <span class="keyword">FROM</span> <span class="keyword">table</span></span><br></pre></td></tr></table></figure>
+
 <p>这样的语法来增加一行辅助列，并在后面 WHERE 用于限制结果集和分页。但在 MySQL 中，直接用 <code>LIMIT</code> 即可。</p>
 <p>当 MySQL 确实需要辅助计数列时，可以用以下语法</p>
-<pre><code class="sql">SELECT @rownum := @rownum +1 num
-FROM table t, (SELECT @rownum:=0) tt</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> @<span class="keyword">rownum</span> := @<span class="keyword">rownum</span> +<span class="number">1</span> <span class="keyword">num</span></span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">table</span> t, (<span class="keyword">SELECT</span> @<span class="keyword">rownum</span>:=<span class="number">0</span>) tt</span><br></pre></td></tr></table></figure>
+
 <h2 id="左右连接"><a href="#左右连接" class="headerlink" title="左右连接"></a>左右连接</h2><p>在 Oracle 中，有时候会遇到</p>
-<pre><code class="sql">FROM table_a a,
-     table_b b,
-WHERE a.series = b.code(+)</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FROM table_a a,</span><br><span class="line">     table_b b,</span><br><span class="line">WHERE a.series = b.code(+)</span><br></pre></td></tr></table></figure>
+
 <p>实际上这是左右连接的特殊写法</p>
 <p>(+)符号放在非主表，上面的例子是左连接，在 MySQL 中只能用 JOIN</p>
-<pre><code class="sql">FROM table_a a
-LEFT JOIN table_b b
-ON a.series = b.code</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FROM table_a a</span><br><span class="line">LEFT JOIN table_b b</span><br><span class="line">ON a.series = b.code</span><br></pre></td></tr></table></figure>
+
 <h2 id="更新或插入"><a href="#更新或插入" class="headerlink" title="更新或插入"></a>更新或插入</h2><p>某些列值存在时则更新，不存在时则插入一条新记录。在 Oracle 中，用 <code>MERGE INTO</code> 语法。</p>
-<pre><code class="sql">MERGE INTO table
-USING dual
-ON ( .. = ..)
-WHEN MATCHED THEN
-...
-WHEN NOT MATCHED THEN
-...</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">MERGE</span> <span class="keyword">INTO</span> <span class="keyword">table</span></span><br><span class="line"><span class="keyword">USING</span> dual</span><br><span class="line"><span class="keyword">ON</span> ( .. = ..)</span><br><span class="line"><span class="keyword">WHEN</span> <span class="keyword">MATCHED</span> <span class="keyword">THEN</span></span><br><span class="line">...</span><br><span class="line"><span class="keyword">WHEN</span> <span class="keyword">NOT</span> <span class="keyword">MATCHED</span> <span class="keyword">THEN</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
 <p>在 MySQL 中，可以用 <code>REPLACE INTO</code>，但主键冲突或唯一索引冲突时，会删除原有数据，再插入。 或者用 <code>INSERT INTO ON DUPLICATE KEY UPDATE</code> ，在主键冲突或唯一索引冲突时更新原数据，否则插入。</p>
-<pre><code class="sql">INSERT INTO table
-(
-  ...,
-  ...,
-)
-VALUES
-(
-  ...,
-  ...,
-)
-ON DUPLICATE KEY UPDATE
-column1 = v1,
-column2 = v2</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">table</span></span><br><span class="line">(</span><br><span class="line">  ...,</span><br><span class="line">  ...,</span><br><span class="line">)</span><br><span class="line"><span class="keyword">VALUES</span></span><br><span class="line">(</span><br><span class="line">  ...,</span><br><span class="line">  ...,</span><br><span class="line">)</span><br><span class="line"><span class="keyword">ON</span> <span class="keyword">DUPLICATE</span> <span class="keyword">KEY</span> <span class="keyword">UPDATE</span></span><br><span class="line">column1 = v1,</span><br><span class="line">column2 = v2</span><br></pre></td></tr></table></figure>
+
 <h2 id="别名"><a href="#别名" class="headerlink" title="别名"></a>别名</h2><p>mysql delete语句不支持别名，Oracle可以</p>
 
         </div>
@@ -425,7 +399,7 @@ column2 = v2</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -437,7 +411,7 @@ column2 = v2</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -449,7 +423,7 @@ column2 = v2</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -666,25 +640,25 @@ column2 = v2</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -698,6 +672,14 @@ column2 = v2</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -706,20 +688,20 @@ column2 = v2</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -751,7 +733,7 @@ column2 = v2</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -759,7 +741,15 @@ column2 = v2</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -794,6 +784,25 @@ column2 = v2</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -824,7 +833,7 @@ column2 = v2</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -861,25 +870,6 @@ column2 = v2</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -945,6 +935,25 @@ column2 = v2</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -975,7 +984,7 @@ column2 = v2</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1012,25 +1021,6 @@ column2 = v2</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1093,7 +1083,7 @@ column2 = v2</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1147,7 +1137,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

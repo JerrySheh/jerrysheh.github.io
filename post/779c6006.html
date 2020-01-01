@@ -10,12 +10,12 @@
 <title>Java简明笔记（十二） IO编程 - J.e</title>
 
 
-    <meta name="description" content="文件对象 File用过 Linux 的一定知道，“一切皆文件”和“一切皆文本流”的思想。在 Java 中，普通文件和文件夹都是文件对象，用File表示。 文件对象的常用方法new 一个文件对象，用getAbsoluteFile()返回这个File对象形式的路径，用getAbsolutePath()返回字符串形式的路径。 import java.io.File;  public class IO {">
+    <meta name="description" content="文件对象 File用过 Linux 的一定知道，“一切皆文件”和“一切皆文本流”的思想。在 Java 中，普通文件和文件夹都是文件对象，用File表示。 文件对象的常用方法new 一个文件对象，用getAbsoluteFile()返回这个File对象形式的路径，用getAbsolutePath()返回字符串形式的路径。 1234567891011121314151617import java.io">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java简明笔记（十二） IO编程">
 <meta property="og:url" content="https://jerrysheh.me/post/779c6006.html">
 <meta property="og:site_name" content="J.e">
-<meta property="og:description" content="文件对象 File用过 Linux 的一定知道，“一切皆文件”和“一切皆文本流”的思想。在 Java 中，普通文件和文件夹都是文件对象，用File表示。 文件对象的常用方法new 一个文件对象，用getAbsoluteFile()返回这个File对象形式的路径，用getAbsolutePath()返回字符串形式的路径。 import java.io.File;  public class IO {">
+<meta property="og:description" content="文件对象 File用过 Linux 的一定知道，“一切皆文件”和“一切皆文本流”的思想。在 Java 中，普通文件和文件夹都是文件对象，用File表示。 文件对象的常用方法new 一个文件对象，用getAbsoluteFile()返回这个File对象形式的路径，用getAbsolutePath()返回字符串形式的路径。 1234567891011121314151617import java.io">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2018-03-11T02:44:18.000Z">
@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -159,37 +159,16 @@
         <div class="content">
             <h1 id="文件对象-File"><a href="#文件对象-File" class="headerlink" title="文件对象 File"></a>文件对象 File</h1><p>用过 Linux 的一定知道，“一切皆文件”和“一切皆文本流”的思想。在 Java 中，普通文件和文件夹都是文件对象，用<code>File</code>表示。</p>
 <h2 id="文件对象的常用方法"><a href="#文件对象的常用方法" class="headerlink" title="文件对象的常用方法"></a>文件对象的常用方法</h2><p>new 一个文件对象，用<code>getAbsoluteFile()</code>返回这个File对象形式的路径，用<code>getAbsolutePath()</code>返回字符串形式的路径。</p>
-<pre><code class="java">import java.io.File;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IO</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//创建文件</span></span><br><span class="line">        File txt = <span class="keyword">new</span> File(<span class="string">"D:\\JavaTest\\t.txt"</span>);</span><br><span class="line">        System.out.println(txt.getAbsoluteFile());</span><br><span class="line"></span><br><span class="line">        <span class="comment">//创建目录</span></span><br><span class="line">        File dir = <span class="keyword">new</span> File(<span class="string">"D:\\JavaTest"</span>);</span><br><span class="line">        System.out.println(dir.getAbsolutePath());</span><br><span class="line"></span><br><span class="line">        <span class="comment">//将dir目录作为创建文件的路径</span></span><br><span class="line">        File xml = <span class="keyword">new</span> File(dir,<span class="string">"run.bat"</span>);</span><br><span class="line">        System.out.println(xml.getAbsolutePath());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-public class IO {
-    public static void main(String[] args) {
-        //创建文件
-        File txt = new File(&quot;D:\\JavaTest\\t.txt&quot;);
-        System.out.println(txt.getAbsoluteFile());
-
-        //创建目录
-        File dir = new File(&quot;D:\\JavaTest&quot;);
-        System.out.println(dir.getAbsolutePath());
-
-        //将dir目录作为创建文件的路径
-        File xml = new File(dir,&quot;run.bat&quot;);
-        System.out.println(xml.getAbsolutePath());
-    }
-}</code></pre>
 <p>我们用 new 创建的文件，并不一定在物理磁盘上存在，用<code>exists()</code>判断是否真实存在。</p>
-<pre><code class="java">//如果物理磁盘上存在t.txt，返回 true
-File txt = new File(&quot;D:\\JavaTest\\t.txt&quot;);
-        System.out.println(txt.exists());</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果物理磁盘上存在t.txt，返回 true</span></span><br><span class="line">File txt = <span class="keyword">new</span> File(<span class="string">"D:\\JavaTest\\t.txt"</span>);</span><br><span class="line">        System.out.println(txt.exists());</span><br></pre></td></tr></table></figure>
+
 <p>用<code>isDirectory()</code>判断是否是一个目录，用<code>isFile()</code>判断是否是一个普通文件，用<code>length()</code>获取文件长度。</p>
 <p>先在 D:\JavaTest 创建一个 t.txt 文件，然后里面写 hello， 保存</p>
 <p><img src="../../../../images/Java/file.png" alt="txt"></p>
-<pre><code class="java">public static void main(String[] args) {
-    //创建文件
-    File txt = new File(&quot;D:\\JavaTest\\t.txt&quot;);
-    if (txt.exists()){
-        System.out.println(txt.length());
-    }
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//创建文件</span></span><br><span class="line">    File txt = <span class="keyword">new</span> File(<span class="string">"D:\\JavaTest\\t.txt"</span>);</span><br><span class="line">    <span class="keyword">if</span> (txt.exists())&#123;</span><br><span class="line">        System.out.println(txt.length());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>输出 <code>5</code>，因为 hello 正好长度是 5 。如果文件在磁盘上不存在，则没有输出。如果是目录，输出 <code>0</code>。</p>
 <ul>
 <li>用<code>getParent()</code>以 <strong>字符串</strong> 形式获取文件所在目录，用<code>getParentFile()</code>以 <strong>File对象</strong> 形式获取文件所在目录。</li>
@@ -198,57 +177,9 @@ File txt = new File(&quot;D:\\JavaTest\\t.txt&quot;);
 <li>用<code>f.delete()</code>删除文件。用<code>f.deleteOnExit()</code>在JVM结束的时候删除文件（通常是临时文件）</li>
 </ul>
 <h2 id="例子：遍历找出最大文件"><a href="#例子：遍历找出最大文件" class="headerlink" title="例子：遍历找出最大文件"></a>例子：遍历找出最大文件</h2><p>遍历文件夹下的文件和目录，并找出最大的文件</p>
-<pre><code class="java">public static void main(String[] args) {
-    //定义一个文件目录
-    File folder = new File(&quot;D:\\Documents&quot;);
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//定义一个文件目录</span></span><br><span class="line">    File folder = <span class="keyword">new</span> File(<span class="string">"D:\\Documents"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//列出目录下的所有子文件和子目录，存入File[]数组</span></span><br><span class="line">    File[] foldersAndFiles = folder.listFiles();</span><br><span class="line">    <span class="keyword">long</span> length = <span class="number">0</span>;</span><br><span class="line">    String name = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//空指针异常检查</span></span><br><span class="line">    <span class="keyword">if</span> (foldersAndFiles != <span class="keyword">null</span>)&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//遍历子目录和子文件，记录最大长度的那个</span></span><br><span class="line">        <span class="keyword">for</span> (File eachFile :</span><br><span class="line">                foldersAndFiles) &#123;</span><br><span class="line">            <span class="keyword">if</span> (eachFile.length() &gt; length)&#123;</span><br><span class="line">                length = eachFile.length();</span><br><span class="line">                name = eachFile.getName();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.printf(<span class="string">"最大的文件是：%s \n 其大小为：%d"</span>,name,length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    //列出目录下的所有子文件和子目录，存入File[]数组
-    File[] foldersAndFiles = folder.listFiles();
-    long length = 0;
-    String name = &quot;&quot;;
-
-    //空指针异常检查
-    if (foldersAndFiles != null){
-
-        //遍历子目录和子文件，记录最大长度的那个
-        for (File eachFile :
-                foldersAndFiles) {
-            if (eachFile.length() &gt; length){
-                length = eachFile.length();
-                name = eachFile.getName();
-            }
-        }
-    }
-    System.out.printf(&quot;最大的文件是：%s \n 其大小为：%d&quot;,name,length);
-}</code></pre>
-<h2 id="例子：遍历输出目录下的文件（包括子目录里的文件）"><a href="#例子：遍历输出目录下的文件（包括子目录里的文件）" class="headerlink" title="例子：遍历输出目录下的文件（包括子目录里的文件）"></a>例子：遍历输出目录下的文件（包括子目录里的文件）</h2><pre><code class="java">import java.io.File;
-import java.io.IOException;
-
-public class IO {
-    public static void main(String[] args)  {
-        File parentFolder = new File(&quot;D:\\Documents&quot;);
-        printSub(parentFolder);
-    }
-
-    private static void printSub (File parentFolder) throws NullPointerException{
-        File[] folders = parentFolder.listFiles();
-
-        //遍历子目录和子文件
-        for (File f :
-                folders) {
-
-            //如果是文件，打印
-            if (f.isFile()){
-                System.out.println(f);
-            }
-
-            //如果是目录，递归调用这个方法
-            if (f.isDirectory()){
-                printSub(f);
-            }
-        }
-    }
-}</code></pre>
+<h2 id="例子：遍历输出目录下的文件（包括子目录里的文件）"><a href="#例子：遍历输出目录下的文件（包括子目录里的文件）" class="headerlink" title="例子：遍历输出目录下的文件（包括子目录里的文件）"></a>例子：遍历输出目录下的文件（包括子目录里的文件）</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IO</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span>  </span>&#123;</span><br><span class="line">        File parentFolder = <span class="keyword">new</span> File(<span class="string">"D:\\Documents"</span>);</span><br><span class="line">        printSub(parentFolder);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printSub</span> <span class="params">(File parentFolder)</span> <span class="keyword">throws</span> NullPointerException</span>&#123;</span><br><span class="line">        File[] folders = parentFolder.listFiles();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//遍历子目录和子文件</span></span><br><span class="line">        <span class="keyword">for</span> (File f :</span><br><span class="line">                folders) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//如果是文件，打印</span></span><br><span class="line">            <span class="keyword">if</span> (f.isFile())&#123;</span><br><span class="line">                System.out.println(f);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//如果是目录，递归调用这个方法</span></span><br><span class="line">            <span class="keyword">if</span> (f.isDirectory())&#123;</span><br><span class="line">                printSub(f);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <hr>
 <h1 id="输入输出流"><a href="#输入输出流" class="headerlink" title="输入输出流"></a>输入输出流</h1><p>如果说， File 是表示 <strong>文件</strong> 的对象， 那么流就是表示 <strong>数据在Java程序和文件之间流动</strong> （流动可以是流出，也可以是流入）的对象。</p>
 <h2 id="流的概念"><a href="#流的概念" class="headerlink" title="流的概念"></a>流的概念</h2><p>在 Java API 中，可以从Java程序向外部写入字节序列的对象叫<code>输出流</code>，相反，可以从外部向Java程序读入字节序列的对象叫<code>输入流</code>。</p>
@@ -258,43 +189,21 @@ public class IO {
 </ul>
 <p>这里的外部，通常是指文件，当然也可以是网络，甚至内存。</p>
 <h2 id="InputStream-和-OutputStream"><a href="#InputStream-和-OutputStream" class="headerlink" title="InputStream 和 OutputStream"></a>InputStream 和 OutputStream</h2><p>Java中定义了两个抽象类，<code>InputStream</code>和<code>OutputStream</code>，是 Java IO 的基础。这两个抽象类都有一个抽象方法<code>read()</code>和<code>write()</code>，用于读入和写出一个字节并返回该字节（当遇到结尾时返回-1）。因此，实现这两个抽象类的子类，都必须重写<code>read()</code>或<code>write()</code>方法。</p>
-<pre><code class="java">abstract int read(){
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(<span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-}
-
-abstract void write(int b){
-
-}</code></pre>
 <blockquote>
 <p>举个实现的例子，比如 FileInputStream 就实现了从某个文件中读入一个字节。</p>
 </blockquote>
 <p>下面是我们常用的 <code>read()</code>实现方法，它读入一个字节数组，并返回实际读入的字节数。或者在碰到流的结尾时返回-1.</p>
-<pre><code class="java">int read(byte[] b) {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">read</span><span class="params">(<span class="keyword">byte</span>[] b)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-}</code></pre>
+
 <p><code>read()</code>和<code>write()</code>方法在执行时是阻塞的（通常是因为网络延迟）。可以用<code>available（）</code>方法检查当前可读入的字节数量。</p>
 <p>当我们读写完毕后，切记用<code>close()</code>方法来关闭IO流，以释放系统资源。</p>
 <h2 id="例子：向文件写字节"><a href="#例子：向文件写字节" class="headerlink" title="例子：向文件写字节"></a>例子：向文件写字节</h2><p>创建文件 -&gt; 判断父目录在不在 -&gt;  写入字节</p>
-<pre><code class="java">public static void main(String[] args)  throws IOException {
-    File parentFolder = new File(&quot;D:\\JavaTest&quot;);
-    writeByte(parentFolder);
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span>  <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    File parentFolder = <span class="keyword">new</span> File(<span class="string">"D:\\JavaTest"</span>);</span><br><span class="line">    writeByte(parentFolder);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">writeByte</span> <span class="params">(File parentFolder)</span> <span class="keyword">throws</span> NullPointerException, IOException</span>&#123;</span><br><span class="line">    <span class="comment">//创建新文件</span></span><br><span class="line">    File txt = <span class="keyword">new</span> File(parentFolder,<span class="string">"how2j\\jj\\test.txt"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//判断新文件的父目录在不在，如果不在，用 mkdirs()  创建</span></span><br><span class="line">    <span class="keyword">if</span> (!txt.getParentFile().exists())&#123;</span><br><span class="line">        txt.getParentFile().mkdirs();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//写入字节</span></span><br><span class="line">    FileOutputStream outputStream = <span class="keyword">new</span> FileOutputStream(txt);</span><br><span class="line">    <span class="keyword">byte</span>[] all = &#123;<span class="number">75</span>,<span class="number">79</span>&#125;; <span class="comment">// ASCII 75 = K, 79 = O;</span></span><br><span class="line">    outputStream.write(all);</span><br><span class="line">    outputStream.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-private static void writeByte (File parentFolder) throws NullPointerException, IOException{
-    //创建新文件
-    File txt = new File(parentFolder,&quot;how2j\\jj\\test.txt&quot;);
 
-    //判断新文件的父目录在不在，如果不在，用 mkdirs()  创建
-    if (!txt.getParentFile().exists()){
-        txt.getParentFile().mkdirs();
-    }
-
-    //写入字节
-    FileOutputStream outputStream = new FileOutputStream(txt);
-    byte[] all = {75,79}; // ASCII 75 = K, 79 = O;
-    outputStream.write(all);
-    outputStream.close();
-}</code></pre>
 <hr>
 <h1 id="不止字节"><a href="#不止字节" class="headerlink" title="不止字节"></a>不止字节</h1><p>继承于<code>InputStream</code>和<code>OutputStream</code>的实现类可以让我们很方便的读写字节。但是，我们很多文件都是 Unicode 字符编码的，不是单个的字节。因此，Java又定义了<code>Reader</code>和<code>Writer</code>两个抽象类，专门处理 Unicode 字符。</p>
 <p><font color="red"> 因此，在 Java 中， Stream 结尾的都是字节流， reader 或 writer结尾都是字符流。 两者的区别是：读写的时候一个是按字节读写，一个是按字符。</font></p>
@@ -311,181 +220,35 @@ private static void writeByte (File parentFolder) throws NullPointerException, I
 <li>刷新</li>
 </ol>
 <p>注意，<strong>FileWrite 接收第二个参数，为 true 时，不覆盖原有内容</strong>。否则原有内容会被覆盖。</p>
-<pre><code class="java">// 文件读写
-FileWriter fw = new FileWriter(&quot;C:\\Users\\JerrySheh\\exception.dat&quot; , true);
-BufferedWriter bw = new BufferedWriter(fw);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 文件读写</span></span><br><span class="line">FileWriter fw = <span class="keyword">new</span> FileWriter(<span class="string">"C:\\Users\\JerrySheh\\exception.dat"</span> , <span class="keyword">true</span>);</span><br><span class="line">BufferedWriter bw = <span class="keyword">new</span> BufferedWriter(fw);</span><br></pre></td></tr></table></figure>
+
 <h3 id="完整例子"><a href="#完整例子" class="headerlink" title="完整例子"></a>完整例子</h3><ul>
 <li>产生5555个随机数</li>
 <li>写入到文件data.txt中</li>
 <li>从文件data.txt中读取这5555个随机数，写入到data2.txt中</li>
 </ul>
 <p>randomDoubleNumber.java</p>
-<pre><code class="java">package com.jerrysheh;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.jerrysheh;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.math.BigDecimal;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">randomDoubleNumber</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 产生 range 以内的随机数</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> <span class="title">getRandomDoubleNumber</span><span class="params">(<span class="keyword">int</span> range)</span></span>&#123;</span><br><span class="line">        BigDecimal b = <span class="keyword">new</span> BigDecimal(Math.random() * range);</span><br><span class="line">        <span class="keyword">return</span> b.setScale(<span class="number">2</span>, BigDecimal.ROUND_HALF_UP).doubleValue();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-import java.math.BigDecimal;
-
-public class randomDoubleNumber {
-
-    // 产生 range 以内的随机数
-    public static double getRandomDoubleNumber(int range){
-        BigDecimal b = new BigDecimal(Math.random() * range);
-        return b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-    }
-}</code></pre>
 <p>test.java</p>
-<pre><code>import java.io.*;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">import java.io.*;</span><br><span class="line">import java.text.DecimalFormat;</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">public class main &#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        ArrayList&lt;Double&gt; l &#x3D; addDataToList(new ArrayList&lt;&gt;());</span><br><span class="line">        writeToFile(l);</span><br><span class="line">        readFromFileAndWrite(l);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 添加随机数数据</span><br><span class="line">    public static ArrayList&lt;Double&gt; addDataToList(ArrayList&lt;Double&gt; randomNumberList)&#123;</span><br><span class="line">        double d;</span><br><span class="line">        for (int i &#x3D; 0; i &lt; 5555; i++) &#123;</span><br><span class="line">            d &#x3D; com.jerrysheh.randomDoubleNumber.getRandomDoubleNumber(1000);</span><br><span class="line">            randomNumberList.add(d);</span><br><span class="line">        &#125;</span><br><span class="line">        return randomNumberList;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 数据写入文件</span><br><span class="line">    public static void writeToFile(List&lt;Double&gt; randomNumberList)&#123;</span><br><span class="line">        DecimalFormat df &#x3D; new DecimalFormat(&quot;0.00&quot;);</span><br><span class="line"></span><br><span class="line">        try (BufferedWriter bw &#x3D; new BufferedWriter(new FileWriter(&quot;data.txt&quot;))) &#123;</span><br><span class="line">            for (double dd:</span><br><span class="line">                    randomNumberList) &#123;</span><br><span class="line">                String s &#x3D; df.format(dd);</span><br><span class="line">                bw.write(s);</span><br><span class="line">                bw.write(&quot;,&quot;);</span><br><span class="line">                bw.flush();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (IOException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;文件读取数据，写入另一文件</span><br><span class="line">    public static void readFromFileAndWrite(List&lt;Double&gt; randomNumberList)&#123;</span><br><span class="line">        try(</span><br><span class="line">                BufferedReader br &#x3D; new BufferedReader(new FileReader(&quot;data.txt&quot;));</span><br><span class="line">                BufferedWriter bw &#x3D; new BufferedWriter(new FileWriter(&quot;data2.txt&quot;))</span><br><span class="line">        )&#123;</span><br><span class="line">            String s &#x3D; br.readLine();</span><br><span class="line">            String ss[] &#x3D; s.split(&quot;,&quot;);</span><br><span class="line">            for (String each:</span><br><span class="line">                 ss) &#123;</span><br><span class="line">                bw.write(each);</span><br><span class="line">                bw.write(&quot;\r\n&quot;);</span><br><span class="line">                bw.flush();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (IOException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-public class main {
-    public static void main(String[] args){
-        ArrayList&lt;Double&gt; l = addDataToList(new ArrayList&lt;&gt;());
-        writeToFile(l);
-        readFromFileAndWrite(l);
-    }
-
-    // 添加随机数数据
-    public static ArrayList&lt;Double&gt; addDataToList(ArrayList&lt;Double&gt; randomNumberList){
-        double d;
-        for (int i = 0; i &lt; 5555; i++) {
-            d = com.jerrysheh.randomDoubleNumber.getRandomDoubleNumber(1000);
-            randomNumberList.add(d);
-        }
-        return randomNumberList;
-    }
-
-    // 数据写入文件
-    public static void writeToFile(List&lt;Double&gt; randomNumberList){
-        DecimalFormat df = new DecimalFormat(&quot;0.00&quot;);
-
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(&quot;data.txt&quot;))) {
-            for (double dd:
-                    randomNumberList) {
-                String s = df.format(dd);
-                bw.write(s);
-                bw.write(&quot;,&quot;);
-                bw.flush();
-            }
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    //文件读取数据，写入另一文件
-    public static void readFromFileAndWrite(List&lt;Double&gt; randomNumberList){
-        try(
-                BufferedReader br = new BufferedReader(new FileReader(&quot;data.txt&quot;));
-                BufferedWriter bw = new BufferedWriter(new FileWriter(&quot;data2.txt&quot;))
-        ){
-            String s = br.readLine();
-            String ss[] = s.split(&quot;,&quot;);
-            for (String each:
-                 ss) {
-                bw.write(each);
-                bw.write(&quot;\r\n&quot;);
-                bw.flush();
-            }
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-}</code></pre><hr>
+<hr>
 <h1 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h1><h2 id="什么是序列化（Serialization）？"><a href="#什么是序列化（Serialization）？" class="headerlink" title="什么是序列化（Serialization）？"></a>什么是序列化（Serialization）？</h2><p>变量从内存中变成可存储或传输的过程称之为序列化（或持久化）。序列化之后，就可以把序列化后的内容写入磁盘，或者通过网络传输到别的机器上。</p>
 <h2 id="Java中的序列化"><a href="#Java中的序列化" class="headerlink" title="Java中的序列化"></a>Java中的序列化</h2><p>在 Java 中，java.io.Serializable 是一个标记接口。要序列化一个对象，只需要实现该接口。但是，对象中并不是所有字段都可以被序列化，使用时需要注意。</p>
 <p>当然，也有一些字段本身是可以被序列化的，但是我们不希望它被序列化，这时可以使用 <code>transient</code> 关键字让它不被序列化。</p>
-<h3 id="一个支持序列化的类"><a href="#一个支持序列化的类" class="headerlink" title="一个支持序列化的类"></a>一个支持序列化的类</h3><pre><code class="java">public class Employee implements java.io.Serializable
-{
-   public String name;
-   public String address;
-   public transient int SSN;
-   public int number;
-   public void mailCheck()
-   {
-      System.out.println(&quot;Mailing a check to &quot; + name
-                           + &quot; &quot; + address);
-   }
-}</code></pre>
+<h3 id="一个支持序列化的类"><a href="#一个支持序列化的类" class="headerlink" title="一个支持序列化的类"></a>一个支持序列化的类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Employee</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">   <span class="keyword">public</span> String name;</span><br><span class="line">   <span class="keyword">public</span> String address;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">transient</span> <span class="keyword">int</span> SSN;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">int</span> number;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">mailCheck</span><span class="params">()</span></span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"Mailing a check to "</span> + name</span><br><span class="line">                           + <span class="string">" "</span> + address);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>在 Java 中，我们使用  ObjectOutputStream 类来将一个对象转换成输出流。它的 <code>writeObject(Object x)</code> 方法用于序列化一个对象，并将它发送到输出流。</p>
-<h3 id="序列化过程"><a href="#序列化过程" class="headerlink" title="序列化过程"></a>序列化过程</h3><pre><code class="java">public class SerializeDemo
-{
-   public static void main(String [] args)
-   {
-      Employee e = new Employee();
-      e.name = &quot;Reyan Ali&quot;;
-      e.address = &quot;Phokka Kuan, Ambehta Peer&quot;;
-      e.SSN = 11122333;
-      e.number = 101;
-      try
-      {
-         FileOutputStream fileOut =
-         new FileOutputStream(&quot;/tmp/employee.ser&quot;);
-         ObjectOutputStream out = new ObjectOutputStream(fileOut);
-         out.writeObject(e);
-         out.close();
-         fileOut.close();
-         System.out.printf(&quot;Serialized data is saved in /tmp/employee.ser&quot;);
-      }catch(IOException i)
-      {
-          i.printStackTrace();
-      }
-   }
-}</code></pre>
+<h3 id="序列化过程"><a href="#序列化过程" class="headerlink" title="序列化过程"></a>序列化过程</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SerializeDemo</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String [] args)</span></span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">      Employee e = <span class="keyword">new</span> Employee();</span><br><span class="line">      e.name = <span class="string">"Reyan Ali"</span>;</span><br><span class="line">      e.address = <span class="string">"Phokka Kuan, Ambehta Peer"</span>;</span><br><span class="line">      e.SSN = <span class="number">11122333</span>;</span><br><span class="line">      e.number = <span class="number">101</span>;</span><br><span class="line">      <span class="keyword">try</span></span><br><span class="line">      &#123;</span><br><span class="line">         FileOutputStream fileOut =</span><br><span class="line">         <span class="keyword">new</span> FileOutputStream(<span class="string">"/tmp/employee.ser"</span>);</span><br><span class="line">         ObjectOutputStream out = <span class="keyword">new</span> ObjectOutputStream(fileOut);</span><br><span class="line">         out.writeObject(e);</span><br><span class="line">         out.close();</span><br><span class="line">         fileOut.close();</span><br><span class="line">         System.out.printf(<span class="string">"Serialized data is saved in /tmp/employee.ser"</span>);</span><br><span class="line">      &#125;<span class="keyword">catch</span>(IOException i)</span><br><span class="line">      &#123;</span><br><span class="line">          i.printStackTrace();</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>Java约定序列化的文件后缀名为 .ser ，我们将该对象存入磁盘/tmp/employee.ser文件中</p>
-<h3 id="反序列化过程"><a href="#反序列化过程" class="headerlink" title="反序列化过程"></a>反序列化过程</h3><pre><code class="java">public class DeserializeDemo
-{
-   public static void main(String [] args)
-   {
-      Employee e = null;
-      try
-      {
+<h3 id="反序列化过程"><a href="#反序列化过程" class="headerlink" title="反序列化过程"></a>反序列化过程</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeserializeDemo</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String [] args)</span></span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">      Employee e = <span class="keyword">null</span>;</span><br><span class="line">      <span class="keyword">try</span></span><br><span class="line">      &#123;</span><br><span class="line"></span><br><span class="line">         <span class="comment">// 创建一个文件输入流</span></span><br><span class="line">         FileInputStream fileIn = <span class="keyword">new</span> FileInputStream(<span class="string">"/tmp/employee.ser"</span>);</span><br><span class="line"></span><br><span class="line">         <span class="comment">// 创建一个对象输入流，传入文件输入流对象</span></span><br><span class="line">         ObjectInputStream in = <span class="keyword">new</span> ObjectInputStream(fileIn);</span><br><span class="line"></span><br><span class="line">         <span class="comment">// 从对象输入流中获取序列化的数据</span></span><br><span class="line">         e = (Employee) in.readObject();</span><br><span class="line"></span><br><span class="line">         in.close();</span><br><span class="line">         fileIn.close();</span><br><span class="line">      &#125;<span class="keyword">catch</span>(IOException i)</span><br><span class="line">      &#123;</span><br><span class="line">         i.printStackTrace();</span><br><span class="line">         <span class="keyword">return</span>;</span><br><span class="line">      &#125;<span class="keyword">catch</span>(ClassNotFoundException c)</span><br><span class="line">      &#123;</span><br><span class="line">         System.out.println(<span class="string">"Employee class not found"</span>);</span><br><span class="line">         c.printStackTrace();</span><br><span class="line">         <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-         // 创建一个文件输入流
-         FileInputStream fileIn = new FileInputStream(&quot;/tmp/employee.ser&quot;);
-
-         // 创建一个对象输入流，传入文件输入流对象
-         ObjectInputStream in = new ObjectInputStream(fileIn);
-
-         // 从对象输入流中获取序列化的数据
-         e = (Employee) in.readObject();
-
-         in.close();
-         fileIn.close();
-      }catch(IOException i)
-      {
-         i.printStackTrace();
-         return;
-      }catch(ClassNotFoundException c)
-      {
-         System.out.println(&quot;Employee class not found&quot;);
-         c.printStackTrace();
-         return;
-      }
-    }
-}</code></pre>
 <p>此时，Employee对象即被“复活”了。但是注意，变量SSN是 transient 的，因此不会被还原。</p>
 <h2 id="为什么一个类实现了Serializable接口，它就可以被序列化？"><a href="#为什么一个类实现了Serializable接口，它就可以被序列化？" class="headerlink" title="为什么一个类实现了Serializable接口，它就可以被序列化？"></a>为什么一个类实现了Serializable接口，它就可以被序列化？</h2><p>查看 ObjectOutputStream 的源码，可以看到，其 writeObject0方法 中，是通过判断该类是否可以转型为 String、Enum 或 Serializable 来为其决定进行何种序列化方式的。实现Serializable接口就用 writeOrdinaryObject 方式。</p>
 <p>如果该类没有实现 Serializable 接口，就抛出 NotSerializableException</p>
-<pre><code class="java">private void writeObject0(Object obj, boolean unshared) throws IOException {
-      ...
-    if (obj instanceof String) {
-        writeString((String) obj, unshared);
-    } else if (cl.isArray()) {
-        writeArray(obj, desc, unshared);
-    } else if (obj instanceof Enum) {
-        writeEnum((Enum) obj, desc, unshared);
-    } else if (obj instanceof Serializable) {
-        writeOrdinaryObject(obj, desc, unshared);
-    } else {
-        if (extendedDebugInfo) {
-            throw new NotSerializableException(cl.getName() + &quot;\n&quot;
-                    + debugInfoStack.toString());
-        } else {
-            throw new NotSerializableException(cl.getName());
-        }
-    }
-    ...
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">writeObject0</span><span class="params">(Object obj, <span class="keyword">boolean</span> unshared)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">      ...</span><br><span class="line">    <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> String) &#123;</span><br><span class="line">        writeString((String) obj, unshared);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cl.isArray()) &#123;</span><br><span class="line">        writeArray(obj, desc, unshared);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> Enum) &#123;</span><br><span class="line">        writeEnum((Enum) obj, desc, unshared);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> Serializable) &#123;</span><br><span class="line">        writeOrdinaryObject(obj, desc, unshared);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (extendedDebugInfo) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NotSerializableException(cl.getName() + <span class="string">"\n"</span></span><br><span class="line">                    + debugInfoStack.toString());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NotSerializableException(cl.getName());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
         </div>
         
@@ -574,7 +337,7 @@ public class main {
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -586,7 +349,7 @@ public class main {
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -598,7 +361,7 @@ public class main {
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -767,25 +530,25 @@ public class main {
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -799,6 +562,14 @@ public class main {
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -807,20 +578,20 @@ public class main {
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -852,7 +623,7 @@ public class main {
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -860,7 +631,15 @@ public class main {
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -895,6 +674,25 @@ public class main {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -925,7 +723,7 @@ public class main {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -962,25 +760,6 @@ public class main {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1046,6 +825,25 @@ public class main {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1076,7 +874,7 @@ public class main {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1113,25 +911,6 @@ public class main {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1194,7 +973,7 @@ public class main {
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1248,7 +1027,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

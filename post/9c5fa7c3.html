@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -183,22 +183,11 @@
 <h1 id="编写-RDD-应用程序"><a href="#编写-RDD-应用程序" class="headerlink" title="编写 RDD 应用程序"></a>编写 RDD 应用程序</h1><p>首先新建一个 maven 工程</p>
 <h2 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h2><p>根据<a href="http://spark.apache.org/docs/latest/rdd-programming-guide.html">官方文档</a>，添加 spark-core 的依赖 （如果要读写 HDFS, 还要添加 hadoop-client 的依赖）</p>
 <p>pom.xml</p>
-<pre><code class="xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;
-    &lt;artifactId&gt;spark-core_2.11&lt;/artifactId&gt;
-    &lt;version&gt;2.3.0&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-<h2 id="初始化-Spark"><a href="#初始化-Spark" class="headerlink" title="初始化 Spark"></a>初始化 Spark</h2><p>RDDsample.java</p>
-<pre><code class="java">import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.SparkConf;
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.spark<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spark-core_2.11<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-public class RDDsample {
-    public static void main(String[] args) {
-        SparkConf conf = new SparkConf().setAppName(&quot;RDD sample&quot;).setMaster(&quot;local[4]&quot;);
-        JavaSparkContext sc = new JavaSparkContext(conf);
-    }
-}</code></pre>
+<h2 id="初始化-Spark"><a href="#初始化-Spark" class="headerlink" title="初始化 Spark"></a>初始化 Spark</h2><p>RDDsample.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.spark.api.java.JavaSparkContext;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.api.java.JavaRDD;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.SparkConf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RDDsample</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SparkConf conf = <span class="keyword">new</span> SparkConf().setAppName(<span class="string">"RDD sample"</span>).setMaster(<span class="string">"local[4]"</span>);</span><br><span class="line">        JavaSparkContext sc = <span class="keyword">new</span> JavaSparkContext(conf);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>conf 的 <code>setMaster</code> 是设置集群（master is a Spark, Mesos or YARN cluster URL, or a special “local” string to run in local mode）这里以本地四个线程为例，写入 <code>local[4]</code></li>
 </ul>
@@ -206,13 +195,15 @@ public class RDDsample {
 <ul>
 <li>第一种：读取一个外部数据集。比如，从本地文件加载数据集，或者从HDFS文件系统、HBase、Cassandra、Amazon S3等外部数据源中加载数据集。Spark可以支持文本文件、SequenceFile文件（Hadoop提供的 SequenceFile是一个由二进制序列化过的key/value的字节流组成的文本存储文件）和其他符合Hadoop InputFormat格式的文件。</li>
 </ul>
-<pre><code class="java">JavaRDD&lt;String&gt; lines = sc.textFile(&quot;file:///home/jerrysheh/data.txt&quot;);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JavaRDD&lt;String&gt; lines = sc.textFile(<span class="string">"file:///home/jerrysheh/data.txt"</span>);</span><br></pre></td></tr></table></figure>
+
 <p>lines是一个String类型的RDD，可以简单称为RDD[String]，也就是说，这个RDD[String]里面的元素都是String类型。</p>
 <ul>
 <li>第二种：调用SparkContext的parallelize方法，在Driver中一个已经存在的集合（数组）上创建。</li>
 </ul>
-<pre><code class="java">List&lt;Integer&gt; data = Arrays.asList(1, 2, 3, 4, 5);
-JavaRDD&lt;Integer&gt; distData = sc.parallelize(data);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; data = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>);</span><br><span class="line">JavaRDD&lt;Integer&gt; distData = sc.parallelize(data);</span><br></pre></td></tr></table></figure>
+
+
 <h2 id="RDD-操作"><a href="#RDD-操作" class="headerlink" title="RDD 操作"></a>RDD 操作</h2><p>RDD 支持两种操作：</p>
 <ul>
 <li>转换（Transformations）： 基于现有的数据集创建一个新的数据集。</li>
@@ -241,36 +232,63 @@ JavaRDD&lt;Integer&gt; distData = sc.parallelize(data);</code></pre>
 <p>如果程序中多个地方触发行动操作，每个地方都会从头开始执行。可以用 <code>RDD.cache()</code>来缓存。这样第二次触发行动操作，会从缓存的地方开始计算。</p>
 </blockquote>
 <h2 id="键值对RDD-（pair-RDD）"><a href="#键值对RDD-（pair-RDD）" class="headerlink" title="键值对RDD （pair RDD）"></a>键值对RDD （pair RDD）</h2><p>我们前面创建的是 RDD[String]， 我们还可以创建 RDD[(String, Int)]</p>
-<pre><code class="java">JavaRDD&lt;String&gt; lines = sc.textFile(&quot;data.txt&quot;);
-JavaPairRDD&lt;String, Integer&gt; pairs = lines.mapToPair(s -&gt; new Tuple2(s, 1));
-JavaPairRDD&lt;String, Integer&gt; counts = pairs.reduceByKey((a, b) -&gt; a + b);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">JavaRDD&lt;String&gt; lines = sc.textFile(<span class="string">"data.txt"</span>);</span><br><span class="line">JavaPairRDD&lt;String, Integer&gt; pairs = lines.mapToPair(s -&gt; <span class="keyword">new</span> Tuple2(s, <span class="number">1</span>));</span><br><span class="line">JavaPairRDD&lt;String, Integer&gt; counts = pairs.reduceByKey((a, b) -&gt; a + b);</span><br></pre></td></tr></table></figure>
+
 <p>Java比较难理解的话，用 Python理解一遍</p>
-<pre><code class="python">lines = sc.textFile(&quot;data.txt&quot;)
-pairs = lines.map(lambda s: (s, 1))
-counts = pairs.reduceByKey(lambda a, b: a + b)</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lines = sc.textFile(<span class="string">"data.txt"</span>)</span><br><span class="line">pairs = lines.map(<span class="keyword">lambda</span> s: (s, <span class="number">1</span>))</span><br><span class="line">counts = pairs.reduceByKey(<span class="keyword">lambda</span> a, b: a + b)</span><br></pre></td></tr></table></figure>
+
 <h3 id="键值对转换"><a href="#键值对转换" class="headerlink" title="键值对转换"></a>键值对转换</h3><h4 id="reduceByKey-func"><a href="#reduceByKey-func" class="headerlink" title="reduceByKey(func)"></a>reduceByKey(func)</h4><p>使用func函数合并具有相同键的值</p>
 <p>比如：<code>reduceByKey((a,b) -&gt; a+b)</code></p>
 <p>转换前</p>
-<pre><code>(“spark”,1)、(“spark”,2)、(“hadoop”,3)和(“hadoop”,5)</code></pre><p>转换后</p>
-<pre><code>(“spark”,3)、(“hadoop”,8)</code></pre><h4 id="groupByKey"><a href="#groupByKey" class="headerlink" title="groupByKey()"></a>groupByKey()</h4><p>对具有相同键的值进行分组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(“spark”,1)、(“spark”,2)、(“hadoop”,3)和(“hadoop”,5)</span><br></pre></td></tr></table></figure>
+
+<p>转换后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(“spark”,3)、(“hadoop”,8)</span><br></pre></td></tr></table></figure>
+
+<h4 id="groupByKey"><a href="#groupByKey" class="headerlink" title="groupByKey()"></a>groupByKey()</h4><p>对具有相同键的值进行分组</p>
 <p>转换前</p>
-<pre><code>(“spark”,1)、(“spark”,2)、(“hadoop”,3)和(“hadoop”,5)</code></pre><p>转换后</p>
-<pre><code>(“spark”,(1,2))，(“hadoop”,(3,5))</code></pre><h4 id="keys"><a href="#keys" class="headerlink" title="keys"></a>keys</h4><p>把键值对RDD中的key返回形成一个新的RDD</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(“spark”,1)、(“spark”,2)、(“hadoop”,3)和(“hadoop”,5)</span><br></pre></td></tr></table></figure>
+
+<p>转换后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(“spark”,(1,2))，(“hadoop”,(3,5))</span><br></pre></td></tr></table></figure>
+
+<h4 id="keys"><a href="#keys" class="headerlink" title="keys"></a>keys</h4><p>把键值对RDD中的key返回形成一个新的RDD</p>
 <p>转换前：四个键值对构成的RDD</p>
-<pre><code>(“spark”,1)、(“spark”,2)、(“hadoop”,3)和(“hadoop”,5)</code></pre><p>转换后：一个RDD[Int]</p>
-<pre><code>{“spark”,”spark”,”hadoop”,”hadoop”}</code></pre><h4 id="values"><a href="#values" class="headerlink" title="values"></a>values</h4><p>把键值对RDD中的value返回形成一个新的RDD</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(“spark”,1)、(“spark”,2)、(“hadoop”,3)和(“hadoop”,5)</span><br></pre></td></tr></table></figure>
+
+<p>转换后：一个RDD[Int]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;“spark”,”spark”,”hadoop”,”hadoop”&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="values"><a href="#values" class="headerlink" title="values"></a>values</h4><p>把键值对RDD中的value返回形成一个新的RDD</p>
 <p>转换前：四个键值对构成的RDD</p>
-<pre><code>(“spark”,1)、(“spark”,2)、(“hadoop”,3)和(“hadoop”,5)</code></pre><p>转换后：一个RDD[Int]</p>
-<pre><code>{1,2,3,5}</code></pre><h4 id="sortByKey"><a href="#sortByKey" class="headerlink" title="sortByKey()"></a>sortByKey()</h4><p>返回一个根据键排序的RDD</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(“spark”,1)、(“spark”,2)、(“hadoop”,3)和(“hadoop”,5)</span><br></pre></td></tr></table></figure>
+
+<p>转换后：一个RDD[Int]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;1,2,3,5&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="sortByKey"><a href="#sortByKey" class="headerlink" title="sortByKey()"></a>sortByKey()</h4><p>返回一个根据键排序的RDD</p>
 <h4 id="mapValues-func"><a href="#mapValues-func" class="headerlink" title="mapValues(func)`"></a>mapValues(func)`</h4><p>只对键值对RDD的value部分进行处理，而不是同时对key和value进行处理。对键值对RDD中的每个value都应用一个函数，但是，key不会发生变化。</p>
 <p>转换前</p>
-<pre><code>(“spark”,1)、(“spark”,2)、(“hadoop”,3)、(“hadoop”,5)</code></pre><p>使用 <code>pairRDD.mapValues(x -&gt; x+1)</code> 转换后</p>
-<pre><code>(“spark”,2)、(“spark”,3)、(“hadoop”,4)、(“hadoop”,6)。</code></pre><h4 id="join-（内连接）"><a href="#join-（内连接）" class="headerlink" title="join （内连接）"></a>join （内连接）</h4><p>对于给定的两个输入数据集(K,V1)和(K,V2)，<strong>只有在两个数据集中都存在的key才会被输出</strong>，最终得到一个(K,(V1,V2))类型的数据集。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(“spark”,1)、(“spark”,2)、(“hadoop”,3)、(“hadoop”,5)</span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>pairRDD.mapValues(x -&gt; x+1)</code> 转换后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(“spark”,2)、(“spark”,3)、(“hadoop”,4)、(“hadoop”,6)。</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="join-（内连接）"><a href="#join-（内连接）" class="headerlink" title="join （内连接）"></a>join （内连接）</h4><p>对于给定的两个输入数据集(K,V1)和(K,V2)，<strong>只有在两个数据集中都存在的key才会被输出</strong>，最终得到一个(K,(V1,V2))类型的数据集。</p>
 <p>pairRDD1 （键值对集合）</p>
-<pre><code>{(“spark”,1)、(“spark”,2)、(“hadoop”,3)、(“hadoop”,5)}</code></pre><p>pairRDD2 （键值对集合）</p>
-<pre><code>{(“spark”,”fast”)}</code></pre><p>进行 <code>pairRDD1.join(pairRDD2)</code> 操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;(“spark”,1)、(“spark”,2)、(“hadoop”,3)、(“hadoop”,5)&#125;</span><br></pre></td></tr></table></figure>
+
+<p>pairRDD2 （键值对集合）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;(“spark”,”fast”)&#125;</span><br></pre></td></tr></table></figure>
+
+<p>进行 <code>pairRDD1.join(pairRDD2)</code> 操作</p>
 <p>转换后</p>
-<pre><code>{(“spark”,1,”fast”),(“spark”,2,”fast”)}</code></pre><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;(“spark”,1,”fast”),(“spark”,2,”fast”)&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
 <h1 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h1><p>RDD是弹性分布式数据集，通常RDD很大，会被分成很多个分区，分别保存在不同的节点上。RDD分区的一个分区原则是使得分区的个数尽量等于集群中的CPU核心（core）数目。<br>对于不同的Spark部署模式而言（本地模式、Standalone模式、YARN模式、Mesos模式），都可以通过设置<code>spark.default.parallelism</code>这个参数的值，来配置默认的分区数目。</p>
 <p>一般而言：</p>
 <ul>
@@ -280,7 +298,8 @@ counts = pairs.reduceByKey(lambda a, b: a + b)</code></pre>
 </ul>
 <p>因此，在创建RDD的第二种方法中，<code>parallelize()</code>可以接收第二个参数（可选），表示多少个分区。如：</p>
 <hr>
-<pre><code class="java">JavaRDD&lt;Integer&gt; distData = sc.parallelize(data, 2); //设置2个分区</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JavaRDD&lt;Integer&gt; distData = sc.parallelize(data, <span class="number">2</span>); <span class="comment">//设置2个分区</span></span><br></pre></td></tr></table></figure>
+
 <h1 id="打印元素"><a href="#打印元素" class="headerlink" title="打印元素"></a>打印元素</h1><p>本地模式：<code>rdd.foreach(println)</code>或者<code>rdd.map(println)</code></p>
 <p>集群模式：</p>
 <ul>
@@ -387,7 +406,7 @@ counts = pairs.reduceByKey(lambda a, b: a + b)</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -399,7 +418,7 @@ counts = pairs.reduceByKey(lambda a, b: a + b)</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -411,7 +430,7 @@ counts = pairs.reduceByKey(lambda a, b: a + b)</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -572,25 +591,25 @@ counts = pairs.reduceByKey(lambda a, b: a + b)</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -604,6 +623,14 @@ counts = pairs.reduceByKey(lambda a, b: a + b)</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -612,20 +639,20 @@ counts = pairs.reduceByKey(lambda a, b: a + b)</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -657,7 +684,7 @@ counts = pairs.reduceByKey(lambda a, b: a + b)</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -665,7 +692,15 @@ counts = pairs.reduceByKey(lambda a, b: a + b)</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -700,6 +735,25 @@ counts = pairs.reduceByKey(lambda a, b: a + b)</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -730,7 +784,7 @@ counts = pairs.reduceByKey(lambda a, b: a + b)</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -767,25 +821,6 @@ counts = pairs.reduceByKey(lambda a, b: a + b)</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -851,6 +886,25 @@ counts = pairs.reduceByKey(lambda a, b: a + b)</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -881,7 +935,7 @@ counts = pairs.reduceByKey(lambda a, b: a + b)</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -918,25 +972,6 @@ counts = pairs.reduceByKey(lambda a, b: a + b)</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -999,7 +1034,7 @@ counts = pairs.reduceByKey(lambda a, b: a + b)</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1053,7 +1088,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

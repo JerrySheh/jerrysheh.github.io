@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -167,99 +167,59 @@
 <li>本身是一个对象，允许对指针进行赋值和拷贝，而且在指针的生命周期内可以先后指向几个不同的对象。</li>
 <li>无须在定义时赋初始值</li>
 </ul>
-<h2 id="一个简单例子"><a href="#一个简单例子" class="headerlink" title="一个简单例子"></a>一个简单例子</h2><pre><code>#include &lt;stdio.h&gt;
+<h2 id="一个简单例子"><a href="#一个简单例子" class="headerlink" title="一个简单例子"></a>一个简单例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    int ival &#x3D; 42;</span><br><span class="line">    int *p &#x3D; &amp;ival;</span><br><span class="line"></span><br><span class="line">    printf(&quot;p是一个指针，P为%p\n&quot;,p);</span><br><span class="line">    printf(&quot;*p是指针指向的变量，*p为%d\n&quot;,*p);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-int main() {
-    int ival = 42;
-    int *p = &amp;ival;
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">p是一个指针，P为0x7ffe09031b1c</span><br><span class="line">*p是指针指向的变量，*p为42</span><br></pre></td></tr></table></figure>
 
-    printf(&quot;p是一个指针，P为%p\n&quot;,p);
-    printf(&quot;*p是指针指向的变量，*p为%d\n&quot;,*p);
-    return 0;
-}
-</code></pre><p>输出</p>
-<pre><code>p是一个指针，P为0x7ffe09031b1c
-*p是指针指向的变量，*p为42</code></pre><p>在这个例子中，我们用 <code>int *p</code>来定义指针，这时候<code>p</code>是一个指针。<code>&amp;ival</code>的意思是取<code>int</code>型变量<code>ival</code>的地址。</p>
+<p>在这个例子中，我们用 <code>int *p</code>来定义指针，这时候<code>p</code>是一个指针。<code>&amp;ival</code>的意思是取<code>int</code>型变量<code>ival</code>的地址。</p>
 <p>而在输出的时候，<code>*p</code>是指针指向的变量，也就是说，<code>*</code>号在这里成了解引用符号。仅在指针确实指向了某个对象，即指针确实有效的情况下，<code>*p</code>才适用。</p>
 <blockquote>
 <p>理解的关键：在定义阶段， 用<code>int *p</code>用来定义指针。在操作阶段，<code>*p</code>是解引用。</p>
 </blockquote>
 <a id="more"></a>
 
-<h2 id="空指针"><a href="#空指针" class="headerlink" title="空指针"></a>空指针</h2><pre><code>int *p1 = nullptr; // only C++11
-int *p2 = 0;       // ok
-int *p3 = NULL;    // include cstdlib</code></pre><p>第一种方法仅在C++11中可用，也是C++编程中最推荐的；第二种是最常见的，直接给指针赋值0，即是空指针；第三种 NULL 在 cstdlib 中定义，其实 NULL 的值就是0；</p>
+<h2 id="空指针"><a href="#空指针" class="headerlink" title="空指针"></a>空指针</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int *p1 &#x3D; nullptr; &#x2F;&#x2F; only C++11</span><br><span class="line">int *p2 &#x3D; 0;       &#x2F;&#x2F; ok</span><br><span class="line">int *p3 &#x3D; NULL;    &#x2F;&#x2F; include cstdlib</span><br></pre></td></tr></table></figure>
+
+<p>第一种方法仅在C++11中可用，也是C++编程中最推荐的；第二种是最常见的，直接给指针赋值0，即是空指针；第三种 NULL 在 cstdlib 中定义，其实 NULL 的值就是0；</p>
 <p>假设p是一个指针，那么以下做法是错误的，即使zero等于0：</p>
-<pre><code>int zero = 0;
-p = zero;</code></pre><blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int zero &#x3D; 0;</span><br><span class="line">p &#x3D; zero;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
 <p>一个编程建议是，指针一定要初始化，最好是先有对象（变量），然后再去定义指向这个对象的指针。假设真的要在定义对象前定义指针，不知道让它指向哪里，那就初始化为0或者nullptr。不要让它悬空。</p>
 </blockquote>
 <h2 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h2><p>有时候我们会搞混究竟是改变了指针本身，还是改变了指针指向的对象。一个好方法是，<strong>改变的永远是等号左边的</strong>。</p>
-<pre><code>pi = &amp;val;    // 指针指向了val的地址
-*pi = 0;      // 指针没变，但是指针指向的对象值变为0了</code></pre><h2 id="void-指针"><a href="#void-指针" class="headerlink" title="void* 指针"></a>void* 指针</h2><pre><code>double mynum = 3.66;
-double *pd = &amp;mynum;  // pa指向mynum
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pi &#x3D; &amp;val;    &#x2F;&#x2F; 指针指向了val的地址</span><br><span class="line">*pi &#x3D; 0;      &#x2F;&#x2F; 指针没变，但是指针指向的对象值变为0了</span><br></pre></td></tr></table></figure>
 
-int mynum2 = 9;
-void *pv = &amp;mynum2;  // pv指向mynum2
+<h2 id="void-指针"><a href="#void-指针" class="headerlink" title="void* 指针"></a>void* 指针</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">double mynum &#x3D; 3.66;</span><br><span class="line">double *pd &#x3D; &amp;mynum;  &#x2F;&#x2F; pa指向mynum</span><br><span class="line"></span><br><span class="line">int mynum2 &#x3D; 9;</span><br><span class="line">void *pv &#x3D; &amp;mynum2;  &#x2F;&#x2F; pv指向mynum2</span><br><span class="line"></span><br><span class="line">pv &#x3D; &amp;mynum1;    &#x2F;&#x2F; pv现在又指向mynum1了</span><br></pre></td></tr></table></figure>
 
-pv = &amp;mynum1;    // pv现在又指向mynum1了</code></pre><p>从上面的例子可以看到， <code>void *</code>型指针跟普通指针也没什么区别。但是，<code>void *</code>指针可以指向任何类型。当然，它不能用于操作指针所指的对象，因为我们不知道这个对象的类型（<code>void *</code>一会儿可指向int型变量的地址，一会儿可以指向double型）</p>
-<h2 id="指向指针的指针"><a href="#指向指针的指针" class="headerlink" title="指向指针的指针"></a>指向指针的指针</h2><pre><code>#include &lt;stdio.h&gt;
+<p>从上面的例子可以看到， <code>void *</code>型指针跟普通指针也没什么区别。但是，<code>void *</code>指针可以指向任何类型。当然，它不能用于操作指针所指的对象，因为我们不知道这个对象的类型（<code>void *</code>一会儿可指向int型变量的地址，一会儿可以指向double型）</p>
+<h2 id="指向指针的指针"><a href="#指向指针的指针" class="headerlink" title="指向指针的指针"></a>指向指针的指针</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    int val &#x3D; 1024;  &#x2F;&#x2F; 一个int</span><br><span class="line">    int *pi &#x3D; &amp;val;  &#x2F;&#x2F; 一个指向val的指针</span><br><span class="line">    int **ppi &#x3D; &amp;pi; &#x2F;&#x2F; 一个指向pi的指针</span><br><span class="line"></span><br><span class="line">    printf(&quot;1) val是一个int，值为%d\n\n&quot;, val);</span><br><span class="line">    printf(&quot;2) pi是一个指向int的指针，pi为%p\n\n&quot;,pi);</span><br><span class="line">    printf(&quot;3) ppi是一个指向指针的指针，ppi为%p\n&quot;,ppi);</span><br><span class="line">    printf(&quot;4) *ppi其实就是 2) 中的pi,*ppi为%p&quot;,*ppi);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-int main() {
-    int val = 1024;  // 一个int
-    int *pi = &amp;val;  // 一个指向val的指针
-    int **ppi = &amp;pi; // 一个指向pi的指针
-
-    printf(&quot;1) val是一个int，值为%d\n\n&quot;, val);
-    printf(&quot;2) pi是一个指向int的指针，pi为%p\n\n&quot;,pi);
-    printf(&quot;3) ppi是一个指向指针的指针，ppi为%p\n&quot;,ppi);
-    printf(&quot;4) *ppi其实就是 2) 中的pi,*ppi为%p&quot;,*ppi);
-    return 0;
-}</code></pre><p>不要被**ppi 吓到了，其实它就是指向了pi这个对象。只不过恰好pi这个对象也是一个指针罢了。</p>
+<p>不要被**ppi 吓到了，其实它就是指向了pi这个对象。只不过恰好pi这个对象也是一个指针罢了。</p>
 <p>输出：</p>
-<pre><code>1) val是一个int，值为1024
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1) val是一个int，值为1024</span><br><span class="line"></span><br><span class="line">2) pi是一个指向int的指针，pi为0x7ffc86a9d6b4</span><br><span class="line"></span><br><span class="line">3) ppi是一个指向指针的指针，ppi为0x7ffc86a9d6b8</span><br><span class="line">4) *ppi其实就是 2) 中的pi,*ppi为0x7ffc86a9d6b4</span><br></pre></td></tr></table></figure>
 
-2) pi是一个指向int的指针，pi为0x7ffc86a9d6b4
 
-3) ppi是一个指向指针的指针，ppi为0x7ffc86a9d6b8
-4) *ppi其实就是 2) 中的pi,*ppi为0x7ffc86a9d6b4</code></pre><p>可以看到， <code>*ppi</code>其实就是<code>pi</code>，他们都是0x7ffc86a9d6b4</p>
+<p>可以看到， <code>*ppi</code>其实就是<code>pi</code>，他们都是0x7ffc86a9d6b4</p>
 <h2 id="指向常量的指针"><a href="#指向常量的指针" class="headerlink" title="指向常量的指针"></a>指向常量的指针</h2><p>C语言中的<code>const</code>限定了对象不能被改变，一把用来表示常量。相当于 java 的 <code>final</code>。</p>
 <p>而指向常量的指针（point to const），不能用于改变其所指对象的值。point to const一般用来存放常量的地址。</p>
 <p>有一点值得注意，允许一个指向常量的指针指向非常量，但是却不能通过这个指针操作这个非常量。</p>
-<pre><code>const double d = 3.33;
-const double *pd = &amp;d;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const double d &#x3D; 3.33;</span><br><span class="line">const double *pd &#x3D; &amp;d;</span><br><span class="line"></span><br><span class="line">double x &#x3D; 6.66;</span><br><span class="line">pd &#x3D; &amp;x;   &#x2F;&#x2F; ok，但是不能通过pd去改变 x 的值</span><br></pre></td></tr></table></figure>
 
-double x = 6.66;
-pd = &amp;x;   // ok，但是不能通过pd去改变 x 的值</code></pre><h2 id="常量指针"><a href="#常量指针" class="headerlink" title="常量指针"></a>常量指针</h2><p>指针是对象，跟int、double等一样，所以可以用 <code>const int</code>来表示常量， 那当然也可以用 <code>*const int</code>来表示常量指针啦。</p>
+<h2 id="常量指针"><a href="#常量指针" class="headerlink" title="常量指针"></a>常量指针</h2><p>指针是对象，跟int、double等一样，所以可以用 <code>const int</code>来表示常量， 那当然也可以用 <code>*const int</code>来表示常量指针啦。</p>
 <p>只是，一旦定义了<code>*const int</code>，那这个指针必须初始化，且只能指向初始化的这个地方，不能再改变了。</p>
 <p>注意下面的定义</p>
-<pre><code>int i = 6;
-int *const p1 = &amp;i;  //常量指针，不能改变p1所指的对象
-const int *p2 = &amp;i  </code></pre><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int i &#x3D; 6;</span><br><span class="line">int *const p1 &#x3D; &amp;i;  &#x2F;&#x2F;常量指针，不能改变p1所指的对象</span><br><span class="line">const int *p2 &#x3D; &amp;i</span><br></pre></td></tr></table></figure>
+
+<hr>
 <h1 id="p-gt-mem-是什么意思"><a href="#p-gt-mem-是什么意思" class="headerlink" title="p-&gt;mem 是什么意思"></a>p-&gt;mem 是什么意思</h1><p>有时候我们会看到 <code>p-&gt;mem</code> 这种用法，实际上它等价于 <code>(*p).mem</code>。</p>
-<pre><code>#include &lt;stdio.h&gt;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line"></span><br><span class="line">    typedef struct &#123;</span><br><span class="line">        int x;</span><br><span class="line">        int y;</span><br><span class="line">    &#125; Point;</span><br><span class="line"></span><br><span class="line">    Point pos;</span><br><span class="line">    pos.x &#x3D; 10;</span><br><span class="line">    pos.y &#x3D; 5;</span><br><span class="line">    printf(&quot;answer1:%d\n&quot;, pos.x * pos.y);</span><br><span class="line"></span><br><span class="line">    Point* pPos &#x3D; &amp;pos;</span><br><span class="line">    (*pPos).x &#x3D; 15;</span><br><span class="line">    pPos-&gt;y &#x3D; 20;</span><br><span class="line"></span><br><span class="line">    printf(&quot;answer2:%d\n&quot;, pos.x * pos.y);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-int main() {
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">answer1:50</span><br><span class="line">answer2:300</span><br></pre></td></tr></table></figure>
 
-    typedef struct {
-        int x;
-        int y;
-    } Point;
-
-    Point pos;
-    pos.x = 10;
-    pos.y = 5;
-    printf(&quot;answer1:%d\n&quot;, pos.x * pos.y);
-
-    Point* pPos = &amp;pos;
-    (*pPos).x = 15;
-    pPos-&gt;y = 20;
-
-    printf(&quot;answer2:%d\n&quot;, pos.x * pos.y);
-
-}</code></pre><p>输出</p>
-<pre><code>answer1:50
-answer2:300</code></pre><p>首先定义了一个<code>Point</code>结构体，包含 int 类型的 x, y。然后实例化·</p>
+<p>首先定义了一个<code>Point</code>结构体，包含 int 类型的 x, y。然后实例化·</p>
 <p>我们当然可以用<code>pos.x = 10</code>，<code>pos.y = 5</code>这样的方式来给结构体的每个变量赋值。</p>
 <p>但有时候我们要用指针操作对象，我们可以先定义一个<code>Point *</code>类型的指针<code>pPos</code>。</p>
 <p>然后查看两种用指针间接给结构体赋值的方法：</p>
@@ -276,79 +236,33 @@ answer2:300</code></pre><p>首先定义了一个<code>Point</code>结构体，�
 <p>实质上两种方式是等价的。</p>
 <hr>
 <h1 id="结构体和指针"><a href="#结构体和指针" class="headerlink" title="结构体和指针"></a>结构体和指针</h1><h2 id="定义结构体"><a href="#定义结构体" class="headerlink" title="定义结构体"></a>定义结构体</h2><p>在C语言中，我们可以这样定义结构体：</p>
-<pre><code class="C">//方法一：
-struct student{
-    short age;
-    char name[MAXNAME];
-    long phoneNumber;
-};
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//方法一：</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">student</span>&#123;</span></span><br><span class="line">    short age;</span><br><span class="line">    <span class="keyword">char</span> name[MAXNAME];</span><br><span class="line">    <span class="keyword">long</span> phoneNumber;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">student</span> <span class="title">s1</span>;</span>  <span class="comment">// s1是student类型的一个实例</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//方法二：</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">student</span>&#123;</span></span><br><span class="line">    short age;</span><br><span class="line">    <span class="keyword">char</span> name[MAXNAME];</span><br><span class="line">    <span class="keyword">long</span> phoneNumber;</span><br><span class="line">&#125;STUDENT;</span><br><span class="line"></span><br><span class="line">STUDENT s2; <span class="comment">// s2是student类型的一个实例</span></span><br></pre></td></tr></table></figure>
 
-struct student s1;  // s1是student类型的一个实例
-
-//方法二：
-typedef struct student{
-    short age;
-    char name[MAXNAME];
-    long phoneNumber;
-}STUDENT;
-
-STUDENT s2; // s2是student类型的一个实例</code></pre>
 <p>可见，用方法二比较方便一点。</p>
-<h2 id="用指针访问结构体成员"><a href="#用指针访问结构体成员" class="headerlink" title="用指针访问结构体成员"></a>用指针访问结构体成员</h2><pre><code>typedef struct{
-    short age;
-    char name[MAXNAME];
-    long phoneNumber;
-}STUDENT;
+<h2 id="用指针访问结构体成员"><a href="#用指针访问结构体成员" class="headerlink" title="用指针访问结构体成员"></a>用指针访问结构体成员</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">typedef struct&#123;</span><br><span class="line">    short age;</span><br><span class="line">    char name[MAXNAME];</span><br><span class="line">    long phoneNumber;</span><br><span class="line">&#125;STUDENT;</span><br><span class="line"></span><br><span class="line">STUDENT s2; &#x2F;&#x2F; s2是student类型的一个实例</span><br><span class="line"></span><br><span class="line">student *ps &#x3D; &amp;s2;</span><br><span class="line">ps-&gt;age &#x3D; 6;</span><br><span class="line">printf(&quot;%d\n&quot;,s2.age);</span><br></pre></td></tr></table></figure>
 
-STUDENT s2; // s2是student类型的一个实例
+<p>如果要给结构体的 name[MAXNAME] 赋值，下面的做法是错误的</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps-&gt;name = <span class="string">"jerry"</span>;</span><br></pre></td></tr></table></figure>
 
-student *ps = &amp;s2;
-ps-&gt;age = 6;
-printf(&quot;%d\n&quot;,s2.age);</code></pre><p>如果要给结构体的 name[MAXNAME] 赋值，下面的做法是错误的</p>
-<pre><code class="C">ps-&gt;name = &quot;jerry&quot;;</code></pre>
 <p>应该用strcpy函数。</p>
-<pre><code>char *name = &quot;jerry&quot;;
-strcpy(ps-&gt;name, name);
-printf(&quot;%s\n&quot;,stu1.name);</code></pre><h2 id="结构体偏移量问题"><a href="#结构体偏移量问题" class="headerlink" title="结构体偏移量问题"></a>结构体偏移量问题</h2><p>假设现在有一个结构体</p>
-<pre><code>struct fun{
-    int a;
-    int b;
-    char c;
-};</code></pre><p>我们已知道结构体成员 c 的地址，如何求结构体的起始地址呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">char *name &#x3D; &quot;jerry&quot;;</span><br><span class="line">strcpy(ps-&gt;name, name);</span><br><span class="line">printf(&quot;%s\n&quot;,stu1.name);</span><br></pre></td></tr></table></figure>
+
+<h2 id="结构体偏移量问题"><a href="#结构体偏移量问题" class="headerlink" title="结构体偏移量问题"></a>结构体偏移量问题</h2><p>假设现在有一个结构体</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct fun&#123;</span><br><span class="line">    int a;</span><br><span class="line">    int b;</span><br><span class="line">    char c;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>我们已知道结构体成员 c 的地址，如何求结构体的起始地址呢？</p>
 <p>答案就是：<code>(char *) &amp; ((struct fun*)0)-&gt;c</code></p>
-<pre><code>int main(){
-    //实例化一个结构体变量
-    struct fun domain;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">int main()&#123;</span><br><span class="line">    &#x2F;&#x2F;实例化一个结构体变量</span><br><span class="line">    struct fun domain;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;结构体起始地址</span><br><span class="line">    printf(&quot;iic:%u\n&quot;,&amp;domain);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;结构体成员 c 的地址</span><br><span class="line">    printf(&quot;char c:%u\n&quot;, &amp;(domain.c));</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;偏移量</span><br><span class="line">    printf(&quot;sub: %d\n\n&quot;, (char *) &amp; ((struct fun*)0)-&gt;c);</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    //结构体起始地址
-    printf(&quot;iic:%u\n&quot;,&amp;domain);
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jerrysheh@ubuntu:~$ .&#x2F;fun</span><br><span class="line">fun:-1838605600</span><br><span class="line">char c:-1838605592</span><br><span class="line">sub: 8</span><br></pre></td></tr></table></figure>
 
-    //结构体成员 c 的地址
-    printf(&quot;char c:%u\n&quot;, &amp;(domain.c));
-
-    //偏移量
-    printf(&quot;sub: %d\n\n&quot;, (char *) &amp; ((struct fun*)0)-&gt;c);
-
-    return 0;
-}</code></pre><p>输出：</p>
-<pre><code>jerrysheh@ubuntu:~$ ./fun
-fun:-1838605600
-char c:-1838605592
-sub: 8</code></pre><hr>
+<hr>
 <h1 id="链表和指针"><a href="#链表和指针" class="headerlink" title="链表和指针"></a>链表和指针</h1><p>定义一个链表</p>
-<pre><code class="C">//定义链表中的节点  
-typedef struct node{  
-   int data;            //链表中的数据  
-   struct node * p_next;//指向下一节点的指针  
-}Node,*pNode;  </code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义链表中的节点  </span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">node</span>&#123;</span>  </span><br><span class="line">   <span class="keyword">int</span> data;            <span class="comment">//链表中的数据  </span></span><br><span class="line">   <span class="class"><span class="keyword">struct</span> <span class="title">node</span> * <span class="title">p_next</span>;</span><span class="comment">//指向下一节点的指针  </span></span><br><span class="line">&#125;Node,*pNode;</span><br></pre></td></tr></table></figure>
+
 <p>顺序遍历链表</p>
-<pre><code class="C">void TraverseList(pNode h){  
-  pNode p = h-&gt;p_next;
-  while(p!=NULL){  
-    printf(&quot;%d\n&quot;,p-&gt;data);  
-    p = p-&gt;p_next;  
-  }  
-}  </code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TraverseList</span><span class="params">(pNode h)</span></span>&#123;  </span><br><span class="line">  pNode p = h-&gt;p_next;</span><br><span class="line">  <span class="keyword">while</span>(p!=<span class="literal">NULL</span>)&#123;  </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,p-&gt;data);  </span><br><span class="line">    p = p-&gt;p_next;  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
         </div>
         
@@ -437,7 +351,7 @@ typedef struct node{
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -449,7 +363,7 @@ typedef struct node{
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -461,7 +375,7 @@ typedef struct node{
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -622,25 +536,25 @@ typedef struct node{
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -654,6 +568,14 @@ typedef struct node{
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -662,20 +584,20 @@ typedef struct node{
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -707,7 +629,7 @@ typedef struct node{
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -715,7 +637,15 @@ typedef struct node{
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -750,6 +680,25 @@ typedef struct node{
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -780,7 +729,7 @@ typedef struct node{
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -817,25 +766,6 @@ typedef struct node{
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -901,6 +831,25 @@ typedef struct node{
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -931,7 +880,7 @@ typedef struct node{
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -968,25 +917,6 @@ typedef struct node{
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1049,7 +979,7 @@ typedef struct node{
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1103,7 +1033,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

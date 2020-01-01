@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -204,25 +204,23 @@
 </ol>
 <p>实际上常用的是 TextInputFormat，就是将文件的内容按行分割（split），形成 K-V 对。key是偏移量，value是该行的值。使用的是hadoop内置的数据类型，比如longwritable、text等。</p>
 <p>例如，原始文件为</p>
-<pre><code>hello hadoop
-and hello spark
-spark</code></pre><p>TextInputFormat预处理后的结果为</p>
-<pre><code>&lt;0，hello hadoop&gt;
-&lt;13, hello spark&gt;
-&lt;29, spark&gt;</code></pre><p>之后，将这个 K-V 对集合输入 mapper，进行业务处理过程，将其转换成需要的key-value再输出。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hello hadoop</span><br><span class="line">and hello spark</span><br><span class="line">spark</span><br></pre></td></tr></table></figure>
+
+<p>TextInputFormat预处理后的结果为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;0，hello hadoop&gt;</span><br><span class="line">&lt;13, hello spark&gt;</span><br><span class="line">&lt;29, spark&gt;</span><br></pre></td></tr></table></figure>
+
+<p>之后，将这个 K-V 对集合输入 mapper，进行业务处理过程，将其转换成需要的key-value再输出。</p>
 <p>mapper后的结果为</p>
-<pre><code>&lt;hello, 1&gt;
-&lt;hadoop, 1&gt;
-&lt;hello, 1&gt;
-&lt;spark, 1&gt;
-&lt;spark, 1&gt;</code></pre><p>之后，进行 shuffle(洗牌)操作，这个过程把 key 相同的value合并成list，作为reduce输入。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;hello, 1&gt;</span><br><span class="line">&lt;hadoop, 1&gt;</span><br><span class="line">&lt;hello, 1&gt;</span><br><span class="line">&lt;spark, 1&gt;</span><br><span class="line">&lt;spark, 1&gt;</span><br></pre></td></tr></table></figure>
+
+<p>之后，进行 shuffle(洗牌)操作，这个过程把 key 相同的value合并成list，作为reduce输入。</p>
 <p>shuffle后的结果为</p>
-<pre><code>&lt;hello, &lt;1,1&gt;&gt;
-&lt;hadoop, 1&gt;
-&lt;spark, &lt;1,1&gt;&gt;</code></pre><p>reduce的结果为</p>
-<pre><code>&lt;hello, 2&gt;
-&lt;hadoop, 1&gt;
-&lt;spark, 2&gt;</code></pre><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;hello, &lt;1,1&gt;&gt;</span><br><span class="line">&lt;hadoop, 1&gt;</span><br><span class="line">&lt;spark, &lt;1,1&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>reduce的结果为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;hello, 2&gt;</span><br><span class="line">&lt;hadoop, 1&gt;</span><br><span class="line">&lt;spark, 2&gt;</span><br></pre></td></tr></table></figure>
+
+<hr>
 <h1 id="Hadoop-Distribute-Filesystem-HDFS"><a href="#Hadoop-Distribute-Filesystem-HDFS" class="headerlink" title="Hadoop Distribute Filesystem (HDFS)"></a>Hadoop Distribute Filesystem (HDFS)</h1><p>当数据集大小超过一台计算机的存储能力时，就有必要对它进行分区（partition）并存储到多台计算机上。管理网络中跨多台计算机存储的文件系统称为 <strong>分布式文件系统（distribute filesystem）</strong>。</p>
 <p>Hadoop 自带一个分布式文件系统，称为 HDFS。</p>
 <h2 id="HDFS-的设计"><a href="#HDFS-的设计" class="headerlink" title="HDFS 的设计"></a>HDFS 的设计</h2><p>包括可存储超大文件、流式数据访问、用于商用硬件（指的是普通硬件而不是精密昂贵的硬件）、低时间延迟的数据访问、大量的小文件、单用户写入和只添加等设计特点。</p>
@@ -247,14 +245,30 @@ spark</code></pre><p>TextInputFormat预处理后的结果为</p>
 <p>一般存储 HDFS 文件的机器都是在机架（Rack）上的，很多数据中心里的故障都是一整个 Rack 出问题。因此通常在同一个 Rack 上储存一份，然后在另一个 Rack 上储存另两份。这样就保证数据有更高的安全性。</p>
 <p>HDFS client 写文件创建新的 block 时，NameNode 会为这个 block 创建一个唯一 ID， 并决定由哪些 dataNode 来存放。被选中的 dataNode 组成一个队列，client 只向队列第一个 dataNode 写，第一个 dataNode 存储完毕后，继续向队列第二个 dataNode 传递。</p>
 <h2 id="HDFS-的基本操作"><a href="#HDFS-的基本操作" class="headerlink" title="HDFS 的基本操作"></a>HDFS 的基本操作</h2><p>必须先启用 HDFS 之后才能进行操作。</p>
-<pre><code>./sbin/start-hdfs.sh</code></pre><p>将本地文件上传到 hdfs 上（原路径只能是一个文件）</p>
-<pre><code>hdfs dfs -copyFromLocal /local/data /hdfs/data</code></pre><p>和 copyFromLocal 区别是，put 原路径可以是文件夹等</p>
-<pre><code>hdfs dfs -put /tmp/ /hdfs/</code></pre><p>查看根目录文件</p>
-<pre><code>hadoop fs -ls /</code></pre><p>查看/tmp/data目录</p>
-<pre><code>hadoop fs -ls /tmp/data</code></pre><p>查看 a.txt，与 -text 一样</p>
-<pre><code>hadoop fs -cat /tmp/a.txt</code></pre><p>创建目录dir</p>
-<pre><code>hadoop fs -mkdir dir</code></pre><p>删除目录dir</p>
-<pre><code>hadoop fs -rm -r dir</code></pre><blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;sbin&#x2F;start-hdfs.sh</span><br></pre></td></tr></table></figure>
+
+<p>将本地文件上传到 hdfs 上（原路径只能是一个文件）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdfs dfs -copyFromLocal &#x2F;local&#x2F;data &#x2F;hdfs&#x2F;data</span><br></pre></td></tr></table></figure>
+
+<p>和 copyFromLocal 区别是，put 原路径可以是文件夹等</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdfs dfs -put &#x2F;tmp&#x2F; &#x2F;hdfs&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>查看根目录文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -ls &#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>查看/tmp/data目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -ls &#x2F;tmp&#x2F;data</span><br></pre></td></tr></table></figure>
+
+<p>查看 a.txt，与 -text 一样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -cat &#x2F;tmp&#x2F;a.txt</span><br></pre></td></tr></table></figure>
+
+<p>创建目录dir</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -mkdir dir</span><br></pre></td></tr></table></figure>
+
+<p>删除目录dir</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -rm -r dir</span><br></pre></td></tr></table></figure>
+
+<blockquote>
 <p>在 HDFS 中，就不要 cd 了， 用 ls + 目录</p>
 </blockquote>
 <h3 id="Hadoop-fs-和-hdfs-dfs的区别"><a href="#Hadoop-fs-和-hdfs-dfs的区别" class="headerlink" title="Hadoop fs 和 hdfs dfs的区别"></a>Hadoop fs 和 hdfs dfs的区别</h3><p>Hadoop fs：使用面最广，可以操作任何文件系统。</p>
@@ -363,7 +377,7 @@ spark</code></pre><p>TextInputFormat预处理后的结果为</p>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -375,7 +389,7 @@ spark</code></pre><p>TextInputFormat预处理后的结果为</p>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -387,7 +401,7 @@ spark</code></pre><p>TextInputFormat预处理后的结果为</p>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -548,25 +562,25 @@ spark</code></pre><p>TextInputFormat预处理后的结果为</p>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -580,6 +594,14 @@ spark</code></pre><p>TextInputFormat预处理后的结果为</p>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -588,20 +610,20 @@ spark</code></pre><p>TextInputFormat预处理后的结果为</p>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -633,7 +655,7 @@ spark</code></pre><p>TextInputFormat预处理后的结果为</p>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -641,7 +663,15 @@ spark</code></pre><p>TextInputFormat预处理后的结果为</p>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -676,6 +706,25 @@ spark</code></pre><p>TextInputFormat预处理后的结果为</p>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -706,7 +755,7 @@ spark</code></pre><p>TextInputFormat预处理后的结果为</p>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -743,25 +792,6 @@ spark</code></pre><p>TextInputFormat预处理后的结果为</p>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -827,6 +857,25 @@ spark</code></pre><p>TextInputFormat预处理后的结果为</p>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -857,7 +906,7 @@ spark</code></pre><p>TextInputFormat预处理后的结果为</p>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -894,25 +943,6 @@ spark</code></pre><p>TextInputFormat预处理后的结果为</p>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -975,7 +1005,7 @@ spark</code></pre><p>TextInputFormat预处理后的结果为</p>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1029,7 +1059,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

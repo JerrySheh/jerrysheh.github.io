@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2019-05-16T15:27:32.000Z">
-<meta property="article:modified_time" content="2019-07-20T04:21:46.884Z">
+<meta property="article:modified_time" content="2019-12-29T13:57:43.301Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta property="article:tag" content="微服务">
 <meta property="article:tag" content="Spring Cloud">
@@ -38,7 +38,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -138,7 +138,7 @@
                 <time class="level-item has-text-grey" datetime="2019-05-16T15:27:32.000Z">2019-05-16</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a>
+                <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                 </div>
                 
                 
@@ -191,55 +191,25 @@
 </ol>
 <p>到 <a href="https://start.spring.io/">Spring Initializr</a> 起一个 Spring Boot 工程，依赖选择 Eureka Server 。</p>
 <p>可以看到 pom.xml 里面有 eureka-server 依赖：</p>
-<pre><code class="xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;
-&lt;/dependency&gt;</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>在主类里面使用 <code>@EnableEurekaServer</code> 注解，标记为一个 Eureka 服务发现。</p>
-<pre><code class="java">@SpringBootApplication
-@EnableEurekaServer
-public class Application {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    SpringApplication.run(Application<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  public static void main(String[] args) {
-    SpringApplication.run(Application.class, args);
-  }
-
-}</code></pre>
 <p>配置文件，注明服务地址，客户端访问地址，以及服务名</p>
-<pre><code>eureka:
-  instance:
-    hostname: localhost
-  client:
-    registerWithEureka: false
-    fetchRegistry: false
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">eureka:</span><br><span class="line">  instance:</span><br><span class="line">    hostname: localhost</span><br><span class="line">  client:</span><br><span class="line">    registerWithEureka: false</span><br><span class="line">    fetchRegistry: false</span><br><span class="line">    serviceUrl:</span><br><span class="line">      defaultZone: http:&#x2F;&#x2F;$&#123;eureka.instance.hostname&#125;:$&#123;server.port&#125;&#x2F;eureka&#x2F;</span><br><span class="line"></span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: eureka-server</span><br></pre></td></tr></table></figure>
 
-spring:
-  application:
-    name: eureka-server</code></pre><p>运行，打开<code>127.0.0.1:8761</code>（端口在配置文件里指定），即可看到 Eureka 服务发现界面</p>
+<p>运行，打开<code>127.0.0.1:8761</code>（端口在配置文件里指定），即可看到 Eureka 服务发现界面</p>
 <p><img src="../../../../images/springcloud/eureka-portal.png" alt=""></p>
 <p>当有其他服务注册进来时，可以在这个面板里看到。</p>
 <hr>
 <h1 id="拆分服务"><a href="#拆分服务" class="headerlink" title="拆分服务"></a>拆分服务</h1><h2 id="单体架构"><a href="#单体架构" class="headerlink" title="单体架构"></a>单体架构</h2><p>在单体架构，所有东西都在一个项目里，举个例子，假设我们有一个提供产品信息的服务。</p>
 <p>pojo类</p>
-<pre><code class="java">public class Product {
-    private int id;
-    private String name;
-    private int price;
-}</code></pre>
-<p>service层获取 Product 信息</p>
-<pre><code class="java">@Service
-public class ProductService {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Product</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> price;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    public List&lt;Product&gt; listProducts(){
-        List&lt;Product&gt; ps = new ArrayList&lt;&gt;();
-        ps.add(new Product(1, &quot;product a&quot;, 50));
-        ps.add(new Product(2, &quot;product b&quot;, 150));
-        ps.add(new Product(3, &quot;product c&quot;, 250));
-        return ps;
-    }
-}</code></pre>
+<p>service层获取 Product 信息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> List&lt;Product&gt; <span class="title">listProducts</span><span class="params">()</span></span>&#123;</span><br><span class="line">    	List&lt;Product&gt; ps = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    	ps.add(<span class="keyword">new</span> Product(<span class="number">1</span>, <span class="string">"product a"</span>, <span class="number">50</span>));</span><br><span class="line">    	ps.add(<span class="keyword">new</span> Product(<span class="number">2</span>, <span class="string">"product b"</span>, <span class="number">150</span>));</span><br><span class="line">    	ps.add(<span class="keyword">new</span> Product(<span class="number">3</span>, <span class="string">"product c"</span>, <span class="number">250</span>));</span><br><span class="line">    	<span class="keyword">return</span> ps;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>Controller 层调用 Service 的数据，最后返回给 product.html 页面渲染。</p>
 <h2 id="微服务拆分单体"><a href="#微服务拆分单体" class="headerlink" title="微服务拆分单体"></a>微服务拆分单体</h2><p>采用微服务，就要把单体架构拆分。现在，我们把项目拆分成两部分：数据微服务 + 视图微服务</p>
 <ol>
@@ -248,141 +218,81 @@ public class ProductService {
 </ol>
 <p>于是，我们现在启两个 Spring Boot 工程。</p>
 <h3 id="数据微服务-Spring-Boot-工程"><a href="#数据微服务-Spring-Boot-工程" class="headerlink" title="数据微服务 Spring Boot 工程"></a>数据微服务 Spring Boot 工程</h3><p>很简单，就是把单体架构的视图部分去掉，用 <code>@RestController</code> 直接返回 JSON</p>
-<pre><code class="java">@RestController
-public class ProductController {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Autowired</span> ProductService productService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/products"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">products</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    	List&lt;Product&gt; ps = productService.listProducts();</span><br><span class="line">    	<span class="keyword">return</span> ps;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    @Autowired ProductService productService;
-
-    @GetMapping(&quot;/products&quot;)
-    public Object products() {
-        List&lt;Product&gt; ps = productService.listProducts();
-        return ps;
-    }
-}</code></pre>
 <p>配置文件，主要注明该服务的名称，以及 Eureka 的地址</p>
-<pre><code>spring:
-  application:
-    name: product-data-service
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/</code></pre><p>在启动类注解 <code>@EnableEurekaClient</code> 表示这是一个 Eureka 客户端。（还有另一个注解，<code>@EnableDiscoveryClient</code> 不局限于 Eureka，还能用在类似的服务发现如Zookeeper、Consul）</p>
-<pre><code class="java">@SpringBootApplication
-@EnableEurekaClient
-public class ProductDataServiceApplication {
-    //...
-}</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: product-data-service</span><br><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    serviceUrl:</span><br><span class="line">      defaultZone: http:&#x2F;&#x2F;localhost:8761&#x2F;eureka&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>在启动类注解 <code>@EnableEurekaClient</code> 表示这是一个 Eureka 客户端。（还有另一个注解，<code>@EnableDiscoveryClient</code> 不局限于 Eureka，还能用在类似的服务发现如Zookeeper、Consul）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductDataServiceApplication</span> </span>&#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>当然，别忘了pom.xml的 eureka-client 依赖</p>
-<pre><code class="xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
-&lt;/dependency&gt;</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>现在，运行这个工程，可以在 eureka Dashboard 看到该服务已经被注册进来。当然，如果是局域网，我们完全可以在另一台计算机也运行这个工程，可以看到 eureka Dashboard 注册了两个一样的服务，或者在一台计算机两个不同的端口运行同一个服务，这就是简单的负载均衡。</p>
 <h3 id="视图微服务-Spring-Boot-工程"><a href="#视图微服务-Spring-Boot-工程" class="headerlink" title="视图微服务 Spring Boot 工程"></a>视图微服务 Spring Boot 工程</h3><p>视图微服务将从数据微服务取数据，然后渲染在 products.html 中。</p>
-<pre><code class="java">@Controller
-public class ProductController {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Autowired</span> ProductService productService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/products"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">products</span><span class="params">(Model m)</span> </span>&#123;</span><br><span class="line">    	List&lt;Product&gt; ps = productService.listProducts();</span><br><span class="line">    	m.addAttribute(<span class="string">"ps"</span>, ps);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"products"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    @Autowired ProductService productService;
-
-    @RequestMapping(&quot;/products&quot;)
-    public Object products(Model m) {
-        List&lt;Product&gt; ps = productService.listProducts();
-        m.addAttribute(&quot;ps&quot;, ps);
-        return &quot;products&quot;;
-    }
-}</code></pre>
 <p><strong>关键是，视图微服务如何从数据微服务中取数据？</strong> 这就需要用到 Ribbon 和 Feign 了。</p>
 <h4 id="使用-Ribbon-获取数据并做负载均衡"><a href="#使用-Ribbon-获取数据并做负载均衡" class="headerlink" title="使用 Ribbon 获取数据并做负载均衡"></a>使用 Ribbon 获取数据并做负载均衡</h4><p>Ribbon 用于调用其他服务，使用 restTemplate，并进行客户端负载均衡。</p>
 <p>客户端负载均衡要在 Spring Boot 启动类声明方法</p>
-<pre><code class="java">@Bean
-@LoadBalanced
-RestTemplate restTemplate() {
-    return new RestTemplate();
-}</code></pre>
-<p>Service层要取数据，就交代 Ribbon 去数据微服务取</p>
-<pre><code class="java">@Service
-public class ProductService {
-    @Autowired
-    ProductClientRibbon productClientRibbon;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="meta">@LoadBalanced</span></span><br><span class="line"><span class="function">RestTemplate <span class="title">restTemplate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> RestTemplate();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    public List&lt;Product&gt; listProducts(){
-        return productClientRibbon.listProdcuts();
-    }
-}</code></pre>
+<p>Service层要取数据，就交代 Ribbon 去数据微服务取</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductService</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">    ProductClientRibbon productClientRibbon;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> List&lt;Product&gt; <span class="title">listProducts</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> productClientRibbon.listProdcuts();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>Ribbon 用 restTemplate 去数据微服务取数据</p>
 <p>client/ProductClientRibbon.java</p>
-<pre><code class="java">@Component
-public class ProductClientRibbon {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductClientRibbon</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    RestTemplate restTemplate;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> List&lt;Product&gt; <span class="title">listProdcuts</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restTemplate.getForObject(<span class="string">"http://PRODUCT-DATA-SERVICE/products"</span>,List<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    @Autowired
-    RestTemplate restTemplate;
-
-    public List&lt;Product&gt; listProdcuts() {
-        return restTemplate.getForObject(&quot;http://PRODUCT-DATA-SERVICE/products&quot;,List.class);
-    }
-}</code></pre>
 <p>当然，它自己作为一个微服务，也是需要配置的</p>
-<pre><code>eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-spring:
-  application:
-    name: product-view-service-ribbon</code></pre><p>别忘了 pom.xml 的 eureka-client 依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    serviceUrl:</span><br><span class="line">      defaultZone: http:&#x2F;&#x2F;localhost:8761&#x2F;eureka&#x2F;</span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: product-view-service-ribbon</span><br></pre></td></tr></table></figure>
+
+<p>别忘了 pom.xml 的 eureka-client 依赖</p>
 <h4 id="使用-Feign-获取数据并做负载均衡"><a href="#使用-Feign-获取数据并做负载均衡" class="headerlink" title="使用 Feign 获取数据并做负载均衡"></a>使用 Feign 获取数据并做负载均衡</h4><p>Ribbon 用了 restTemplate，实际上还有另一种更优雅的方式 —— Feign</p>
 <p>pom.xml添加</p>
-<pre><code class="xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;
-&lt;/dependency&gt;</code></pre>
-<p>在启动类声明<code>@EnableFeignClients</code>，然后在 client/ProductClientFeign.java 写接口</p>
-<pre><code class="java">@FeignClient(value = &quot;PRODUCT-DATA-SERVICE&quot;)
-public interface ProductClientFeign {
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-    @GetMapping(&quot;/products&quot;)
-    public List&lt;Product&gt; listProdcuts();
-}</code></pre>
+<p>在启动类声明<code>@EnableFeignClients</code>，然后在 client/ProductClientFeign.java 写接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient</span>(value = <span class="string">"PRODUCT-DATA-SERVICE"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ProductClientFeign</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/products"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Product&gt; <span class="title">listProdcuts</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>Service 跟 Controller 跟 Ribbon 方式一样</p>
 <hr>
 <h1 id="服务链路追踪"><a href="#服务链路追踪" class="headerlink" title="服务链路追踪"></a>服务链路追踪</h1><p>随着业务的增加，我们的分布式系统中会有越来越多的微服务，服务与服务之间的调用关系也会越来越复杂，很难直接通过代码观察。因此需要借助 <strong>服务链路追踪服务器</strong> 来可视化地展示服务链路。zipkin 就是这样一个东西。</p>
 <p>在有互相调用的微服务中（不包括eureka-server微服务）添加 zipkin 依赖：</p>
-<pre><code class="xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-starter-zipkin&lt;/artifactId&gt;
-&lt;/dependency&gt;     </code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-zipkin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>添加配置项:</p>
-<pre><code>spring.zipkin.base-url: http://localhost:9411</code></pre><p>在启动类中加上:</p>
-<pre><code class="java">    @Bean
-    public Sampler defaultSampler() {
-        return Sampler.ALWAYS_SAMPLE;
-    }</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spring.zipkin.base-url: http:&#x2F;&#x2F;localhost:9411</span><br></pre></td></tr></table></figure>
+
+<p>在启动类中加上:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Sampler <span class="title">defaultSampler</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Sampler.ALWAYS_SAMPLE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>启动 zipkin 服务 ：</p>
-<pre><code>java -jar zipkin-server-2.10.1-exec.jar</code></pre><p>启动所有微服务，并进行一次调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar zipkin-server-2.10.1-exec.jar</span><br></pre></td></tr></table></figure>
+
+<p>启动所有微服务，并进行一次调用</p>
 <p>访问：<a href="http://localhost:9411/zipkin/dependency/">http://localhost:9411/zipkin/dependency/</a> 即可看到调用链</p>
 <hr>
 <h1 id="断路器"><a href="#断路器" class="headerlink" title="断路器"></a>断路器</h1><h2 id="服务雪崩效应"><a href="#服务雪崩效应" class="headerlink" title="服务雪崩效应"></a>服务雪崩效应</h2><p>为了保证微服务高可用，单个服务有时候会集群部署。但由于网络或程序自身的原因，服务并不能保证百分百可靠可用，如果单个服务出现问题，调用这个服务就出现线程阻塞。此时若有大量的请求涌入，servlet容器的线程资源就会被消耗完毕导致服务瘫痪。由于服务与服务之间有依赖，故障会传播，对整个微服务系统造成不可估量的严重后果，这就是常说的服务故障的“雪崩效应”。</p>
 <p>为了解决这个问题，有人就提出了一种解决问题的思路，断路器模型。就是每一个调用服务的接口处加一个断路器，默认是关闭的，当对服务调用时，不可用的次数达到一个阀值时，断路器就会打开，通过回调方法迅速返回一个值结束调用，避免出现连锁故障。</p>
 <h2 id="hystrix-断路器"><a href="#hystrix-断路器" class="headerlink" title="hystrix 断路器"></a>hystrix 断路器</h2><p>在 pom.xml 中添加 hystrix 的依赖：</p>
-<pre><code class="xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-starter-netflix-hystrix&lt;/artifactId&gt;
-&lt;/dependency&gt;  </code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-hystrix<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>注解由原来的</p>
-<pre><code class="java">@FeignClient(value = &quot;PRODUCT-DATA-SERVICE&quot;)</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient</span>(value = <span class="string">"PRODUCT-DATA-SERVICE"</span>)</span><br></pre></td></tr></table></figure>
+
 <p>修改为</p>
-<pre><code class="java">@FeignClient(value = &quot;PRODUCT-DATA-SERVICE&quot;,fallback = ProductClientFeignHystrix.class)</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient</span>(value = <span class="string">"PRODUCT-DATA-SERVICE"</span>,fallback = ProductClientFeignHystrix<span class="class">.<span class="keyword">class</span>)</span></span><br></pre></td></tr></table></figure>
+
 <p>当服务不可用时，就调用 ProductClientFeignHystrix 来进行反馈信息。</p>
 <p>ProductClientFeignHystrix 的实现代码如下，实现了断路的 Feign 接口。</p>
-<pre><code class="java">@Component
-public class ProductClientFeignHystrix implements ProductClientFeign{
-    public List&lt;Product&gt; listProdcuts(){
-        List&lt;Product&gt; result = new ArrayList&lt;&gt;();
-        result.add(new Product(0,&quot;数据微服务不可用&quot;,0));
-        return result;
-    }
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductClientFeignHystrix</span> <span class="keyword">implements</span> <span class="title">ProductClientFeign</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Product&gt; <span class="title">listProdcuts</span><span class="params">()</span></span>&#123;</span><br><span class="line">        List&lt;Product&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        result.add(<span class="keyword">new</span> Product(<span class="number">0</span>,<span class="string">"数据微服务不可用"</span>,<span class="number">0</span>));</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>在配置文件中启用 hystrix</p>
-<pre><code>feign.hystrix.enabled: true</code></pre><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">feign.hystrix.enabled: true</span><br></pre></td></tr></table></figure>
+
+<hr>
 <h1 id="配置中心-ConfigServer"><a href="#配置中心-ConfigServer" class="headerlink" title="配置中心 ConfigServer"></a>配置中心 ConfigServer</h1><p>一个微服务可能是用集群的方式部署，有多个实例。当需要修改配置信息时，要手动对集群的每一个微服务实例进行修改，显然很麻烦。为了解决这一问题，我们把配置信息放在一个公共的地方，比如 git 上面，然后通过 <strong>配置服务器（ConfigServer）</strong> 获取。每一个微服务实例再从 ConfigServer 上获取配置。</p>
 <p>这样，只要修改 git 上的信息，同一个集群里的所有微服务都立即获取相应信息了。</p>
 <p>ConfigServer 本身是一个微服务，启动后，我们还需要对客户端微服务进行修改，才能感应到配置服务器。</p>
@@ -485,7 +395,7 @@ public class ProductClientFeignHystrix implements ProductClientFeign{
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -497,7 +407,7 @@ public class ProductClientFeignHystrix implements ProductClientFeign{
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -509,7 +419,7 @@ public class ProductClientFeignHystrix implements ProductClientFeign{
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -674,25 +584,25 @@ public class ProductClientFeignHystrix implements ProductClientFeign{
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -706,6 +616,14 @@ public class ProductClientFeignHystrix implements ProductClientFeign{
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -714,20 +632,20 @@ public class ProductClientFeignHystrix implements ProductClientFeign{
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -759,7 +677,7 @@ public class ProductClientFeignHystrix implements ProductClientFeign{
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -767,7 +685,15 @@ public class ProductClientFeignHystrix implements ProductClientFeign{
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -802,6 +728,25 @@ public class ProductClientFeignHystrix implements ProductClientFeign{
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -832,7 +777,7 @@ public class ProductClientFeignHystrix implements ProductClientFeign{
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -869,25 +814,6 @@ public class ProductClientFeignHystrix implements ProductClientFeign{
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -953,6 +879,25 @@ public class ProductClientFeignHystrix implements ProductClientFeign{
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -983,7 +928,7 @@ public class ProductClientFeignHystrix implements ProductClientFeign{
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1020,25 +965,6 @@ public class ProductClientFeignHystrix implements ProductClientFeign{
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1101,7 +1027,7 @@ public class ProductClientFeignHystrix implements ProductClientFeign{
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1155,7 +1081,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

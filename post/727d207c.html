@@ -10,12 +10,12 @@
 <title>Java简明笔记（十一）并发编程 - J.e</title>
 
 
-    <meta name="description" content="关于并发的理论基础，见另一篇 聊聊并发和并发模型  在 Java 中创建线程在 Java 中，线程是 java.lang.Thread 或其子类中的实例。通过 new 一个线程实例并调用 start 方法来启动线程。 Thread thread &#x3D; new Thread(); thread.start(); 但是我们总得指定线程做一些事，可以用两种方式来指定。 方式一：继承 Thread 类pub">
+    <meta name="description" content="关于并发的理论基础，见另一篇 聊聊并发和并发模型  在 Java 中创建线程在 Java 中，线程是 java.lang.Thread 或其子类中的实例。通过 new 一个线程实例并调用 start 方法来启动线程。 12Thread thread &#x3D; new Thread();thread.start();  但是我们总得指定线程做一些事，可以用两种方式来指定。 方式一：继承 Thread 类1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java简明笔记（十一）并发编程">
 <meta property="og:url" content="https://jerrysheh.me/post/727d207c.html">
 <meta property="og:site_name" content="J.e">
-<meta property="og:description" content="关于并发的理论基础，见另一篇 聊聊并发和并发模型  在 Java 中创建线程在 Java 中，线程是 java.lang.Thread 或其子类中的实例。通过 new 一个线程实例并调用 start 方法来启动线程。 Thread thread &#x3D; new Thread(); thread.start(); 但是我们总得指定线程做一些事，可以用两种方式来指定。 方式一：继承 Thread 类pub">
+<meta property="og:description" content="关于并发的理论基础，见另一篇 聊聊并发和并发模型  在 Java 中创建线程在 Java 中，线程是 java.lang.Thread 或其子类中的实例。通过 new 一个线程实例并调用 start 方法来启动线程。 12Thread thread &#x3D; new Thread();thread.start();  但是我们总得指定线程做一些事，可以用两种方式来指定。 方式一：继承 Thread 类1">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2018-02-28T16:29:51.000Z">
@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -160,44 +160,22 @@
             <p>关于并发的理论基础，见另一篇 <a href="../post/3bdfeb29.html">聊聊并发和并发模型</a></p>
 <hr>
 <h1 id="在-Java-中创建线程"><a href="#在-Java-中创建线程" class="headerlink" title="在 Java 中创建线程"></a>在 Java 中创建线程</h1><p>在 Java 中，线程是 java.lang.Thread 或其子类中的实例。通过 new 一个线程实例并调用 start 方法来启动线程。</p>
-<pre><code class="java">Thread thread = new Thread();
-thread.start();</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Thread thread = <span class="keyword">new</span> Thread();</span><br><span class="line">thread.start();</span><br></pre></td></tr></table></figure>
+
 <p>但是我们总得指定线程做一些事，可以用两种方式来指定。</p>
-<h2 id="方式一：继承-Thread-类"><a href="#方式一：继承-Thread-类" class="headerlink" title="方式一：继承 Thread 类"></a>方式一：继承 Thread 类</h2><pre><code class="java">public class MyThread extends Thread {
-    @Override
-    public void run(){
-       System.out.println(&quot;MyThread running&quot;);
-    }
-}
+<h2 id="方式一：继承-Thread-类"><a href="#方式一：继承-Thread-类" class="headerlink" title="方式一：继承 Thread 类"></a>方式一：继承 Thread 类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">       System.out.println(<span class="string">"MyThread running"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Thread myThread = <span class="keyword">new</span> myThread();</span><br><span class="line">myThread.start();</span><br></pre></td></tr></table></figure>
 
-Thread myThread = new myThread();
-myThread.start();</code></pre>
 <h2 id="方式二：实现-Runnable-方法-推荐"><a href="#方式二：实现-Runnable-方法-推荐" class="headerlink" title="方式二：实现 Runnable 方法(推荐)"></a>方式二：实现 Runnable 方法(推荐)</h2><p>创建一个类实现 Runnable 方法</p>
-<pre><code class="java">class MyRunnable implements Runnable {
-    @Override
-    public void run(){
-       System.out.println(&quot;MyRunnable running&quot;);
-    }
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">       System.out.println(<span class="string">"MyRunnable running"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MyRunnable myRun = <span class="keyword">new</span> MyRunnable();</span><br><span class="line">Thread thread = <span class="keyword">new</span> Thread(myRun， <span class="string">"第二个参数指定线程名字"</span>);</span><br><span class="line">thread.start();</span><br></pre></td></tr></table></figure>
 
-MyRunnable myRun = new MyRunnable();
-Thread thread = new Thread(myRun， &quot;第二个参数指定线程名字&quot;);
-thread.start();</code></pre>
 <a id="more"></a>
 
 <h3 id="匿名类或lambda表达式方式"><a href="#匿名类或lambda表达式方式" class="headerlink" title="匿名类或lambda表达式方式"></a>匿名类或lambda表达式方式</h3><p>直接在 runnable 接口上实现匿名类</p>
-<pre><code class="java">// 匿名类
-Runnable myRunnable = new Runnable(){
-    @Override
-    public void run(){
-      System.out.println(&quot;Runnable running&quot;);
-    }
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 匿名类</span></span><br><span class="line">Runnable myRunnable = <span class="keyword">new</span> Runnable()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"Runnable running"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// lambda</span></span><br><span class="line">Runnable myRunable2 = ()-&gt; System.out.println(<span class="string">"Runnable running"</span>)</span><br></pre></td></tr></table></figure>
 
-// lambda
-Runnable myRunable2 = ()-&gt; System.out.println(&quot;Runnable running&quot;)</code></pre>
 <p>lambda表达式</p>
-<pre><code class="java">Thread t = new Thread( ()-&gt; System.out.println(&quot;do something&quot;));</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Thread t = <span class="keyword">new</span> Thread( ()-&gt; System.out.println(<span class="string">"do something"</span>));</span><br></pre></td></tr></table></figure>
+
 <p>特别提醒：</p>
 <ul>
 <li>调用 <code>.start()</code> 方法才是启动线程，而调用 <code>.run()</code> 方法只是在当前线程上去执行 run 函数，并没有开启新线程。</li>
@@ -207,14 +185,8 @@ Runnable myRunable2 = ()-&gt; System.out.println(&quot;Runnable running&quot;)</
 <h2 id="方式三：实现-Callable-方法-可回调"><a href="#方式三：实现-Callable-方法-可回调" class="headerlink" title="方式三：实现 Callable 方法(可回调)"></a>方式三：实现 Callable 方法(可回调)</h2><p>需结合 Future 和 线程池 使用。参见：<a href="../post/a23f9c20.html">Java并发编程之并发工具</a></p>
 <hr>
 <h1 id="竞争条件和临界区"><a href="#竞争条件和临界区" class="headerlink" title="竞争条件和临界区"></a>竞争条件和临界区</h1><p>当多个线程同时访问一块共享区域的时候，就会产生竞争条件。考虑下面的例子：</p>
-<pre><code class="java">public class Counter {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Counter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">protected</span> <span class="keyword">long</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">long</span> value)</span></span>&#123;</span><br><span class="line">       <span class="keyword">this</span>.count = <span class="keyword">this</span>.count + value;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-   protected long count = 0;
-
-   public void add(long value){
-       this.count = this.count + value;
-   }
-}</code></pre>
 <p>从 Java 虚拟机的角度看，add 方法并不是一个原子操作，而是分为三步：</p>
 <ol>
 <li>将 this.count 读进 CPU 寄存器</li>
@@ -222,91 +194,40 @@ Runnable myRunable2 = ()-&gt; System.out.println(&quot;Runnable running&quot;)</
 <li>将寄存器的值写回内存</li>
 </ol>
 <p>假如有A、B两个线程同时执行 add 方法，那么可能发生：</p>
-<pre><code>this.count = 0;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">this.count &#x3D; 0;</span><br><span class="line"></span><br><span class="line">A:  将 this.count 读进 CPU 寄存器 (0)</span><br><span class="line">B:  将 this.count 读进 CPU 寄存器 (0)</span><br><span class="line">B:  在寄存器里 + 2</span><br><span class="line">B:  将寄存器的值 (2) 写回内存， this.count 现在是 2</span><br><span class="line">A:  在寄存器里 + 3</span><br><span class="line">A:  将寄存器的值 (3) 写回内存， this.count 现在是 3</span><br></pre></td></tr></table></figure>
 
-A:  将 this.count 读进 CPU 寄存器 (0)
-B:  将 this.count 读进 CPU 寄存器 (0)
-B:  在寄存器里 + 2
-B:  将寄存器的值 (2) 写回内存， this.count 现在是 2
-A:  在寄存器里 + 3
-A:  将寄存器的值 (3) 写回内存， this.count 现在是 3</code></pre><p>我们期望的值是5，而结果却是3。如何解决呢？可以用 Java 提供的 <strong>synchronized 同步代码块</strong> 或者 <strong>锁结构</strong> 或者 java.util.concurrent.atomic 里面的 <strong>原子变量</strong> 来解决。</p>
+<p>我们期望的值是5，而结果却是3。如何解决呢？可以用 Java 提供的 <strong>synchronized 同步代码块</strong> 或者 <strong>锁结构</strong> 或者 java.util.concurrent.atomic 里面的 <strong>原子变量</strong> 来解决。</p>
 <p>同步代码块</p>
-<pre><code class="java">public void add(int val1, int val2){
-    synchronized(this.sum1Lock){
-        this.sum1 += val1;   
-    }
-    synchronized(this.sum2Lock){
-        this.sum2 += val2;
-    }
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> val1, <span class="keyword">int</span> val2)</span></span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(<span class="keyword">this</span>.sum1Lock)&#123;</span><br><span class="line">        <span class="keyword">this</span>.sum1 += val1;   </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">synchronized</span>(<span class="keyword">this</span>.sum2Lock)&#123;</span><br><span class="line">        <span class="keyword">this</span>.sum2 += val2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="线程安全和资源共享"><a href="#线程安全和资源共享" class="headerlink" title="线程安全和资源共享"></a>线程安全和资源共享</h1><h2 id="什么是线程安全？"><a href="#什么是线程安全？" class="headerlink" title="什么是线程安全？"></a>什么是线程安全？</h2><p>《Java并发编程实战》的作者 Brian Goetz 对线程安全的定义是：<strong>当多个线程访问某个对象时，不管运行时环境采用何种调度方式或者如何交替执行，并且调用方不需要任何额外的同步操作，调用这个对象的行为都能获得正确的结果，那么就称这个对象是线程安全的</strong>。</p>
 <p>如果一段代码是线程安全的，那么就不会发生竞争条件。反过来说，对于非线程安全的代码，多个线程同时修改共享资源的时候，就会发生竞争条件。</p>
 <p>因此我们得先知道 Java 中哪些资源是共享的，哪些是不共享的。</p>
 <h2 id="局部本地变量（完全线程安全）"><a href="#局部本地变量（完全线程安全）" class="headerlink" title="局部本地变量（完全线程安全）"></a>局部本地变量（完全线程安全）</h2><p>局部变量存储在每个线程自己的栈内存中，不会共享，是线程安全的。</p>
-<pre><code class="java">public void someMethod(){
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">someMethod</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">long</span> threadSafeInt = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  threadSafeInt++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  long threadSafeInt = 0;
-
-  threadSafeInt++;
-}</code></pre>
 <h2 id="引用变量（部分安全）"><a href="#引用变量（部分安全）" class="headerlink" title="引用变量（部分安全）"></a>引用变量（部分安全）</h2><p>局部引用本身跟局部变量一样，其本身是不共享。但是引用指向的对象就不一定了，因为所有的对象存储在共享的堆里面的，因此不是线程安全的。但如果对象是局部方法里面声明的，那就是安全的。</p>
 <h2 id="类成员变量（不安全）"><a href="#类成员变量（不安全）" class="headerlink" title="类成员变量（不安全）"></a>类成员变量（不安全）</h2><p>很明显成员变量（类变量）不是线程安全的。考虑下面的例子，当两个线程同时执行了 add 方法。结果很难预测。</p>
-<pre><code class="java">public class NotThreadSafe{
-    StringBuilder builder = new StringBuilder();
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NotThreadSafe</span></span>&#123;</span><br><span class="line">    StringBuilder builder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">add</span><span class="params">(String text)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.builder.append(text);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    public add(String text){
-        this.builder.append(text);
-    }
-}</code></pre>
 <h2 id="Thread-Control-Escape-Rule"><a href="#Thread-Control-Escape-Rule" class="headerlink" title="Thread Control Escape Rule"></a>Thread Control Escape Rule</h2><p>Thread Control Escape Rule（线程控制逃逸规则）：如果一个资源从创建、使用、到释放(dispose)这整个过程都由相同的一个线程负责，其控制权不会交给其他线程，那么整个资源就是线程安全的。</p>
 <p>这里的资源，可以是一个对象、数组、文件、数据库连接、socket等等。在 Java 中，我们无法手动释放资源，因此释放可以理解为失去该对象的引用或置空(nulling)的过程。</p>
 <p>但是注意，有时候尽管一个对象是线程安全的，但是应用不一定是安全的。比如，线程1和线程2分别创建了数据库链接 connection1 和 connection2， connection 本身是安全的，但是通过 connection 去访问数据库，可能造成不安全的后果。比如：</p>
-<pre><code>Thread 1 checks if record X exists. Result = no
-Thread 2 checks if record X exists. Result = no
-Thread 1 inserts record X
-Thread 2 inserts record X</code></pre><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Thread 1 checks if record X exists. Result &#x3D; no</span><br><span class="line">Thread 2 checks if record X exists. Result &#x3D; no</span><br><span class="line">Thread 1 inserts record X</span><br><span class="line">Thread 2 inserts record X</span><br></pre></td></tr></table></figure>
+
+<hr>
 <h1 id="线程安全和不可变性"><a href="#线程安全和不可变性" class="headerlink" title="线程安全和不可变性"></a>线程安全和不可变性</h1><p>竞争条件只发生在多个线程同时写一个资源的过程，读的过程并不会造成竞争条件。因此，我们可以用不可变（Immutable）这个特性，来确保线程安全。具体的做法是：</p>
 <ol>
 <li>通过构造器传递值，没有 setter</li>
 <li>修改时返回一个新的对象，而不是在该对象上变更值</li>
 </ol>
-<pre><code class="java">public class ImmutableValue{
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImmutableValue</span></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> value = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 构造器传值</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">ImmutableValue</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.value = value;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getValue</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.value;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 如果要修改，直接返回一个新的ImmutableValue对象，而不是在该对象上变更值</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> ImmutableValue <span class="title">add</span><span class="params">(<span class="keyword">int</span> valueToAdd)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ImmutableValue(<span class="keyword">this</span>.value + valueToAdd);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  private int value = 0;
-
-  // 构造器传值
-  public ImmutableValue(int value){
-    this.value = value;
-  }
-
-  public int getValue(){
-    return this.value;
-  }
-
-  // 如果要修改，直接返回一个新的ImmutableValue对象，而不是在该对象上变更值
-  public ImmutableValue add(int valueToAdd){
-    return new ImmutableValue(this.value + valueToAdd);
-  }
-
-}</code></pre>
 <p>此时，ImmutableValue对象本身是安全的，但是注意，使用这个对象时，也可能不是安全的。</p>
 <p>考虑下面的例子：Calculator 对象使用了 ImmutableValue，当有多个线程同时调用 Calculator 的 setValue 或 add 方法，那 Calculator 的类变量 ImmutableValue 的值无法确定。</p>
-<pre><code class="java">public class Calculator{
-  private ImmutableValue currentValue = null;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Calculator</span></span>&#123;</span><br><span class="line">  <span class="keyword">private</span> ImmutableValue currentValue = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> ImmutableValue <span class="title">getValue</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> currentValue;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setValue</span><span class="params">(ImmutableValue newValue)</span></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.currentValue = newValue;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> newValue)</span></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.currentValue = <span class="keyword">this</span>.currentValue.add(newValue);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  public ImmutableValue getValue(){
-    return currentValue;
-  }
-
-  public void setValue(ImmutableValue newValue){
-    this.currentValue = newValue;
-  }
-
-  public void add(int newValue){
-    this.currentValue = this.currentValue.add(newValue);
-  }
-}</code></pre>
 <p>需要对 Calculator 类的 getValue(), setValue(), 和 add() 方法添加 synchronized 修饰符，这时候才是真正安全。</p>
 <hr>
 <h1 id="从内存模型看并发"><a href="#从内存模型看并发" class="headerlink" title="从内存模型看并发"></a>从内存模型看并发</h1><p>在冯诺依曼计算机架构中，主存和 CPU 中间，往往有 Cache 缓冲，CPU 内部也有用于临时数据处理的寄存器。在Java虚拟机中，内存模型大致可以分为堆和栈。每个线程都有单独的线程栈，不会共享，而所有的对象都存放在共享的堆里。</p>
@@ -323,104 +244,29 @@ Thread 2 inserts record X</code></pre><hr>
 <ul>
 <li><strong>提醒</strong>：解锁操作最好放在 finally 块，这样抛出异常时也能正常解锁。此外，如果使用锁就不能用 try-with-resource 了。</li>
 </ul>
-<pre><code class="java">class Test{
-    // 声明一个锁对象
-    Lock lock = new ReentrantLock();
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>&#123;</span><br><span class="line">    <span class="comment">// 声明一个锁对象</span></span><br><span class="line">    Lock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">// 在临界区加锁</span></span><br><span class="line">        lock.lock();</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="comment">// do something</span></span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="comment">// 临界区结束释放锁</span></span><br><span class="line">            lock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    public void doSomething(){
-        // 在临界区加锁
-        lock.lock();
-        try{
-            // do something
-        } finally {
-            // 临界区结束释放锁
-            lock.unlock();
-        }
-    }
-
-}</code></pre>
 <p>ReentrantLock支持带参构造函数，表示一个公平锁。先申请锁的线程将会先得到执行。但也不是绝对的，因为调度器有可能选择忽略一个线程。使用公平锁比常规锁要慢，必要时才考虑使用。</p>
-<pre><code class="java">ReentrantLock(boolean fair);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ReentrantLock(<span class="keyword">boolean</span> fair);</span><br></pre></td></tr></table></figure>
+
 <h2 id="条件对象"><a href="#条件对象" class="headerlink" title="条件对象"></a>条件对象</h2><p>有时候，一个线程拿到锁执行权，进入了临界区，却因为某些条件不满足而无法执行，这时候我们应该及时释放锁，直到条件满足了再重试。这个条件，我们就称为条件对象（或条件变量，conditional variable）。比如说，在银行系统中，一个线程获得了从A账户转出1000元的执行权，但是该线程进入到临界区时发现A账户余额不足1000，无法转账，此时应该释放锁，而不是阻塞死等。</p>
 <p>在 Java 中，Condition 类用来表示一个条件对象。</p>
-<pre><code class="java">class Bank{
-    Lock bankLock = new ReentrantLock();
-    private Condition sufficientFunds;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bank</span></span>&#123;</span><br><span class="line">    Lock bankLock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">    <span class="keyword">private</span> Condition sufficientFunds;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在构造器里实例化条件对象</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Bank</span><span class="params">()</span></span>&#123;</span><br><span class="line">       sufficientFunds = bankLock.newCondition();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 转账</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">transfer</span><span class="params">()</span></span>&#123;</span><br><span class="line">       bankLock.lock();</span><br><span class="line"></span><br><span class="line">       <span class="comment">// 余额不足，释放锁</span></span><br><span class="line">       <span class="keyword">while</span>(accounts[from] &lt; amount)</span><br><span class="line">           sufficientFunds.await();</span><br><span class="line"></span><br><span class="line">       <span class="comment">// 余额充足，转账</span></span><br><span class="line">       <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 在构造器里实例化条件对象
-    public Bank(){
-       sufficientFunds = bankLock.newCondition();
-    }
-
-    // 转账
-    public void transfer(){
-       bankLock.lock();
-
-       // 余额不足，释放锁
-       while(accounts[from] &lt; amount)
-           sufficientFunds.await();
-
-       // 余额充足，转账
-       // ...
-    }
-
-}</code></pre>
 <p>记住，永远用 while 来判断条件，而不是 if。如果条件满足，调用条件对象的 await() 方法，该线程即释放锁并挂起等待，直到另一个线程调用了 signal() 或 signalAll() 方法。</p>
 <h2 id="使用读写锁"><a href="#使用读写锁" class="headerlink" title="使用读写锁"></a>使用读写锁</h2><p>当很多线程读取数据而很少线程修改数据时，可以考虑使用 ReentrantReadWriteLock（读写锁）。</p>
-<pre><code class="java">// 1. 声明一个读写锁
-private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 声明一个读写锁</span></span><br><span class="line"><span class="keyword">private</span> ReentrantReadWriteLock rwl = <span class="keyword">new</span> ReentrantReadWriteLock();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.抽取读锁和写锁</span></span><br><span class="line"><span class="keyword">private</span> Lock readLock = rwl.readLock();</span><br><span class="line"><span class="keyword">private</span> Lock writeLock = rwl.writeLock();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 读取方法加读锁</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getTotal</span><span class="params">()</span></span>&#123;</span><br><span class="line">    readLock.lock();</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        readLock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 4. 修改方法加写锁</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">transfer</span><span class="params">()</span></span>&#123;</span><br><span class="line">    writeLock.lock();</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        writeLock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-// 2.抽取读锁和写锁
-private Lock readLock = rwl.readLock();
-private Lock writeLock = rwl.writeLock();
-
-// 3. 读取方法加读锁
-public double getTotal(){
-    readLock.lock();
-    try{
-        // ...
-    } finally {
-        readLock.unlock();
-    }
-}
-
-// 4. 修改方法加写锁
-public void transfer(){
-    writeLock.lock();
-    try{
-        // ...
-    } finally {
-        writeLock.unlock();
-    }
-}
-</code></pre>
 <hr>
 <h1 id="使用-synchronized"><a href="#使用-synchronized" class="headerlink" title="使用 synchronized"></a>使用 synchronized</h1><p>synchronized 也是用于解决竞争条件问题。但语法比 ReentrantLock 简单。</p>
-<pre><code class="java">// 用于实例方法
-public synchronized void add(int value){
-    this.count += value;
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用于实例方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.count += value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用于静态方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;</span><br><span class="line">      count += value;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
-// 用于静态方法
-public static synchronized void add(int value){
-      count += value;
-  }</code></pre>
 <p>同步是一种高开销的操作，应该尽量减少同步的内容。把 synchronized 放在方法里，可能太过于粗粒度了，这样会损失一些并发性，synchronized 也可以单独放在临界区。缩小同步控制的范围。</p>
-<pre><code class="java">// 用于部分临界区代码块
-public void add(int value){
-    synchronized(this){
-         this.count += value;   
-    }
-}</code></pre>
-<p>跟 ReentrantLock 类似，当有条件对象不满足时，进入 synchronized 的线程也是需要立即释放锁并等待条件满足。synchronized 内置了一个条件对象，不用我们显式声明。我们直接在代码中调用 <code>wait()</code> 方法就可让当前线程等待，直到其他线程调用了 <code>notify()</code> 或 <code>notifyAll()</code> 。</p>
-<pre><code class="java">public synchronized void add(int value){
-    // 条件不满足，等待
-    while(accounts[from] &lt; amount)
-        wait();
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用于部分临界区代码块</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(<span class="keyword">this</span>)&#123;</span><br><span class="line">         <span class="keyword">this</span>.count += value;   </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 条件满足，执行业务
-    this.count -= value;
-}</code></pre>
+<p>跟 ReentrantLock 类似，当有条件对象不满足时，进入 synchronized 的线程也是需要立即释放锁并等待条件满足。synchronized 内置了一个条件对象，不用我们显式声明。我们直接在代码中调用 <code>wait()</code> 方法就可让当前线程等待，直到其他线程调用了 <code>notify()</code> 或 <code>notifyAll()</code> 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;</span><br><span class="line">    <span class="comment">// 条件不满足，等待</span></span><br><span class="line">    <span class="keyword">while</span>(accounts[from] &lt; amount)</span><br><span class="line">        wait();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 条件满足，执行业务</span></span><br><span class="line">    <span class="keyword">this</span>.count -= value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="我该使用-synchronized-还是-ReentrantLock-？"><a href="#我该使用-synchronized-还是-ReentrantLock-？" class="headerlink" title="我该使用 synchronized 还是 ReentrantLock ？"></a>我该使用 synchronized 还是 ReentrantLock ？</h1><p>《Java核心技术》的作者 Cay S. Horstmann 给我们的建议是，最好两者都不要用，而是用 java.util.concurrent 包提供给我们的并发工具，如阻塞队列。当 concurrent 并发工具都不能满足时，才考虑用 synchronized 或 ReentrantLock。首选 synchronized 因为它编写简单，而且新版JDK自带锁优化能够减少一些锁开销。</p>
 <p>当你需要这三样功能之一时，才考虑用 ReentrantLock：</p>
@@ -430,14 +276,8 @@ public void add(int value){
 <li>线程尝试获得锁失败时可选择放弃而去做别的事情</li>
 </ol>
 <p>java.util.concurrent.locks.Lock</p>
-<pre><code class="java">// 尝试获得锁，成功返回true，失败返回false(根据返回值用if-else语句)
-boolean tryLock();
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 尝试获得锁，成功返回true，失败返回false(根据返回值用if-else语句)</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">tryLock</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在给定实践内不断尝试获得锁</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">tryLock</span><span class="params">(<span class="keyword">long</span> time, TimeUtil unit)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获得锁，但不确定地发生阻塞。如果线程被中断，抛出 InterruptedException</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lockInterruptibly</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
 
-// 在给定实践内不断尝试获得锁
-boolean tryLock(long time, TimeUtil unit);
-
-// 获得锁，但不确定地发生阻塞。如果线程被中断，抛出 InterruptedException
-void lockInterruptibly();</code></pre>
 <p>参考：《Java核心技术 卷I》第10版p654</p>
 <hr>
 <h1 id="Volatile-关键字"><a href="#Volatile-关键字" class="headerlink" title="Volatile 关键字"></a>Volatile 关键字</h1><h2 id="可见性问题"><a href="#可见性问题" class="headerlink" title="可见性问题"></a>可见性问题</h2><p>由于 CPU 有 Cache 缓存，一个线程修改的数据，保存在某CPU核心的 Cache 缓存里，还未写回主存，运行在另一个CPU核心的线程可能看不到修改的值。这就是可见性问题。</p>
@@ -458,23 +298,11 @@ void lockInterruptibly();</code></pre>
 <hr>
 <h1 id="线程通信（Signaling）"><a href="#线程通信（Signaling）" class="headerlink" title="线程通信（Signaling）"></a>线程通信（Signaling）</h1><p>线程通信用于线程与线程之间互相发送信号，或者让线程等待其他线程的信号以协调工作。有两种线程通信的方式，其一是消息队列，其二是共享对象。Java采用的是共享对象的方式。</p>
 <h2 id="通过共享对象发送信号"><a href="#通过共享对象发送信号" class="headerlink" title="通过共享对象发送信号"></a>通过共享对象发送信号</h2><p>线程之间通信最简单的方式就是通过设置一个所有线程都可访问的共享对象变量，通过改变它的值来表示一个信号。例如，线程A对一个共享的 boolean 变量设置为 true，线程B检查该变量值的变化并做出处理。注意，这个共享变量必须要做同步操作，例如 synchronized</p>
-<pre><code class="java">public class MySignal{
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MySignal</span></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">protected</span> <span class="keyword">boolean</span> hasDataToProcess = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">boolean</span> <span class="title">hasDataToProcess</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.hasDataToProcess;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">setHasDataToProcess</span><span class="params">(<span class="keyword">boolean</span> hasData)</span></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.hasDataToProcess = hasData;  </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  protected boolean hasDataToProcess = false;
-
-  public synchronized boolean hasDataToProcess(){
-    return this.hasDataToProcess;
-  }
-
-  public synchronized void setHasDataToProcess(boolean hasData){
-    this.hasDataToProcess = hasData;  
-  }
-
-}</code></pre>
 <p>考虑上面的例子，线程A和线程B分别持有 Mysignal 的引用，线程A 将 hasDataToProcess 设置成 true， 线程B不断查询 hasDataToProcess 的状态，直至其被 线程A 设置成 true 即可开始处理一些事情。线程B不断查询的这个过程，称为 <strong>忙等待（busy wait）</strong>。</p>
-<pre><code class="java">while(!sharedSignal.hasDataToProcess()){
-  //do nothing... busy waiting
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(!sharedSignal.hasDataToProcess())&#123;</span><br><span class="line">  <span class="comment">//do nothing... busy waiting</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="wait-notify-和-notifyAll"><a href="#wait-notify-和-notifyAll" class="headerlink" title="wait(), notify() 和 notifyAll()"></a>wait(), notify() 和 notifyAll()</h2><p>忙等待会损耗大量 CPU 资源，因此 Java 提供了一些内置的机制，能够让信号未到来之前使线程处于非活跃（inactive）状态。等信号来了之后再唤醒它。这样就不用一直忙等。</p>
 <hr>
 <h1 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h1><p>线程A持有 1 资源，同时需要 2 资源， 线程B 持有 2 资源，同时需要 1 资源，但是 1 资源 和 2 资源都是互斥的。此时，A线程 在等待 B线程 释放 2 资源，B线程在等待 A线程 释放 1 资源，结果谁都无法释放，谁也都得不到资源。这就是死锁。</p>
@@ -566,7 +394,7 @@ void lockInterruptibly();</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -578,7 +406,7 @@ void lockInterruptibly();</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -590,7 +418,7 @@ void lockInterruptibly();</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -791,25 +619,25 @@ void lockInterruptibly();</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -823,6 +651,14 @@ void lockInterruptibly();</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -831,20 +667,20 @@ void lockInterruptibly();</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -876,7 +712,7 @@ void lockInterruptibly();</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -884,7 +720,15 @@ void lockInterruptibly();</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -919,6 +763,25 @@ void lockInterruptibly();</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -949,7 +812,7 @@ void lockInterruptibly();</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -986,25 +849,6 @@ void lockInterruptibly();</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1070,6 +914,25 @@ void lockInterruptibly();</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1100,7 +963,7 @@ void lockInterruptibly();</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1137,25 +1000,6 @@ void lockInterruptibly();</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1218,7 +1062,7 @@ void lockInterruptibly();</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1272,7 +1116,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

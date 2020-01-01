@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -167,9 +167,11 @@
 <hr>
 <h1 id="Item-43-方法引用优于-lambda-表达式"><a href="#Item-43-方法引用优于-lambda-表达式" class="headerlink" title="Item 43 方法引用优于 lambda 表达式"></a>Item 43 方法引用优于 lambda 表达式</h1><p>lambda 比 匿名类 简洁，方法引用比 lambda 简洁。</p>
 <p>考虑一个例子：</p>
-<pre><code class="java">map.merge(key, 1, (count, incr) -&gt; count + incr);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map.merge(key, <span class="number">1</span>, (count, incr) -&gt; count + incr);</span><br></pre></td></tr></table></figure>
+
 <p>第三个参数是一个 lambda，就只是求两数之和，而求和这个方法在 <code>Integer</code> 类中是存在的。所以可以直接用方法引用：</p>
-<pre><code class="java">map.merge(key, 1, Integer::sum);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map.merge(key, <span class="number">1</span>, Integer::sum);</span><br></pre></td></tr></table></figure>
+
 <table>
 <thead>
 <tr>
@@ -255,31 +257,16 @@
 <hr>
 <h1 id="Item-46-优先考虑流中无副作用的函数"><a href="#Item-46-优先考虑流中无副作用的函数" class="headerlink" title="Item 46 优先考虑流中无副作用的函数"></a>Item 46 优先考虑流中无副作用的函数</h1><p>流不仅仅是一个 API，它是函数式编程的范式（paradigm）。函数式编程应该尽可能使用纯函数（pure function）。纯函数的结果仅取决于其输入，不依赖于任何可变状态，也不更新任何状态。为此，传递给流操作的任何函数对象（中间操作和终结操作）都应该没有副作用。</p>
 <p>一个建议是 forEach 操作应仅用于报告流计算的结果，而不是用于执行计算。考虑下面的代码，它只是伪装成流代码的迭代代码，并没有享受到流带来的好处。</p>
-<pre><code class="java">// Uses the streams API but not the paradigm--Don&#39;t do this!
-Map&lt;String, Long&gt; freq = new HashMap&lt;&gt;();
-try (Stream&lt;String&gt; words = new Scanner(file).tokens()) {
-    words.forEach(word -&gt; {
-        freq.merge(word.toLowerCase(), 1L, Long::sum);
-    });
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Uses the streams API but not the paradigm--Don't do this!</span></span><br><span class="line">Map&lt;String, Long&gt; freq = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="keyword">try</span> (Stream&lt;String&gt; words = <span class="keyword">new</span> Scanner(file).tokens()) &#123;</span><br><span class="line">    words.forEach(word -&gt; &#123;</span><br><span class="line">        freq.merge(word.toLowerCase(), <span class="number">1L</span>, Long::sum);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>好的做法：</p>
-<pre><code class="java">// Proper use of streams to initialize a frequency table
-Map&lt;String, Long&gt; freq;
-try (Stream&lt;String&gt; words = new Scanner(file).tokens()) {
-    freq = words
-        .collect(groupingBy(String::toLowerCase, counting()));
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Proper use of streams to initialize a frequency table</span></span><br><span class="line">Map&lt;String, Long&gt; freq;</span><br><span class="line"><span class="keyword">try</span> (Stream&lt;String&gt; words = <span class="keyword">new</span> Scanner(file).tokens()) &#123;</span><br><span class="line">    freq = words</span><br><span class="line">        .collect(groupingBy(String::toLowerCase, counting()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
 <hr>
 <h1 id="Item-47-优先使用-Collection-而不是-Stream-来作为方法的返回类型"><a href="#Item-47-优先使用-Collection-而不是-Stream-来作为方法的返回类型" class="headerlink" title="Item 47 优先使用 Collection 而不是 Stream 来作为方法的返回类型"></a>Item 47 优先使用 Collection 而不是 Stream 来作为方法的返回类型</h1><p>如果在返回一些序列元素的方法里返回了一个流，而你想迭代，（或相反），可以用适配器将流和 iterator 互相转换。但这样会降低效率。</p>
-<pre><code class="java">// Adapter from  Stream&lt;E&gt; to Iterable&lt;E&gt;
-public static &lt;E&gt; Iterable&lt;E&gt; iterableOf(Stream&lt;E&gt; stream) {
-    return stream::iterator;
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Adapter from  Stream&lt;E&gt; to Iterable&lt;E&gt;</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;E&gt; <span class="function">Iterable&lt;E&gt; <span class="title">iterableOf</span><span class="params">(Stream&lt;E&gt; stream)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> stream::iterator;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Adapter from Iterable&lt;E&gt; to Stream&lt;E&gt;</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;E&gt; <span class="function">Stream&lt;E&gt; <span class="title">streamOf</span><span class="params">(Iterable&lt;E&gt; iterable)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> StreamSupport.stream(iterable.spliterator(), <span class="keyword">false</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-// Adapter from Iterable&lt;E&gt; to Stream&lt;E&gt;
-public static &lt;E&gt; Stream&lt;E&gt; streamOf(Iterable&lt;E&gt; iterable) {
-    return StreamSupport.stream(iterable.spliterator(), false);
-}</code></pre>
 <p>在实践中，最好优先考虑返回集合，而不是返回一个流。如果返回集合是不可行的，则返回流或可迭代对象。</p>
 <hr>
 <h1 id="Item-48-谨慎使用流并行"><a href="#Item-48-谨慎使用流并行" class="headerlink" title="Item 48 谨慎使用流并行"></a>Item 48 谨慎使用流并行</h1><p>让我们回顾一下java的并发历史： 1996 年 java 发布 1.0 时就内置了对线程的支持，包括同步和 wait / notify 机制，java 5 加入了 <code>java.util.concurrent</code> 类库，提供了并发集合和执行器框架。Java 7 引入了 fork-join 包，这是一个用于并行分解的高性能框架。 Java 8 引入了流，可以通过对 parallel 方法的单个调用来并行化。用 Java 编写并发程序变得越来越容易，但编写正确快速的并发程序还像以前一样困难。</p>
@@ -373,7 +360,7 @@ public static &lt;E&gt; Stream&lt;E&gt; streamOf(Iterable&lt;E&gt; iterable) {
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -385,7 +372,7 @@ public static &lt;E&gt; Stream&lt;E&gt; streamOf(Iterable&lt;E&gt; iterable) {
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -397,7 +384,7 @@ public static &lt;E&gt; Stream&lt;E&gt; streamOf(Iterable&lt;E&gt; iterable) {
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -522,25 +509,25 @@ public static &lt;E&gt; Stream&lt;E&gt; streamOf(Iterable&lt;E&gt; iterable) {
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -554,6 +541,14 @@ public static &lt;E&gt; Stream&lt;E&gt; streamOf(Iterable&lt;E&gt; iterable) {
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -562,20 +557,20 @@ public static &lt;E&gt; Stream&lt;E&gt; streamOf(Iterable&lt;E&gt; iterable) {
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -607,7 +602,7 @@ public static &lt;E&gt; Stream&lt;E&gt; streamOf(Iterable&lt;E&gt; iterable) {
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -615,7 +610,15 @@ public static &lt;E&gt; Stream&lt;E&gt; streamOf(Iterable&lt;E&gt; iterable) {
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -650,6 +653,25 @@ public static &lt;E&gt; Stream&lt;E&gt; streamOf(Iterable&lt;E&gt; iterable) {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -680,7 +702,7 @@ public static &lt;E&gt; Stream&lt;E&gt; streamOf(Iterable&lt;E&gt; iterable) {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -717,25 +739,6 @@ public static &lt;E&gt; Stream&lt;E&gt; streamOf(Iterable&lt;E&gt; iterable) {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -801,6 +804,25 @@ public static &lt;E&gt; Stream&lt;E&gt; streamOf(Iterable&lt;E&gt; iterable) {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -831,7 +853,7 @@ public static &lt;E&gt; Stream&lt;E&gt; streamOf(Iterable&lt;E&gt; iterable) {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -868,25 +890,6 @@ public static &lt;E&gt; Stream&lt;E&gt; streamOf(Iterable&lt;E&gt; iterable) {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -949,7 +952,7 @@ public static &lt;E&gt; Stream&lt;E&gt; streamOf(Iterable&lt;E&gt; iterable) {
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1003,7 +1006,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

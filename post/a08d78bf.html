@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -187,11 +187,15 @@
 <p>无论哪个组件，都可以用 Core 的API处理问题。</p>
 <hr>
 <h1 id="Spark-的安装"><a href="#Spark-的安装" class="headerlink" title="Spark 的安装"></a>Spark 的安装</h1><p>在 Spark 官网下载 tgz 压缩包</p>
-<pre><code>wget http://mirrors.tuna.tsinghua.edu.cn/apache/spark/spark-2.3.1/spark-2.3.1-bin-hadoop2.7.tgz</code></pre><ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;apache&#x2F;spark&#x2F;spark-2.3.1&#x2F;spark-2.3.1-bin-hadoop2.7.tgz</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li>注：以上是 2.3.1 版本的清华大学镜像，最新版本在 <a href="https://spark.apache.org/downloads.html">spark 官网</a> 找</li>
 </ul>
 <p>将 spark 解压到当前目录</p>
-<pre><code>tar -zxvf spark-2.3.1-bin-hadoop2.7.tgz -C .</code></pre><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf spark-2.3.1-bin-hadoop2.7.tgz -C .</span><br></pre></td></tr></table></figure>
+
+<hr>
 <h1 id="Spark-三种部署方式"><a href="#Spark-三种部署方式" class="headerlink" title="Spark 三种部署方式"></a>Spark 三种部署方式</h1><ul>
 <li><strong>standalone</strong></li>
 <li><strong>Spark on Mesos</strong>（官方推荐）</li>
@@ -204,47 +208,15 @@
 <h1 id="独立-spark-应用程序"><a href="#独立-spark-应用程序" class="headerlink" title="独立 spark 应用程序"></a>独立 spark 应用程序</h1><p>但是我们一般都是在 IDE 里编写独立的应用程序（Self-Contained Applications），再部署打包运行。</p>
 <p>我这里根据<a href="http://spark.apache.org/docs/latest/quick-start.html">官方示例</a>，使用 IDEA，编写一个统计文本中包含字母 ‘a’ 的行数和包含字母 ‘b’的行数的 spark 应用程序。</p>
 <h2 id="新建-Maven-工程"><a href="#新建-Maven-工程" class="headerlink" title="新建 Maven 工程"></a>新建 Maven 工程</h2><p>首先新建一个 Maven 工程，然后在 pom.xml 中添加依赖</p>
-<pre><code class="xml">&lt;properties&gt;
-    &lt;maven.compiler.source&gt;1.8&lt;/maven.compiler.source&gt;
-    &lt;maven.compiler.target&gt;1.8&lt;/maven.compiler.target&gt;
-&lt;/properties&gt;
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">maven.compiler.source</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.source</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">maven.compiler.target</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.target</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span> <span class="comment">&lt;!-- Spark dependency --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.spark<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spark-sql_2.11<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-&lt;dependencies&gt;
-    &lt;dependency&gt; &lt;!-- Spark dependency --&gt;
-        &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;
-        &lt;artifactId&gt;spark-sql_2.11&lt;/artifactId&gt;
-        &lt;version&gt;2.3.0&lt;/version&gt;
-    &lt;/dependency&gt;</code></pre>
 <ul>
 <li><code>properties</code>标签里的内容目的是让我们的工程基于 jdk 1.8</li>
 <li><code>dependencies</code>标签里的内容表示依赖，需要哪些依赖一般 <a href="http://spark.apache.org/docs/latest/quick-start.html">Spark 官方文档</a> 在相应的地方都会有标注，然后可以到<a href="http://mvnrepository.com/">MVN仓库</a>去搜，上面会告诉你对应版本的<code>dependency</code>该怎么写。</li>
 </ul>
 <h2 id="编写java代码"><a href="#编写java代码" class="headerlink" title="编写java代码"></a>编写java代码</h2><p>SimpleApp.java</p>
-<pre><code class="java">/* SimpleApp.java */
-import org.apache.spark.sql.SparkSession;
-import org.apache.spark.sql.Dataset;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* SimpleApp.java */</span></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.sql.SparkSession;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.sql.Dataset;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleApp</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 定义文件路径 （可以说 file:// 也可以是 hdfs://）</span></span><br><span class="line">    String logFile = <span class="string">"file:///home/jerrysheh/spark-2.3.0/README.md"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//定义 spark 会话</span></span><br><span class="line">    SparkSession spark = SparkSession.builder().appName(<span class="string">"Simple Application"</span>).getOrCreate();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 定义数据集（ spark读 logfile 文本文件，缓存）</span></span><br><span class="line">    Dataset&lt;String&gt; logData = spark.read().textFile(logFile).cache();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 数据集过滤，包含 a / b 的就进行统计</span></span><br><span class="line">    <span class="keyword">long</span> numAs = logData.filter((FilterFunction&lt;String&gt;)  s -&gt; s.contains(<span class="string">"a"</span>)).count();</span><br><span class="line">    <span class="keyword">long</span> numBs = logData.filter((FilterFunction&lt;String&gt;)  s -&gt; s.contains(<span class="string">"b"</span>)).count();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//输出</span></span><br><span class="line">    System.out.println(<span class="string">"Lines with a: "</span> + numAs + <span class="string">", lines with b: "</span> + numBs);</span><br><span class="line"></span><br><span class="line">    spark.stop();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-public class SimpleApp {
-  public static void main(String[] args) {
-    // 定义文件路径 （可以说 file:// 也可以是 hdfs://）
-    String logFile = &quot;file:///home/jerrysheh/spark-2.3.0/README.md&quot;;
-
-    //定义 spark 会话
-    SparkSession spark = SparkSession.builder().appName(&quot;Simple Application&quot;).getOrCreate();
-
-    // 定义数据集（ spark读 logfile 文本文件，缓存）
-    Dataset&lt;String&gt; logData = spark.read().textFile(logFile).cache();
-
-    // 数据集过滤，包含 a / b 的就进行统计
-    long numAs = logData.filter((FilterFunction&lt;String&gt;)  s -&gt; s.contains(&quot;a&quot;)).count();
-    long numBs = logData.filter((FilterFunction&lt;String&gt;)  s -&gt; s.contains(&quot;b&quot;)).count();
-
-    //输出
-    System.out.println(&quot;Lines with a: &quot; + numAs + &quot;, lines with b: &quot; + numBs);
-
-    spark.stop();
-  }
-}</code></pre>
 <h2 id="配置运行环境"><a href="#配置运行环境" class="headerlink" title="配置运行环境"></a>配置运行环境</h2><p>点击edit configuration，在左侧点击该项目。在右侧 VM options中 输入<code>-Dspark.master=local</code>，指示本程序本地单线程运行。</p>
 <p>spark 支持的 master URL 有：</p>
 <ul>
@@ -258,29 +230,29 @@ public class SimpleApp {
 </ul>
 <p>配置完以后，就可以直接在 IDEA 运行，开发阶段不必打包后在命令行运行。</p>
 <h2 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h2><h3 id="使用-mvn-命令打包"><a href="#使用-mvn-命令打包" class="headerlink" title="使用 mvn 命令打包"></a>使用 mvn 命令打包</h3><p>安装 maven</p>
-<pre><code>sudo apt install maven</code></pre><p>打包 jar</p>
-<pre><code>mvn package</code></pre><p>这样 out 目录就生成了 一个 jar 文件，这就是我们的 spark 应用程序了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install maven</span><br></pre></td></tr></table></figure>
+
+<p>打包 jar</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn package</span><br></pre></td></tr></table></figure>
+
+<p>这样 out 目录就生成了 一个 jar 文件，这就是我们的 spark 应用程序了。</p>
 <h3 id="使用-IDEA-打包"><a href="#使用-IDEA-打包" class="headerlink" title="使用 IDEA 打包"></a>使用 IDEA 打包</h3><p>用 maven 打包的 jar 非常大，因为把很多依赖都打包进去了，我们可以用 IDEA 删除我们不需要的组件，这样打包出来的 jar 就很小了。</p>
 <p>使用 IDEA 打包的方法可以参考：<a href="http://dblab.xmu.edu.cn/blog/1327/">利用开发工具IntelliJ IDEA编写Spark应用程序</a></p>
 <p>如果需要 sql 驱动，可以这样写：</p>
-<pre><code class="java">// 从数据库读 DataFrame
-def readFromMySQL(spark: SparkSession, tableName:String): DataFrame = {
-    val prop=new java.util.Properties
-    prop.setProperty(&quot;driver&quot;, &quot;com.mysql.cj.jdbc.Driver&quot;)
-    prop.setProperty(&quot;user&quot;,&quot;root&quot;)
-    prop.setProperty(&quot;password&quot;,&quot;YOURPASSWORD&quot;)
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 从数据库读 DataFrame</span></span><br><span class="line"><span class="function">def <span class="title">readFromMySQL</span><span class="params">(spark: SparkSession, tableName:String)</span>: DataFrame </span>= &#123;</span><br><span class="line">    val prop=<span class="keyword">new</span> java.util.Properties</span><br><span class="line">    prop.setProperty(<span class="string">"driver"</span>, <span class="string">"com.mysql.cj.jdbc.Driver"</span>)</span><br><span class="line">    prop.setProperty(<span class="string">"user"</span>,<span class="string">"root"</span>)</span><br><span class="line">    prop.setProperty(<span class="string">"password"</span>,<span class="string">"YOURPASSWORD"</span>)</span><br><span class="line"></span><br><span class="line">    val df = spark.read.jdbc(jdbcURL, tableName, prop)</span><br><span class="line">    df</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    val df = spark.read.jdbc(jdbcURL, tableName, prop)
-    df
-}</code></pre>
 <p>这样当提交到 spark-submit 的时候会读取你的驱动，否则报 Driver not found</p>
 <h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>在 spark 安装目录下</p>
-<pre><code>./bin/spark-submit --class &quot;SimpleApp&quot; --master local[4] simple-project.jar</code></pre><p>输出：</p>
-<pre><code>...
-...
-Lines with a: 46, Lines with b: 23</code></pre><p>这样，一个简单的 spark 应用程序就运行成功了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;bin&#x2F;spark-submit --class &quot;SimpleApp&quot; --master local[4] simple-project.jar</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">...</span><br><span class="line">Lines with a: 46, Lines with b: 23</span><br></pre></td></tr></table></figure>
+
+<p>这样，一个简单的 spark 应用程序就运行成功了。</p>
 <h2 id="只输出-WARN-和-ERROR-不输出-INFO"><a href="#只输出-WARN-和-ERROR-不输出-INFO" class="headerlink" title="只输出 WARN 和 ERROR 不输出 INFO"></a>只输出 WARN 和 ERROR 不输出 INFO</h2><p>把 SPARK_HOME/conf 下的 log4j.properties.template 复制到 工程 Resource Root 下面（我这里是 Scala 包），重命名为 log4j.properties 。 打开，修改其中的</p>
-<pre><code>log4j.rootCategory=INFO, console</code></pre><p>将 INFO 改成 WARN 或者 ERROR 即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">log4j.rootCategory&#x3D;INFO, console</span><br></pre></td></tr></table></figure>
+
+<p>将 INFO 改成 WARN 或者 ERROR 即可</p>
 
         </div>
         
@@ -369,7 +341,7 @@ Lines with a: 46, Lines with b: 23</code></pre><p>这样，一个简单的 spark
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -381,7 +353,7 @@ Lines with a: 46, Lines with b: 23</code></pre><p>这样，一个简单的 spark
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -393,7 +365,7 @@ Lines with a: 46, Lines with b: 23</code></pre><p>这样，一个简单的 spark
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -546,25 +518,25 @@ Lines with a: 46, Lines with b: 23</code></pre><p>这样，一个简单的 spark
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -578,6 +550,14 @@ Lines with a: 46, Lines with b: 23</code></pre><p>这样，一个简单的 spark
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -586,20 +566,20 @@ Lines with a: 46, Lines with b: 23</code></pre><p>这样，一个简单的 spark
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -631,7 +611,7 @@ Lines with a: 46, Lines with b: 23</code></pre><p>这样，一个简单的 spark
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -639,7 +619,15 @@ Lines with a: 46, Lines with b: 23</code></pre><p>这样，一个简单的 spark
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -674,6 +662,25 @@ Lines with a: 46, Lines with b: 23</code></pre><p>这样，一个简单的 spark
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -704,7 +711,7 @@ Lines with a: 46, Lines with b: 23</code></pre><p>这样，一个简单的 spark
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -741,25 +748,6 @@ Lines with a: 46, Lines with b: 23</code></pre><p>这样，一个简单的 spark
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -825,6 +813,25 @@ Lines with a: 46, Lines with b: 23</code></pre><p>这样，一个简单的 spark
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -855,7 +862,7 @@ Lines with a: 46, Lines with b: 23</code></pre><p>这样，一个简单的 spark
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -892,25 +899,6 @@ Lines with a: 46, Lines with b: 23</code></pre><p>这样，一个简单的 spark
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -973,7 +961,7 @@ Lines with a: 46, Lines with b: 23</code></pre><p>这样，一个简单的 spark
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1027,7 +1015,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

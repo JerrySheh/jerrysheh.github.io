@@ -10,12 +10,12 @@
 <title>Java中的引用类型 - J.e</title>
 
 
-    <meta name="description" content="什么是引用类型引用类型（reference type）是一种基于类的数据类型。Java中，除去基本数据类型外，其它类型都是引用类型。包括Java提供的或者自己定义的class类。 当我们对某个对象声明一个变量的时候，例如 Ball b1 &#x3D; new Ball();变量 b1 事实上指向了这个对象的引用，而不是对象本身。 Ball b2 &#x3D; b1;b2 和 b1 都指向了 ball 类的同一个实例。">
+    <meta name="description" content="什么是引用类型引用类型（reference type）是一种基于类的数据类型。Java中，除去基本数据类型外，其它类型都是引用类型。包括Java提供的或者自己定义的class类。 当我们对某个对象声明一个变量的时候，例如 1Ball b1 &#x3D; new Ball();  变量 b1 事实上指向了这个对象的引用，而不是对象本身。 1Ball b2 &#x3D; b1;  b2 和 b1 都指">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java中的引用类型">
 <meta property="og:url" content="https://jerrysheh.me/post/ae9388fa.html">
 <meta property="og:site_name" content="J.e">
-<meta property="og:description" content="什么是引用类型引用类型（reference type）是一种基于类的数据类型。Java中，除去基本数据类型外，其它类型都是引用类型。包括Java提供的或者自己定义的class类。 当我们对某个对象声明一个变量的时候，例如 Ball b1 &#x3D; new Ball();变量 b1 事实上指向了这个对象的引用，而不是对象本身。 Ball b2 &#x3D; b1;b2 和 b1 都指向了 ball 类的同一个实例。">
+<meta property="og:description" content="什么是引用类型引用类型（reference type）是一种基于类的数据类型。Java中，除去基本数据类型外，其它类型都是引用类型。包括Java提供的或者自己定义的class类。 当我们对某个对象声明一个变量的时候，例如 1Ball b1 &#x3D; new Ball();  变量 b1 事实上指向了这个对象的引用，而不是对象本身。 1Ball b2 &#x3D; b1;  b2 和 b1 都指">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2018-04-14T02:35:48.000Z">
@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -159,8 +159,12 @@
         <div class="content">
             <h1 id="什么是引用类型"><a href="#什么是引用类型" class="headerlink" title="什么是引用类型"></a>什么是引用类型</h1><p><code>引用类型（reference type）</code>是一种基于类的数据类型。Java中，除去基本数据类型外，其它类型都是引用类型。包括Java提供的或者自己定义的class类。</p>
 <p>当我们对某个对象声明一个变量的时候，例如</p>
-<pre><code>Ball b1 = new Ball();</code></pre><p>变量 b1 事实上指向了这个对象的引用，而不是对象本身。</p>
-<pre><code>Ball b2 = b1;</code></pre><p>b2 和 b1 都指向了 ball 类的同一个实例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Ball b1 &#x3D; new Ball();</span><br></pre></td></tr></table></figure>
+
+<p>变量 b1 事实上指向了这个对象的引用，而不是对象本身。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Ball b2 &#x3D; b1;</span><br></pre></td></tr></table></figure>
+
+<p>b2 和 b1 都指向了 ball 类的同一个实例。</p>
 <p>Java中有四种引用：</p>
 <ul>
 <li>强引用（Strong Reference）</li>
@@ -173,15 +177,11 @@
 <hr>
 <h1 id="强引用（Strong-Reference）"><a href="#强引用（Strong-Reference）" class="headerlink" title="强引用（Strong Reference）"></a>强引用（Strong Reference）</h1><p>如果一个对象具有强引用，那垃圾回收器(GC)绝不会回收它。</p>
 <p>比如上面 Ball 的例子，就是一个强引用。</p>
-<pre><code>Ball b1 = new Ball();</code></pre><p>当内存空间不足，Java虚拟机宁愿抛出OutOfMemoryError错误，使程序异常终止，也不会靠随意回收具有强引用的对象来解决内存不足的问题。如果不使用时，可以通过 <code>b1=null;</code>的方式来弱化引用，帮助GC回收对象。</p>
-<h2 id="ArrayList-中的强引用"><a href="#ArrayList-中的强引用" class="headerlink" title="ArrayList 中的强引用"></a>ArrayList 中的强引用</h2><pre><code class="java">private transient Object[] elementData;
-public void clear() {
-        modCount++;
-        // Let gc do its work
-        for (int i = 0; i &lt; size; i++)
-            elementData[i] = null;
-        size = 0;
-}</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Ball b1 &#x3D; new Ball();</span><br></pre></td></tr></table></figure>
+
+<p>当内存空间不足，Java虚拟机宁愿抛出OutOfMemoryError错误，使程序异常终止，也不会靠随意回收具有强引用的对象来解决内存不足的问题。如果不使用时，可以通过 <code>b1=null;</code>的方式来弱化引用，帮助GC回收对象。</p>
+<h2 id="ArrayList-中的强引用"><a href="#ArrayList-中的强引用" class="headerlink" title="ArrayList 中的强引用"></a>ArrayList 中的强引用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> Object[] elementData;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        modCount++;</span><br><span class="line">        <span class="comment">// Let gc do its work</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++)</span><br><span class="line">            elementData[i] = <span class="keyword">null</span>;</span><br><span class="line">        size = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>可以看到，<code>clear()</code>方法不是直接对 elementData 置空，而是对elementData[i] 置空，这样elementData就不会被 GC 回收，避免在后续调用 add()等方法添加元素时进行重新的内存分配。</p>
 <hr>
 <h1 id="软引用（Soft-Reference）"><a href="#软引用（Soft-Reference）" class="headerlink" title="软引用（Soft Reference）"></a>软引用（Soft Reference）</h1><p>如果一个对象只具有软引用，则内存空间足够，垃圾回收器就不会回收它；如果内存空间不足了，就会回收这些对象的内存。</p>
@@ -189,30 +189,15 @@ public void clear() {
 <blockquote>
 <p>软引用可以和一个引用队列（ReferenceQueue）联合使用，如果软引用所引用的对象被垃圾回收器回收，Java虚拟机就会把这个软引用加入到与之关联的引用队列中。</p>
 </blockquote>
-<pre><code class="java">// 强引用
-String str=new String(&quot;abc&quot;);       
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 强引用</span></span><br><span class="line">String str=<span class="keyword">new</span> String(<span class="string">"abc"</span>);       </span><br><span class="line"></span><br><span class="line"><span class="comment">// 软引用</span></span><br><span class="line">SoftReference&lt;String&gt; softRef=<span class="keyword">new</span> SoftReference&lt;String&gt;(str);</span><br></pre></td></tr></table></figure>
 
-// 软引用
-SoftReference&lt;String&gt; softRef=new SoftReference&lt;String&gt;(str);   </code></pre>
 <p>软引用在网页中的应用:</p>
 <ul>
 <li>如果一个网页在浏览结束时就进行内容的回收，则按后退查看前面浏览过的页面时，需要重新构建</li>
 <li>如果将浏览过的网页存储到内存中会造成内存的大量浪费，甚至会造成内存溢出<br>这时候就可以使用软引用</li>
 </ul>
-<pre><code class="java">// 获取页面进行浏览
-Browser prev = new Browser();               
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取页面进行浏览</span></span><br><span class="line">Browser prev = <span class="keyword">new</span> Browser();               </span><br><span class="line"></span><br><span class="line"> <span class="comment">// 浏览完毕后置为软引用</span></span><br><span class="line">SoftReference sr = <span class="keyword">new</span> SoftReference(prev);   </span><br><span class="line"></span><br><span class="line"><span class="comment">// 还没有被回收器回收，直接获取</span></span><br><span class="line"><span class="keyword">if</span>(sr.get()!=<span class="keyword">null</span>)&#123;</span><br><span class="line">    rev = (Browser) sr.get();           </span><br><span class="line">&#125;<span class="keyword">else</span>&#123; <span class="comment">// 由于内存吃紧，所以对软引用的对象回收了</span></span><br><span class="line">    prev = <span class="keyword">new</span> Browser();               </span><br><span class="line">    sr = <span class="keyword">new</span> SoftReference(prev);  <span class="comment">// 那么就重新构建</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
- // 浏览完毕后置为软引用
-SoftReference sr = new SoftReference(prev);   
-
-// 还没有被回收器回收，直接获取
-if(sr.get()!=null){
-    rev = (Browser) sr.get();           
-}else{ // 由于内存吃紧，所以对软引用的对象回收了
-    prev = new Browser();               
-    sr = new SoftReference(prev);  // 那么就重新构建
-}
-</code></pre>
 <hr>
 <h1 id="弱引用（Weak-Reference）"><a href="#弱引用（Weak-Reference）" class="headerlink" title="弱引用（Weak Reference）"></a>弱引用（Weak Reference）</h1><p>弱引用与软引用的区别在于：</p>
 <ul>
@@ -222,19 +207,15 @@ if(sr.get()!=null){
 <blockquote>
 <p>弱引用可以和一个引用队列（ReferenceQueue）联合使用，如果弱引用所引用的对象被垃圾回收，Java虚拟机就会把这个弱引用加入到与之关联的引用队列中。</p>
 </blockquote>
-<pre><code class="java">StringBuilder sb = new StringBuilder();
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"></span><br><span class="line">SoftReference&lt;StringBuilder&gt; sbSoftRef = <span class="keyword">new</span> SoftReference&lt;&gt;(sb);</span><br></pre></td></tr></table></figure>
 
-SoftReference&lt;StringBuilder&gt; sbSoftRef = new SoftReference&lt;&gt;(sb);</code></pre>
 <p>当你想引用一个对象，但是这个对象有自己的生命周期，你不想介入这个对象的生命周期，这时候你就是用弱引用。这个引用不会在对象的垃圾回收判断中产生任何附加的影响。</p>
 <p>比如说Thread中保存的ThreadLocal的全局映射，因为我们的Thread不想在 ThreadLocal 生命周期结束后还对其造成影响，所以应该使用弱引用，这个和缓存没有关系，只是为了防止内存泄漏所做的特殊操作。</p>
 <hr>
 <h1 id="虚引用（Phantom-Reference）"><a href="#虚引用（Phantom-Reference）" class="headerlink" title="虚引用（Phantom Reference）"></a>虚引用（Phantom Reference）</h1><p>虚引用主要用来跟踪对象被垃圾回收器回收的活动。</p>
 <p>虚引用与软引用和弱引用的一个区别在于：虚引用必须和引用队列 （ReferenceQueue）联合使用。当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会在回收对象的内存后，把这个虚引用加入到与之关联的引用队列中。也就是说，<strong>为一个对象设置虚引用的唯一目的是能在这个对象被收集器回收时受到一个系统通知</strong>。</p>
-<pre><code class="java">StringBuilder sb = new StringBuilder();
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"></span><br><span class="line">ReferenceQueue&lt;StringBuilder&gt; refQ = <span class="keyword">new</span> ReferenceQueue&lt;&gt;();</span><br><span class="line"></span><br><span class="line">PhantomReference&lt;StringBuilder&gt; sbPhantomRef = <span class="keyword">new</span> PhantomReference&lt;&gt;(sb, refQ);</span><br></pre></td></tr></table></figure>
 
-ReferenceQueue&lt;StringBuilder&gt; refQ = new ReferenceQueue&lt;&gt;();
-
-PhantomReference&lt;StringBuilder&gt; sbPhantomRef = new PhantomReference&lt;&gt;(sb, refQ);</code></pre>
 <p>程序可以通过判断引用队列中是否已经加入了虚引用，来了解被引用的对象是否被垃圾回收。<strong>如果程序发现某个虚引用已经被加入到引用队列，那么就可以在所引用的对象的内存回收后采取必要的行动。</strong></p>
 <p>如果引用队列中出现了你的虚引用，说明它已经被回收，那么你可以在其中做一些相关操作。</p>
 
@@ -325,7 +306,7 @@ PhantomReference&lt;StringBuilder&gt; sbPhantomRef = new PhantomReference&lt;&gt
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -337,7 +318,7 @@ PhantomReference&lt;StringBuilder&gt; sbPhantomRef = new PhantomReference&lt;&gt
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -349,7 +330,7 @@ PhantomReference&lt;StringBuilder&gt; sbPhantomRef = new PhantomReference&lt;&gt
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -470,25 +451,25 @@ PhantomReference&lt;StringBuilder&gt; sbPhantomRef = new PhantomReference&lt;&gt
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -502,6 +483,14 @@ PhantomReference&lt;StringBuilder&gt; sbPhantomRef = new PhantomReference&lt;&gt
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -510,20 +499,20 @@ PhantomReference&lt;StringBuilder&gt; sbPhantomRef = new PhantomReference&lt;&gt
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -555,7 +544,7 @@ PhantomReference&lt;StringBuilder&gt; sbPhantomRef = new PhantomReference&lt;&gt
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -563,7 +552,15 @@ PhantomReference&lt;StringBuilder&gt; sbPhantomRef = new PhantomReference&lt;&gt
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -598,6 +595,25 @@ PhantomReference&lt;StringBuilder&gt; sbPhantomRef = new PhantomReference&lt;&gt
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -628,7 +644,7 @@ PhantomReference&lt;StringBuilder&gt; sbPhantomRef = new PhantomReference&lt;&gt
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -665,25 +681,6 @@ PhantomReference&lt;StringBuilder&gt; sbPhantomRef = new PhantomReference&lt;&gt
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -749,6 +746,25 @@ PhantomReference&lt;StringBuilder&gt; sbPhantomRef = new PhantomReference&lt;&gt
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -779,7 +795,7 @@ PhantomReference&lt;StringBuilder&gt; sbPhantomRef = new PhantomReference&lt;&gt
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -816,25 +832,6 @@ PhantomReference&lt;StringBuilder&gt; sbPhantomRef = new PhantomReference&lt;&gt
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -897,7 +894,7 @@ PhantomReference&lt;StringBuilder&gt; sbPhantomRef = new PhantomReference&lt;&gt
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -951,7 +948,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

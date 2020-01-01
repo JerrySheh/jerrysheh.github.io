@@ -38,7 +38,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -184,30 +184,44 @@
 <li>-Wall ：生成所有警告信息。</li>
 </ul>
 <hr>
-<h1 id="二、使用gcc把-mystrlen-编译成动态库-libmystrlen-so"><a href="#二、使用gcc把-mystrlen-编译成动态库-libmystrlen-so" class="headerlink" title="二、使用gcc把 mystrlen 编译成动态库 libmystrlen.so"></a>二、使用gcc把 mystrlen 编译成动态库 libmystrlen.so</h1><h2 id="1-把-mystrlen-c-编译成目标文件"><a href="#1-把-mystrlen-c-编译成目标文件" class="headerlink" title="1. 把 mystrlen.c 编译成目标文件"></a>1. 把 mystrlen.c 编译成目标文件</h2><pre><code>gcc -c mystrlen.c -o mystrlen.o</code></pre><p>在当前目录会生成 <code>mystrlen.o</code>文件</p>
-<h2 id="2-把目标文件编译成动态链接库"><a href="#2-把目标文件编译成动态链接库" class="headerlink" title="2. 把目标文件编译成动态链接库"></a>2. 把目标文件编译成动态链接库</h2><pre><code>gcc -shared -fPIC mystrlen.o -o libmystrlen.so</code></pre><p>在当前目录会生成 <code>libmystrlen.so</code>文件</p>
+<h1 id="二、使用gcc把-mystrlen-编译成动态库-libmystrlen-so"><a href="#二、使用gcc把-mystrlen-编译成动态库-libmystrlen-so" class="headerlink" title="二、使用gcc把 mystrlen 编译成动态库 libmystrlen.so"></a>二、使用gcc把 mystrlen 编译成动态库 libmystrlen.so</h1><h2 id="1-把-mystrlen-c-编译成目标文件"><a href="#1-把-mystrlen-c-编译成目标文件" class="headerlink" title="1. 把 mystrlen.c 编译成目标文件"></a>1. 把 mystrlen.c 编译成目标文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -c mystrlen.c -o mystrlen.o</span><br></pre></td></tr></table></figure>
+
+<p>在当前目录会生成 <code>mystrlen.o</code>文件</p>
+<h2 id="2-把目标文件编译成动态链接库"><a href="#2-把目标文件编译成动态链接库" class="headerlink" title="2. 把目标文件编译成动态链接库"></a>2. 把目标文件编译成动态链接库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -shared -fPIC mystrlen.o -o libmystrlen.so</span><br></pre></td></tr></table></figure>
+
+<p>在当前目录会生成 <code>libmystrlen.so</code>文件</p>
 <hr>
-<h1 id="三、使用gcc把-test-c-编译成可执行文件"><a href="#三、使用gcc把-test-c-编译成可执行文件" class="headerlink" title="三、使用gcc把 test.c 编译成可执行文件"></a>三、使用gcc把 test.c 编译成可执行文件</h1><h2 id="1-编译"><a href="#1-编译" class="headerlink" title="1.编译"></a>1.编译</h2><pre><code>gcc -L ./ test.c -lmystrlen -o test</code></pre><p>在当前目录会生成 <code>test</code>可执行文件</p>
-<h2 id="2-运行"><a href="#2-运行" class="headerlink" title="2.运行"></a>2.运行</h2><pre><code>./test</code></pre><p>程序里放了4个测试字符串，长度分别为0 3 10 26，如果匹配，则输出 pass</p>
+<h1 id="三、使用gcc把-test-c-编译成可执行文件"><a href="#三、使用gcc把-test-c-编译成可执行文件" class="headerlink" title="三、使用gcc把 test.c 编译成可执行文件"></a>三、使用gcc把 test.c 编译成可执行文件</h1><h2 id="1-编译"><a href="#1-编译" class="headerlink" title="1.编译"></a>1.编译</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -L .&#x2F; test.c -lmystrlen -o test</span><br></pre></td></tr></table></figure>
+
+<p>在当前目录会生成 <code>test</code>可执行文件</p>
+<h2 id="2-运行"><a href="#2-运行" class="headerlink" title="2.运行"></a>2.运行</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;test</span><br></pre></td></tr></table></figure>
+
+<p>程序里放了4个测试字符串，长度分别为0 3 10 26，如果匹配，则输出 pass</p>
 <p>输出结果：</p>
-<pre><code>data_0 pass [0]
-data_1 pass [3]
-data_2 pass [10]
-data_3 pass [26]</code></pre><p>值得注意的地方</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">data_0 pass [0]</span><br><span class="line">data_1 pass [3]</span><br><span class="line">data_2 pass [10]</span><br><span class="line">data_3 pass [26]</span><br></pre></td></tr></table></figure>
+
+<p>值得注意的地方</p>
 <ol>
 <li>我们的动态链接库文件名是<code>libmystrlen.so</code>，但在<code>-l</code>参数中，去掉lib和.so，只需要<code>mystrlen</code>就可以。 -l后面可以不用空格。</li>
 <li>在gcc编译的时候，如果文件a依赖于文件b，那么编译的时候必须把a放前面，b放后面。 所以， 命令中<code>test.c</code>一定要放在<code>-lmystrlen</code>前面。</li>
 </ol>
 <hr>
-<h1 id="三、可能出现的报错"><a href="#三、可能出现的报错" class="headerlink" title="三、可能出现的报错"></a>三、可能出现的报错</h1><h2 id="error-while-loading-shared-libraries"><a href="#error-while-loading-shared-libraries" class="headerlink" title="error while loading shared libraries"></a>error while loading shared libraries</h2><pre><code>jerrysheh@ubuntu:~/shiyan9$ ./test
-./test: error while loading shared libraries: libmystrlen.so: cannot open shared object file: No such file or directory
-</code></pre><p>这是因为程序运行时找不到我们自己的动态链接库文件，解决办法很简单：</p>
-<h3 id="1-打开配置文件-etc-ld-so-conf"><a href="#1-打开配置文件-etc-ld-so-conf" class="headerlink" title="1. 打开配置文件 /etc/ld.so.conf"></a>1. 打开配置文件 /etc/ld.so.conf</h3><pre><code>sudo vim /etc/ld.so.conf</code></pre><h3 id="2-在配置文件的最后追加一行你的库文件所在的路径即可"><a href="#2-在配置文件的最后追加一行你的库文件所在的路径即可" class="headerlink" title="2. 在配置文件的最后追加一行你的库文件所在的路径即可"></a>2. 在配置文件的最后追加一行你的库文件所在的路径即可</h3><p>编辑完后类似这样：</p>
-<pre><code>include /etc/ld.so.conf.d/*.conf
-/home/jerrysheh/shiyan9/
-</code></pre><h3 id="3-刷新配置文件"><a href="#3-刷新配置文件" class="headerlink" title="3. 刷新配置文件"></a>3. 刷新配置文件</h3><pre><code>sudo ldconfig</code></pre><h3 id="4-重新运行-test-程序"><a href="#4-重新运行-test-程序" class="headerlink" title="4. 重新运行 test 程序"></a>4. 重新运行 test 程序</h3><pre><code>./test</code></pre><h2 id="找不到头文件"><a href="#找不到头文件" class="headerlink" title="找不到头文件"></a>找不到头文件</h2><p>如果头文件跟 .c 文件不在同一目录，使用 <code>-I</code> 参数，指定头文件的路径即可</p>
+<h1 id="三、可能出现的报错"><a href="#三、可能出现的报错" class="headerlink" title="三、可能出现的报错"></a>三、可能出现的报错</h1><h2 id="error-while-loading-shared-libraries"><a href="#error-while-loading-shared-libraries" class="headerlink" title="error while loading shared libraries"></a>error while loading shared libraries</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jerrysheh@ubuntu:~&#x2F;shiyan9$ .&#x2F;test</span><br><span class="line">.&#x2F;test: error while loading shared libraries: libmystrlen.so: cannot open shared object file: No such file or directory</span><br></pre></td></tr></table></figure>
+
+<p>这是因为程序运行时找不到我们自己的动态链接库文件，解决办法很简单：</p>
+<h3 id="1-打开配置文件-etc-ld-so-conf"><a href="#1-打开配置文件-etc-ld-so-conf" class="headerlink" title="1. 打开配置文件 /etc/ld.so.conf"></a>1. 打开配置文件 /etc/ld.so.conf</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;ld.so.conf</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-在配置文件的最后追加一行你的库文件所在的路径即可"><a href="#2-在配置文件的最后追加一行你的库文件所在的路径即可" class="headerlink" title="2. 在配置文件的最后追加一行你的库文件所在的路径即可"></a>2. 在配置文件的最后追加一行你的库文件所在的路径即可</h3><p>编辑完后类似这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">include &#x2F;etc&#x2F;ld.so.conf.d&#x2F;*.conf</span><br><span class="line">&#x2F;home&#x2F;jerrysheh&#x2F;shiyan9&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-刷新配置文件"><a href="#3-刷新配置文件" class="headerlink" title="3. 刷新配置文件"></a>3. 刷新配置文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ldconfig</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-重新运行-test-程序"><a href="#4-重新运行-test-程序" class="headerlink" title="4. 重新运行 test 程序"></a>4. 重新运行 test 程序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;test</span><br></pre></td></tr></table></figure>
+
+<h2 id="找不到头文件"><a href="#找不到头文件" class="headerlink" title="找不到头文件"></a>找不到头文件</h2><p>如果头文件跟 .c 文件不在同一目录，使用 <code>-I</code> 参数，指定头文件的路径即可</p>
 <p>如头文件在 <code>/home/jerrysheh/shiyan9/include</code> 里面，只需要</p>
-<pre><code>gcc -I /home/jerrysheh/shiyan9/include -L ./ test.c -lmystrlen -o test</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -I &#x2F;home&#x2F;jerrysheh&#x2F;shiyan9&#x2F;include -L .&#x2F; test.c -lmystrlen -o test</span><br></pre></td></tr></table></figure>
+
         </div>
         
         <div class="level is-size-7 is-uppercase">
@@ -295,7 +309,7 @@ data_3 pass [26]</code></pre><p>值得注意的地方</p>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -307,7 +321,7 @@ data_3 pass [26]</code></pre><p>值得注意的地方</p>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -319,7 +333,7 @@ data_3 pass [26]</code></pre><p>值得注意的地方</p>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -472,25 +486,25 @@ data_3 pass [26]</code></pre><p>值得注意的地方</p>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -504,6 +518,14 @@ data_3 pass [26]</code></pre><p>值得注意的地方</p>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -512,20 +534,20 @@ data_3 pass [26]</code></pre><p>值得注意的地方</p>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -557,7 +579,7 @@ data_3 pass [26]</code></pre><p>值得注意的地方</p>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -565,7 +587,15 @@ data_3 pass [26]</code></pre><p>值得注意的地方</p>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -600,6 +630,25 @@ data_3 pass [26]</code></pre><p>值得注意的地方</p>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -630,7 +679,7 @@ data_3 pass [26]</code></pre><p>值得注意的地方</p>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -667,25 +716,6 @@ data_3 pass [26]</code></pre><p>值得注意的地方</p>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -751,6 +781,25 @@ data_3 pass [26]</code></pre><p>值得注意的地方</p>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -781,7 +830,7 @@ data_3 pass [26]</code></pre><p>值得注意的地方</p>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -818,25 +867,6 @@ data_3 pass [26]</code></pre><p>值得注意的地方</p>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -899,7 +929,7 @@ data_3 pass [26]</code></pre><p>值得注意的地方</p>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -953,7 +983,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

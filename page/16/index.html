@@ -34,7 +34,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -128,6 +128,175 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-01-29T09:19:39.000Z">2018-01-29</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    16 分钟 读完 (大约 2403 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/986c4cb5.html">Android笔记（三） Intent 和 Activity的生命周期、启动模式</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="Intent"><a href="#Intent" class="headerlink" title="Intent"></a>Intent</h1><p>Intent 是一个消息传递对象。它是 Android 程序中各组件之间进行交互的一种重要方式，它不仅可以指明当前组件想要执行的动作，还可以在不同组件之间传递数据。</p>
+<blockquote>
+<p>关键词： <strong>指明要执行的动作</strong>，<strong>传递数据</strong></p>
+</blockquote>
+<h2 id="Intent-的基本使用场景"><a href="#Intent-的基本使用场景" class="headerlink" title="Intent 的基本使用场景"></a>Intent 的基本使用场景</h2><ul>
+<li><p><strong>启动 Activity</strong>：<br>Activity 表示应用中的一个屏幕。通过将 Intent 传递给 <code>startActivity()</code>，您可以启动新的 Activity 实例。Intent 描述了要启动的 Activity，并携带了任何必要的数据。</p>
+<p>如果希望在 Activity 完成后收到结果，请调用 <code>startActivityForResult()</code>。在 Activity 的 <code>onActivityResult()</code> 回调中，您的 Activity 将结果作为单独的 Intent 对象接收。</p>
+</li>
+<li><p><strong>启动服务</strong>：<br>Service 是一个不使用用户界面而在后台执行操作的组件。通过将 Intent 传递给 <code>startService()</code>，您可以启动服务执行一次性操作（例如，下载文件）。Intent 描述了要启动的服务，并携带了任何必要的数据。</p>
+<p>如果服务旨在使用客户端-服务器接口，则通过将 Intent 传递给 <code>bindService()</code>，您可以从其他组件绑定到此服务。</p>
+</li>
+<li><p><strong>传递广播</strong>：<br>广播是任何应用均可接收的消息。系统将针对系统事件（例如：系统启动或设备开始充电时）传递各种广播。通过将 Intent 传递给 sendBroadcast()、sendOrderedBroadcast() 或 sendStickyBroadcast()，您可以将广播传递给其他应用。</p>
+</li>
+</ul>
+<p>参阅：<a href="https://developer.android.com/guide/components/intents-filters.html?hl=zh-cn">官方文档 - Intent 和 Intent 过滤器</a></p>
+<h2 id="使用显式Intent"><a href="#使用显式Intent" class="headerlink" title="使用显式Intent"></a>使用显式Intent</h2><p>显式 Intent 指的是明确地按名称（完全限定类名）指定要启动的组件。比如说，如果我们想在FirstActivity这个活动中打开SecondActivity，我们可以在FirstActivity中的一个按钮点击中调用<code>StartActivity</code>，传入intent对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Button buttonIntent = (Button) findViewById(R.id.button_intent);</span><br><span class="line">buttonIntent.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent(MainActivity.<span class="keyword">this</span>,SecondActivity<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        startActivity(intent);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>定义一个按钮</li>
+<li>在按钮点击事件中 new 一个 intent 对象</li>
+<li>调用 <code>startActivity</code>，传入 intent 对象</li>
+</ul>
+<h2 id="使用隐式Intent"><a href="#使用隐式Intent" class="headerlink" title="使用隐式Intent"></a>使用隐式Intent</h2><p>隐式 Intent 不会指定特定的组件，而是声明要执行的常规操作，从而允许其他应用中的组件来处理它。 例如，如需在地图上向用户显示位置，则可以使用隐式 Intent，请求另一具有此功能的应用在地图上显示指定的位置。</p>
+<p>创建隐式 Intent 时，Android 系统通过将 Intent 的内容与在设备上其他应用的清单文件中声明的 Intent 过滤器进行比较，从而找到要启动的相应组件。 如果 Intent 与 Intent 过滤器匹配，则系统将启动该组件，并向其传递 Intent 对象。 如果多个 Intent 过滤器兼容，则系统会显示一个对话框，支持用户选取要使用的应用。</p>
+<p>在AndroidManifest.xml中，把SecondActivity段修改如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".SecondActivity"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.jerrysheh.hello.ACTION_START"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"com.jerrysheh.hello.MY_CATEGORY"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在&lt;intent-filter&gt;中增添了<code>action</code>和<code>category</code>段，只有 action 和 category 同时匹配才能响应该Intent。每个Intent中只能指定一个action，但能指定多个category。</p>
+<ul>
+<li><strong>action</strong>：声明接受的 Intent 操作。</li>
+<li><strong>category</strong>：声明接受的 Intent 类别。</li>
+</ul>
+<blockquote>
+<p>除了<code>action</code>和<code>category</code>外，还有一个<code>data</code>，请参考<a href="https://developer.android.com/guide/components/intents-filters.html?hl=zh-cn">官方文档</a></p>
+</blockquote>
+<p>修改按钮点击事件， new Intent对象，因为我们想启动能到响应为<code>com.jerrysheh.hello.ACTION_START</code>这个action的活动，因此参数填入<code>com.jerrysheh.hello.ACTION_START</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Button buttonIntent = (Button) findViewById(R.id.button_intent);</span><br><span class="line">buttonIntent.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent(<span class="string">"com.jerrysheh.hello.ACTION_START"</span>);</span><br><span class="line">        intent.addCategory(<span class="string">"com.jerrysheh.hello.MY_CATEGORY"</span>);</span><br><span class="line">        startActivity(intent);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>或者，可以这样写,利用<code>intent.setAction</code>方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Button buttonIntent = (Button) findViewById(R.id.button_intent);</span><br><span class="line">buttonIntent.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent();</span><br><span class="line">        intent.setAction(<span class="string">"com.jerrysheh.hello.ACTION_START"</span>);</span><br><span class="line">        intent.addCategory(<span class="string">"com.jerrysheh.hello.MY_CATEGORY"</span>);</span><br><span class="line">        startActivity(intent);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>如果intent.addCategory指定的Category没有一个活动能够匹配，那么程序会抛出异常。稍作修改，用<code>resolveActivity()</code>方法来判断是否有应用能响应。假设没有活动匹配，就不启动<code>startActivity()</code>;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Button buttonIntent = (Button) findViewById(R.id.button_intent);</span><br><span class="line">buttonIntent.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent(<span class="string">"com.jerrysheh.hello.ACTION_START"</span>);</span><br><span class="line">        intent.addCategory(<span class="string">"com.jerrysheh.hello.MY_CATEGORY"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (intent.resolveActivity(getPackageManager()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            startActivity(intent);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="Intent的更多用法"><a href="#Intent的更多用法" class="headerlink" title="Intent的更多用法"></a>Intent的更多用法</h1><h2 id="调用浏览器和拨号"><a href="#调用浏览器和拨号" class="headerlink" title="调用浏览器和拨号"></a>调用浏览器和拨号</h2><p>new 一个 Intnet 对象后， 用 <code>intent.setData(uri)</code> 方法可以调用其他程序</p>
+<p>比如调用浏览器打开 github</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent(<span class="string">"com.jerrysheh.hello.ACTION_START"</span>);</span><br><span class="line">intent.setData(Uri.parse(<span class="string">"https://www.github.com"</span>));</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+
+<p>调用系统拨号拨打10010</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent(Intent.ACTION_DIAL);</span><br><span class="line">intent.setData(Uri.parse(<span class="string">"tel:10010"</span>));</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+
+<p>可以在 AndroidManifest 的 &lt;intent - filter&gt;标签中配置 <data> 标签， 指定当前活动可以响应什么类型的数据。这样其他app响应这种数据的时候，Android系统会弹出选项，你的app会在可选列表里面</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".SecondActivity"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.jerrysheh.hello.ACTION_START"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">data</span> <span class="attr">android:schme</span>=<span class="string">"https"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">data</span> <span class="attr">android:host</span>=<span class="string">"www.zhihu.com"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这样, 你的app可以响应知乎网站的浏览器调用</p>
+<hr>
+<h1 id="使用Intent传递数据"><a href="#使用Intent传递数据" class="headerlink" title="使用Intent传递数据"></a>使用Intent传递数据</h1><h2 id="向下一个活动传递数据"><a href="#向下一个活动传递数据" class="headerlink" title="向下一个活动传递数据"></a>向下一个活动传递数据</h2><p>可以用 intent 的 putExtra 方法向下一个活动传递数据。核心思想是，把数据存在String里，通过intent参数传递给下一个活动，下一个活动启动后从intent取出。</p>
+<p>存放 (MainActivity.java)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String data = <span class="string">"this is data"</span></span><br><span class="line">Intent intent = <span class="keyword">new</span> Intent(<span class="string">"com.jerrysheh.hello.ACTION_START"</span>);</span><br><span class="line">intent.putExtra(Intent.EXTRA_TEXT, data);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+
+<p>取出 (SecondActivity.java)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = getIntent();</span><br><span class="line">String data = intent.getStringExtra(Intent.EXTRA_TEXT);</span><br></pre></td></tr></table></figure>
+
+<h2 id="返回数据给上一个活动"><a href="#返回数据给上一个活动" class="headerlink" title="返回数据给上一个活动"></a>返回数据给上一个活动</h2><p>Activity中有一个<code>StartActivityForResult()</code>方法用于启动一个活动，但期望活动销毁后（通常是按下返回键或调用<code>finish()</code>方法）返回一个结果给上一个活动。</p>
+<p>MainActivity.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent(MainActivity.<span class="keyword">this</span>,SecondActivity<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">StartActivityForResult(intent, <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>SecondActivity.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent();</span><br><span class="line">intent.putExtra(<span class="string">"data_return"</span>, <span class="string">"this is back data"</span>);</span><br><span class="line">setResult(RESULT_OK, intent);</span><br><span class="line">finish();</span><br></pre></td></tr></table></figure>
+
+<p>当然，返回数据后，会回调MainActivity的<code>onActivityResult()</code>方法，因此我们还需要重写这个方法拿到SecondActivity返回来的数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, Intent data)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">switch</span>(requestCode) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">    <span class="keyword">if</span> (requestCode == RESULT_OK) &#123;</span><br><span class="line">      String returnData = data.getStringExtra(<span class="string">"data_return"</span>);</span><br><span class="line">      ...</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用-intent-传递对象"><a href="#使用-intent-传递对象" class="headerlink" title="使用 intent 传递对象"></a>使用 intent 传递对象</h2><p>上面的 intent 只能传 String， 如果我们有一个 javabean 对象需要传递，怎么做呢？</p>
+<p>首先将实体类（bean）实现  Serializable 接口。<strong>注意:</strong> 如果 bean 里面嵌套了 bean，内部类也要声明为实现 Serializable 接口。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">bean</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a;</span><br><span class="line">    <span class="keyword">int</span> b;</span><br><span class="line">    String c;</span><br><span class="line">    Heybean d;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Heybean</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>传递 activity</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent(context, DetailActivity<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">intent.putExtra(<span class="string">"name"</span>,detailbean);</span><br><span class="line">context.startActivity(intent);</span><br></pre></td></tr></table></figure>
+
+<p>接收 activity</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Bean detailBean = (Bean) getIntent().getSerializableExtra(<span class="string">"name"</span>);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="Activity的生命周期"><a href="#Activity的生命周期" class="headerlink" title="Activity的生命周期"></a>Activity的生命周期</h1><p>Android 用 任务（Task）来管理活动，一个Task就是一组存放在返回栈（Back Stack）里的活动的集合。系统总是会显示处于栈顶的活动给用户。</p>
+<h2 id="Activity的四种状态"><a href="#Activity的四种状态" class="headerlink" title="Activity的四种状态"></a>Activity的四种状态</h2><ul>
+<li>运行状态</li>
+<li>暂停状态（弹出式卡片，背景活动就是暂停状态）</li>
+<li>停止状态</li>
+<li>销毁状态</li>
+</ul>
+<h2 id="Activity的生存期"><a href="#Activity的生存期" class="headerlink" title="Activity的生存期"></a>Activity的生存期</h2><p><img src="../../../../images/Learn_Android/activity_lifecycle.png" alt="Toast"></p>
+<ul>
+<li><p>完整生存期<br>活动在<code>onCraete()</code>和<code>onDestroy()</code>之间经历的，就是一个完整生存期。</p>
+</li>
+<li><p>可见生存期<br>活动在<code>onStart()</code>和<code>onStop()</code>之间经历的，就是一个可见生存期。onStart()方法在活动从不可见变为可见时调用，onStop()反之。</p>
+</li>
+<li><p>前台生存期<br>活动在<code>onResume()</code>和<code>onPause()</code>之间经历的，就是一个前台生存期。onResume()方法在活动准备好和用户交互时调用。当系统准备去启动或恢复另一个活动时，onPause()将当前活动一些消耗CPU的资源释放，同时保存关键数据。</p>
+</li>
+</ul>
+<p>此外，还有一个<code>onRestart()</code>，用于活动从停止状态变为运行状态之前调用，也就是活动被重新启动。</p>
+<blockquote>
+<p>当系统内存不足时，用户按下back键返回到上一个Activity，有可能上一个Activity已经被系统回收，这时不会执行<code>onRestart()</code>，而是执行<code>onCreate()</code>。遇到这种情况，如果上一个Activity有数据，那这些数据都丢失了，这是很影响用户体验的。解决办法是调用<code>onSaveInstantState()</code>回调方法。具体参见《第一行代码》第二版p62，以及<a href="https://developer.android.com/guide/components/activities.html?hl=zh-cn#Creating">Activity Google官方文档</a>（推荐）</p>
+</blockquote>
+<h2 id="Activity的启动模式"><a href="#Activity的启动模式" class="headerlink" title="Activity的启动模式"></a>Activity的启动模式</h2><p>Activity有四种启动模式，可以在 AndroidManifest.xml 的 <activity> 标签中修改</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">  <span class="attr">android:name</span>=<span class="string">".SecondActivity"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">android:launchMode</span>=<span class="string">"singleTop"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.jerrysheh.hello.ACTION_START"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>android:launchMode</code>可填以下四种模式</p>
+<ul>
+<li><p>standard</p>
+<p>标准模式，在MainActivity中启动MainActivity，会重复创建MainActivity的新实例。如创建了3个MainActivity的实例，需要按3次返回键才能完全退出。</p>
+</li>
+<li><p>singleTop</p>
+<p>如果MainActivity已经在栈顶，启动MainActivity则不会重复创建新实例。但MainActivity不在栈顶，还是会创建新实例。</p>
+</li>
+<li><p>singleTask</p>
+<p>无论MainActivity是否在栈顶，在整个应用程序上下文中只存在一个MainActivity实例。</p>
+</li>
+<li><p>singleInstance</p>
+<p>单独创建一个返回栈存放该实例。解决不同应用共享一个返回栈的问题。</p>
+</li>
+</ul>
+<p>  参考：<a href="https://developer.android.com/guide/components/tasks-and-back-stack.html?hl=zh-cn">Google官方文档</a></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2018-01-25T06:52:06.000Z">2018-01-25</time>
                 
                 <div class="level-item">
@@ -157,17 +326,7 @@
 <p>参阅<a href="https://developer.android.com/guide/components/activities.html?hl=zh-cn#Creating">Activity Google官方文档</a></p>
 <hr>
 <h1 id="布局-XML"><a href="#布局-XML" class="headerlink" title="布局 XML"></a>布局 XML</h1><p>Android 项目中的布局在 res/layouts 目录下的 XML 文件编写。</p>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><pre><code class="xml">&lt;TextView
-    android:id=&quot;@+id/hello&quot;
-    android:layout_width=&quot;wrap_content&quot;
-    android:layout_height=&quot;wrap_content&quot;
-    android:text=&quot;Hello World!&quot;  /&gt;
-
-&lt;Button
-    android:id=&quot;@+id/button&quot;
-    android:layout_width=&quot;wrap_content&quot;
-    android:layout_height=&quot;wrap_content&quot;
-    android:text=&quot;确定&quot;/&gt;</code></pre>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:id</span>=<span class="string">"@+id/hello"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:text</span>=<span class="string">"Hello World!"</span>  /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:id</span>=<span class="string">"@+id/button"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:text</span>=<span class="string">"确定"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
         </div>
         
         
@@ -221,19 +380,8 @@
         </h1>
         <div class="content">
             <h1 id="什么是泛型类"><a href="#什么是泛型类" class="headerlink" title="什么是泛型类"></a>什么是泛型类</h1><p>假设我们现在有一个存储字符串字典键值对的类，就像这样</p>
-<pre><code class="Java">public class Entry {
-    private int key;
-    private String value;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> key;</span><br><span class="line">    <span class="keyword">private</span> String value;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构造函数：int 类型的 key， String 类型的 value</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Entry</span><span class="params">(<span class="keyword">int</span> key, String value)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.key = key;</span><br><span class="line">      <span class="keyword">this</span>.value = value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getKey</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> key; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getValue</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> value; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 构造函数：int 类型的 key， String 类型的 value
-    public Entry(int key, String value) {
-      this.key = key;
-      this.value = value;
-    }
-
-    public int getKey() { return key; }
-    public String getValue() { return value; }
-}</code></pre>
 <p>在这个类中，我们用 int 类型来存储 key 值， 用 String 类型来存储 value 值。</p>
 <p>现在，老板要求，除了 int 类型的 key 和 String 类型的 value之外，还得提供其他类型的 key 和 value 。 比如 double 类型的 key， boolean 类型的value。</p>
 <p>我们不可能写很多个相似的类，只是换一下类型。8种基本数据类型或许可以这么干，但是存储的是抽象数据类型呢？我们不可能所有类型都写一个对应的类。</p>
@@ -293,14 +441,8 @@
         <div class="content">
             <h1 id="什么是继承"><a href="#什么是继承" class="headerlink" title="什么是继承"></a>什么是继承</h1><p>继承是在现有的类的基础上创建新类的过程。继承一个类，你也就重用了它的方法，而且还可以添加新的方法和域。</p>
 <p>举个例子：员工有薪水，管理者有薪水+奖金， 管理者继承员工，增加 bounus 字段和 setBonus 方法即可。这种情况就是管理者类继承了员工类。</p>
-<pre><code class="Java">public class Manager extends Employee {
-  private double bonus;
-  ...
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Manager</span> <span class="keyword">extends</span> <span class="title">Employee</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">double</span> bonus;</span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBonus</span> <span class="params">(<span class="keyword">double</span> bouns)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.bonus = bonus;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  public void setBonus (double bouns) {
-    this.bonus = bonus;
-  }
-}</code></pre>
 <p><code>Manager</code>类继承了<code>Employee</code>类，除了获得Employee类的变量和方法外，还额外添加了bonus变量和setBonus方法。</p>
         </div>
         
@@ -451,11 +593,8 @@
         </h1>
         <div class="content">
             <h1 id="什么是接口"><a href="#什么是接口" class="headerlink" title="什么是接口"></a>什么是接口</h1><p>假设有一种整数序列服务，这种服务可以计算前n个整数的平均值。就像这样：</p>
-<pre><code class="Java">public static double average(IntSequence seq, int n){
-  ...
-  return average
-}
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> <span class="title">average</span><span class="params">(IntSequence seq, <span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">return</span> average</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>我们传入一个序列seq，以及我们想计算这个序列的前n个数，它返回平均数。</p>
 <p>然而，这样的序列可以有很多种形式，比如用户给出的序列、随机数序列、素数序列、整数数组中的元素序列……</p>
 <p>现在，我们想实现一种单一机制，来处理所有的这些序列。要做到这一点，就得考虑上面序列的共性。</p>
@@ -465,20 +604,11 @@
 <li>获得下一个元素</li>
 </ol>
 <p>我们暂时不去想这两个方法具体怎么实现，只是知道需要有这两个方法。于是，我们的average计算平均数服务可以是这样：</p>
-<pre><code class="Java">public static double average(IntSequence seq, int n) {
-  int count = 0;
-  double sum = 0;
-  while (seq.hasNext() &amp;&amp; count &lt; n){
-    count ++;
-    sum += seq.next();
-  }
-  return count == 0 ? 0 : sum / count;
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> <span class="title">average</span><span class="params">(IntSequence seq, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">double</span> sum = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">while</span> (seq.hasNext() &amp;&amp; count &lt; n)&#123;</span><br><span class="line">    count ++;</span><br><span class="line">    sum += seq.next();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> count == <span class="number">0</span> ? <span class="number">0</span> : sum / count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>在Java中，我们把这两种方法声明出来，但不实现，这就是接口了。</p>
-<pre><code class="Java">public interface IntSequence{
-  boolean hasNext();
-  int next();
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IntSequence</span></span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">int</span> <span class="title">next</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>接口中所有的方法默认为public</li>
 </ul>
@@ -592,10 +722,12 @@
         </h1>
         <div class="content">
             <h1 id="Java-创建对象的过程"><a href="#Java-创建对象的过程" class="headerlink" title="Java 创建对象的过程"></a>Java 创建对象的过程</h1><p>当我们实例化一个对象时，例如：</p>
-<pre><code class="java">Person p = new Person();</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Person p = <span class="keyword">new</span> Person();</span><br></pre></td></tr></table></figure>
+
 <p>Java首先会在堆中开辟一块内存空间用来存放这个新的 Person 对象，然后在栈中创建一个引用 p ， p 指向堆中的 Person 对象。这样，我们通过 p 就能找到 Person 的内存地址。</p>
 <p>之后，我们执行：</p>
-<pre><code class="java">Person p2 = p;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Person p2 = p;</span><br></pre></td></tr></table></figure>
+
 <p>我们创建了一个新的引用 p2， p2 跟 p 一样，都是保存在栈中，也指向了 Person 对象。当我们改变 p2 的状态， p 也会跟着改变，因为他们指向同一个对象。</p>
 <p><img src="../../../../images/Java/newperson.png" alt="new"></p>
 <hr>
@@ -614,61 +746,24 @@
 <li>子类构造方法</li>
 </ol>
 <p>注意：如果 main 在该类下，JVM 先加载类，然后才会执行 main() 方法</p>
-<h2 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h2><pre><code class="java">public class Go {
+<h2 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Go</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(<span class="string">"blockA"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"blockB"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    {
-        System.out.println(&quot;blockA&quot;);
-    }
-
-    static {
-        System.out.println(&quot;blockB&quot;);
-    }
-
-    public static void main(String[] args) {
-
-    }
-}</code></pre>
 <p>输出结果：</p>
-<pre><code>blockB</code></pre><p>main方法什么都不做，但是当我们执行时这个空的main方法，Go类会被JVM加载，因此输出静态块 <code>blockB</code>。</p>
-<h2 id="示例二"><a href="#示例二" class="headerlink" title="示例二"></a>示例二</h2><pre><code class="java">public class Go {
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">blockB</span><br></pre></td></tr></table></figure>
 
-    public static Go t1 = new Go();
+<p>main方法什么都不做，但是当我们执行时这个空的main方法，Go类会被JVM加载，因此输出静态块 <code>blockB</code>。</p>
+<h2 id="示例二"><a href="#示例二" class="headerlink" title="示例二"></a>示例二</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Go</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Go t1 = <span class="keyword">new</span> Go();</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(<span class="string">"blockA"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"blockB"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    {
-        System.out.println(&quot;blockA&quot;);
-    }
-
-    static {
-        System.out.println(&quot;blockB&quot;);
-    }
-
-    public static void main(String[] args) {
-
-    }
-}</code></pre>
 <p>输出:</p>
-<pre><code>blockA
-blockB</code></pre><p>main()依然什么都不做，但是在JVM加载Go类时（只会加载一次），第一行 new 一个新的 Go 对象，new 的时候调用了构造快，因此输出 <code>blockA</code>，之后，Go类继续加载，执行静态块，输出 <code>blockB</code>。</p>
-<h2 id="示例三"><a href="#示例三" class="headerlink" title="示例三"></a>示例三</h2><pre><code class="java">public class Go {
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">blockA</span><br><span class="line">blockB</span><br></pre></td></tr></table></figure>
 
-    public static Go t1 = new Go();
+<p>main()依然什么都不做，但是在JVM加载Go类时（只会加载一次），第一行 new 一个新的 Go 对象，new 的时候调用了构造快，因此输出 <code>blockA</code>，之后，Go类继续加载，执行静态块，输出 <code>blockB</code>。</p>
+<h2 id="示例三"><a href="#示例三" class="headerlink" title="示例三"></a>示例三</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Go</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Go t1 = <span class="keyword">new</span> Go();</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(<span class="string">"blockA"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"blockB"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Go t2 = <span class="keyword">new</span> Go();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    {
-        System.out.println(&quot;blockA&quot;);
-    }
-
-    static {
-        System.out.println(&quot;blockB&quot;);
-    }
-
-    public static void main(String[] args) {
-        Go t2 = new Go();
-    }
-}</code></pre>
 <p>输出：</p>
-<pre><code>blockA
-blockB
-blockA</code></pre><p>JVM 加载 Go类 时（只会加载一次），第一行 new 一个新的 Go 对象，new 的时候调用了构造快，因此输出 <code>blockA</code>，之后，Go类继续加载，执行静态块，输出 <code>blockB</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">blockA</span><br><span class="line">blockB</span><br><span class="line">blockA</span><br></pre></td></tr></table></figure>
+
+<p>JVM 加载 Go类 时（只会加载一次），第一行 new 一个新的 Go 对象，new 的时候调用了构造快，因此输出 <code>blockA</code>，之后，Go类继续加载，执行静态块，输出 <code>blockB</code>。</p>
 <p>然后 main 方法执行，new 一个 Go，调用构造块，再次输出<code>blockA</code>。</p>
 <hr>
 <h1 id="面向对象的三个特征"><a href="#面向对象的三个特征" class="headerlink" title="面向对象的三个特征"></a>面向对象的三个特征</h1><p>面向对象的三个特征分别是：<strong>封装</strong>、<strong>继承</strong>、<strong>多态</strong>，如果还有的话，<strong>抽象</strong> 也算一个。</p>
@@ -688,31 +783,18 @@ blockA</code></pre><p>JVM 加载 Go类 时（只会加载一次），第一行 n
 </ol>
 <h3 id="多态的例子"><a href="#多态的例子" class="headerlink" title="多态的例子"></a>多态的例子</h3><p>例如有 Cat 类继承了 Animal 类 ，并重写了 <code>eat()</code>、<code>sleep()</code> 方法(sleep是静态方法，不属于重写，但我们假设 Cat类 也定义了这个方法)，并增加了一个 Animal 没有的 <code>CatchMouse()</code> 方法。</p>
 <p>在测试类中实例化：</p>
-<pre><code class="java">// 这个语句在堆内存中开辟了子类(Cat)的对象，并把栈内存中的父类(Animal)引用指向了这个 Cat 对象
-Animal am = new Cat();
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这个语句在堆内存中开辟了子类(Cat)的对象，并把栈内存中的父类(Animal)引用指向了这个 Cat 对象</span></span><br><span class="line">Animal am = <span class="keyword">new</span> Cat();</span><br><span class="line"></span><br><span class="line"><span class="comment">//调用实例方法，调的是 Cat 的方法</span></span><br><span class="line">am.eat();</span><br><span class="line"></span><br><span class="line"><span class="comment">//调用静态方法，调的是 Animal 的方法</span></span><br><span class="line">am.sleep(); <span class="comment">// 不建议</span></span><br><span class="line"></span><br><span class="line">Animal.sleep(); <span class="comment">// 建议</span></span><br></pre></td></tr></table></figure>
 
-//调用实例方法，调的是 Cat 的方法
-am.eat();
-
-//调用静态方法，调的是 Animal 的方法
-am.sleep(); // 不建议
-
-Animal.sleep(); // 建议</code></pre>
 <p>可以发现，实例方法 <code>am.eat()</code> 输出的是 Cat 类重写后的方法，而静态方法<code>am.sleep()</code> 输出的是 Animal 类的方法（尽管 Cat 也写了同名的 sleep 方法，但这不算 Override，运行时不被识别）</p>
 <p><strong>扩展</strong>：有趣的是，当我们用对象实例去调用静态方法，如<code>am.sleep();</code>，IDEA会给我们一个提示：Static member ‘Test.Animal.sleep()’ accessed via instance reference 。意思是说，建议我们使用 <code>Animal.sleep()</code> 来调用静态方法而不要用 <code>am.sleep()</code>。此外，使用静态变量也应如此。</p>
 <h3 id="多态的弊端"><a href="#多态的弊端" class="headerlink" title="多态的弊端"></a>多态的弊端</h3><p>假如我们要执行父类没有而子类特有的<code>CatchMouse()</code>方法。</p>
-<pre><code class="java">Animal am = new Cat();
-am.CatchMouse();</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Animal am = <span class="keyword">new</span> Cat();</span><br><span class="line">am.CatchMouse();</span><br></pre></td></tr></table></figure>
+
 <p>结果却编译报错了。</p>
 <p>可见，多态 <strong>不能使用子类特有的成员属性和子类特有的成员方法。</strong></p>
 <p>那怎么办呢？ 这时候就要用到<code>向下转型</code>。可以使用<code>instanceof</code>操作符判断是不是我们需要的引用类型。</p>
-<pre><code class="java">Animal am = new Cat();
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Animal am = <span class="keyword">new</span> Cat();</span><br><span class="line"></span><br><span class="line"><span class="comment">//如果 am 可以向下转型为 Cat 类，则类型转换</span></span><br><span class="line"><span class="keyword">if</span> (am <span class="keyword">instanceof</span> Cat) &#123;</span><br><span class="line">    Cat ca = (Cat) am;</span><br><span class="line">    ca.CatchMouse();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-//如果 am 可以向下转型为 Cat 类，则类型转换
-if (am instanceof Cat) {
-    Cat ca = (Cat) am;
-    ca.CatchMouse();
-}</code></pre>
 <h3 id="为什么要使用多态？"><a href="#为什么要使用多态？" class="headerlink" title="为什么要使用多态？"></a>为什么要使用多态？</h3><p>当把不同的子类对象都当作父类类型来看，可以屏蔽不同子类对象之间的实现差异，从而写出通用的代码达到通用编程，以适应需求的不断变化。</p>
 <ul>
 <li>关于继承和多态，见另一篇：<a href="../post/2fJava80.html">Java简明笔记（四） 继承</a></li>
@@ -733,69 +815,29 @@ if (am instanceof Cat) {
 </ul>
 <hr>
 <h1 id="局部变量和类变量"><a href="#局部变量和类变量" class="headerlink" title="局部变量和类变量"></a>局部变量和类变量</h1><p>类中的变量可以不用初始化，使用相应类型的默认值即可，方法中的定义的局部变量必须初始化，否则调用的时候，会导致编译不通过。</p>
-<pre><code class="java">public class Main {
-    // 有默认值 0 和 0.0
-    public int i;
-    public static double d;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 有默认值 0 和 0.0</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> d;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 类中定义的变量可以直接使用</span></span><br><span class="line">        System.out.println(Main.d);</span><br><span class="line">        Main m = <span class="keyword">new</span> Main();</span><br><span class="line">        System.out.println(m.i);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 方法中定义的变量，必须赋初值，否则调用时编译报错</span></span><br><span class="line">        <span class="keyword">int</span> k;   <span class="comment">// 这一步是允许的</span></span><br><span class="line">        System.out.println(k); <span class="comment">// 报错</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    public static void main(String[] args) {
-        // 类中定义的变量可以直接使用
-        System.out.println(Main.d);
-        Main m = new Main();
-        System.out.println(m.i);
-
-        // 方法中定义的变量，必须赋初值，否则调用时编译报错
-        int k;   // 这一步是允许的
-        System.out.println(k); // 报错
-    }
-}</code></pre>
 <hr>
 <h1 id="this"><a href="#this" class="headerlink" title="this"></a>this</h1><h2 id="用于表示实例变量"><a href="#用于表示实例变量" class="headerlink" title="用于表示实例变量"></a>用于表示实例变量</h2><p>在对象上调用方法时，this引用 指向该对象。this 清晰地区分了局部变量和实例变量。带有this的是实例对象。</p>
-<pre><code class="Java">public void raiseSalary(double byPercent){
-  double raise = this.salary * byPercent / 100;
-  this.salary += raise;
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">raiseSalary</span><span class="params">(<span class="keyword">double</span> byPercent)</span></span>&#123;</span><br><span class="line">  <span class="keyword">double</span> raise = <span class="keyword">this</span>.salary * byPercent / <span class="number">100</span>;</span><br><span class="line">  <span class="keyword">this</span>.salary += raise;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>不想给参数起不同的名称时，也可使用this</p>
-<pre><code class="Java">public void setSalary(double salary){
-  this.salary = salary;
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSalary</span><span class="params">(<span class="keyword">double</span> salary)</span></span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.salary = salary;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="用于构造函数"><a href="#用于构造函数" class="headerlink" title="用于构造函数"></a>用于构造函数</h2><p>一个类可以有多个构造函数。一个构造函数可以调用另一个构造函数，用this。且只能写在第一行。</p>
-<pre><code class="java">public Employee (double salary){
-    // 调用另一个构造器
-    this(&quot;&quot;, salary);
-    // ...
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Employee</span> <span class="params">(<span class="keyword">double</span> salary)</span></span>&#123;</span><br><span class="line">    <span class="comment">// 调用另一个构造器</span></span><br><span class="line">    <span class="keyword">this</span>(<span class="string">""</span>, salary);</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="值传递"><a href="#值传递" class="headerlink" title="值传递"></a>值传递</h1><ul>
 <li>当你将对象传递给方法，方法获得该对象引用的拷贝。</li>
 <li>Java中，所有参数，对象引用以及基本类型值都是值传递。</li>
 </ul>
 <p>下面的例子无法工作，因为sales被复制进x,然后x增加，然而x只是局部变量，这并不更改sales</p>
-<pre><code class="Java">// 无法工作
-public void increaseRandomly(double x){
-  double amount = x * generator.nextDouble();
-  x += amount;
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 无法工作</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">increaseRandomly</span><span class="params">(<span class="keyword">double</span> x)</span></span>&#123;</span><br><span class="line">  <span class="keyword">double</span> amount = x * generator.nextDouble();</span><br><span class="line">  x += amount;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">boss.increaseRandomly(sales);</span><br></pre></td></tr></table></figure>
 
-boss.increaseRandomly(sales);</code></pre>
 <p>同样的，不可能写出一个方法将对象引用修改成其他东西。下面的例子中，引用fred被复制进变量e，在e被设置成不同的引用之前是会影响 fred 的，因为他们指向同一个内存区域，<strong>但是，在e设置成不同的引用之后就不再影响 fred</strong> 。</p>
-<pre><code class="Java">public class EvilManager{
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EvilManager</span></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// e 其实是 fred 的拷贝</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">replaceWithZombie</span><span class="params">(Employee e)</span></span>&#123;</span><br><span class="line">    <span class="comment">// 现在，e的 name 属性被设为 angle， fred的angle也会被设为angle</span></span><br><span class="line">    <span class="comment">// 因为 e 和 fred 虽然是不同的引用，但是他们指向了同一个内存区域</span></span><br><span class="line">    e.setName(<span class="string">"angle"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// e现在指向了一个新的 Employee ，跟 fred 没有任何关系了</span></span><br><span class="line">    <span class="comment">// e 往后的改变都不会影响 fred</span></span><br><span class="line">    e = <span class="keyword">new</span> Employee(<span class="string">""</span>,<span class="number">0</span>);</span><br><span class="line">    e.setName(<span class="string">"evil"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将 fred 传给方法</span></span><br><span class="line">boss.replaceWithZombie(fred);</span><br></pre></td></tr></table></figure>
 
-  // e 其实是 fred 的拷贝
-  public void replaceWithZombie(Employee e){
-    // 现在，e的 name 属性被设为 angle， fred的angle也会被设为angle
-    // 因为 e 和 fred 虽然是不同的引用，但是他们指向了同一个内存区域
-    e.setName(&quot;angle&quot;);
-
-    // e现在指向了一个新的 Employee ，跟 fred 没有任何关系了
-    // e 往后的改变都不会影响 fred
-    e = new Employee(&quot;&quot;,0);
-    e.setName(&quot;evil&quot;);
-  }
-}
-
-// 将 fred 传给方法
-boss.replaceWithZombie(fred);</code></pre>
 <hr>
 <h1 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h1><ul>
 <li>构造函数的名称与类名称相同。并且不返回任何类型！</li>
@@ -806,10 +848,8 @@ boss.replaceWithZombie(fred);</code></pre>
 <ul>
 <li>构造函数不能被static、final、synchronized、abstract、native修饰，但可以被public、private、protected修饰；</li>
 </ul>
-<pre><code class="Java">public Employee (double salary){
-  this (&quot;&quot;, salary);  //调用构造函数 Employee (String, salary)
-  //...                 //其他内容
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Employee</span> <span class="params">(<span class="keyword">double</span> salary)</span></span>&#123;</span><br><span class="line">  <span class="keyword">this</span> (<span class="string">""</span>, salary);  <span class="comment">//调用构造函数 Employee (String, salary)</span></span><br><span class="line">  <span class="comment">//...                 //其他内容</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>如果构造函数中没有设置实例变量的值，系统会自动设定：数字为0，boolean为False, 对象引用为null。</li>
 <li><strong>尽量不要忘记给对象引用初始化</strong>。假设我们没有在构造函数中将变量name设置为空字符串，那么当有人调用<code>getName</code>方法，如<code>if (e.getName().equals(&quot;Jerry&quot;))</code>，就会导致空指针异常。</li>
@@ -822,11 +862,8 @@ boss.replaceWithZombie(fred);</code></pre>
 <p>静态方法要调用实例方法前必须先 new 对象，但静态方法可以直接调用其他静态方法（包括其他类的静态方法）。</p>
 <h2 id="static变量（类变量）"><a href="#static变量（类变量）" class="headerlink" title="static变量（类变量）"></a>static变量（类变量）</h2><p>如果在类中将变量声明为static，那么该变量属于类，而不是属于对象，它在所有的实例中的值是一样的。<font color="red">注意：static静态变量只能在类主体中定义，不能在方法里面定义(无论是静态方法还是实例方法)</font></p>
 <p>像下面这样是错误的：</p>
-<pre><code class="java">public static void main(String[] args) {
-    // 错误，static不能用在方法里面
-    // 无论是静态方法还是实例方法都不可以
-    static int a = 10;
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 错误，static不能用在方法里面</span></span><br><span class="line">    <span class="comment">// 无论是静态方法还是实例方法都不可以</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="静态变量和实例变量的区别"><a href="#静态变量和实例变量的区别" class="headerlink" title="静态变量和实例变量的区别"></a>静态变量和实例变量的区别</h2><p>实例变量属于某个对象的属性，必须创建了实例对象，其中的实例变量才会被分配空间，才能使用这个实例变量。静态变量不属于某个实例对象，而是属于类，所以也称为类变量，只要程序加载了类的字节码，不用创建任何实例对象，静态变量就会被分配空间，静态变量就可以被使用了。</p>
 <p><strong>总之，实例变量必须创建对象后才可以通过这个对象来使用，静态变量则可以直接使用类名来引用。</strong></p>
 <h2 id="静态方法可以被-Override-吗？"><a href="#静态方法可以被-Override-吗？" class="headerlink" title="静态方法可以被 Override 吗？"></a>静态方法可以被 Override 吗？</h2><p>不能。因为 Override 是基于运行时动态绑定的，而 static 方法是编译时静态绑定的。static 方法跟类的任何实例都不相关。</p>
@@ -835,22 +872,15 @@ boss.replaceWithZombie(fred);</code></pre>
 <h1 id="final"><a href="#final" class="headerlink" title="final"></a>final</h1><h2 id="final-修饰类"><a href="#final-修饰类" class="headerlink" title="final 修饰类"></a>final 修饰类</h2><p>表示该类不能被继承。此时和 abstract 是反义词。</p>
 <h2 id="final-修饰方法"><a href="#final-修饰方法" class="headerlink" title="final 修饰方法"></a>final 修饰方法</h2><p>表示方法不能被 Override(覆盖)。</p>
 <h2 id="final-修饰变量"><a href="#final-修饰变量" class="headerlink" title="final 修饰变量"></a>final 修饰变量</h2><p>通常用 <code>static final</code> 表示常量，如:</p>
-<pre><code class="java"> public static final double PI = 3.14159265358979323846;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">double</span> PI = <span class="number">3.14159265358979323846</span>;</span><br></pre></td></tr></table></figure>
+
 <p><strong>注意</strong>：当使用可修改对象的引用时，fianl修饰符只是声明该引用永不改变。<font color="red">但修改对象自身是完全合法的。</font></p>
 <p>下面的例子中，ArrayList 集合里面具体的值可以修改，但 friends 这个引用不能改变，尤其是不能变成null。</p>
-<pre><code class="Java">public class Person{
-  private final ArrayList&lt;Person&gt; friends = new ArrayList&lt;&gt;();
-  //可以给该数组列表添加元素
-  ...
-}</code></pre>
-<p><strong>注意</strong>：当 final 变量作为类的成员变量时，必须显示初始化或者在构造函数中初始化。</p>
-<pre><code class="java">public class A{
-  // 允许，但是构造函数中必须初始化 i
-  final int i;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> ArrayList&lt;Person&gt; friends = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">  <span class="comment">//可以给该数组列表添加元素</span></span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  // 正确
-  final int j = 4;
-}</code></pre>
+<p><strong>注意</strong>：当 final 变量作为类的成员变量时，必须显示初始化或者在构造函数中初始化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line">  <span class="comment">// 允许，但是构造函数中必须初始化 i</span></span><br><span class="line">  <span class="keyword">final</span> <span class="keyword">int</span> i;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 正确</span></span><br><span class="line">  <span class="keyword">final</span> <span class="keyword">int</span> j = <span class="number">4</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="abstract"><a href="#abstract" class="headerlink" title="abstract"></a>abstract</h1><p>abstract指的是抽象，即没有实现，也不能被实例化。此外，接口属于特殊的 abstract 类，也是 abstract 类。</p>
 <h2 id="abstract-修饰类"><a href="#abstract-修饰类" class="headerlink" title="abstract 修饰类"></a>abstract 修饰类</h2><p>抽象类。抽象类中可以有抽象方法，也可以有实现方法。抽象类可以有 <code>private</code> 变量。但最好不要这么干。因为实现类继承了将会无法使用。</p>
@@ -865,42 +895,22 @@ boss.replaceWithZombie(fred);</code></pre>
 </ol>
 <h2 id="内部类简述"><a href="#内部类简述" class="headerlink" title="内部类简述"></a>内部类简述</h2><h3 id="成员内部类"><a href="#成员内部类" class="headerlink" title="成员内部类"></a>成员内部类</h3><p>即在类里面嵌套另一个类，内部类可以直接访问外部类 private 实例属性。也就是说，成员内部类可以无条件访问外部类的成员。</p>
 <p>实例化方法：</p>
-<pre><code>内部类名 实例名 = 外部类实例名.new 内部类名();</code></pre><h3 id="局部内部类"><a href="#局部内部类" class="headerlink" title="局部内部类"></a>局部内部类</h3><p>局部内部类是定义在一个方法或者一个作用域里面的类，它和成员内部类的区别在于局部内部类的访问仅限于方法内或者该作用域内。局部内部类就像是方法里面的一个局部变量一样，不能有public、protected、private 以及 static 修饰符。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">内部类名 实例名 &#x3D; 外部类实例名.new 内部类名();</span><br></pre></td></tr></table></figure>
+
+<h3 id="局部内部类"><a href="#局部内部类" class="headerlink" title="局部内部类"></a>局部内部类</h3><p>局部内部类是定义在一个方法或者一个作用域里面的类，它和成员内部类的区别在于局部内部类的访问仅限于方法内或者该作用域内。局部内部类就像是方法里面的一个局部变量一样，不能有public、protected、private 以及 static 修饰符。</p>
 <h3 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h3><p>与非静态内部类不同，静态内部类的实例化 不需要一个外部类的实例为基础，可以直接实例化。</p>
 <p>只有静态内部类才可以声明静态方法。静态方法不可以使用非静态变量。</p>
 <p>实例化方法：</p>
-<pre><code>内部类名 实例名 = new 内部类名();</code></pre><h3 id="匿名类"><a href="#匿名类" class="headerlink" title="匿名类"></a>匿名类</h3><p>通常情况下，要使用一个接口或者抽象类，都必须创建一个子类，有的时候，为了快速使用，直接实例化一个抽象类，并“当场”实现其抽象方法。这就是匿名类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">内部类名 实例名 &#x3D; new 内部类名();</span><br></pre></td></tr></table></figure>
+
+<h3 id="匿名类"><a href="#匿名类" class="headerlink" title="匿名类"></a>匿名类</h3><p>通常情况下，要使用一个接口或者抽象类，都必须创建一个子类，有的时候，为了快速使用，直接实例化一个抽象类，并“当场”实现其抽象方法。这就是匿名类。</p>
 <p>简单地说，匿名类就是声明一个类的同时实例化它。</p>
 <ul>
 <li>匿名类可以用 lambda 表达式替代。</li>
 <li>在匿名类中使用外部的局部变量，外部的局部变量必须修饰为final （但 jdk 1.8 以后不用声明为 final， jdk 会为你加）</li>
 </ul>
-<pre><code class="java">class jump implements Runnable {
-    public void run(){
-        System.out.println(&quot;jump now&quot;);
-    }
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">jump</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"jump now"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//不使用匿名类</span></span><br><span class="line">        Runnable r = <span class="keyword">new</span> jump();</span><br><span class="line">        Thread t1 = <span class="keyword">new</span> Thread(r);</span><br><span class="line">        t1.start();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//使用匿名类</span></span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"swim now"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//使用 lambda 表达式</span></span><br><span class="line">        <span class="keyword">new</span> Thread( () -&gt; System.out.println(<span class="string">"go away now"</span>)).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-public class test {
-    public static void main(String[] args) {
-        //不使用匿名类
-        Runnable r = new jump();
-        Thread t1 = new Thread(r);
-        t1.start();
-
-        //使用匿名类
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println(&quot;swim now&quot;);
-            }
-        }).start();
-
-        //使用 lambda 表达式
-        new Thread( () -&gt; System.out.println(&quot;go away now&quot;)).start();
-    }
-}
-</code></pre>
 <h2 id="为什么使用内部类-？"><a href="#为什么使用内部类-？" class="headerlink" title="为什么使用内部类 ？"></a>为什么使用内部类 ？</h2><ol>
 <li>每个内部类都能独立的继承一个接口的实现，所以无论外部类是否已经继承了某个(接口的)实现，对于内部类都没有影响。内部类使得多继承的解决方案变得完整。</li>
 <li>方便将存在一定逻辑关系的类组织在一起，又可以对外界隐藏。</li>
@@ -913,10 +923,12 @@ public class test {
 <li>Outter$Inner.class</li>
 </ol>
 <p>在 Outter$Inner.class 文件中，可以找到：</p>
-<pre><code class="java">final com.jerrysheh.Outter this$0;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> com.jerrysheh.Outter <span class="keyword">this</span>$<span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
 <p>也就是说，编译器会默认 <font color="red">为成员内部类添加了一个指向外部类对象的引用</font></p>
 <p>那么这个引用如何赋初值呢？看一下构造器：</p>
-<pre><code class="java">public com.jerrysheh.Outter$Inner(com.jerrysheh.Outter);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> com.jerrysheh.Outter$Inner(com.jerrysheh.Outter);</span><br></pre></td></tr></table></figure>
+
 <p>也就是说，<font color="red">内部类对象被构造的时候，自动传入了一个外部类对象的引用，因此可以在成员内部类中随意访问外部类的成员。</font></p>
 <h2 id="为什么局部内部类和匿名内部类只能访问局部final变量？"><a href="#为什么局部内部类和匿名内部类只能访问局部final变量？" class="headerlink" title="为什么局部内部类和匿名内部类只能访问局部final变量？"></a>为什么局部内部类和匿名内部类只能访问局部final变量？</h2><p>方法 A 中定义了局部内部类 B，当 方法A 执行完毕，已经结束作用域，如果内部类 B 的方法（可能由另一个线程执行）还没结束，但由于 A 结束作用域，方法 A 的变量 a 会不可访问。为了解决这一问题， Java 采用了 <strong>复制</strong> 的手段，即把方法 A 的变量 a 复制一份到内部类 B 的常量池。</p>
 <p>但是复制过后会产生不一致的问题，也就是内部类的方法修改了 a ， 但是外部类的 a 没有改变。</p>
@@ -927,36 +939,17 @@ public class test {
 <hr>
 <h1 id="枚举类的用法"><a href="#枚举类的用法" class="headerlink" title="枚举类的用法"></a>枚举类的用法</h1><p>枚举类有多少个实例，就会调用多少次构造方法。</p>
 <h2 id="例子一"><a href="#例子一" class="headerlink" title="例子一"></a>例子一</h2><p>定义了一个枚举类，成员 <code>KBMH(&quot;hello&quot;)</code> ，如果括号里面是 String 的话，下面相应的要定义一个 <code>String ID</code> 。</p>
-<pre><code class="java">public enum ComicTypeEnum {
-    KBMH(&quot;/category/weimanhua/kbmh&quot;),        // 恐怖漫画
-    GSMH(&quot;/category/weimanhua/gushimanhua&quot;),  // 故事漫画
-    QQMH(&quot;/category/weimanhua/qiqumanhua&quot;),   // 奇趣漫画
-    GXMH(&quot;/category/weimanhua/gaoxiaomanhua&quot;); // 搞笑漫画
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> ComicTypeEnum &#123;</span><br><span class="line">    KBMH(<span class="string">"/category/weimanhua/kbmh"</span>),        <span class="comment">// 恐怖漫画</span></span><br><span class="line">    GSMH(<span class="string">"/category/weimanhua/gushimanhua"</span>),  <span class="comment">// 故事漫画</span></span><br><span class="line">    QQMH(<span class="string">"/category/weimanhua/qiqumanhua"</span>),   <span class="comment">// 奇趣漫画</span></span><br><span class="line">    GXMH(<span class="string">"/category/weimanhua/gaoxiaomanhua"</span>); <span class="comment">// 搞笑漫画</span></span><br><span class="line"></span><br><span class="line">    String ID;</span><br><span class="line"></span><br><span class="line">    ComicTypeEnum(String ID)&#123;</span><br><span class="line">        <span class="keyword">this</span>.ID = ID;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getID</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ID;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    String ID;
-
-    ComicTypeEnum(String ID){
-        this.ID = ID;
-    }
-
-    public String getID() {
-        return ID;
-    }
-}</code></pre>
 <p>使用：</p>
-<pre><code class="java">String storyComic = ComicTypeEnum.GSMH.getID();</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String storyComic = ComicTypeEnum.GSMH.getID();</span><br></pre></td></tr></table></figure>
+
 <h2 id="例子二"><a href="#例子二" class="headerlink" title="例子二"></a>例子二</h2><p>定义枚举类型：</p>
-<pre><code class="java">enum Weekday {
-    MON,
-    TUE,
-    WED,
-    THU,
-    FRI,
-    SAT,
-    SUN
-};</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> Weekday &#123;</span><br><span class="line">    MON,</span><br><span class="line">    TUE,</span><br><span class="line">    WED,</span><br><span class="line">    THU,</span><br><span class="line">    FRI,</span><br><span class="line">    SAT,</span><br><span class="line">    SUN</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
 <p>使用：</p>
-<pre><code class="java">Weekday startDay = Weekday.MON;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Weekday startDay = Weekday.MON;</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="面向对象的五个基本原则"><a href="#面向对象的五个基本原则" class="headerlink" title="面向对象的五个基本原则"></a>面向对象的五个基本原则</h1><h2 id="单一职责原则（Single-Resposibility-Principle）"><a href="#单一职责原则（Single-Resposibility-Principle）" class="headerlink" title="单一职责原则（Single-Resposibility Principle）"></a>单一职责原则（Single-Resposibility Principle）</h2><p>一个类，最好只做一件事，只有一个引起它的变化。单一职责原则可以看做是低耦合、高内聚在面向对象原则上的引申，将职责定义为引起变化的原因，以提高内聚性来减少引起变化的原因。</p>
 <h2 id="开放封闭原则（Open-Closed-principle）"><a href="#开放封闭原则（Open-Closed-principle）" class="headerlink" title="开放封闭原则（Open-Closed principle）"></a>开放封闭原则（Open-Closed principle）</h2><p>软件实体应该是可扩展的，而不可修改的。也就是，对扩展开放，对修改封闭的。</p>
@@ -966,60 +959,6 @@ public class test {
 
         </div>
         
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-01-17T10:11:36.000Z">2018-01-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Python/">Python</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    14 分钟 读完 (大约 2038 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/d7517b3d.html">用Python查成绩(二) 获取成绩</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="前言碎语"><a href="#前言碎语" class="headerlink" title="前言碎语"></a>前言碎语</h1><p><a href="https://jerrysheh.github.io/post/567b287d.html">上一篇</a> 用Python的requests库伪装成浏览器，模拟登录了学校的教务系统。登录进去之后，就可以开始做我们想做的事啦！</p>
-<p>这一篇主要写写登录进去之后进入查询成绩页面，以及如何提取成绩信息。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/d7517b3d.html#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
         
         
     </div>
@@ -1106,7 +1045,7 @@ public class test {
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -1118,7 +1057,7 @@ public class test {
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -1130,7 +1069,7 @@ public class test {
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -1215,25 +1154,25 @@ public class test {
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -1247,6 +1186,14 @@ public class test {
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -1255,20 +1202,20 @@ public class test {
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -1300,7 +1247,7 @@ public class test {
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -1308,7 +1255,15 @@ public class test {
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -1343,6 +1298,25 @@ public class test {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1373,7 +1347,7 @@ public class test {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1410,25 +1384,6 @@ public class test {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1494,6 +1449,25 @@ public class test {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1524,7 +1498,7 @@ public class test {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1561,25 +1535,6 @@ public class test {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1642,7 +1597,7 @@ public class test {
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1696,7 +1651,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

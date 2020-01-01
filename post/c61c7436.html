@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -180,55 +180,13 @@
 
 <hr>
 <h1 id="顺序查找和二分查找"><a href="#顺序查找和二分查找" class="headerlink" title="顺序查找和二分查找"></a>顺序查找和二分查找</h1><h2 id="顺序查找"><a href="#顺序查找" class="headerlink" title="顺序查找"></a>顺序查找</h2><p>顺序查找，简单地说，就是遍历。从顺序表中逐个与目标值进行比对，直到找到匹配元素。</p>
-<pre><code class="java">public static int SequenceSearch(int[] arr, int key){
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">SequenceSearch</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> key)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; arr.Length; i++)&#123;</span><br><span class="line">      <span class="keyword">if</span> (arr[i] == key)&#123;</span><br><span class="line">          <span class="keyword">return</span> i;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  for (int i = 0; i &lt; arr.Length; i++){
-      if (arr[i] == key){
-          return i;
-      }
-  }
-  return -1;
-}</code></pre>
 <h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><p>先把一个序列 <strong>从小到大排序</strong>，取中间元素与目标值进行比对，如果中间元素比目标值大，就在中间点左半边继续取中间点，否则在右半边取中间点。</p>
 <p><img src="../../../../images/DataStructure/BinarySearch.png" alt="BinarySearch"></p>
-<pre><code class="java">import java.util.Arrays;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">binarySearch</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> low = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> high = arr.length -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> mid;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (low &lt;= high)&#123;</span><br><span class="line">            <span class="comment">// 每次调整后，中间值重新计算</span></span><br><span class="line">            mid = (low + high) / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 如果目标值大于中间值，将 low 调整到中间+1（下一次将查找右半边）</span></span><br><span class="line">            <span class="keyword">if</span> (target &gt; arr[mid]) low = mid + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 如果目标值小于中间值，将 high 调整到中间-1（下一次将查找左半边）</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (target &lt; arr[mid]) high = mid - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 如果目标值等于中间值，返回</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> mid;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 没有找到，返回 -1</span></span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 前提：数组一定要是有序</span></span><br><span class="line">        <span class="keyword">int</span>[] testArr = &#123;<span class="number">3</span>,<span class="number">4</span>,<span class="number">8</span>,<span class="number">10</span>,<span class="number">11</span>, <span class="number">66</span>, <span class="number">80</span>, <span class="number">128</span>&#125;;</span><br><span class="line"></span><br><span class="line">        System.out.println(Arrays.toString(testArr));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> result = binarySearch(testArr, <span class="number">128</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ( result == -<span class="number">1</span> ) System.out.println(<span class="string">"没有找到目标"</span>);</span><br><span class="line">        <span class="keyword">else</span> System.out.println(<span class="string">"在数组下标 "</span> + result + <span class="string">" 处找到目标"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    public static int binarySearch(int[] arr, int target){
 
-        int low = 0;
-        int high = arr.length -1;
-        int mid;
-
-        while (low &lt;= high){
-            // 每次调整后，中间值重新计算
-            mid = (low + high) / 2;
-
-            // 如果目标值大于中间值，将 low 调整到中间+1（下一次将查找右半边）
-            if (target &gt; arr[mid]) low = mid + 1;
-
-            // 如果目标值小于中间值，将 high 调整到中间-1（下一次将查找左半边）
-            else if (target &lt; arr[mid]) high = mid - 1;
-
-            // 如果目标值等于中间值，返回
-            else return mid;
-        }
-
-        // 没有找到，返回 -1
-        return -1;
-    }
-
-    public static void main(String[] args) {
-        // 前提：数组一定要是有序
-        int[] testArr = {3,4,8,10,11, 66, 80, 128};
-
-        System.out.println(Arrays.toString(testArr));
-
-        int result = binarySearch(testArr, 128);
-
-        if ( result == -1 ) System.out.println(&quot;没有找到目标&quot;);
-        else System.out.println(&quot;在数组下标 &quot; + result + &quot; 处找到目标&quot;);
-    }
-}</code></pre>
 <hr>
 <h1 id="哈希"><a href="#哈希" class="headerlink" title="哈希"></a>哈希</h1><h2 id="什么是哈希（Hash）？"><a href="#什么是哈希（Hash）？" class="headerlink" title="什么是哈希（Hash）？"></a>什么是哈希（Hash）？</h2><p>Hash就是把任意长度的输入通过散列算法，变换成固定长度的输出，该输出就是散列值（哈希值）。</p>
 <p>这种转换是一种压缩映射，也就是，散列值的空间通常远小于输入的空间，不同的输入可能会散列成相同的输出，所以不可能从散列值来唯一地确定输入值。简单的说，哈希就是一种将任意长度的消息压缩到某一固定长度的消息摘要的函数。</p>
@@ -265,57 +223,8 @@
 <p>可以拿我们生活的中的字典做比喻，比如我们要查找 “哈” 这个字，我们先去目录找到“哈”在 351 页。然后我们翻开第 351 页，发现这一页还有其他的比如”蛤”、“铪”等字，我们要在这一页中找到“哈”字所在的位置。</p>
 </blockquote>
 <p>Java 实现</p>
-<pre><code class="java">public class SeparateChainingHashST&lt;Key, Value&gt;{
-    private int N; //键值对总数
-    private int M; //哈希表的大小
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SeparateChainingHashST</span>&lt;<span class="title">Key</span>, <span class="title">Value</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> N; <span class="comment">//键值对总数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> M; <span class="comment">//哈希表的大小</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 存放链表对象的数组</span></span><br><span class="line">    <span class="comment">// SequentialSearchST是基于无序链表的顺序查找，实现见下面</span></span><br><span class="line">    <span class="keyword">private</span> SequentialSearchST&lt;Key, Value&gt;[] st;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//无参构造函数</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SeparateChainingHashST</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(<span class="number">997</span>); <span class="comment">// 无参构造函数调用有参构造函数</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//有参构造函数</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SeparateChainingHashST</span><span class="params">(<span class="keyword">int</span> M)</span></span>&#123;</span><br><span class="line">        <span class="comment">//创建M条链表</span></span><br><span class="line">        <span class="keyword">this</span>.M = M;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Java不支持泛型数组，所以需要强制类型转换</span></span><br><span class="line">        st = (SequentialSearchST&lt;Key, Value&gt;[]) <span class="keyword">new</span> SequentialSearchST[M];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;M ;i++ ) &#123;</span><br><span class="line">            st[i] = <span class="keyword">new</span> SequentialSearchST();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 哈希函数：计算哈希值</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Key key)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (key.hashCode() &amp; <span class="number">0x7ffffffff</span>) % M;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//通过键获取值</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Value <span class="title">get</span><span class="params">(Key key)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (Value) st[hash(key)].get(key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//修改某个键对应的内容</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(Key key, Value val)</span></span>&#123;</span><br><span class="line">        st[hash(key)].put(key, val);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//哈希表中所有键的集合</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Iterable&lt;Key&gt; <span class="title">keys</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Queue&lt;Key&gt; queue = <span class="keyword">new</span> Queue&lt;Key&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (Key key : st[i].keys())</span><br><span class="line">                queue.enqueue(key);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> queue;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 存放链表对象的数组
-    // SequentialSearchST是基于无序链表的顺序查找，实现见下面
-    private SequentialSearchST&lt;Key, Value&gt;[] st;
-
-    //无参构造函数
-    public SeparateChainingHashST(){
-        this(997); // 无参构造函数调用有参构造函数
-    }
-
-    //有参构造函数
-    public SeparateChainingHashST(int M){
-        //创建M条链表
-        this.M = M;
-
-        // Java不支持泛型数组，所以需要强制类型转换
-        st = (SequentialSearchST&lt;Key, Value&gt;[]) new SequentialSearchST[M];
-
-        for (int i=0; i&lt;M ;i++ ) {
-            st[i] = new SequentialSearchST();
-        }
-    }
-
-    // 哈希函数：计算哈希值
-    private int hash(Key key){
-        return (key.hashCode() &amp; 0x7ffffffff) % M;
-    }
-
-    //通过键获取值
-    public Value get(Key key){
-        return (Value) st[hash(key)].get(key);
-    }
-
-    //修改某个键对应的内容
-    public void put(Key key, Value val){
-        st[hash(key)].put(key, val);
-    }
-
-    //哈希表中所有键的集合
-    public Iterable&lt;Key&gt; keys() {
-        Queue&lt;Key&gt; queue = new Queue&lt;Key&gt;();
-        for (int i = 0; i &lt; m; i++) {
-            for (Key key : st[i].keys())
-                queue.enqueue(key);
-        }
-        return queue;
-    }
-}</code></pre>
 <ul>
 <li>基于拉链法的哈希表完整实现: <a href="https://algs4.cs.princeton.edu/34hash/SeparateChainingHashST.java.html">SeparateChainingHashST.java</a></li>
 </ul>
@@ -339,28 +248,8 @@
 <li>如果当前结点值 &lt; 查找值，则递归地到当前结点的 <strong>右孩子</strong> 查找</li>
 <li>如果当前结点值 &gt; 查找值，则递归地到当前结点的 <strong>左孩子</strong> 查找</li>
 </ol>
-<pre><code class="java">public Tree search(Tree root, int val) {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Tree <span class="title">search</span><span class="params">(Tree root, <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1. 如果当前结点为 null，则直接返回 null</span></span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>) &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 如果当前结点值与查找值相同则返回当前结点</span></span><br><span class="line">    <span class="keyword">if</span>(root.val == val) &#123;</span><br><span class="line">     <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 当前结点值 &lt; 查找值，则递归地到当前结点的 右孩子 查找</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (root.val &gt; val) &#123;</span><br><span class="line">     <span class="keyword">return</span> search(root.left, val);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4. 当前结点值 &gt; 查找值，则递归地到当前结点的 左孩子 查找</span></span><br><span class="line">     <span class="keyword">else</span> &#123;</span><br><span class="line">     <span class="keyword">return</span> search(root.right, val);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 1. 如果当前结点为 null，则直接返回 null
-    if(root == null) {
-     return null;
-    }
-
-    // 2. 如果当前结点值与查找值相同则返回当前结点
-    if(root.val == val) {
-     return root;
-    }
-
-    // 3. 当前结点值 &lt; 查找值，则递归地到当前结点的 右孩子 查找
-    else if (root.val &gt; val) {
-     return search(root.left, val);
-    }
-
-    // 4. 当前结点值 &gt; 查找值，则递归地到当前结点的 左孩子 查找
-     else {
-     return search(root.right, val);
-    }
-}</code></pre>
 <hr>
 <h1 id="AVL查找树"><a href="#AVL查找树" class="headerlink" title="AVL查找树"></a>AVL查找树</h1><p>二叉树查找树在插入时没有对二叉树的深度和结构做一个调整，使得叶子结点深度不一，在查找时深度越深的结点时间复杂度越高。最坏情况下退化成为链表。</p>
 <p>为了改进查找的时间复杂度，可以使用 <strong>平衡二叉树(AVL)</strong>，平衡二叉树使得每个结点的左结点和右结点的深度差不超过1。</p>
@@ -477,7 +366,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -489,7 +378,7 @@
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -501,7 +390,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -670,25 +559,25 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -702,6 +591,14 @@
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -710,20 +607,20 @@
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -755,7 +652,7 @@
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -763,7 +660,15 @@
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -798,6 +703,25 @@
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -828,7 +752,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -865,25 +789,6 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -949,6 +854,25 @@
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -979,7 +903,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1016,25 +940,6 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1097,7 +1002,7 @@
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1151,7 +1056,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

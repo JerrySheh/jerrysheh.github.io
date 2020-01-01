@@ -38,7 +38,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -187,132 +187,92 @@
 <h1 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h1><h2 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h2><p>Scala的数据类型包括：Byte、Char、Short、Int、Long、Float、Double和Boolean</p>
 <p>在Scala中，这些类型都是“类”，并且都是包scala中的成员</p>
 <p>对于字符串，Scala用 java.lang.String 类来表示字符串</p>
-<h2 id="声明变量"><a href="#声明变量" class="headerlink" title="声明变量"></a>声明变量</h2><h3 id="不可变-val"><a href="#不可变-val" class="headerlink" title="不可变 val"></a>不可变 val</h3><pre><code class="scala">val str = &quot;hello world!&quot;                //隐式声明
-val str2 : String = &quot;hello again&quot;       //显式声明
-val str3 : java.lang.String = &quot;again and again&quot;  //显式声明</code></pre>
+<h2 id="声明变量"><a href="#声明变量" class="headerlink" title="声明变量"></a>声明变量</h2><h3 id="不可变-val"><a href="#不可变-val" class="headerlink" title="不可变 val"></a>不可变 val</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> str = <span class="string">"hello world!"</span>                <span class="comment">//隐式声明</span></span><br><span class="line"><span class="keyword">val</span> str2 : <span class="type">String</span> = <span class="string">"hello again"</span>       <span class="comment">//显式声明</span></span><br><span class="line"><span class="keyword">val</span> str3 : java.lang.<span class="type">String</span> = <span class="string">"again and again"</span>  <span class="comment">//显式声明</span></span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>事实上，在每个应用程序中，Scala都会自动添加一些引用，这样，就相当于在每个程序源文件的顶端都增加了一行下面的代码 <code>import java.lang._</code>，所以我们可以直接声明 str</p>
 </blockquote>
-<h3 id="可变-var"><a href="#可变-var" class="headerlink" title="可变 var"></a>可变 var</h3><pre><code class="scala">var myNum : Double = 6.66
-myNum : Double = 9.99</code></pre>
+<h3 id="可变-var"><a href="#可变-var" class="headerlink" title="可变 var"></a>可变 var</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myNum : <span class="type">Double</span> = <span class="number">6.66</span></span><br><span class="line">myNum : <span class="type">Double</span> = <span class="number">9.99</span></span><br></pre></td></tr></table></figure>
+
 <p>允许对字面量直接执行方法</p>
-<pre><code class="scala">5.toString() //产生字符串&quot;5&quot;
-&quot;abc&quot;.intersect(&quot;bcd&quot;)  //输出&quot;bc&quot;</code></pre>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5.</span>toString() <span class="comment">//产生字符串"5"</span></span><br><span class="line"><span class="string">"abc"</span>.intersect(<span class="string">"bcd"</span>)  <span class="comment">//输出"bc"</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="Range"><a href="#Range" class="headerlink" title="Range"></a>Range</h2><p>类似于 fori， Range可以支持创建不同数据类型的数值序列，包括Int、Long、Float、Double、Char、BigInt和BigDecimal等。</p>
 <p>用法 ：</p>
-<pre><code class="scala">// 1-5的序列，包含5
-1 to 5
-1.to(5)
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1-5的序列，包含5</span></span><br><span class="line"><span class="number">1</span> to <span class="number">5</span></span><br><span class="line"><span class="number">1.</span>to(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1-5的序列，不包含5</span></span><br><span class="line"><span class="number">1</span> until <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 0.5-5.9的序列，步长0.8</span></span><br><span class="line"><span class="number">0.5</span>f to <span class="number">5.9</span>f by <span class="number">0.8</span>f</span><br></pre></td></tr></table></figure>
 
-// 1-5的序列，不包含5
-1 until 5
 
-// 0.5-5.9的序列，步长0.8
-0.5f to 5.9f by 0.8f</code></pre>
 <h2 id="读写文件"><a href="#读写文件" class="headerlink" title="读写文件"></a>读写文件</h2><ul>
 <li>用 PrintWriter 来写文件 （记得close）</li>
 <li>用 Source 来读文件</li>
 <li>用 for 来打印</li>
 </ul>
-<pre><code class="scala">import java.io.PrintWriter
-import scala.io.Source
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.<span class="type">PrintWriter</span></span><br><span class="line"><span class="keyword">import</span> scala.io.<span class="type">Source</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">Fun</span> <span class="keyword">extends</span> <span class="title">App</span></span>&#123;</span><br><span class="line">  <span class="keyword">val</span> out = <span class="keyword">new</span> <span class="type">PrintWriter</span>(<span class="string">"test2.txt"</span>)</span><br><span class="line">  <span class="keyword">for</span> (i &lt;- <span class="number">1</span> to <span class="number">5</span>) out.println(i)</span><br><span class="line">  out.close()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">val</span> in = <span class="type">Source</span>.fromFile(<span class="string">"test.txt"</span>)</span><br><span class="line">  <span class="keyword">val</span> lines = in.getLines()</span><br><span class="line">  <span class="keyword">for</span> (line &lt;- lines) print(line + <span class="string">"\t"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-object Fun extends App{
-  val out = new PrintWriter(&quot;test2.txt&quot;)
-  for (i &lt;- 1 to 5) out.println(i)
-  out.close()
-
-  val in = Source.fromFile(&quot;test.txt&quot;)
-  val lines = in.getLines()
-  for (line &lt;- lines) print(line + &quot;\t&quot;)
-}</code></pre>
 <hr>
 <h1 id="控制结构"><a href="#控制结构" class="headerlink" title="控制结构"></a>控制结构</h1><h2 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h2><p>跟 Java 类似，但是声明变量的时候可以用 if 赋值给变量。</p>
-<pre><code class="scala">val x = 5
-val a = if (x &gt; 0) 1 else -1</code></pre>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> x = <span class="number">5</span></span><br><span class="line"><span class="keyword">val</span> a = <span class="keyword">if</span> (x &gt; <span class="number">0</span>) <span class="number">1</span> <span class="keyword">else</span> <span class="number">-1</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="while-和-do-while"><a href="#while-和-do-while" class="headerlink" title="while 和 do-while"></a>while 和 do-while</h2><p>同 Java</p>
 <h2 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h2><p>语法： <code>for (变量&lt;-表达式) 语句块</code></p>
 <blockquote>
 <p>“变量&lt;-表达式”被称为“生成器（generator）</p>
 </blockquote>
 <p>实例</p>
-<pre><code class="scala">for (i &lt;- 1 to 5) println(i)            // 输出 1 2 3 4 5
-for (i &lt;- 1 to 5 by 2) println(i)       // 输出 1 3 5
-for (i &lt;- 1 to 5 if i%2==0) println(i)  // 输出 2 4</code></pre>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i &lt;- <span class="number">1</span> to <span class="number">5</span>) println(i)            <span class="comment">// 输出 1 2 3 4 5</span></span><br><span class="line"><span class="keyword">for</span> (i &lt;- <span class="number">1</span> to <span class="number">5</span> by <span class="number">2</span>) println(i)       <span class="comment">// 输出 1 3 5</span></span><br><span class="line"><span class="keyword">for</span> (i &lt;- <span class="number">1</span> to <span class="number">5</span> <span class="keyword">if</span> i%<span class="number">2</span>==<span class="number">0</span>) println(i)  <span class="comment">// 输出 2 4</span></span><br></pre></td></tr></table></figure>
+
 <p>实例2</p>
-<pre><code class="scala">for (i &lt;- 1 to 5; j &lt;- 1 to 3) println(i*j)</code></pre>
-<h3 id="for推导式"><a href="#for推导式" class="headerlink" title="for推导式"></a>for推导式</h3><pre><code class="scala">for (i &lt;- 1 to 5 if i%2==0) yield i</code></pre>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i &lt;- <span class="number">1</span> to <span class="number">5</span>; j &lt;- <span class="number">1</span> to <span class="number">3</span>) println(i*j)</span><br></pre></td></tr></table></figure>
+
+<h3 id="for推导式"><a href="#for推导式" class="headerlink" title="for推导式"></a>for推导式</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i &lt;- <span class="number">1</span> to <span class="number">5</span> <span class="keyword">if</span> i%<span class="number">2</span>==<span class="number">0</span>) <span class="keyword">yield</span> i</span><br></pre></td></tr></table></figure>
+
 <p>通过 for 循环遍历一个或多个集合，对集合中的元素进行“推导”，从而计算得到新的集合，用于后续的其他处理。</p>
 <p>上面的语句会生成一个 IndexedSeq[Int] ， 内容为 Vector(2, 4)</p>
 <blockquote>
 <p>针对每一次 for 循环的迭代, yield 会产生一个值，被循环记录下来 (内部实现上，像是一个缓冲区)。当循环结束后, 会返回所有 yield 的值组成的集合。返回集合的类型与被遍历的集合类型是一致的。</p>
 </blockquote>
 <hr>
-<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><pre><code class="scala">val intValueArr = Array(12,45,33)
-val myStrArr = Array(&quot;BigData&quot;,&quot;Hadoop&quot;,&quot;Spark&quot;)</code></pre>
+<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> intValueArr = <span class="type">Array</span>(<span class="number">12</span>,<span class="number">45</span>,<span class="number">33</span>)</span><br><span class="line"><span class="keyword">val</span> myStrArr = <span class="type">Array</span>(<span class="string">"BigData"</span>,<span class="string">"Hadoop"</span>,<span class="string">"Spark"</span>)</span><br></pre></td></tr></table></figure>
+
 <h2 id="列表-list"><a href="#列表-list" class="headerlink" title="列表(list)"></a>列表(list)</h2><p>列表中的元素类型必须相同</p>
-<h3 id="构建列表"><a href="#构建列表" class="headerlink" title="构建列表"></a>构建列表</h3><pre><code class="scala">val intList = List(1,2,3)
+<h3 id="构建列表"><a href="#构建列表" class="headerlink" title="构建列表"></a>构建列表</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> intList = <span class="type">List</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// h 是一个 int，值为1</span></span><br><span class="line"><span class="keyword">val</span> h = intList.head</span><br><span class="line"></span><br><span class="line"><span class="comment">// t 是一个 List，值为 List(2,3)</span></span><br><span class="line"><span class="keyword">val</span> t = intList.tail</span><br><span class="line"></span><br><span class="line"><span class="comment">// anotherList是intList在前面添加0，值为 List(0,1,2,3)</span></span><br><span class="line"><span class="keyword">val</span> anotherList = <span class="number">0</span>::intList</span><br></pre></td></tr></table></figure>
 
-// h 是一个 int，值为1
-val h = intList.head
+<h3 id="构建列表另一种方法"><a href="#构建列表另一种方法" class="headerlink" title="构建列表另一种方法"></a>构建列表另一种方法</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> intList = <span class="number">1</span>::<span class="number">2</span>::<span class="number">3</span>::<span class="type">Nil</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> intList1 = <span class="type">List</span>(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line"><span class="keyword">val</span> intList2 = <span class="type">List</span>(<span class="number">3</span>,<span class="number">4</span>)</span><br><span class="line"><span class="keyword">val</span> intList3 = intList1:::intList2</span><br></pre></td></tr></table></figure>
 
-// t 是一个 List，值为 List(2,3)
-val t = intList.tail
-
-// anotherList是intList在前面添加0，值为 List(0,1,2,3)
-val anotherList = 0::intList</code></pre>
-<h3 id="构建列表另一种方法"><a href="#构建列表另一种方法" class="headerlink" title="构建列表另一种方法"></a>构建列表另一种方法</h3><pre><code class="scala">val intList = 1::2::3::Nil
-
-val intList1 = List(1,2)
-val intList2 = List(3,4)
-val intList3 = intList1:::intList2</code></pre>
 <ul>
 <li>Nil表示空列表</li>
 <li>可以用 <code>intList.sum</code> 对列表元素求和</li>
 </ul>
-<h3 id="List的遍历"><a href="#List的遍历" class="headerlink" title="List的遍历"></a>List的遍历</h3><h4 id="使用-for-遍历"><a href="#使用-for-遍历" class="headerlink" title="使用 for 遍历"></a>使用 for 遍历</h4><pre><code class="scala">val list = List(1,3,5,7)
-for (elem &lt;- list) println(elem)</code></pre>
-<h4 id="使用-foreach-遍历"><a href="#使用-foreach-遍历" class="headerlink" title="使用 foreach 遍历"></a>使用 foreach 遍历</h4><pre><code class="scala">val list = List(1,3,5,7)
-list.foreach(elem =&gt; println(elem))
+<h3 id="List的遍历"><a href="#List的遍历" class="headerlink" title="List的遍历"></a>List的遍历</h3><h4 id="使用-for-遍历"><a href="#使用-for-遍历" class="headerlink" title="使用 for 遍历"></a>使用 for 遍历</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> list = <span class="type">List</span>(<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">7</span>)</span><br><span class="line"><span class="keyword">for</span> (elem &lt;- list) println(elem)</span><br></pre></td></tr></table></figure>
 
-// 可化简为：
-list.foreach(println)</code></pre>
-<h4 id="使用-map-来遍历"><a href="#使用-map-来遍历" class="headerlink" title="使用 map 来遍历"></a>使用 map 来遍历</h4><pre><code class="scala">val list = List(1,3,5,7)
-var temp = list.map(x =&gt; x)
-println(temp.mkString(&quot;,&quot;))</code></pre>
+<h4 id="使用-foreach-遍历"><a href="#使用-foreach-遍历" class="headerlink" title="使用 foreach 遍历"></a>使用 foreach 遍历</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> list = <span class="type">List</span>(<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">7</span>)</span><br><span class="line">list.foreach(elem =&gt; println(elem))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可化简为：</span></span><br><span class="line">list.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用-map-来遍历"><a href="#使用-map-来遍历" class="headerlink" title="使用 map 来遍历"></a>使用 map 来遍历</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> list = <span class="type">List</span>(<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">7</span>)</span><br><span class="line"><span class="keyword">var</span> temp = list.map(x =&gt; x)</span><br><span class="line">println(temp.mkString(<span class="string">","</span>))</span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>mkString方法把一个 Iterator 转化为一个字符串</p>
 </blockquote>
 <h2 id="元组-tuple"><a href="#元组-tuple" class="headerlink" title="元组(tuple)"></a>元组(tuple)</h2><p>元组是 <strong>值的聚集</strong>。可以包含不同类型元素。</p>
-<pre><code class="scala">val tuple = (&quot;BigData&quot;,2015,45.0)</code></pre>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> tuple = (<span class="string">"BigData"</span>,<span class="number">2015</span>,<span class="number">45.0</span>)</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>当需要访问元组中的某个元素的值时，可以通过类似tuple._1、tuple._2、tuple._3这种方式实现。</li>
 </ul>
 <h2 id="集-set"><a href="#集-set" class="headerlink" title="集(set)"></a>集(set)</h2><p>集(set)是 <strong>不重复</strong> 元素的集合。集包括可变集和不可变集，默认创建的是不可变集，通常我们使用不可变集。</p>
-<pre><code class="scala">var mySet = Set(&quot;Hadoop&quot;,&quot;Spark&quot;)
-mySet += &quot;Scala&quot;  //向mySet中增加新的元素
-println(mySet.contains(&quot;Scala&quot;)) //返回 true</code></pre>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mySet = <span class="type">Set</span>(<span class="string">"Hadoop"</span>,<span class="string">"Spark"</span>)</span><br><span class="line">mySet += <span class="string">"Scala"</span>  <span class="comment">//向mySet中增加新的元素</span></span><br><span class="line">println(mySet.contains(<span class="string">"Scala"</span>)) <span class="comment">//返回 true</span></span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>虽然可变集和不可变集都有添加或删除元素的操作，但是，二者有很大的区别。对不可变集进行操作，会产生一个新的集，原来的集并不会发生变化。而对可变集进行操作，改变的是该集本身，</p>
 </blockquote>
 <h2 id="映射-Map"><a href="#映射-Map" class="headerlink" title="映射(Map)"></a>映射(Map)</h2><p>映射(Map)是一系列键值对的集合，也就是，建立了键和值之间的对应关系。在映射中，所有的值，都可以通过键来获取。</p>
 <p>映射包括可变和不可变两种，默认情况下创建的是不可变映射，如果需要创建可变映射，需要引入scala.collection.mutable.Map包。</p>
-<h3 id="不可变映射"><a href="#不可变映射" class="headerlink" title="不可变映射"></a>不可变映射</h3><pre><code class="scala">val name = Map(&quot;J&quot; -&gt; &quot;Jerry&quot;, &quot;C&quot; -&gt; &quot;Calm&quot;,&quot;S&quot;-&gt;&quot;Superman&quot;)
-println(name(&quot;J&quot;)) // 返回 Jerry
+<h3 id="不可变映射"><a href="#不可变映射" class="headerlink" title="不可变映射"></a>不可变映射</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> name = <span class="type">Map</span>(<span class="string">"J"</span> -&gt; <span class="string">"Jerry"</span>, <span class="string">"C"</span> -&gt; <span class="string">"Calm"</span>,<span class="string">"S"</span>-&gt;<span class="string">"Superman"</span>)</span><br><span class="line">println(name(<span class="string">"J"</span>)) <span class="comment">// 返回 Jerry</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> x = <span class="keyword">if</span> (name.contains(<span class="string">"J"</span>)) name(<span class="string">"J"</span>) <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">val</span> y = <span class="keyword">if</span> (name.contains(<span class="string">"D"</span>)) name(<span class="string">"D"</span>) <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line">println(x)  <span class="comment">// 返回 Jerry</span></span><br><span class="line">println(y)  <span class="comment">// 返回 0</span></span><br></pre></td></tr></table></figure>
 
-val x = if (name.contains(&quot;J&quot;)) name(&quot;J&quot;) else 0
-val y = if (name.contains(&quot;D&quot;)) name(&quot;D&quot;) else 0
-println(x)  // 返回 Jerry
-println(y)  // 返回 0</code></pre>
-<h3 id="可变映射"><a href="#可变映射" class="headerlink" title="可变映射"></a>可变映射</h3><pre><code class="scala">import scala.collection.mutable.Map
+<h3 id="可变映射"><a href="#可变映射" class="headerlink" title="可变映射"></a>可变映射</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scala.collection.mutable.<span class="type">Map</span></span><br><span class="line"></span><br><span class="line">name + = (<span class="string">"TJU"</span>-&gt;<span class="string">"Tianjin University"</span>) <span class="comment">//添加一个新元素</span></span><br><span class="line">name + = (<span class="string">"SDU"</span>-&gt;<span class="string">"Shandong University"</span>,<span class="string">"WHU"</span>-&gt;<span class="string">"Wuhan University"</span>) <span class="comment">//同时添加两个新元素</span></span><br></pre></td></tr></table></figure>
 
-name + = (&quot;TJU&quot;-&gt;&quot;Tianjin University&quot;) //添加一个新元素
-name + = (&quot;SDU&quot;-&gt;&quot;Shandong University&quot;,&quot;WHU&quot;-&gt;&quot;Wuhan University&quot;) //同时添加两个新元素</code></pre>
 <h3 id="遍历映射"><a href="#遍历映射" class="headerlink" title="遍历映射"></a>遍历映射</h3><p>语法：<code>for ((k,v) &lt;- 映射) 语句块</code></p>
-<pre><code class="scala">val name = Map(&quot;J&quot; -&gt; &quot;Jerry&quot;, &quot;C&quot; -&gt; &quot;Calm&quot;,&quot;S&quot;-&gt;&quot;Superman&quot;)
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> name = <span class="type">Map</span>(<span class="string">"J"</span> -&gt; <span class="string">"Jerry"</span>, <span class="string">"C"</span> -&gt; <span class="string">"Calm"</span>,<span class="string">"S"</span>-&gt;<span class="string">"Superman"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出 Jerry Calm Superman</span></span><br><span class="line"><span class="keyword">for</span> ( (k,v) &lt;- name) println(v)</span><br></pre></td></tr></table></figure>
 
-// 输出 Jerry Calm Superman
-for ( (k,v) &lt;- name) println(v)</code></pre>
 <hr>
 <h1 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h1><p>迭代器（Iterator）不是一个集合，但是，提供了访问集合的一种方法。</p>
 <p>当构建一个集合需要很大的开销时（比如把一个文件的所有行都读到内存），迭代器就可以发挥很好的作用。</p>
@@ -321,41 +281,24 @@ for ( (k,v) &lt;- name) println(v)</code></pre>
 <li><code>next</code>可以返回迭代器的下一个元素</li>
 <li><code>hasNext</code>用于检测是否还有下一个元素。</li>
 </ul>
-<h2 id="while循环遍历迭代器"><a href="#while循环遍历迭代器" class="headerlink" title="while循环遍历迭代器"></a>while循环遍历迭代器</h2><pre><code class="scala">val iter = Iterator(&quot;Hadoop&quot;,&quot;Spark&quot;,&quot;Scala&quot;)
-while (iter.hasNext) {
-    println(iter.next())
-}</code></pre>
+<h2 id="while循环遍历迭代器"><a href="#while循环遍历迭代器" class="headerlink" title="while循环遍历迭代器"></a>while循环遍历迭代器</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> iter = <span class="type">Iterator</span>(<span class="string">"Hadoop"</span>,<span class="string">"Spark"</span>,<span class="string">"Scala"</span>)</span><br><span class="line"><span class="keyword">while</span> (iter.hasNext) &#123;</span><br><span class="line">    println(iter.next())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>2点注意</p>
 <ul>
 <li><code>iter.next</code>和<code>iter.next()</code>都是可以的，但是，<code>hasNext</code>后面不能加括号</li>
 <li>上述操作执行结束后，迭代器会移动到末尾，就不能再使用了</li>
 </ul>
-<h2 id="for循环遍历迭代器"><a href="#for循环遍历迭代器" class="headerlink" title="for循环遍历迭代器"></a>for循环遍历迭代器</h2><pre><code class="scala">val iter = Iterator(&quot;Hadoop&quot;,&quot;Spark&quot;,&quot;Scala&quot;)
-for (elem &lt;- iter) {
-    println(elem)
-}</code></pre>
+<h2 id="for循环遍历迭代器"><a href="#for循环遍历迭代器" class="headerlink" title="for循环遍历迭代器"></a>for循环遍历迭代器</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> iter = <span class="type">Iterator</span>(<span class="string">"Hadoop"</span>,<span class="string">"Spark"</span>,<span class="string">"Scala"</span>)</span><br><span class="line"><span class="keyword">for</span> (elem &lt;- iter) &#123;</span><br><span class="line">    println(elem)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="模式匹配"><a href="#模式匹配" class="headerlink" title="模式匹配"></a>模式匹配</h1><p>类似于 switch-case 语句</p>
-<h2 id="简单匹配"><a href="#简单匹配" class="headerlink" title="简单匹配"></a>简单匹配</h2><pre><code class="scala">val colorNum = 1
-val colorStr = colorNum match {
-    case 1 =&gt; &quot;red&quot;
-    case 2 =&gt; &quot;green&quot;
-    case 3 =&gt; &quot;yellow&quot;
-    case _ =&gt; &quot;Not Allowed&quot;
-}
-println(colorStr)</code></pre>
+<h2 id="简单匹配"><a href="#简单匹配" class="headerlink" title="简单匹配"></a>简单匹配</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> colorNum = <span class="number">1</span></span><br><span class="line"><span class="keyword">val</span> colorStr = colorNum <span class="keyword">match</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span> =&gt; <span class="string">"red"</span></span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span> =&gt; <span class="string">"green"</span></span><br><span class="line">    <span class="keyword">case</span> <span class="number">3</span> =&gt; <span class="string">"yellow"</span></span><br><span class="line">    <span class="keyword">case</span> _ =&gt; <span class="string">"Not Allowed"</span></span><br><span class="line">&#125;</span><br><span class="line">println(colorStr)</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>模式匹配中可以使用变量</li>
 </ul>
-<h2 id="类型匹配"><a href="#类型匹配" class="headerlink" title="类型匹配"></a>类型匹配</h2><pre><code class="scala">for (elem &lt;- List(9,12.3,&quot;Spark&quot;,&quot;Hadoop&quot;,&#39;Hello)){
-    val str  = elem match{
-        case i: Int =&gt; i + &quot; is an int value.&quot;
-        case d: Double =&gt; d + &quot; is a double value.&quot;
-        case &quot;Spark&quot;=&gt; &quot;Spark is found.&quot;
-        case s: String =&gt; s + &quot; is a string value.&quot;
-        case _ =&gt; &quot;This is an unexpected value.&quot;
-    }
-println(str)   </code></pre>
+<h2 id="类型匹配"><a href="#类型匹配" class="headerlink" title="类型匹配"></a>类型匹配</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (elem &lt;- <span class="type">List</span>(<span class="number">9</span>,<span class="number">12.3</span>,<span class="string">"Spark"</span>,<span class="string">"Hadoop"</span>,<span class="symbol">'Hello</span>))&#123;</span><br><span class="line">    <span class="keyword">val</span> str  = elem <span class="keyword">match</span>&#123;</span><br><span class="line">        <span class="keyword">case</span> i: <span class="type">Int</span> =&gt; i + <span class="string">" is an int value."</span></span><br><span class="line">        <span class="keyword">case</span> d: <span class="type">Double</span> =&gt; d + <span class="string">" is a double value."</span></span><br><span class="line">        <span class="keyword">case</span> <span class="string">"Spark"</span>=&gt; <span class="string">"Spark is found."</span></span><br><span class="line">        <span class="keyword">case</span> s: <span class="type">String</span> =&gt; s + <span class="string">" is a string value."</span></span><br><span class="line">        <span class="keyword">case</span> _ =&gt; <span class="string">"This is an unexpected value."</span></span><br><span class="line">    &#125;</span><br><span class="line">println(str)</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="类和对象"><a href="#类和对象" class="headerlink" title="类和对象"></a>类和对象</h1><ul>
 <li>见另一篇：<a href="../post/230ce50d.html">Scala中的类与对象</a></li>
@@ -365,9 +308,12 @@ println(str)   </code></pre>
 <li>见另一篇：<a href="../post/bcfc34da.html">Scala中的函数式编程</a></li>
 </ul>
 <hr>
-<h1 id="执行Scala"><a href="#执行Scala" class="headerlink" title="执行Scala"></a>执行Scala</h1><h2 id="使用shell命令"><a href="#使用shell命令" class="headerlink" title="使用shell命令"></a>使用shell命令</h2><pre><code class="shell">scala TestCounter.scala</code></pre>
+<h1 id="执行Scala"><a href="#执行Scala" class="headerlink" title="执行Scala"></a>执行Scala</h1><h2 id="使用shell命令"><a href="#使用shell命令" class="headerlink" title="使用shell命令"></a>使用shell命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scala TestCounter.scala</span><br></pre></td></tr></table></figure>
+
 <h2 id="使用Scala解释器"><a href="#使用Scala解释器" class="headerlink" title="使用Scala解释器"></a>使用Scala解释器</h2><p>终端输入 scala 进入 Scala解释器</p>
-<pre><code>scala&gt; :load /usr/local/scala/mycode/TestCounter.scala</code></pre><ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; :load &#x2F;usr&#x2F;local&#x2F;scala&#x2F;mycode&#x2F;TestCounter.scala</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li>用<code>:quit</code>退出 Scala 解释器</li>
 </ul>
 <hr>
@@ -378,12 +324,7 @@ println(str)   </code></pre>
 <li>new 一个 Scala Class，kind 选择 Object</li>
 <li>输入helloworld代码，运行</li>
 </ol>
-<pre><code class="scala">object hello {
-  def main(args: Array[String]): Unit = {
-    val str = &quot;Hello&quot;
-    println(str)
-  }
-}</code></pre>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">hello</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">    <span class="keyword">val</span> str = <span class="string">"Hello"</span></span><br><span class="line">    println(str)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
         </div>
         
@@ -472,7 +413,7 @@ println(str)   </code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -484,7 +425,7 @@ println(str)   </code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -496,7 +437,7 @@ println(str)   </code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -745,25 +686,25 @@ println(str)   </code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -777,6 +718,14 @@ println(str)   </code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -785,20 +734,20 @@ println(str)   </code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -830,7 +779,7 @@ println(str)   </code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -838,7 +787,15 @@ println(str)   </code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -873,6 +830,25 @@ println(str)   </code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -903,7 +879,7 @@ println(str)   </code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -940,25 +916,6 @@ println(str)   </code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1024,6 +981,25 @@ println(str)   </code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1054,7 +1030,7 @@ println(str)   </code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1091,25 +1067,6 @@ println(str)   </code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1172,7 +1129,7 @@ println(str)   </code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1226,7 +1183,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

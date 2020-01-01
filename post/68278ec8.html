@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -179,148 +179,53 @@
 <h1 id="Java-中的-Lambda-表达式"><a href="#Java-中的-Lambda-表达式" class="headerlink" title="Java 中的 Lambda 表达式"></a>Java 中的 Lambda 表达式</h1><p>Lambda 表达式，也可称为闭包，或者匿名函数，它是推动 Java 8 发布的最重要新特性。Lambda 允许把函数作为参数传递进方法中，也可以在方法中返回一个函数。</p>
 <p>使用 Lambda 表达式可以使代码变的更加简洁紧凑。</p>
 <h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p>我们用 <code>-&gt;</code> 来表达 Lambda 表达式，<code>-&gt;</code>之前是输入的参数，<code>-&gt;</code>之后是输出的结果。</p>
-<pre><code class="java">(parameters) -&gt; expression</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(parameters) -&gt; expression</span><br></pre></td></tr></table></figure>
+
 <h2 id="简单例子"><a href="#简单例子" class="headerlink" title="简单例子"></a>简单例子</h2><p>比较字符串长度</p>
-<pre><code class="java">(String first, String second) -&gt; first.length() - second.length()</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(String first, String second) -&gt; first.length() - second.length()</span><br></pre></td></tr></table></figure>
+
 <p>给出两个数字，求和</p>
-<pre><code class="java">(int a, int b) -&gt; a + b;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">int</span> a, <span class="keyword">int</span> b) -&gt; a + b;</span><br></pre></td></tr></table></figure>
+
 <p>如果结果无法用一个表达式写出，则用大括号，并明确 return</p>
-<pre><code class="java">(int a, int b) -&gt; {
-  if (a &gt; b) return a * b;
-  else return a / b;
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">int</span> a, <span class="keyword">int</span> b) -&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (a &gt; b) <span class="keyword">return</span> a * b;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">return</span> a / b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>如果没有参数，<code>-&gt;</code>前面的参数给出空括号</p>
-<pre><code class="java">Runnable task = () -&gt; { for (int i = 0; i &lt; 100; i++) do(); };</code></pre>
-<h2 id="实际例子"><a href="#实际例子" class="headerlink" title="实际例子"></a>实际例子</h2><h3 id="替代匿名类"><a href="#替代匿名类" class="headerlink" title="替代匿名类"></a>替代匿名类</h3><pre><code class="java">class jump implements Runnable {
-    public void run(){
-        System.out.println(&quot;jump now&quot;);
-    }
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Runnable task = () -&gt; &#123; <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) <span class="keyword">do</span>(); &#125;;</span><br></pre></td></tr></table></figure>
 
-public class test {
-    public static void main(String[] args) {
-        //不使用匿名类
-        Runnable r = new jump();
-        Thread t1 = new Thread(r);
-        t1.start();
+<h2 id="实际例子"><a href="#实际例子" class="headerlink" title="实际例子"></a>实际例子</h2><h3 id="替代匿名类"><a href="#替代匿名类" class="headerlink" title="替代匿名类"></a>替代匿名类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">jump</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"jump now"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//不使用匿名类</span></span><br><span class="line">        Runnable r = <span class="keyword">new</span> jump();</span><br><span class="line">        Thread t1 = <span class="keyword">new</span> Thread(r);</span><br><span class="line">        t1.start();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//使用匿名类</span></span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"swim now"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//使用 lambda 表达式</span></span><br><span class="line">        <span class="keyword">new</span> Thread( () -&gt; System.out.println(<span class="string">"go away now"</span>)).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        //使用匿名类
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println(&quot;swim now&quot;);
-            }
-        }).start();
+<h3 id="事件处理"><a href="#事件处理" class="headerlink" title="事件处理"></a>事件处理</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Java 8之前：</span></span><br><span class="line">JButton show =  <span class="keyword">new</span> JButton(<span class="string">"Show"</span>);</span><br><span class="line">show.addActionListener(<span class="keyword">new</span> ActionListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">actionPerformed</span><span class="params">(ActionEvent e)</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"Event handling without lambda expression is boring"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Java 8方式：</span></span><br><span class="line">show.addActionListener((e) -&gt; &#123;</span><br><span class="line">    System.out.println(<span class="string">"Light, Camera, Action !! Lambda expressions Rocks"</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
-        //使用 lambda 表达式
-        new Thread( () -&gt; System.out.println(&quot;go away now&quot;)).start();
-    }
-}
-</code></pre>
-<h3 id="事件处理"><a href="#事件处理" class="headerlink" title="事件处理"></a>事件处理</h3><pre><code class="java">// Java 8之前：
-JButton show =  new JButton(&quot;Show&quot;);
-show.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-    System.out.println(&quot;Event handling without lambda expression is boring&quot;);
-    }
-});
+<h3 id="对列表进行迭代"><a href="#对列表进行迭代" class="headerlink" title="对列表进行迭代"></a>对列表进行迭代</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Java 8之前：</span></span><br><span class="line">List features = Arrays.asList(<span class="string">"Lambdas"</span>, <span class="string">"Default Method"</span>, <span class="string">"Stream API"</span>, <span class="string">"Date and Time API"</span>);</span><br><span class="line"><span class="keyword">for</span> (String feature : features) &#123;</span><br><span class="line">    System.out.println(feature);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Java 8之后：</span></span><br><span class="line">List features = Arrays.asList(<span class="string">"Lambdas"</span>, <span class="string">"Default Method"</span>, <span class="string">"Stream API"</span>, <span class="string">"Date and Time API"</span>);</span><br><span class="line">features.forEach(n -&gt; System.out.println(n));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用Java 8的方法引用更方便，方法引用由::双冒号操作符标示，</span></span><br><span class="line"><span class="comment">// 看起来像C++的作用域解析运算符</span></span><br><span class="line">features.forEach(System.out::println);</span><br></pre></td></tr></table></figure>
 
-// Java 8方式：
-show.addActionListener((e) -&gt; {
-    System.out.println(&quot;Light, Camera, Action !! Lambda expressions Rocks&quot;);
-});</code></pre>
-<h3 id="对列表进行迭代"><a href="#对列表进行迭代" class="headerlink" title="对列表进行迭代"></a>对列表进行迭代</h3><pre><code class="java">// Java 8之前：
-List features = Arrays.asList(&quot;Lambdas&quot;, &quot;Default Method&quot;, &quot;Stream API&quot;, &quot;Date and Time API&quot;);
-for (String feature : features) {
-    System.out.println(feature);
-}
-
-// Java 8之后：
-List features = Arrays.asList(&quot;Lambdas&quot;, &quot;Default Method&quot;, &quot;Stream API&quot;, &quot;Date and Time API&quot;);
-features.forEach(n -&gt; System.out.println(n));
-
-// 使用Java 8的方法引用更方便，方法引用由::双冒号操作符标示，
-// 看起来像C++的作用域解析运算符
-features.forEach(System.out::println);</code></pre>
 <hr>
 <h1 id="Java中的函数式接口"><a href="#Java中的函数式接口" class="headerlink" title="Java中的函数式接口"></a>Java中的函数式接口</h1><p>lambda背后的奥秘在于，lambda表达式本质上是一个匿名类，这个匿名类实现了某个只有一个方法的接口。</p>
 <h2 id="自定义函数式接口"><a href="#自定义函数式接口" class="headerlink" title="自定义函数式接口"></a>自定义函数式接口</h2><p><strong>只有一个未实现的抽象方法的接口称为函数式接口，static 和 default 不影响</strong>。之所以规定不能有多个抽象方法，是因为 lambda 表达式只能接受一个方法。用<code>@FunctionalInterface</code>注解检查是否符合函数式接口规范。</p>
-<pre><code class="java">// 函数式接口
-@FunctionalInterface
-public interface Cal {
-    int cal(int n1, int n2);
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数式接口</span></span><br><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Cal</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">cal</span><span class="params">(<span class="keyword">int</span> n1, <span class="keyword">int</span> n2)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>Cal是一个函数式接口，只有一个 cal 方法。使用的时候可以用 lambda 表达式定义方法做什么。</p>
-<pre><code class="java">public static void main(String[] args) {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 做加法</span></span><br><span class="line">    Cal sum = (n1, n2) -&gt; n1 + n2;</span><br><span class="line">    <span class="keyword">int</span> r1 = sum.cal(<span class="number">10</span>, <span class="number">20</span>);</span><br><span class="line">    System.out.println(r1); <span class="comment">// 30</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 做减法</span></span><br><span class="line">    Cal sub = (n1, n2) -&gt; n1 - n2;</span><br><span class="line">    <span class="keyword">int</span> r2 = sub.cal(<span class="number">10</span>, <span class="number">20</span>);</span><br><span class="line">    System.out.println(r2); <span class="comment">// -10</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 做加法
-    Cal sum = (n1, n2) -&gt; n1 + n2;
-    int r1 = sum.cal(10, 20);
-    System.out.println(r1); // 30
-
-    // 做减法
-    Cal sub = (n1, n2) -&gt; n1 - n2;
-    int r2 = sub.cal(10, 20);
-    System.out.println(r2); // -10
-
-}</code></pre>
 <p>当然，我们可以再做一层封装，提供 calculator 方法，接收两个数字和一个表示如何计算的 lambda，返回计算结果。</p>
-<pre><code class="java">public static int calculator(int num1, int num2, Cal c){
-    return c.cal(num1, num2);
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">calculator</span><span class="params">(<span class="keyword">int</span> num1, <span class="keyword">int</span> num2, Cal c)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> c.cal(num1, num2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n = calculator(<span class="number">10</span>, <span class="number">20</span>, (n1, n2)-&gt; n1 + n2); <span class="comment">// 30</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-public static void main(String[] args) {
-    int n = calculator(10, 20, (n1, n2)-&gt; n1 + n2); // 30
-}</code></pre>
 <p>可以看到，calculator 方法传入了一个 lambda 表达式，事实上，这个 lambda 就是 Cal 接口的一个匿名实现，在传参的时候“现场”声明罢了。</p>
 <hr>
 <h1 id="Java预置的函数式接口"><a href="#Java预置的函数式接口" class="headerlink" title="Java预置的函数式接口"></a>Java预置的函数式接口</h1><p>jdk 1.8 预置了一些函数式接口，在 java.util.function 包里。其中 6 个最常用的基本接口为：</p>
 <h2 id="Consumer"><a href="#Consumer" class="headerlink" title="Consumer"></a>Consumer<T></h2><p>接收一个对象 T， 无返回。</p>
-<pre><code class="java">@FunctionalInterface
-public interface Consumer&lt;T&gt; {
-    void accept(T t);
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Consumer</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">accept</span><span class="params">(T t)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">default</span> Consumer&lt;T&gt; <span class="title">andThen</span><span class="params">(Consumer&lt;? <span class="keyword">super</span> T&gt; after)</span> </span>&#123;</span><br><span class="line">        Objects.requireNonNull(after);</span><br><span class="line">        <span class="keyword">return</span> (T t) -&gt; &#123; accept(t); after.accept(t); &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    default Consumer&lt;T&gt; andThen(Consumer&lt;? super T&gt; after) {
-        Objects.requireNonNull(after);
-        return (T t) -&gt; { accept(t); after.accept(t); };
-    }
-}</code></pre>
 <p>JDK 例子：System.out::println</p>
-<pre><code class="java">Consumer&lt;Double&gt; cal = (d) -&gt; System.out.println(d*2);
-cal.accept(3.5);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Consumer&lt;Double&gt; cal = (d) -&gt; System.out.println(d*<span class="number">2</span>);</span><br><span class="line">cal.accept(<span class="number">3.5</span>);</span><br></pre></td></tr></table></figure>
+
 <h2 id="Supplier"><a href="#Supplier" class="headerlink" title="Supplier"></a>Supplier<T></h2><p>不接收参数，返回一个对象 T</p>
 <p>JDK例子：Instant::now</p>
-<pre><code class="java">@FunctionalInterface
-public interface Supplier&lt;T&gt; {
-    T get();
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Supplier</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function">T <span class="title">get</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="Predicate"><a href="#Predicate" class="headerlink" title="Predicate"></a>Predicate<T></h2><p>接收一个对象T，返回 boolean</p>
-<pre><code class="java">@FunctionalInterface
-public interface Predicate&lt;T&gt; {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">test</span><span class="params">(T t)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">default</span> Predicate&lt;T&gt; <span class="title">and</span><span class="params">(Predicate&lt;? <span class="keyword">super</span> T&gt; other)</span> </span>&#123;</span><br><span class="line">        Objects.requireNonNull(other);</span><br><span class="line">        <span class="keyword">return</span> (t) -&gt; test(t) &amp;&amp; other.test(t);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">default</span> Predicate&lt;T&gt; <span class="title">negate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (t) -&gt; !test(t);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">default</span> Predicate&lt;T&gt; <span class="title">or</span><span class="params">(Predicate&lt;? <span class="keyword">super</span> T&gt; other)</span> </span>&#123;</span><br><span class="line">        Objects.requireNonNull(other);</span><br><span class="line">        <span class="keyword">return</span> (t) -&gt; test(t) || other.test(t);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &lt;T&gt; <span class="function">Predicate&lt;T&gt; <span class="title">isEqual</span><span class="params">(Object targetRef)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">null</span> == targetRef)</span><br><span class="line">                ? Objects::isNull</span><br><span class="line">                : object -&gt; targetRef.equals(object);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    boolean test(T t);
-
-    default Predicate&lt;T&gt; and(Predicate&lt;? super T&gt; other) {
-        Objects.requireNonNull(other);
-        return (t) -&gt; test(t) &amp;&amp; other.test(t);
-    }
-
-    default Predicate&lt;T&gt; negate() {
-        return (t) -&gt; !test(t);
-    }
-
-    default Predicate&lt;T&gt; or(Predicate&lt;? super T&gt; other) {
-        Objects.requireNonNull(other);
-        return (t) -&gt; test(t) || other.test(t);
-    }
-
-    static &lt;T&gt; Predicate&lt;T&gt; isEqual(Object targetRef) {
-        return (null == targetRef)
-                ? Objects::isNull
-                : object -&gt; targetRef.equals(object);
-    }
-}</code></pre>
 <p>JDK 例子：Collection::isEmpty</p>
 <h2 id="Function-lt-T-R-gt"><a href="#Function-lt-T-R-gt" class="headerlink" title="Function&lt;T,R&gt;"></a>Function&lt;T,R&gt;</h2><p>接收一个对象T，返回一个对象R</p>
 <p>JDK 例子：Arrays::asList</p>
@@ -329,39 +234,32 @@ public interface Predicate&lt;T&gt; {
 <h2 id="BinaryOperator"><a href="#BinaryOperator" class="headerlink" title="BinaryOperator"></a>BinaryOperator<T></h2><p>接收两个 T 对象，返回一个 T 对象。</p>
 <p>这个接口实际上继承了 <code>BiFunction&lt;T,T,T&gt;</code>，在 BiFunction 中，接收 T，U 返回 R。</p>
 <p>JDK 例子：BigInteger::add</p>
-<pre><code class="java">@FunctionalInterface
-public interface BinaryOperator&lt;T&gt; extends BiFunction&lt;T,T,T&gt; {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BinaryOperator</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">BiFunction</span>&lt;<span class="title">T</span>,<span class="title">T</span>,<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">BinaryOperator&lt;T&gt; <span class="title">minBy</span><span class="params">(Comparator&lt;? <span class="keyword">super</span> T&gt; comparator)</span> </span>&#123;</span><br><span class="line">        Objects.requireNonNull(comparator);</span><br><span class="line">        <span class="keyword">return</span> (a, b) -&gt; comparator.compare(a, b) &lt;= <span class="number">0</span> ? a : b;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">BinaryOperator&lt;T&gt; <span class="title">maxBy</span><span class="params">(Comparator&lt;? <span class="keyword">super</span> T&gt; comparator)</span> </span>&#123;</span><br><span class="line">        Objects.requireNonNull(comparator);</span><br><span class="line">        <span class="keyword">return</span> (a, b) -&gt; comparator.compare(a, b) &gt;= <span class="number">0</span> ? a : b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    public static &lt;T&gt; BinaryOperator&lt;T&gt; minBy(Comparator&lt;? super T&gt; comparator) {
-        Objects.requireNonNull(comparator);
-        return (a, b) -&gt; comparator.compare(a, b) &lt;= 0 ? a : b;
-    }
-
-    public static &lt;T&gt; BinaryOperator&lt;T&gt; maxBy(Comparator&lt;? super T&gt; comparator) {
-        Objects.requireNonNull(comparator);
-        return (a, b) -&gt; comparator.compare(a, b) &gt;= 0 ? a : b;
-    }
-}</code></pre>
 <hr>
 <h1 id="高阶函数"><a href="#高阶函数" class="headerlink" title="高阶函数"></a>高阶函数</h1><p>处理或返回函数的函数称为 <strong>高阶函数</strong>。</p>
 <h2 id="返回值为-lambda表达式-的方法"><a href="#返回值为-lambda表达式-的方法" class="headerlink" title="返回值为 lambda表达式 的方法"></a>返回值为 lambda表达式 的方法</h2><p><code>Arrays.sort()</code>有第二个参数让我们以某种方式排序</p>
 <p>升序排序</p>
-<pre><code class="java">Arrays.sort(sArr, (o1,o2) -&gt; (o1.compareTo(o2)));</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Arrays.sort(sArr, (o1,o2) -&gt; (o1.compareTo(o2)));</span><br></pre></td></tr></table></figure>
+
 <p>降序排序</p>
-<pre><code class="java">Arrays.sort(sArr, (o1,o2) -&gt; ( -1 * o1.compareTo(o2)));</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Arrays.sort(sArr, (o1,o2) -&gt; ( -<span class="number">1</span> * o1.compareTo(o2)));</span><br></pre></td></tr></table></figure>
+
 <p>这样比较麻烦，怎么办呢？可以写一个产生比较器的方法：</p>
-<pre><code class="java">public static Comparator&lt;String&gt; compraeInDirection(int direction) {
-    return (x,y) -&gt; direction * x,compareTo(y);
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Comparator&lt;String&gt; <span class="title">compraeInDirection</span><span class="params">(<span class="keyword">int</span> direction)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (x,y) -&gt; direction * x,compareTo(y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>这个方法返回了一个 lambda 表达式，决定了是采用升序排序还是降序排序。</p>
 <p>当需要降序排序的时候，直接：</p>
-<pre><code class="java">Arrays.sort(sArr, compraeInDirection(-1));</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Arrays.sort(sArr, compraeInDirection(-<span class="number">1</span>));</span><br></pre></td></tr></table></figure>
+
 <p><code>compraeInDirection(-1)</code> 返回了一个 lambda 表达式，即 <code>(x,y) -&gt; -1 * x,compareTo(y)</code> ，这个 lambda 表达式又作为 <code>Arrays.sort()</code> 的第二个参数。</p>
 <hr>
 <h1 id="操作符-「-」-和方法引用"><a href="#操作符-「-」-和方法引用" class="headerlink" title="操作符 「::」 和方法引用"></a>操作符 「::」 和方法引用</h1><p>在学习lambda表达式之后，我们通常使用lambda表达式来创建匿名方法。然而，有时候我们仅仅是调用了一个已存在的方法。如下：</p>
-<pre><code class="java">Arrays.sort(stringsArray,(s1,s2)-&gt;s1.compareToIgnoreCase(s2));</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Arrays.sort(stringsArray,(s1,s2)-&gt;s1.compareToIgnoreCase(s2));</span><br></pre></td></tr></table></figure>
+
 <p>在Java8中，我们可以直接通过方法引用来简写lambda表达式中已经存在的方法。这种特性就叫方法引用：</p>
-<pre><code class="java">Arrays.sort(stringsArray, String::compareToIgnoreCase);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Arrays.sort(stringsArray, String::compareToIgnoreCase);</span><br></pre></td></tr></table></figure>
+
 <p>操作符<code>::</code>将 方法名称 与 类或对象名称分隔开。</p>
 <p>可用于</p>
 <ul>
@@ -376,28 +274,24 @@ public interface BinaryOperator&lt;T&gt; extends BiFunction&lt;T,T,T&gt; {
 </li>
 </ul>
 <h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>打印列表的所有元素，可以这么做</p>
-<pre><code class="java">list.forEach(x -&gt; System.out.println(x));</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.forEach(x -&gt; System.out.println(x));</span><br></pre></td></tr></table></figure>
+
 <p>但也可以直接这么做</p>
-<pre><code class="java">list.forEach(System.out::println);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>this也是可以使用的，比如，<code>this::equals</code> 等同于 <code>x -&gt; this.equals(x)</code></li>
 </ul>
 <hr>
 <h1 id="访问闭合作用域的变量"><a href="#访问闭合作用域的变量" class="headerlink" title="访问闭合作用域的变量"></a>访问闭合作用域的变量</h1><p>注意，lambda 表达式只能引用 final 或 final 局部变量，这就是说不能在 lambda 内部修改定义在域外的局部变量，否则会编译错误。</p>
 <p>考虑下面这个例子：</p>
-<pre><code class="java">public static void repeatMessage(String text, int count) {
-    Runnable r = () -&gt; {
-        for (int i = 0; i &lt; count; i++) {
-            System.out.println(text);
-        }
-    };
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">repeatMessage</span><span class="params">(String text, <span class="keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">    Runnable r = () -&gt; &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">            System.out.println(text);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>可以发现，在Lambda表达式里，<code>count</code>和<code>text</code>既不属于Lambda表达式的参数，也不属于Lambda表达式内部定义的变量。但是我们仍然可以使用，原因是Lambda表达式捕获了<code>repeatMessage</code>方法的变量值。注意，是变量值，不是变量本身。</p>
 <p>也就是说，Lambda表达式访问闭合作用域的变量，只能访问 final 局部变量。不会被修改的值。当然，我们也不能在Lambda表达式里去修改<code>count</code>和<code>text</code>的值。</p>
 <p>假设我们：</p>
-<pre><code class="java">for (int i=0 ; i &lt; n ; i++ ) {
-  new Thread ( () -&gt; System.out.println(i)).start();
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span> ; i &lt; n ; i++ ) &#123;</span><br><span class="line">  <span class="keyword">new</span> Thread ( () -&gt; System.out.println(i)).start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>则会编译出错，因为 i 是会变化的。</p>
 <hr>
 <p>参考：</p>
@@ -493,7 +387,7 @@ public interface BinaryOperator&lt;T&gt; extends BiFunction&lt;T,T,T&gt; {
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -505,7 +399,7 @@ public interface BinaryOperator&lt;T&gt; extends BiFunction&lt;T,T,T&gt; {
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -517,7 +411,7 @@ public interface BinaryOperator&lt;T&gt; extends BiFunction&lt;T,T,T&gt; {
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -706,25 +600,25 @@ public interface BinaryOperator&lt;T&gt; extends BiFunction&lt;T,T,T&gt; {
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -738,6 +632,14 @@ public interface BinaryOperator&lt;T&gt; extends BiFunction&lt;T,T,T&gt; {
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -746,20 +648,20 @@ public interface BinaryOperator&lt;T&gt; extends BiFunction&lt;T,T,T&gt; {
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -791,7 +693,7 @@ public interface BinaryOperator&lt;T&gt; extends BiFunction&lt;T,T,T&gt; {
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -799,7 +701,15 @@ public interface BinaryOperator&lt;T&gt; extends BiFunction&lt;T,T,T&gt; {
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -834,6 +744,25 @@ public interface BinaryOperator&lt;T&gt; extends BiFunction&lt;T,T,T&gt; {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -864,7 +793,7 @@ public interface BinaryOperator&lt;T&gt; extends BiFunction&lt;T,T,T&gt; {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -901,25 +830,6 @@ public interface BinaryOperator&lt;T&gt; extends BiFunction&lt;T,T,T&gt; {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -985,6 +895,25 @@ public interface BinaryOperator&lt;T&gt; extends BiFunction&lt;T,T,T&gt; {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1015,7 +944,7 @@ public interface BinaryOperator&lt;T&gt; extends BiFunction&lt;T,T,T&gt; {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1052,25 +981,6 @@ public interface BinaryOperator&lt;T&gt; extends BiFunction&lt;T,T,T&gt; {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1133,7 +1043,7 @@ public interface BinaryOperator&lt;T&gt; extends BiFunction&lt;T,T,T&gt; {
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1187,7 +1097,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

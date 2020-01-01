@@ -34,7 +34,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -397,12 +397,8 @@
 <li>危险权限</li>
 </ul>
 <p>普通权限在 AndroidManifest.xml 文件里直接声明，如下：</p>
-<pre><code class="xml">&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    package=&quot;com.jerrysheh.englishquickchecker&quot;&gt;
-    &lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot;/&gt;
-    &lt;uses-permission android:name=&quot;android.permission.ACCESS_WIFI_STATE&quot;/&gt;
-    ...
-&lt;/manifest&gt;</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">package</span>=<span class="string">"com.jerrysheh.englishquickchecker"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.ACCESS_NETWORK_STATE"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.ACCESS_WIFI_STATE"</span>/&gt;</span></span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>危险权限则需要使用<code>运行时权限（runtime permssions）</code>。Android 6.0 引入了这个概念，简单地说，就是在应用程序运行的时候，由用户手动授权是否调用手机的某些数据（比如，麦克风、相机、电话）。</p>
 <p>关于普通权限和危险权限的区别，以及分别有哪些权限，可以<a href="https://developer.android.com/guide/topics/security/permissions.html?hl=zh-cn#normal-dangerous">参考 Google 官方文档</a></p>
 <h2 id="申请运行时权限"><a href="#申请运行时权限" class="headerlink" title="申请运行时权限"></a>申请运行时权限</h2><p>可以调用<code>ContextCompat.checkSelfPermission()</code>方法来检查是否有相应的权限，如果有返回 PackageManager.PERMISSION_GRANTED，并且应用可以继续操作。如果没有，返回 PERMISSION_DENIED，且应用必须明确向用户要求权限。</p>
@@ -410,32 +406,8 @@
 <p>可以调用<code>requestPermissions()</code>来申请权限。（此时系统会显示标准对话框让用户选择是否授权，我们无法更改）</p>
 <p>可以重写<code>onRequestPermissionsResult()</code>方法来了解用户选择的结果。</p>
 <p>开发模型：</p>
-<pre><code class="java">if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-    // 没有权限。
-    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)) {
-            // 用户拒绝过这个权限了，应该提示用户，为什么需要这个权限。
-    } else {
-        // 申请授权。
-        ActivityCompat.requestPermissions(thisActivity, new String[]{Manifest.permission.READ_CONTACTS}, MMM);
-    }
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (ContextCompat.checkSelfPermission(<span class="keyword">this</span>, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">    <span class="comment">// 没有权限。</span></span><br><span class="line">    <span class="keyword">if</span> (ActivityCompat.shouldShowRequestPermissionRationale(<span class="keyword">this</span>, Manifest.permission.READ_CONTACTS)) &#123;</span><br><span class="line">            <span class="comment">// 用户拒绝过这个权限了，应该提示用户，为什么需要这个权限。</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 申请授权。</span></span><br><span class="line">        ActivityCompat.requestPermissions(thisActivity, <span class="keyword">new</span> String[]&#123;Manifest.permission.READ_CONTACTS&#125;, MMM);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRequestPermissionsResult</span><span class="params">(<span class="keyword">int</span> requestCode, String permissions[], <span class="keyword">int</span>[] grantResults)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (requestCode) &#123;</span><br><span class="line">        <span class="keyword">case</span> MMM: &#123;</span><br><span class="line">            <span class="keyword">if</span> (grantResults.length &gt; <span class="number">0</span></span><br><span class="line">                &amp;&amp; grantResults[<span class="number">0</span>] == PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">                <span class="comment">// 权限被用户同意，可以去放肆了。</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// 权限被用户拒绝了，洗洗睡吧。</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-...
-
-@Override
-public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-    switch (requestCode) {
-        case MMM: {
-            if (grantResults.length &gt; 0
-                &amp;&amp; grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // 权限被用户同意，可以去放肆了。
-            } else {
-                // 权限被用户拒绝了，洗洗睡吧。
-            }
-            return;
-        }
-    }
-}</code></pre>
 <ul>
 <li>上述代码详细参考<a href="https://developer.android.com/training/permissions/requesting.html?hl=zh-cn"> Google 官方文档</a></li>
 </ul>
@@ -503,32 +475,8 @@ public void onRequestPermissionsResult(int requestCode, String permissions[], in
 </ul>
 <hr>
 <h1 id="运行时权限在部分Android手机上无效"><a href="#运行时权限在部分Android手机上无效" class="headerlink" title="运行时权限在部分Android手机上无效"></a>运行时权限在部分Android手机上无效</h1><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>按照 Google 文档的开发模型，写的运行时权限模型代码，在一加手机5T上，点击拒绝后没有任何提示，也就是说依然返回了有权限的STATUE_CODE，但是什么都没发生。</p>
-<pre><code class="java">if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-    // 没有权限。
-    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)) {
-            // 用户拒绝过这个权限了，应该提示用户，为什么需要这个权限。
-    } else {
-        // 申请授权。
-        ActivityCompat.requestPermissions(thisActivity, new String[]{Manifest.permission.READ_CONTACTS}, MMM);
-    }
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (ContextCompat.checkSelfPermission(<span class="keyword">this</span>, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">    <span class="comment">// 没有权限。</span></span><br><span class="line">    <span class="keyword">if</span> (ActivityCompat.shouldShowRequestPermissionRationale(<span class="keyword">this</span>, Manifest.permission.READ_CONTACTS)) &#123;</span><br><span class="line">            <span class="comment">// 用户拒绝过这个权限了，应该提示用户，为什么需要这个权限。</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 申请授权。</span></span><br><span class="line">        ActivityCompat.requestPermissions(thisActivity, <span class="keyword">new</span> String[]&#123;Manifest.permission.READ_CONTACTS&#125;, MMM);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRequestPermissionsResult</span><span class="params">(<span class="keyword">int</span> requestCode, String permissions[], <span class="keyword">int</span>[] grantResults)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (requestCode) &#123;</span><br><span class="line">        <span class="keyword">case</span> MMM: &#123;</span><br><span class="line">            <span class="keyword">if</span> (grantResults.length &gt; <span class="number">0</span></span><br><span class="line">                &amp;&amp; grantResults[<span class="number">0</span>] == PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">                <span class="comment">// 权限被用户同意，可以去放肆了。</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// 权限被用户拒绝了，洗洗睡吧。</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-...
-
-@Override
-public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-    switch (requestCode) {
-        case MMM: {
-            if (grantResults.length &gt; 0
-                &amp;&amp; grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // 权限被用户同意，可以去放肆了。
-            } else {
-                // 权限被用户拒绝了，洗洗睡吧。
-            }
-            return;
-        }
-    }
-}</code></pre>
 <h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>很多国产ROM都有这个坑。因此不要用上面的开发模型，推荐开源库：AndPermission</p>
 <p>项目地址： <a href="https://github.com/yanzhenjie/AndPermission">https://github.com/yanzhenjie/AndPermission</a></p>
 <p>使用方法可参考：<a href="http://blog.csdn.net/yanzhenjie1003/article/details/52503533/">Android 6.0 运行时权限管理最佳实践</a></p>
@@ -536,42 +484,9 @@ public void onRequestPermissionsResult(int requestCode, String permissions[], in
 <h1 id="Android-Device-Monitor-打不开的问题"><a href="#Android-Device-Monitor-打不开的问题" class="headerlink" title="Android Device Monitor 打不开的问题"></a>Android Device Monitor 打不开的问题</h1><p><img src="../../../../images/Learn_Android/monitor_error.png" alt=""></p>
 <p>查看Log：C:\Users\Jerrysheh\AppData\Local\Android\Sdk\tools\lib\monitor-x86_64\configuration\1520661867795.log</p>
 <p>关键报错</p>
-<pre><code>!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.224
-!MESSAGE Bundle reference:file:org.apache.ant_1.8.3.v201301120609/@4 not found.
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.224</span><br><span class="line">!MESSAGE Bundle reference:file:org.apache.ant_1.8.3.v201301120609&#x2F;@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.255</span><br><span class="line">!MESSAGE Bundle reference:file:org.apache.jasper.glassfish_2.2.2.v201205150955.jar@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.255</span><br><span class="line">!MESSAGE Bundle reference:file:org.apache.lucene.core_2.9.1.v201101211721.jar@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.458</span><br><span class="line">!MESSAGE Bundle reference:file:org.eclipse.help.base_3.6.101.v201302041200.jar@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.474</span><br><span class="line">!MESSAGE Bundle reference:file:org.eclipse.help.ui_3.5.201.v20130108-092756.jar@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.474</span><br><span class="line">!MESSAGE Bundle reference:file:org.eclipse.help.webapp_3.6.101.v20130116-182509.jar@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.474</span><br><span class="line">!MESSAGE Bundle reference:file:org.eclipse.jetty.server_8.1.3.v20120522.jar@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.521</span><br><span class="line">!MESSAGE Bundle reference:file:org.eclipse.ui.intro_3.4.200.v20120521-2344.jar@4 not found.</span><br><span class="line"></span><br><span class="line">java.lang.IllegalStateException: Unable to acquire application service. Ensure that the org.eclipse.core.runtime bundle is resolved and started (see config.ini).</span><br><span class="line">	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:74)</span><br><span class="line">	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)</span><br><span class="line">	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)</span><br><span class="line">	at java.base&#x2F;jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at java.base&#x2F;jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)</span><br><span class="line">	at java.base&#x2F;jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)</span><br><span class="line">	at java.base&#x2F;java.lang.reflect.Method.invoke(Unknown Source)</span><br><span class="line">	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:629)</span><br><span class="line">	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:584)</span><br><span class="line">	at org.eclipse.equinox.launcher.Main.run(Main.java:1438)</span><br><span class="line">	at org.eclipse.equinox.launcher.Main.main(Main.java:1414)</span><br></pre></td></tr></table></figure>
 
-!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.255
-!MESSAGE Bundle reference:file:org.apache.jasper.glassfish_2.2.2.v201205150955.jar@4 not found.
-
-!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.255
-!MESSAGE Bundle reference:file:org.apache.lucene.core_2.9.1.v201101211721.jar@4 not found.
-
-!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.458
-!MESSAGE Bundle reference:file:org.eclipse.help.base_3.6.101.v201302041200.jar@4 not found.
-
-!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.474
-!MESSAGE Bundle reference:file:org.eclipse.help.ui_3.5.201.v20130108-092756.jar@4 not found.
-
-!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.474
-!MESSAGE Bundle reference:file:org.eclipse.help.webapp_3.6.101.v20130116-182509.jar@4 not found.
-
-!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.474
-!MESSAGE Bundle reference:file:org.eclipse.jetty.server_8.1.3.v20120522.jar@4 not found.
-
-!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.521
-!MESSAGE Bundle reference:file:org.eclipse.ui.intro_3.4.200.v20120521-2344.jar@4 not found.
-
-java.lang.IllegalStateException: Unable to acquire application service. Ensure that the org.eclipse.core.runtime bundle is resolved and started (see config.ini).
-    at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:74)
-    at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)
-    at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)
-    at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-    at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-    at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-    at java.base/java.lang.reflect.Method.invoke(Unknown Source)
-    at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:629)
-    at org.eclipse.equinox.launcher.Main.basicRun(Main.java:584)
-    at org.eclipse.equinox.launcher.Main.run(Main.java:1438)
-    at org.eclipse.equinox.launcher.Main.main(Main.java:1414)</code></pre><h2 id="解决办法-1"><a href="#解决办法-1" class="headerlink" title="解决办法"></a>解决办法</h2><p>卸载 JRE 9。 （JDK 9 可以不用卸载） ， 然后装 JDK 8 。</p>
+<h2 id="解决办法-1"><a href="#解决办法-1" class="headerlink" title="解决办法"></a>解决办法</h2><p>卸载 JRE 9。 （JDK 9 可以不用卸载） ， 然后装 JDK 8 。</p>
 <p>然后启动 Android Studio 时，使用管理员权限打开。</p>
 
         </div>
@@ -644,124 +559,21 @@ java.lang.IllegalStateException: Unable to acquire application service. Ensure t
 </blockquote>
 <h3 id="保存文本示例"><a href="#保存文本示例" class="headerlink" title="保存文本示例"></a>保存文本示例</h3><p>首先定义一个 EditText</p>
 <p>activity_main.xml</p>
-<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;
-    android:orientation=&quot;vertical&quot;
-    android:padding=&quot;16dp&quot;&gt;
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:padding</span>=<span class="string">"16dp"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">EditText</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/edit_text_name_input"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:hint</span>=<span class="string">"input your name"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:padding</span>=<span class="string">"4dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:textSize</span>=<span class="string">"24sp"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-    &lt;EditText
-        android:id=&quot;@+id/edit_text_name_input&quot;
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;wrap_content&quot;
-        android:hint=&quot;input your name&quot;
-        android:padding=&quot;4dp&quot;
-        android:textSize=&quot;24sp&quot; /&gt;
-
-&lt;/LinearLayout&gt;</code></pre>
 <p>然后重写onCreate方法和onDestroy方法</p>
 <p>Context类提供了一个 FileOutputStream 类型的 <code>openFileOutput()</code>方法，用于输出数据到文件。</p>
 <p>MainActivity.java</p>
-<pre><code class="java">public class MainActivity extends AppCompatActivity {
-    private EditText edit;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> EditText edit;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// edit 实例</span></span><br><span class="line">        edit = findViewById(R.id.edit_text_name_input);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取 edit 的内容</span></span><br><span class="line">        String inputText = edit.getText().toString();</span><br><span class="line">        save(inputText);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">(String inputText)</span></span>&#123;</span><br><span class="line">        FileOutputStream outputStream;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 输出流</span></span><br><span class="line">            outputStream = openFileOutput(<span class="string">"myName"</span>, Context.MODE_PRIVATE);</span><br><span class="line">            outputStream.write(inputText.getBytes());</span><br><span class="line">            outputStream.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        // edit 实例
-        edit = findViewById(R.id.edit_text_name_input);
-
-    }
-
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-
-        // 获取 edit 的内容
-        String inputText = edit.getText().toString();
-        save(inputText);
-    }
-
-    public void save(String inputText){
-        FileOutputStream outputStream;
-
-        try {
-            // 输出流
-            outputStream = openFileOutput(&quot;myName&quot;, Context.MODE_PRIVATE);
-            outputStream.write(inputText.getBytes());
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
 <p>这样当我们退出app，edittext的文本就会被自动保存起来。</p>
 <h3 id="从保存的文件中读取数据"><a href="#从保存的文件中读取数据" class="headerlink" title="从保存的文件中读取数据"></a>从保存的文件中读取数据</h3><p>类似于输出流，Context类也提供了一个 FileinputStream 类型的 <code>openFileinput()</code>方法，用于输出数据到文件。</p>
 <blockquote>
 <p><code>openFileinput(filename)</code>的参数是文件名，一旦指定，系统会自动从 /data/data/<package name>/files/ 目录下加载这个文件，并返回一个 FileinputStream 对象。</p>
 </blockquote>
-<h2 id="一个完整的示例"><a href="#一个完整的示例" class="headerlink" title="一个完整的示例"></a>一个完整的示例</h2><pre><code>public class MainActivity extends AppCompatActivity {
+<h2 id="一个完整的示例"><a href="#一个完整的示例" class="headerlink" title="一个完整的示例"></a>一个完整的示例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">    private EditText dataEditText;</span><br><span class="line">    private String inputText;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        dataEditText &#x3D; findViewById(R.id.editText);</span><br><span class="line">        inputText &#x3D; load();</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; TextUtils.isEmpty方法：当 inputText 为 null 或 空 时返回 true</span><br><span class="line">        if (!TextUtils.isEmpty(inputText))&#123;</span><br><span class="line">            dataEditText.setText(inputText);</span><br><span class="line">            dataEditText.setSelection(inputText.length());</span><br><span class="line">            Toast.makeText(this, &quot;恢复数据成功&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 从文件加载数据</span><br><span class="line">    private String load() &#123;</span><br><span class="line">        StringBuilder content &#x3D; new StringBuilder();</span><br><span class="line">        String line;</span><br><span class="line"></span><br><span class="line">        try (</span><br><span class="line">                FileInputStream fileInputStream &#x3D; openFileInput(&quot;data&quot;);</span><br><span class="line">                BufferedReader bufferedReader &#x3D; new BufferedReader(new InputStreamReader(fileInputStream))</span><br><span class="line">        )&#123;</span><br><span class="line">            while( (line &#x3D; bufferedReader.readLine()) !&#x3D; null )&#123;</span><br><span class="line">                content.append(line);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (IOException IOe)&#123;</span><br><span class="line">            IOe.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return content.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onDestroy() &#123;</span><br><span class="line">        super.onDestroy();</span><br><span class="line">        String inputText &#x3D; dataEditText.getText().toString();</span><br><span class="line">        saveText(inputText);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;保存数据到文件</span><br><span class="line">    private void saveText(String inputText) &#123;</span><br><span class="line">        try(</span><br><span class="line">             FileOutputStream outputStream &#x3D; openFileOutput(&quot;data&quot;,Context.MODE_PRIVATE);</span><br><span class="line">             BufferedWriter bufferedWriter &#x3D; new BufferedWriter(new OutputStreamWriter(outputStream))</span><br><span class="line">           )&#123;</span><br><span class="line">            bufferedWriter.write(inputText);</span><br><span class="line">        &#125; catch ( IOException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    private EditText dataEditText;
-    private String inputText;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        dataEditText = findViewById(R.id.editText);
-        inputText = load();
-
-        // TextUtils.isEmpty方法：当 inputText 为 null 或 空 时返回 true
-        if (!TextUtils.isEmpty(inputText)){
-            dataEditText.setText(inputText);
-            dataEditText.setSelection(inputText.length());
-            Toast.makeText(this, &quot;恢复数据成功&quot;, Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    // 从文件加载数据
-    private String load() {
-        StringBuilder content = new StringBuilder();
-        String line;
-
-        try (
-                FileInputStream fileInputStream = openFileInput(&quot;data&quot;);
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream))
-        ){
-            while( (line = bufferedReader.readLine()) != null ){
-                content.append(line);
-            }
-        } catch (IOException IOe){
-            IOe.printStackTrace();
-        }
-        return content.toString();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        String inputText = dataEditText.getText().toString();
-        saveText(inputText);
-    }
-
-    //保存数据到文件
-    private void saveText(String inputText) {
-        try(
-             FileOutputStream outputStream = openFileOutput(&quot;data&quot;,Context.MODE_PRIVATE);
-             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream))
-           ){
-            bufferedWriter.write(inputText);
-        } catch ( IOException e){
-            e.printStackTrace();
-        }
-    }
-}</code></pre><p>思路：</p>
+<p>思路：</p>
 <ul>
 <li>在 <code>onCreate()</code>方法中调用 <code>load()</code> 来读取文件中的数据</li>
 <li>在 <code>onDestroy()</code>方法中调用 <code>saveText()</code> 来保存数据到文件</li>
@@ -909,14 +721,8 @@ java.lang.IllegalStateException: Unable to acquire application service. Ensure t
 </ul>
 <p>参阅：<a href="https://developer.android.com/guide/components/intents-filters.html?hl=zh-cn">官方文档 - Intent 和 Intent 过滤器</a></p>
 <h2 id="使用显式Intent"><a href="#使用显式Intent" class="headerlink" title="使用显式Intent"></a>使用显式Intent</h2><p>显式 Intent 指的是明确地按名称（完全限定类名）指定要启动的组件。比如说，如果我们想在FirstActivity这个活动中打开SecondActivity，我们可以在FirstActivity中的一个按钮点击中调用<code>StartActivity</code>，传入intent对象。</p>
-<pre><code class="java">Button buttonIntent = (Button) findViewById(R.id.button_intent);
-buttonIntent.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        Intent intent = new Intent(MainActivity.this,SecondActivity.class);
-        startActivity(intent);
-    }
-});</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Button buttonIntent = (Button) findViewById(R.id.button_intent);</span><br><span class="line">buttonIntent.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent(MainActivity.<span class="keyword">this</span>,SecondActivity<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        startActivity(intent);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>定义一个按钮</li>
 <li>在按钮点击事件中 new 一个 intent 对象</li>
@@ -925,13 +731,8 @@ buttonIntent.setOnClickListener(new View.OnClickListener() {
 <h2 id="使用隐式Intent"><a href="#使用隐式Intent" class="headerlink" title="使用隐式Intent"></a>使用隐式Intent</h2><p>隐式 Intent 不会指定特定的组件，而是声明要执行的常规操作，从而允许其他应用中的组件来处理它。 例如，如需在地图上向用户显示位置，则可以使用隐式 Intent，请求另一具有此功能的应用在地图上显示指定的位置。</p>
 <p>创建隐式 Intent 时，Android 系统通过将 Intent 的内容与在设备上其他应用的清单文件中声明的 Intent 过滤器进行比较，从而找到要启动的相应组件。 如果 Intent 与 Intent 过滤器匹配，则系统将启动该组件，并向其传递 Intent 对象。 如果多个 Intent 过滤器兼容，则系统会显示一个对话框，支持用户选取要使用的应用。</p>
 <p>在AndroidManifest.xml中，把SecondActivity段修改如下</p>
-<pre><code class="xml">&lt;activity android:name=&quot;.SecondActivity&quot;&gt;
-    &lt;intent-filter&gt;
-        &lt;action android:name=&quot;com.jerrysheh.hello.ACTION_START&quot; /&gt;
-        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;
-        &lt;category android:name=&quot;com.jerrysheh.hello.MY_CATEGORY&quot;/&gt;
-    &lt;/intent-filter&gt;
-&lt;/activity&gt;</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".SecondActivity"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.jerrysheh.hello.ACTION_START"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"com.jerrysheh.hello.MY_CATEGORY"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>在&lt;intent-filter&gt;中增添了<code>action</code>和<code>category</code>段，只有 action 和 category 同时匹配才能响应该Intent。每个Intent中只能指定一个action，但能指定多个category。</p>
 <ul>
 <li><strong>action</strong>：声明接受的 Intent 操作。</li>
@@ -941,108 +742,53 @@ buttonIntent.setOnClickListener(new View.OnClickListener() {
 <p>除了<code>action</code>和<code>category</code>外，还有一个<code>data</code>，请参考<a href="https://developer.android.com/guide/components/intents-filters.html?hl=zh-cn">官方文档</a></p>
 </blockquote>
 <p>修改按钮点击事件， new Intent对象，因为我们想启动能到响应为<code>com.jerrysheh.hello.ACTION_START</code>这个action的活动，因此参数填入<code>com.jerrysheh.hello.ACTION_START</code>。</p>
-<pre><code class="java">Button buttonIntent = (Button) findViewById(R.id.button_intent);
-buttonIntent.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        Intent intent = new Intent(&quot;com.jerrysheh.hello.ACTION_START&quot;);
-        intent.addCategory(&quot;com.jerrysheh.hello.MY_CATEGORY&quot;);
-        startActivity(intent);
-    }
-});</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Button buttonIntent = (Button) findViewById(R.id.button_intent);</span><br><span class="line">buttonIntent.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent(<span class="string">"com.jerrysheh.hello.ACTION_START"</span>);</span><br><span class="line">        intent.addCategory(<span class="string">"com.jerrysheh.hello.MY_CATEGORY"</span>);</span><br><span class="line">        startActivity(intent);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
 <p>或者，可以这样写,利用<code>intent.setAction</code>方法。</p>
-<pre><code class="java">Button buttonIntent = (Button) findViewById(R.id.button_intent);
-buttonIntent.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        Intent intent = new Intent();
-        intent.setAction(&quot;com.jerrysheh.hello.ACTION_START&quot;);
-        intent.addCategory(&quot;com.jerrysheh.hello.MY_CATEGORY&quot;);
-        startActivity(intent);
-    }
-});</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Button buttonIntent = (Button) findViewById(R.id.button_intent);</span><br><span class="line">buttonIntent.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent();</span><br><span class="line">        intent.setAction(<span class="string">"com.jerrysheh.hello.ACTION_START"</span>);</span><br><span class="line">        intent.addCategory(<span class="string">"com.jerrysheh.hello.MY_CATEGORY"</span>);</span><br><span class="line">        startActivity(intent);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
 <p>如果intent.addCategory指定的Category没有一个活动能够匹配，那么程序会抛出异常。稍作修改，用<code>resolveActivity()</code>方法来判断是否有应用能响应。假设没有活动匹配，就不启动<code>startActivity()</code>;</p>
-<pre><code class="java">Button buttonIntent = (Button) findViewById(R.id.button_intent);
-buttonIntent.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        Intent intent = new Intent(&quot;com.jerrysheh.hello.ACTION_START&quot;);
-        intent.addCategory(&quot;com.jerrysheh.hello.MY_CATEGORY&quot;);
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Button buttonIntent = (Button) findViewById(R.id.button_intent);</span><br><span class="line">buttonIntent.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent(<span class="string">"com.jerrysheh.hello.ACTION_START"</span>);</span><br><span class="line">        intent.addCategory(<span class="string">"com.jerrysheh.hello.MY_CATEGORY"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (intent.resolveActivity(getPackageManager()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            startActivity(intent);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
-
-    }
-});</code></pre>
 <hr>
 <h1 id="Intent的更多用法"><a href="#Intent的更多用法" class="headerlink" title="Intent的更多用法"></a>Intent的更多用法</h1><h2 id="调用浏览器和拨号"><a href="#调用浏览器和拨号" class="headerlink" title="调用浏览器和拨号"></a>调用浏览器和拨号</h2><p>new 一个 Intnet 对象后， 用 <code>intent.setData(uri)</code> 方法可以调用其他程序</p>
 <p>比如调用浏览器打开 github</p>
-<pre><code class="java">  Intent intent = new Intent(&quot;com.jerrysheh.hello.ACTION_START&quot;);
-  intent.setData(Uri.parse(&quot;https://www.github.com&quot;));
-  startActivity(intent);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent(<span class="string">"com.jerrysheh.hello.ACTION_START"</span>);</span><br><span class="line">intent.setData(Uri.parse(<span class="string">"https://www.github.com"</span>));</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+
 <p>调用系统拨号拨打10010</p>
-<pre><code class="java">  Intent intent = new Intent(Intent.ACTION_DIAL);
-  intent.setData(Uri.parse(&quot;tel:10010&quot;));
-  startActivity(intent);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent(Intent.ACTION_DIAL);</span><br><span class="line">intent.setData(Uri.parse(<span class="string">"tel:10010"</span>));</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+
 <p>可以在 AndroidManifest 的 &lt;intent - filter&gt;标签中配置 <data> 标签， 指定当前活动可以响应什么类型的数据。这样其他app响应这种数据的时候，Android系统会弹出选项，你的app会在可选列表里面</p>
-<pre><code class="xml">&lt;activity android:name=&quot;.SecondActivity&quot;&gt;
-    &lt;intent-filter&gt;
-        &lt;action android:name=&quot;com.jerrysheh.hello.ACTION_START&quot; /&gt;
-        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;
-        &lt;data android:schme=&quot;https&quot; /&gt;
-        &lt;data android:host=&quot;www.zhihu.com&quot; /&gt;
-    &lt;/intent-filter&gt;
-&lt;/activity&gt;</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".SecondActivity"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.jerrysheh.hello.ACTION_START"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">data</span> <span class="attr">android:schme</span>=<span class="string">"https"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">data</span> <span class="attr">android:host</span>=<span class="string">"www.zhihu.com"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>这样, 你的app可以响应知乎网站的浏览器调用</p>
 <hr>
 <h1 id="使用Intent传递数据"><a href="#使用Intent传递数据" class="headerlink" title="使用Intent传递数据"></a>使用Intent传递数据</h1><h2 id="向下一个活动传递数据"><a href="#向下一个活动传递数据" class="headerlink" title="向下一个活动传递数据"></a>向下一个活动传递数据</h2><p>可以用 intent 的 putExtra 方法向下一个活动传递数据。核心思想是，把数据存在String里，通过intent参数传递给下一个活动，下一个活动启动后从intent取出。</p>
 <p>存放 (MainActivity.java)</p>
-<pre><code class="java">  String data = &quot;this is data&quot;
-  Intent intent = new Intent(&quot;com.jerrysheh.hello.ACTION_START&quot;);
-  intent.putExtra(Intent.EXTRA_TEXT, data);
-  startActivity(intent);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String data = <span class="string">"this is data"</span></span><br><span class="line">Intent intent = <span class="keyword">new</span> Intent(<span class="string">"com.jerrysheh.hello.ACTION_START"</span>);</span><br><span class="line">intent.putExtra(Intent.EXTRA_TEXT, data);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+
 <p>取出 (SecondActivity.java)</p>
-<pre><code class="java">Intent intent = getIntent();
-String data = intent.getStringExtra(Intent.EXTRA_TEXT);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = getIntent();</span><br><span class="line">String data = intent.getStringExtra(Intent.EXTRA_TEXT);</span><br></pre></td></tr></table></figure>
+
 <h2 id="返回数据给上一个活动"><a href="#返回数据给上一个活动" class="headerlink" title="返回数据给上一个活动"></a>返回数据给上一个活动</h2><p>Activity中有一个<code>StartActivityForResult()</code>方法用于启动一个活动，但期望活动销毁后（通常是按下返回键或调用<code>finish()</code>方法）返回一个结果给上一个活动。</p>
 <p>MainActivity.java</p>
-<pre><code class="java">Intent intent = new Intent(MainActivity.this,SecondActivity.class);
-StartActivityForResult(intent, 1);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent(MainActivity.<span class="keyword">this</span>,SecondActivity<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">StartActivityForResult(intent, <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
 <p>SecondActivity.java</p>
-<pre><code class="java">Intent intent = new Intent();
-intent.putExtra(&quot;data_return&quot;, &quot;this is back data&quot;);
-setResult(RESULT_OK, intent);
-finish();</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent();</span><br><span class="line">intent.putExtra(<span class="string">"data_return"</span>, <span class="string">"this is back data"</span>);</span><br><span class="line">setResult(RESULT_OK, intent);</span><br><span class="line">finish();</span><br></pre></td></tr></table></figure>
+
 <p>当然，返回数据后，会回调MainActivity的<code>onActivityResult()</code>方法，因此我们还需要重写这个方法拿到SecondActivity返回来的数据。</p>
-<pre><code class="java">@Override
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-  switch(requestCode) {
-    case 1:
-    if (requestCode == RESULT_OK) {
-      String returnData = data.getStringExtra(&quot;data_return&quot;);
-      ...
-    }
-    break;
-  }
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, Intent data)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">switch</span>(requestCode) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">    <span class="keyword">if</span> (requestCode == RESULT_OK) &#123;</span><br><span class="line">      String returnData = data.getStringExtra(<span class="string">"data_return"</span>);</span><br><span class="line">      ...</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="使用-intent-传递对象"><a href="#使用-intent-传递对象" class="headerlink" title="使用 intent 传递对象"></a>使用 intent 传递对象</h2><p>上面的 intent 只能传 String， 如果我们有一个 javabean 对象需要传递，怎么做呢？</p>
 <p>首先将实体类（bean）实现  Serializable 接口。<strong>注意:</strong> 如果 bean 里面嵌套了 bean，内部类也要声明为实现 Serializable 接口。</p>
-<pre><code class="java">public class bean implements Serializable {
-    int a;
-    int b;
-    String c;
-    Heybean d;
-    public static class Heybean implements Serializable {
-        ...
-    }
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">bean</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a;</span><br><span class="line">    <span class="keyword">int</span> b;</span><br><span class="line">    String c;</span><br><span class="line">    Heybean d;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Heybean</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>传递 activity</p>
-<pre><code class="java">Intent intent = new Intent(context, DetailActivity.class);
-intent.putExtra(&quot;name&quot;,detailbean);
-context.startActivity(intent);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent(context, DetailActivity<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">intent.putExtra(<span class="string">"name"</span>,detailbean);</span><br><span class="line">context.startActivity(intent);</span><br></pre></td></tr></table></figure>
+
 <p>接收 activity</p>
-<pre><code class="java">Bean detailBean = (Bean) getIntent().getSerializableExtra(&quot;name&quot;);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Bean detailBean = (Bean) getIntent().getSerializableExtra(<span class="string">"name"</span>);</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="Activity的生命周期"><a href="#Activity的生命周期" class="headerlink" title="Activity的生命周期"></a>Activity的生命周期</h1><p>Android 用 任务（Task）来管理活动，一个Task就是一组存放在返回栈（Back Stack）里的活动的集合。系统总是会显示处于栈顶的活动给用户。</p>
 <h2 id="Activity的四种状态"><a href="#Activity的四种状态" class="headerlink" title="Activity的四种状态"></a>Activity的四种状态</h2><ul>
@@ -1065,14 +811,8 @@ context.startActivity(intent);</code></pre>
 <p>当系统内存不足时，用户按下back键返回到上一个Activity，有可能上一个Activity已经被系统回收，这时不会执行<code>onRestart()</code>，而是执行<code>onCreate()</code>。遇到这种情况，如果上一个Activity有数据，那这些数据都丢失了，这是很影响用户体验的。解决办法是调用<code>onSaveInstantState()</code>回调方法。具体参见《第一行代码》第二版p62，以及<a href="https://developer.android.com/guide/components/activities.html?hl=zh-cn#Creating">Activity Google官方文档</a>（推荐）</p>
 </blockquote>
 <h2 id="Activity的启动模式"><a href="#Activity的启动模式" class="headerlink" title="Activity的启动模式"></a>Activity的启动模式</h2><p>Activity有四种启动模式，可以在 AndroidManifest.xml 的 <activity> 标签中修改</p>
-<pre><code class="xml">&lt;activity
-  android:name=&quot;.SecondActivity&quot;
-  android:launchMode=&quot;singleTop&quot;&gt;
-    &lt;intent-filter&gt;
-        &lt;action android:name=&quot;com.jerrysheh.hello.ACTION_START&quot; /&gt;
-        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;
-    &lt;/intent-filter&gt;
-&lt;/activity&gt;</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">  <span class="attr">android:name</span>=<span class="string">".SecondActivity"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">android:launchMode</span>=<span class="string">"singleTop"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.jerrysheh.hello.ACTION_START"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p><code>android:launchMode</code>可填以下四种模式</p>
 <ul>
 <li><p>standard</p>
@@ -1140,17 +880,7 @@ context.startActivity(intent);</code></pre>
 <p>参阅<a href="https://developer.android.com/guide/components/activities.html?hl=zh-cn#Creating">Activity Google官方文档</a></p>
 <hr>
 <h1 id="布局-XML"><a href="#布局-XML" class="headerlink" title="布局 XML"></a>布局 XML</h1><p>Android 项目中的布局在 res/layouts 目录下的 XML 文件编写。</p>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><pre><code class="xml">&lt;TextView
-    android:id=&quot;@+id/hello&quot;
-    android:layout_width=&quot;wrap_content&quot;
-    android:layout_height=&quot;wrap_content&quot;
-    android:text=&quot;Hello World!&quot;  /&gt;
-
-&lt;Button
-    android:id=&quot;@+id/button&quot;
-    android:layout_width=&quot;wrap_content&quot;
-    android:layout_height=&quot;wrap_content&quot;
-    android:text=&quot;确定&quot;/&gt;</code></pre>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:id</span>=<span class="string">"@+id/hello"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:text</span>=<span class="string">"Hello World!"</span>  /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:id</span>=<span class="string">"@+id/button"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:text</span>=<span class="string">"确定"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
         </div>
         
         
@@ -1314,7 +1044,7 @@ context.startActivity(intent);</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -1326,7 +1056,7 @@ context.startActivity(intent);</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -1338,7 +1068,7 @@ context.startActivity(intent);</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -1423,25 +1153,25 @@ context.startActivity(intent);</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -1455,6 +1185,14 @@ context.startActivity(intent);</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -1463,20 +1201,20 @@ context.startActivity(intent);</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -1508,7 +1246,7 @@ context.startActivity(intent);</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -1516,7 +1254,15 @@ context.startActivity(intent);</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -1551,6 +1297,25 @@ context.startActivity(intent);</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1581,7 +1346,7 @@ context.startActivity(intent);</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1618,25 +1383,6 @@ context.startActivity(intent);</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1702,6 +1448,25 @@ context.startActivity(intent);</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1732,7 +1497,7 @@ context.startActivity(intent);</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1769,25 +1534,6 @@ context.startActivity(intent);</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1850,7 +1596,7 @@ context.startActivity(intent);</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1904,7 +1650,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

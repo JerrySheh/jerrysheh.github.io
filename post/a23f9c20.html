@@ -38,7 +38,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -171,53 +171,29 @@
 <p><img src="../../../../images/Java/atomic.png" alt="atomic"></p>
 <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>非阻塞并发算法（CAS）。</p>
 <h2 id="原子类的更新问题"><a href="#原子类的更新问题" class="headerlink" title="原子类的更新问题"></a>原子类的更新问题</h2><p>用 Atomiclong 的 <code>incrementAndGet()</code> 方法或者 <code>set()</code> 方法更新值。</p>
-<pre><code class="java">private Atomiclong count = new AtomicLong(10);
-count.incrementAndGet(); // 11
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Atomiclong count = <span class="keyword">new</span> AtomicLong(<span class="number">10</span>);</span><br><span class="line">count.incrementAndGet(); <span class="comment">// 11</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">long</span> value = <span class="number">2L</span>;</span><br><span class="line">count.set(value);  <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
 
-long value = 2L;
-count.set(value);  // 2</code></pre>
 <p>当 value 是一个方法的返回值时，如<code>Math.max(count.get(), observed)</code> (选择两者中比较大的)，这个操作也并不安全。</p>
 <p>正确的做法是用<code>compareAndSet(old, new)</code>方法：</p>
-<pre><code class="java">do{
-    oldValue = count.get();
-    newValue = Math.max(count.get(), observed);
-} while(!count.compareAndSet(oldValue,newValue))</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span>&#123;</span><br><span class="line">    oldValue = count.get();</span><br><span class="line">    newValue = Math.max(count.get(), observed);</span><br><span class="line">&#125; <span class="keyword">while</span>(!count.compareAndSet(oldValue,newValue))</span><br></pre></td></tr></table></figure>
+
 <p>在Java 8中，上述样板代码可以简化为：</p>
-<pre><code class="java">count.updateAndGet(x-&gt;Math.max(count.get(), observed));
-// or
-count.accumulateAndGet(observed, Math::max);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">count.updateAndGet(x-&gt;Math.max(count.get(), observed));</span><br><span class="line"><span class="comment">// or</span></span><br><span class="line">count.accumulateAndGet(observed, Math::max);</span><br></pre></td></tr></table></figure>
+
 <h2 id="用-LongAdder-优化高并发性能问题"><a href="#用-LongAdder-优化高并发性能问题" class="headerlink" title="用 LongAdder 优化高并发性能问题"></a>用 LongAdder 优化高并发性能问题</h2><p>如果在高并发情况下 Atomiclong 的 CAS 乐观锁需要太多次重试，这会带来一定的性能下降。Java 8 提供了 LongAdder 类。其思想跟JDK 1.7的 concurrenthashmap类似，采用分段的思想。LongAdder 内部包含多个值，每个线程只更新其中的一个，然后返回所有值的和。</p>
 <p>LongAdder 适用于统计求和计数的场景，例如计算qps。在高并发场景下，qps这个值会被多个线程频繁更新的，所以 LongAdder 很适合。但 LongAdder 并不能替代 Atomiclong。</p>
-<pre><code class="java">final LongAdder adder = new LongAdder();
-// thread 1
-adder.increment();
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> LongAdder adder = <span class="keyword">new</span> LongAdder();</span><br><span class="line"><span class="comment">// thread 1</span></span><br><span class="line">adder.increment();</span><br><span class="line"></span><br><span class="line"><span class="comment">// thread 2</span></span><br><span class="line">adder.increment();</span><br><span class="line"></span><br><span class="line"><span class="comment">// main thread</span></span><br><span class="line">adder.sum();</span><br></pre></td></tr></table></figure>
 
-// thread 2
-adder.increment();
-
-// main thread
-adder.sum();</code></pre>
 <p>LongAccumulator 将这种思想推广到任意的累加操作，而不仅仅是+1</p>
 <hr>
 <h1 id="同步容器类"><a href="#同步容器类" class="headerlink" title="同步容器类"></a>同步容器类</h1><p>同步容器类包括 Vector 和 Hashtable。</p>
 <p>它们实现线程安全的方式十分简单粗暴：<strong>对每个公有方法进行同步，使得每次只有一个线程能够访问容器的状态</strong>。这种线程安全方式对于容器自身来说是安全的，但在调用方可能会出现问题，因此使用时要注意调用方可能需要做一些额外的协调。例如：</p>
-<pre><code class="java">// 获取 Vector 最后一个元素
-public static Object getLast(Vector list){
-  int lastIndex = list.size() - 1;
-  return list.get(lastIndex);
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取 Vector 最后一个元素</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">getLast</span><span class="params">(Vector list)</span></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> lastIndex = list.size() - <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">return</span> list.get(lastIndex);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 删除 Vector 最后一个元素</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">deleteLast</span><span class="params">(Vector list)</span></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> lastIndex = list.size() - <span class="number">1</span>;</span><br><span class="line">  list.remove(lastIndex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-// 删除 Vector 最后一个元素
-public static void deleteLast(Vector list){
-  int lastIndex = list.size() - 1;
-  list.remove(lastIndex);
-}</code></pre>
 <p>从 Vector 的角度，无论你用多少个线程调用多少次<code>deleteLast()</code>方法，都不会让 Vector 内部出问题。然而，从调用者的角度，线程A调用getLast，线程A先观察到size为10，然后时间片切换到线程B调用deleteLast，B也观察到size为10，然后B删除了最后一个元素，然后A获取最后一个元素，发现这个元素不存在，于是抛出<code>ArrayIndexOutOfBoundsException</code>。</p>
 <p>另一个例子是，用一个 for 循环迭代 Vector，循环到一半时，另一个线程删除了后面某些元素，迭代到后面时就会找不到元素抛出<code>ArrayIndexOutOfBoundsException</code>。</p>
-<pre><code class="java">// 如果迭代到一半，另一个线程删除了后面的元素，导致 get(i) 取不到
-for (int i=0; i &lt; vector.size() ;i++ ) {
-  doSomething(vector.get(i));
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果迭代到一半，另一个线程删除了后面的元素，导致 get(i) 取不到</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; vector.size() ;i++ ) &#123;</span><br><span class="line">  doSomething(vector.get(i));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>我们通常会用 Iterator 可以对集合进行遍历，但是却 <strong>不能在遍历过程对原集合做增、删、改</strong>，会抛出 <code>ConcurrentModificationException</code>。这是 Java 的一种并发预警警示器，叫 fail-fast。告知我们集合在遍历过程中被修改了。</p>
 <p>有时候，我们看起来好像没有迭代，但仍然抛出了<code>ConcurrentModificationException</code>。是因为有些方法隐式地进行了迭代，如打印一个Hashset，事实上会调用 toString 方法，这个方法不断调用 StringBuilder.append 把各个元素转为字符串，这其实就是迭代了。同理，hashCode方法、equals方法、containAll、removeAll、retainAll等方法都是如此。</p>
 <p><font color="red">因此，使用同步容器类时，需要在调用方加 synchronized 同步。</font></p>
@@ -227,57 +203,30 @@ for (int i=0; i &lt; vector.size() ;i++ ) {
 <p><img src="../../../../images/Java/concurrentHashMap.png" alt="concurrentHashMap"></p>
 <p><strong>但是在JDK 1.8中，取消了基于 Segment 的分段锁思想，改用 CAS + synchronized 控制并发操作</strong>。</p>
 <p>ConcurrentHashMap 迭代时不会抛出 <code>ConcurrentModificationException</code>，是 fail-safe 的。它实现了 ConcurrentMap 接口，如下：</p>
-<pre><code class="java">public interface ConcurrentMap&lt;K, V&gt; extends Map&lt;K, V&gt; {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ConcurrentMap</span>&lt;<span class="title">K</span>, <span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">Map</span>&lt;<span class="title">K</span>, <span class="title">V</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 仅当 K 没有相应的映射值时才插入</span></span><br><span class="line">    <span class="function">V <span class="title">putIfAbsent</span><span class="params">(K key, V value)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 仅当 K 被映射到 value 时才插入</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object key, Object value)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 仅当 K 被映射到 oldValue 时才替换为 newValue</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">replace</span><span class="params">(K key, V oldValue, V newValue)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 仅当 K 被映射到某个值时才替换为 newValue</span></span><br><span class="line">    <span class="function">V <span class="title">replace</span><span class="params">(K key, V value)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 仅当 K 没有相应的映射值时才插入
-    V putIfAbsent(K key, V value);
-
-    // 仅当 K 被映射到 value 时才插入
-    boolean remove(Object key, Object value);
-
-    // 仅当 K 被映射到 oldValue 时才替换为 newValue
-    boolean replace(K key, V oldValue, V newValue);
-
-    // 仅当 K 被映射到某个值时才替换为 newValue
-    V replace(K key, V value);
-}</code></pre>
 <p>concurrentHashMap有两个带参构造器</p>
-<pre><code class="java">// initialCapacity - 初始容量（默认16）
-concurrentHashMap&lt;K, V&gt;(int initialCapacity);
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// initialCapacity - 初始容量（默认16）</span></span><br><span class="line">concurrentHashMap&lt;K, V&gt;(<span class="keyword">int</span> initialCapacity);</span><br><span class="line"></span><br><span class="line"><span class="comment">// loadactor - 如果每一个桶的平均负载超过这个值，会重新调整大小（默认0.75）</span></span><br><span class="line"><span class="comment">// concurrencyLevel - 并发写线程的估计数</span></span><br><span class="line">concurrentHashMap&lt;K, V&gt;(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadactor, <span class="keyword">int</span> concurrencyLevel)</span><br></pre></td></tr></table></figure>
 
-// loadactor - 如果每一个桶的平均负载超过这个值，会重新调整大小（默认0.75）
-// concurrencyLevel - 并发写线程的估计数
-concurrentHashMap&lt;K, V&gt;(int initialCapacity, float loadactor, int concurrencyLevel)</code></pre>
 <h3 id="使用-concurrentHashMap-做词频统计的例子"><a href="#使用-concurrentHashMap-做词频统计的例子" class="headerlink" title="使用 concurrentHashMap 做词频统计的例子"></a>使用 concurrentHashMap 做词频统计的例子</h3><p>考虑下面的例子，我们需要在每次访问时将 map 里面的值+1，虽然 concurrentHashMap 内部是线程安全的，但是这段代码并非线程安全，另一个线程可能也正在更新数值。</p>
-<pre><code class="java">ConcurrentHashMap&lt;String,Long&gt; map = new ConcurrentHashMap();
-long oldValue = map.get(word);
-long newValue = oldValue == null ? 1 : oldValue+1;
-map.put(word, newValue);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ConcurrentHashMap&lt;String,Long&gt; map = <span class="keyword">new</span> ConcurrentHashMap();</span><br><span class="line"><span class="keyword">long</span> oldValue = map.get(word);</span><br><span class="line"><span class="keyword">long</span> newValue = oldValue == <span class="keyword">null</span> ? <span class="number">1</span> : oldValue+<span class="number">1</span>;</span><br><span class="line">map.put(word, newValue);</span><br></pre></td></tr></table></figure>
+
 <p>一般的改进如下，用到了CAS的思想，使用 replace 方法，如果替换不成功就不断尝试。</p>
-<pre><code class="java">do {
-    oldValue = map.get(word);
-    newValue = oldValue == null ? 1 : oldValue+1;
-} while (!map.replace(word, oldValue, newValue));</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    oldValue = map.get(word);</span><br><span class="line">    newValue = oldValue == <span class="keyword">null</span> ? <span class="number">1</span> : oldValue+<span class="number">1</span>;</span><br><span class="line">&#125; <span class="keyword">while</span> (!map.replace(word, oldValue, newValue));</span><br></pre></td></tr></table></figure>
+
 <p>但是我们太讨厌这样的样板代码了，进一步改进如下：</p>
-<pre><code class="java">// 把 Long 换成了 LongAdder
-ConcurrentHashMap&lt;String,LongAdder&gt; map = new ConcurrentHashMap();
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 把 Long 换成了 LongAdder</span></span><br><span class="line">ConcurrentHashMap&lt;String,LongAdder&gt; map = <span class="keyword">new</span> ConcurrentHashMap();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果为空，新建</span></span><br><span class="line">map.putIfAbsent(word, <span class="keyword">new</span> LongAdder());</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取再+1</span></span><br><span class="line">map.get(word).increment();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 上面两句可以合并为一句</span></span><br><span class="line">map.putIfAbsent(word, <span class="keyword">new</span> LongAdder()).increment();</span><br></pre></td></tr></table></figure>
 
-// 如果为空，新建
-map.putIfAbsent(word, new LongAdder());
-
-// 获取再+1
-map.get(word).increment();
-
-// 上面两句可以合并为一句
-map.putIfAbsent(word, new LongAdder()).increment();</code></pre>
 <p>Java 8 中，compute 方法传入一个 key 和一个计算新值的函数，用于完成原子更新，推荐使用：</p>
-<pre><code class="java">map.compute(word, (k,v)-&gt; v == null? 1:v+1);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map.compute(word, (k,v)-&gt; v == <span class="keyword">null</span>? <span class="number">1</span>:v+<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
 <h2 id="CopyOnWriteArrayList"><a href="#CopyOnWriteArrayList" class="headerlink" title="CopyOnWriteArrayList"></a>CopyOnWriteArrayList</h2><p>这是一个写入时复制（Copy-On-Write）并发容器，用于替代同步的List。在每次修改时，都会创建并重新发布一个新的容器副本。迭代器不会抛出<code>ConcurrentModificationException</code>，是 fail-safe 的。当迭代操作远远多于修改操作时，应该考虑使用Copy-On-Write容器。</p>
 <h2 id="BlockingQueue（生产者消费者模式）"><a href="#BlockingQueue（生产者消费者模式）" class="headerlink" title="BlockingQueue（生产者消费者模式）"></a>BlockingQueue（生产者消费者模式）</h2><p>BlockingQueue 是一个阻塞队列接口。其 put 方法将一个元素放进队列头端，如果队列已满，就一直阻塞，直到队列空出位置。同理，take 方法将从队列尾端取出一个元素，如果队列未空，就一直阻塞，直到队列有元素。</p>
 <p><img src="../../../../images/Java/blocking-queue.png" alt="blocking-queue"></p>
 <p>BlockingQueue非常适合用来做生产者-消费者模式。其优点是，将生产数据的过程与使用数据的过程解耦。</p>
 <p>BlockingQueue 也提供了一个 offer 方法，如果数据不能添加进队列，返回一个失败状态。offer 方法可以带时间参数，表示在一段时间内尝试添加元素。poll 同理。</p>
-<pre><code class="java">boolean success = queue.offer(x, 100, TimeUnit.MILLSECONDS);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> success = queue.offer(x, <span class="number">100</span>, TimeUnit.MILLSECONDS);</span><br></pre></td></tr></table></figure>
+
 <p>BlockingQueue 的实现类有 LinkedBlockingQueue 和 ArrayBlockingQueue，以及按优先级排序的 PriorityBlockingQueue。还有一个比较特殊的 SynchronousQueue，它没有存储空间，只是维护一组线程。例如，一个线程 put 会被阻塞，直到另一个线程 take，才算成功交付。</p>
 <table>
 <thead>
@@ -339,20 +288,12 @@ map.putIfAbsent(word, new LongAdder()).increment();</code></pre>
 </ul>
 <p>CountDownLatch 是一种闭锁的实现。包括一个计数器，一开始为正数，表示需要等待的事件数量。以及 countDown 方法，每当一个等待的事件发生了，计数器就减一。直到为零闭锁打开。如果计数器不为零，那 await 会一直阻塞直到计数器为零，或者等待中的线程中断，或者等待超时。</p>
 <h2 id="栅栏（Barrier）"><a href="#栅栏（Barrier）" class="headerlink" title="栅栏（Barrier）"></a>栅栏（Barrier）</h2><p>栅栏跟闭锁类似，不同点在于，所有线程必须同时到达栅栏位置，才能继续执行。<strong>闭锁用于等待事件，而栅栏用于等待其他线程</strong>，当所有线程到达 <code>barrier.await();</code> 的位置，栅栏放开。</p>
-<pre><code class="java">// param 1 参与的线程数量 ， param 2 栅栏放开后执行的 runnable
-CyclicBarrier barrier = new CyclicBarrier(2, myRunnable);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// param 1 参与的线程数量 ， param 2 栅栏放开后执行的 runnable</span></span><br><span class="line">CyclicBarrier barrier = <span class="keyword">new</span> CyclicBarrier(<span class="number">2</span>, myRunnable);</span><br></pre></td></tr></table></figure>
+
 <p>CyclicBarrier 与 CountDownLatch 的区别在于 CyclicBarrier 是可以重用的。 CyclicBarrier 可以使一定数据的参与方反复地在栅栏位置汇集，通常用于并行迭代算法。</p>
 <h2 id="信号量（Semaphore）"><a href="#信号量（Semaphore）" class="headerlink" title="信号量（Semaphore）"></a>信号量（Semaphore）</h2><p>计数信号量（Counting Semaphore）用来控制同时访问某个特定资源的操作数量，或者同时执行某个指定操作的数量。</p>
 <p>Semaphore 与 CountDownLatch 的区别在于 Semaphore 的计数器减少之后，还可以再增加，表示可用的资源数量。Semaphore 可以用来实现资源池，如数据库连接池。</p>
-<pre><code class="java">Semaphore semaphore = new Semaphore(1);
-
-//资源被使用代码
-
-semaphore.acquire(); // 资源被获取
-
-// 资源使用完毕代码
-
-semaphore.release(); // 资源被释放</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Semaphore semaphore = <span class="keyword">new</span> Semaphore(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//资源被使用代码</span></span><br><span class="line"></span><br><span class="line">semaphore.acquire(); <span class="comment">// 资源被获取</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 资源使用完毕代码</span></span><br><span class="line"></span><br><span class="line">semaphore.release(); <span class="comment">// 资源被释放</span></span><br></pre></td></tr></table></figure>
 
         </div>
         
@@ -441,7 +382,7 @@ semaphore.release(); // 资源被释放</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -453,7 +394,7 @@ semaphore.release(); // 资源被释放</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -465,7 +406,7 @@ semaphore.release(); // 资源被释放</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -622,25 +563,25 @@ semaphore.release(); // 资源被释放</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -654,6 +595,14 @@ semaphore.release(); // 资源被释放</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -662,20 +611,20 @@ semaphore.release(); // 资源被释放</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -707,7 +656,7 @@ semaphore.release(); // 资源被释放</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -715,7 +664,15 @@ semaphore.release(); // 资源被释放</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -750,6 +707,25 @@ semaphore.release(); // 资源被释放</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -780,7 +756,7 @@ semaphore.release(); // 资源被释放</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -817,25 +793,6 @@ semaphore.release(); // 资源被释放</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -901,6 +858,25 @@ semaphore.release(); // 资源被释放</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -931,7 +907,7 @@ semaphore.release(); // 资源被释放</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -968,25 +944,6 @@ semaphore.release(); // 资源被释放</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1049,7 +1006,7 @@ semaphore.release(); // 资源被释放</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1103,7 +1060,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -180,149 +180,150 @@
 </ol>
 <a id="more"></a>
 
-<h1 id="一-调整鼠标速度"><a href="#一-调整鼠标速度" class="headerlink" title="一. 调整鼠标速度"></a>一. 调整鼠标速度</h1><pre><code>xset m N</code></pre><ul>
+<h1 id="一-调整鼠标速度"><a href="#一-调整鼠标速度" class="headerlink" title="一. 调整鼠标速度"></a>一. 调整鼠标速度</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xset m N</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li>其中 N 是速度速度值，0（最慢）- 10（最快）</li>
 </ul>
 <hr>
-<h1 id="二-解决-win10-Ubuntu-双系统-时间不同步的问题"><a href="#二-解决-win10-Ubuntu-双系统-时间不同步的问题" class="headerlink" title="二. 解决 win10 + Ubuntu 双系统 时间不同步的问题"></a>二. 解决 win10 + Ubuntu 双系统 时间不同步的问题</h1><h2 id="1-先在-Ubuntu-下更新时间，确保时间无误"><a href="#1-先在-Ubuntu-下更新时间，确保时间无误" class="headerlink" title="1. 先在 Ubuntu 下更新时间，确保时间无误"></a>1. 先在 Ubuntu 下更新时间，确保时间无误</h2><pre><code>sudo apt-get install ntpdate
-sudo ntpdate time.windows.com</code></pre><h2 id="2-然后将时间更新到硬件上"><a href="#2-然后将时间更新到硬件上" class="headerlink" title="2. 然后将时间更新到硬件上"></a>2. 然后将时间更新到硬件上</h2><pre><code>sudo hwclock --localtime --systohc</code></pre><h2 id="3-Enjoy！"><a href="#3-Enjoy！" class="headerlink" title="3. Enjoy！"></a>3. Enjoy！</h2><!-- more -->
+<h1 id="二-解决-win10-Ubuntu-双系统-时间不同步的问题"><a href="#二-解决-win10-Ubuntu-双系统-时间不同步的问题" class="headerlink" title="二. 解决 win10 + Ubuntu 双系统 时间不同步的问题"></a>二. 解决 win10 + Ubuntu 双系统 时间不同步的问题</h1><h2 id="1-先在-Ubuntu-下更新时间，确保时间无误"><a href="#1-先在-Ubuntu-下更新时间，确保时间无误" class="headerlink" title="1. 先在 Ubuntu 下更新时间，确保时间无误"></a>1. 先在 Ubuntu 下更新时间，确保时间无误</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ntpdate</span><br><span class="line">sudo ntpdate time.windows.com</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-然后将时间更新到硬件上"><a href="#2-然后将时间更新到硬件上" class="headerlink" title="2. 然后将时间更新到硬件上"></a>2. 然后将时间更新到硬件上</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo hwclock --localtime --systohc</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Enjoy！"><a href="#3-Enjoy！" class="headerlink" title="3. Enjoy！"></a>3. Enjoy！</h2><!-- more -->
 
 <hr>
 <h1 id="三-Ubuntu-提示-boot-空间不足的解决办法"><a href="#三-Ubuntu-提示-boot-空间不足的解决办法" class="headerlink" title="三. Ubuntu 提示 /boot 空间不足的解决办法"></a>三. Ubuntu 提示 /boot 空间不足的解决办法</h1><p>Ubuntu 系统更新的时候，有时候会提示 /boot 空间不足，原因是 Linux 更新后，内核的旧版本不再使用，但还存放在 /boot 目录下。所以，手动将这些旧版本内核删除即可。</p>
-<h2 id="1-查看旧版本内核"><a href="#1-查看旧版本内核" class="headerlink" title="1. 查看旧版本内核"></a>1. 查看旧版本内核</h2><pre><code>dpkg --get-selections|grep linux</code></pre><p>看到带有 Linux-image-x.x.x的就是旧版本。</p>
-<h2 id="2-删除"><a href="#2-删除" class="headerlink" title="2. 删除"></a>2. 删除</h2><pre><code>sudo apt-get remove Linux-image-(版本号)</code></pre><h2 id="3-删除不干净的可以使用以下命令"><a href="#3-删除不干净的可以使用以下命令" class="headerlink" title="3. 删除不干净的可以使用以下命令"></a>3. 删除不干净的可以使用以下命令</h2><pre><code>sudo apt-get autoremove</code></pre><h2 id="4-Done！"><a href="#4-Done！" class="headerlink" title="4. Done！"></a>4. Done！</h2><hr>
+<h2 id="1-查看旧版本内核"><a href="#1-查看旧版本内核" class="headerlink" title="1. 查看旧版本内核"></a>1. 查看旧版本内核</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg --get-selections|grep linux</span><br></pre></td></tr></table></figure>
+
+<p>看到带有 Linux-image-x.x.x的就是旧版本。</p>
+<h2 id="2-删除"><a href="#2-删除" class="headerlink" title="2. 删除"></a>2. 删除</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove Linux-image-(版本号)</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-删除不干净的可以使用以下命令"><a href="#3-删除不干净的可以使用以下命令" class="headerlink" title="3. 删除不干净的可以使用以下命令"></a>3. 删除不干净的可以使用以下命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get autoremove</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-Done！"><a href="#4-Done！" class="headerlink" title="4. Done！"></a>4. Done！</h2><hr>
 <h1 id="四-Ubuntu-国内更新源"><a href="#四-Ubuntu-国内更新源" class="headerlink" title="四. Ubuntu 国内更新源"></a>四. Ubuntu 国内更新源</h1><p>为了提高更新下载速度，可以把 Ubuntu 的更新源改为国内镜像。推荐使用阿里云源。因为大学的服务器在某些特殊时期因为某些原因可能无法访问，你懂的。</p>
-<h2 id="1-备份"><a href="#1-备份" class="headerlink" title="1. 备份"></a>1. 备份</h2><pre><code>sudo cp /etc/apt/sources.list /etc/apt/sources.list.old</code></pre><h2 id="2-查看当前系统版本"><a href="#2-查看当前系统版本" class="headerlink" title="2. 查看当前系统版本"></a>2. 查看当前系统版本</h2><pre><code>lsb_release -c
-Codename:       bionic</code></pre><h2 id="3-打开source-list"><a href="#3-打开source-list" class="headerlink" title="3. 打开source.list"></a>3. 打开source.list</h2><pre><code>sudo gedit /etc/apt/sources.list</code></pre><h2 id="4-添加以下国内源并覆盖原内容"><a href="#4-添加以下国内源并覆盖原内容" class="headerlink" title="4. 添加以下国内源并覆盖原内容"></a>4. 添加以下国内源并覆盖原内容</h2><p>阿里云（推荐）</p>
+<h2 id="1-备份"><a href="#1-备份" class="headerlink" title="1. 备份"></a>1. 备份</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cp &#x2F;etc&#x2F;apt&#x2F;sources.list &#x2F;etc&#x2F;apt&#x2F;sources.list.old</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-查看当前系统版本"><a href="#2-查看当前系统版本" class="headerlink" title="2. 查看当前系统版本"></a>2. 查看当前系统版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lsb_release -c</span><br><span class="line">Codename:       bionic</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-打开source-list"><a href="#3-打开source-list" class="headerlink" title="3. 打开source.list"></a>3. 打开source.list</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gedit &#x2F;etc&#x2F;apt&#x2F;sources.list</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-添加以下国内源并覆盖原内容"><a href="#4-添加以下国内源并覆盖原内容" class="headerlink" title="4. 添加以下国内源并覆盖原内容"></a>4. 添加以下国内源并覆盖原内容</h2><p>阿里云（推荐）</p>
 <p>16.04 xenial</p>
-<pre><code># deb cdrom:[Ubuntu 16.04 LTS _Xenial Xerus_ - Release amd64 (20160420.1)]/ xenial main restricted
-deb-src http://archive.ubuntu.com/ubuntu xenial main restricted #Added by software-properties
-deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial main restricted multiverse universe #Added by software-properties
-deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted multiverse universe #Added by software-properties
-deb http://mirrors.aliyun.com/ubuntu/ xenial universe
-deb http://mirrors.aliyun.com/ubuntu/ xenial-updates universe
-deb http://mirrors.aliyun.com/ubuntu/ xenial multiverse
-deb http://mirrors.aliyun.com/ubuntu/ xenial-updates multiverse
-deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse #Added by software-properties
-deb http://archive.canonical.com/ubuntu xenial partner
-deb-src http://archive.canonical.com/ubuntu xenial partner
-deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted multiverse universe #Added by software-properties
-deb http://mirrors.aliyun.com/ubuntu/ xenial-security universe
-deb http://mirrors.aliyun.com/ubuntu/ xenial-security multiverse</code></pre><p>18.04 bionic</p>
-<pre><code>deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse</code></pre><h2 id="5-更新"><a href="#5-更新" class="headerlink" title="5. 更新"></a>5. 更新</h2><pre><code>sudo apt-get update</code></pre><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># deb cdrom:[Ubuntu 16.04 LTS _Xenial Xerus_ - Release amd64 (20160420.1)]&#x2F; xenial main restricted</span><br><span class="line">deb-src http:&#x2F;&#x2F;archive.ubuntu.com&#x2F;ubuntu xenial main restricted #Added by software-properties</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; xenial main restricted</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; xenial main restricted multiverse universe #Added by software-properties</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; xenial-updates main restricted</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; xenial-updates main restricted multiverse universe #Added by software-properties</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; xenial universe</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; xenial-updates universe</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; xenial multiverse</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; xenial-updates multiverse</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; xenial-backports main restricted universe multiverse</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; xenial-backports main restricted universe multiverse #Added by software-properties</span><br><span class="line">deb http:&#x2F;&#x2F;archive.canonical.com&#x2F;ubuntu xenial partner</span><br><span class="line">deb-src http:&#x2F;&#x2F;archive.canonical.com&#x2F;ubuntu xenial partner</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; xenial-security main restricted</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; xenial-security main restricted multiverse universe #Added by software-properties</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; xenial-security universe</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; xenial-security multiverse</span><br></pre></td></tr></table></figure>
+
+<p>18.04 bionic</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic main restricted universe multiverse</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic main restricted universe multiverse</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-security main restricted universe multiverse</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-security main restricted universe multiverse</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-updates main restricted universe multiverse</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-updates main restricted universe multiverse</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-backports main restricted universe multiverse</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-backports main restricted universe multiverse</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-proposed main restricted universe multiverse</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="5-更新"><a href="#5-更新" class="headerlink" title="5. 更新"></a>5. 更新</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+
+<hr>
 <h1 id="五-利用-Xshell-SSH-在远程和本地之间传文件"><a href="#五-利用-Xshell-SSH-在远程和本地之间传文件" class="headerlink" title="五. 利用 Xshell / SSH 在远程和本地之间传文件"></a>五. 利用 Xshell / SSH 在远程和本地之间传文件</h1><p><del>购买了一台VPS，传文件还需要架设ftp服务器，实在是懒</del> 找到一个用 Xshell 传文件的方法，基本满足日常试用啦。</p>
 <p>2018.4.1 更新：后来发现 SSH 居然可以传文件！ 方法写在下面</p>
 <h2 id="使用-Xshell"><a href="#使用-Xshell" class="headerlink" title="使用 Xshell"></a>使用 Xshell</h2><h3 id="本地"><a href="#本地" class="headerlink" title="本地"></a>本地</h3><p>打开 Xshell5 – 文件 – 属性 – 文件传输 – 使用下列下载路径</p>
 <p>下载路径选择一个文件夹，存放从 VPS 下载到本地电脑的文件</p>
 <p>加载路径选择一个文件夹，这是从本地电脑上传文件到VPS默认打开的路径</p>
-<h2 id="远程"><a href="#远程" class="headerlink" title="远程"></a>远程</h2><pre><code>sudo apt-get install lrzsz</code></pre><p>上传使用命令：<br><code>sudo rz</code></p>
+<h2 id="远程"><a href="#远程" class="headerlink" title="远程"></a>远程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install lrzsz</span><br></pre></td></tr></table></figure>
+
+<p>上传使用命令：<br><code>sudo rz</code></p>
 <p>输入<code>rz</code>后会从 windows 中选取文件，自动传输到VPS的当前目录下</p>
 <p>下载使用命令：<br><code>sudo sz</code></p>
 <p>如果没有使用<code>sudo</code>，可能导致卡在上传中。</p>
 <p>比如，要把VPS当前目录下的 gf.jpg 文件下载到本地电脑，直接<code>rz gf.jpg</code></p>
-<h2 id="使用-SSH"><a href="#使用-SSH" class="headerlink" title="使用 SSH"></a>使用 SSH</h2><h3 id="SSH登录"><a href="#SSH登录" class="headerlink" title="SSH登录"></a>SSH登录</h3><pre><code>ssh jerry@97.61.22.1 -p22</code></pre><p>这里的 jerry 是你 VPS 的用户名， 97.61.22.1 是 VPS 公网IP地址 ， -p22 指 SSH 的22端口</p>
+<h2 id="使用-SSH"><a href="#使用-SSH" class="headerlink" title="使用 SSH"></a>使用 SSH</h2><h3 id="SSH登录"><a href="#SSH登录" class="headerlink" title="SSH登录"></a>SSH登录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh jerry@97.61.22.1 -p22</span><br></pre></td></tr></table></figure>
+
+<p>这里的 jerry 是你 VPS 的用户名， 97.61.22.1 是 VPS 公网IP地址 ， -p22 指 SSH 的22端口</p>
 <blockquote>
 <p>如果报 WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED！ 错误，是因为服务器可能重装了系统，用 <code>ssh-keygen -R [server ip]</code> 来更新 ssh-key</p>
 </blockquote>
-<h3 id="SSH本地传文件到远程"><a href="#SSH本地传文件到远程" class="headerlink" title="SSH本地传文件到远程"></a>SSH本地传文件到远程</h3><pre><code>scp /path/filename jerry@servername:/path/</code></pre><p>例如scp /var/www/test.php <a href="mailto:root@192.168.0.101">root@192.168.0.101</a>:/var/www/ 把本机/var/www/目录下的test.php文件上传到192.168.0.101这台服务器上的/var/www/目录中</p>
-<h3 id="SSH从远程下载文件到本地"><a href="#SSH从远程下载文件到本地" class="headerlink" title="SSH从远程下载文件到本地"></a>SSH从远程下载文件到本地</h3><pre><code>scp username@servername:/path/filename /var/www/local_dir（本地目录）</code></pre><p>例如 scp <a href="mailto:root@192.168.0.101">root@192.168.0.101</a>:/var/www/test.txt 把192.168.0.101上的/var/www/test.txt 的文件下载到/var/www/local_dir（本地目录）</p>
+<h3 id="SSH本地传文件到远程"><a href="#SSH本地传文件到远程" class="headerlink" title="SSH本地传文件到远程"></a>SSH本地传文件到远程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp &#x2F;path&#x2F;filename jerry@servername:&#x2F;path&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>例如scp /var/www/test.php <a href="mailto:root@192.168.0.101">root@192.168.0.101</a>:/var/www/ 把本机/var/www/目录下的test.php文件上传到192.168.0.101这台服务器上的/var/www/目录中</p>
+<h3 id="SSH从远程下载文件到本地"><a href="#SSH从远程下载文件到本地" class="headerlink" title="SSH从远程下载文件到本地"></a>SSH从远程下载文件到本地</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp username@servername:&#x2F;path&#x2F;filename &#x2F;var&#x2F;www&#x2F;local_dir（本地目录）</span><br></pre></td></tr></table></figure>
+
+<p>例如 scp <a href="mailto:root@192.168.0.101">root@192.168.0.101</a>:/var/www/test.txt 把192.168.0.101上的/var/www/test.txt 的文件下载到/var/www/local_dir（本地目录）</p>
 <hr>
-<h1 id="六、编辑开始菜单"><a href="#六、编辑开始菜单" class="headerlink" title="六、编辑开始菜单"></a>六、编辑开始菜单</h1><pre><code>sudo apt install alacarte</code></pre><p>然后直接在Ubuntu终端输入命令alacarte。可以任意增、改、隐藏、显示菜单，但无法删除菜单，即使拥有root权限。</p>
+<h1 id="六、编辑开始菜单"><a href="#六、编辑开始菜单" class="headerlink" title="六、编辑开始菜单"></a>六、编辑开始菜单</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install alacarte</span><br></pre></td></tr></table></figure>
+
+<p>然后直接在Ubuntu终端输入命令alacarte。可以任意增、改、隐藏、显示菜单，但无法删除菜单，即使拥有root权限。</p>
 <hr>
 <h1 id="七、终端使用SS，并查公有ip"><a href="#七、终端使用SS，并查公有ip" class="headerlink" title="七、终端使用SS，并查公有ip"></a>七、终端使用SS，并查公有ip</h1><p>首先根据<a href="https://jerrysheh.github.io/post/879f3462.html">这篇文章</a>配置好SS软件。</p>
 <p>然后在终端中</p>
-<pre><code>export ALL_PROXY=socks5://127.0.0.1:1080</code></pre><ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export ALL_PROXY&#x3D;socks5:&#x2F;&#x2F;127.0.0.1:1080</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li>注意: 该命令仅对本终端一次性有效</li>
 </ul>
 <p>查看公有ip</p>
-<pre><code>curl ipinfo.io/ip</code></pre><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl ipinfo.io&#x2F;ip</span><br></pre></td></tr></table></figure>
+
+<hr>
 <h1 id="八、管理ppa源"><a href="#八、管理ppa源" class="headerlink" title="八、管理ppa源"></a>八、管理ppa源</h1><p>Ubuntu 软件仓库十分方便，但是有一些软件是在第三方库里的，因此我们要添加相应的ppa源，才能用 apt install</p>
-<pre><code>sudo add-apt-repository ppa:ownername/projectname
-sudo apt update
-sudo apt install something</code></pre><p>有些库我们已经不需要了，用文本编辑器修改<code>/etc/apt/sources.list.d/</code>文件夹下对应的.list即可</p>
-<pre><code>sudo rm /etc/apt/sources.list.d/xxxxxx.list</code></pre><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:ownername&#x2F;projectname</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install something</span><br></pre></td></tr></table></figure>
+
+<p>有些库我们已经不需要了，用文本编辑器修改<code>/etc/apt/sources.list.d/</code>文件夹下对应的.list即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rm &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;xxxxxx.list</span><br></pre></td></tr></table></figure>
+
+<hr>
 <h1 id="九、如何正确地在Ubuntu-16-04-安装-JDK1-8"><a href="#九、如何正确地在Ubuntu-16-04-安装-JDK1-8" class="headerlink" title="九、如何正确地在Ubuntu 16.04 安装 JDK1.8"></a>九、如何正确地在Ubuntu 16.04 安装 JDK1.8</h1><p>其实很简单</p>
 <p>添加ppa源</p>
-<pre><code>sudo apt install software-properties-common
-sudo add-apt-repository ppa:webupd8team/java
-sudo apt update</code></pre><p>如果第二行提示<code>add-apt-repository: command not found</code>，安装一些包即可</p>
-<pre><code>sudo apt-get install software-properties-common python-software-properties  </code></pre><p>安装jdk8</p>
-<pre><code>sudo apt-get install oracle-java8-installer</code></pre><p>如果提示没有公钥，添加对应的公钥（deeepin系统会有这个问题）</p>
-<pre><code>sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C2518248EEA14886</code></pre><p>如果你有其他版本的 jdk， 更改默认</p>
-<pre><code>sudo update-alternatives --config java</code></pre><p>输出</p>
-<pre><code>* 0            /usr/lib/jvm/java-7-oracle/jre/bin/java          1062      auto mode
-  1            /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java  1061      manual mode
-  2            /usr/lib/jvm/java-8-oracle/jre/bin/java          1062      manual mode
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install software-properties-common</span><br><span class="line">sudo add-apt-repository ppa:webupd8team&#x2F;java</span><br><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
 
-Press enter to keep the current choice[*], or type selection number:</code></pre><p>选择想默认使用的版本即可</p>
+<p>如果第二行提示<code>add-apt-repository: command not found</code>，安装一些包即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install software-properties-common python-software-properties</span><br></pre></td></tr></table></figure>
+
+<p>安装jdk8</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install oracle-java8-installer</span><br></pre></td></tr></table></figure>
+
+<p>如果提示没有公钥，添加对应的公钥（deeepin系统会有这个问题）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C2518248EEA14886</span><br></pre></td></tr></table></figure>
+
+<p>如果你有其他版本的 jdk， 更改默认</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo update-alternatives --config java</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">* 0            &#x2F;usr&#x2F;lib&#x2F;jvm&#x2F;java-7-oracle&#x2F;jre&#x2F;bin&#x2F;java          1062      auto mode</span><br><span class="line">  1            &#x2F;usr&#x2F;lib&#x2F;jvm&#x2F;java-7-openjdk-amd64&#x2F;jre&#x2F;bin&#x2F;java  1061      manual mode</span><br><span class="line">  2            &#x2F;usr&#x2F;lib&#x2F;jvm&#x2F;java-8-oracle&#x2F;jre&#x2F;bin&#x2F;java          1062      manual mode</span><br><span class="line"></span><br><span class="line">Press enter to keep the current choice[*], or type selection number:</span><br></pre></td></tr></table></figure>
+
+<p>选择想默认使用的版本即可</p>
 <hr>
-<h1 id="十、更改-root-账户密码"><a href="#十、更改-root-账户密码" class="headerlink" title="十、更改 root 账户密码"></a>十、更改 root 账户密码</h1><pre><code>sudo passwd root</code></pre><hr>
+<h1 id="十、更改-root-账户密码"><a href="#十、更改-root-账户密码" class="headerlink" title="十、更改 root 账户密码"></a>十、更改 root 账户密码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo passwd root</span><br></pre></td></tr></table></figure>
+
+<hr>
 <h1 id="十一、apt安装不成功，每次-apt-install-都报错"><a href="#十一、apt安装不成功，每次-apt-install-都报错" class="headerlink" title="十一、apt安装不成功，每次 apt install 都报错"></a>十一、apt安装不成功，每次 apt install 都报错</h1><p>oracle-java7-installer安装不成功，清除缓存，不要每次 apt install 都报错</p>
-<pre><code>sudo rm /var/lib/dpkg/info/oracle-java7-installer*
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo rm &#x2F;var&#x2F;lib&#x2F;dpkg&#x2F;info&#x2F;oracle-java7-installer*</span><br><span class="line"></span><br><span class="line">sudo apt-get purge oracle-java7-installer*</span><br><span class="line"></span><br><span class="line">sudo rm &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;*java*</span><br><span class="line"></span><br><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
 
-sudo apt-get purge oracle-java7-installer*
-
-sudo rm /etc/apt/sources.list.d/*java*
-
-sudo apt-get update</code></pre><hr>
+<hr>
 <h1 id="十二、使用openssh远程连接"><a href="#十二、使用openssh远程连接" class="headerlink" title="十二、使用openssh远程连接"></a>十二、使用openssh远程连接</h1><p>查看是否已经安装openssh （如果装了，应该输出不止一个ssh）</p>
-<pre><code>ps -ef | grep ssh</code></pre><p>安装</p>
-<pre><code>sudo apt install openssh-server</code></pre><p>这样就可以在 win10 用 Xshell 连接虚拟机开多个终端了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep ssh</span><br></pre></td></tr></table></figure>
+
+<p>安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install openssh-server</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以在 win10 用 Xshell 连接虚拟机开多个终端了。</p>
 <hr>
 <h1 id="十三、ROOT账户没有环境变量"><a href="#十三、ROOT账户没有环境变量" class="headerlink" title="十三、ROOT账户没有环境变量"></a>十三、ROOT账户没有环境变量</h1><p>在/root/.bashrc文件尾部添加：</p>
-<pre><code>source /etc/profile</code></pre><p>保存后执行：</p>
-<pre><code>./root/.bashrc</code></pre><p>如果提示没有权限</p>
-<pre><code>chmod +x ./root/.bashrc</code></pre><p>就ok了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+
+<p>保存后执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;root&#x2F;.bashrc</span><br></pre></td></tr></table></figure>
+
+<p>如果提示没有权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x .&#x2F;root&#x2F;.bashrc</span><br></pre></td></tr></table></figure>
+
+<p>就ok了</p>
 <hr>
-<h1 id="十四、如何正确地配置环境变量"><a href="#十四、如何正确地配置环境变量" class="headerlink" title="十四、如何正确地配置环境变量"></a>十四、如何正确地配置环境变量</h1><pre><code class="shell">#Java env.
-export JAVA_HOME=/your_Java_home
-export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
-export PATH=$JAVA_HOME/bin:/usr/local/protobuf/bin:$PATH
+<h1 id="十四、如何正确地配置环境变量"><a href="#十四、如何正确地配置环境变量" class="headerlink" title="十四、如何正确地配置环境变量"></a>十四、如何正确地配置环境变量</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">Java env.</span></span><br><span class="line">export JAVA_HOME=/your_Java_home</span><br><span class="line">export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</span><br><span class="line">export PATH=$JAVA_HOME/bin:/usr/local/protobuf/bin:$PATH</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">Scala env.</span></span><br><span class="line">export SCALA_HOME=/your_Scala_home</span><br><span class="line">export PATH=$SCALA_HOME/bin:$PATH</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">Spark env.</span></span><br><span class="line">export SPARK_HOME=/your_Spark_home</span><br><span class="line">export PATH=$SPARK_HOME/bin:$PATH</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">Python env.</span></span><br><span class="line">export PYTHONPATH=/your_python_home</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">Hadoop env.</span></span><br><span class="line">export HADOOP_HOME=/your_hadoop_home</span><br><span class="line">export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop</span><br><span class="line">export PATH=$PATH:$HADOOP_HOME/bin</span><br><span class="line">export HADOOP_HOME_WARN_SUPPRESS=not_null</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">Mahout env.</span></span><br><span class="line">export MAHOUT_HOME=/your_Mahout_home</span><br><span class="line">export MAHOUT_CONF_DIR=$MAHOUT_HOME/conf</span><br><span class="line">export PATH=$MAHOUT_HOME/conf:$MAHOUT_HOME/bin:$PATH</span><br></pre></td></tr></table></figure>
 
-#Scala env.
-export SCALA_HOME=/your_Scala_home
-export PATH=$SCALA_HOME/bin:$PATH
-
-#Spark env.
-export SPARK_HOME=/your_Spark_home
-export PATH=$SPARK_HOME/bin:$PATH
-
-#Python env.
-export PYTHONPATH=/your_python_home
-
-#Hadoop env.
-export HADOOP_HOME=/your_hadoop_home
-export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
-export PATH=$PATH:$HADOOP_HOME/bin
-export HADOOP_HOME_WARN_SUPPRESS=not_null
-
-#Mahout env.
-export MAHOUT_HOME=/your_Mahout_home
-export MAHOUT_CONF_DIR=$MAHOUT_HOME/conf
-export PATH=$MAHOUT_HOME/conf:$MAHOUT_HOME/bin:$PATH</code></pre>
 <hr>
 <h1 id="Ubuntu出现了内部错误"><a href="#Ubuntu出现了内部错误" class="headerlink" title="Ubuntu出现了内部错误"></a>Ubuntu出现了内部错误</h1><p>从 14.04 到 16.04 到 18.04 ，无论哪个版本动不动就报错，临时解决办法：</p>
-<pre><code>cd /var/crash/
-sudo rm *</code></pre><p>删除错误日志，这样下次开机不会继续报错。但这不代表系统就没错误了，下次遇到奇奇怪怪的问题是还是会报错。几乎无解。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;var&#x2F;crash&#x2F;</span><br><span class="line">sudo rm *</span><br></pre></td></tr></table></figure>
+
+<p>删除错误日志，这样下次开机不会继续报错。但这不代表系统就没错误了，下次遇到奇奇怪怪的问题是还是会报错。几乎无解。</p>
 <hr>
-<h1 id="完全卸载-Mysql"><a href="#完全卸载-Mysql" class="headerlink" title="完全卸载 Mysql"></a>完全卸载 Mysql</h1><pre><code>sudo apt-get purge mysql-server mysql-common mysql-client
-sudo rm -rf /etc/mysql
-sudo rm -rf /var/lib/mysql
-sudo rm -rf /var/log/mysql
-sudo rm -rf /var/run/mysqld</code></pre>
+<h1 id="完全卸载-Mysql"><a href="#完全卸载-Mysql" class="headerlink" title="完全卸载 Mysql"></a>完全卸载 Mysql</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get purge mysql-server mysql-common mysql-client</span><br><span class="line">sudo rm -rf &#x2F;etc&#x2F;mysql</span><br><span class="line">sudo rm -rf &#x2F;var&#x2F;lib&#x2F;mysql</span><br><span class="line">sudo rm -rf &#x2F;var&#x2F;log&#x2F;mysql</span><br><span class="line">sudo rm -rf &#x2F;var&#x2F;run&#x2F;mysqld</span><br></pre></td></tr></table></figure>
+
         </div>
         
         <div class="level is-size-7 is-uppercase">
@@ -410,7 +411,7 @@ sudo rm -rf /var/run/mysqld</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -422,7 +423,7 @@ sudo rm -rf /var/run/mysqld</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -434,7 +435,7 @@ sudo rm -rf /var/run/mysqld</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -671,25 +672,25 @@ sudo rm -rf /var/run/mysqld</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -703,6 +704,14 @@ sudo rm -rf /var/run/mysqld</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -711,20 +720,20 @@ sudo rm -rf /var/run/mysqld</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -756,7 +765,7 @@ sudo rm -rf /var/run/mysqld</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -764,7 +773,15 @@ sudo rm -rf /var/run/mysqld</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -799,6 +816,25 @@ sudo rm -rf /var/run/mysqld</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -829,7 +865,7 @@ sudo rm -rf /var/run/mysqld</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -866,25 +902,6 @@ sudo rm -rf /var/run/mysqld</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -950,6 +967,25 @@ sudo rm -rf /var/run/mysqld</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -980,7 +1016,7 @@ sudo rm -rf /var/run/mysqld</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1017,25 +1053,6 @@ sudo rm -rf /var/run/mysqld</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1098,7 +1115,7 @@ sudo rm -rf /var/run/mysqld</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1152,7 +1169,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

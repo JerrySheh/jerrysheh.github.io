@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -190,65 +190,8 @@
 <li><strong>连续空间块</strong>：数组初始分配空间时，有时候无法分配能存储整个数组的内存空间（当数组规模太大时）</li>
 <li><strong>插入操作实现复杂</strong>：往一个大数组中间插入数据，插入索引后面的数据都要相应地往后移动，这会造成很大的开销</li>
 </ul>
-<h2 id="算法1-1-下压（LIFO）栈的数组实现（能够动态调整数组大小的实现）"><a href="#算法1-1-下压（LIFO）栈的数组实现（能够动态调整数组大小的实现）" class="headerlink" title="算法1.1 下压（LIFO）栈的数组实现（能够动态调整数组大小的实现）"></a>算法1.1 下压（LIFO）栈的数组实现（能够动态调整数组大小的实现）</h2><pre><code class="Java">import java.util.Iterator;
+<h2 id="算法1-1-下压（LIFO）栈的数组实现（能够动态调整数组大小的实现）"><a href="#算法1-1-下压（LIFO）栈的数组实现（能够动态调整数组大小的实现）" class="headerlink" title="算法1.1 下压（LIFO）栈的数组实现（能够动态调整数组大小的实现）"></a>算法1.1 下压（LIFO）栈的数组实现（能够动态调整数组大小的实现）</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ResizingArrayStack</span>&lt;<span class="title">Item</span>&gt; <span class="keyword">implements</span> <span class="title">Iterable</span>&lt;<span class="title">Item</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">//栈元素</span></span><br><span class="line">    <span class="keyword">private</span> Item[] a = (Item[]) <span class="keyword">new</span> Object[<span class="number">1</span>];  </span><br><span class="line"></span><br><span class="line">    <span class="comment">//元素数量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> N = <span class="number">0</span>;      </span><br><span class="line"></span><br><span class="line">    <span class="comment">//判断是否为空                    </span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>&#123; <span class="keyword">return</span> N == <span class="number">0</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//栈的大小</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>&#123; <span class="keyword">return</span> N; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将栈移动到一个大小为max的新数组</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">resize</span><span class="params">(<span class="keyword">int</span> max)</span></span>&#123;               </span><br><span class="line">        Item[] temp = (Item[]) <span class="keyword">new</span> Object[max];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">            temp[i] = a[i];</span><br><span class="line">        &#125;</span><br><span class="line">        a = temp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将元素添加到栈顶</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(Item item)</span></span>&#123;               </span><br><span class="line">        <span class="keyword">if</span> (N==a.length) resize(<span class="number">2</span>*a.length);</span><br><span class="line">        a[N++] = item;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 弹栈</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Item <span class="title">pop</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Item item = a[--N];</span><br><span class="line">         <span class="comment">//避免对象游离</span></span><br><span class="line">        a[N] = <span class="keyword">null</span>;        </span><br><span class="line">        <span class="keyword">if</span> ( N &gt;<span class="number">0</span> &amp;&amp; N == a.length/<span class="number">4</span>) resize(a.length/<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">return</span> item;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Iterator&lt;Item&gt; <span class="title">iterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ReverseArrayIterator();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReverseArrayIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">Item</span>&gt; </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> i = N;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> i &gt; <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Item <span class="title">next</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> a[--i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-public class ResizingArrayStack&lt;Item&gt; implements Iterable&lt;Item&gt; {
-    //栈元素
-    private Item[] a = (Item[]) new Object[1];  
-
-    //元素数量
-    private int N = 0;      
-
-    //判断是否为空                    
-    public boolean isEmpty(){ return N == 0; }
-
-    //栈的大小
-    public int size(){ return N; }
-
-    //将栈移动到一个大小为max的新数组
-    private void resize(int max){               
-        Item[] temp = (Item[]) new Object[max];
-        for (int i = 0; i &lt; N; i++) {
-            temp[i] = a[i];
-        }
-        a = temp;
-    }
-
-    //将元素添加到栈顶
-    public void push(Item item){               
-        if (N==a.length) resize(2*a.length);
-        a[N++] = item;
-    }
-
-    // 弹栈
-    public Item pop(){
-        Item item = a[--N];
-         //避免对象游离
-        a[N] = null;        
-        if ( N &gt;0 &amp;&amp; N == a.length/4) resize(a.length/2);
-        return item;
-    }
-
-    @Override
-    public Iterator&lt;Item&gt; iterator() {
-        return new ReverseArrayIterator();
-    }
-
-    public class ReverseArrayIterator implements Iterator&lt;Item&gt; {
-        private int i = N;
-
-        public boolean hasNext() {
-            return i &gt; 0;
-        }
-
-        public Item next() {
-            return a[--i];
-        }
-
-        public void remove() {
-        }
-    }
-}</code></pre>
 <hr>
 <h1 id="四、什么是链表"><a href="#四、什么是链表" class="headerlink" title="四、什么是链表"></a>四、什么是链表</h1><p>链表是一种递归的数据结构。它或者为空（null），或者是指向一个结点（node）的引用，该结点含有一个泛型元素和一个指向另一条链表的引用。对于链表来说，初始时仅需要分配一个元素的存储空间。添加新的元素也很容易，不需要做任何内存复制和重新分配的操作。</p>
 <h2 id="链表的优点"><a href="#链表的优点" class="headerlink" title="链表的优点"></a>链表的优点</h2><ul>
@@ -259,156 +202,25 @@ public class ResizingArrayStack&lt;Item&gt; implements Iterable&lt;Item&gt; {
 <li>没有随机访问的能力，访问一个元素必须先访问它的上一个元素</li>
 <li>链表中的额外指针引用需要浪费内存</li>
 </ul>
-<h2 id="链表操作"><a href="#链表操作" class="headerlink" title="链表操作"></a>链表操作</h2><h3 id="1-定义结点"><a href="#1-定义结点" class="headerlink" title="1. 定义结点"></a>1. 定义结点</h3><pre><code class="java">private class Node{
-  Item item;
-  Node next;
-}</code></pre>
+<h2 id="链表操作"><a href="#链表操作" class="headerlink" title="链表操作"></a>链表操作</h2><h3 id="1-定义结点"><a href="#1-定义结点" class="headerlink" title="1. 定义结点"></a>1. 定义结点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span></span>&#123;</span><br><span class="line">  Item item;</span><br><span class="line">  Node next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="2-访问链表"><a href="#2-访问链表" class="headerlink" title="2. 访问链表"></a>2. 访问链表</h3><p>如果有一个链表的对象实例 <code>first</code>，那么我们可以用 <code>first.item</code> 和 <code>first.next</code> 访问它的实例变量。</p>
-<h3 id="3-构造链表"><a href="#3-构造链表" class="headerlink" title="3. 构造链表"></a>3. 构造链表</h3><pre><code class="java">//创建三个链表对象实例
-Node first = new Node();
-Node second = new Node();
-Node third = new Node();
+<h3 id="3-构造链表"><a href="#3-构造链表" class="headerlink" title="3. 构造链表"></a>3. 构造链表</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建三个链表对象实例</span></span><br><span class="line">Node first = <span class="keyword">new</span> Node();</span><br><span class="line">Node second = <span class="keyword">new</span> Node();</span><br><span class="line">Node third = <span class="keyword">new</span> Node();</span><br><span class="line"></span><br><span class="line"><span class="comment">//每个实例的值</span></span><br><span class="line">first.item = <span class="string">"to"</span>;</span><br><span class="line">second.item = <span class="string">"be"</span>;</span><br><span class="line">third.item = <span class="string">"or"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//指向下一个实例</span></span><br><span class="line">first.next = second;</span><br><span class="line">second.next = third;</span><br></pre></td></tr></table></figure>
 
-//每个实例的值
-first.item = &quot;to&quot;;
-second.item = &quot;be&quot;;
-third.item = &quot;or&quot;;
-
-//指向下一个实例
-first.next = second;
-second.next = third;</code></pre>
 <p>我们先 new 了三个链表对象实例，然后给他们的Item赋值，并让他们的next指向下一个链表的引用。（链表是递归的数据结构）</p>
 <p>在这里，<code>third.next</code>是null，也就是<code>third.next</code>指向了一个空链表。</p>
 <p>链表表示的是一列元素。</p>
-<h3 id="4-在表头插入结点"><a href="#4-在表头插入结点" class="headerlink" title="4. 在表头插入结点"></a>4. 在表头插入结点</h3><pre><code class="java">//步骤一：保存原来的表头
-Node oldfirst = first;
+<h3 id="4-在表头插入结点"><a href="#4-在表头插入结点" class="headerlink" title="4. 在表头插入结点"></a>4. 在表头插入结点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//步骤一：保存原来的表头</span></span><br><span class="line">Node oldfirst = first;</span><br><span class="line"></span><br><span class="line"><span class="comment">//步骤二：创建新的首结点</span></span><br><span class="line">first = <span class="keyword">new</span> Node();</span><br><span class="line"></span><br><span class="line"><span class="comment">//步骤三：设置新结点的实例变量</span></span><br><span class="line">first.item = <span class="string">"not"</span>;</span><br><span class="line">first.next = oldfirst;</span><br></pre></td></tr></table></figure>
 
-//步骤二：创建新的首结点
-first = new Node();
+<h3 id="5-删除头结点"><a href="#5-删除头结点" class="headerlink" title="5. 删除头结点"></a>5. 删除头结点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">first = first.next;</span><br></pre></td></tr></table></figure>
 
-//步骤三：设置新结点的实例变量
-first.item = &quot;not&quot;;
-first.next = oldfirst;</code></pre>
-<h3 id="5-删除头结点"><a href="#5-删除头结点" class="headerlink" title="5. 删除头结点"></a>5. 删除头结点</h3><pre><code class="java">first = first.next;</code></pre>
-<h3 id="6-在表尾插入结点"><a href="#6-在表尾插入结点" class="headerlink" title="6. 在表尾插入结点"></a>6. 在表尾插入结点</h3><pre><code class="java">//步骤一：保存指向尾结点的链接
-Node oldlast = last;
+<h3 id="6-在表尾插入结点"><a href="#6-在表尾插入结点" class="headerlink" title="6. 在表尾插入结点"></a>6. 在表尾插入结点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//步骤一：保存指向尾结点的链接</span></span><br><span class="line">Node oldlast = last;</span><br><span class="line"></span><br><span class="line"><span class="comment">//步骤二：创建新的尾结点</span></span><br><span class="line">last = <span class="keyword">new</span> Node();</span><br><span class="line">last.item = <span class="string">"not"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//步骤三：将尾链接指向新结点</span></span><br><span class="line">oldlast.next = last;</span><br></pre></td></tr></table></figure>
 
-//步骤二：创建新的尾结点
-last = new Node();
-last.item = &quot;not&quot;;
-
-//步骤三：将尾链接指向新结点
-oldlast.next = last;
-</code></pre>
 <hr>
-<h1 id="算法1-2-下压堆栈（链表实现）"><a href="#算法1-2-下压堆栈（链表实现）" class="headerlink" title="算法1.2 下压堆栈（链表实现）"></a>算法1.2 下压堆栈（链表实现）</h1><pre><code class="java">import java.util.Iterator;
+<h1 id="算法1-2-下压堆栈（链表实现）"><a href="#算法1-2-下压堆栈（链表实现）" class="headerlink" title="算法1.2 下压堆栈（链表实现）"></a>算法1.2 下压堆栈（链表实现）</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Stack</span>&lt;<span class="title">Item</span>&gt; <span class="keyword">implements</span> <span class="title">Iterable</span>&lt;<span class="title">Item</span>&gt;</span>&#123;</span><br><span class="line">    <span class="comment">//栈顶</span></span><br><span class="line">    <span class="keyword">private</span> Node first;  </span><br><span class="line"></span><br><span class="line">    <span class="comment">// 元素数量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> N;       </span><br><span class="line"></span><br><span class="line">    <span class="comment">//定义结点</span></span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span></span>&#123;  </span><br><span class="line">        Item item;</span><br><span class="line">        Node next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断栈是否为空</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>&#123; <span class="keyword">return</span> N == <span class="number">0</span>;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 栈的大小</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>&#123; <span class="keyword">return</span> N;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//向栈顶添加元素</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(Item item)</span></span>&#123;</span><br><span class="line">        Node oldfirst = first;</span><br><span class="line">        first = <span class="keyword">new</span> Node();</span><br><span class="line">        first.item = item;</span><br><span class="line">        first.next = oldfirst;</span><br><span class="line">        N++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//从栈顶删除元素</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Item <span class="title">pop</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Item item = first.item;</span><br><span class="line">        first = first.next;</span><br><span class="line">        N--;</span><br><span class="line">        <span class="keyword">return</span> item;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//实现迭代</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Iterator&lt;Item&gt; <span class="title">iterator</span><span class="params">()</span></span>&#123; <span class="keyword">return</span> <span class="keyword">new</span> ListIterator(); &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ListIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">Item</span>&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">private</span> Node current = first;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span></span>&#123; <span class="keyword">return</span> current != <span class="keyword">null</span>; &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span></span>&#123; &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> Item <span class="title">next</span><span class="params">()</span></span>&#123;</span><br><span class="line">            Item item = current.item;</span><br><span class="line">            current = current.next;</span><br><span class="line">            <span class="keyword">return</span> item;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-public class Stack&lt;Item&gt; implements Iterable&lt;Item&gt;{
-    //栈顶
-    private Node first;  
 
-    // 元素数量
-    private int N;       
-
-    //定义结点
-    private class Node{  
-        Item item;
-        Node next;
-    }
-
-    // 判断栈是否为空
-    public boolean isEmpty(){ return N == 0;}
-
-    // 栈的大小
-    public int size(){ return N;}
-
-    //向栈顶添加元素
-    public void push(Item item){
-        Node oldfirst = first;
-        first = new Node();
-        first.item = item;
-        first.next = oldfirst;
-        N++;
-    }
-
-    //从栈顶删除元素
-    public Item pop(){
-        Item item = first.item;
-        first = first.next;
-        N--;
-        return item;
-    }
-
-    //实现迭代
-    public Iterator&lt;Item&gt; iterator(){ return new ListIterator(); }
-    private class ListIterator implements Iterator&lt;Item&gt;{
-        private Node current = first;
-        public boolean hasNext(){ return current != null; }
-        public void remove(){ }
-        public Item next(){
-            Item item = current.item;
-            current = current.next;
-            return item;
-        }
-    }
-}</code></pre>
-<h1 id="算法1-3-先进先出队列-链表实现"><a href="#算法1-3-先进先出队列-链表实现" class="headerlink" title="算法1.3 先进先出队列(链表实现)"></a>算法1.3 先进先出队列(链表实现)</h1><pre><code class="java">import java.util.Iterator;
-
-public class Queue&lt;Item&gt; {
-    //指向最早添加的结点的链接
-    private Node first;  
-
-    //指向最近添加的结点的链接
-    private Node last;   
-
-    // 元素数量
-    private int N;       
-
-    //定义结点
-    private class Node{  
-        Item item;
-        Node next;
-    }
-
-    // 判断队列是否为空
-    public boolean isEmpty(){ return first == null;}
-
-    // 队列的大小
-    public int size(){return N;}
-
-    //向表尾添加元素
-    public void enqueue(Item item){
-        Node oldlast = last;
-        last = new Node();
-        last.item = item;
-        last.next = null;
-        if (isEmpty()) first = last;
-        else oldlast.next = last;
-        N++;
-    }
-
-    //从表头删除元素
-    public Item dequeue(){
-        Item item = first.item;
-        first = first.next;
-        if (isEmpty()) last = null;
-        N--;
-        return item;
-    }
-
-    //实现迭代
-    public Iterator&lt;Item&gt; iterator(){ return new ListIterator(); }
-    private class ListIterator implements Iterator&lt;Item&gt;{
-        private Node current = first;
-        public boolean hasNext(){ return current != null; }
-        public void remove(){ }
-        public Item next(){
-            Item item = current.item;
-            current = current.next;
-            return item;
-        }
-    }
-}</code></pre>
+<h1 id="算法1-3-先进先出队列-链表实现"><a href="#算法1-3-先进先出队列-链表实现" class="headerlink" title="算法1.3 先进先出队列(链表实现)"></a>算法1.3 先进先出队列(链表实现)</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Queue</span>&lt;<span class="title">Item</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">//指向最早添加的结点的链接</span></span><br><span class="line">    <span class="keyword">private</span> Node first;  </span><br><span class="line"></span><br><span class="line">    <span class="comment">//指向最近添加的结点的链接</span></span><br><span class="line">    <span class="keyword">private</span> Node last;   </span><br><span class="line"></span><br><span class="line">    <span class="comment">// 元素数量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> N;       </span><br><span class="line"></span><br><span class="line">    <span class="comment">//定义结点</span></span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span></span>&#123;  </span><br><span class="line">        Item item;</span><br><span class="line">        Node next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断队列是否为空</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>&#123; <span class="keyword">return</span> first == <span class="keyword">null</span>;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 队列的大小</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> N;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//向表尾添加元素</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">enqueue</span><span class="params">(Item item)</span></span>&#123;</span><br><span class="line">        Node oldlast = last;</span><br><span class="line">        last = <span class="keyword">new</span> Node();</span><br><span class="line">        last.item = item;</span><br><span class="line">        last.next = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (isEmpty()) first = last;</span><br><span class="line">        <span class="keyword">else</span> oldlast.next = last;</span><br><span class="line">        N++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//从表头删除元素</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Item <span class="title">dequeue</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Item item = first.item;</span><br><span class="line">        first = first.next;</span><br><span class="line">        <span class="keyword">if</span> (isEmpty()) last = <span class="keyword">null</span>;</span><br><span class="line">        N--;</span><br><span class="line">        <span class="keyword">return</span> item;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//实现迭代</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Iterator&lt;Item&gt; <span class="title">iterator</span><span class="params">()</span></span>&#123; <span class="keyword">return</span> <span class="keyword">new</span> ListIterator(); &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ListIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">Item</span>&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">private</span> Node current = first;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span></span>&#123; <span class="keyword">return</span> current != <span class="keyword">null</span>; &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span></span>&#123; &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> Item <span class="title">next</span><span class="params">()</span></span>&#123;</span><br><span class="line">            Item item = current.item;</span><br><span class="line">            current = current.next;</span><br><span class="line">            <span class="keyword">return</span> item;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
         </div>
         
@@ -497,7 +309,7 @@ public class Queue&lt;Item&gt; {
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -509,7 +321,7 @@ public class Queue&lt;Item&gt; {
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -521,7 +333,7 @@ public class Queue&lt;Item&gt; {
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -714,25 +526,25 @@ public class Queue&lt;Item&gt; {
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -746,6 +558,14 @@ public class Queue&lt;Item&gt; {
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -754,20 +574,20 @@ public class Queue&lt;Item&gt; {
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -799,7 +619,7 @@ public class Queue&lt;Item&gt; {
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -807,7 +627,15 @@ public class Queue&lt;Item&gt; {
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -842,6 +670,25 @@ public class Queue&lt;Item&gt; {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -872,7 +719,7 @@ public class Queue&lt;Item&gt; {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -909,25 +756,6 @@ public class Queue&lt;Item&gt; {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -993,6 +821,25 @@ public class Queue&lt;Item&gt; {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1023,7 +870,7 @@ public class Queue&lt;Item&gt; {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1060,25 +907,6 @@ public class Queue&lt;Item&gt; {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1141,7 +969,7 @@ public class Queue&lt;Item&gt; {
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1195,7 +1023,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

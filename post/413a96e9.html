@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -161,134 +161,44 @@
 <a id="more"></a>
 
 <h1 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h1><p>首先提供一个转账接口</p>
-<pre><code class="java">public interface Transfer {
-    // 转账
-    void transfer(int amount);
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Transfer</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 转账</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">transfer</span><span class="params">(<span class="keyword">int</span> amount)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>支付宝类和微信支付类分别有他们自己的转账实现</p>
 <p>支付宝</p>
-<pre><code class="java">public class AliPayTransfer implements Transfer {
-    @Override
-    public void transfer(int amount) {
-        System.out.println(&quot;使用支付宝转出了 &quot; + amount + &quot; 元&quot;);
-    }
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AliPayTransfer</span> <span class="keyword">implements</span> <span class="title">Transfer</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">transfer</span><span class="params">(<span class="keyword">int</span> amount)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"使用支付宝转出了 "</span> + amount + <span class="string">" 元"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-}</code></pre>
 <p>微信支付</p>
-<pre><code class="java">public class WechatPayTransfer implements Transfer {
-    @Override
-    public void transfer(int amount) {
-        System.out.println(&quot;使用微信支付转出了 &quot; + amount + &quot; 元&quot;);
-    }
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WechatPayTransfer</span> <span class="keyword">implements</span> <span class="title">Transfer</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">transfer</span><span class="params">(<span class="keyword">int</span> amount)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"使用微信支付转出了 "</span> + amount + <span class="string">" 元"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>我们还需要一个支付代理人，帮我们做转账前的检查账户和转账后的显示余额：</p>
-<pre><code class="java">public class TransferProxy implements Transfer {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TransferProxy</span> <span class="keyword">implements</span> <span class="title">Transfer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Transfer transfer;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 支付宝转账还是微信转账，是通过构造方法传递进来给代理人的</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TransferProxy</span><span class="params">(Transfer transfer)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.transfer = transfer;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">transfer</span><span class="params">(<span class="keyword">int</span> amount)</span> </span>&#123;</span><br><span class="line">        before();</span><br><span class="line">        <span class="keyword">this</span>.transfer.transfer(amount);</span><br><span class="line">        after();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"检查账户"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">after</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"显示余额"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    private Transfer transfer;
-
-    // 支付宝转账还是微信转账，是通过构造方法传递进来给代理人的
-    public TransferProxy(Transfer transfer) {
-        this.transfer = transfer;
-    }
-
-    @Override
-    public void transfer(int amount) {
-        before();
-        this.transfer.transfer(amount);
-        after();
-    }
-
-    private void before(){
-        System.out.println(&quot;检查账户&quot;);
-    }
-
-    private void after(){
-        System.out.println(&quot;显示余额&quot;);
-    }
-
-}</code></pre>
 <p>现在，可以开始转账了：</p>
-<pre><code class="java">public static void main(String[] args) {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 支付宝转账 100 元</span></span><br><span class="line">    Transfer aliTransfer = <span class="keyword">new</span> AliPayTransfer();</span><br><span class="line">    Transfer transferProxy = <span class="keyword">new</span> TransferProxy(aliTransfer);</span><br><span class="line">    transferProxy.transfer(<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 微信转账 100 元</span></span><br><span class="line">    Transfer wechatTransfer = <span class="keyword">new</span> WechatPayTransfer();</span><br><span class="line">    Transfer transferProxy2 = <span class="keyword">new</span> TransferProxy(wechatTransfer);</span><br><span class="line">    transferProxy2.transfer(<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 支付宝转账 100 元
-    Transfer aliTransfer = new AliPayTransfer();
-    Transfer transferProxy = new TransferProxy(aliTransfer);
-    transferProxy.transfer(100);
-
-    // 微信转账 100 元
-    Transfer wechatTransfer = new WechatPayTransfer();
-    Transfer transferProxy2 = new TransferProxy(wechatTransfer);
-    transferProxy2.transfer(100);
-
-}</code></pre>
 <p>这就是静态代理，无论我们选用何种方式转账，都交给代理帮我们负责售前、转账、售后服务。但是，假设未来我们增加了现金交易，需要在 <code>TransferProxy</code> 中加入现金交易的构造方法，再之后，加入网银、云闪付等等，无疑我们的代理类会越来越沉重。于是，有没有一种方法，可以让代理类在运行时动态地知道即将进行的是何种方式的转账，这样就不用在代理类编写很多转账类了。动态代理就是这样来的。</p>
 <hr>
 <h1 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h1><p>首先，还是一个接口</p>
-<pre><code class="java">public interface Transfer {
-    // 转账
-    void transfer(int amount);
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Transfer</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 转账</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">transfer</span><span class="params">(<span class="keyword">int</span> amount)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>支付宝转账</p>
-<pre><code class="java">public class AliPayTransfer implements Transfer {
-    @Override
-    public void transfer(int amount) {
-        System.out.println(&quot;使用支付宝转出了 &quot; + amount + &quot; 元&quot;);
-    }
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AliPayTransfer</span> <span class="keyword">implements</span> <span class="title">Transfer</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">transfer</span><span class="params">(<span class="keyword">int</span> amount)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"使用支付宝转出了 "</span> + amount + <span class="string">" 元"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-}</code></pre>
 <p>微信支付转账</p>
-<pre><code class="java">public class WechatPayTransfer implements Transfer {
-    @Override
-    public void transfer(int amount) {
-        System.out.println(&quot;使用微信支付转出了 &quot; + amount + &quot; 元&quot;);
-    }
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WechatPayTransfer</span> <span class="keyword">implements</span> <span class="title">Transfer</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">transfer</span><span class="params">(<span class="keyword">int</span> amount)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"使用微信支付转出了 "</span> + amount + <span class="string">" 元"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>动态代理人</p>
-<pre><code class="java">import java.lang.reflect.Proxy;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TransferDynamicProxy</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getTransferWay</span><span class="params">(Transfer transfer)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Proxy.newProxyInstance(transfer.getClass().getClassLoader(),</span><br><span class="line">                <span class="keyword">new</span> Class[]&#123;Transfer<span class="class">.<span class="keyword">class</span>&#125;,</span></span><br><span class="line"><span class="class">                (<span class="title">proxy</span>, <span class="title">method</span>, <span class="title">args</span>) -&gt; </span>&#123;</span><br><span class="line">                    before();</span><br><span class="line">                    Object invoke = method.invoke(transfer, args);</span><br><span class="line">                    after();</span><br><span class="line">                    <span class="keyword">return</span> invoke;</span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"检查账户"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">after</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"显示余额"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-public class TransferDynamicProxy {
-
-    public Object getTransferWay(Transfer transfer){
-        return Proxy.newProxyInstance(transfer.getClass().getClassLoader(),
-                new Class[]{Transfer.class},
-                (proxy, method, args) -&gt; {
-                    before();
-                    Object invoke = method.invoke(transfer, args);
-                    after();
-                    return invoke;
-                });
-
-    }
-
-    private void before(){
-        System.out.println(&quot;检查账户&quot;);
-    }
-
-    private void after(){
-        System.out.println(&quot;显示余额&quot;);
-    }
-
-}</code></pre>
 <p>开始转账</p>
-<pre><code class="java">public static void main(String[] args) {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用支付宝转账</span></span><br><span class="line">    Transfer transferDynamicProxy = (Transfer) <span class="keyword">new</span> TransferDynamicProxy().getTransferWay(<span class="keyword">new</span> AliPayTransfer());</span><br><span class="line">    transferDynamicProxy.transfer(<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用微信支付</span></span><br><span class="line">    Transfer transferDynamicProxy2 = (Transfer) <span class="keyword">new</span> TransferDynamicProxy().getTransferWay(<span class="keyword">new</span> WechatPayTransfer());</span><br><span class="line">    transferDynamicProxy2.transfer(<span class="number">100</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 使用支付宝转账
-    Transfer transferDynamicProxy = (Transfer) new TransferDynamicProxy().getTransferWay(new AliPayTransfer());
-    transferDynamicProxy.transfer(100);
-
-    // 使用微信支付
-    Transfer transferDynamicProxy2 = (Transfer) new TransferDynamicProxy().getTransferWay(new WechatPayTransfer());
-    transferDynamicProxy2.transfer(100);
-}</code></pre>
 <p>我们只需要给代理人 <code>Transferproxy</code> 类传入不同的转账类实例（微信还是支付宝），动态代理类就会对应地去生成具体代理类，然后通过具体代理类进行相关转账前、中、后操作。这就是动态代理。</p>
 <hr>
 <h1 id="Proxy-类"><a href="#Proxy-类" class="headerlink" title="Proxy 类"></a>Proxy 类</h1><p>在上面 <code>getTransferWay</code> 中，我们接收一个真实的转账类（支付宝转账类），并动态地生成对应的代理类（支付宝转账代理类）。这个工作由 java.lang.reflect.Proxy 来实现。</p>
 <p>在 Proxy 类中，提供了 static 方法 newProxyInstance ：</p>
-<pre><code class="java">@CallerSensitive
-public static Object newProxyInstance(ClassLoader loader,
-                                      Class&lt;?&gt;[] interfaces,
-                                      InvocationHandler h)
-    throws IllegalArgumentException</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@CallerSensitive</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">newProxyInstance</span><span class="params">(ClassLoader loader,</span></span></span><br><span class="line"><span class="function"><span class="params">                                      Class&lt;?&gt;[] interfaces,</span></span></span><br><span class="line"><span class="function"><span class="params">                                      InvocationHandler h)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> IllegalArgumentException</span></span><br></pre></td></tr></table></figure>
+
 <p>该方法通过反射生成具体的代理类，接收三个参数：</p>
 <ol>
 <li>类加载器</li>
@@ -296,9 +206,8 @@ public static Object newProxyInstance(ClassLoader loader,
 <li>要处理的事情（InvocationHandler）</li>
 </ol>
 <p>InvocationHandler 本质上是一个函数式接口，表示要处理的事情</p>
-<pre><code class="java">public interface InvocationHandler {  
-    public void invoke(Object o, Method m);  
-}  </code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">InvocationHandler</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">invoke</span><span class="params">(Object o, Method m)</span></span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="面向切面编程（AOP）"><a href="#面向切面编程（AOP）" class="headerlink" title="面向切面编程（AOP）"></a>面向切面编程（AOP）</h1><p>在 Spring AOP 中，正是通过动态代理来实现切面功能的，例如日志记录，事务等。</p>
 <hr>
@@ -391,7 +300,7 @@ public static Object newProxyInstance(ClassLoader loader,
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -403,7 +312,7 @@ public static Object newProxyInstance(ClassLoader loader,
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -415,7 +324,7 @@ public static Object newProxyInstance(ClassLoader loader,
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -532,25 +441,25 @@ public static Object newProxyInstance(ClassLoader loader,
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -564,6 +473,14 @@ public static Object newProxyInstance(ClassLoader loader,
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -572,20 +489,20 @@ public static Object newProxyInstance(ClassLoader loader,
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -617,7 +534,7 @@ public static Object newProxyInstance(ClassLoader loader,
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -625,7 +542,15 @@ public static Object newProxyInstance(ClassLoader loader,
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -660,6 +585,25 @@ public static Object newProxyInstance(ClassLoader loader,
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -690,7 +634,7 @@ public static Object newProxyInstance(ClassLoader loader,
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -727,25 +671,6 @@ public static Object newProxyInstance(ClassLoader loader,
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -811,6 +736,25 @@ public static Object newProxyInstance(ClassLoader loader,
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -841,7 +785,7 @@ public static Object newProxyInstance(ClassLoader loader,
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -878,25 +822,6 @@ public static Object newProxyInstance(ClassLoader loader,
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -959,7 +884,7 @@ public static Object newProxyInstance(ClassLoader loader,
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1013,7 +938,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

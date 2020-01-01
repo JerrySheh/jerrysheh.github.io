@@ -10,12 +10,12 @@
 <title>漫谈递归和迭代 - J.e</title>
 
 
-    <meta name="description" content="兔子问题今天看到一个题目  有一对兔子，从出生后第3个月起每个月都生一对兔子，小兔子长到第三个月后每个月又生一对兔子，假如兔子都不死，问每个月的兔子对数为多少？  我一开始的解法是这样的： public static void rabbit2(){     int last_month_num &#x3D; 0;     int current_month_num &#x3D; 1;     int next_mon">
+    <meta name="description" content="兔子问题今天看到一个题目  有一对兔子，从出生后第3个月起每个月都生一对兔子，小兔子长到第三个月后每个月又生一对兔子，假如兔子都不死，问每个月的兔子对数为多少？  我一开始的解法是这样的： 123456789101112public static void rabbit2()&amp;#123;    int last_month_num &#x3D; 0;    int current_month_num &#x3D; 1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="漫谈递归和迭代">
 <meta property="og:url" content="https://jerrysheh.me/post/2f95bdb5.html">
 <meta property="og:site_name" content="J.e">
-<meta property="og:description" content="兔子问题今天看到一个题目  有一对兔子，从出生后第3个月起每个月都生一对兔子，小兔子长到第三个月后每个月又生一对兔子，假如兔子都不死，问每个月的兔子对数为多少？  我一开始的解法是这样的： public static void rabbit2(){     int last_month_num &#x3D; 0;     int current_month_num &#x3D; 1;     int next_mon">
+<meta property="og:description" content="兔子问题今天看到一个题目  有一对兔子，从出生后第3个月起每个月都生一对兔子，小兔子长到第三个月后每个月又生一对兔子，假如兔子都不死，问每个月的兔子对数为多少？  我一开始的解法是这样的： 123456789101112public static void rabbit2()&amp;#123;    int last_month_num &#x3D; 0;    int current_month_num &#x3D; 1">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2018-03-01T15:05:05.000Z">
@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -162,18 +162,8 @@
 <p>有一对兔子，从出生后第3个月起每个月都生一对兔子，小兔子长到第三个月后每个月又生一对兔子，假如兔子都不死，问每个月的兔子对数为多少？</p>
 </blockquote>
 <p>我一开始的解法是这样的：</p>
-<pre><code class="java">public static void rabbit2(){
-    int last_month_num = 0;
-    int current_month_num = 1;
-    int next_month_num = last_month_num + current_month_num;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">rabbit2</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> last_month_num = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> current_month_num = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> next_month_num = last_month_num + current_month_num;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> months = <span class="number">1</span>; months &lt;= <span class="number">12</span>; months++) &#123;</span><br><span class="line">        current_month_num = next_month_num;</span><br><span class="line">        System.out.printf(<span class="string">"第 %d 个月兔子的对数为 %d\n"</span>,months,current_month_num);</span><br><span class="line">        next_month_num = current_month_num + last_month_num;</span><br><span class="line">        last_month_num = current_month_num;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    for (int months = 1; months &lt;= 12; months++) {
-        current_month_num = next_month_num;
-        System.out.printf(&quot;第 %d 个月兔子的对数为 %d\n&quot;,months,current_month_num);
-        next_month_num = current_month_num + last_month_num;
-        last_month_num = current_month_num;
-    }
-}</code></pre>
 <p>我的想法是，根据题意，可以得出规律: 1、1、2、3、5、8、13…</p>
 <p>总结规律：前两个月的数量和等于下个月</p>
 <a id="more"></a>
@@ -185,69 +175,32 @@
 <p>当前月兔子对数为3，前一个月为2，下一个月就是3+2=5；</p>
 <p>以此类推…</p>
 <p>程序输出：</p>
-<pre><code>第 1 个月兔子的对数为 1
-第 2 个月兔子的对数为 1
-第 3 个月兔子的对数为 2
-第 4 个月兔子的对数为 3
-第 5 个月兔子的对数为 5
-第 6 个月兔子的对数为 8
-第 7 个月兔子的对数为 13
-第 8 个月兔子的对数为 21
-第 9 个月兔子的对数为 34
-第 10 个月兔子的对数为 55
-第 11 个月兔子的对数为 89
-第 12 个月兔子的对数为 144</code></pre><p>到这里本来就结束了。但后来在网上看到另一种解法：</p>
-<pre><code class="java">public static void rabbit() {
-    for (int months = 1; months &lt;= 12; months++) {
-        System.out.printf(&quot;第 %d 个月兔子的对数为 %d\n&quot;,months,getRabbits(months));
-    }
-}
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">第 1 个月兔子的对数为 1</span><br><span class="line">第 2 个月兔子的对数为 1</span><br><span class="line">第 3 个月兔子的对数为 2</span><br><span class="line">第 4 个月兔子的对数为 3</span><br><span class="line">第 5 个月兔子的对数为 5</span><br><span class="line">第 6 个月兔子的对数为 8</span><br><span class="line">第 7 个月兔子的对数为 13</span><br><span class="line">第 8 个月兔子的对数为 21</span><br><span class="line">第 9 个月兔子的对数为 34</span><br><span class="line">第 10 个月兔子的对数为 55</span><br><span class="line">第 11 个月兔子的对数为 89</span><br><span class="line">第 12 个月兔子的对数为 144</span><br></pre></td></tr></table></figure>
 
-private static int getRabbits(int months){
-    if (months == 1 || months == 2) return 1;
-    else return getRabbits(months-1) + getRabbits(months-2);
-}</code></pre>
+<p>到这里本来就结束了。但后来在网上看到另一种解法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">rabbit</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> months = <span class="number">1</span>; months &lt;= <span class="number">12</span>; months++) &#123;</span><br><span class="line">        System.out.printf(<span class="string">"第 %d 个月兔子的对数为 %d\n"</span>,months,getRabbits(months));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getRabbits</span><span class="params">(<span class="keyword">int</span> months)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (months == <span class="number">1</span> || months == <span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> getRabbits(months-<span class="number">1</span>) + getRabbits(months-<span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>基本思想是：根据规律，如果月数是1或2，就返回1，如果是3或者以上，就返回前一个月和前两个月的和</p>
 <p>然后要知道前一个月的数量，就又要去算前两个月和前三个月的和</p>
 <p>要知道前两个月的数量，就又要去算前三个月和前四个月的和</p>
 <p>一直往前算到第一个月和第二个月，得出具体的数字，然后逐步加回去</p>
 <p>以此类推</p>
 <p>程序输出：</p>
-<pre><code>第 1 个月兔子的对数为 1
-第 2 个月兔子的对数为 1
-第 3 个月兔子的对数为 2
-第 4 个月兔子的对数为 3
-第 5 个月兔子的对数为 5
-第 6 个月兔子的对数为 8
-第 7 个月兔子的对数为 13
-第 8 个月兔子的对数为 21
-第 9 个月兔子的对数为 34
-第 10 个月兔子的对数为 55
-第 11 个月兔子的对数为 89
-第 12 个月兔子的对数为 144</code></pre><p>两种解法，第一种可以认为是迭代的思想，而第二种则是递归的思想。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">第 1 个月兔子的对数为 1</span><br><span class="line">第 2 个月兔子的对数为 1</span><br><span class="line">第 3 个月兔子的对数为 2</span><br><span class="line">第 4 个月兔子的对数为 3</span><br><span class="line">第 5 个月兔子的对数为 5</span><br><span class="line">第 6 个月兔子的对数为 8</span><br><span class="line">第 7 个月兔子的对数为 13</span><br><span class="line">第 8 个月兔子的对数为 21</span><br><span class="line">第 9 个月兔子的对数为 34</span><br><span class="line">第 10 个月兔子的对数为 55</span><br><span class="line">第 11 个月兔子的对数为 89</span><br><span class="line">第 12 个月兔子的对数为 144</span><br></pre></td></tr></table></figure>
+
+<p>两种解法，第一种可以认为是迭代的思想，而第二种则是递归的思想。</p>
 <h1 id="递归和迭代的区别"><a href="#递归和迭代的区别" class="headerlink" title="递归和迭代的区别"></a>递归和迭代的区别</h1><ul>
 <li><strong>迭代</strong>：迭代是将输出做为输入,再次进行处理。</li>
 <li><strong>递归</strong>：递归是函数自己调用自己。</li>
 </ul>
 <p>那么，使用递归和迭代求 1+2+3…+n 的过程是怎样的呢？</p>
 <p>使用迭代</p>
-<pre><code>0+1=1
-1+2=3
-3+3=6
-6+4=10
-10+5=15</code></pre><p>使用递归</p>
-<pre><code>sum(5)
-5+sum(4)
-5+4+sum(3)
-5+4+3+sum(2)
-5+4+3+2+sum(1)
-5+4+3+2+1+sum(0)
-5+4+3+2+1+0
-5+4+3+2+1
-5+4+3+3
-5+4+6
-5+10
-15</code></pre><p>到这里基本能看出迭代和递归的区别，由于时间关系，暂不展开深入探讨。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">0+1&#x3D;1</span><br><span class="line">1+2&#x3D;3</span><br><span class="line">3+3&#x3D;6</span><br><span class="line">6+4&#x3D;10</span><br><span class="line">10+5&#x3D;15</span><br></pre></td></tr></table></figure>
+
+<p>使用递归</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sum(5)</span><br><span class="line">5+sum(4)</span><br><span class="line">5+4+sum(3)</span><br><span class="line">5+4+3+sum(2)</span><br><span class="line">5+4+3+2+sum(1)</span><br><span class="line">5+4+3+2+1+sum(0)</span><br><span class="line">5+4+3+2+1+0</span><br><span class="line">5+4+3+2+1</span><br><span class="line">5+4+3+3</span><br><span class="line">5+4+6</span><br><span class="line">5+10</span><br><span class="line">15</span><br></pre></td></tr></table></figure>
+
+<p>到这里基本能看出迭代和递归的区别，由于时间关系，暂不展开深入探讨。</p>
 <hr>
 <p>延伸阅读：</p>
 <ul>
@@ -342,7 +295,7 @@ private static int getRabbits(int months){
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -354,7 +307,7 @@ private static int getRabbits(int months){
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -366,7 +319,7 @@ private static int getRabbits(int months){
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -471,25 +424,25 @@ private static int getRabbits(int months){
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -503,6 +456,14 @@ private static int getRabbits(int months){
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -511,20 +472,20 @@ private static int getRabbits(int months){
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -556,7 +517,7 @@ private static int getRabbits(int months){
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -564,7 +525,15 @@ private static int getRabbits(int months){
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -599,6 +568,25 @@ private static int getRabbits(int months){
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -629,7 +617,7 @@ private static int getRabbits(int months){
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -666,25 +654,6 @@ private static int getRabbits(int months){
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -750,6 +719,25 @@ private static int getRabbits(int months){
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -780,7 +768,7 @@ private static int getRabbits(int months){
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -817,25 +805,6 @@ private static int getRabbits(int months){
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -898,7 +867,7 @@ private static int getRabbits(int months){
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -952,7 +921,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

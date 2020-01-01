@@ -34,7 +34,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -128,10 +128,72 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-07-11T07:15:47.000Z">2018-07-11</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/linux/">linux</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 796 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/d3952d64.html">Debian 9 安装 Apche2 和 vsftpd</a>
+            
+        </h1>
+        <div class="content">
+            <p><img src="https://www.apache.org/img/asf_logo.png" alt="apache2"></p>
+<h1 id="什么是-Apache-HTTP-Server"><a href="#什么是-Apache-HTTP-Server" class="headerlink" title="什么是 Apache HTTP Server"></a>什么是 Apache HTTP Server</h1><p>Apache HTTP Server Project 是致力于为现代操作系统（包括UNIX 和 Windows）提供和维护的一个开源 HTTP 服务项目。该项目发起于 1995 年，至今已有20+年的历史。</p>
+<p>借助 Apache HTTP Server，我们可以在我们的计算机或服务器上快速部署一个高效、可用的 HTTP 服务。Apache2 是 Apache HTTP Server 的最新版本。</p>
+<ul>
+<li>Apache官网：<a href="http://httpd.apache.org/">Link</a></li>
+</ul>
+<h1 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install apache2</span><br></pre></td></tr></table></figure>
+
+<p>访问 127.0.0.1 或者该服务器的公网ip ，即可看到 apache2 的主页面</p>
+<p><img src="../../../../images/Linux/Apache2Welcome.png" alt="welcome"></p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/d3952d64.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2018-07-09T14:33:32.000Z">2018-07-09</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                 </div>
                 
                 
@@ -188,7 +250,7 @@
                 <time class="level-item has-text-grey" datetime="2018-07-06T03:35:48.000Z">2018-07-06</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                 </div>
                 
                 
@@ -250,7 +312,7 @@
                 <time class="level-item has-text-grey" datetime="2018-07-05T08:16:42.000Z">2018-07-05</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                 </div>
                 
                 
@@ -406,31 +468,25 @@
 </ul>
 <hr>
 <h1 id="本地文件读写"><a href="#本地文件读写" class="headerlink" title="本地文件读写"></a>本地文件读写</h1><h2 id="文本文件"><a href="#文本文件" class="headerlink" title="文本文件"></a>文本文件</h2><p>使用以下语句从文件系统中读写文件</p>
-<pre><code class="scala">val text = sc.textFile(&quot;file:///home/jerrysheh/word.txt&quot;)
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> text = sc.textFile(<span class="string">"file:///home/jerrysheh/word.txt"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// .first() 是一个"action"</span></span><br><span class="line">text.first()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 从RDD写回文件系统，saveAsTextFile是一个action</span></span><br><span class="line">text.saveAsTextFile(<span class="string">"file:///home/jerrysheh/wordWriteBack"</span>)</span><br></pre></td></tr></table></figure>
 
-// .first() 是一个&quot;action&quot;
-text.first()
-
-// 从RDD写回文件系统，saveAsTextFile是一个action
-text.saveAsTextFile(&quot;file:///home/jerrysheh/wordWriteBack&quot;)</code></pre>
 <blockquote>
 <p>spark的惰性机制使得在“转换”操作时，即使遇到错误也不会立即报错，直到”行动（action）“操作时才开始真正的计算，这时候如果有错误才会报错。</p>
 </blockquote>
 <p>wordWriteBack 是一个文件夹，写回后存放在该文件夹里，里面有part-00000 和 _SUCCESS 两个文件。part-00000 里面的内容就是写会的内容。</p>
 <p>当我们想把输出的结果再次加载到RDD中，只要在<code>textFile()</code>中定位到 wordWriteBack 这个目录即可。</p>
-<pre><code class="scala">val text = sc.textFile(&quot;file:///home/jerrysheh/wordWriteBack&quot;)</code></pre>
-<h2 id="json文件"><a href="#json文件" class="headerlink" title="json文件"></a>json文件</h2><pre><code class="scala">// jsonStr的类型是：org.apache.spark.rdd.RDD[String]
-val jsonStr = sc.textFile(&quot;file:///home/jerrysheh/people.json&quot;)
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> text = sc.textFile(<span class="string">"file:///home/jerrysheh/wordWriteBack"</span>)</span><br></pre></td></tr></table></figure>
 
-// 使用 foreach 遍历
-jsonStr.foreach(println)</code></pre>
+<h2 id="json文件"><a href="#json文件" class="headerlink" title="json文件"></a>json文件</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// jsonStr的类型是：org.apache.spark.rdd.RDD[String]</span></span><br><span class="line"><span class="keyword">val</span> jsonStr = sc.textFile(<span class="string">"file:///home/jerrysheh/people.json"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 foreach 遍历</span></span><br><span class="line">jsonStr.foreach(println)</span><br></pre></td></tr></table></figure>
+
 <p>输出：</p>
-<pre><code>{&quot;name&quot;:&quot;Michael&quot;}
-{&quot;name&quot;:&quot;Andy&quot;, &quot;age&quot;:30}
-{&quot;name&quot;:&quot;Justin&quot;, &quot;age&quot;:19}</code></pre><p>可以用 scala 自带的 JSON 库 —— scala.util.parsing.json.JSON 进行解析。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;name&quot;:&quot;Michael&quot;&#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;Andy&quot;, &quot;age&quot;:30&#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;Justin&quot;, &quot;age&quot;:19&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以用 scala 自带的 JSON 库 —— scala.util.parsing.json.JSON 进行解析。</p>
 <hr>
 <h1 id="从HDFS读写"><a href="#从HDFS读写" class="headerlink" title="从HDFS读写"></a>从HDFS读写</h1><p>跟本地文件类似，只不过把 <code>file://</code> 换成 <code>hdfs://</code></p>
-<pre><code class="scala">val textFile = sc.textFile(&quot;hdfs://localhost:9000/user/jerrysheh/word.txt&quot;)</code></pre>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> textFile = sc.textFile(<span class="string">"hdfs://localhost:9000/user/jerrysheh/word.txt"</span>)</span><br></pre></td></tr></table></figure>
+
 <hr>
 
         </div>
@@ -477,13 +533,8 @@ jsonStr.foreach(println)</code></pre>
             
         </h1>
         <div class="content">
-            <h1 id="类"><a href="#类" class="headerlink" title="类"></a>类</h1><h2 id="定义类"><a href="#定义类" class="headerlink" title="定义类"></a>定义类</h2><pre><code class="scala">class Counter {
-    private var value = 0
+            <h1 id="类"><a href="#类" class="headerlink" title="类"></a>类</h1><h2 id="定义类"><a href="#定义类" class="headerlink" title="定义类"></a>定义类</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Counter</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> value = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//大括号和返回类型可以省略</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">increment</span></span>(): <span class="type">Unit</span> = &#123; value += <span class="number">1</span>&#125;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">current</span></span>(): <span class="type">Int</span> = &#123;value&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    //大括号和返回类型可以省略
-    def increment(): Unit = { value += 1}
-    def current(): Int = {value}
-}</code></pre>
 <ul>
 <li>字段没有 <code>private</code> 修饰的默认为 <code>public</code></li>
 <li>用<code>def</code>来声明方法</li>
@@ -554,64 +605,6 @@ jsonStr.foreach(println)</code></pre>
             <div class="level-start">
                 <div class="level-item">
                 <a class="button is-size-7 is-light" href="/post/bcfc34da.html#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-06-09T01:39:26.000Z">2018-06-09</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    4 分钟 读完 (大约 628 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/98aa81f1.html">Java中的回调机制</a>
-            
-        </h1>
-        <div class="content">
-            <p>什么是回调（CallBack）呢？有一个经典的打电话例子。</p>
-<blockquote>
-<p>有一天小王遇到一个很难的问题，问题是“1 + 1 = ?”，就打电话问小李，小李一下子也不知道，就跟小王说，等我办完手上的事情，就去想想答案，小王也不会傻傻的拿着电话去等小李的答案吧，于是小王就对小李说，我还要去逛街，你知道了答案就打我电话告诉我，于是挂了电话，自己办自己的事情，过了一个小时，小李打了小王的电话，告诉他答案是2</p>
-</blockquote>
-<p>所谓回调：就是A类中调用B类中的某个方法C，然后B类中反过来调用A类中的方法D，D这个方法就叫回调方法。</p>
-<p>回调让模块与模块之间解耦，也实现了异步调用。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/98aa81f1.html#more">阅读更多</a>
                 </div>
             </div>
         </div>
@@ -701,7 +694,7 @@ jsonStr.foreach(println)</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -713,7 +706,7 @@ jsonStr.foreach(println)</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -725,7 +718,7 @@ jsonStr.foreach(println)</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -810,25 +803,25 @@ jsonStr.foreach(println)</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -842,6 +835,14 @@ jsonStr.foreach(println)</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -850,20 +851,20 @@ jsonStr.foreach(println)</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -895,7 +896,7 @@ jsonStr.foreach(println)</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -903,7 +904,15 @@ jsonStr.foreach(println)</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -938,6 +947,25 @@ jsonStr.foreach(println)</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -968,7 +996,7 @@ jsonStr.foreach(println)</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1005,25 +1033,6 @@ jsonStr.foreach(println)</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1089,6 +1098,25 @@ jsonStr.foreach(println)</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1119,7 +1147,7 @@ jsonStr.foreach(println)</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1156,25 +1184,6 @@ jsonStr.foreach(println)</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1237,7 +1246,7 @@ jsonStr.foreach(println)</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1291,7 +1300,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

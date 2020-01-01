@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -167,24 +167,12 @@
 <a id="more"></a>
 
 <hr>
-<h1 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h1><h2 id="初始化-Spark"><a href="#初始化-Spark" class="headerlink" title="初始化 Spark"></a>初始化 Spark</h2><pre><code class="java">SparkSession spark = SparkSession
-  .builder()
-  .appName(&quot;Java Spark SQL basic example&quot;)
-  .config(&quot;spark.some.config.option&quot;, &quot;some-value&quot;)
-  .getOrCreate();</code></pre>
+<h1 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h1><h2 id="初始化-Spark"><a href="#初始化-Spark" class="headerlink" title="初始化 Spark"></a>初始化 Spark</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SparkSession spark = SparkSession</span><br><span class="line">  .builder()</span><br><span class="line">  .appName(<span class="string">"Java Spark SQL basic example"</span>)</span><br><span class="line">  .config(<span class="string">"spark.some.config.option"</span>, <span class="string">"some-value"</span>)</span><br><span class="line">  .getOrCreate();</span><br></pre></td></tr></table></figure>
+
 <h2 id="创建-DataFrames"><a href="#创建-DataFrames" class="headerlink" title="创建 DataFrames"></a>创建 DataFrames</h2><p>通过 SparkSession，可以从已存在的RDD、Hive表、或者<a href="https://spark.apache.org/docs/latest/sql-programming-guide.html#data-sources">其他数据源</a> 来创建DataFrames</p>
 <p>例如，从一个 json 文件创建 DataFrames：</p>
-<pre><code class="java">Dataset&lt;Row&gt; df = spark.read().json(&quot;examples/src/main/resources/people.json&quot;);
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Dataset&lt;Row&gt; df = spark.read().json(<span class="string">"examples/src/main/resources/people.json"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Displays the content of the DataFrame to stdout</span></span><br><span class="line">df.show();</span><br><span class="line"><span class="comment">// +----+-------+</span></span><br><span class="line"><span class="comment">// | age|   name|</span></span><br><span class="line"><span class="comment">// +----+-------+</span></span><br><span class="line"><span class="comment">// |null|Michael|</span></span><br><span class="line"><span class="comment">// |  30|   Andy|</span></span><br><span class="line"><span class="comment">// |  19| Justin|</span></span><br><span class="line"><span class="comment">// +----+-------+</span></span><br></pre></td></tr></table></figure>
 
-// Displays the content of the DataFrame to stdout
-df.show();
-// +----+-------+
-// | age|   name|
-// +----+-------+
-// |null|Michael|
-// |  30|   Andy|
-// |  19| Justin|
-// +----+-------+</code></pre>
 <h2 id="操作-DataFrame"><a href="#操作-DataFrame" class="headerlink" title="操作 DataFrame"></a>操作 DataFrame</h2><p><code>df</code>可以像数据库表一样进行操作：</p>
 <ul>
 <li><code>df.printSchema()</code>：打印DataFrames结构</li>
@@ -193,65 +181,22 @@ df.show();
 <li><code>df.groupBy(&quot;age&quot;).count().show()</code>：统计各年龄人数</li>
 </ul>
 <p>或者，把它变成一张临时的表</p>
-<pre><code class="java">// Register the DataFrame as a SQL temporary view
-df.createOrReplaceTempView(&quot;people&quot;);</code></pre>
-<p>现在，我们的内存里就存在一张临时 people 表了。然后通过 Spark SQL 来操作：</p>
-<pre><code class="java">Dataset&lt;Row&gt; sqlDF = spark.sql(&quot;SELECT * FROM people&quot;);
-    sqlDF.show();
-    // +----+-------+
-    // | age|   name|
-    // +----+-------+
-    // |null|Michael|
-    // |  30|   Andy|
-    // |  19| Justin|
-    // +----+-------+</code></pre>
-<p><code>df.createOrReplaceTempView(&quot;people&quot;)</code>的生命周期在 Spark Session，Session一关闭临时表就不存在了。如果要用应用程序级别的全局临时表，使用<code>df.createGlobalTempView(&quot;people&quot;)</code>，使用全局表需要在SQL语句添加 <code>.global_temp</code></p>
-<pre><code class="java">df.createGlobalTempView(&quot;people&quot;);
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Register the DataFrame as a SQL temporary view</span></span><br><span class="line">df.createOrReplaceTempView(<span class="string">"people"</span>);</span><br></pre></td></tr></table></figure>
 
-// Global temporary view is tied to a system preserved database `global_temp`
-spark.sql(&quot;SELECT * FROM global_temp.people&quot;).show();</code></pre>
+<p>现在，我们的内存里就存在一张临时 people 表了。然后通过 Spark SQL 来操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Dataset&lt;Row&gt; sqlDF = spark.sql(<span class="string">"SELECT * FROM people"</span>);</span><br><span class="line">    sqlDF.show();</span><br><span class="line">    <span class="comment">// +----+-------+</span></span><br><span class="line">    <span class="comment">// | age|   name|</span></span><br><span class="line">    <span class="comment">// +----+-------+</span></span><br><span class="line">    <span class="comment">// |null|Michael|</span></span><br><span class="line">    <span class="comment">// |  30|   Andy|</span></span><br><span class="line">    <span class="comment">// |  19| Justin|</span></span><br><span class="line">    <span class="comment">// +----+-------+</span></span><br></pre></td></tr></table></figure>
+
+<p><code>df.createOrReplaceTempView(&quot;people&quot;)</code>的生命周期在 Spark Session，Session一关闭临时表就不存在了。如果要用应用程序级别的全局临时表，使用<code>df.createGlobalTempView(&quot;people&quot;)</code>，使用全局表需要在SQL语句添加 <code>.global_temp</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">df.createGlobalTempView(<span class="string">"people"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Global temporary view is tied to a system preserved database `global_temp`</span></span><br><span class="line">spark.sql(<span class="string">"SELECT * FROM global_temp.people"</span>).show();</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="一个agg的例子"><a href="#一个agg的例子" class="headerlink" title="一个agg的例子"></a>一个agg的例子</h1><p>从数据库读一张表，然后根据相同的 userId，将 productId 聚合为 List</p>
-<pre><code>// 转换前
-+------+---------+
-|userId|productId|
-+------+---------+
-|     3|  1786670|
-|     3|  2679073|
-|     3|  1082387|
-|     8|  1082734|
-|     9|  4039416|
-|     9|  1734231|
-|     1|  5252677|
-|    10|  1141406|
-|    10|  1026425|
-|    10|  3426048|
-|     1|  1193101|
-|     1|  1051440|
-+------+---------+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 转换前</span><br><span class="line">+------+---------+</span><br><span class="line">|userId|productId|</span><br><span class="line">+------+---------+</span><br><span class="line">|     3|  1786670|</span><br><span class="line">|     3|  2679073|</span><br><span class="line">|     3|  1082387|</span><br><span class="line">|     8|  1082734|</span><br><span class="line">|     9|  4039416|</span><br><span class="line">|     9|  1734231|</span><br><span class="line">|     1|  5252677|</span><br><span class="line">|    10|  1141406|</span><br><span class="line">|    10|  1026425|</span><br><span class="line">|    10|  3426048|</span><br><span class="line">|     1|  1193101|</span><br><span class="line">|     1|  1051440|</span><br><span class="line">+------+---------+</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;转换后</span><br><span class="line">+------+--------------------+</span><br><span class="line">|userId|          productIds|</span><br><span class="line">+------+--------------------+</span><br><span class="line">|     1|[5252677, 1193101...|</span><br><span class="line">|     3|[1056461, 1786670...|</span><br><span class="line">|     9|[1734231, 4039416]  |</span><br><span class="line">|     8|[1082734]           |</span><br><span class="line">|    10|[1141406, 3426048...|</span><br><span class="line">+------+--------------------+</span><br></pre></td></tr></table></figure>
+
+<p>方法：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> dataset = <span class="type">MySQLUtils</span></span><br><span class="line">                .readFromMySQL(spark, <span class="string">"likes"</span>)</span><br><span class="line">                .select(<span class="string">"userId"</span>, <span class="string">"productId"</span>)</span><br><span class="line"></span><br><span class="line">dataset.show()</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> dataFormat = dataset</span><br><span class="line">                .groupBy(<span class="string">"userId"</span>)</span><br><span class="line">                .agg(collect_set(<span class="string">"productId"</span>) as <span class="string">"productIds"</span>)</span><br><span class="line"></span><br><span class="line">dataFormat.show()</span><br></pre></td></tr></table></figure>
 
 
-//转换后
-+------+--------------------+
-|userId|          productIds|
-+------+--------------------+
-|     1|[5252677, 1193101...|
-|     3|[1056461, 1786670...|
-|     9|[1734231, 4039416]  |
-|     8|[1082734]           |
-|    10|[1141406, 3426048...|
-+------+--------------------+</code></pre><p>方法：</p>
-<pre><code class="scala">val dataset = MySQLUtils
-                .readFromMySQL(spark, &quot;likes&quot;)
-                .select(&quot;userId&quot;, &quot;productId&quot;)
-
-dataset.show()
-
-val dataFormat = dataset
-                .groupBy(&quot;userId&quot;)
-                .agg(collect_set(&quot;productId&quot;) as &quot;productIds&quot;)
-
-dataFormat.show()</code></pre>
 <ul>
 <li>groupBy 以 userId， 将一个 dataframe 分成多个， 然后 agg 将多个 DataFrame 聚合， 聚合的参数是 collect_set(“productId”) 。</li>
 </ul>
@@ -353,7 +298,7 @@ dataFormat.show()</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -365,7 +310,7 @@ dataFormat.show()</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -377,7 +322,7 @@ dataFormat.show()</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -514,25 +459,25 @@ dataFormat.show()</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -546,6 +491,14 @@ dataFormat.show()</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -554,20 +507,20 @@ dataFormat.show()</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -599,7 +552,7 @@ dataFormat.show()</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -607,7 +560,15 @@ dataFormat.show()</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -642,6 +603,25 @@ dataFormat.show()</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -672,7 +652,7 @@ dataFormat.show()</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -709,25 +689,6 @@ dataFormat.show()</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -793,6 +754,25 @@ dataFormat.show()</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -823,7 +803,7 @@ dataFormat.show()</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -860,25 +840,6 @@ dataFormat.show()</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -941,7 +902,7 @@ dataFormat.show()</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -995,7 +956,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

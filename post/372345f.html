@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -166,24 +166,11 @@
 <li>第二步，创建一个List列表，以非字母为分隔符存放每一个单词字符串</li>
 <li>第三步，foreach循环开始迭代</li>
 </ol>
-<pre><code class="java">// 读文件，放到 String 里
-String contents = new String(readAllBytes((Paths.get(&quot;alice&quot;))), StandardCharsets.UTF_8);
-// 以非字母为分隔符
-List&lt;String&gt; words = Arrays.asList(contents.split(&quot;\\PL+&quot;));
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 读文件，放到 String 里</span></span><br><span class="line">String contents = <span class="keyword">new</span> String(readAllBytes((Paths.get(<span class="string">"alice"</span>))), StandardCharsets.UTF_8);</span><br><span class="line"><span class="comment">// 以非字母为分隔符</span></span><br><span class="line">List&lt;String&gt; words = Arrays.asList(contents.split(<span class="string">"\\PL+"</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="comment">// 在 List 里面迭代，如果找到长度＞12的，计数器+1</span></span><br><span class="line"><span class="keyword">for</span> (String w : words) &#123;</span><br><span class="line">    <span class="keyword">if</span> (w.length() &gt; <span class="number">12</span>) count++;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
-int count = 0;
-// 在 List 里面迭代，如果找到长度＞12的，计数器+1
-for (String w : words) {
-    if (w.length() &gt; 12) count++;
-    }</code></pre>
 <p>在 java 8 中，可以用 stream 来实现相同的功能：</p>
-<pre><code class="java">// 读文件，放到 String 里
-String contents = new String(readAllBytes((Paths.get(&quot;alice.txt&quot;))), StandardCharsets.UTF_8);
-// 以非字母为分隔符
-List&lt;String&gt; words = Arrays.asList(contents.split(&quot;\\PL+&quot;));
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 读文件，放到 String 里</span></span><br><span class="line">String contents = <span class="keyword">new</span> String(readAllBytes((Paths.get(<span class="string">"alice.txt"</span>))), StandardCharsets.UTF_8);</span><br><span class="line"><span class="comment">// 以非字母为分隔符</span></span><br><span class="line">List&lt;String&gt; words = Arrays.asList(contents.split(<span class="string">"\\PL+"</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 把 List 转换成 流，用 flilter 方法对流的每一个元素进行判断，筛选出＞12的，并计数</span></span><br><span class="line"><span class="keyword">long</span> count1 = words.stream().filter(w -&gt; w.length() &gt; <span class="number">12</span>).count();</span><br></pre></td></tr></table></figure>
 
-// 把 List 转换成 流，用 flilter 方法对流的每一个元素进行判断，筛选出＞12的，并计数
-long count1 = words.stream().filter(w -&gt; w.length() &gt; 12).count();</code></pre>
 <ul>
 <li><code>words.stream()</code>创建的是串行流，<code>words.parallelStream()</code>创建的是并行流。</li>
 </ul>
@@ -204,33 +191,18 @@ long count1 = words.stream().filter(w -&gt; w.length() &gt; 12).count();</code><
 </ol>
 <p>关于聚合操作，可参考： <a href="http://www.runoob.com/java/java8-streams.html">runoob.com</a></p>
 <p>一个例子: 将<code>alice.txt</code>的内容读入 String， 以非字母为分隔符存入 List， 通过流取前20个值，过滤出这20个值长度大于5的，并排序，最后存到新的 List 里</p>
-<pre><code class="java">public static void streamTest() {
-    try {
-        String contents = new String(readAllBytes((Paths.get(&quot;alice.txt&quot;))), StandardCharsets.UTF_8);
-        List&lt;String&gt; words = Arrays.asList(contents.split(&quot;\\PL+&quot;));
-        List&lt;String&gt; newwords = words.stream().limit(20).filter(w -&gt; w.length() &gt; 5).sorted().collect(Collectors.toList());
-        System.out.println(newwords);
-    } catch (IOException e) {
-        System.out.println(&quot;IO problem&quot;);
-    };
-}</code></pre>
-<p>另一个例子：为每个订单加上12%的税</p>
-<pre><code class="java">// 不使用lambda表达式
-List costBeforeTax = Arrays.asList(100, 200, 300, 400, 500);
-for (Integer cost : costBeforeTax) {
-    double price = cost + .12*cost;
-    System.out.println(price);
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">streamTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        String contents = <span class="keyword">new</span> String(readAllBytes((Paths.get(<span class="string">"alice.txt"</span>))), StandardCharsets.UTF_8);</span><br><span class="line">        List&lt;String&gt; words = Arrays.asList(contents.split(<span class="string">"\\PL+"</span>));</span><br><span class="line">        List&lt;String&gt; newwords = words.stream().limit(<span class="number">20</span>).filter(w -&gt; w.length() &gt; <span class="number">5</span>).sorted().collect(Collectors.toList());</span><br><span class="line">        System.out.println(newwords);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        System.out.println(<span class="string">"IO problem"</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-// 使用lambda表达式
-List costBeforeTax = Arrays.asList(100, 200, 300, 400, 500);
-costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::println);</code></pre>
+<p>另一个例子：为每个订单加上12%的税</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不使用lambda表达式</span></span><br><span class="line">List costBeforeTax = Arrays.asList(<span class="number">100</span>, <span class="number">200</span>, <span class="number">300</span>, <span class="number">400</span>, <span class="number">500</span>);</span><br><span class="line"><span class="keyword">for</span> (Integer cost : costBeforeTax) &#123;</span><br><span class="line">    <span class="keyword">double</span> price = cost + .<span class="number">12</span>*cost;</span><br><span class="line">    System.out.println(price);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用lambda表达式</span></span><br><span class="line">List costBeforeTax = Arrays.asList(<span class="number">100</span>, <span class="number">200</span>, <span class="number">300</span>, <span class="number">400</span>, <span class="number">500</span>);</span><br><span class="line">costBeforeTax.stream().map((cost) -&gt; cost + .<span class="number">12</span>*cost).forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+
 <p>可见 Lambda 表达式非常地优雅。</p>
 <hr>
 <h1 id="规约方法（reduction）"><a href="#规约方法（reduction）" class="headerlink" title="规约方法（reduction）"></a>规约方法（reduction）</h1><p>有时候我们使用聚合操作，操作完成后还是一个流。但有时会转换成非流值，我们把转换完毕后是非流值的方法称为规约方法。</p>
 <p>比如上面例子的<code>.count()</code>，就把流转换成了数字，<code>.collect(Collectors.toList()</code>转换成 List 集合， <code>.max()</code>和<code>.min()</code>获取成流中最大或最小的值。<code>findFirst()</code>返回非空集合的第一个值，<code>findAny()</code>返回任何符合的值。<code>anyMatch()</code>、<code>noneMatch()</code>和<code>allMatch()</code>返回匹配。</p>
 <p>例子：流中是否有以Q开头的元素？有返回True，没有返回False</p>
-<pre><code class="java">boolean aWordStartWithQ = words.parallel().anyMatch( s -&gt; s.startWith(&quot;Q&quot;));</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> aWordStartWithQ = words.parallel().anyMatch( s -&gt; s.startWith(<span class="string">"Q"</span>));</span><br></pre></td></tr></table></figure>
+
 <h2 id="Collectors"><a href="#Collectors" class="headerlink" title="Collectors"></a>Collectors</h2><p>Collectors实现了很多规约操作，例如</p>
 <ol>
 <li><code>.collect(Collectors.toList()</code>把流转换成 List</li>
@@ -341,7 +313,7 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -353,7 +325,7 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -365,7 +337,7 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -502,25 +474,25 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -534,6 +506,14 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -542,20 +522,20 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -587,7 +567,7 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -595,7 +575,15 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -630,6 +618,25 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -660,7 +667,7 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -697,25 +704,6 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -781,6 +769,25 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -811,7 +818,7 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -848,25 +855,6 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -929,7 +917,7 @@ costBeforeTax.stream().map((cost) -&gt; cost + .12*cost).forEach(System.out::pri
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -983,7 +971,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

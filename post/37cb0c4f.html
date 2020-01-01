@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -182,69 +182,18 @@
 </ol>
 <hr>
 <h1 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h1><p>在 app/build.gradle 里面的 dependencies 添加依赖</p>
-<pre><code>dependencies {
-    implementation &#39;com.android.support:recyclerview-v7:27.1.1&#39;
-}</code></pre><blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    implementation &#39;com.android.support:recyclerview-v7:27.1.1&#39;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
 <p>注意: 在新版本的 Gradle 中， compile 命令已经变更为 implementation ，或者 API</p>
 </blockquote>
 <hr>
-<h1 id="Layout"><a href="#Layout" class="headerlink" title="Layout"></a>Layout</h1><h2 id="添加-recyclerView"><a href="#添加-recyclerView" class="headerlink" title="添加 recyclerView"></a>添加 recyclerView</h2><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;FrameLayout
-    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;&gt;
+<h1 id="Layout"><a href="#Layout" class="headerlink" title="Layout"></a>Layout</h1><h2 id="添加-recyclerView"><a href="#添加-recyclerView" class="headerlink" title="添加 recyclerView"></a>添加 recyclerView</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">FrameLayout</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- A RecyclerView with some commonly used attributes --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">android.support.v7.widget.RecyclerView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/news_recycler_view"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:scrollbars</span>=<span class="string">"vertical"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">FrameLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-    &lt;!-- A RecyclerView with some commonly used attributes --&gt;
-    &lt;android.support.v7.widget.RecyclerView
-        android:id=&quot;@+id/news_recycler_view&quot;
-        android:scrollbars=&quot;vertical&quot;
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;match_parent&quot;/&gt;
-
-
-&lt;/FrameLayout&gt;</code></pre>
 <h2 id="为每个子项添加布局"><a href="#为每个子项添加布局" class="headerlink" title="为每个子项添加布局"></a>为每个子项添加布局</h2><p>在 res/layout 创建一个新的 layout resource file</p>
 <p>number_list_item.xml</p>
-<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    android:orientation=&quot;vertical&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;wrap_content&quot;&gt;
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">android.support.v7.widget.CardView</span> <span class="attr">xmlns:card_view</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/card_view"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">card_view:cardBackgroundColor</span>=<span class="string">"#FFFFFF"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">card_view:cardCornerRadius</span>=<span class="string">"8dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">card_view:cardUseCompatPadding</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">RelativeLayout</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">ImageView</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:id</span>=<span class="string">"@+id/news_photo"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_height</span>=<span class="string">"240dp"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_alignParentTop</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:scaleType</span>=<span class="string">"centerCrop"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:id</span>=<span class="string">"@+id/news_title"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_below</span>=<span class="string">"@id/news_photo"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:gravity</span>=<span class="string">"center"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:maxLines</span>=<span class="string">"1"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:padding</span>=<span class="string">"5dp"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:textColor</span>=<span class="string">"#ffffff"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:textSize</span>=<span class="string">"20sp"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">android.support.v7.widget.CardView</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-    &lt;android.support.v7.widget.CardView xmlns:card_view=&quot;http://schemas.android.com/apk/res-auto&quot;
-        android:id=&quot;@+id/card_view&quot;
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;wrap_content&quot;
-        card_view:cardBackgroundColor=&quot;#FFFFFF&quot;
-        card_view:cardCornerRadius=&quot;8dp&quot;
-        card_view:cardUseCompatPadding=&quot;true&quot;
-        android:layout_gravity=&quot;center&quot;&gt;
-
-        &lt;RelativeLayout
-            android:layout_width=&quot;match_parent&quot;
-            android:layout_height=&quot;match_parent&quot;
-            android:orientation=&quot;vertical&quot;&gt;
-
-            &lt;ImageView
-                android:id=&quot;@+id/news_photo&quot;
-                android:layout_width=&quot;match_parent&quot;
-                android:layout_height=&quot;240dp&quot;
-                android:layout_alignParentTop=&quot;true&quot;
-                android:scaleType=&quot;centerCrop&quot; /&gt;
-
-            &lt;TextView
-                android:id=&quot;@+id/news_title&quot;
-                android:layout_width=&quot;match_parent&quot;
-                android:layout_height=&quot;wrap_content&quot;
-                android:layout_below=&quot;@id/news_photo&quot;
-                android:gravity=&quot;center&quot;
-                android:maxLines=&quot;1&quot;
-                android:padding=&quot;5dp&quot;
-                android:textColor=&quot;#ffffff&quot;
-                android:textSize=&quot;20sp&quot; /&gt;
-        &lt;/RelativeLayout&gt;
-    &lt;/android.support.v7.widget.CardView&gt;
-&lt;/LinearLayout&gt;</code></pre>
 <p>以上布局为一个 CardView 里面有一个 ImageView 和 TextView</p>
 <hr>
 <h1 id="创建-Adapter-类"><a href="#创建-Adapter-类" class="headerlink" title="创建 Adapter 类"></a>创建 Adapter 类</h1><p>当 RecyclerView 需要显示内容的时候，它首先会去找 Adapter 问应该显示哪些 items ，然后 RecyclerView 要求 Adapter 创建 ViewHolder 对象。</p>
@@ -264,207 +213,42 @@
 <p>在写这三个方法前，我们先定义一个内部类作为 ViewHolder：</p>
 <p> <strong>ViewHolder 的作用是将 xml 中的内容映射成 View 对象，它决定如何显示单个item</strong>。</p>
 <p>ViewHolder 将在 <code>onCreateViewHolder()</code>方法中被实例化。之后，在 <code>onBindViewHolder()</code> 方法中填充每个项的数据。</p>
-<pre><code class="java">// 自定义 ViewHolder 类
-static class NewsViewHolder extends RecyclerView.ViewHolder{
-    CardView cardView;
-    ImageView newsImage;
-    TextView newsTitle;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 自定义 ViewHolder 类</span></span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">NewsViewHolder</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ViewHolder</span></span>&#123;</span><br><span class="line">    CardView cardView;</span><br><span class="line">    ImageView newsImage;</span><br><span class="line">    TextView newsTitle;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构造器</span></span><br><span class="line">    NewsViewHolder(<span class="keyword">final</span> View itemView)&#123;</span><br><span class="line">        <span class="keyword">super</span>(itemView);</span><br><span class="line">        cardView = itemView.findViewById(R.id.card_view);</span><br><span class="line">        newsImage = itemView.findViewById(R.id.news_photo);</span><br><span class="line">        newsTitle = itemView.findViewById(R.id.news_title);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置标题背景为半透明</span></span><br><span class="line">        newsTitle.setBackgroundColor(Color.argb(<span class="number">20</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 构造器
-    NewsViewHolder(final View itemView){
-        super(itemView);
-        cardView = itemView.findViewById(R.id.card_view);
-        newsImage = itemView.findViewById(R.id.news_photo);
-        newsTitle = itemView.findViewById(R.id.news_title);
-
-        // 设置标题背景为半透明
-        newsTitle.setBackgroundColor(Color.argb(20, 0, 0, 0));
-    }
-}</code></pre>
 <p>然后重写 Adapter 的三个方法</p>
-<pre><code class="java">public class NewsAdapter extends RecyclerView.Adapter&lt;NewsAdapter.NewsViewHolder&gt; {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NewsAdapter</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">Adapter</span>&lt;<span class="title">NewsAdapter</span>.<span class="title">NewsViewHolder</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;News&gt; newsList;</span><br><span class="line">    <span class="keyword">private</span> Context context;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构造器</span></span><br><span class="line">    NewsAdapter(List&lt;News&gt; newsList, Context context) &#123;</span><br><span class="line">        <span class="keyword">this</span>.newsList = newsList;</span><br><span class="line">        <span class="keyword">this</span>.context = context;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 自定义 ViewHolder 类</span></span><br><span class="line">    <span class="comment">// 代码在上面</span></span><br><span class="line">    <span class="comment">// 此处省略</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> NewsViewHolder <span class="title">onCreateViewHolder</span><span class="params">(@NonNull ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123;</span><br><span class="line">        View v = LayoutInflater.from(context).inflate(R.layout.news_item, parent, <span class="keyword">false</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> NewsViewHolder(v);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(@NonNull NewsViewHolder holder, <span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">        News oneNews = newsList.get(position);</span><br><span class="line">        holder.newsTitle.setText(oneNews.getTitle());</span><br><span class="line">        Glide.with(context).load(<span class="string">"https://jerrysheh.github.io/images/Learn_Android/Android.jpg"</span>).into(holder.newsImage);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> newsList.size();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    private List&lt;News&gt; newsList;
-    private Context context;
-
-    // 构造器
-    NewsAdapter(List&lt;News&gt; newsList, Context context) {
-        this.newsList = newsList;
-        this.context = context;
-    }
-
-    // 自定义 ViewHolder 类
-    // 代码在上面
-    // 此处省略
-
-    @NonNull
-    @Override
-    public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.news_item, parent, false);
-        return new NewsViewHolder(v);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
-        News oneNews = newsList.get(position);
-        holder.newsTitle.setText(oneNews.getTitle());
-        Glide.with(context).load(&quot;https://jerrysheh.github.io/images/Learn_Android/Android.jpg&quot;).into(holder.newsImage);
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return newsList.size();
-    }
-}
-</code></pre>
 <hr>
 <h1 id="LayoutManager"><a href="#LayoutManager" class="headerlink" title="LayoutManager"></a>LayoutManager</h1><p>ViewHolder 决定如何显示单个 item， 而 LayoutManager 则决定如何显示一堆 item。包括以下三种方式：</p>
 <p><img src="../../../../images/Learn_Android/layoutmanager.png" alt="recyclerView"></p>
 <p>LayoutManager 同时负责回收不再需要的 view。</p>
 <p>MainActivity.java</p>
-<pre><code class="java">public class MainActivity extends AppCompatActivity {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    NewsAdapter mAdapter;</span><br><span class="line">    RecyclerView mRecyclerView;</span><br><span class="line">    List&lt;News&gt; newsList;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        newsList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        String url = <span class="string">"https://jerrysheh.github.io/images/Learn_Android/Android.jpg"</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">11</span>; i++) &#123;</span><br><span class="line">            newsList.add(<span class="keyword">new</span> News(String.valueOf(i), url));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mRecyclerView = findViewById(R.id.news_recycler_view);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 实例化一个 LinearLayoutManager</span></span><br><span class="line">        LinearLayoutManager layoutManager = <span class="keyword">new</span> LinearLayoutManager(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 实例化一个 Adapter</span></span><br><span class="line">        mAdapter = <span class="keyword">new</span> NewsAdapter(newsList, <span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">        mRecyclerView.setLayoutManager(layoutManager);</span><br><span class="line">        mRecyclerView.setHasFixedSize(<span class="keyword">true</span>);</span><br><span class="line">        mRecyclerView.setAdapter(mAdapter);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    NewsAdapter mAdapter;
-    RecyclerView mRecyclerView;
-    List&lt;News&gt; newsList;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        newsList = new ArrayList&lt;&gt;();
-        String url = &quot;https://jerrysheh.github.io/images/Learn_Android/Android.jpg&quot;;
-        for (int i = 1; i &lt; 11; i++) {
-            newsList.add(new News(String.valueOf(i), url));
-        }
-
-        mRecyclerView = findViewById(R.id.news_recycler_view);
-
-        // 实例化一个 LinearLayoutManager
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-
-        // 实例化一个 Adapter
-        mAdapter = new NewsAdapter(newsList, this);
-
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setAdapter(mAdapter);
-
-    }
-
-}
-</code></pre>
 <hr>
 <h1 id="实现点击事件"><a href="#实现点击事件" class="headerlink" title="实现点击事件"></a>实现点击事件</h1><blockquote>
 <p>其实可以在 RecyclerView 里嵌套 CardView， CardView 自带点击事件，就可以不用自己实现了。</p>
 </blockquote>
 <h2 id="Adapter类添加点击监听接口"><a href="#Adapter类添加点击监听接口" class="headerlink" title="Adapter类添加点击监听接口"></a>Adapter类添加点击监听接口</h2><p>在我们的 Adapter 中加入一个内部接口，然后定义一个 ListItemClickListener 点击监听器</p>
-<pre><code class="java">final private ListItemClickListener mOnClickListener;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="keyword">private</span> ListItemClickListener mOnClickListener;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ListItemClickListener</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onListItemClick</span><span class="params">(<span class="keyword">int</span> clickedItemIndex)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-public interface ListItemClickListener {
-    void onListItemClick(int clickedItemIndex);
-}</code></pre>
 <h2 id="修改Adapter构造函数"><a href="#修改Adapter构造函数" class="headerlink" title="修改Adapter构造函数"></a>修改Adapter构造函数</h2><p>修改 Adapter 类的构造函数，添加第二个参数（ListItemClickListener类型的监听器listener）</p>
-<pre><code class="java">public GreenAdapter(int numberOfItems, ListItemClickListener listener) {
-    mNumberItems = numberOfItems;
-    mOnClickListener = listener;
-    viewHolderCount = 0;
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">GreenAdapter</span><span class="params">(<span class="keyword">int</span> numberOfItems, ListItemClickListener listener)</span> </span>&#123;</span><br><span class="line">    mNumberItems = numberOfItems;</span><br><span class="line">    mOnClickListener = listener;</span><br><span class="line">    viewHolderCount = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="ViewHolder内部类实现点击监听接口"><a href="#ViewHolder内部类实现点击监听接口" class="headerlink" title="ViewHolder内部类实现点击监听接口"></a>ViewHolder内部类实现点击监听接口</h2><ul>
 <li>用 <code>implements OnClickListener</code> 语句实现接口</li>
 <li>重写点击方法</li>
 <li>ViewHolder的构造函数中调用点击方法</li>
 </ul>
-<pre><code class="java">//implements 监听接口
-class NumberViewHolder extends RecyclerView.ViewHolder
-    implements OnClickListener {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//implements 监听接口</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NumberViewHolder</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ViewHolder</span></span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">OnClickListener</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    TextView listItemNumberView;</span><br><span class="line">    TextView viewHolderIndex;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">NumberViewHolder</span><span class="params">(View itemView)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(itemView);</span><br><span class="line"></span><br><span class="line">        listItemNumberView = (TextView) itemView.findViewById(R.id.tv_item_number);</span><br><span class="line">        viewHolderIndex = (TextView) itemView.findViewById(R.id.tv_view_holder_instance);</span><br><span class="line">        <span class="comment">//调用点击方法</span></span><br><span class="line">        itemView.setOnClickListener(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">bind</span><span class="params">(<span class="keyword">int</span> listIndex)</span> </span>&#123;</span><br><span class="line">        listItemNumberView.setText(String.valueOf(listIndex));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//重写点击方法</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> clickedPosition = getAdapterPosition();</span><br><span class="line">        mOnClickListener.onListItemClick(clickedPosition);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    TextView listItemNumberView;
-    TextView viewHolderIndex;
-
-    public NumberViewHolder(View itemView) {
-        super(itemView);
-
-        listItemNumberView = (TextView) itemView.findViewById(R.id.tv_item_number);
-        viewHolderIndex = (TextView) itemView.findViewById(R.id.tv_view_holder_instance);
-        //调用点击方法
-        itemView.setOnClickListener(this);
-    }
-
-    void bind(int listIndex) {
-        listItemNumberView.setText(String.valueOf(listIndex));
-    }
-
-    //重写点击方法
-    @Override
-    public void onClick(View v) {
-        int clickedPosition = getAdapterPosition();
-        mOnClickListener.onListItemClick(clickedPosition);
-    }
-}</code></pre>
 <p>MainActivity.java</p>
 <ul>
 <li>implements GreenAdapter.ListItemClickListener</li>
 <li>重写按钮监听方法</li>
 <li>实例化 Adapter 的时候传入 this</li>
 </ul>
-<pre><code class="java">public class MainActivity extends AppCompatActivity
-        implements GreenAdapter.ListItemClickListener {
-
-    private static final int NUM_LIST_ITEMS = 100;
-
-    private GreenAdapter mAdapter;
-    private RecyclerView mNumbersList;
-    private Toast mToast;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        mNumbersList = (RecyclerView) findViewById(R.id.rv_numbers);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mNumbersList.setLayoutManager(layoutManager);
-
-        mNumbersList.setHasFixedSize(true);
-
-        // 用this传入监听器
-        mAdapter = new GreenAdapter(NUM_LIST_ITEMS, this);
-        mNumbersList.setAdapter(mAdapter);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-        switch (itemId) {
-            case R.id.action_refresh:
-                mAdapter = new GreenAdapter(NUM_LIST_ITEMS, this);
-                mNumbersList.setAdapter(mAdapter);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    // 重写按钮监听方法
-    @Override
-    public void onListItemClick(int clickedItemIndex) {
-        if (mToast != null) {
-            mToast.cancel();
-        }
-        String toastMessage = &quot;Item #&quot; + clickedItemIndex + &quot; clicked.&quot;;
-        mToast = Toast.makeText(this, toastMessage, Toast.LENGTH_LONG);
-
-        mToast.show();
-    }</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span></span></span><br><span class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">GreenAdapter</span>.<span class="title">ListItemClickListener</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NUM_LIST_ITEMS = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> GreenAdapter mAdapter;</span><br><span class="line">    <span class="keyword">private</span> RecyclerView mNumbersList;</span><br><span class="line">    <span class="keyword">private</span> Toast mToast;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        mNumbersList = (RecyclerView) findViewById(R.id.rv_numbers);</span><br><span class="line"></span><br><span class="line">        LinearLayoutManager layoutManager = <span class="keyword">new</span> LinearLayoutManager(<span class="keyword">this</span>);</span><br><span class="line">        mNumbersList.setLayoutManager(layoutManager);</span><br><span class="line"></span><br><span class="line">        mNumbersList.setHasFixedSize(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 用this传入监听器</span></span><br><span class="line">        mAdapter = <span class="keyword">new</span> GreenAdapter(NUM_LIST_ITEMS, <span class="keyword">this</span>);</span><br><span class="line">        mNumbersList.setAdapter(mAdapter);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onCreateOptionsMenu</span><span class="params">(Menu menu)</span> </span>&#123;</span><br><span class="line">        getMenuInflater().inflate(R.menu.main, menu);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onOptionsItemSelected</span><span class="params">(MenuItem item)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> itemId = item.getItemId();</span><br><span class="line">        <span class="keyword">switch</span> (itemId) &#123;</span><br><span class="line">            <span class="keyword">case</span> R.id.action_refresh:</span><br><span class="line">                mAdapter = <span class="keyword">new</span> GreenAdapter(NUM_LIST_ITEMS, <span class="keyword">this</span>);</span><br><span class="line">                mNumbersList.setAdapter(mAdapter);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onOptionsItemSelected(item);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重写按钮监听方法</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onListItemClick</span><span class="params">(<span class="keyword">int</span> clickedItemIndex)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mToast != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mToast.cancel();</span><br><span class="line">        &#125;</span><br><span class="line">        String toastMessage = <span class="string">"Item #"</span> + clickedItemIndex + <span class="string">" clicked."</span>;</span><br><span class="line">        mToast = Toast.makeText(<span class="keyword">this</span>, toastMessage, Toast.LENGTH_LONG);</span><br><span class="line"></span><br><span class="line">        mToast.show();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
         </div>
         
@@ -553,7 +337,7 @@ class NumberViewHolder extends RecyclerView.ViewHolder
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -565,7 +349,7 @@ class NumberViewHolder extends RecyclerView.ViewHolder
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -577,7 +361,7 @@ class NumberViewHolder extends RecyclerView.ViewHolder
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -718,25 +502,25 @@ class NumberViewHolder extends RecyclerView.ViewHolder
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -750,6 +534,14 @@ class NumberViewHolder extends RecyclerView.ViewHolder
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -758,20 +550,20 @@ class NumberViewHolder extends RecyclerView.ViewHolder
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -803,7 +595,7 @@ class NumberViewHolder extends RecyclerView.ViewHolder
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -811,7 +603,15 @@ class NumberViewHolder extends RecyclerView.ViewHolder
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -846,6 +646,25 @@ class NumberViewHolder extends RecyclerView.ViewHolder
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -876,7 +695,7 @@ class NumberViewHolder extends RecyclerView.ViewHolder
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -913,25 +732,6 @@ class NumberViewHolder extends RecyclerView.ViewHolder
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -997,6 +797,25 @@ class NumberViewHolder extends RecyclerView.ViewHolder
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -1027,7 +846,7 @@ class NumberViewHolder extends RecyclerView.ViewHolder
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1064,25 +883,6 @@ class NumberViewHolder extends RecyclerView.ViewHolder
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1145,7 +945,7 @@ class NumberViewHolder extends RecyclerView.ViewHolder
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1199,7 +999,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

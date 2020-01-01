@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -178,14 +178,14 @@
 
 <hr>
 <h1 id="JWT-的原理"><a href="#JWT-的原理" class="headerlink" title="JWT 的原理"></a>JWT 的原理</h1><p>用户提供用户名和密码，服务器认证通过以后，生成一个 JSON 对象，发回给用户，如：</p>
-<pre><code>{
-  &quot;姓名&quot;: &quot;张三&quot;,
-  &quot;角色&quot;: &quot;管理员&quot;,
-  &quot;到期时间&quot;: &quot;2018年7月1日0点0分&quot;
-}</code></pre><p>之后，用户的每次请求，都要发回这个 JSON 对象给服务器判断身份。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;姓名&quot;: &quot;张三&quot;,</span><br><span class="line">  &quot;角色&quot;: &quot;管理员&quot;,</span><br><span class="line">  &quot;到期时间&quot;: &quot;2018年7月1日0点0分&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>之后，用户的每次请求，都要发回这个 JSON 对象给服务器判断身份。</p>
 <hr>
 <h1 id="JWT-的组成结构"><a href="#JWT-的组成结构" class="headerlink" title="JWT 的组成结构"></a>JWT 的组成结构</h1><p>为了防止数据篡改，我们不可能明文发送像上面那样的 json，而是进行了签名之后，以字符串的形式发送给前端，大概像这样：</p>
-<pre><code>eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJudWxsaiJ9.W8hfFfcMVgmlAhTRUl4GHNAq4tq_MWJGB1bv-r9wMCE</code></pre><p>它是一个很长的字符串，中间用 <code>.</code> 分割成三段，这三段分别代表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJudWxsaiJ9.W8hfFfcMVgmlAhTRUl4GHNAq4tq_MWJGB1bv-r9wMCE</span><br></pre></td></tr></table></figure>
+
+<p>它是一个很长的字符串，中间用 <code>.</code> 分割成三段，这三段分别代表：</p>
 <ol>
 <li><strong>Header</strong>：头部，记录了一些元数据，例如采用何种算法，令牌类型等。</li>
 <li><strong>Payload</strong>：负载，存储我们的关键信息。</li>
@@ -203,13 +203,12 @@
 </ol>
 <p>当然，除了这 7 个字段之外，我们还可以添加自定义字段。这些信息以 json 格式存储，并用 Base64URL 算法转成字符串。</p>
 <p>原始 json 数据：</p>
-<pre><code class="json">{
-  &quot;sub&quot;: &quot;1234567890&quot;,
-  &quot;name&quot;: &quot;Jerry&quot;,
-  &quot;myField&quot;: &quot;something here&quot;
-}</code></pre>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"sub"</span>: <span class="string">"1234567890"</span>,</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"Jerry"</span>,</span><br><span class="line">  <span class="attr">"myField"</span>: <span class="string">"something here"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>Base64URL加密后：</p>
-<pre><code>eyJzdWIiOiAiMTIzNDU2Nzg5MCIsIm5hbWUiOiAiSmVycnkiLCJteUZpZWxkIjogInNvbWV0aGluZyBoZXJlIn0=</code></pre><p>注意，Base64URL是可以解密的，因此不要存储密码等敏感信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJzdWIiOiAiMTIzNDU2Nzg5MCIsIm5hbWUiOiAiSmVycnkiLCJteUZpZWxkIjogInNvbWV0aGluZyBoZXJlIn0&#x3D;</span><br></pre></td></tr></table></figure>
+
+<p>注意，Base64URL是可以解密的，因此不要存储密码等敏感信息。</p>
 <h2 id="Base64-和-Base64URL-的区别"><a href="#Base64-和-Base64URL-的区别" class="headerlink" title="Base64 和 Base64URL 的区别"></a>Base64 和 Base64URL 的区别</h2><p>JWT 作为一个令牌（token），有些场合可能会放到 URL（比如 api.example.com/?token=xxx）。Base64 有三个字符+、/和=，在 URL 里面有特殊含义，所以要被替换掉：=被省略、+替换成-，/替换成_ 。这就是 Base64URL 算法。</p>
 <hr>
 <h1 id="JWT-如何使用"><a href="#JWT-如何使用" class="headerlink" title="JWT 如何使用"></a>JWT 如何使用</h1><p>服务器生成 JWT 之后，把加密字符串发回给客户端，客户端可以把它存储在 Cookie 里面，也可以储存在 localStorage。</p>
@@ -223,90 +222,10 @@
 <hr>
 <h1 id="SpringBoot-实战"><a href="#SpringBoot-实战" class="headerlink" title="SpringBoot 实战"></a>SpringBoot 实战</h1><p>自己实现 JWT 并不难，但是秉着不要重复造轮子的原则，我们使用开源框架 <a href="https://github.com/jwtk/jjwt">jjwt</a> 简化我们的步骤。</p>
 <h2 id="引入-jjwt-的依赖"><a href="#引入-jjwt-的依赖" class="headerlink" title="引入 jjwt 的依赖"></a>引入 jjwt 的依赖</h2><p>pom.xml</p>
-<pre><code class="xml">&lt;dependency&gt;
-    &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt;
-    &lt;artifactId&gt;jjwt-api&lt;/artifactId&gt;
-    &lt;version&gt;0.10.5&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt;
-    &lt;artifactId&gt;jjwt-impl&lt;/artifactId&gt;
-    &lt;version&gt;0.10.5&lt;/version&gt;
-    &lt;scope&gt;runtime&lt;/scope&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt;
-    &lt;artifactId&gt;jjwt-jackson&lt;/artifactId&gt;
-    &lt;version&gt;0.10.5&lt;/version&gt;
-    &lt;scope&gt;runtime&lt;/scope&gt;
-&lt;/dependency&gt;</code></pre>
-<h2 id="创建-JwtUtil-类"><a href="#创建-JwtUtil-类" class="headerlink" title="创建 JwtUtil 类"></a>创建 JwtUtil 类</h2><pre><code class="java">import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
-import org.apache.tomcat.util.codec.binary.Base64;
-import javax.crypto.SecretKey;
-import java.util.Date;
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.jsonwebtoken<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jjwt-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.10.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.jsonwebtoken<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jjwt-impl<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.10.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>runtime<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.jsonwebtoken<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jjwt-jackson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.10.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>runtime<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-public class JwtUtil
-{
+<h2 id="创建-JwtUtil-类"><a href="#创建-JwtUtil-类" class="headerlink" title="创建 JwtUtil 类"></a>创建 JwtUtil 类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> io.jsonwebtoken.*;</span><br><span class="line"><span class="keyword">import</span> io.jsonwebtoken.security.Keys;</span><br><span class="line"><span class="keyword">import</span> org.apache.tomcat.util.codec.binary.Base64;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.SecretKey;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JwtUtil</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY1 = <span class="string">"somethinghereshouldbelong"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 由字符串生成加密key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> SecretKey <span class="title">generalKey</span><span class="params">()</span></span>&#123;</span><br><span class="line">        String stringKey = KEY1 + Constant.JWT_SECRET;</span><br><span class="line">        <span class="keyword">byte</span>[] encodedKey = Base64.decodeBase64(stringKey);</span><br><span class="line">        SecretKey key = Keys.hmacShaKeyFor(encodedKey);</span><br><span class="line">        <span class="keyword">return</span> key;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建jwt</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> subject</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">createJWT</span><span class="params">(String subject)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        SecretKey key = generalKey();</span><br><span class="line">        Date now = <span class="keyword">new</span> Date();</span><br><span class="line">        Date thirtyMinutes = <span class="keyword">new</span> Date(System.currentTimeMillis() + <span class="number">30</span>*<span class="number">60</span>*<span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line">        String jws = Jwts.builder()</span><br><span class="line">                .setSubject(subject) <span class="comment">// 主题</span></span><br><span class="line">                .setIssuedAt(now) <span class="comment">// 签发时间</span></span><br><span class="line">                .setExpiration(thirtyMinutes) <span class="comment">// 过期时间</span></span><br><span class="line">                .signWith(key)</span><br><span class="line">                .compact();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span>  jws;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 解密jwt</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> jwt 密钥</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 主题</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Exception 如果发生 JwtException，说明该密钥无效</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">parseJWT</span> <span class="params">(String jwt)</span> <span class="keyword">throws</span> JwtException </span>&#123;</span><br><span class="line">        SecretKey key = generalKey();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> Jwts.parser()</span><br><span class="line">                    .setSigningKey(key)</span><br><span class="line">                    .parseClaimsJws(jwt)</span><br><span class="line">                    .getBody()</span><br><span class="line">                    .getSubject();</span><br><span class="line">        &#125;<span class="keyword">catch</span> (JwtException ex)&#123;</span><br><span class="line">            System.out.println(<span class="string">"签证失效"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    private static final String KEY1 = &quot;somethinghereshouldbelong&quot;;
-
-    /**
-     * 由字符串生成加密key
-     * @return
-     */
-    private static SecretKey generalKey(){
-        String stringKey = KEY1 + Constant.JWT_SECRET;
-        byte[] encodedKey = Base64.decodeBase64(stringKey);
-        SecretKey key = Keys.hmacShaKeyFor(encodedKey);
-        return key;
-    }
-
-    /**
-     * 创建jwt
-     * @param subject
-     * @return
-     * @throws Exception
-     */
-    public static String createJWT(String subject){
-
-        SecretKey key = generalKey();
-        Date now = new Date();
-        Date thirtyMinutes = new Date(System.currentTimeMillis() + 30*60*1000);
-
-        String jws = Jwts.builder()
-                .setSubject(subject) // 主题
-                .setIssuedAt(now) // 签发时间
-                .setExpiration(thirtyMinutes) // 过期时间
-                .signWith(key)
-                .compact();
-
-        return  jws;
-
-    }
-
-    /**
-     * 解密jwt
-     * @param jwt 密钥
-     * @return 主题
-     * @throws Exception 如果发生 JwtException，说明该密钥无效
-     */
-    public static String parseJWT (String jwt) throws JwtException {
-        SecretKey key = generalKey();
-
-        try {
-            return Jwts.parser()
-                    .setSigningKey(key)
-                    .parseClaimsJws(jwt)
-                    .getBody()
-                    .getSubject();
-        }catch (JwtException ex){
-            System.out.println(&quot;签证失效&quot;);
-            return null;
-        }
-    }
-
-}</code></pre>
 <p>该类包含三个静态方法，分别是：</p>
 <ol>
 <li><strong>generalKey()</strong>：用于生成密钥</li>
@@ -314,52 +233,37 @@ public class JwtUtil
 <li><strong>parseJWT(String jwt)</strong>：用于解密JWT</li>
 </ol>
 <h3 id="generalKey"><a href="#generalKey" class="headerlink" title="generalKey()"></a>generalKey()</h3><p>一般我们都是从服务器配置文件读取某个 Key 字符串，转换成 byte[] ，再转成 SecretKey，如下：</p>
-<pre><code class="java">byte[] keyBytes = getSigningKeyFromApplicationConfiguration();
-SecretKey key = Keys.hmacShaKeyFor(keyBytes);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">byte</span>[] keyBytes = getSigningKeyFromApplicationConfiguration();</span><br><span class="line">SecretKey key = Keys.hmacShaKeyFor(keyBytes);</span><br></pre></td></tr></table></figure>
+
 <p>但是如果你嫌麻烦，可以直接用 jjwt 提供的 Key 算法：</p>
-<pre><code class="java">SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256); //or HS384 or HS512</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256); <span class="comment">//or HS384 or HS512</span></span><br></pre></td></tr></table></figure>
+
+
 <h3 id="createJWT-String-subject"><a href="#createJWT-String-subject" class="headerlink" title="createJWT(String subject)"></a>createJWT(String subject)</h3><p>创建 JWT 的过程，详细可看 <a href="https://github.com/jwtk/jjwt">jjwt</a> github文档。</p>
-<pre><code class="java">String jws = Jwts.builder()
-        .setSubject(subject) // 设置主题（也就是我们的关键字）
-        .setIssuedAt(now) // 设置签发时间
-        .setExpiration(thirtyMinutes) // 设置过期时间
-        .signWith(key)  // 密钥
-        .compact();</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String jws = Jwts.builder()</span><br><span class="line">        .setSubject(subject) <span class="comment">// 设置主题（也就是我们的关键字）</span></span><br><span class="line">        .setIssuedAt(now) <span class="comment">// 设置签发时间</span></span><br><span class="line">        .setExpiration(thirtyMinutes) <span class="comment">// 设置过期时间</span></span><br><span class="line">        .signWith(key)  <span class="comment">// 密钥</span></span><br><span class="line">        .compact();</span><br></pre></td></tr></table></figure>
+
 <h3 id="parseJWT-String-jwt"><a href="#parseJWT-String-jwt" class="headerlink" title="parseJWT(String jwt)"></a>parseJWT(String jwt)</h3><p>解密 JWT 的过程，这里注意，需要抛出异常。因为一旦解密失败(例如失效或者无效)，jjwt会抛出<code>JwtException</code>，需要我们在 catch 块里处理。</p>
-<pre><code class="java">Jws&lt;Claims&gt; jws;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Jws&lt;Claims&gt; jws;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    jws = Jwts.parser()         <span class="comment">// (1)</span></span><br><span class="line">    .setSigningKey(key)         <span class="comment">// (2)</span></span><br><span class="line">    .parseClaimsJws(jwsString); <span class="comment">// (3)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// we can safely trust the JWT</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (JwtException ex) &#123;       <span class="comment">// (4)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// we *cannot* use the JWT as intended by its creator</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-try {
-    jws = Jwts.parser()         // (1)
-    .setSigningKey(key)         // (2)
-    .parseClaimsJws(jwsString); // (3)
-
-    // we can safely trust the JWT
-} catch (JwtException ex) {       // (4)
-
-    // we *cannot* use the JWT as intended by its creator
-}</code></pre>
 <h2 id="在-Service-层调用JwtUtil"><a href="#在-Service-层调用JwtUtil" class="headerlink" title="在 Service 层调用JwtUtil"></a>在 Service 层调用JwtUtil</h2><p>在 Servce 里面验证用户名和密码无误后，通过以下语句创建一个JWT（token）</p>
-<pre><code class="java">String token = JwtUtil.createJWT(user.getUsername());</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String token = JwtUtil.createJWT(user.getUsername());</span><br></pre></td></tr></table></figure>
+
 <p>之后把这个 JWT（token） 返回给前端</p>
 <h2 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h2><h3 id="保存-token"><a href="#保存-token" class="headerlink" title="保存 token"></a>保存 token</h3><p>在 HTML5 中，localStorage 是一个客户端（浏览器）可以存储数据的地方。</p>
 <p>前端收到服务器 token 后，通过 localStorage 存储，直接用 javascript代码写入：</p>
-<pre><code class="javascript">localStorage.setItem(&quot;token&quot;, token);</code></pre>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">localStorage.setItem(<span class="string">"token"</span>, token);</span><br></pre></td></tr></table></figure>
+
 <h3 id="将-token-写入-header-中"><a href="#将-token-写入-header-中" class="headerlink" title="将 token 写入 header 中"></a>将 token 写入 header 中</h3><p>之后发起一次 ajax 请求，把 token 放进 header 的 Authorization 字段里，例如，我这里是获取登录用户信息。</p>
-<pre><code class="javascript">axios.get(&quot;/api/user/profile&quot;,{
-    headers: {
-        &#39;Authorization&#39;: localStorage.getItem(&quot;token&quot;)
-    }
-}).then(function (response) {
-    // 其他处理
-})</code></pre>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">axios.get(<span class="string">"/api/user/profile"</span>,&#123;</span><br><span class="line">    headers: &#123;</span><br><span class="line">        <span class="string">'Authorization'</span>: localStorage.getItem(<span class="string">"token"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 其他处理</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
 <p>之后在这台电脑上的每一次请求 header 都会自动携带 Authorization 字段。直到 token 过期才需要重新登录。或者，你可以用 sessionStorage 。</p>
 <p>注意：每次发起 ajax 请求，必须在方法参数里手动带上 Authorization</p>
 <h3 id="退出登录"><a href="#退出登录" class="headerlink" title="退出登录"></a>退出登录</h3><p>退出登录非常简单，只需要把 token 从 localStorage 里面删除即可。</p>
-<pre><code class="javascript">localStorage.removeItem(&quot;token&quot;);
-location.reload();</code></pre>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">localStorage.removeItem(<span class="string">"token"</span>);</span><br><span class="line">location.reload();</span><br></pre></td></tr></table></figure>
+
 <h3 id="在-Service-层验证-JWT"><a href="#在-Service-层验证-JWT" class="headerlink" title="在 Service 层验证 JWT"></a>在 Service 层验证 JWT</h3><p>前端发回 JWT，Service进行校验</p>
-<pre><code class="java">// parseJWT 的返回值可以设置为 token 里面的 subject
-String subject =  JwtUtil.parseJWT(token);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// parseJWT 的返回值可以设置为 token 里面的 subject</span></span><br><span class="line">String subject =  JwtUtil.parseJWT(token);</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="引申1：JWT-过期问题"><a href="#引申1：JWT-过期问题" class="headerlink" title="引申1：JWT 过期问题"></a>引申1：JWT 过期问题</h1><p>JWT 的一个特点就是无状态，给用户签发一个有效期为 30 分钟的 token，如果用户第29分钟还在浏览，下一分钟可能因为 token 失效而被迫重新登录。因此需要考虑刷新 JWT 问题。参考业界主流做法，AWS、Azure 和 Auth0 都是用 JWT 为载体，ID Token + Access Token + Refresh Token 的模式：</p>
 <ul>
@@ -459,7 +363,7 @@ String subject =  JwtUtil.parseJWT(token);</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -471,7 +375,7 @@ String subject =  JwtUtil.parseJWT(token);</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -483,7 +387,7 @@ String subject =  JwtUtil.parseJWT(token);</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -656,25 +560,25 @@ String subject =  JwtUtil.parseJWT(token);</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -688,6 +592,14 @@ String subject =  JwtUtil.parseJWT(token);</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -696,20 +608,20 @@ String subject =  JwtUtil.parseJWT(token);</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -741,7 +653,7 @@ String subject =  JwtUtil.parseJWT(token);</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -749,7 +661,15 @@ String subject =  JwtUtil.parseJWT(token);</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -784,6 +704,25 @@ String subject =  JwtUtil.parseJWT(token);</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -814,7 +753,7 @@ String subject =  JwtUtil.parseJWT(token);</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -851,25 +790,6 @@ String subject =  JwtUtil.parseJWT(token);</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -935,6 +855,25 @@ String subject =  JwtUtil.parseJWT(token);</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -965,7 +904,7 @@ String subject =  JwtUtil.parseJWT(token);</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -1002,25 +941,6 @@ String subject =  JwtUtil.parseJWT(token);</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1083,7 +1003,7 @@ String subject =  JwtUtil.parseJWT(token);</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1137,7 +1057,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

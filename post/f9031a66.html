@@ -10,12 +10,12 @@
 <title>Python 随记 - J.e</title>
 
 
-    <meta name="description" content="Python 程序入口有时候我们会看到  if __name__ &#x3D;&#x3D; &#39;__main__&#39;:      dosomething()      # ...  这个语句中， __name__ 是当前模块名，当模块被直接运行时模块名为 __main__。 这句话的意思就是，当模块被直接运行时，dosomething()块将被运行，当模块是被导入时，dosomething()块不被运行。">
+    <meta name="description" content="Python 程序入口有时候我们会看到  123if __name__ &#x3D;&#x3D; &#39;__main__&#39;:    dosomething()    # ...   这个语句中， __name__ 是当前模块名，当模块被直接运行时模块名为 __main__。 这句话的意思就是，当模块被直接运行时，dosomething()块将被运行，当模块是被导入时，dosomething()块不被运行。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python 随记">
 <meta property="og:url" content="https://jerrysheh.me/post/f9031a66.html">
 <meta property="og:site_name" content="J.e">
-<meta property="og:description" content="Python 程序入口有时候我们会看到  if __name__ &#x3D;&#x3D; &#39;__main__&#39;:      dosomething()      # ...  这个语句中， __name__ 是当前模块名，当模块被直接运行时模块名为 __main__。 这句话的意思就是，当模块被直接运行时，dosomething()块将被运行，当模块是被导入时，dosomething()块不被运行。">
+<meta property="og:description" content="Python 程序入口有时候我们会看到  123if __name__ &#x3D;&#x3D; &#39;__main__&#39;:    dosomething()    # ...   这个语句中， __name__ 是当前模块名，当模块被直接运行时模块名为 __main__。 这句话的意思就是，当模块被直接运行时，dosomething()块将被运行，当模块是被导入时，dosomething()块不被运行。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2018-04-04T09:27:36.000Z">
@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -158,9 +158,8 @@
         </h1>
         <div class="content">
             <h1 id="Python-程序入口"><a href="#Python-程序入口" class="headerlink" title="Python 程序入口"></a>Python 程序入口</h1><p>有时候我们会看到</p>
-<pre><code class="python"> if __name__ == &#39;__main__&#39;:
-     dosomething()
-     # ...</code></pre>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    dosomething()</span><br><span class="line">    <span class="comment"># ...</span></span><br></pre></td></tr></table></figure>
+
 <p> 这个语句中， <code>__name__</code> 是当前模块名，当模块被直接运行时模块名为 <code>__main__</code>。</p>
 <p>这句话的意思就是，当模块被直接运行时，<code>dosomething()</code>块将被运行，当模块是被导入时，<code>dosomething()</code>块不被运行。</p>
 <a id="more"></a>
@@ -171,33 +170,28 @@
 <li>以模块运行的时候，当前工作路径是 sys.path</li>
 </ul>
 <h2 id="直接参数"><a href="#直接参数" class="headerlink" title="直接参数"></a>直接参数</h2><p>有时候我们用命令行运行 python 程序，如：</p>
-<pre><code>python test.py jerry 20</code></pre><p>这里的 jerry 和 20 都是参数，在 python 里面用 sys 模块来获取参数：</p>
-<pre><code class="python">import sys
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python test.py jerry 20</span><br></pre></td></tr></table></figure>
 
-filename = sys.argv[0]  # test.py
-user = sys.argv[1]  # jerry
-age = sys.argv[2]  # 20</code></pre>
+<p>这里的 jerry 和 20 都是参数，在 python 里面用 sys 模块来获取参数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">filename = sys.argv[<span class="number">0</span>]  <span class="comment"># test.py</span></span><br><span class="line">user = sys.argv[<span class="number">1</span>]  <span class="comment"># jerry</span></span><br><span class="line">age = sys.argv[<span class="number">2</span>]  <span class="comment"># 20</span></span><br></pre></td></tr></table></figure>
+
 <p>参考：</p>
 <ul>
 <li><a href="http://blog.konghy.cn/2017/04/24/python-entry-program/">Python 中的 if __name__ == ‘__main__’ 该如何理解</a></li>
 </ul>
 <hr>
 <h1 id="python-3-6-print新特性-Formatted-string-literals"><a href="#python-3-6-print新特性-Formatted-string-literals" class="headerlink" title="python 3.6 print新特性: Formatted string literals"></a>python 3.6 print新特性: Formatted string literals</h1><h2 id="使用"><a href="#使用" class="headerlink" title="使用 %"></a>使用 %</h2><p>在 python 3.6 之前，我们想 print ， 一般是用 <code>%</code> 符号</p>
-<pre><code class="python">name = &quot;jerry&quot;
-age = 18
-print(&quot;my name is %s, and I am %d years old&quot; % (name, age))</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">name = <span class="string">"jerry"</span></span><br><span class="line">age = <span class="number">18</span></span><br><span class="line">print(<span class="string">"my name is %s, and I am %d years old"</span> % (name, age))</span><br></pre></td></tr></table></figure>
+
 <h2 id="使用-1"><a href="#使用-1" class="headerlink" title="使用 {}"></a>使用 {}</h2><p>在 python 3.6 可以用 {} ，类似于 kotlin 语法</p>
 <ul>
 <li><strong>注意</strong>： 引号前面有个 <code>f</code></li>
 </ul>
-<pre><code class="python">name = &quot;jerry&quot;
-age = 18
-print(f&quot;my name is {name}, and I am {age} years old&quot;)</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">name = <span class="string">"jerry"</span></span><br><span class="line">age = <span class="number">18</span></span><br><span class="line">print(<span class="string">f"my name is <span class="subst">&#123;name&#125;</span>, and I am <span class="subst">&#123;age&#125;</span> years old"</span>)</span><br></pre></td></tr></table></figure>
+
 <p>可以在 {} 里运算</p>
-<pre><code class="python">width = 10
-precision = 4  # 有效数字
-value = decimal.Decimal(&quot;12.34567&quot;)
-print(f&quot;result: {value:{width}.{precision}}&quot;)  # nested fields</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">width = <span class="number">10</span></span><br><span class="line">precision = <span class="number">4</span>  <span class="comment"># 有效数字</span></span><br><span class="line">value = decimal.Decimal(<span class="string">"12.34567"</span>)</span><br><span class="line">print(<span class="string">f"result: <span class="subst">&#123;value:&#123;width&#125;</span>.<span class="subst">&#123;precision&#125;</span>&#125;"</span>)  <span class="comment"># nested fields</span></span><br></pre></td></tr></table></figure>
+
 <p>输出：12.34 （4位有效数字）</p>
 <p>参考</p>
 <ul>
@@ -206,14 +200,15 @@ print(f&quot;result: {value:{width}.{precision}}&quot;)  # nested fields</code><
 <hr>
 <h1 id="获取输入参数"><a href="#获取输入参数" class="headerlink" title="获取输入参数"></a>获取输入参数</h1><p>用 sys.argv[] 来获取输入参数</p>
 <p>myinfo.py</p>
-<pre><code class="python">import sys
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">name = sys.argv[<span class="number">1</span>]</span><br><span class="line">age = sys.agrv[<span class="number">2</span>]</span><br><span class="line">print(<span class="string">f"my name is <span class="subst">&#123;name&#125;</span>, and I am <span class="subst">&#123;age&#125;</span> years old"</span>)</span><br></pre></td></tr></table></figure>
 
-name = sys.argv[1]
-age = sys.agrv[2]
-print(f&quot;my name is {name}, and I am {age} years old&quot;)</code></pre>
 <p>终端输入</p>
-<pre><code>$ python3 myinfo.py jerry 18</code></pre><p>终端输出</p>
-<pre><code>$ my name is jerry, and I am 18 years old</code></pre><ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python3 myinfo.py jerry 18</span><br></pre></td></tr></table></figure>
+
+<p>终端输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ my name is jerry, and I am 18 years old</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li>myinfo.py 本身是一个参数， 即 argv[0]</li>
 <li>jerry 是argv[1]</li>
 <li>18 是argv[2]</li>
@@ -223,55 +218,27 @@ print(f&quot;my name is {name}, and I am {age} years old&quot;)</code></pre>
 </ul>
 <hr>
 <h1 id="切片（Slice）操作"><a href="#切片（Slice）操作" class="headerlink" title="切片（Slice）操作"></a>切片（Slice）操作</h1><p>有一个 List</p>
-<pre><code class="python">L = [&#39;Michael&#39;, &#39;Sarah&#39;, &#39;Tracy&#39;, &#39;Bob&#39;, &#39;Jack&#39;]</code></pre>
-<p>切片操作</p>
-<pre><code class="python"># 取出前3个元素
-L[0:3]  # [&#39;Michael&#39;, &#39;Sarah&#39;, &#39;Tracy&#39;]
-L[:3]  # 其中，0可以省略
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">L = [<span class="string">'Michael'</span>, <span class="string">'Sarah'</span>, <span class="string">'Tracy'</span>, <span class="string">'Bob'</span>, <span class="string">'Jack'</span>]</span><br></pre></td></tr></table></figure>
 
-# 取出下标为1（包含）到 4（不包含）的元素
-L[1:4]</code></pre>
+<p>切片操作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 取出前3个元素</span></span><br><span class="line">L[<span class="number">0</span>:<span class="number">3</span>]  <span class="comment"># ['Michael', 'Sarah', 'Tracy']</span></span><br><span class="line">L[:<span class="number">3</span>]  <span class="comment"># 其中，0可以省略</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 取出下标为1（包含）到 4（不包含）的元素</span></span><br><span class="line">L[<span class="number">1</span>:<span class="number">4</span>]</span><br></pre></td></tr></table></figure>
+
 <p>倒数切片</p>
-<pre><code class="python"># 取出-2（包含）到0（不包含）
-L[-2:0]  # [&#39;Bob&#39;，&#39;Jack&#39;]</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 取出-2（包含）到0（不包含）</span></span><br><span class="line">L[<span class="number">-2</span>:<span class="number">0</span>]  <span class="comment"># ['Bob'，'Jack']</span></span><br></pre></td></tr></table></figure>
+
 <p>还可以每隔两个数取一个</p>
-<pre><code class="python"># 下标为0（包含）到10（不包含）
-L[0:10:2]
-</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下标为0（包含）到10（不包含）</span></span><br><span class="line">L[<span class="number">0</span>:<span class="number">10</span>:<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+
 <p>如果看到下面这种操作，表示所有数每隔5个取一个</p>
-<pre><code class="python">L[::5]</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">L[::<span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+
 <h2 id="tuple"><a href="#tuple" class="headerlink" title="tuple"></a>tuple</h2><p>tuple 是另一种有序列表，中文叫元组。它也可以切片操作，操作结果仍为 tuple。 <strong>tuple 跟 list 的区别在于一旦初始化便不可更改。</strong></p>
 <p>看一个 tuple 例子</p>
-<pre><code class="python">&gt;&gt;&gt; t = (&#39;a&#39;, &#39;b&#39;, [&#39;A&#39;, &#39;B&#39;])
-&gt;&gt;&gt; t[2][0] = &#39;X&#39;
-&gt;&gt;&gt; t[2][1] = &#39;Y&#39;
-&gt;&gt;&gt; t
-(&#39;a&#39;, &#39;b&#39;, [&#39;X&#39;, &#39;Y&#39;])</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>t = (<span class="string">'a'</span>, <span class="string">'b'</span>, [<span class="string">'A'</span>, <span class="string">'B'</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>t[<span class="number">2</span>][<span class="number">0</span>] = <span class="string">'X'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>t[<span class="number">2</span>][<span class="number">1</span>] = <span class="string">'Y'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>t</span><br><span class="line">(<span class="string">'a'</span>, <span class="string">'b'</span>, [<span class="string">'X'</span>, <span class="string">'Y'</span>])</span><br></pre></td></tr></table></figure>
+
 <p>在这个例子中， t[0] 表示 tuple 的第一个元素，也就是 <code>&#39;a&#39;</code>， t[1] 表示 <code>&#39;b&#39;</code>， t[2]表示 <code>[&#39;A&#39;, &#39;B&#39;]</code></p>
 <hr>
-<h1 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h1><pre><code class="python">import pymysql
-
-
-connect = pymysql.connect(host=&quot;127.0.0.1&quot;, port=3306, user=&quot;root&quot;, passwd=&quot;YOURPASSWD&quot;, db=&quot;YOURDBNAME&quot;)
-
-cursor = connect.cursor()
-
-sql = &quot;SELECT * FROM rate&quot;
-
-cursor.execute(sql)
-results = cursor.fetchall()
-
-file = open(&quot;C:\\Users\\JerrySheh\\IdeaProjects\\mall\\dataset\\douban_large_clean.dat&quot;, &quot;w&quot;)
-
-for row in results:
-    userid = str(row[0])
-    bookid = str(row[1])
-    rating = str(int(row[2]))
-    line = str(userid + &quot;::&quot; + bookid + &quot;::&quot; + rating + &quot;\n&quot;)
-    print(line)
-    file.write(line)
-
-file.close()</code></pre>
+<h1 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">connect = pymysql.connect(host=<span class="string">"127.0.0.1"</span>, port=<span class="number">3306</span>, user=<span class="string">"root"</span>, passwd=<span class="string">"YOURPASSWD"</span>, db=<span class="string">"YOURDBNAME"</span>)</span><br><span class="line"></span><br><span class="line">cursor = connect.cursor()</span><br><span class="line"></span><br><span class="line">sql = <span class="string">"SELECT * FROM rate"</span></span><br><span class="line"></span><br><span class="line">cursor.execute(sql)</span><br><span class="line">results = cursor.fetchall()</span><br><span class="line"></span><br><span class="line">file = open(<span class="string">"C:\\Users\\JerrySheh\\IdeaProjects\\mall\\dataset\\douban_large_clean.dat"</span>, <span class="string">"w"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> results:</span><br><span class="line">    userid = str(row[<span class="number">0</span>])</span><br><span class="line">    bookid = str(row[<span class="number">1</span>])</span><br><span class="line">    rating = str(int(row[<span class="number">2</span>]))</span><br><span class="line">    line = str(userid + <span class="string">"::"</span> + bookid + <span class="string">"::"</span> + rating + <span class="string">"\n"</span>)</span><br><span class="line">    print(line)</span><br><span class="line">    file.write(line)</span><br><span class="line"></span><br><span class="line">file.close()</span><br></pre></td></tr></table></figure>
 
         </div>
         
@@ -360,7 +327,7 @@ file.close()</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -372,7 +339,7 @@ file.close()</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -384,7 +351,7 @@ file.close()</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -521,25 +488,25 @@ file.close()</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -553,6 +520,14 @@ file.close()</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -561,20 +536,20 @@ file.close()</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -606,7 +581,7 @@ file.close()</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -614,7 +589,15 @@ file.close()</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -649,6 +632,25 @@ file.close()</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -679,7 +681,7 @@ file.close()</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -716,25 +718,6 @@ file.close()</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -800,6 +783,25 @@ file.close()</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -830,7 +832,7 @@ file.close()</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -867,25 +869,6 @@ file.close()</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -948,7 +931,7 @@ file.close()</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1002,7 +985,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

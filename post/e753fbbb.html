@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -168,35 +168,8 @@
 </ul>
 <hr>
 <h1 id="普通对象-VS-类对象"><a href="#普通对象-VS-类对象" class="headerlink" title="普通对象 VS 类对象"></a>普通对象 VS 类对象</h1><p>假设我们定义两个类， student类和teacher类</p>
-<pre><code class="java">public class student{
-    int studentID;
-    String name;
-    String classroom;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">student</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> studentID;</span><br><span class="line">    String name;</span><br><span class="line">    String classroom;</span><br><span class="line"></span><br><span class="line">    student()&#123;</span><br><span class="line">        <span class="comment">//构造方法</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//以及一些其他方法</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">student Jerry = <span class="keyword">new</span> student();</span><br><span class="line">student Calm = <span class="keyword">new</span> student();</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">teacher</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> teacherID;</span><br><span class="line">    String name;</span><br><span class="line">    <span class="keyword">long</span> phoneNumber;</span><br><span class="line"></span><br><span class="line">    teacher()&#123;</span><br><span class="line">        <span class="comment">//构造方法</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//以及一些其他方法</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">teacher Luohao = <span class="keyword">new</span> teacher();</span><br><span class="line">teacher YangLiang = <span class="keyword">new</span> teacher();</span><br></pre></td></tr></table></figure>
 
-    student(){
-        //构造方法
-    }
-
-    //以及一些其他方法
-}
-
-student Jerry = new student();
-student Calm = new student();
-
-public class teacher{
-    int teacherID;
-    String name;
-    long phoneNumber;
-
-    teacher(){
-        //构造方法
-    }
-
-    //以及一些其他方法
-}
-
-teacher Luohao = new teacher();
-teacher YangLiang = new teacher();</code></pre>
 <ul>
 <li>Jerry 和 Calm 都是 student 类的对象，他们的区别在于：有不同的studentID，name…  </li>
 <li>Luohao 和 YangLiang 都是 teacher 类的对象，他们的区别跟 Jerry 和 Calm的区别类似，有不同的teacherID,不同的name…</li>
@@ -213,53 +186,23 @@ teacher YangLiang = new teacher();</code></pre>
 <li>new student().getClass()</li>
 </ol>
 <p>通常一个JVM下，只会有一个ClassLoader，因此一种类，只会有一个类对象存在。所以以上三种方式取出来的类对象，都是一样的。</p>
-<pre><code class="java">Class pClass = Class.forname(&quot;student&quot;); //获取一个 student 类的类对象</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class pClass = Class.forname(<span class="string">"student"</span>); <span class="comment">//获取一个 student 类的类对象</span></span><br></pre></td></tr></table></figure>
+
 <p>获取类对象的时候，类属性会被初始化。</p>
 <p>第三种方法：</p>
-<pre><code class="java">new student().getClass();</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> student().getClass();</span><br></pre></td></tr></table></figure>
+
 <p><code>getClass()</code> 是 Object 类的方法，返回的是运行时的类的名字（包名+类名），如果要返回父类，用 <code>getClass().getSuperclass()</code></p>
 <hr>
 <h1 id="反射机制"><a href="#反射机制" class="headerlink" title="反射机制"></a>反射机制</h1><p>正常情况下，我们要获取一个对象，直接new</p>
-<pre><code class="java">student Jerry = new student();</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">student Jerry = <span class="keyword">new</span> student();</span><br></pre></td></tr></table></figure>
+
 <p>但是，有一种机制，叫<code>反射机制</code>。反射机制是这样干的：先拿到 student 类的类对象，然后通过类对象获取构造器对象，再通过构造器对象创建一个对象。</p>
-<h2 id="通过反射机制创建对象"><a href="#通过反射机制创建对象" class="headerlink" title="通过反射机制创建对象"></a>通过反射机制创建对象</h2><pre><code class="java">public static void main(String[] args) {
-    try {
-        String className = &quot;student&quot;;
+<h2 id="通过反射机制创建对象"><a href="#通过反射机制创建对象" class="headerlink" title="通过反射机制创建对象"></a>通过反射机制创建对象</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        String className = <span class="string">"student"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//类对象</span></span><br><span class="line">        Class pClass=Class.forName(className);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//构造器</span></span><br><span class="line">        Constructor c= pClass.getConstructor();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//通过构造器实例化</span></span><br><span class="line">        student jerry= (student) c.newInstance();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//给实例对象设置属性</span></span><br><span class="line">        jerry.studentID=<span class="string">"201501010086"</span>;</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        //类对象
-        Class pClass=Class.forName(className);
-
-        //构造器
-        Constructor c= pClass.getConstructor();
-
-        //通过构造器实例化
-        student jerry= (student) c.newInstance();
-
-        //给实例对象设置属性
-        jerry.studentID=&quot;201501010086&quot;;
-
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-}</code></pre>
 <p>可以看到，通过反射机制，创建对象的流程为：<strong>类对象 -&gt; 构造器对象 -&gt; 实例对象</strong></p>
-<h2 id="通过反射机制修改属性的值"><a href="#通过反射机制修改属性的值" class="headerlink" title="通过反射机制修改属性的值"></a>通过反射机制修改属性的值</h2><pre><code class="java">public static void main(String[] args) {
-    student calm = new student();
+<h2 id="通过反射机制修改属性的值"><a href="#通过反射机制修改属性的值" class="headerlink" title="通过反射机制修改属性的值"></a>通过反射机制修改属性的值</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    student calm = <span class="keyword">new</span> student();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 对象的name属性设置为 calmDu</span></span><br><span class="line">    calm.phoneNumber = <span class="number">13315010086</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//获取student类中名字叫做phoneNumber的字段</span></span><br><span class="line">        Field f1= calm.getClass().getDeclaredField(<span class="string">"phoneNumber"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//修改这个字段的值</span></span><br><span class="line">        f1.set(calm, <span class="number">189741710000</span>);</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 对象的name属性设置为 calmDu
-    calm.phoneNumber = 13315010086;
-
-    try {
-        //获取student类中名字叫做phoneNumber的字段
-        Field f1= calm.getClass().getDeclaredField(&quot;phoneNumber&quot;);
-
-        //修改这个字段的值
-        f1.set(calm, 189741710000);
-
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-}</code></pre>
 <p>可以看到，我们先用 Field 类，获取 calm 所属类（student类）的 phoneNumber 字段，然后用 Field 的 set方法，修改属性值。</p>
 <p>流程为： Field -&gt; set</p>
 <h3 id="getField-和-getDeclaredField-的区别"><a href="#getField-和-getDeclaredField-的区别" class="headerlink" title="getField 和 getDeclaredField 的区别"></a>getField 和 getDeclaredField 的区别</h3><p>这两个方法都是用于获取字段。</p>
@@ -279,93 +222,30 @@ teacher YangLiang = new teacher();</code></pre>
 <p>getDeclaredField 这里只能获取到private的字段，但并不能访问该private字段的值,除非加上 <code>setAccessible(true)</code></p>
 </blockquote>
 <h2 id="通过反射机制调用方法"><a href="#通过反射机制调用方法" class="headerlink" title="通过反射机制调用方法"></a>通过反射机制调用方法</h2><p>首先我们的 student 类里有 setAge 方法和 getAge方法<br>student.java</p>
-<pre><code class="java">public class student {
-    String studentID;
-    String studentName;
-    String studentPhoneNumber;
-    int age;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">student</span> </span>&#123;</span><br><span class="line">    String studentID;</span><br><span class="line">    String studentName;</span><br><span class="line">    String studentPhoneNumber;</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">student</span><span class="params">(String studentID, String studentName, String studentPhoneNumber, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.studentID = studentID;</span><br><span class="line">        <span class="keyword">this</span>.studentName = studentName;</span><br><span class="line">        <span class="keyword">this</span>.studentPhoneNumber = studentPhoneNumber;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    public student(String studentID, String studentName, String studentPhoneNumber, int age) {
-        this.studentID = studentID;
-        this.studentName = studentName;
-        this.studentPhoneNumber = studentPhoneNumber;
-        this.age = age;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-}
-</code></pre>
 <p>在测试类中调用这个方法</p>
 <p>main.java</p>
-<pre><code class="java">import java.lang.reflect.Method;
-
-public static void main(String[] args) throws Exception{
-    student jerry = new student(&quot;201501010086&quot;,&quot;jerrysheh&quot;,&quot;13018910086&quot;,20);
-
-    // 获取名字为setAge，参数类型为int类型的方法
-    Method m = jerry.getClass().getMethod(&quot;setAge&quot;, int.class);
-
-    //对 jerry 对象调用这个方法
-    m.invoke(jerry,18);
-
-    System.out.println(jerry.getAge());
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    student jerry = <span class="keyword">new</span> student(<span class="string">"201501010086"</span>,<span class="string">"jerrysheh"</span>,<span class="string">"13018910086"</span>,<span class="number">20</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取名字为setAge，参数类型为int类型的方法</span></span><br><span class="line">    Method m = jerry.getClass().getMethod(<span class="string">"setAge"</span>, <span class="keyword">int</span><span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//对 jerry 对象调用这个方法</span></span><br><span class="line">    m.invoke(jerry,<span class="number">18</span>);</span><br><span class="line"></span><br><span class="line">    System.out.println(jerry.getAge());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以看到，用反射机制调用方法的流程是：Method -&gt; invoke</p>
 <hr>
 <h1 id="反射机制有什么用？"><a href="#反射机制有什么用？" class="headerlink" title="反射机制有什么用？"></a>反射机制有什么用？</h1><p>反射机制可以用来创建对象，修改对象属性的值，调用对象的方法。</p>
 <p>但是这些我们传统java面向对象编程也能做到，为什么要用反射呢？</p>
 <p>通常来说，需要在学习了 Spring 的依赖注入，反转控制之后，才会对反射有更好的理解。在此之前，我们可以举个栗子简单说明一下反射的强大功能。</p>
 <h2 id="没有反射机制"><a href="#没有反射机制" class="headerlink" title="没有反射机制"></a>没有反射机制</h2><p>假设我们有两个业务类，业务1和业务2，然后我们现在要运行业务1</p>
-<pre><code class="java">public class Test {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Service1().doService1();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    public static void main(String[] args) {
-        new Service1().doService1();
-    }
-}</code></pre>
 <p>好，然后有一天，老板说，全线改到业务2，于是我们不得不改代码</p>
-<pre><code class="java">public class Test {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//new Service1().doService1();</span></span><br><span class="line">        <span class="keyword">new</span> Service2().doService2();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    public static void main(String[] args) {
-        //new Service1().doService1();
-        new Service2().doService2();
-    }
-}</code></pre>
 <p>假如我们的工程非常大，改完代码重新编译运行要1个小时，这有时候是不可接受的。</p>
 <h2 id="有了反射机制"><a href="#有了反射机制" class="headerlink" title="有了反射机制"></a>有了反射机制</h2><p>有了反射机制后，我们可以准备一个配置文件，就叫 spring.txt 吧，在里面写明</p>
-<pre><code>class=reflection.Service1
-method=doService1</code></pre><p>当需要从调用第一个业务方法，切换到调用第二个业务方法的时候，不需要修改一行代码，也不需要重新编译，只需要修改配置文件spring.txt，再运行即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">class&#x3D;reflection.Service1</span><br><span class="line">method&#x3D;doService1</span><br></pre></td></tr></table></figure>
+
+<p>当需要从调用第一个业务方法，切换到调用第二个业务方法的时候，不需要修改一行代码，也不需要重新编译，只需要修改配置文件spring.txt，再运行即可。</p>
 <p>此时代码是这样写的</p>
-<pre><code class="java">public class Test {
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(&#123; <span class="string">"rawtypes"</span>, <span class="string">"unchecked"</span> &#125;)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//从spring.txt中获取类名称和方法名称</span></span><br><span class="line">        File springConfigFile = <span class="keyword">new</span> File(<span class="string">"e:\\project\\j2se\\src\\spring.txt"</span>);</span><br><span class="line">        Properties springConfig= <span class="keyword">new</span> Properties();</span><br><span class="line">        springConfig.load(<span class="keyword">new</span> FileInputStream(springConfigFile));</span><br><span class="line">        String className = (String) springConfig.get(<span class="string">"class"</span>);</span><br><span class="line">        String methodName = (String) springConfig.get(<span class="string">"method"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//根据类名称获取类对象</span></span><br><span class="line">        Class clazz = Class.forName(className);</span><br><span class="line">        <span class="comment">//根据方法名称，获取方法对象</span></span><br><span class="line">        Method m = clazz.getMethod(methodName);</span><br><span class="line">        <span class="comment">//获取构造器</span></span><br><span class="line">        Constructor c = clazz.getConstructor();</span><br><span class="line">        <span class="comment">//根据构造器，实例化出对象</span></span><br><span class="line">        Object service = c.newInstance();</span><br><span class="line">        <span class="comment">//调用对象的指定方法</span></span><br><span class="line">        m.invoke(service);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    @SuppressWarnings({ &quot;rawtypes&quot;, &quot;unchecked&quot; })
-    public static void main(String[] args) throws Exception {
-
-        //从spring.txt中获取类名称和方法名称
-        File springConfigFile = new File(&quot;e:\\project\\j2se\\src\\spring.txt&quot;);
-        Properties springConfig= new Properties();
-        springConfig.load(new FileInputStream(springConfigFile));
-        String className = (String) springConfig.get(&quot;class&quot;);
-        String methodName = (String) springConfig.get(&quot;method&quot;);
-
-        //根据类名称获取类对象
-        Class clazz = Class.forName(className);
-        //根据方法名称，获取方法对象
-        Method m = clazz.getMethod(methodName);
-        //获取构造器
-        Constructor c = clazz.getConstructor();
-        //根据构造器，实例化出对象
-        Object service = c.newInstance();
-        //调用对象的指定方法
-        m.invoke(service);
-
-    }
-}</code></pre>
 <p>事实上，这就是 Spring 框架的最基本原理了。</p>
 <hr>
 <h1 id="补充：类装载器-ClassLoader"><a href="#补充：类装载器-ClassLoader" class="headerlink" title="补充：类装载器 ClassLoader"></a>补充：类装载器 ClassLoader</h1><p>ClassLoader用于寻找字节码文件，并构造出类在 JVM 内部表示对象的组件。在Java中，ClassLoader把一个类装入JVM的步骤如下：</p>
@@ -471,7 +351,7 @@ method=doService1</code></pre><p>当需要从调用第一个业务方法，切�
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -483,7 +363,7 @@ method=doService1</code></pre><p>当需要从调用第一个业务方法，切�
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -495,7 +375,7 @@ method=doService1</code></pre><p>当需要从调用第一个业务方法，切�
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -636,25 +516,25 @@ method=doService1</code></pre><p>当需要从调用第一个业务方法，切�
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -668,6 +548,14 @@ method=doService1</code></pre><p>当需要从调用第一个业务方法，切�
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -676,20 +564,20 @@ method=doService1</code></pre><p>当需要从调用第一个业务方法，切�
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -721,7 +609,7 @@ method=doService1</code></pre><p>当需要从调用第一个业务方法，切�
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -729,7 +617,15 @@ method=doService1</code></pre><p>当需要从调用第一个业务方法，切�
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -764,6 +660,25 @@ method=doService1</code></pre><p>当需要从调用第一个业务方法，切�
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -794,7 +709,7 @@ method=doService1</code></pre><p>当需要从调用第一个业务方法，切�
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -831,25 +746,6 @@ method=doService1</code></pre><p>当需要从调用第一个业务方法，切�
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -915,6 +811,25 @@ method=doService1</code></pre><p>当需要从调用第一个业务方法，切�
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -945,7 +860,7 @@ method=doService1</code></pre><p>当需要从调用第一个业务方法，切�
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -982,25 +897,6 @@ method=doService1</code></pre><p>当需要从调用第一个业务方法，切�
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1063,7 +959,7 @@ method=doService1</code></pre><p>当需要从调用第一个业务方法，切�
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1117,7 +1013,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -173,8 +173,8 @@
 <ul>
 <li><strong>过滤删除</strong>：如果需要遍历集合，并删除指定选元素，则需要使用显式iterator，以便可以调用其 remove 方法。 通常可以使用在 Java 8 中添加的 Collection 类中的 removeIf 方法，来避免显式遍历。</li>
 </ul>
-<pre><code class="java">List&lt;String&gt; li = new ArrayList&lt;&gt;(Arrays.asList(&quot;aa&quot;,&quot;bb&quot;,&quot;cc&quot;));
-li.removeIf( a -&gt; &quot;aa&quot;.equals(a));</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; li = <span class="keyword">new</span> ArrayList&lt;&gt;(Arrays.asList(<span class="string">"aa"</span>,<span class="string">"bb"</span>,<span class="string">"cc"</span>));</span><br><span class="line">li.removeIf( a -&gt; <span class="string">"aa"</span>.equals(a));</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li><strong>转换</strong>：如果需要遍历一个列表或数组并替换其元素的部分或全部值，那么需要 iterator 或数组索引来替换元素的值。</li>
 <li><strong>并行迭代</strong></li>
@@ -193,11 +193,11 @@ li.removeIf( a -&gt; &quot;aa&quot;.equals(a));</code></pre>
 <p>【强制】小数类型为 decimal ，禁止使用 float 和 double 。<br>说明： float 和 double 在存储的时候，存在精度损失的问题，很可能在值的比较时，得到不正确的结果。如果存储的数据范围超过 decimal 的范围，建议将数据拆成整数和小数分开存储。</p>
 </blockquote>
 <p>float 和 double 类型特别不适合进行货币计算。</p>
-<pre><code class="java">// 输出：0.6100000000000001
-System.out.println(1.03 - 0.42);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 输出：0.6100000000000001</span></span><br><span class="line">System.out.println(<span class="number">1.03</span> - <span class="number">0.42</span>);</span><br></pre></td></tr></table></figure>
+
 <p>使用 BigDecimal 能解决这个问题，注意：<strong>使用 BigDecimal 的 String 构造函数而不是它的 double 构造函数</strong>。</p>
-<pre><code class="java">final BigDecimal TEN_CENTS = new BigDecimal(&quot;.10&quot;);
-BigDecimal funds = new BigDecimal(&quot;1.00&quot;);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> BigDecimal TEN_CENTS = <span class="keyword">new</span> BigDecimal(<span class="string">".10"</span>);</span><br><span class="line">BigDecimal funds = <span class="keyword">new</span> BigDecimal(<span class="string">"1.00"</span>);</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="Item-61-基本数据类型优于包装类"><a href="#Item-61-基本数据类型优于包装类" class="headerlink" title="Item 61 基本数据类型优于包装类"></a>Item 61 基本数据类型优于包装类</h1><p>基本数据类型和其包装类两者之间有真正的区别！！自动装箱和自动拆箱模糊了基本类型和包装类型之间的区别，但不会消除它们的区别。</p>
 <ol>
@@ -220,11 +220,8 @@ BigDecimal funds = new BigDecimal(&quot;1.00&quot;);</code></pre>
 <h1 id="Item-63-当心字符串连接引起的性能问题"><a href="#Item-63-当心字符串连接引起的性能问题" class="headerlink" title="Item 63 当心字符串连接引起的性能问题"></a>Item 63 当心字符串连接引起的性能问题</h1><p>不要使用 + 连接大量字符串，除非性能无关紧要。因为用 + 连接两个字符串时，本质上会复制这两个字符串的内容。一般这种需求最好使用 StringBuilder 的 append 方法。</p>
 <hr>
 <h1 id="Item-64-通过接口引用对象"><a href="#Item-64-通过接口引用对象" class="headerlink" title="Item 64 通过接口引用对象"></a>Item 64 通过接口引用对象</h1><p>如果存在合适的接口类型，那么应该使用接口类型声明参数、返回值、变量和字段。除非具体类要使用的方法是接口没有的。</p>
-<pre><code class="java">// Good - uses interface as type
-Set&lt;Son&gt; sonSet = new LinkedHashSet&lt;&gt;();
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Good - uses interface as type</span></span><br><span class="line">Set&lt;Son&gt; sonSet = <span class="keyword">new</span> LinkedHashSet&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Bad - uses class as type!</span></span><br><span class="line">LinkedHashSet&lt;Son&gt; sonSet = <span class="keyword">new</span> LinkedHashSet&lt;&gt;();</span><br></pre></td></tr></table></figure>
 
-// Bad - uses class as type!
-LinkedHashSet&lt;Son&gt; sonSet = new LinkedHashSet&lt;&gt;();</code></pre>
 <hr>
 <h1 id="Item-65-接口优于反射"><a href="#Item-65-接口优于反射" class="headerlink" title="Item 65 接口优于反射"></a>Item 65 接口优于反射</h1><p>用反射调用方法比普通调用要慢得多，可能会造成性能损失。而且不能在编译时做类型检查。</p>
 <p>通常在代码分析工具或依赖注入框架里会看到反射。仅仅在需要使用编译时不存在的类时才会用到反射。除此之外最好都用接口来声明类。</p>
@@ -364,7 +361,7 @@ LinkedHashSet&lt;Son&gt; sonSet = new LinkedHashSet&lt;&gt;();</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -376,7 +373,7 @@ LinkedHashSet&lt;Son&gt; sonSet = new LinkedHashSet&lt;&gt;();</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -388,7 +385,7 @@ LinkedHashSet&lt;Son&gt; sonSet = new LinkedHashSet&lt;&gt;();</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -533,25 +530,25 @@ LinkedHashSet&lt;Son&gt; sonSet = new LinkedHashSet&lt;&gt;();</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -565,6 +562,14 @@ LinkedHashSet&lt;Son&gt; sonSet = new LinkedHashSet&lt;&gt;();</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -573,20 +578,20 @@ LinkedHashSet&lt;Son&gt; sonSet = new LinkedHashSet&lt;&gt;();</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -618,7 +623,7 @@ LinkedHashSet&lt;Son&gt; sonSet = new LinkedHashSet&lt;&gt;();</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -626,7 +631,15 @@ LinkedHashSet&lt;Son&gt; sonSet = new LinkedHashSet&lt;&gt;();</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -661,6 +674,25 @@ LinkedHashSet&lt;Son&gt; sonSet = new LinkedHashSet&lt;&gt;();</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -691,7 +723,7 @@ LinkedHashSet&lt;Son&gt; sonSet = new LinkedHashSet&lt;&gt;();</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -728,25 +760,6 @@ LinkedHashSet&lt;Son&gt; sonSet = new LinkedHashSet&lt;&gt;();</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -812,6 +825,25 @@ LinkedHashSet&lt;Son&gt; sonSet = new LinkedHashSet&lt;&gt;();</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -842,7 +874,7 @@ LinkedHashSet&lt;Son&gt; sonSet = new LinkedHashSet&lt;&gt;();</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -879,25 +911,6 @@ LinkedHashSet&lt;Son&gt; sonSet = new LinkedHashSet&lt;&gt;();</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -960,7 +973,7 @@ LinkedHashSet&lt;Son&gt; sonSet = new LinkedHashSet&lt;&gt;();</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1014,7 +1027,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

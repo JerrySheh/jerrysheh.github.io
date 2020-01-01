@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -176,51 +176,28 @@
 <p>而requests库的Session会话对象可以跨请求保持某些参数。意思就是你使用Session成功登录了某个网站，则在再次使用该Session对象访问该网站的其他网页都会默认使用该Session之前使用的cookie等参数。</p>
 <p>用了Session后，之前登录的信息会保留下来，这样远程服务器就认为你已经登录，允许后续操作。</p>
 <p>所以，我们首先实例化一个 Session对象。</p>
-<pre><code class="Python">import requests
-s = requests.Session()</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">s = requests.Session()</span><br></pre></td></tr></table></figure>
+
 <h1 id="查看header"><a href="#查看header" class="headerlink" title="查看header"></a>查看header</h1><p>根据 http 协议，我们每次请求一个网站都会带一个请求头，我们可以用Chrome的F12工具抓包查看请求头。然后用这个请求头把我们的Python代码伪装成浏览器。</p>
 <p><img src="../../../../images/Login_jwgl/header.png" alt="header"></p>
 <p>然后构造成字典：</p>
-<pre><code class="Python">headers = {
-    &quot;Accept&quot;: &quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8&quot;,
-    &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;,
-    &quot;Accept-Language&quot;: &quot;zh-CN,zh;q=0.8&quot;,
-    &quot;User-Agent&quot;: &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36&quot;,
-    &quot;Host&quot;: &quot;jwgl.zsc.edu.cn:90&quot;,
-    &quot;Referer&quot;: &quot;http://jwgl.zsc.edu.cn:90/(enfj1b45crtyfibn2cj2u045)/default2.aspx&quot;,
-    &quot;Upgrade-Insecure-Requests&quot;: &quot;1&quot;
-}</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">"Accept"</span>: <span class="string">"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"</span>,</span><br><span class="line">    <span class="string">"Accept-Encoding"</span>: <span class="string">"gzip, deflate"</span>,</span><br><span class="line">    <span class="string">"Accept-Language"</span>: <span class="string">"zh-CN,zh;q=0.8"</span>,</span><br><span class="line">    <span class="string">"User-Agent"</span>: <span class="string">"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"</span>,</span><br><span class="line">    <span class="string">"Host"</span>: <span class="string">"jwgl.zsc.edu.cn:90"</span>,</span><br><span class="line">    <span class="string">"Referer"</span>: <span class="string">"http://jwgl.zsc.edu.cn:90/(enfj1b45crtyfibn2cj2u045)/default2.aspx"</span>,</span><br><span class="line">    <span class="string">"Upgrade-Insecure-Requests"</span>: <span class="string">"1"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h1 id="模拟登录"><a href="#模拟登录" class="headerlink" title="模拟登录"></a>模拟登录</h1><h2 id="用request-Session访问教务系统"><a href="#用request-Session访问教务系统" class="headerlink" title="用request.Session访问教务系统"></a>用request.Session访问教务系统</h2><p>response是request.get返回的内容</p>
-<pre><code class="Python">number = input(&#39;请输入学号：&#39;)
-password = input(&quot;请输入密码：&quot;)
-url = &quot;http://jwgl.zsc.edu.cn:90/(enfj1b45crtyfibn2cj2u045)/default2.aspx&quot;
-response = s.get(url)</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">number = input(<span class="string">'请输入学号：'</span>)</span><br><span class="line">password = input(<span class="string">"请输入密码："</span>)</span><br><span class="line">url = <span class="string">"http://jwgl.zsc.edu.cn:90/(enfj1b45crtyfibn2cj2u045)/default2.aspx"</span></span><br><span class="line">response = s.get(url)</span><br></pre></td></tr></table></figure>
+
+
 <h2 id="记录cookie-并加入到header中"><a href="#记录cookie-并加入到header中" class="headerlink" title="记录cookie, 并加入到header中"></a>记录cookie, 并加入到header中</h2><p>cookie的作用是让服务器记住你，所以我们也要把cookie加入到header中。但上面我们构造的header中不包括cookie，因为cookie是会变的，我们需要Session自动帮我们添加。</p>
 <p>我们用requests的session方法保持cookie时，requests不能保持手动构建的cookie。原因是requests只能保持 cookiejar 类型的cookie，而我们手动构建的cookie（在header里面）是dict类型的。所以这里要做一个转换，然后把cookie加入到header里面去。</p>
-<pre><code class="python"># 把cookie转变成字典类型，并加入到header中
-cookies = requests.utils.dict_from_cookiejar(s.cookies)
-headers.update(cookies)
-headers_code.update(cookies)</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 把cookie转变成字典类型，并加入到header中</span></span><br><span class="line">cookies = requests.utils.dict_from_cookiejar(s.cookies)</span><br><span class="line">headers.update(cookies)</span><br><span class="line">headers_code.update(cookies)</span><br></pre></td></tr></table></figure>
+
 <h2 id="下载验证码并打开，手动输入验证码"><a href="#下载验证码并打开，手动输入验证码" class="headerlink" title="下载验证码并打开，手动输入验证码"></a>下载验证码并打开，手动输入验证码</h2><p>验证码实际上也是一个链接，用F12找到链接是<br><code>http://jwgl.zsc.edu.cn:90/(enfj1b45crtyfibn2cj2u045)/CheckCode.aspx</code></p>
 <p>我们需要提前给它也设一个 header ，上面的<code>headers_code.update(cookies)</code>就是给验证码链接header加cookie的。</p>
-<pre><code class="Python">headers_code = {
-    &quot;User-Agent&quot;: &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36&quot;,
-    &quot;Referer&quot;: &quot;http://jwgl.zsc.edu.cn:90/(enfj1b45crtyfibn2cj2u045)/default2.aspx&quot;,
-    &quot;Host&quot;: &quot;jwgl.zsc.edu.cn:90&quot;,
-    &quot;Cache-Control&quot;: &quot;max-age=0&quot;
-}</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">headers_code = &#123;</span><br><span class="line">    <span class="string">"User-Agent"</span>: <span class="string">"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"</span>,</span><br><span class="line">    <span class="string">"Referer"</span>: <span class="string">"http://jwgl.zsc.edu.cn:90/(enfj1b45crtyfibn2cj2u045)/default2.aspx"</span>,</span><br><span class="line">    <span class="string">"Host"</span>: <span class="string">"jwgl.zsc.edu.cn:90"</span>,</span><br><span class="line">    <span class="string">"Cache-Control"</span>: <span class="string">"max-age=0"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>然后需要用到Pillow库，它可以打开并显示本机图片。</p>
-<pre><code class="Python">from PIL import Image
-import os
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">check_code_url = <span class="string">"http://jwgl.zsc.edu.cn:90/(enfj1b45crtyfibn2cj2u045)/CheckCode.aspx"</span></span><br><span class="line">pic_response = session.get(check_code_url, headers=headers_code).content</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'ver_pic.jpg'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(pic_response)</span><br><span class="line"></span><br><span class="line">image = Image.open(<span class="string">'&#123;&#125;\\ver_pic.jpg'</span>.format(os.getcwd()))</span><br><span class="line">image.show()</span><br></pre></td></tr></table></figure>
 
-check_code_url = &quot;http://jwgl.zsc.edu.cn:90/(enfj1b45crtyfibn2cj2u045)/CheckCode.aspx&quot;
-pic_response = session.get(check_code_url, headers=headers_code).content
-
-with open(&#39;ver_pic.jpg&#39;, &#39;wb&#39;) as f:
-    f.write(pic_response)
-
-image = Image.open(&#39;{}\\ver_pic.jpg&#39;.format(os.getcwd()))
-image.show()</code></pre>
 <h2 id="构造post需要提交的数据"><a href="#构造post需要提交的数据" class="headerlink" title="构造post需要提交的数据"></a>构造post需要提交的数据</h2><p>我们先随便在教务系统上输入一个错误的密码，然后用F12查看post的数据</p>
 <p><img src="../../../../images/Login_jwgl/post.png" alt="post"></p>
 <p>可以看到，post究竟提交了什么内容。</p>
@@ -233,156 +210,26 @@ image.show()</code></pre>
 <li>RadioButtonList1：实际上是网页中“学生”那个按钮</li>
 </ul>
 <p>我们先用xpath提取VIEWSTATE的值</p>
-<pre><code class="Python">from lxml import etree
-# VIEWSTATE 教务系统 post 需要用到的一个随机值
-selector = etree.HTML(response.content)
-__VIEWSTATE = selector.xpath(&#39;//*[@id=&quot;form1&quot;]/input/@value&#39;)[0]</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="comment"># VIEWSTATE 教务系统 post 需要用到的一个随机值</span></span><br><span class="line">selector = etree.HTML(response.content)</span><br><span class="line">__VIEWSTATE = selector.xpath(<span class="string">'//*[@id="form1"]/input/@value'</span>)[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
 <p>然后构建post字典</p>
-<pre><code class="Python"># post 数据
-data = {
-    &#39;txtSecretCode&#39;: str(input(&#39;请输入图片中的验证码：&#39;)),
-    &#39;txtUserName&#39;: str(number),
-    &#39;Textbox1&#39;: &#39;&#39;,
-    &#39;TextBox2&#39;: str(password),
-    &#39;__VIEWSTATE&#39;: __VIEWSTATE,
-    &#39;RadioButtonList1&#39;: u&quot;学生&quot;.encode(&#39;gb2312&#39;, &#39;replace&#39;),
-    &#39;Button1&#39;: &#39;&#39;,
-    &#39;lbLanguage&#39;: &#39;&#39;,
-    &#39;hidPdrs&#39;: &#39;&#39;,
-    &#39;hidsc&#39;: &#39;&#39;
-}</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># post 数据</span></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">'txtSecretCode'</span>: str(input(<span class="string">'请输入图片中的验证码：'</span>)),</span><br><span class="line">    <span class="string">'txtUserName'</span>: str(number),</span><br><span class="line">    <span class="string">'Textbox1'</span>: <span class="string">''</span>,</span><br><span class="line">    <span class="string">'TextBox2'</span>: str(password),</span><br><span class="line">    <span class="string">'__VIEWSTATE'</span>: __VIEWSTATE,</span><br><span class="line">    <span class="string">'RadioButtonList1'</span>: <span class="string">u"学生"</span>.encode(<span class="string">'gb2312'</span>, <span class="string">'replace'</span>),</span><br><span class="line">    <span class="string">'Button1'</span>: <span class="string">''</span>,</span><br><span class="line">    <span class="string">'lbLanguage'</span>: <span class="string">''</span>,</span><br><span class="line">    <span class="string">'hidPdrs'</span>: <span class="string">''</span>,</span><br><span class="line">    <span class="string">'hidsc'</span>: <span class="string">''</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="post登录教务系统"><a href="#post登录教务系统" class="headerlink" title="post登录教务系统"></a>post登录教务系统</h2><p>如果成功登录进教务系统，右上角会显示：欢迎您，XXX同学</p>
 <p>因此可以从网页源码中获取到姓名</p>
 <p>写一个获取基本信息的函数，传入网页的response和xpath查找规则，返回我们需要提取的信息。</p>
-<pre><code class="Python">def getInfor(response, xpath):
-    content = response.content.decode(&#39;gb2312&#39;)  # 网页源码是gb2312要先解码
-    selector = etree.HTML(content)
-    infor = selector.xpath(xpath)[0]
-    return infor</code></pre>
-<p>然后开始post，并加入错误判断</p>
-<pre><code class="Python">response = s.post(url, data=data, headers=headers)
-print(&quot;正在登录...&quot;)
-print(response.status_code)
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getInfor</span><span class="params">(response, xpath)</span>:</span></span><br><span class="line">    content = response.content.decode(<span class="string">'gb2312'</span>)  <span class="comment"># 网页源码是gb2312要先解码</span></span><br><span class="line">    selector = etree.HTML(content)</span><br><span class="line">    infor = selector.xpath(xpath)[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">return</span> infor</span><br></pre></td></tr></table></figure>
 
-if &quot;验证码不正确&quot; in response.text:
-    print(&quot;验证码不正确&quot;)
-    return login_jcgl(s)
-if (&quot;密码错误&quot; or &quot;密码不能为空&quot;) in response.text:
-    print(&quot;密码错误&quot;)
-    return login_jcgl(s)
-if (&quot;用户名不能为空&quot; or &quot;用户名不存在或未按照要求参加教学活动&quot;) in response.text:
-    print(&quot;学号错误&quot;)
-    return login_jcgl(s)
-else:
-    print(&quot;登录成功！&quot;)
-    global student
-    student = getInfor(response, &#39;//*[@id=&quot;xhxm&quot;]/text()&#39;).replace(&quot;同学&quot;, &quot;&quot;)
-    # student = student.replace(&quot;同学&quot;,&quot;&quot;)
-    print(&quot;你好，&quot; + student + &quot; &quot; + number)</code></pre>
+<p>然后开始post，并加入错误判断</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">response = s.post(url, data=data, headers=headers)</span><br><span class="line">print(<span class="string">"正在登录..."</span>)</span><br><span class="line">print(response.status_code)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="string">"验证码不正确"</span> <span class="keyword">in</span> response.text:</span><br><span class="line">    print(<span class="string">"验证码不正确"</span>)</span><br><span class="line">    <span class="keyword">return</span> login_jcgl(s)</span><br><span class="line"><span class="keyword">if</span> (<span class="string">"密码错误"</span> <span class="keyword">or</span> <span class="string">"密码不能为空"</span>) <span class="keyword">in</span> response.text:</span><br><span class="line">    print(<span class="string">"密码错误"</span>)</span><br><span class="line">    <span class="keyword">return</span> login_jcgl(s)</span><br><span class="line"><span class="keyword">if</span> (<span class="string">"用户名不能为空"</span> <span class="keyword">or</span> <span class="string">"用户名不存在或未按照要求参加教学活动"</span>) <span class="keyword">in</span> response.text:</span><br><span class="line">    print(<span class="string">"学号错误"</span>)</span><br><span class="line">    <span class="keyword">return</span> login_jcgl(s)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">"登录成功！"</span>)</span><br><span class="line">    <span class="keyword">global</span> student</span><br><span class="line">    student = getInfor(response, <span class="string">'//*[@id="xhxm"]/text()'</span>).replace(<span class="string">"同学"</span>, <span class="string">""</span>)</span><br><span class="line">    <span class="comment"># student = student.replace("同学","")</span></span><br><span class="line">    print(<span class="string">"你好，"</span> + student + <span class="string">" "</span> + number)</span><br></pre></td></tr></table></figure>
+
 <p>如果一切正常，输出应该为：</p>
-<pre><code>请输入图片中的验证码：nxgy
-正在登录...
-200
-你好，（姓名+学号）</code></pre><p>这样我们就成功登录进教务系统了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">请输入图片中的验证码：nxgy</span><br><span class="line">正在登录...</span><br><span class="line">200</span><br><span class="line">你好，（姓名+学号）</span><br></pre></td></tr></table></figure>
+
+<p>这样我们就成功登录进教务系统了。</p>
 <p>先写到这里，下一篇继续讲如何获取成绩。</p>
 <hr>
-<h1 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h1><pre><code class="Python"># -*-coding:utf-8-*-
-import os
-import requests
-from lxml import etree
-from PIL import Image
-
-# 浏览器头
-headers = {
-    &quot;Accept&quot;: &quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8&quot;,
-    &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;,
-    &quot;Accept-Language&quot;: &quot;zh-CN,zh;q=0.8&quot;,
-    &quot;User-Agent&quot;: &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36&quot;,
-    &quot;Host&quot;: &quot;jwgl.zsc.edu.cn:90&quot;,
-    &quot;Referer&quot;: &quot;http://jwgl.zsc.edu.cn:90/(enfj1b45crtyfibn2cj2u045)/default2.aspx&quot;,
-    &quot;Upgrade-Insecure-Requests&quot;: &quot;1&quot;
-}
-
-# 验证码页面浏览器头
-headers_code = {
-    &quot;User-Agent&quot;: &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36&quot;,
-    &quot;Referer&quot;: &quot;http://jwgl.zsc.edu.cn:90/(enfj1b45crtyfibn2cj2u045)/default2.aspx&quot;,
-    &quot;Host&quot;: &quot;jwgl.zsc.edu.cn:90&quot;,
-    &quot;Cache-Control&quot;: &quot;max-age=0&quot;
-}
-
-def login_jcgl(session):
-    global number
-    number = input(&#39;请输入学号：&#39;)
-    password = input(&quot;请输入密码：&quot;)
-    url = &quot;http://jwgl.zsc.edu.cn:90/(enfj1b45crtyfibn2cj2u045)/default2.aspx&quot;
-    response = session.get(url)
-
-    # 把cookie转变成字典类型，并加入到header中
-    cookies = requests.utils.dict_from_cookiejar(s.cookies)
-    headers.update(cookies)
-    headers_code.update(cookies)
-
-    # Download checkcode
-    check_code_url = &quot;http://jwgl.zsc.edu.cn:90/(enfj1b45crtyfibn2cj2u045)/CheckCode.aspx&quot;
-    pic_response = session.get(check_code_url, headers=headers_code).content
-
-    with open(&#39;ver_pic.jpg&#39;, &#39;wb&#39;) as f:
-        f.write(pic_response)
-
-    # open checkcode
-    image = Image.open(&#39;{}\\ver_pic.jpg&#39;.format(os.getcwd()))
-    image.show()
-
-    # VIEWSTATE 教务系统 post 需要用到的一个随机值
-    selector = etree.HTML(response.content)
-    __VIEWSTATE = selector.xpath(&#39;//*[@id=&quot;form1&quot;]/input/@value&#39;)[0]
-
-    # post 数据
-    data = {
-        &#39;txtSecretCode&#39;: str(input(&#39;请输入图片中的验证码：&#39;)),
-        &#39;txtUserName&#39;: str(number),
-        &#39;Textbox1&#39;: &#39;&#39;,
-        &#39;TextBox2&#39;: str(password),
-        &#39;__VIEWSTATE&#39;: __VIEWSTATE,
-        &#39;RadioButtonList1&#39;: u&quot;学生&quot;.encode(&#39;gb2312&#39;, &#39;replace&#39;),
-        &#39;Button1&#39;: &#39;&#39;,
-        &#39;lbLanguage&#39;: &#39;&#39;,
-        &#39;hidPdrs&#39;: &#39;&#39;,
-        &#39;hidsc&#39;: &#39;&#39;
-    }
-
-
-    # 登录教务系统
-    response = s.post(url, data=data, headers=headers)
-    print(&quot;正在登录...&quot;)
-    print(response.status_code)
-
-    if &quot;验证码不正确&quot; in response.text:
-        print(&quot;验证码不正确&quot;)
-        return login_jcgl(s)
-    if (&quot;密码错误&quot; or &quot;密码不能为空&quot;) in response.text:
-        print(&quot;密码错误&quot;)
-        return login_jcgl(s)
-    if (&quot;用户名不能为空&quot; or &quot;用户名不存在或未按照要求参加教学活动&quot;) in response.text:
-        print(&quot;学号错误&quot;)
-        return login_jcgl(s)
-    else:
-        print(&quot;登录成功！&quot;)
-        global student
-        student = getInfor(response, &#39;//*[@id=&quot;xhxm&quot;]/text()&#39;).replace(&quot;同学&quot;, &quot;&quot;)
-        # student = student.replace(&quot;同学&quot;,&quot;&quot;)
-        print(&quot;你好，&quot; + student + &quot; &quot; + number)
-        return response
-
-def getInfor(response, xpath):
-    content = response.content.decode(&#39;gb2312&#39;)  # 网页源码是gb2312要先解码
-    selector = etree.HTML(content)
-    infor = selector.xpath(xpath)[0]
-    return infor
-
-s = requests.Session()
-response = login_jcgl(s)</code></pre>
+<h1 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*-coding:utf-8-*-</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line"><span class="comment"># 浏览器头</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">"Accept"</span>: <span class="string">"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"</span>,</span><br><span class="line">    <span class="string">"Accept-Encoding"</span>: <span class="string">"gzip, deflate"</span>,</span><br><span class="line">    <span class="string">"Accept-Language"</span>: <span class="string">"zh-CN,zh;q=0.8"</span>,</span><br><span class="line">    <span class="string">"User-Agent"</span>: <span class="string">"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"</span>,</span><br><span class="line">    <span class="string">"Host"</span>: <span class="string">"jwgl.zsc.edu.cn:90"</span>,</span><br><span class="line">    <span class="string">"Referer"</span>: <span class="string">"http://jwgl.zsc.edu.cn:90/(enfj1b45crtyfibn2cj2u045)/default2.aspx"</span>,</span><br><span class="line">    <span class="string">"Upgrade-Insecure-Requests"</span>: <span class="string">"1"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证码页面浏览器头</span></span><br><span class="line">headers_code = &#123;</span><br><span class="line">    <span class="string">"User-Agent"</span>: <span class="string">"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"</span>,</span><br><span class="line">    <span class="string">"Referer"</span>: <span class="string">"http://jwgl.zsc.edu.cn:90/(enfj1b45crtyfibn2cj2u045)/default2.aspx"</span>,</span><br><span class="line">    <span class="string">"Host"</span>: <span class="string">"jwgl.zsc.edu.cn:90"</span>,</span><br><span class="line">    <span class="string">"Cache-Control"</span>: <span class="string">"max-age=0"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">login_jcgl</span><span class="params">(session)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> number</span><br><span class="line">    number = input(<span class="string">'请输入学号：'</span>)</span><br><span class="line">    password = input(<span class="string">"请输入密码："</span>)</span><br><span class="line">    url = <span class="string">"http://jwgl.zsc.edu.cn:90/(enfj1b45crtyfibn2cj2u045)/default2.aspx"</span></span><br><span class="line">    response = session.get(url)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 把cookie转变成字典类型，并加入到header中</span></span><br><span class="line">    cookies = requests.utils.dict_from_cookiejar(s.cookies)</span><br><span class="line">    headers.update(cookies)</span><br><span class="line">    headers_code.update(cookies)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Download checkcode</span></span><br><span class="line">    check_code_url = <span class="string">"http://jwgl.zsc.edu.cn:90/(enfj1b45crtyfibn2cj2u045)/CheckCode.aspx"</span></span><br><span class="line">    pic_response = session.get(check_code_url, headers=headers_code).content</span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'ver_pic.jpg'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(pic_response)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># open checkcode</span></span><br><span class="line">    image = Image.open(<span class="string">'&#123;&#125;\\ver_pic.jpg'</span>.format(os.getcwd()))</span><br><span class="line">    image.show()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># VIEWSTATE 教务系统 post 需要用到的一个随机值</span></span><br><span class="line">    selector = etree.HTML(response.content)</span><br><span class="line">    __VIEWSTATE = selector.xpath(<span class="string">'//*[@id="form1"]/input/@value'</span>)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># post 数据</span></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">'txtSecretCode'</span>: str(input(<span class="string">'请输入图片中的验证码：'</span>)),</span><br><span class="line">        <span class="string">'txtUserName'</span>: str(number),</span><br><span class="line">        <span class="string">'Textbox1'</span>: <span class="string">''</span>,</span><br><span class="line">        <span class="string">'TextBox2'</span>: str(password),</span><br><span class="line">        <span class="string">'__VIEWSTATE'</span>: __VIEWSTATE,</span><br><span class="line">        <span class="string">'RadioButtonList1'</span>: <span class="string">u"学生"</span>.encode(<span class="string">'gb2312'</span>, <span class="string">'replace'</span>),</span><br><span class="line">        <span class="string">'Button1'</span>: <span class="string">''</span>,</span><br><span class="line">        <span class="string">'lbLanguage'</span>: <span class="string">''</span>,</span><br><span class="line">        <span class="string">'hidPdrs'</span>: <span class="string">''</span>,</span><br><span class="line">        <span class="string">'hidsc'</span>: <span class="string">''</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 登录教务系统</span></span><br><span class="line">    response = s.post(url, data=data, headers=headers)</span><br><span class="line">    print(<span class="string">"正在登录..."</span>)</span><br><span class="line">    print(response.status_code)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="string">"验证码不正确"</span> <span class="keyword">in</span> response.text:</span><br><span class="line">        print(<span class="string">"验证码不正确"</span>)</span><br><span class="line">        <span class="keyword">return</span> login_jcgl(s)</span><br><span class="line">    <span class="keyword">if</span> (<span class="string">"密码错误"</span> <span class="keyword">or</span> <span class="string">"密码不能为空"</span>) <span class="keyword">in</span> response.text:</span><br><span class="line">        print(<span class="string">"密码错误"</span>)</span><br><span class="line">        <span class="keyword">return</span> login_jcgl(s)</span><br><span class="line">    <span class="keyword">if</span> (<span class="string">"用户名不能为空"</span> <span class="keyword">or</span> <span class="string">"用户名不存在或未按照要求参加教学活动"</span>) <span class="keyword">in</span> response.text:</span><br><span class="line">        print(<span class="string">"学号错误"</span>)</span><br><span class="line">        <span class="keyword">return</span> login_jcgl(s)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">"登录成功！"</span>)</span><br><span class="line">        <span class="keyword">global</span> student</span><br><span class="line">        student = getInfor(response, <span class="string">'//*[@id="xhxm"]/text()'</span>).replace(<span class="string">"同学"</span>, <span class="string">""</span>)</span><br><span class="line">        <span class="comment"># student = student.replace("同学","")</span></span><br><span class="line">        print(<span class="string">"你好，"</span> + student + <span class="string">" "</span> + number)</span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getInfor</span><span class="params">(response, xpath)</span>:</span></span><br><span class="line">    content = response.content.decode(<span class="string">'gb2312'</span>)  <span class="comment"># 网页源码是gb2312要先解码</span></span><br><span class="line">    selector = etree.HTML(content)</span><br><span class="line">    infor = selector.xpath(xpath)[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">return</span> infor</span><br><span class="line"></span><br><span class="line">s = requests.Session()</span><br><span class="line">response = login_jcgl(s)</span><br></pre></td></tr></table></figure>
 
         </div>
         
@@ -471,7 +318,7 @@ response = login_jcgl(s)</code></pre>
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -483,7 +330,7 @@ response = login_jcgl(s)</code></pre>
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -495,7 +342,7 @@ response = login_jcgl(s)</code></pre>
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -632,25 +479,25 @@ response = login_jcgl(s)</code></pre>
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -664,6 +511,14 @@ response = login_jcgl(s)</code></pre>
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -672,20 +527,20 @@ response = login_jcgl(s)</code></pre>
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -717,7 +572,7 @@ response = login_jcgl(s)</code></pre>
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -725,7 +580,15 @@ response = login_jcgl(s)</code></pre>
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -760,6 +623,25 @@ response = login_jcgl(s)</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -790,7 +672,7 @@ response = login_jcgl(s)</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -827,25 +709,6 @@ response = login_jcgl(s)</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -911,6 +774,25 @@ response = login_jcgl(s)</code></pre>
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -941,7 +823,7 @@ response = login_jcgl(s)</code></pre>
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -978,25 +860,6 @@ response = login_jcgl(s)</code></pre>
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1059,7 +922,7 @@ response = login_jcgl(s)</code></pre>
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1113,7 +976,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

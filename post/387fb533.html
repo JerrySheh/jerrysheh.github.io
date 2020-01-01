@@ -10,12 +10,12 @@
 <title>Effective Java（七）方法 - J.e</title>
 
 
-    <meta name="description" content="Item 49 检查参数有效性在 Java 7 之后，可以用 requireNonNull 来判空，如果为空，自动抛出空指针异常。 this.strategy &#x3D; Objects.requireNonNull(strategy, &quot;strategy&quot;);">
+    <meta name="description" content="Item 49 检查参数有效性在 Java 7 之后，可以用 requireNonNull 来判空，如果为空，自动抛出空指针异常。 1this.strategy &#x3D; Objects.requireNonNull(strategy, &quot;strategy&quot;);">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Effective Java（七）方法">
 <meta property="og:url" content="https://jerrysheh.me/post/387fb533.html">
 <meta property="og:site_name" content="J.e">
-<meta property="og:description" content="Item 49 检查参数有效性在 Java 7 之后，可以用 requireNonNull 来判空，如果为空，自动抛出空指针异常。 this.strategy &#x3D; Objects.requireNonNull(strategy, &quot;strategy&quot;);">
+<meta property="og:description" content="Item 49 检查参数有效性在 Java 7 之后，可以用 requireNonNull 来判空，如果为空，自动抛出空指针异常。 1this.strategy &#x3D; Objects.requireNonNull(strategy, &quot;strategy&quot;);">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2019-11-22T13:39:53.000Z">
@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -158,38 +158,21 @@
         </h1>
         <div class="content">
             <h1 id="Item-49-检查参数有效性"><a href="#Item-49-检查参数有效性" class="headerlink" title="Item 49 检查参数有效性"></a>Item 49 检查参数有效性</h1><p>在 Java 7 之后，可以用 <code>requireNonNull</code> 来判空，如果为空，自动抛出空指针异常。</p>
-<pre><code class="java">this.strategy = Objects.requireNonNull(strategy, &quot;strategy&quot;);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.strategy = Objects.requireNonNull(strategy, <span class="string">"strategy"</span>);</span><br></pre></td></tr></table></figure>
+
 <a id="more"></a>
 
 <p>其内部实现</p>
-<pre><code class="java">public static &lt;T&gt; T requireNonNull(T obj) {
-    if (obj == null)
-        throw new NullPointerException();
-    return obj;
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">requireNonNull</span><span class="params">(T obj)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (obj == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">    <span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="Item-50-防御性复制"><a href="#Item-50-防御性复制" class="headerlink" title="Item 50 防御性复制"></a>Item 50 防御性复制</h1><p>假设你编写一个 final 的类 Period  ，其中包含两个 final 的 Date 字段。乍一看，这个类似乎是不可变的，然而 Date 里面的成员却是可以变的。这就像声明了一个 final 数组，数组本身不能变，然而数组里面的元素却可以改变一样。</p>
-<pre><code class="java">// Attack the internals of a Period instance
-Date start = new Date();
-Date end = new Date();
-Period p = new Period(start, end);
-end.setYear(78);  // Modifies internals of p!</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Attack the internals of a Period instance</span></span><br><span class="line">Date start = <span class="keyword">new</span> Date();</span><br><span class="line">Date end = <span class="keyword">new</span> Date();</span><br><span class="line">Period p = <span class="keyword">new</span> Period(start, end);</span><br><span class="line">end.setYear(<span class="number">78</span>);  <span class="comment">// Modifies internals of p!</span></span><br></pre></td></tr></table></figure>
+
 <p>解决这一问题的办法是使用 Instant（或 LocalDateTime 或 ZonedDateTime）代替Date，因为 Instant 和其他 java.time 包下的类是不可变的（Item 17）。Date 已过时，不应再在新代码中使用。</p>
 <p>如果实在要用像 Date 这样的可变类，在构造器和访问器做拷贝：</p>
-<pre><code class="java">public Period(Date start, Date end) {
-    this.start = new Date(start.getTime());
-    this.end   = new Date(end.getTime());
-    //...
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Period</span><span class="params">(Date start, Date end)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.start = <span class="keyword">new</span> Date(start.getTime());</span><br><span class="line">    <span class="keyword">this</span>.end   = <span class="keyword">new</span> Date(end.getTime());</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 防御性拷贝</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Date <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Date(start.getTime());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Date <span class="title">end</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Date(end.getTime());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    // 防御性拷贝
-    public Date start() {
-        return new Date(start.getTime());
-    }
-
-    public Date end() {
-        return new Date(end.getTime());
-    }
-}</code></pre>
 <hr>
 <h1 id="Item-51-设计API"><a href="#Item-51-设计API" class="headerlink" title="Item 51 设计API"></a>Item 51 设计API</h1><p>Tips 1：设计API时避免参数过长，三种方式解决参数过长：</p>
 <ol>
@@ -199,73 +182,33 @@ end.setYear(78);  // Modifies internals of p!</code></pre>
 </ol>
 <p>Tips 2：设计API时，参数类型优先选择接口而不是类。</p>
 <p>Tips 3：与布尔型参数相比，优先使用两个元素枚举类型，例如：</p>
-<pre><code class="java">public enum TemperatureScale { FAHRENHEIT, CELSIUS }</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> TemperatureScale &#123; FAHRENHEIT, CELSIUS &#125;</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="Item-52-重载"><a href="#Item-52-重载" class="headerlink" title="Item 52 重载"></a>Item 52 重载</h1><p>重载方法的选择是在 <strong>编译期</strong>，如下所示会打印两次 <code>Unknown Collection</code>，即使运行时第一次传入的是 List，但传入 Collection 的重载方法仍然会被使用。</p>
-<pre><code class="java">public class CollectionClassifier {
-    public static String classify(List&lt;?&gt; lst) {
-        return &quot;List&quot;;
-    }
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CollectionClassifier</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">classify</span><span class="params">(List&lt;?&gt; lst)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"List"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">classify</span><span class="params">(Collection&lt;?&gt; c)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Unknown Collection"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Collection&lt;?&gt;[] collections = &#123;</span><br><span class="line">            <span class="keyword">new</span> ArrayList&lt;BigInteger&gt;(),</span><br><span class="line">            <span class="keyword">new</span> HashMap&lt;String, String&gt;().values()</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Collection&lt;?&gt; c : collections)</span><br><span class="line">            System.out.println(classify(c));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    public static String classify(Collection&lt;?&gt; c) {
-        return &quot;Unknown Collection&quot;;
-    }
-
-    public static void main(String[] args) {
-        Collection&lt;?&gt;[] collections = {
-            new ArrayList&lt;BigInteger&gt;(),
-            new HashMap&lt;String, String&gt;().values()
-        };
-
-        for (Collection&lt;?&gt; c : collections)
-            System.out.println(classify(c));
-    }
-}</code></pre>
 <p>记住，重载（overloaded）方法之间的选择是静态的，而重写（overridden）方法之间的选择是动态的。</p>
 <p>修复这一问题的办法如下：</p>
-<pre><code class="java">public static String classify(Collection&lt;?&gt; c) {
-  return c instanceof Set  ? &quot;Set&quot; :
-         c instanceof List ? &quot;List&quot; : &quot;Unknown Collection&quot;;
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">classify</span><span class="params">(Collection&lt;?&gt; c)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> c <span class="keyword">instanceof</span> Set  ? <span class="string">"Set"</span> :</span><br><span class="line">         c <span class="keyword">instanceof</span> List ? <span class="string">"List"</span> : <span class="string">"Unknown Collection"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>JDK 里面为了避免这一问题，例如 <code>ObjectOutputStream</code> 类，会用 <code>writeBoolean(boolean)</code>、<code>writeInt(int)</code>和<code>writeLong(long)</code>，而不是重载write方法。 当然，也有一些违反常规的，需要特别注意。例如，<code>TreeSet</code> 的 <code>remove</code> 选择的是重载 remove(E) 方法，而  <code>ArrayList</code> 的 <code>remove</code> 却是 remove(int i)，一个是元素值，一个是元素下标。可能会带来混乱。</p>
 <hr>
 <h1 id="Item-53-可变参数"><a href="#Item-53-可变参数" class="headerlink" title="Item 53 可变参数"></a>Item 53 可变参数</h1><p>可变参数机制：首先创建一个数组（数组大小为传入的可变参数数量），然后将参数值放入数组中，最后将数组传递给方法。</p>
 <p>尽量不要使用可变参数。</p>
 <hr>
 <h1 id="Item-54-返回空的数组或集合，不要返回-null"><a href="#Item-54-返回空的数组或集合，不要返回-null" class="headerlink" title="Item 54 返回空的数组或集合，不要返回 null"></a>Item 54 返回空的数组或集合，不要返回 null</h1><p>如果你有一个数组或集合，它可能为空，请直接返回一个空的容器，不要返回null</p>
-<pre><code class="java">//The right way to return a possibly empty collection
-public List&lt;Cheese&gt; getCheeses() {
-    return new ArrayList&lt;&gt;(cheesesInStock);
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//The right way to return a possibly empty collection</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;Cheese&gt; <span class="title">getCheeses</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;(cheesesInStock);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//The right way to return a possibly empty array</span></span><br><span class="line"><span class="keyword">public</span> Cheese[] getCheeses() &#123;</span><br><span class="line">    <span class="keyword">return</span> cheesesInStock.toArray(<span class="keyword">new</span> Cheese[<span class="number">0</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-//The right way to return a possibly empty array
-public Cheese[] getCheeses() {
-    return cheesesInStock.toArray(new Cheese[0]);
-}</code></pre>
 <p>如果担心每次都 new 会影响性能，考虑优化如下，跟上面的区别在于 <code>Collections.emptyList()</code> 永远是同一个，不同每次都 new 一个新的空集合。</p>
-<pre><code class="java">// Optimization - avoids allocating empty collections
-public List&lt;Cheese&gt; getCheeses() {
-    return cheesesInStock.isEmpty() ? Collections.emptyList()
-        : new ArrayList&lt;&gt;(cheesesInStock);
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Optimization - avoids allocating empty collections</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;Cheese&gt; <span class="title">getCheeses</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> cheesesInStock.isEmpty() ? Collections.emptyList()</span><br><span class="line">        : <span class="keyword">new</span> ArrayList&lt;&gt;(cheesesInStock);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Optimization - avoids allocating empty arrays</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Cheese[] EMPTY_CHEESE_ARRAY = <span class="keyword">new</span> Cheese[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> Cheese[] getCheeses() &#123;</span><br><span class="line">    <span class="keyword">return</span> cheesesInStock.toArray(EMPTY_CHEESE_ARRAY);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-// Optimization - avoids allocating empty arrays
-private static final Cheese[] EMPTY_CHEESE_ARRAY = new Cheese[0];
 
-public Cheese[] getCheeses() {
-    return cheesesInStock.toArray(EMPTY_CHEESE_ARRAY);
-}</code></pre>
 <hr>
 <h1 id="Item-55-Optional"><a href="#Item-55-Optional" class="headerlink" title="Item 55 Optional"></a>Item 55 Optional</h1><p>Java 8 加入了 <code>Optional&lt;T&gt;</code>，本质上是一个集合（但没有实现<code>Collection&lt;T&gt;</code>接口）。例如，本来应该返回 Student 的，但如果 Student 可能为空，那么就有返回 Student 或返回 null 两种情况。</p>
 <p>Optional把两种情况变成一种，统一返回 <code>Optional&lt;Student&gt;</code>。</p>
-<pre><code class="java">public static Optional&lt;Student&gt; getFirstStu(Collection&lt;Student&gt; c) {
-    // 如果为空，返回 empty
-    if (c.isEmpty())
-        return Optional.empty();
-    // 非空返回
-    else
-        return Optional.of(c.get(0));
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Optional&lt;Student&gt; <span class="title">getFirstStu</span><span class="params">(Collection&lt;Student&gt; c)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 如果为空，返回 empty</span></span><br><span class="line">    <span class="keyword">if</span> (c.isEmpty())</span><br><span class="line">        <span class="keyword">return</span> Optional.empty();</span><br><span class="line">    <span class="comment">// 非空返回</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> Optional.of(c.get(<span class="number">0</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>并不是所有的返回类型都适合用 Optional。容器类型，包括集合、映射、Stream、数组和 Optional，不应该封装在 Optional 中。与其返回一个空的<code>Optional&lt;List&lt;T&gt;&gt;</code>，还不如返回一个空的 <code>List&lt;T&gt;</code></p>
 <hr>
 <h1 id="Item-56-编写文档注释"><a href="#Item-56-编写文档注释" class="headerlink" title="Item 56 编写文档注释"></a>Item 56 编写文档注释</h1><p>这一条还是直接翻原书吧。</p>
@@ -357,7 +300,7 @@ public Cheese[] getCheeses() {
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -369,7 +312,7 @@ public Cheese[] getCheeses() {
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -381,7 +324,7 @@ public Cheese[] getCheeses() {
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -510,25 +453,25 @@ public Cheese[] getCheeses() {
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -542,6 +485,14 @@ public Cheese[] getCheeses() {
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -550,20 +501,20 @@ public Cheese[] getCheeses() {
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -595,7 +546,7 @@ public Cheese[] getCheeses() {
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -603,7 +554,15 @@ public Cheese[] getCheeses() {
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -638,6 +597,25 @@ public Cheese[] getCheeses() {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -668,7 +646,7 @@ public Cheese[] getCheeses() {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -705,25 +683,6 @@ public Cheese[] getCheeses() {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -789,6 +748,25 @@ public Cheese[] getCheeses() {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -819,7 +797,7 @@ public Cheese[] getCheeses() {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -856,25 +834,6 @@ public Cheese[] getCheeses() {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -937,7 +896,7 @@ public Cheese[] getCheeses() {
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -991,7 +950,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

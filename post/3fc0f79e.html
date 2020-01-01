@@ -10,16 +10,16 @@
 <title>Spring（七）深入理解Spring MVC - J.e</title>
 
 
-    <meta name="description" content="我们通过 Spring Boot 来创建一个 Web 应用，发挥作用的是 Spring MVC 框架。当我们在IDE里敲入以下代码时，究竟发生了什么呢？ @GetMapping(&quot;&#x2F;&quot;) public String hello() {     return &quot;login&quot;; }  @PostMapping(&quot;&#x2F;login&quot;) publi">
+    <meta name="description" content="我们通过 Spring Boot 来创建一个 Web 应用，发挥作用的是 Spring MVC 框架。当我们在IDE里敲入以下代码时，究竟发生了什么呢？ 12345678910111213141516@GetMapping(&quot;&#x2F;&quot;)public String hello() &amp;#123;    return &quot;login&quot;;&amp;#125;@PostMapping(&quot;&#x2F;login&quot;)public M">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring（七）深入理解Spring MVC">
 <meta property="og:url" content="https://jerrysheh.me/post/3fc0f79e.html">
 <meta property="og:site_name" content="J.e">
-<meta property="og:description" content="我们通过 Spring Boot 来创建一个 Web 应用，发挥作用的是 Spring MVC 框架。当我们在IDE里敲入以下代码时，究竟发生了什么呢？ @GetMapping(&quot;&#x2F;&quot;) public String hello() {     return &quot;login&quot;; }  @PostMapping(&quot;&#x2F;login&quot;) publi">
+<meta property="og:description" content="我们通过 Spring Boot 来创建一个 Web 应用，发挥作用的是 Spring MVC 框架。当我们在IDE里敲入以下代码时，究竟发生了什么呢？ 12345678910111213141516@GetMapping(&quot;&#x2F;&quot;)public String hello() &amp;#123;    return &quot;login&quot;;&amp;#125;@PostMapping(&quot;&#x2F;login&quot;)public M">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2018-10-11T14:33:15.000Z">
-<meta property="article:modified_time" content="2019-10-08T14:50:31.083Z">
+<meta property="article:modified_time" content="2019-12-29T13:57:52.185Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta property="article:tag" content="Web">
 <meta property="article:tag" content="Java">
@@ -38,7 +38,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -138,7 +138,7 @@
                 <time class="level-item has-text-grey" datetime="2018-10-11T14:33:15.000Z">2018-10-11</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                 </div>
                 
                 
@@ -160,22 +160,8 @@
         <div class="content">
             <p><img src="../../../../images/Webapp/How_MVC_Works.webp" alt=""></p>
 <p>我们通过 Spring Boot 来创建一个 Web 应用，发挥作用的是 Spring MVC 框架。当我们在IDE里敲入以下代码时，究竟发生了什么呢？</p>
-<pre><code class="java">@GetMapping(&quot;/&quot;)
-public String hello() {
-    return &quot;login&quot;;
-}
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">hello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"login"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/login"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ModelAndView <span class="title">login</span><span class="params">(LoginData loginData)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (LOGIN.equals(loginData.getLogin())</span><br><span class="line">      &amp;&amp; PASSWORD.equals(loginData.getPassword())) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ModelAndView(<span class="string">"success"</span>,</span><br><span class="line">          Collections.singletonMap(<span class="string">"login"</span>, loginData.getLogin()));</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ModelAndView(<span class="string">"failure"</span>,</span><br><span class="line">          Collections.singletonMap(<span class="string">"login"</span>, loginData.getLogin()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-@PostMapping(&quot;/login&quot;)
-public ModelAndView login(LoginData loginData) {
-    if (LOGIN.equals(loginData.getLogin())
-      &amp;&amp; PASSWORD.equals(loginData.getPassword())) {
-        return new ModelAndView(&quot;success&quot;,
-          Collections.singletonMap(&quot;login&quot;, loginData.getLogin()));
-    } else {
-        return new ModelAndView(&quot;failure&quot;,
-          Collections.singletonMap(&quot;login&quot;, loginData.getLogin()));
-    }
-}</code></pre>
 <a id="more"></a>
 
 <hr>
@@ -204,69 +190,38 @@ public ModelAndView login(LoginData loginData) {
 <h1 id="处理-HTTP-request的过程"><a href="#处理-HTTP-request的过程" class="headerlink" title="处理 HTTP request的过程"></a>处理 HTTP request的过程</h1><p>DispatcherServlet 的继承关系：</p>
 <p><img src="../../../../images/Webapp/DispatcherServlet.png" alt=""></p>
 <h2 id="GenericServlet"><a href="#GenericServlet" class="headerlink" title="GenericServlet"></a>GenericServlet</h2><p>GenericServlet 不直接针对 HTTP ，它只是定义了一个 service() 方法，用于接收请求以及产生响应。</p>
-<pre><code class="java">public abstract void service(ServletRequest req, ServletResponse res)
-  throws ServletException, IOException;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(ServletRequest req, ServletResponse res)</span></span></span><br><span class="line"><span class="function">  <span class="keyword">throws</span> ServletException, IOException</span>;</span><br></pre></td></tr></table></figure>
+
 <h2 id="HttpServlet"><a href="#HttpServlet" class="headerlink" title="HttpServlet"></a>HttpServlet</h2><p>HttpServlet是专注于 HTTP 请求的 Servlet。它是一个抽象类，其中的 service() 方法用于区分不同的 HTTP 方法（如 GET、POST）</p>
-<pre><code class="java">protected void service(HttpServletRequest req, HttpServletResponse resp)
-    throws ServletException, IOException {
-    String method = req.getMethod();
-    if (method.equals(METHOD_GET)) {
-        // ...
-        doGet(req, resp);
-    } else if (method.equals(METHOD_HEAD)) {
-        // ...
-        doHead(req, resp);
-    } else if (method.equals(METHOD_POST)) {
-        doPost(req, resp);
-        // ...
-    }
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">    String method = req.getMethod();</span><br><span class="line">    <span class="keyword">if</span> (method.equals(METHOD_GET)) &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        doGet(req, resp);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_HEAD)) &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        doHead(req, resp);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_POST)) &#123;</span><br><span class="line">        doPost(req, resp);</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="HttpServletBean"><a href="#HttpServletBean" class="headerlink" title="HttpServletBean"></a>HttpServletBean</h2><p>HttpServletBean 是 Spring 能够感知的类。它从 web.xml 或 WebApplicationInitializer 等配置文件中获取初始化参数，并注入到 Servlet bean 属性当中，可以理解成为 DispatcherServlet 进行初始化。</p>
 <h2 id="FrameworkServlet"><a href="#FrameworkServlet" class="headerlink" title="FrameworkServlet"></a>FrameworkServlet</h2><p>FrameworkServlet 实现了 ApplicationContextAware 接口，在 Web context（上下文）中整合了 Servlet 的功能。 但 FrameworkServlet 自己也能创建一个 web context。</p>
 <p>在其父类 HttpServletBean 中，对 Servlet 注入了一些初始化参数。一旦一个类出现在 contextClass 初始化参数当中，这个类的一个实例就会被创建。否则，就用默认的XmlWebApplicationContext。鉴于 XML 配置有点“过时”，在 Spring Boot 中默认使用的是注解方式，即AnnotationConfigWebApplicationContext</p>
 <p>（这一段看不太懂，参考原文：<a href="https://dzone.com/articles/how-spring-mvc-really-works）">https://dzone.com/articles/how-spring-mvc-really-works）</a></p>
 <h2 id="DispatcherServlet-1"><a href="#DispatcherServlet-1" class="headerlink" title="DispatcherServlet"></a>DispatcherServlet</h2><h3 id="1-统一请求的处理（Unifying-the-Request-Processing）"><a href="#1-统一请求的处理（Unifying-the-Request-Processing）" class="headerlink" title="1.统一请求的处理（Unifying the Request Processing）"></a>1.统一请求的处理（Unifying the Request Processing）</h3><p>DispatcherServlet 用于统一所有请求的处理。如果说，HttpServlet.service()提供了一个底层的视角来区分HTTP请求的方法，那对 Spring MVC 来说，这些方法只是一个参数罢了。</p>
 <p>在 HttpServlet 中区分了很多 HTTP 方法，但在 FrameworkServlet 中这些方法又被统一到 processRequest() 方法进行处理，之后才是 doService() 做具体的业务服务。</p>
-<pre><code class="java">@Override
-protected final void doGet(HttpServletRequest request,
-  HttpServletResponse response) throws ServletException, IOException {
-    processRequest(request, response);
-}
-@Override
-protected final void doPost(HttpServletRequest request,
-  HttpServletResponse response) throws ServletException, IOException {
-    processRequest(request, response);
-}
-// …</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request,</span></span></span><br><span class="line"><span class="function"><span class="params">  HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">    processRequest(request, response);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request,</span></span></span><br><span class="line"><span class="function"><span class="params">  HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">    processRequest(request, response);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// …</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="2-扩展请求（Enriching-the-Request）"><a href="#2-扩展请求（Enriching-the-Request）" class="headerlink" title="2.扩展请求（Enriching the Request）"></a>2.扩展请求（Enriching the Request）</h3><p>之后，DispatcherServlet 实现了 doService() 方法，它不仅仅处理 web context，还包括 locale resolver，theme resolver, theme source 等等。</p>
-<pre><code class="java">request.setAttribute(WEB_APPLICATION_CONTEXT_ATTRIBUTE,
-  getWebApplicationContext());
-request.setAttribute(LOCALE_RESOLVER_ATTRIBUTE, this.localeResolver);
-request.setAttribute(THEME_RESOLVER_ATTRIBUTE, this.themeResolver);
-request.setAttribute(THEME_SOURCE_ATTRIBUTE, getThemeSource());</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">request.setAttribute(WEB_APPLICATION_CONTEXT_ATTRIBUTE,</span><br><span class="line">  getWebApplicationContext());</span><br><span class="line">request.setAttribute(LOCALE_RESOLVER_ATTRIBUTE, <span class="keyword">this</span>.localeResolver);</span><br><span class="line">request.setAttribute(THEME_RESOLVER_ATTRIBUTE, <span class="keyword">this</span>.themeResolver);</span><br><span class="line">request.setAttribute(THEME_SOURCE_ATTRIBUTE, getThemeSource());</span><br></pre></td></tr></table></figure>
+
 <p>当然， doService()也准备了输入和输出的映射。Flash map是一种基本的模式，用于从一个请求传递参数到另一个请求，这在重定向的时候非常有用。</p>
-<pre><code class="java">
-FlashMap inputFlashMap = this.flashMapManager
-  .retrieveAndUpdate(request, response);
-if (inputFlashMap != null) {
-    request.setAttribute(INPUT_FLASH_MAP_ATTRIBUTE,
-      Collections.unmodifiableMap(inputFlashMap));
-}
-request.setAttribute(OUTPUT_FLASH_MAP_ATTRIBUTE, new FlashMap());</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">FlashMap inputFlashMap = <span class="keyword">this</span>.flashMapManager</span><br><span class="line">  .retrieveAndUpdate(request, response);</span><br><span class="line"><span class="keyword">if</span> (inputFlashMap != <span class="keyword">null</span>) &#123;</span><br><span class="line">    request.setAttribute(INPUT_FLASH_MAP_ATTRIBUTE,</span><br><span class="line">      Collections.unmodifiableMap(inputFlashMap));</span><br><span class="line">&#125;</span><br><span class="line">request.setAttribute(OUTPUT_FLASH_MAP_ATTRIBUTE, <span class="keyword">new</span> FlashMap());</span><br></pre></td></tr></table></figure>
+
 <p>之后，doService()调用 doDispatch() 进行请求调度。</p>
 <h3 id="3-调度请求（Dispatching-the-Request）"><a href="#3-调度请求（Dispatching-the-Request）" class="headerlink" title="3.调度请求（Dispatching the Request）"></a>3.调度请求（Dispatching the Request）</h3><p>Dispatch()方法最主要的用途是寻找适合的 handler，handler 可以是任意 Object 而不局限于某些接口。这意味着 Spring 需要为 handler 找到合适的适配器（adapter），从而知道如何与 handler “沟通”。</p>
 <p>Spring 用 HandlerMapping 接口来找到与 request 匹配的 handler，HandlerMapping 有多种不同的实现。例如，SimpleUrlHandlerMapping  就能够根据 URL 找到合适的处理这个 request 的 bean 。</p>
-<pre><code>/welcome.html=ticketController
-/show.html=ticketController</code></pre><p>最广泛使用的 HandlerMapping 是 RequestMappingHandlerMapping。它能够将 <code>@RequestMapping</code> 注解映射到一个 <code>@Controller</code> 类中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;welcome.html&#x3D;ticketController</span><br><span class="line">&#x2F;show.html&#x3D;ticketController</span><br></pre></td></tr></table></figure>
+
+<p>最广泛使用的 HandlerMapping 是 RequestMappingHandlerMapping。它能够将 <code>@RequestMapping</code> 注解映射到一个 <code>@Controller</code> 类中。</p>
 <h2 id="处理请求（Handling-the-Request）"><a href="#处理请求（Handling-the-Request）" class="headerlink" title="处理请求（Handling the Request）"></a>处理请求（Handling the Request）</h2><p>当 Spring 通过 HandlerMapping 找到 request 对应的 handler 时，HandlerAdapter 的 .handler() 方法将决定如何处理这个 request,之后：</p>
 <ol>
 <li>将数据写进 response object，然后返回 null</li>
 <li>返回一个 ModelAndView object 用于被DispatcherServlet渲染</li>
 </ol>
-<pre><code class="java">@Nullable
-ModelAndView handle(HttpServletRequest request,
-                    HttpServletResponse response,
-                    Object handler) throws Exception;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Nullable</span></span><br><span class="line"><span class="function">ModelAndView <span class="title">handle</span><span class="params">(HttpServletRequest request,</span></span></span><br><span class="line"><span class="function"><span class="params">                    HttpServletResponse response,</span></span></span><br><span class="line"><span class="function"><span class="params">                    Object handler)</span> <span class="keyword">throws</span> Exception</span>;</span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>问：HandlerMapping不是已经可以帮助我们匹配到具体的handle（或者说控制器）了吗?为什么还需要HandlerAdapter？</p>
 </blockquote>
@@ -274,58 +229,30 @@ ModelAndView handle(HttpServletRequest request,
 <p>答：这是因为使用了 <strong>适配器模式</strong>， 有很多种控制器(Controller) 一种是带 <code>@Controller</code> 注解的， 还有一种是写一个servlet 当做controller, 所以用适配器做适配，HandlerAdapter 有几个子类，每个子类都是适配某一种类型的控制器，有了 HandlerAdapter，你只需要调用 handle 方法，屏蔽了不一致的细节，否则在DispatcherServlet里面要写很多if else if else。</p>
 </blockquote>
 <p>事实上，有多种 handler 类型。例如，SimpleControllerHandlerAdapter 处理一个  Spring MVC controller 的实例:</p>
-<pre><code class="java">public ModelAndView handle(HttpServletRequest request,
-  HttpServletResponse response, Object handler) throws Exception {
-    return ((Controller) handler).handleRequest(request, response);
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ModelAndView <span class="title">handle</span><span class="params">(HttpServletRequest request,</span></span></span><br><span class="line"><span class="function"><span class="params">  HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ((Controller) handler).handleRequest(request, response);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>注意，HandlerAdapter返回了一个 ModelAndView object，但是并没有渲染它。</p>
 <p>另一个例子，SimpleServletHandlerAdapter 用于适配一个标准的 Servlet</p>
-<pre><code class="java">public ModelAndView handle(HttpServletRequest request,
-  HttpServletResponse response, Object handler) throws Exception {
-    ((Servlet) handler).service(request, response);
-    return null;
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ModelAndView <span class="title">handle</span><span class="params">(HttpServletRequest request,</span></span></span><br><span class="line"><span class="function"><span class="params">  HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    ((Servlet) handler).service(request, response);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>Servlet 并不知道 ModelAndView ，它只是处理了 request 请求，然后把处理结果写进 response object，但是返回了一个空的 ModelAndView</p>
 <p>而在我们开发的角度，Controller 是一个包含了一些 <code>@RequestMapping</code> 注解的 POJO 类。所以任何的 handler 其实都是包含在 HandlerMethod 实例里面的方法而已。Spring 用 RequestMappingHandlerAdapter 类来适配这种 handler 类型。</p>
 <h2 id="处理参数并返回值"><a href="#处理参数并返回值" class="headerlink" title="处理参数并返回值"></a>处理参数并返回值</h2><p>在编写 Spring MVC 程序时，我们发现 Controller 中并没有用 HttpServletRequest 或者 HttpServletResponsearguments 作为方法的参数，而是用具体的实体类，或者路径变量（path parameter）等。同时还能发现，我们并不返回一个 ModelAndView 实例，而是返回一个视图名字，或者 POJO（将被转为JSON）。</p>
 <p>事实上，RequestMappingHandlerAdapter 确保了从 HttpServletRequest 方法获取中的参数被解析。以及它会从方法的返回值创建一个 ModelAndView object。</p>
 <p>RequestMappingHandlerAdapter 的核心代码如下，上述转换就发生在这里。</p>
-<pre><code class="java">ServletInvocableHandlerMethod invocableMethod
-  = createInvocableHandlerMethod(handlerMethod);
-if (this.argumentResolvers != null) {
-    invocableMethod.setHandlerMethodArgumentResolvers(
-      this.argumentResolvers);
-}
-if (this.returnValueHandlers != null) {
-    invocableMethod.setHandlerMethodReturnValueHandlers(
-      this.returnValueHandlers);
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ServletInvocableHandlerMethod invocableMethod</span><br><span class="line">  = createInvocableHandlerMethod(handlerMethod);</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">this</span>.argumentResolvers != <span class="keyword">null</span>) &#123;</span><br><span class="line">    invocableMethod.setHandlerMethodArgumentResolvers(</span><br><span class="line">      <span class="keyword">this</span>.argumentResolvers);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">this</span>.returnValueHandlers != <span class="keyword">null</span>) &#123;</span><br><span class="line">    invocableMethod.setHandlerMethodReturnValueHandlers(</span><br><span class="line">      <span class="keyword">this</span>.returnValueHandlers);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>还有一些其他的比如 HandlerMethodArgumentResolver 、HandlerMethodReturnValueHandler，做的都是类似的转换的工作。</p>
 <p>例如，当你在 controller 的 hello() 方法返回一个 string，ViewNameMethodReturnValueHandler 会处理这个值。而当你返回一个 ModelAndView ，则是 ModelAndViewMethodReturnValueHandler 来处理。</p>
 <h2 id="渲染视图（Rendering-the-View）"><a href="#渲染视图（Rendering-the-View）" class="headerlink" title="渲染视图（Rendering the View）"></a>渲染视图（Rendering the View）</h2><p>到这一步，Spring已经处理了 HTTP request 并得到一个 ModelAndView object，之后，DispatcherServlet 的 render() 方法将使用 LocaleResolver 实例设置 response 的 locale (cookie、session、 Accept HTTP header等) 。 Spring 会根据你用的是哪种模板引擎进行对应的渲染和解析，例如 ThymeleafViewResolver 用于渲染Thymeleaf模板引擎。在 render() 方法执行结束之后，HTML 页面就可以被发送到用户的浏览器进行显示了。</p>
 <hr>
 <h1 id="REST-支持"><a href="#REST-支持" class="headerlink" title="REST 支持"></a>REST 支持</h1><p>除了传统的 MVC 场景，我们也可以用 Spring MVC 框架来创建 REST web 服务。接收参数时，我们可以用 <code>@RequestBody</code> 注解来声明接收一个 POJO （通常是JSON转换成实体类），也可以在方法上面加 <code>@ResponseBody</code> 来声明这个方法返回一个 POJO（Spring会帮你转换成 JSON）</p>
-<pre><code class="java">import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestBody;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.ResponseBody;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/message"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> MyOutputResource <span class="title">sendMessage</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">  @RequestBody MyInputResource inputResource)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> MyOutputResource(<span class="string">"Received: "</span></span><br><span class="line">      + inputResource.getRequestMessage());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-@ResponseBody
-@PostMapping(&quot;/message&quot;)
-public MyOutputResource sendMessage(
-  @RequestBody MyInputResource inputResource) {
-    return new MyOutputResource(&quot;Received: &quot;
-      + inputResource.getRequestMessage());
-}</code></pre>
 <p>Spring 框架是通过 HttpMessageConverter 来完成 DTO 到 REST representation 的转换的。例如，其中一个实现类 MappingJackson2HttpMessageConverter 就用来在 model object 与 JSON 之间互相转换，内部用的是 Jackson 库。</p>
 <p>Spring 还可以在类上声明  <code>@RestController</code> 注解来简化REST API的创建过程。这可比在每一个方法都加上<code>@ResponseBody</code>方便得多。</p>
-<pre><code class="java">import org.springframework.web.bind.annotation.RestController;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RestfulWebServiceController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/message"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> MyOutputResource <span class="title">getMessage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MyOutputResource(<span class="string">"Hello!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-@RestController
-public class RestfulWebServiceController {
-    @GetMapping(&quot;/message&quot;)
-    public MyOutputResource getMessage() {
-        return new MyOutputResource(&quot;Hello!&quot;);
-    }
-}</code></pre>
 <hr>
 <p>参考：<a href="https://dzone.com/articles/how-spring-mvc-really-work">How Spring MVC Really Works</a></p>
 
@@ -416,7 +343,7 @@ public class RestfulWebServiceController {
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -428,7 +355,7 @@ public class RestfulWebServiceController {
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -440,7 +367,7 @@ public class RestfulWebServiceController {
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -601,25 +528,25 @@ public class RestfulWebServiceController {
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -633,6 +560,14 @@ public class RestfulWebServiceController {
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -641,20 +576,20 @@ public class RestfulWebServiceController {
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -686,7 +621,7 @@ public class RestfulWebServiceController {
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -694,7 +629,15 @@ public class RestfulWebServiceController {
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -729,6 +672,25 @@ public class RestfulWebServiceController {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -759,7 +721,7 @@ public class RestfulWebServiceController {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -796,25 +758,6 @@ public class RestfulWebServiceController {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -880,6 +823,25 @@ public class RestfulWebServiceController {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -910,7 +872,7 @@ public class RestfulWebServiceController {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -947,25 +909,6 @@ public class RestfulWebServiceController {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -1028,7 +971,7 @@ public class RestfulWebServiceController {
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1082,7 +1025,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };

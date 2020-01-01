@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
 
 
     
@@ -162,20 +162,11 @@
 <a id="more"></a>
 
 <p>例如：</p>
-<pre><code class="java">for ( Iterator&lt;Foo&gt; i = collection.iterator(); i.hasNext(); ){
-    Foo foo = i.next();
-    ...
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ( Iterator&lt;Foo&gt; i = collection.iterator(); i.hasNext(); )&#123;</span><br><span class="line">    Foo foo = i.next();</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><code>hasNext</code>方法是一个状态测试机。如果 Iterator API 没有设计 hasNext 方法，那么客户端代码将会变得很丑：</p>
-<pre><code class="java">/* Do not use this hideous code for iteration over a collection! */
-try {
-    Iterator&lt;Foo&gt; i = collection.iterator();
-    while ( true ) {
-        Foo foo = i.next();
-        ...
-    }
-} catch ( NoSuchElementException e ) {
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Do not use this hideous code for iteration over a collection! */</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Iterator&lt;Foo&gt; i = collection.iterator();</span><br><span class="line">    <span class="keyword">while</span> ( <span class="keyword">true</span> ) &#123;</span><br><span class="line">        Foo foo = i.next();</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> ( NoSuchElementException e ) &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="Item-70-对可恢复的情况使用checked-exception，对编程错误使用unchecked-exception（runtime-exception）"><a href="#Item-70-对可恢复的情况使用checked-exception，对编程错误使用unchecked-exception（runtime-exception）" class="headerlink" title="Item 70 对可恢复的情况使用checked exception，对编程错误使用unchecked exception（runtime exception）"></a>Item 70 对可恢复的情况使用checked exception，对编程错误使用unchecked exception（runtime exception）</h1><p>使用 checked exception 还是 unchecked exception 的一个基本原则是，你是不是想让程序恢复。如果是，使用 checked exception。</p>
 <p>像 <code>ArrayIndexOutOfBoundsException</code>、<code>NullPointerException</code> 这类 unchecked exception 异常，可以通过优化代码实现来避免，不应该捕获。而像 <code>IOException</code> 是不可避免的，应当捕获并处理。</p>
@@ -218,76 +209,38 @@ try {
 <hr>
 <h1 id="Item-73-异常转译和异常链"><a href="#Item-73-异常转译和异常链" class="headerlink" title="Item 73 异常转译和异常链"></a>Item 73 异常转译和异常链</h1><p>高层的实现应该捕获底层的异常，同时抛出可以按照高层抽象进行解释的异常。这种做法称为 <strong>异常转译 （exception translation）</strong>。</p>
 <p>例如下面的例子，高层的将 <code>get(i)</code> 将底层 <code>i.next()</code> 的 <code>NoSuchElementException</code> 转译成 <code>IndexOutOfBoundsException</code> 并抛出。</p>
-<pre><code class="java">/**
- * Returns the element at the specified position in this list.
- * @throws IndexOutOfBoundsException if the index is out of range
- * ({@code index &lt; 0 || index &gt;= size()}).
- */
-public E get(int index) {
-    ListIterator&lt;E&gt; i = listIterator(index);
-    try {
-        return(i.next() );
-    } catch (NoSuchElementException e) {
-        throw new IndexOutOfBoundsException(&quot;Index: &quot; + index);
-    }
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Returns the element at the specified position in this list.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> IndexOutOfBoundsException if the index is out of range</span></span><br><span class="line"><span class="comment"> * (&#123;<span class="doctag">@code</span> index &lt; 0 || index &gt;= size()&#125;).</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    ListIterator&lt;E&gt; i = listIterator(index);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span>(i.next() );</span><br><span class="line">    &#125; <span class="keyword">catch</span> (NoSuchElementException e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException(<span class="string">"Index: "</span> + index);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>在转译时，可以形成 <strong>异常链（exception chaining）</strong>，将底层异常带出去。如果低层的异常对于调试导致高层异常的问题非常有帮助，使用异常链就很合适。</p>
-<pre><code class="java">// Exception Chaining
-try {
-... // Use lower-level abstraction to do our bidding
-} catch (LowerLevelException cause) {
-    throw new HigherLevelException(cause);
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Exception Chaining</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">... <span class="comment">// Use lower-level abstraction to do our bidding</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (LowerLevelException cause) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> HigherLevelException(cause);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>但也不能滥用异常链，使用原则是：优先处理异常，无法处理时才向上抛出或转译抛出，如果底层异常对高层调试有帮助，才用异常链。</p>
 <hr>
 <h1 id="Item-74-每个方法抛出的异常都需要创建文档"><a href="#Item-74-每个方法抛出的异常都需要创建文档" class="headerlink" title="Item 74 每个方法抛出的异常都需要创建文档"></a>Item 74 每个方法抛出的异常都需要创建文档</h1><p>使用 Javadoc 的 <code>＠throws</code> 标签记录一个方法可能抛出的每个unchecked exception，但是不要使用 throws 关键字将 unchecked exception 包含在方法的声明中。</p>
-<pre><code class="java">// do this
-/**
- * @throws may cause NullPointerException
- **/
-public String foo(){
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// do this</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> may cause NullPointerException</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">foo</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// don't do this</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String foo thorws <span class="title">NullPointerException</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-}
-
-// don&#39;t do this
-public String foo thorws NullPointerException(){
-
-}</code></pre>
 <hr>
 <h1 id="Item-75-异常输出"><a href="#Item-75-异常输出" class="headerlink" title="Item 75 异常输出"></a>Item 75 异常输出</h1><p>输出异常的细节信息应该包含有用的所有参数和字段的值。例如 <code>IndexOutOfBoundsException</code> 应该包含下界、上界以及实际使用的下标值。</p>
-<pre><code>Exception in thread &quot;main&quot; java.lang.IndexOutOfBoundsException: Index: 5, Size: 2
-    at java.util.ArrayList.rangeCheck(ArrayList.java:657)
-    at java.util.ArrayList.get(ArrayList.java:433)
-    at test.Test.main(Test.java:18)</code></pre><blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; java.lang.IndexOutOfBoundsException: Index: 5, Size: 2</span><br><span class="line">	at java.util.ArrayList.rangeCheck(ArrayList.java:657)</span><br><span class="line">	at java.util.ArrayList.get(ArrayList.java:433)</span><br><span class="line">	at test.Test.main(Test.java:18)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
 <p>Tips：千万不要在细节消息中包含密码、密钥以及类似的信息！</p>
 </blockquote>
 <hr>
 <h1 id="Item-76-failure-atomic"><a href="#Item-76-failure-atomic" class="headerlink" title="Item 76 failure atomic"></a>Item 76 failure atomic</h1><p>一般而言，失败的方法调用应该使对象保持在被调用之前的状态。具有这种属性的方法被称为具有 <strong>失败原子性（failure atomic）</strong>。也就是说，出现异常并捕获，之后程序恢复，不会因此有其他任何状态的改变。</p>
 <p>最简单的方法是用不可变对象。不可变对象的状态永远是一致的。对于在可变对象，获得失败原子性最常见的办法是，在执行操作之前检查参数的有效性 （Item 49）。这可以使得在对象的状态被修改之前，先抛出适当的异常。</p>
-<pre><code class="java">public Object pop() {
-    if ( size == 0 )
-        throw new EmptyStackException();
-    Object result = elements[--size];
-    elements[size] = null; /* Eliminate obsolete reference */
-    return(result);
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> ( size == <span class="number">0</span> )</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> EmptyStackException();</span><br><span class="line">    Object result = elements[--size];</span><br><span class="line">    elements[size] = <span class="keyword">null</span>; <span class="comment">/* Eliminate obsolete reference */</span></span><br><span class="line">    <span class="keyword">return</span>(result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>如果取消对初始大小（size）的检查，当这个方法试图从一个空栈中弹出元素时，它仍然会抛出异常。然而，这将会导致 size 字段保持在不一致的状态（负数）之中，从而导致将来对该对象的任何方法调用都会失败。</p>
 <p>总而言之，<strong>想办法让在异常抛出前后，对象的状态保持一致</strong>。你可以提前检查（像上面那样），可以调整计算处理的顺序，可以在对象的一份临时拷贝上执行操作，操作完再去代替对象本身。或者是，编写恢复对象状态的代码（不常用）。</p>
 <p>虽然一般情况下都希望实现失败原子性，但并非总是可以做到。如果两个线程企图在没有适当的同步机制的情况下，并发地修改同一个对象，这个对象就有可能被留在不一致的状态之中。因此，在捕获了 <code>ConcurrentModificationException</code> 异常之后再假设对象仍然是可用的，这就是不正确的。</p>
 <hr>
 <h1 id="Item-77-不要忽略异常"><a href="#Item-77-不要忽略异常" class="headerlink" title="Item 77 不要忽略异常"></a>Item 77 不要忽略异常</h1><p>忽略一个异常非常容易，只需将方法调用通过 try 语句包围起来，并包含一个空的 catch 块。但是，最好不要这么做。空的 catch 块会使异常达不到应有的目的。</p>
-<pre><code class="java">// Empty catch block ignores exception - Highly suspect!
-try {
-    ...
-} catch ( SomeException e ) {
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Empty catch block ignores exception - Highly suspect!</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125; <span class="keyword">catch</span> ( SomeException e ) &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>即使确实不需要做任何处理，把异常记录下来还是明智的做法，因为如果这些异常经常发生，你就可以调查异常的原因。</p>
 <p>如果异常确实也不需要记录下来，才选择忽略异常，catch 块中应该包含一条注释，说明为什么可以这么做，并且变量应该命名为 ignored。</p>
-<pre><code class="java">try {
-    numColors = f.get( 1L, TimeUnit.SECONDS );
-} catch ( TimeoutException | ExecutionException ignored ) {
-    // Use default: minimal coloring is desirable, not required
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    numColors = f.get( <span class="number">1L</span>, TimeUnit.SECONDS );</span><br><span class="line">&#125; <span class="keyword">catch</span> ( TimeoutException | ExecutionException ignored ) &#123;</span><br><span class="line">    <span class="comment">// Use default: minimal coloring is desirable, not required</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
         </div>
         
@@ -311,6 +264,13 @@ try {
 
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/post/3e5ce296.html">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">我的2019</span>
+            </a>
+        </div>
         
         
         <div class="level-end">
@@ -369,7 +329,7 @@ try {
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            156
+                            157
                         </p>
                     </a>
                 </div>
@@ -381,7 +341,7 @@ try {
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            18
+                            20
                         </p>
                     </a>
                 </div>
@@ -393,7 +353,7 @@ try {
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            35
+                            34
                         </p>
                     </a>
                 </div>
@@ -526,25 +486,25 @@ try {
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">24</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
             <span class="level-start">
                 <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">19</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">Java虚拟机</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">5</span>
@@ -558,6 +518,14 @@ try {
                 <span class="level-item tag">6</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/linux/">
             <span class="level-start">
                 <span class="level-item">linux</span>
@@ -566,20 +534,20 @@ try {
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
+            <span class="level-start">
+                <span class="level-item">前端</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
             <span class="level-start">
                 <span class="level-item">大数据</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -611,7 +579,7 @@ try {
                 <span class="level-item">生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
@@ -619,7 +587,15 @@ try {
                 <span class="level-item">计算机</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
+            <span class="level-start">
+                <span class="level-item">计算机科学速成课</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
@@ -654,6 +630,25 @@ try {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -684,7 +679,7 @@ try {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -721,25 +716,6 @@ try {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -805,6 +781,25 @@ try {
         
         <article class="media">
             
+            <a href="/post/3e5ce296.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
+                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/post/4e34dae4.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
@@ -835,7 +830,7 @@ try {
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
                     <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                     </p>
                 </div>
             </div>
@@ -872,25 +867,6 @@ try {
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
                     <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/cc85a16e.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（六）Lambdas and Streams">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time></div>
-                    <a href="/post/cc85a16e.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（六）Lambdas and Streams</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
                     </p>
@@ -953,7 +929,7 @@ try {
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 Jerry Sheh&nbsp;
+                &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
@@ -1007,7 +983,7 @@ var IcarusThemeSettings = {
     article: {
         highlight: {
             clipboard: true,
-            fold: 'folded'
+            fold: 'unfolded'
         }
     }
 };
