@@ -69,7 +69,7 @@
     <link rel="stylesheet" href="/css/progressbar.css">
 <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
     
-    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     
 
 
@@ -147,6 +147,11 @@
                     26 分钟 读完 (大约 3834 个字)
                 </span>
                 
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span>次访问
+                </span>
                 
             </div>
         </div>
@@ -447,160 +452,6 @@
 </div>
     
         
-
-    <div class="card widget" id="toc">
-        <div class="card-content">
-            <div class="menu">
-                <h3 class="menu-label">
-                    目录
-                </h3>
-                <ul class="menu-list"><li>
-        <a class="is-flex" href="#存储引擎">
-        <span class="has-mr-6">1</span>
-        <span>存储引擎</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#InnoDB">
-        <span class="has-mr-6">1.1</span>
-        <span>InnoDB</span>
-        </a></li><li>
-        <a class="is-flex" href="#MyISAM">
-        <span class="has-mr-6">1.2</span>
-        <span>MyISAM</span>
-        </a></li><li>
-        <a class="is-flex" href="#MEMORY">
-        <span class="has-mr-6">1.3</span>
-        <span>MEMORY</span>
-        </a></li><li>
-        <a class="is-flex" href="#三种存储引擎的比较">
-        <span class="has-mr-6">1.4</span>
-        <span>三种存储引擎的比较</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#事务">
-        <span class="has-mr-6">2</span>
-        <span>事务</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#什么是事务？">
-        <span class="has-mr-6">2.1</span>
-        <span>什么是事务？</span>
-        </a></li><li>
-        <a class="is-flex" href="#事务的自动提交（AUTOCOMMIT）">
-        <span class="has-mr-6">2.2</span>
-        <span>事务的自动提交（AUTOCOMMIT）</span>
-        </a></li><li>
-        <a class="is-flex" href="#事务的并发问题">
-        <span class="has-mr-6">2.3</span>
-        <span>事务的并发问题</span>
-        </a></li><li>
-        <a class="is-flex" href="#事务的四大特征">
-        <span class="has-mr-6">2.4</span>
-        <span>事务的四大特征</span>
-        </a></li><li>
-        <a class="is-flex" href="#事务的四种隔离级别（Isolation-level）">
-        <span class="has-mr-6">2.5</span>
-        <span>事务的四种隔离级别（Isolation level）</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#未提交读-read-uncommitted">
-        <span class="has-mr-6">2.5.1</span>
-        <span>未提交读(read uncommitted)</span>
-        </a></li><li>
-        <a class="is-flex" href="#提交读-read-committed">
-        <span class="has-mr-6">2.5.2</span>
-        <span>提交读(read committed)</span>
-        </a></li><li>
-        <a class="is-flex" href="#可重复读-repeatable-read">
-        <span class="has-mr-6">2.5.3</span>
-        <span>可重复读(repeatable read)</span>
-        </a></li><li>
-        <a class="is-flex" href="#可串行化-serializable">
-        <span class="has-mr-6">2.5.4</span>
-        <span>可串行化(serializable)</span>
-        </a></li><li>
-        <a class="is-flex" href="#改变事务的隔离级别">
-        <span class="has-mr-6">2.5.5</span>
-        <span>改变事务的隔离级别</span>
-        </a></li><li>
-        <a class="is-flex" href="#如何修改-MySQL-隔离级别">
-        <span class="has-mr-6">2.5.6</span>
-        <span>如何修改 MySQL 隔离级别</span>
-        </a></li></ul></li></ul></li><li>
-        <a class="is-flex" href="#锁（并发控制）">
-        <span class="has-mr-6">3</span>
-        <span>锁（并发控制）</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#锁的分类">
-        <span class="has-mr-6">3.1</span>
-        <span>锁的分类</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#共享锁和排他锁">
-        <span class="has-mr-6">3.1.1</span>
-        <span>共享锁和排他锁</span>
-        </a></li><li>
-        <a class="is-flex" href="#乐观锁和悲观锁">
-        <span class="has-mr-6">3.1.2</span>
-        <span>乐观锁和悲观锁</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#锁的粒度">
-        <span class="has-mr-6">3.2</span>
-        <span>锁的粒度</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#表锁（table-lock）">
-        <span class="has-mr-6">3.2.1</span>
-        <span>表锁（table lock）</span>
-        </a></li><li>
-        <a class="is-flex" href="#页锁（page-lock）">
-        <span class="has-mr-6">3.2.2</span>
-        <span>页锁（page lock）</span>
-        </a></li><li>
-        <a class="is-flex" href="#行级锁（row-lock）">
-        <span class="has-mr-6">3.2.3</span>
-        <span>行级锁（row lock）</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#死锁问题">
-        <span class="has-mr-6">3.3</span>
-        <span>死锁问题</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#数据库三大范式">
-        <span class="has-mr-6">4</span>
-        <span>数据库三大范式</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#第一范式（1NF）">
-        <span class="has-mr-6">4.1</span>
-        <span>第一范式（1NF）</span>
-        </a></li><li>
-        <a class="is-flex" href="#第二范式（2NF）">
-        <span class="has-mr-6">4.2</span>
-        <span>第二范式（2NF）</span>
-        </a></li><li>
-        <a class="is-flex" href="#第三范式（3NF）">
-        <span class="has-mr-6">4.3</span>
-        <span>第三范式（3NF）</span>
-        </a></li><li>
-        <a class="is-flex" href="#范式化的优缺点">
-        <span class="has-mr-6">4.4</span>
-        <span>范式化的优缺点</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#事务日志">
-        <span class="has-mr-6">5</span>
-        <span>事务日志</span>
-        </a></li><li>
-        <a class="is-flex" href="#多版本并发控制（MVCC）">
-        <span class="has-mr-6">6</span>
-        <span>多版本并发控制（MVCC）</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#InnoDB-的-MVCC-实现">
-        <span class="has-mr-6">6.1</span>
-        <span>InnoDB 的 MVCC 实现</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#MySQL-的大小写敏感">
-        <span class="has-mr-6">7</span>
-        <span>MySQL 的大小写敏感</span>
-        </a></li></ul>
-            </div>
-        </div>
-    </div>
-
-    
-        
 <div class="card widget">
     <div class="card-content">
         <div class="menu">
@@ -775,111 +626,161 @@
 </div>
     
     
-        <div class="column-right-shadow is-hidden-widescreen ">
+        <div class="column-right-shadow is-hidden-widescreen is-sticky">
         
-            <div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            最新文章
-        </h3>
-        
-        <article class="media">
             
-            <a href="/post/3e5ce296.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
-                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
-                    </p>
-                </div>
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#存储引擎">
+        <span class="has-mr-6">1</span>
+        <span>存储引擎</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#InnoDB">
+        <span class="has-mr-6">1.1</span>
+        <span>InnoDB</span>
+        </a></li><li>
+        <a class="is-flex" href="#MyISAM">
+        <span class="has-mr-6">1.2</span>
+        <span>MyISAM</span>
+        </a></li><li>
+        <a class="is-flex" href="#MEMORY">
+        <span class="has-mr-6">1.3</span>
+        <span>MEMORY</span>
+        </a></li><li>
+        <a class="is-flex" href="#三种存储引擎的比较">
+        <span class="has-mr-6">1.4</span>
+        <span>三种存储引擎的比较</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#事务">
+        <span class="has-mr-6">2</span>
+        <span>事务</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#什么是事务？">
+        <span class="has-mr-6">2.1</span>
+        <span>什么是事务？</span>
+        </a></li><li>
+        <a class="is-flex" href="#事务的自动提交（AUTOCOMMIT）">
+        <span class="has-mr-6">2.2</span>
+        <span>事务的自动提交（AUTOCOMMIT）</span>
+        </a></li><li>
+        <a class="is-flex" href="#事务的并发问题">
+        <span class="has-mr-6">2.3</span>
+        <span>事务的并发问题</span>
+        </a></li><li>
+        <a class="is-flex" href="#事务的四大特征">
+        <span class="has-mr-6">2.4</span>
+        <span>事务的四大特征</span>
+        </a></li><li>
+        <a class="is-flex" href="#事务的四种隔离级别（Isolation-level）">
+        <span class="has-mr-6">2.5</span>
+        <span>事务的四种隔离级别（Isolation level）</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#未提交读-read-uncommitted">
+        <span class="has-mr-6">2.5.1</span>
+        <span>未提交读(read uncommitted)</span>
+        </a></li><li>
+        <a class="is-flex" href="#提交读-read-committed">
+        <span class="has-mr-6">2.5.2</span>
+        <span>提交读(read committed)</span>
+        </a></li><li>
+        <a class="is-flex" href="#可重复读-repeatable-read">
+        <span class="has-mr-6">2.5.3</span>
+        <span>可重复读(repeatable read)</span>
+        </a></li><li>
+        <a class="is-flex" href="#可串行化-serializable">
+        <span class="has-mr-6">2.5.4</span>
+        <span>可串行化(serializable)</span>
+        </a></li><li>
+        <a class="is-flex" href="#改变事务的隔离级别">
+        <span class="has-mr-6">2.5.5</span>
+        <span>改变事务的隔离级别</span>
+        </a></li><li>
+        <a class="is-flex" href="#如何修改-MySQL-隔离级别">
+        <span class="has-mr-6">2.5.6</span>
+        <span>如何修改 MySQL 隔离级别</span>
+        </a></li></ul></li></ul></li><li>
+        <a class="is-flex" href="#锁（并发控制）">
+        <span class="has-mr-6">3</span>
+        <span>锁（并发控制）</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#锁的分类">
+        <span class="has-mr-6">3.1</span>
+        <span>锁的分类</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#共享锁和排他锁">
+        <span class="has-mr-6">3.1.1</span>
+        <span>共享锁和排他锁</span>
+        </a></li><li>
+        <a class="is-flex" href="#乐观锁和悲观锁">
+        <span class="has-mr-6">3.1.2</span>
+        <span>乐观锁和悲观锁</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#锁的粒度">
+        <span class="has-mr-6">3.2</span>
+        <span>锁的粒度</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#表锁（table-lock）">
+        <span class="has-mr-6">3.2.1</span>
+        <span>表锁（table lock）</span>
+        </a></li><li>
+        <a class="is-flex" href="#页锁（page-lock）">
+        <span class="has-mr-6">3.2.2</span>
+        <span>页锁（page lock）</span>
+        </a></li><li>
+        <a class="is-flex" href="#行级锁（row-lock）">
+        <span class="has-mr-6">3.2.3</span>
+        <span>行级锁（row lock）</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#死锁问题">
+        <span class="has-mr-6">3.3</span>
+        <span>死锁问题</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#数据库三大范式">
+        <span class="has-mr-6">4</span>
+        <span>数据库三大范式</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#第一范式（1NF）">
+        <span class="has-mr-6">4.1</span>
+        <span>第一范式（1NF）</span>
+        </a></li><li>
+        <a class="is-flex" href="#第二范式（2NF）">
+        <span class="has-mr-6">4.2</span>
+        <span>第二范式（2NF）</span>
+        </a></li><li>
+        <a class="is-flex" href="#第三范式（3NF）">
+        <span class="has-mr-6">4.3</span>
+        <span>第三范式（3NF）</span>
+        </a></li><li>
+        <a class="is-flex" href="#范式化的优缺点">
+        <span class="has-mr-6">4.4</span>
+        <span>范式化的优缺点</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#事务日志">
+        <span class="has-mr-6">5</span>
+        <span>事务日志</span>
+        </a></li><li>
+        <a class="is-flex" href="#多版本并发控制（MVCC）">
+        <span class="has-mr-6">6</span>
+        <span>多版本并发控制（MVCC）</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#InnoDB-的-MVCC-实现">
+        <span class="has-mr-6">6.1</span>
+        <span>InnoDB 的 MVCC 实现</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#MySQL-的大小写敏感">
+        <span class="has-mr-6">7</span>
+        <span>MySQL 的大小写敏感</span>
+        </a></li></ul>
             </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/4e34dae4.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
-                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/a0972c39.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
-                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/7d5810ff.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
-                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/387fb533.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
-                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
+        </div>
     </div>
-</div>
+
         
             <div class="card widget">
     <div class="card-content">
@@ -890,23 +791,45 @@
         <ul class="menu-list">
         
             <li>
-                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
-                    <span class="level-left">
-                        <span class="level-item">Baron Schwartz</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">www.xaprb.com</span>
-                    </span>
-                </a>
-            </li>
-        
-            <li>
                 <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
                     <span class="level-left">
                         <span class="level-item">我没有三颗心脏</span>
                     </span>
                     <span class="level-right">
                         <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.cnblogs.com/vamei/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Vamei</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.cnblogs.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.celesteheadlee.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">celesteheadlee</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.celesteheadlee.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
                     </span>
                 </a>
             </li>
@@ -926,111 +849,161 @@
 
 
 
-<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right is-sticky">
     
-        <div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            最新文章
-        </h3>
         
-        <article class="media">
-            
-            <a href="/post/3e5ce296.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
-                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
-                    </p>
-                </div>
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#存储引擎">
+        <span class="has-mr-6">1</span>
+        <span>存储引擎</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#InnoDB">
+        <span class="has-mr-6">1.1</span>
+        <span>InnoDB</span>
+        </a></li><li>
+        <a class="is-flex" href="#MyISAM">
+        <span class="has-mr-6">1.2</span>
+        <span>MyISAM</span>
+        </a></li><li>
+        <a class="is-flex" href="#MEMORY">
+        <span class="has-mr-6">1.3</span>
+        <span>MEMORY</span>
+        </a></li><li>
+        <a class="is-flex" href="#三种存储引擎的比较">
+        <span class="has-mr-6">1.4</span>
+        <span>三种存储引擎的比较</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#事务">
+        <span class="has-mr-6">2</span>
+        <span>事务</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#什么是事务？">
+        <span class="has-mr-6">2.1</span>
+        <span>什么是事务？</span>
+        </a></li><li>
+        <a class="is-flex" href="#事务的自动提交（AUTOCOMMIT）">
+        <span class="has-mr-6">2.2</span>
+        <span>事务的自动提交（AUTOCOMMIT）</span>
+        </a></li><li>
+        <a class="is-flex" href="#事务的并发问题">
+        <span class="has-mr-6">2.3</span>
+        <span>事务的并发问题</span>
+        </a></li><li>
+        <a class="is-flex" href="#事务的四大特征">
+        <span class="has-mr-6">2.4</span>
+        <span>事务的四大特征</span>
+        </a></li><li>
+        <a class="is-flex" href="#事务的四种隔离级别（Isolation-level）">
+        <span class="has-mr-6">2.5</span>
+        <span>事务的四种隔离级别（Isolation level）</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#未提交读-read-uncommitted">
+        <span class="has-mr-6">2.5.1</span>
+        <span>未提交读(read uncommitted)</span>
+        </a></li><li>
+        <a class="is-flex" href="#提交读-read-committed">
+        <span class="has-mr-6">2.5.2</span>
+        <span>提交读(read committed)</span>
+        </a></li><li>
+        <a class="is-flex" href="#可重复读-repeatable-read">
+        <span class="has-mr-6">2.5.3</span>
+        <span>可重复读(repeatable read)</span>
+        </a></li><li>
+        <a class="is-flex" href="#可串行化-serializable">
+        <span class="has-mr-6">2.5.4</span>
+        <span>可串行化(serializable)</span>
+        </a></li><li>
+        <a class="is-flex" href="#改变事务的隔离级别">
+        <span class="has-mr-6">2.5.5</span>
+        <span>改变事务的隔离级别</span>
+        </a></li><li>
+        <a class="is-flex" href="#如何修改-MySQL-隔离级别">
+        <span class="has-mr-6">2.5.6</span>
+        <span>如何修改 MySQL 隔离级别</span>
+        </a></li></ul></li></ul></li><li>
+        <a class="is-flex" href="#锁（并发控制）">
+        <span class="has-mr-6">3</span>
+        <span>锁（并发控制）</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#锁的分类">
+        <span class="has-mr-6">3.1</span>
+        <span>锁的分类</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#共享锁和排他锁">
+        <span class="has-mr-6">3.1.1</span>
+        <span>共享锁和排他锁</span>
+        </a></li><li>
+        <a class="is-flex" href="#乐观锁和悲观锁">
+        <span class="has-mr-6">3.1.2</span>
+        <span>乐观锁和悲观锁</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#锁的粒度">
+        <span class="has-mr-6">3.2</span>
+        <span>锁的粒度</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#表锁（table-lock）">
+        <span class="has-mr-6">3.2.1</span>
+        <span>表锁（table lock）</span>
+        </a></li><li>
+        <a class="is-flex" href="#页锁（page-lock）">
+        <span class="has-mr-6">3.2.2</span>
+        <span>页锁（page lock）</span>
+        </a></li><li>
+        <a class="is-flex" href="#行级锁（row-lock）">
+        <span class="has-mr-6">3.2.3</span>
+        <span>行级锁（row lock）</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#死锁问题">
+        <span class="has-mr-6">3.3</span>
+        <span>死锁问题</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#数据库三大范式">
+        <span class="has-mr-6">4</span>
+        <span>数据库三大范式</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#第一范式（1NF）">
+        <span class="has-mr-6">4.1</span>
+        <span>第一范式（1NF）</span>
+        </a></li><li>
+        <a class="is-flex" href="#第二范式（2NF）">
+        <span class="has-mr-6">4.2</span>
+        <span>第二范式（2NF）</span>
+        </a></li><li>
+        <a class="is-flex" href="#第三范式（3NF）">
+        <span class="has-mr-6">4.3</span>
+        <span>第三范式（3NF）</span>
+        </a></li><li>
+        <a class="is-flex" href="#范式化的优缺点">
+        <span class="has-mr-6">4.4</span>
+        <span>范式化的优缺点</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#事务日志">
+        <span class="has-mr-6">5</span>
+        <span>事务日志</span>
+        </a></li><li>
+        <a class="is-flex" href="#多版本并发控制（MVCC）">
+        <span class="has-mr-6">6</span>
+        <span>多版本并发控制（MVCC）</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#InnoDB-的-MVCC-实现">
+        <span class="has-mr-6">6.1</span>
+        <span>InnoDB 的 MVCC 实现</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#MySQL-的大小写敏感">
+        <span class="has-mr-6">7</span>
+        <span>MySQL 的大小写敏感</span>
+        </a></li></ul>
             </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/4e34dae4.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
-                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/a0972c39.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
-                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/7d5810ff.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
-                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/387fb533.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
-                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
+        </div>
     </div>
-</div>
+
     
         <div class="card widget">
     <div class="card-content">
@@ -1041,23 +1014,45 @@
         <ul class="menu-list">
         
             <li>
-                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
-                    <span class="level-left">
-                        <span class="level-item">Baron Schwartz</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">www.xaprb.com</span>
-                    </span>
-                </a>
-            </li>
-        
-            <li>
                 <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
                     <span class="level-left">
                         <span class="level-item">我没有三颗心脏</span>
                     </span>
                     <span class="level-right">
                         <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.cnblogs.com/vamei/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Vamei</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.cnblogs.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.celesteheadlee.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">celesteheadlee</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.celesteheadlee.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
                     </span>
                 </a>
             </li>
@@ -1087,6 +1082,11 @@
                 &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_uv">
+                共<span id="busuanzi_value_site_uv">0</span>个访客
+                </span>
                 
                 </p>
             </div>

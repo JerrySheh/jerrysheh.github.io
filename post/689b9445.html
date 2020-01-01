@@ -69,7 +69,7 @@
     <link rel="stylesheet" href="/css/progressbar.css">
 <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
     
-    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     
 
 
@@ -147,6 +147,11 @@
                     21 分钟 读完 (大约 3080 个字)
                 </span>
                 
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span>次访问
+                </span>
                 
             </div>
         </div>
@@ -440,124 +445,6 @@
 </div>
     
         
-
-    <div class="card widget" id="toc">
-        <div class="card-content">
-            <div class="menu">
-                <h3 class="menu-label">
-                    目录
-                </h3>
-                <ul class="menu-list"><li>
-        <a class="is-flex" href="#String-的本质">
-        <span class="has-mr-6">1</span>
-        <span>String 的本质</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#为什么要将-char-改成-byte-？">
-        <span class="has-mr-6">1.1</span>
-        <span>为什么要将 char[] 改成 byte[] ？</span>
-        </a></li><li>
-        <a class="is-flex" href="#为什么要设计成不可变类-？-优缺点？">
-        <span class="has-mr-6">1.2</span>
-        <span>为什么要设计成不可变类 ？ 优缺点？</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#String-str-new-String-“abc”-创建了几个对象？">
-        <span class="has-mr-6">2</span>
-        <span>String str = new String(“abc”)创建了几个对象？</span>
-        </a></li><li>
-        <a class="is-flex" href="#String-的-intern-方法">
-        <span class="has-mr-6">3</span>
-        <span>String 的 intern 方法</span>
-        </a></li><li>
-        <a class="is-flex" href="#String-的-“-”-号是怎么连接字符串的-？">
-        <span class="has-mr-6">4</span>
-        <span>String 的 “+” 号是怎么连接字符串的 ？</span>
-        </a></li><li>
-        <a class="is-flex" href="#String-的比较">
-        <span class="has-mr-6">5</span>
-        <span>String 的比较</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#和-equals-两种比较">
-        <span class="has-mr-6">5.1</span>
-        <span>== 和 equals 两种比较</span>
-        </a></li><li>
-        <a class="is-flex" href="#探究-String-类-equals-方法源码">
-        <span class="has-mr-6">5.2</span>
-        <span>探究 String 类 equals 方法源码</span>
-        </a></li><li>
-        <a class="is-flex" href="#字符串比较的几点建议">
-        <span class="has-mr-6">5.3</span>
-        <span>字符串比较的几点建议</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#String-的用法">
-        <span class="has-mr-6">6</span>
-        <span>String 的用法</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#使用-join-连接字符串">
-        <span class="has-mr-6">6.1</span>
-        <span>使用 join 连接字符串</span>
-        </a></li><li>
-        <a class="is-flex" href="#使用-substring-提取子串">
-        <span class="has-mr-6">6.2</span>
-        <span>使用 substring 提取子串</span>
-        </a></li><li>
-        <a class="is-flex" href="#使用-split-分割字符串">
-        <span class="has-mr-6">6.3</span>
-        <span>使用 split 分割字符串</span>
-        </a></li><li>
-        <a class="is-flex" href="#使用-format-格式化输出">
-        <span class="has-mr-6">6.4</span>
-        <span>使用 format 格式化输出</span>
-        </a></li><li>
-        <a class="is-flex" href="#使用-toString-将数字转为字符串">
-        <span class="has-mr-6">6.5</span>
-        <span>使用 toString 将数字转为字符串</span>
-        </a></li><li>
-        <a class="is-flex" href="#使用-parseInt-将字符串转化为数字">
-        <span class="has-mr-6">6.6</span>
-        <span>使用 parseInt 将字符串转化为数字</span>
-        </a></li><li>
-        <a class="is-flex" href="#使用-replace-和-replaceAll-取代">
-        <span class="has-mr-6">6.7</span>
-        <span>使用 replace 和 replaceAll 取代</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#String-和-Char-之间的转换">
-        <span class="has-mr-6">7</span>
-        <span>String 和 Char[] 之间的转换</span>
-        </a></li><li>
-        <a class="is-flex" href="#StringBuffer-和-StringBuilder">
-        <span class="has-mr-6">8</span>
-        <span>StringBuffer 和 StringBuilder</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#StringBuffer-的用法">
-        <span class="has-mr-6">8.1</span>
-        <span>StringBuffer 的用法</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#使用-append-追加字符串">
-        <span class="has-mr-6">8.1.1</span>
-        <span>使用 append 追加字符串</span>
-        </a></li><li>
-        <a class="is-flex" href="#使用-reverse-进行反转">
-        <span class="has-mr-6">8.1.2</span>
-        <span>使用 reverse 进行反转</span>
-        </a></li><li>
-        <a class="is-flex" href="#使用-delete-删除字符串中间的字符">
-        <span class="has-mr-6">8.1.3</span>
-        <span>使用 delete 删除字符串中间的字符</span>
-        </a></li><li>
-        <a class="is-flex" href="#使用-insert-插入">
-        <span class="has-mr-6">8.1.4</span>
-        <span>使用 insert 插入</span>
-        </a></li><li>
-        <a class="is-flex" href="#使用-replace-取代">
-        <span class="has-mr-6">8.1.5</span>
-        <span>使用 replace 取代</span>
-        </a></li></ul></li></ul></li></ul>
-            </div>
-        </div>
-    </div>
-
-    
-        
 <div class="card widget">
     <div class="card-content">
         <div class="menu">
@@ -732,111 +619,125 @@
 </div>
     
     
-        <div class="column-right-shadow is-hidden-widescreen ">
+        <div class="column-right-shadow is-hidden-widescreen is-sticky">
         
-            <div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            最新文章
-        </h3>
-        
-        <article class="media">
             
-            <a href="/post/3e5ce296.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
-                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
-                    </p>
-                </div>
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#String-的本质">
+        <span class="has-mr-6">1</span>
+        <span>String 的本质</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#为什么要将-char-改成-byte-？">
+        <span class="has-mr-6">1.1</span>
+        <span>为什么要将 char[] 改成 byte[] ？</span>
+        </a></li><li>
+        <a class="is-flex" href="#为什么要设计成不可变类-？-优缺点？">
+        <span class="has-mr-6">1.2</span>
+        <span>为什么要设计成不可变类 ？ 优缺点？</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#String-str-new-String-“abc”-创建了几个对象？">
+        <span class="has-mr-6">2</span>
+        <span>String str = new String(“abc”)创建了几个对象？</span>
+        </a></li><li>
+        <a class="is-flex" href="#String-的-intern-方法">
+        <span class="has-mr-6">3</span>
+        <span>String 的 intern 方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#String-的-“-”-号是怎么连接字符串的-？">
+        <span class="has-mr-6">4</span>
+        <span>String 的 “+” 号是怎么连接字符串的 ？</span>
+        </a></li><li>
+        <a class="is-flex" href="#String-的比较">
+        <span class="has-mr-6">5</span>
+        <span>String 的比较</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#和-equals-两种比较">
+        <span class="has-mr-6">5.1</span>
+        <span>== 和 equals 两种比较</span>
+        </a></li><li>
+        <a class="is-flex" href="#探究-String-类-equals-方法源码">
+        <span class="has-mr-6">5.2</span>
+        <span>探究 String 类 equals 方法源码</span>
+        </a></li><li>
+        <a class="is-flex" href="#字符串比较的几点建议">
+        <span class="has-mr-6">5.3</span>
+        <span>字符串比较的几点建议</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#String-的用法">
+        <span class="has-mr-6">6</span>
+        <span>String 的用法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#使用-join-连接字符串">
+        <span class="has-mr-6">6.1</span>
+        <span>使用 join 连接字符串</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-substring-提取子串">
+        <span class="has-mr-6">6.2</span>
+        <span>使用 substring 提取子串</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-split-分割字符串">
+        <span class="has-mr-6">6.3</span>
+        <span>使用 split 分割字符串</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-format-格式化输出">
+        <span class="has-mr-6">6.4</span>
+        <span>使用 format 格式化输出</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-toString-将数字转为字符串">
+        <span class="has-mr-6">6.5</span>
+        <span>使用 toString 将数字转为字符串</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-parseInt-将字符串转化为数字">
+        <span class="has-mr-6">6.6</span>
+        <span>使用 parseInt 将字符串转化为数字</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-replace-和-replaceAll-取代">
+        <span class="has-mr-6">6.7</span>
+        <span>使用 replace 和 replaceAll 取代</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#String-和-Char-之间的转换">
+        <span class="has-mr-6">7</span>
+        <span>String 和 Char[] 之间的转换</span>
+        </a></li><li>
+        <a class="is-flex" href="#StringBuffer-和-StringBuilder">
+        <span class="has-mr-6">8</span>
+        <span>StringBuffer 和 StringBuilder</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#StringBuffer-的用法">
+        <span class="has-mr-6">8.1</span>
+        <span>StringBuffer 的用法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#使用-append-追加字符串">
+        <span class="has-mr-6">8.1.1</span>
+        <span>使用 append 追加字符串</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-reverse-进行反转">
+        <span class="has-mr-6">8.1.2</span>
+        <span>使用 reverse 进行反转</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-delete-删除字符串中间的字符">
+        <span class="has-mr-6">8.1.3</span>
+        <span>使用 delete 删除字符串中间的字符</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-insert-插入">
+        <span class="has-mr-6">8.1.4</span>
+        <span>使用 insert 插入</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-replace-取代">
+        <span class="has-mr-6">8.1.5</span>
+        <span>使用 replace 取代</span>
+        </a></li></ul></li></ul></li></ul>
             </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/4e34dae4.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
-                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/a0972c39.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
-                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/7d5810ff.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
-                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/387fb533.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
-                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
+        </div>
     </div>
-</div>
+
         
             <div class="card widget">
     <div class="card-content">
@@ -847,23 +748,45 @@
         <ul class="menu-list">
         
             <li>
-                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
-                    <span class="level-left">
-                        <span class="level-item">Baron Schwartz</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">www.xaprb.com</span>
-                    </span>
-                </a>
-            </li>
-        
-            <li>
                 <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
                     <span class="level-left">
                         <span class="level-item">我没有三颗心脏</span>
                     </span>
                     <span class="level-right">
                         <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.cnblogs.com/vamei/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Vamei</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.cnblogs.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.celesteheadlee.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">celesteheadlee</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.celesteheadlee.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
                     </span>
                 </a>
             </li>
@@ -883,111 +806,125 @@
 
 
 
-<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right is-sticky">
     
-        <div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            最新文章
-        </h3>
         
-        <article class="media">
-            
-            <a href="/post/3e5ce296.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="我的2019">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time></div>
-                    <a href="/post/3e5ce296.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">我的2019</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
-                    </p>
-                </div>
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#String-的本质">
+        <span class="has-mr-6">1</span>
+        <span>String 的本质</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#为什么要将-char-改成-byte-？">
+        <span class="has-mr-6">1.1</span>
+        <span>为什么要将 char[] 改成 byte[] ？</span>
+        </a></li><li>
+        <a class="is-flex" href="#为什么要设计成不可变类-？-优缺点？">
+        <span class="has-mr-6">1.2</span>
+        <span>为什么要设计成不可变类 ？ 优缺点？</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#String-str-new-String-“abc”-创建了几个对象？">
+        <span class="has-mr-6">2</span>
+        <span>String str = new String(“abc”)创建了几个对象？</span>
+        </a></li><li>
+        <a class="is-flex" href="#String-的-intern-方法">
+        <span class="has-mr-6">3</span>
+        <span>String 的 intern 方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#String-的-“-”-号是怎么连接字符串的-？">
+        <span class="has-mr-6">4</span>
+        <span>String 的 “+” 号是怎么连接字符串的 ？</span>
+        </a></li><li>
+        <a class="is-flex" href="#String-的比较">
+        <span class="has-mr-6">5</span>
+        <span>String 的比较</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#和-equals-两种比较">
+        <span class="has-mr-6">5.1</span>
+        <span>== 和 equals 两种比较</span>
+        </a></li><li>
+        <a class="is-flex" href="#探究-String-类-equals-方法源码">
+        <span class="has-mr-6">5.2</span>
+        <span>探究 String 类 equals 方法源码</span>
+        </a></li><li>
+        <a class="is-flex" href="#字符串比较的几点建议">
+        <span class="has-mr-6">5.3</span>
+        <span>字符串比较的几点建议</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#String-的用法">
+        <span class="has-mr-6">6</span>
+        <span>String 的用法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#使用-join-连接字符串">
+        <span class="has-mr-6">6.1</span>
+        <span>使用 join 连接字符串</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-substring-提取子串">
+        <span class="has-mr-6">6.2</span>
+        <span>使用 substring 提取子串</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-split-分割字符串">
+        <span class="has-mr-6">6.3</span>
+        <span>使用 split 分割字符串</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-format-格式化输出">
+        <span class="has-mr-6">6.4</span>
+        <span>使用 format 格式化输出</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-toString-将数字转为字符串">
+        <span class="has-mr-6">6.5</span>
+        <span>使用 toString 将数字转为字符串</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-parseInt-将字符串转化为数字">
+        <span class="has-mr-6">6.6</span>
+        <span>使用 parseInt 将字符串转化为数字</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-replace-和-replaceAll-取代">
+        <span class="has-mr-6">6.7</span>
+        <span>使用 replace 和 replaceAll 取代</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#String-和-Char-之间的转换">
+        <span class="has-mr-6">7</span>
+        <span>String 和 Char[] 之间的转换</span>
+        </a></li><li>
+        <a class="is-flex" href="#StringBuffer-和-StringBuilder">
+        <span class="has-mr-6">8</span>
+        <span>StringBuffer 和 StringBuilder</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#StringBuffer-的用法">
+        <span class="has-mr-6">8.1</span>
+        <span>StringBuffer 的用法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#使用-append-追加字符串">
+        <span class="has-mr-6">8.1.1</span>
+        <span>使用 append 追加字符串</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-reverse-进行反转">
+        <span class="has-mr-6">8.1.2</span>
+        <span>使用 reverse 进行反转</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-delete-删除字符串中间的字符">
+        <span class="has-mr-6">8.1.3</span>
+        <span>使用 delete 删除字符串中间的字符</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-insert-插入">
+        <span class="has-mr-6">8.1.4</span>
+        <span>使用 insert 插入</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用-replace-取代">
+        <span class="has-mr-6">8.1.5</span>
+        <span>使用 replace 取代</span>
+        </a></li></ul></li></ul></li></ul>
             </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/4e34dae4.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（九）异常">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time></div>
-                    <a href="/post/4e34dae4.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（九）异常</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/a0972c39.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spring（九）SpringBoot 双数据源">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-27T10:50:18.000Z">2019-11-27</time></div>
-                    <a href="/post/a0972c39.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spring（九）SpringBoot 双数据源</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/7d5810ff.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（八）General Programming">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-25T13:55:19.000Z">2019-11-25</time></div>
-                    <a href="/post/7d5810ff.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（八）General Programming</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/post/387fb533.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Effective Java（七）方法">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time></div>
-                    <a href="/post/387fb533.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Effective Java（七）方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
+        </div>
     </div>
-</div>
+
     
         <div class="card widget">
     <div class="card-content">
@@ -998,23 +935,45 @@
         <ul class="menu-list">
         
             <li>
-                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
-                    <span class="level-left">
-                        <span class="level-item">Baron Schwartz</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">www.xaprb.com</span>
-                    </span>
-                </a>
-            </li>
-        
-            <li>
                 <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
                     <span class="level-left">
                         <span class="level-item">我没有三颗心脏</span>
                     </span>
                     <span class="level-right">
                         <span class="level-item tag">www.wmyskxz.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.cnblogs.com/vamei/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Vamei</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.cnblogs.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.celesteheadlee.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">celesteheadlee</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.celesteheadlee.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Baron Schwartz</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.xaprb.com</span>
                     </span>
                 </a>
             </li>
@@ -1044,6 +1003,11 @@
                 &copy; 2020 Jerry Sheh&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_uv">
+                共<span id="busuanzi_value_site_uv">0</span>个访客
+                </span>
                 
                 </p>
             </div>
