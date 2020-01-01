@@ -1,8 +1,7 @@
 ---
 title: silver lining
 categories: 生活
-tags:
-  - 电影
+tags: 电影
 abbrlink: 745782bb
 date: 2018-01-01 14:18:19
 ---
