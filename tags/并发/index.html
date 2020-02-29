@@ -166,12 +166,6 @@
 </blockquote>
 <p>在并发编程中，我们可能需要创建许多个线程来执行任务，这些线程频繁地被创建、执行，然后又销毁，这个过程的开销是比较大的。能不能弄一个像池子一样的线程池，线程统一创建，需要执行任务时从线程池里取一个线程来执行，执行完把线程放回去。</p>
 <p>但是在聊线程池之前，得先从Java的异步任务讲起。</p>
-<hr>
-<h1 id="Callable"><a href="#Callable" class="headerlink" title="Callable"></a>Callable</h1><p>Runnable 用于一个异步执行的任务，没有参数和返回值。Callable 与 Runnable 类似，区别是，Callable有返回值，且可以抛出异常。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> java.util.concurrent;</span><br><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Callable</span>&lt;<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Computes a result, or throws an exception if unable to do so.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> computed result</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Exception if unable to compute a result</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">V <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>无论是 Runnable 还是 Callable，想要放到独立的线程中去运行，都是需要借助 Thread 类的。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Thread(callable).start();</span><br></pre></td></tr></table></figure>
         </div>
         
         

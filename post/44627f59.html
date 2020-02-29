@@ -10,16 +10,16 @@
 <title>Java简明笔记（十五）Java NIO - J.e</title>
 
 
-    <meta name="description" content="什么是 Java NIOJava NIO， N 可以理解为 New ，也可以理解为 Non-blocking ，是 Java 1.4 之后新的一套区别于标准 Java IO 和 Java Networking 的 API 。 面向 Channels 和 Buffers普通的IO，面向的是 byte streams（字节流，如FileOutputStream） 和 character streams">
+    <meta name="description" content="什么是 Java NIOJava NIO， N 可以理解为 New ，也可以理解为 Non-blocking ，是 Java 1.4 之后新的一套区别于标准 Java IO 和 Java Networking 的 API 。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java简明笔记（十五）Java NIO">
 <meta property="og:url" content="https://jerrysheh.me/post/44627f59.html">
 <meta property="og:site_name" content="J.e">
-<meta property="og:description" content="什么是 Java NIOJava NIO， N 可以理解为 New ，也可以理解为 Non-blocking ，是 Java 1.4 之后新的一套区别于标准 Java IO 和 Java Networking 的 API 。 面向 Channels 和 Buffers普通的IO，面向的是 byte streams（字节流，如FileOutputStream） 和 character streams">
+<meta property="og:description" content="什么是 Java NIOJava NIO， N 可以理解为 New ，也可以理解为 Non-blocking ，是 Java 1.4 之后新的一套区别于标准 Java IO 和 Java Networking 的 API 。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2018-09-07T12:47:06.000Z">
-<meta property="article:modified_time" content="2019-09-22T14:04:00.726Z">
+<meta property="article:modified_time" content="2020-02-29T09:47:49.831Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
@@ -163,6 +163,8 @@
         </h1>
         <div class="content">
             <h1 id="什么是-Java-NIO"><a href="#什么是-Java-NIO" class="headerlink" title="什么是 Java NIO"></a>什么是 Java NIO</h1><p>Java NIO， N 可以理解为 New ，也可以理解为 Non-blocking ，是 Java 1.4 之后新的一套区别于标准 Java IO 和 Java Networking 的 API 。</p>
+<a id="more"></a>
+
 <h2 id="面向-Channels-和-Buffers"><a href="#面向-Channels-和-Buffers" class="headerlink" title="面向 Channels 和 Buffers"></a>面向 Channels 和 Buffers</h2><p>普通的IO，面向的是 byte streams（字节流，如FileOutputStream） 和 character streams（字符流，如FileReader），但是 NIO 面向的是 channels 和 buffers 。对于 Channel 来说，数据总是从 channel 写进 buffer 里，然后 Java 从 buffer 取出使用，或者 channel 读 buffer 里的数据，传输到外界。</p>
 <p><img src="../../../../images/Java/channel_buffer.png" alt="channel_buffer"></p>
 <p>Channel 有点像流（Stream），在 Java NIO 中，有以下几种 channel：</p>
@@ -182,8 +184,6 @@
 <li>LongBuffer</li>
 <li>ShortBuffer</li>
 </ul>
-<a id="more"></a>
-
 <blockquote>
 <p>事实上，还有一个 MappedByteBuffer ，但是这里不展开讲。</p>
 </blockquote>

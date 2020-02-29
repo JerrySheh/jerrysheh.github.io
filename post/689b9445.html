@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2018-02-04T16:27:20.000Z">
-<meta property="article:modified_time" content="2019-09-22T14:04:00.559Z">
+<meta property="article:modified_time" content="2020-02-29T09:52:07.379Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
@@ -168,6 +168,8 @@
 <p>在 Java9 中，将 char 数组优化成了 byte 数组。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">byte</span> value[];</span><br></pre></td></tr></table></figure>
 
+<a id="more"></a>
+
 <h2 id="为什么要将-char-改成-byte-？"><a href="#为什么要将-char-改成-byte-？" class="headerlink" title="为什么要将 char[] 改成 byte[] ？"></a>为什么要将 char[] 改成 byte[] ？</h2><p>char 占用16位，即两字节。每个 byte 占用8位，即1字节。如果我们要存储字符A，则为0x00 0x41，用 char 的话，前面的一个字节空间浪费了。</p>
 <h2 id="为什么要设计成不可变类-？-优缺点？"><a href="#为什么要设计成不可变类-？-优缺点？" class="headerlink" title="为什么要设计成不可变类 ？ 优缺点？"></a>为什么要设计成不可变类 ？ 优缺点？</h2><ul>
 <li><strong>优点</strong>：只读，所以 <strong>多线程并发访问也不会有任何问题</strong>。</li>
@@ -180,8 +182,6 @@
 <li><strong>类加载器要用到字符串</strong>，不可变性提供了安全性，以便正确的类被加载。</li>
 <li><strong>支持hash映射和缓存</strong><br>因为字符串是不可变的，所以在它创建的时候hashcode就被缓存了，不需要重新计算。这就使得字符串很适合作为Map中的键，字符串的处理速度要快过其它的键对象。这就是HashMap中的键往往都使用字符串。</li>
 </ol>
-<a id="more"></a>
-
 <hr>
 <h1 id="String-str-new-String-“abc”-创建了几个对象？"><a href="#String-str-new-String-“abc”-创建了几个对象？" class="headerlink" title="String str = new String(“abc”)创建了几个对象？"></a>String str = new String(“abc”)创建了几个对象？</h1><p>答案是：最多创建2个，最少创建1个。</p>
 <p>在Java虚拟机（JVM）中存在着一个字符串池，其中保存着很多String对象，并且可以被共享使用，因此它提高了效率。<strong>由于String类是final的，它的值一经创建就不可改变</strong>，因此我们不用担心String对象共享而带来程序的混乱。</p>

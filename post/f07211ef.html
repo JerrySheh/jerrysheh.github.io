@@ -10,16 +10,16 @@
 <title>Java简明笔记（十三）JDBC - J.e</title>
 
 
-    <meta name="description" content="假设电脑已经安装有 mySQL，并在里面有一些表。现在，我们想通过 Java，来访问数据库里的表。 JDBC (Java DataBase Connection) 指的就是通过Java访问数据库。 这是我的数据库情况。  JDBC的连接首先到 mySQL 的官网，下载 Connectors&#x2F;J 驱动，下载完解压出其中的 jar 包，放到项目的依赖里（IDEA - File - Project St">
+    <meta name="description" content="假设电脑已经安装有 mySQL，并在里面有一些表。现在，我们想通过 Java，来访问数据库里的表。 JDBC (Java DataBase Connection) 指的就是通过Java访问数据库。 这是我的数据库情况。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java简明笔记（十三）JDBC">
 <meta property="og:url" content="https://jerrysheh.me/post/f07211ef.html">
 <meta property="og:site_name" content="J.e">
-<meta property="og:description" content="假设电脑已经安装有 mySQL，并在里面有一些表。现在，我们想通过 Java，来访问数据库里的表。 JDBC (Java DataBase Connection) 指的就是通过Java访问数据库。 这是我的数据库情况。  JDBC的连接首先到 mySQL 的官网，下载 Connectors&#x2F;J 驱动，下载完解压出其中的 jar 包，放到项目的依赖里（IDEA - File - Project St">
+<meta property="og:description" content="假设电脑已经安装有 mySQL，并在里面有一些表。现在，我们想通过 Java，来访问数据库里的表。 JDBC (Java DataBase Connection) 指的就是通过Java访问数据库。 这是我的数据库情况。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2018-03-20T09:59:50.000Z">
-<meta property="article:modified_time" content="2019-10-09T15:11:37.202Z">
+<meta property="article:modified_time" content="2020-02-29T09:49:00.882Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
@@ -166,14 +166,14 @@
 <p>JDBC (Java DataBase Connection) 指的就是通过Java访问数据库。</p>
 <p>这是我的数据库情况。</p>
 <p><img src="../../../../images/Java/JDBC.png" alt=""></p>
+<a id="more"></a>
+
 <h1 id="JDBC的连接"><a href="#JDBC的连接" class="headerlink" title="JDBC的连接"></a>JDBC的连接</h1><p>首先到 mySQL 的官网，下载 <a href="https://dev.mysql.com/downloads/connector/j/">Connectors/J 驱动</a>，下载完解压出其中的 jar 包，放到项目的依赖里（IDEA - File - Project Structure - Modules - Dependencies - “+”  选择刚刚解压的jar文件）。</p>
 <h2 id="初始化驱动"><a href="#初始化驱动" class="headerlink" title="初始化驱动"></a>初始化驱动</h2><p>在Java中，使用 <code>Class.forName</code>来初始化驱动（这一步在 jdk 1.6 以后已经不是必须）</p>
 <h2 id="建立数据库连接"><a href="#建立数据库连接" class="headerlink" title="建立数据库连接"></a>建立数据库连接</h2><p>建立与数据库的Connection连接，是通过 <code>DriverManager</code> 类的<code>getConnection</code>方法来实现的，因此首先要创建一个<code>Connection</code>实例。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Connection c = DriverManager.getConnection(url,user,psw);</span><br></pre></td></tr></table></figure>
 
 <p><code>getConnection</code>方法接收三个参数，连接地址，用户名、密码。或者接收一个参数连接地址，该连接地址里已经URL构造了用户名和密码。</p>
-<a id="more"></a>
-
 <p>连接地址需要提供：</p>
 <ul>
 <li><strong>数据库所处于的ip</strong>：127.0.0.1 (本机)</li>

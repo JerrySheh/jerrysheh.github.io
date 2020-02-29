@@ -198,7 +198,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    22 分钟 读完 (大约 3264 个字)
+                    22 分钟 读完 (大约 3281 个字)
                 </span>
                 
                 
@@ -218,101 +218,6 @@
 <li>java不支持goto语句</li>
 <li><strong>引用与指针</strong>：在Java中不可能直接操作对象本身，所有的对象都由一个引用指向，必须通过这个引用才能访问对象本身，包括获取成员变量的值，改变对象的成员变量，调用对象的方法等。而在 C++ 中存在引用，对象和指针三个东西，这三个东西都可以访问对象。其实，Java中的引用和C++中的指针在概念上是相似的，他们都是存放的对象在内存中的地址值，只是在Java中，引用丧失了部分灵活性，比如 Java 中的引用不能像 C++ 中的指针那样进行加减运算。</li>
 </ol>
-<hr>
-<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><p>在 Java 中，数据类型分为两类：<strong>基本数据类型（primitive type）</strong> 和 <strong>引用类型（reference type）</strong>。</p>
-<h2 id="八（九）种基本数据类型"><a href="#八（九）种基本数据类型" class="headerlink" title="八（九）种基本数据类型"></a>八（九）种基本数据类型</h2><table>
-<thead>
-<tr>
-<th>基本类型</th>
-<th>大小(字节)</th>
-<th>默认值</th>
-<th>封装类</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>byte</td>
-<td>1</td>
-<td>(byte)0</td>
-<td>Byte</td>
-</tr>
-<tr>
-<td>short</td>
-<td>2</td>
-<td>(short)0</td>
-<td>Short</td>
-</tr>
-<tr>
-<td>int</td>
-<td>4</td>
-<td>0</td>
-<td>Integer</td>
-</tr>
-<tr>
-<td>long</td>
-<td>8</td>
-<td>0L</td>
-<td>Long</td>
-</tr>
-<tr>
-<td>float</td>
-<td>4</td>
-<td>0.0f</td>
-<td>Float</td>
-</tr>
-<tr>
-<td>double</td>
-<td>8</td>
-<td>0.0d</td>
-<td>Double</td>
-</tr>
-<tr>
-<td>boolean</td>
-<td>-</td>
-<td>false</td>
-<td>Boolean</td>
-</tr>
-<tr>
-<td>char</td>
-<td>2</td>
-<td>\u0000(null)</td>
-<td>Character</td>
-</tr>
-<tr>
-<td>void</td>
-<td>-</td>
-<td>-</td>
-<td>Void</td>
-</tr>
-</tbody></table>
-<ul>
-<li>在数字后面加 L 后缀即表示long类型（如 <code>400000000L</code>），在数字前面类型转换即可表示Byte或short类型 （如 <code>(byte)127</code>）</li>
-<li>在浮点数后面加 f 后缀表示 float，否则默认为double</li>
-<li>关于 void，有些书认为不属于基本数据类型，虽然 Java api 中并未说明，但有些书籍如《Thinking in Java》将其也划进去。</li>
-</ul>
-<h2 id="数据类型转换"><a href="#数据类型转换" class="headerlink" title="数据类型转换"></a>数据类型转换</h2><p>数据类型转换分为 <strong>自动转换</strong> 和 <strong>强制转换</strong>。</p>
-<h3 id="自动转换"><a href="#自动转换" class="headerlink" title="自动转换"></a>自动转换</h3><p>程序在执行过程中 “悄然” 进行的转换，不需要用户提前声明，<font color="red">一般是从位数低的类型向位数高的类型转换。</font></p>
-<p>Java中的 byte，short，char 进行计算时都会提升为 int 类型。</p>
-<p>int &lt; long &lt; float &lt; double， 如果有一个操作数是 double 型，计算结果是double型。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">byte</span> b = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">short</span> s = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">int</span> i = b + s; <span class="comment">// b 和 s 会自动转换为 int</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> d = i + <span class="number">3.0</span>; <span class="comment">// i 会被自动转换为 double</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="强制转换"><a href="#强制转换" class="headerlink" title="强制转换"></a>强制转换</h3><p>必须在代码中声明，转换顺序不受限制。使用 括号（） 来声明要转换的类型。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Person p = <span class="keyword">new</span> Student();</span><br><span class="line">Student s = (Student) p;</span><br></pre></td></tr></table></figure>
-
-<h2 id="基本数据类型的-操作"><a href="#基本数据类型的-操作" class="headerlink" title="基本数据类型的 ++ 操作"></a>基本数据类型的 ++ 操作</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> j = i++;</span><br><span class="line">    System.out.println(<span class="string">"i: "</span> + i);</span><br><span class="line">    System.out.println(<span class="string">"j: "</span>+ j);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> m = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> n = ++m;</span><br><span class="line">    System.out.println(<span class="string">"m: "</span> + m);</span><br><span class="line">    System.out.println(<span class="string">"n: "</span>+ n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">i: 1</span><br><span class="line">j: 0</span><br><span class="line">m: 1</span><br><span class="line">n: 1</span><br></pre></td></tr></table></figure>
-
-<p>这个例子中，<code>i++</code> 先把 i 的值赋给 j，然后 i 自增。</p>
-<p><code>++m</code>，先把 m + 1 的值赋给 n， 然后 m 自增。</p>
-<p>也就是说，无论是 <code>i++</code> 还是 <code>++i</code> ，都是先赋值，后自增。</p>
-<h2 id="左移右移"><a href="#左移右移" class="headerlink" title="左移右移"></a>左移右移</h2><ul>
-<li><code>&lt;&lt;</code>表示左移位</li>
-<li><code>&gt;&gt;</code>表示带符号右移位</li>
-<li><code>&gt;&gt;&gt;</code>表示无符号右移</li>
-<li>没有 <code>&lt;&lt;&lt;</code> 运算符</li>
-</ul>
-<p>右移要特别注意一下，由于计算机数据位以补码表示，正数符号位位0，负数符号位位1，因此，正数的右移（&gt;&gt;）前面补0，负数的右移（&gt;&gt;）前面补1。但是，如果是无符号右移（&gt;&gt;&gt;），符号位失去特权，一律补0。</p>
         </div>
         
         
