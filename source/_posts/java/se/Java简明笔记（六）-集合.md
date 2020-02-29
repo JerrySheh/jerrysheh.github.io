@@ -18,6 +18,8 @@ Java集合主要可以划分为三个部分：
 2. Map （键值对）
 3. 工具类（Iterator迭代器、Enumeration枚举类、Arrays和VCollections）
 
+<!-- more -->
+
 Java的集合类主要由两个接口派生而来：**Collection** 和 **Map** ，这两个是集合框架的根接口，这两个接口又包含了一些 **子接口** 或 **实现类** 。如下图：
 
 ![collection](../../../../images/Java/collection.jpg)

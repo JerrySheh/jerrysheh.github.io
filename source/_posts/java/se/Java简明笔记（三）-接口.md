@@ -23,6 +23,8 @@ public static double average(IntSequence seq, int n){
 
 然而，这样的序列可以有很多种形式，比如用户给出的序列、随机数序列、素数序列、整数数组中的元素序列......
 
+<!-- more -->
+
 现在，我们想实现一种单一机制，来处理所有的这些序列。要做到这一点，就得考虑上面序列的共性。
 
 不难知道，我们需要两个方法。
@@ -52,9 +54,7 @@ public interface IntSequence{
 }
 ```
 
-* 接口中所有的方法默认为public
-
-<!-- more -->
+- 接口中所有的方法默认为public
 
 ---
 

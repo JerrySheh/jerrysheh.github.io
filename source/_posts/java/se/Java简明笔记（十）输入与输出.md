@@ -28,6 +28,8 @@ List<String> words = Arrays.asList(contents.split("\\PL+"));
 List<String> lines = Files.readAllLines(path, charset);
 ```
 
+<!-- more -->
+
 或者按流处理
 
 ```

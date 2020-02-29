@@ -11,6 +11,8 @@ date: 2019-06-04 11:21:31
 
 注解是一种标记。在 Java 中，随处可见`@Override`、`@Deprecated`这样的注解。说实话，Java的注解经常不被重视，以至于学习的时候习惯性略过。在学了Spring框架后发现Spring使用了大量的注解来简化开发和配置，回过头来才发现注解的魅力。
 
+<!-- more -->
+
 插句题外话，一开始让我感受到注解的强大和优雅的，不是Java，而是在学习 Python 时遇到的 **decorator**，如下：
 
 ```python
@@ -44,8 +46,6 @@ public class ProductService {
 只需使用`@Service`标记，就能让框架知道这是一个MVC中的Service，只需通过`@Autowired` 就能实现在Service中自动注入一个mapper组件。
 
 这到底是什么魔法？
-
-<!-- more -->
 
 ---
 

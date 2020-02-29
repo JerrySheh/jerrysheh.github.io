@@ -15,6 +15,8 @@ JDBC (Java DataBase Connection) 指的就是通过Java访问数据库。
 
 ![](../../../../images/Java/JDBC.png)
 
+<!-- more -->
+
 # JDBC的连接
 
 首先到 mySQL 的官网，下载 [Connectors/J 驱动](https://dev.mysql.com/downloads/connector/j/)，下载完解压出其中的 jar 包，放到项目的依赖里（IDEA - File - Project Structure - Modules - Dependencies - "+"  选择刚刚解压的jar文件）。
@@ -32,8 +34,6 @@ Connection c = DriverManager.getConnection(url,user,psw);
 ```
 
 `getConnection`方法接收三个参数，连接地址，用户名、密码。或者接收一个参数连接地址，该连接地址里已经URL构造了用户名和密码。
-
-<!-- more -->
 
 连接地址需要提供：
 

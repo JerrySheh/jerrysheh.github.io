@@ -11,6 +11,8 @@ date: 2018-09-07 20:47:06
 
 Java NIO， N 可以理解为 New ，也可以理解为 Non-blocking ，是 Java 1.4 之后新的一套区别于标准 Java IO 和 Java Networking 的 API 。
 
+<!-- more -->
+
 ## 面向 Channels 和 Buffers
 
 普通的IO，面向的是 byte streams（字节流，如FileOutputStream） 和 character streams（字符流，如FileReader），但是 NIO 面向的是 channels 和 buffers 。对于 Channel 来说，数据总是从 channel 写进 buffer 里，然后 Java 从 buffer 取出使用，或者 channel 读 buffer 里的数据，传输到外界。
@@ -33,8 +35,6 @@ Channel 有点像流（Stream），在 Java NIO 中，有以下几种 channel：
 - IntBuffer
 - LongBuffer
 - ShortBuffer
-
-<!-- more -->
 
 > 事实上，还有一个 MappedByteBuffer ，但是这里不展开讲。
 

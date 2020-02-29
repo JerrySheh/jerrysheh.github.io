@@ -15,6 +15,8 @@ date: 2019-06-05 00:25:54
 
 但是在聊线程池之前，得先从Java的异步任务讲起。
 
+<!--more-->
+
 ---
 
 
@@ -41,8 +43,6 @@ public interface Callable<V> {
 ```java
 new Thread(callable).start();
 ```
-
-<!--more-->
 
 ---
 

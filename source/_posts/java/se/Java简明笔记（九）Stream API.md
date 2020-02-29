@@ -15,6 +15,8 @@ Java 中的 Stream 提供了数据源，让你可以在比集合类更高的概�
 
 流的来源，可以是集合，数组，I/O channel， 生成器（generator）等。流的聚合操作类似 SQL 语句，比如filter, map, reduce, find, match, sorted等。
 
+<!-- more -->
+
 ## 从迭代到 Stream 操作
 
 假设现在有一本电子书`alice.txt`在我们的硬盘里，我们想统计这本书中所有的长单词（超过12个字母），我们可以用迭代的方法。

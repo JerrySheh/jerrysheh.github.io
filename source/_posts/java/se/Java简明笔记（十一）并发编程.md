@@ -22,6 +22,8 @@ thread.start();
 
 但是我们总得指定线程做一些事，可以用两种方式来指定。
 
+<!-- more -->
+
 ## 方式一：继承 Thread 类
 
 ```java
@@ -52,8 +54,6 @@ MyRunnable myRun = new MyRunnable();
 Thread thread = new Thread(myRun， "第二个参数指定线程名字");
 thread.start();
 ```
-
-<!-- more -->
 
 ### 匿名类或lambda表达式方式
 
