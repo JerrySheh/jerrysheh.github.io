@@ -128,6 +128,104 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-03-03T12:41:48.000Z">2019-03-03</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 分钟 读完 (大约 2009 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/65a27c74.html">数据库（五）Oracle 和 MySQL 的一些区别</a>
+            
+        </h1>
+        <div class="content">
+            <p>团队最近正在计划将项目从 Oracle 数据库迁移到 MySQL，特此整理一份 Oracle 字段、函数、建表语句的差异。</p>
+<h1 id="字段差异"><a href="#字段差异" class="headerlink" title="字段差异"></a>字段差异</h1><h2 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h2><p>在 Oracle 中，数字统一使用 NUMBER(m) ，NUMBER(6) 最大值为 999999 ，NUMBER(6,2) 最大值为 9999.99，如果不指定m值，直接写 NUMBER，则默认为浮点数，精度根据实际情况。</p>
+<p>在 MySQL 中，整数分为 tinyint、smallint、mediumint、int 和 bigint 五种，区别如下：</p>
+<table>
+<thead>
+<tr>
+<th align="left">整数类型</th>
+<th align="left">字节数</th>
+<th align="left">比特数</th>
+<th align="left">取值范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">tinytint</td>
+<td align="left">1字节</td>
+<td align="left">8 bit (2^8)</td>
+<td align="left">-128 到 127</td>
+</tr>
+<tr>
+<td align="left">smallint</td>
+<td align="left">2字节</td>
+<td align="left">16 bit (2^16)</td>
+<td align="left">-32768 到 32767</td>
+</tr>
+<tr>
+<td align="left">mediumint</td>
+<td align="left">3字节</td>
+<td align="left">24 bit (2^24)</td>
+<td align="left">-8388608 到 8388607</td>
+</tr>
+<tr>
+<td align="left">int</td>
+<td align="left">4字节</td>
+<td align="left">32 bit (2^32)</td>
+<td align="left">-2147483648 到    2147483647</td>
+</tr>
+<tr>
+<td align="left">bigint</td>
+<td align="left">8字节</td>
+<td align="left">64 bit (2^64)</td>
+<td align="left">-9223372036854775808 到    9223372036854775807</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>在 MySQL 中，int(4) 表示 zerofill 为 4，实际上是可以插入大于 4 位的数值比如 12345，只不过，当不足 4 位的时候，在左边会填充 0 ，例如对于 int(4)， 插入 123，显示的是 0123， 对于 int(5)，插入 123，显示的是 00123。</p>
+</blockquote>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/65a27c74.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-01-13T15:18:46.000Z">2019-01-13</time>
                 
                 <div class="level-item">
@@ -554,65 +652,6 @@
 
 
 
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-10-30T07:08:26.000Z">2018-10-30</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    21 分钟 读完 (大约 3143 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/a23f9c20.html">Java并发编程之并发工具</a>
-            
-        </h1>
-        <div class="content">
-            <p>Java自带的平台类库（java.util.concurrent）里面包含了很多有用的工具，来帮助我们更好地处理并发问题。这一篇主要介绍一下几类工具：</p>
-<ol>
-<li><strong>atomic原子类</strong>：AtomicLong</li>
-<li><strong>同步容器类</strong>：Vector、Hashtable</li>
-<li><strong>并发容器类</strong>：concurrentHashMap、ConcurrentLinkedQueue、BlockingQueue（阻塞队列）</li>
-<li><strong>并发工具类</strong>：闭锁（Latch）、栅栏（Barrier）、信号量（Semaphore）</li>
-</ol>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/a23f9c20.html#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -687,7 +726,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            157
+                            158
                         </p>
                     </a>
                 </div>
@@ -807,7 +846,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">24</span>
+                <span class="level-item tag">25</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">

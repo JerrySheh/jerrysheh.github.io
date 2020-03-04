@@ -128,6 +128,62 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-04T15:22:38.000Z">2020-03-04</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    7 分钟 读完 (大约 1020 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/7c78488a.html">聊聊JDBC批量数据处理</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="问题来源"><a href="#问题来源" class="headerlink" title="问题来源"></a>问题来源</h1><p>最近接手了一个生产问题，一个定时任务（JOB）报内存溢出。看了下代码反推逻辑，发现需求很简单，根据mysql库table表中的type字段，去更新level字段。</p>
+<p>表 <code>table</code> 共有1800万数据，其中符合 <code>type = P</code> 的有80万。</p>
+<p>定时任务是纯 JDBC 写的，没有用第三方框架，那为什么内存溢出呢？看了下代码，这货竟然是先用 SELECT 把 <code>type = P</code> 的所有ID取到应用的 List 里面，再循环遍历 List 根据 ID 一个个去做 update。这80万个ID一下子涌进内存，不OOM才怪呢，查SVN提交记录，查注释，发现这代码竟然是2013年写的，可能是当年数据量还没这么大，没有长远考虑吧，好吧，反正这种祖传代码，想找人理论也死无对证了。</p>
+<p>那要怎么改呢？</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/7c78488a.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2020-01-01T12:20:28.000Z">2020-01-01</time>
                 
                 <div class="level-item">
@@ -505,59 +561,6 @@
 
 
 
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-10-18T13:38:49.000Z">2019-10-18</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Effective-Java/">Effective Java</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    6 分钟 读完 (大约 868 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/53a4cf82.html">Effective Java（四）泛型</a>
-            
-        </h1>
-        <div class="content">
-            <p>Java 5 加入了泛型。在有泛型之前，你必须转换从集合中读取的每个对象。如果有人不小心插入了错误类型的对象，则在运行时可能会失败。使用泛型，你告诉编译器在集合中允许存放哪些类型的对象。编译器会自动插入强制转换，并在编译时告诉你是否尝试插入错误类型的对象。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/53a4cf82.html#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -626,7 +629,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            157
+                            158
                         </p>
                     </a>
                 </div>
@@ -746,7 +749,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">24</span>
+                <span class="level-item tag">25</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java-Web/">
