@@ -35,10 +35,6 @@ WHERE type = 'P'
 
 而本次的需求 SELECT 和 UPDATE 都是在同一张表，stream流处理会在传递的数据的过程中，锁住相应的数据行，导致无法 UPDATE 。所以这种方式不适合。
 
-# 使用游标
-
-理论上，使用游标是可以的。但是查阅很多资料都说 MySQL 的server size游标性能很差，上面的文章也提到会对IO和CPU有一定影响。所以先用作备选方案，没有更好的方法时才采用。
-
 # 应用层分页
 
 另一种实现方式是在应用层手动分页
@@ -60,9 +56,9 @@ WHERE id in (id1, id2, id3 ...)
 
 这种方式可行，至少不会一个SQL把表锁了，只会锁行。符合我们的要求。但显然，这种方式看起来也没那么高效和优雅。
 
-# 使用 ResultSet 的 updateRow
+# 使用游标和 ResultSet 的 updateRow
 
-在查了 Google 和一些文档之后，意外地发现 JDBC 的 ResultSet 还有 updateRow 功能。而且该功能是直接 **响应到数据库** 的。实现起来既简单方便，又满足我们的要求，最终决定采用这种方式了。
+在查了 Google 和一些文档之后，意外地发现 JDBC 的 ResultSet 还有 updateRow 功能。而且该功能是直接 **响应到数据库** 的。实现起来既简单方便，又满足我们的要求，最终决定采用这种方式了。当然使用这种方式还要结合游标，因为 MySQL 默认是把所有数据取到内存后才开始处理，还是会内存溢出，所以需要游标让 MySQL 分批返回。
 
 代码如下：
 
@@ -70,6 +66,7 @@ WHERE id in (id1, id2, id3 ...)
 Connection conn = DButils.getConnection();
 PreparedStatement ps = conn.prepareStatement("SELECT id, level FROM table WHERE type = 'P'",
         ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+ps.setFetchSize(1000);
 ResultSet rs = ps.executeQuery();
 conn.setAutoCommit(false);
 int i = 0;
@@ -88,3 +85,4 @@ Tips：
 1. 默认ResultSet是不允许修改的，prepareStatement第三个参数让JDBC使用可修改模式；
 2. 实践表明，关闭自动提交，每1000条手动提交一次，效率更高；
 3. 这种方式在 SELECT 中必须包含 primary key，否则会报错。
+4. 使用游标，需要在连接加 `useCursorFetch=true` 参数
