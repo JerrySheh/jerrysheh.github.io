@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2020-03-04T15:22:38.000Z">
-<meta property="article:modified_time" content="2020-03-04T16:29:49.909Z">
+<meta property="article:modified_time" content="2020-03-05T14:09:07.181Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
@@ -143,7 +143,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    7 分钟 读完 (大约 1020 个字)
+                    7 分钟 读完 (大约 1019 个字)
                 </span>
                 
                 
@@ -173,7 +173,6 @@
 <p>看似没毛病，但是 table 是个1800万数据的大表，这个update语句在测试环境执行了7分多钟。而且 type 字段也没有索引，这意味着，在执行这个语句期间，MySQL Innodb会锁表，而不是锁行。如果应用或者其他定时任务也写该表，就会造成锁等待，严重的话，等待超时引发应用或其他定时任务报错。</p>
 <h1 id="stream流处理"><a href="#stream流处理" class="headerlink" title="stream流处理"></a>stream流处理</h1><p>之前做定时任务的开发，一般都是先 SELECT A表数据，再 INSERT 到 B表。当 SELECT 的数据量过大，为了防止内存溢出导致OOM ，在 Oracle 里面常用 <code>setFetchSize(5000)</code> 来做游标查询，在 <code>while(rs.next())</code> 循环中，用 <code>addBatch()</code>、<code>executeBatch()</code> 的方式手动分批提交。在 MySQL 里面推荐stream流处理（当然游标也行）。具体的差异 <a href="https://blog.csdn.net/xieyuooo/article/details/83109971">MySQL JDBC StreamResult通信原理浅析</a> 这篇文章讲得很好，可以参考。</p>
 <p>而本次的需求 SELECT 和 UPDATE 都是在同一张表，stream流处理会在传递的数据的过程中，锁住相应的数据行，导致无法 UPDATE 。所以这种方式不适合。</p>
-<h1 id="使用游标"><a href="#使用游标" class="headerlink" title="使用游标"></a>使用游标</h1><p>理论上，使用游标是可以的。但是查阅很多资料都说 MySQL 的server size游标性能很差，上面的文章也提到会对IO和CPU有一定影响。所以先用作备选方案，没有更好的方法时才采用。</p>
 <h1 id="应用层分页"><a href="#应用层分页" class="headerlink" title="应用层分页"></a>应用层分页</h1><p>另一种实现方式是在应用层手动分页</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> <span class="keyword">table</span></span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">type</span> = <span class="string">'P'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="keyword">id</span></span><br><span class="line"><span class="keyword">limit</span> x,y</span><br></pre></td></tr></table></figure>
 
@@ -181,15 +180,16 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> <span class="keyword">table</span></span><br><span class="line"><span class="keyword">SET</span> <span class="keyword">level</span> = <span class="string">'0'</span></span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">id</span> <span class="keyword">in</span> (id1, id2, id3 ...)</span><br></pre></td></tr></table></figure>
 
 <p>这种方式可行，至少不会一个SQL把表锁了，只会锁行。符合我们的要求。但显然，这种方式看起来也没那么高效和优雅。</p>
-<h1 id="使用-ResultSet-的-updateRow"><a href="#使用-ResultSet-的-updateRow" class="headerlink" title="使用 ResultSet 的 updateRow"></a>使用 ResultSet 的 updateRow</h1><p>在查了 Google 和一些文档之后，意外地发现 JDBC 的 ResultSet 还有 updateRow 功能。而且该功能是直接 <strong>响应到数据库</strong> 的。实现起来既简单方便，又满足我们的要求，最终决定采用这种方式了。</p>
+<h1 id="使用游标和-ResultSet-的-updateRow"><a href="#使用游标和-ResultSet-的-updateRow" class="headerlink" title="使用游标和 ResultSet 的 updateRow"></a>使用游标和 ResultSet 的 updateRow</h1><p>在查了 Google 和一些文档之后，意外地发现 JDBC 的 ResultSet 还有 updateRow 功能。而且该功能是直接 <strong>响应到数据库</strong> 的。实现起来既简单方便，又满足我们的要求，最终决定采用这种方式了。当然使用这种方式还要结合游标，因为 MySQL 默认是把所有数据取到内存后才开始处理，还是会内存溢出，所以需要游标让 MySQL 分批返回。</p>
 <p>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Connection conn = DButils.getConnection();</span><br><span class="line">PreparedStatement ps = conn.prepareStatement(<span class="string">"SELECT id, level FROM table WHERE type = 'P'"</span>,</span><br><span class="line">        ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);</span><br><span class="line">ResultSet rs = ps.executeQuery();</span><br><span class="line">conn.setAutoCommit(<span class="keyword">false</span>);</span><br><span class="line"><span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> (rs.next())&#123;</span><br><span class="line">    i++;</span><br><span class="line">    rs.updateString(<span class="string">"level"</span>, <span class="string">"0"</span>);</span><br><span class="line">    rs.updateRow();</span><br><span class="line">    <span class="comment">// 每1000条提交一次，提高性能</span></span><br><span class="line">    <span class="keyword">if</span> (i%<span class="number">1000</span>==<span class="number">0</span>)&#123;</span><br><span class="line">        conn.commit();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Connection conn = DButils.getConnection();</span><br><span class="line">PreparedStatement ps = conn.prepareStatement(<span class="string">"SELECT id, level FROM table WHERE type = 'P'"</span>,</span><br><span class="line">        ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);</span><br><span class="line">ps.setFetchSize(<span class="number">1000</span>);</span><br><span class="line">ResultSet rs = ps.executeQuery();</span><br><span class="line">conn.setAutoCommit(<span class="keyword">false</span>);</span><br><span class="line"><span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> (rs.next())&#123;</span><br><span class="line">    i++;</span><br><span class="line">    rs.updateString(<span class="string">"level"</span>, <span class="string">"0"</span>);</span><br><span class="line">    rs.updateRow();</span><br><span class="line">    <span class="comment">// 每1000条提交一次，提高性能</span></span><br><span class="line">    <span class="keyword">if</span> (i%<span class="number">1000</span>==<span class="number">0</span>)&#123;</span><br><span class="line">        conn.commit();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>Tips：</p>
 <ol>
 <li>默认ResultSet是不允许修改的，prepareStatement第三个参数让JDBC使用可修改模式；</li>
 <li>实践表明，关闭自动提交，每1000条手动提交一次，效率更高；</li>
 <li>这种方式在 SELECT 中必须包含 primary key，否则会报错。</li>
+<li>使用游标，需要在连接加 <code>useCursorFetch=true</code> 参数</li>
 </ol>
 
         </div>
@@ -527,17 +527,13 @@
         <span class="has-mr-6">3</span>
         <span>stream流处理</span>
         </a></li><li>
-        <a class="is-flex" href="#使用游标">
-        <span class="has-mr-6">4</span>
-        <span>使用游标</span>
-        </a></li><li>
         <a class="is-flex" href="#应用层分页">
-        <span class="has-mr-6">5</span>
+        <span class="has-mr-6">4</span>
         <span>应用层分页</span>
         </a></li><li>
-        <a class="is-flex" href="#使用-ResultSet-的-updateRow">
-        <span class="has-mr-6">6</span>
-        <span>使用 ResultSet 的 updateRow</span>
+        <a class="is-flex" href="#使用游标和-ResultSet-的-updateRow">
+        <span class="has-mr-6">5</span>
+        <span>使用游标和 ResultSet 的 updateRow</span>
         </a></li></ul>
             </div>
         </div>
@@ -634,17 +630,13 @@
         <span class="has-mr-6">3</span>
         <span>stream流处理</span>
         </a></li><li>
-        <a class="is-flex" href="#使用游标">
-        <span class="has-mr-6">4</span>
-        <span>使用游标</span>
-        </a></li><li>
         <a class="is-flex" href="#应用层分页">
-        <span class="has-mr-6">5</span>
+        <span class="has-mr-6">4</span>
         <span>应用层分页</span>
         </a></li><li>
-        <a class="is-flex" href="#使用-ResultSet-的-updateRow">
-        <span class="has-mr-6">6</span>
-        <span>使用 ResultSet 的 updateRow</span>
+        <a class="is-flex" href="#使用游标和-ResultSet-的-updateRow">
+        <span class="has-mr-6">5</span>
+        <span>使用游标和 ResultSet 的 updateRow</span>
         </a></li></ul>
             </div>
         </div>
