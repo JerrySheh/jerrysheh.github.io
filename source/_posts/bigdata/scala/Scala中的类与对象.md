@@ -2,7 +2,9 @@
 title: Scala中的类与对象
 comments: true
 abbrlink: 230ce50d
-categories: 大数据
+categories:
+- 大数据
+- Scala
 tags:
   - 大数据
   - Scala

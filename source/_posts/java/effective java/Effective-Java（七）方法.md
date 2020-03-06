@@ -3,7 +3,9 @@ title: Effective Java（七）方法
 comments: true
 abbrlink: 387fb533
 date: 2019-11-22 21:39:53
-categories: Effective Java
+categories:
+- Java
+- Effective Java
 tags: Java
 ---
 

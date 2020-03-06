@@ -3,7 +3,9 @@ title: Spring（三）Spring MVC
 comments: true
 abbrlink: 1459f5bc
 date: 2018-04-18 17:09:56
-categories: Spring
+categories:
+- Java Web
+- Spring
 tags:
  - Java
  - Web

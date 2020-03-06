@@ -1,7 +1,9 @@
 ---
 title: Spring（八）SpringBoot 集成 JPA
 comments: true
-categories: Spring
+categories:
+- Java Web
+- Spring
 tags:
   - Java
   - Web

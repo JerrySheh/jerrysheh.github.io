@@ -1,7 +1,9 @@
 ---
 title: Java中的回调机制
 comments: true
-categories: Java
+categories:
+- Java
+- Java SE
 tags: Java
 abbrlink: 98aa81f1
 date: 2018-06-09 09:39:26

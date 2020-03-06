@@ -1,7 +1,9 @@
 ---
 title: Spark中的数据读写
 comments: true
-categories: 大数据
+categories:
+- 大数据
+- Spark
 tags: 大数据
 abbrlink: e884ae58
 date: 2018-06-21 14:05:40

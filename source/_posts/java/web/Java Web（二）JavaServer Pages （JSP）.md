@@ -1,7 +1,9 @@
 ---
 title: 'Java Web（二）JavaServer Pages （JSP） '
 comments: true
-categories: Java Web
+categories:
+- Java Web
+- Web
 tags:
  - Java
  - Web

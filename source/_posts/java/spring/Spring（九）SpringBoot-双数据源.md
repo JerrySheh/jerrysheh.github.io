@@ -1,6 +1,8 @@
 ---
 title: Spring（九）SpringBoot 双数据源
-categories: Spring
+categories:
+- Java Web
+- Spring
 tags:
   - Java
   - Web

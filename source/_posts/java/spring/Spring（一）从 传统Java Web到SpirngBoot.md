@@ -1,7 +1,9 @@
 ---
 title: Spring（一）从传统Java Web到SpirngBoot
 comments: true
-categories: Spring
+categories:
+- Java Web
+- Spring
 tags:
   - Java
   - Web

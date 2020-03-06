@@ -1,7 +1,9 @@
 ---
 title: Effective Java（六）Lambdas and Streams
 comments: false
-categories: Effective Java
+categories:
+- Java
+- Effective Java
 tags: Java
 abbrlink: cc85a16e
 date: 2019-11-19 22:39:14

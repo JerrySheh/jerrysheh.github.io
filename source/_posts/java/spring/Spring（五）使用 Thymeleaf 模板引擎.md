@@ -1,7 +1,9 @@
 ---
 title: Spring（五）使用 Thymeleaf 模板引擎
 comments: true
-categories: Spring
+categories:
+- Java Web
+- Spring
 tags: Java Web
 abbrlink: 7c6dd7fa
 date: 2018-07-06 11:35:48

@@ -1,7 +1,9 @@
 ---
 title: Java虚拟机（一）JVM 基础和类的加载
 comments: true
-categories: JVM
+categories:
+- Java
+- JVM
 tags:
 - Java
 - JVM

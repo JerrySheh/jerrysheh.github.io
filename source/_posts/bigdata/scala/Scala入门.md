@@ -1,7 +1,9 @@
 ---
 title: Scala 入门
 comments: true
-categories: 大数据
+categories:
+- 大数据
+- Scala
 tags:
   - 大数据
   - Scala

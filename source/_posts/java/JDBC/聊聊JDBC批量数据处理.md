@@ -1,6 +1,8 @@
 ---
 title: 聊聊JDBC批量数据处理
-categories: Java
+categories:
+- Java
+- JDBC
 abbrlink: 7c78488a
 date: 2020-03-04 23:22:38
 ---

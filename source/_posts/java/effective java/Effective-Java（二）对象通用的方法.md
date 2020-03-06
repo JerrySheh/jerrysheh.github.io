@@ -1,7 +1,9 @@
 ---
 title: Effective Java（二）对象通用的方法
 comments: true
-categories: Effective Java
+categories:
+- Java
+- Effective Java
 tags: Java
 abbrlink: f754c291
 date: 2019-10-10 22:59:15

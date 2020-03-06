@@ -1,7 +1,9 @@
 ---
 title: Spirng（六） IoC容器探究
 comments: true
-categories: Spring
+categories:
+- Java Web
+- Spring
 tags:
   - Java
   - Web

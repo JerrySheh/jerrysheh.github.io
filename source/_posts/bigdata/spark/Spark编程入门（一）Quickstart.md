@@ -1,7 +1,9 @@
 ---
 title: Spark编程入门（一） QuickStart
 comments: true
-categories: 大数据
+categories:
+- 大数据
+- Spark
 tags: 大数据
 abbrlink: a08d78bf
 date: 2018-04-05 15:38:00

@@ -1,7 +1,9 @@
 ---
 title: Hadoop 笔记（一）初识
 comments: true
-categories: 大数据
+categories:
+- 大数据
+- hadoop
 tags: Hadoop
 abbrlink: e2142b57
 date: 2018-03-14 18:47:46

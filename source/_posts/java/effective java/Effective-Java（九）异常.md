@@ -3,7 +3,9 @@ title: Effective Java（九）异常
 comments: true
 abbrlink: 4e34dae4
 date: 2019-11-29 19:50:38
-categories: Effective Java
+categories:
+- Java
+- Effective Java
 tags: Java
 ---
 

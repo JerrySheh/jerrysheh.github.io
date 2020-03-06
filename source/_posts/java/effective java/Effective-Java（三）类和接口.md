@@ -1,7 +1,9 @@
 ---
 title: Effective Java（三）类和接口
 comments: true
-categories: Effective Java
+categories:
+- Java
+- Effective Java
 tags: Java
 abbrlink: 20ef17da
 date: 2019-10-13 16:58:42

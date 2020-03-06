@@ -1,7 +1,9 @@
 ---
 title: Java简明笔记（七） 异常和断言
 comments: true
-categories: Java
+categories:
+- Java
+- Java SE
 tags: Java
 abbrlink: a3bb075d
 date: 2018-02-06 00:03:34

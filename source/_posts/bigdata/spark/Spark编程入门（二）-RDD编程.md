@@ -1,7 +1,9 @@
 ---
 title: Spark编程入门（二）RDD编程
 comments: true
-categories: 大数据
+categories:
+- 大数据
+- Spark
 tags: 大数据
 abbrlink: 9c5fa7c3
 date: 2018-04-05 16:05:40

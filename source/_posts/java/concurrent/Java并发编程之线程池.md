@@ -1,7 +1,9 @@
 ---
 title: Java并发编程之线程池
 comments: true
-categories: Java
+categories:
+- Java
+- Concurrent
 tags:
   - Java
   - 并发

@@ -1,7 +1,9 @@
 ---
 title: Java Web（一）web容器和Servlet
 comments: true
-categories: Java Web
+categories:
+- Java Web
+- Web
 tags:
  - Java
  - Web

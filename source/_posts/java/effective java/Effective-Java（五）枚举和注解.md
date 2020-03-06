@@ -3,7 +3,9 @@ title: Effective Java（五）枚举和注解
 comments: true
 abbrlink: acf36022
 date: 2019-10-22 22:24:26
-categories: Effective Java
+categories:
+- Java
+- Effective Java
 tags: Java
 ---
 

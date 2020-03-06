@@ -1,7 +1,9 @@
 ---
 title: Java简明笔记（五） 泛型编程
 comments: true
-categories: Java
+categories:
+- Java
+- Java SE
 tags: Java
 abbrlink: 76bad10f
 date: 2018-01-24 16:59:55

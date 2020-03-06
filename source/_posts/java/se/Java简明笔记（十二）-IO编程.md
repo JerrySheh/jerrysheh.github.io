@@ -1,7 +1,9 @@
 ---
 title: Java简明笔记（十二） IO编程
 comments: true
-categories: Java
+categories:
+- Java
+- Java SE
 tags: Java
 abbrlink: 779c6006
 date: 2018-03-11 10:44:18

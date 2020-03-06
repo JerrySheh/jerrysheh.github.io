@@ -1,7 +1,9 @@
 ---
 title: Spark SQL 和 DataFrame
 comments: true
-categories: 大数据
+categories:
+- 大数据
+- Spark
 tags: 大数据
 abbrlink: 21c6c0f6
 date: 2018-06-04 00:00:00

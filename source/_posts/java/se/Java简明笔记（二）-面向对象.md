@@ -1,7 +1,9 @@
 ---
 title: Java简明笔记（二） 面向对象
 comments: true
-categories: Java
+categories:
+- Java
+- Java SE
 tags: Java
 abbrlink: ba7990ce
 date: 2018-01-18 22:31:07

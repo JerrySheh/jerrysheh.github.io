@@ -1,7 +1,9 @@
 ---
 title: Java Web 跳坑手册
 comments: true
-categories: Java Web
+categories:
+- Java Web
+- Web
 tags:
   - Java
   - Web

@@ -3,7 +3,9 @@ title: Effective Java（八）General Programming
 comments: true
 abbrlink: 7d5810ff
 date: 2019-11-25 21:55:19
-categories: Effective Java
+categories:
+- Java
+- Effective Java
 tags: Java
 ---
 

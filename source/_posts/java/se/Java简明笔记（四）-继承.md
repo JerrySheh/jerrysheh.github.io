@@ -1,7 +1,9 @@
 ---
 title: Java简明笔记（四） 继承
 comments: true
-categories: Java
+categories:
+- Java
+- Java SE
 tags: Java
 abbrlink: 2fJava80
 date: 2018-01-23 18:14:26
@@ -238,7 +240,7 @@ System.out.println(s.equals(ss)); // 输出：true
 
 例如 String ，可能 new 了两个 String 对象，但是存的都是一样的字符数组。他们的地址是不一样的，但是我们也说是 equals 的。
 
-#### 重写 hashcode 
+#### 重写 hashcode
 
 当重写了 equals 的时候，也必须重写 hashcode。 以免发生 equals 为真，hashcode 却为假的情况。这违背了 hashcode 的性质。
 

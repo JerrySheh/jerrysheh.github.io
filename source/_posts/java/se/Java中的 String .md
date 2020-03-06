@@ -1,7 +1,9 @@
 ---
 title: Java中的 String
 comments: true
-categories: Java
+categories:
+- Java
+- Java SE
 tags: Java
 abbrlink: 689b9445
 date: 2018-02-05 00:27:20

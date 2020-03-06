@@ -1,7 +1,9 @@
 ---
 title: 使用 Spark Streaming 进行实时流计算(二)
 comments: false
-categories: 大数据
+categories:
+- 大数据
+- Spark
 tags: 大数据
 abbrlink: '76774483'
 date: 2018-04-07 16:33:49

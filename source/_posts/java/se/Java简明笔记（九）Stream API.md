@@ -3,7 +3,9 @@ title: Java简明笔记（九）Stream API
 comments: false
 abbrlink: 372345f
 date: 2018-02-26 00:07:29
-categories: Java
+categories:
+- Java
+- Java SE
 tags: Java
 ---
 

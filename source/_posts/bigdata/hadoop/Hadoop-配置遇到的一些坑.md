@@ -1,7 +1,9 @@
 ---
 title: Hadoop 配置遇到的一些坑
 comments: true
-categories: 大数据
+categories:
+- 大数据
+- hadoop
 tags: Hadoop
 abbrlink: a44bfe3f
 date: 2018-03-15 22:20:00

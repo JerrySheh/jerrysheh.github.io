@@ -1,7 +1,9 @@
 ---
 title: 使用 JWT 进行认证
 comments: true
-categories: Java Web
+categories:
+- Java Web
+- Web
 tags: Java Web
 abbrlink: fd9d3113
 date: 2018-08-25 11:30:31

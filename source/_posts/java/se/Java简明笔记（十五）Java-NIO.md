@@ -1,7 +1,9 @@
 ---
 title: Java简明笔记（十五）Java NIO
 comments: true
-categories: Java
+categories:
+- Java
+- Java SE
 tags: Java
 abbrlink: 44627f59
 date: 2018-09-07 20:47:06

@@ -2,7 +2,9 @@
 title: Effective Java（四）泛型
 abbrlink: 53a4cf82
 date: 2019-10-18 21:38:49
-categories: Effective Java
+categories:
+- Java
+- Effective Java
 tags: Java
 ---
 

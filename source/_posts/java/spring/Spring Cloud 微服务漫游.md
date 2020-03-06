@@ -1,7 +1,9 @@
 ---
 title: Spring Cloud 微服务漫游
 comments: true
-categories: Spring
+categories:
+- Java Web
+- 微服务
 tags:
 - 微服务
 - Spring Cloud

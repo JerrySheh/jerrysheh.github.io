@@ -1,7 +1,9 @@
 ---
 title: Java简明笔记（十一）并发编程
 comments: false
-categories: Java
+categories:
+- Java
+- Java SE
 tags: Java
 abbrlink: 727d207c
 date: 2018-03-01 00:29:51
