@@ -128,6 +128,59 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-11-11T05:10:53.000Z">2018-11-11</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java-Web/Spring/">Spring</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 787 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/cf93e9b3.html">Spring（八）SpringBoot 集成 JPA</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="什么是-JPA-？"><a href="#什么是-JPA-？" class="headerlink" title="什么是 JPA ？"></a>什么是 JPA ？</h1><p>之前在 Spring Boot 工程中，一直用 Mybatis 注解方式作为持久层框架。但是 Mybatis 需要手写 SQL 语句，对于简单的项目稍显麻烦。最近发现了 JPA ，使用 JPA 我们几乎可以不用写一句 SQL 语句，非常适合 CURD 场景。JPA 是 Java Persistence API（Java持久化接口） 的缩写。JPA 让我们的应用程序以统一的方式访问持久层。JPA 是 Hibernate 的一个抽象，是一种 ORM 规范，是可以理解为是 Hibernate 功能的一个子集。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/cf93e9b3.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2018-10-30T07:08:26.000Z">2018-10-30</time>
                 
                 <div class="level-item">
@@ -532,87 +585,6 @@
 
 
 
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-09-09T11:37:13.000Z">2018-09-09</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    26 分钟 读完 (大约 3834 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/4c81d70.html">数据库（二）存储引擎、事务、锁</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h1><p>存储引擎是数据库的底层软件组织。不同的存储引擎提供不同的存储机制、索引技巧、锁定水平等功能，使用不同的存储引擎，可以获得其各自特定的功能。</p>
-<h2 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h2><p>InnoDB 是 MySQL 默认的存储引擎，它是面向在线事务处理(OLTP)的应用，被设计用来处理大量的短期（short-lived）事务。</p>
-<p>特点：</p>
-<ol>
-<li>采用 MVCC（多版本并发控制）来支持高并发</li>
-<li>支持事务，实现了 4 个事务隔离级别，默认级别是可重复读</li>
-<li>通过间隙锁（next-key locking）防止幻读，间隙锁使得 InnoDB 不仅仅锁定查询涉及的行，还会对索引中的间隙进行锁定，防止幻影行的插入</li>
-<li>聚簇索引，主键查询性能高，但二级索引（非主键索引）必须包含主键列，如果主键列很大，其他索引都会很大</li>
-<li>存储格式平台独立</li>
-<li>行锁设计</li>
-<li>支持外键</li>
-<li>支持一致性非锁定读（默认情况下读取操作不会产生锁）</li>
-<li>提供了插入缓冲，二次写，内存自适应哈希索引，预读等高性能和高可用的功能</li>
-<li>支持真正的热备份</li>
-</ol>
-<p>一句话概括：InnoDB的优势在于提供了良好的事务处理、崩溃修复能力和并发控制。缺点是读写效率较差，占用的数据空间相对较大。</p>
-<h2 id="MyISAM"><a href="#MyISAM" class="headerlink" title="MyISAM"></a>MyISAM</h2><p>MyISAM 存储引擎表由 .MYD 和 .MYI 组成，.MYD用来存放数据文件，.MYI用来存放索引文件，特点：</p>
-<ul>
-<li>不支持事务</li>
-<li>表锁设计，读取共享锁，写入排他锁。但是在读取查询的同时也能插入记录（并发插入）</li>
-<li>支持全文索引</li>
-<li>压缩</li>
-<li>空间函数（GIS）</li>
-<li>它的缓冲池只缓冲索引文件，而不缓冲数据文件</li>
-<li>崩溃后无法安全修复</li>
-</ul>
-<p>一句话概括：MyISAM的优势在于占用空间小，处理速度快。缺点是不支持事务的完整性和并发性。如果表经常读取，且不需要事务，MyISAM是合适的选择。</p>
-<h2 id="MEMORY"><a href="#MEMORY" class="headerlink" title="MEMORY"></a>MEMORY</h2><p>将表中的数据存放在内存中，如果数据库重启或发生崩溃，表中的数据库都将消失，它非常适合存储临时数据的临时表．默认采用哈希索引。</p>
-<h2 id="三种存储引擎的比较"><a href="#三种存储引擎的比较" class="headerlink" title="三种存储引擎的比较"></a>三种存储引擎的比较</h2><p><img src="../../../../images/database/Engine.png" alt="Engine"></p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/4c81d70.html#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -687,7 +659,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            158
+                            159
                         </p>
                     </a>
                 </div>
@@ -983,7 +955,7 @@
                 <span class="level-item">读书与生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">11</span>
+                <span class="level-item tag">12</span>
             </span>
         </a></li>
             </ul>

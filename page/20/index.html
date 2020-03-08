@@ -128,6 +128,64 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-10-17T16:04:01.000Z">2017-10-18</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    14 分钟 读完 (大约 2141 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/bfa70c14.html">浅谈 socket 编程</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="计算机通信和socket"><a href="#计算机通信和socket" class="headerlink" title="计算机通信和socket"></a>计算机通信和socket</h1><p>计算机程序之间的通信，是进程与进程之间的通信。之前在 Linux 学习中就遇到用管道（PIPE）来让一个进程的输出和另一个进程的输入连接起来，从而利用文件操作API来管理进程间通信。</p>
+<p>Unix/Linux的基本哲学之一就是“一切皆文件”，一切都可以用<code>打开(open) –&gt; 读写(read/write) –&gt; 关闭(close)</code>的模式来操作。<strong>socket可以看成一个进程向socket的一端写入或读取文本流，而另一个进程可以从另一端读取或写入。比较特别的是，这两个建立socket通信的进程可以分别属于两台不同的计算机</strong>，可以简单地把socket理解为一种特殊的文件，我们通过操作socket函数，实现文本流在多台计算机之间传输，同时也就实现了计算机之间的通信。</p>
+<p>一个socket包含四个地址信息: <strong>两台计算机的IP地址和两个进程所使用的端口(port)</strong>。IP地址用于定位计算机，而端口用于定位进程 (一台计算机上可以有多个进程分别使用不同的端口)。</p>
+<h1 id="TCP和UDP"><a href="#TCP和UDP" class="headerlink" title="TCP和UDP"></a>TCP和UDP</h1><p>在开始 socket 编程之前，有必要简单了解一下TCP和UDP协议。</p>
+<p>TCP（传输控制协议）提供<strong>面向连接、可靠的字节流服务</strong>。客户端和服务器彼此交换数据前，必须先在双方之间建立一个TCP连接，之后才能传输数据。TCP提供超时重发，丢弃重复数据，检验数据，流量控制等功能，从而<strong>保证数据能从一端传到另一端</strong>。</p>
+<p>UDP（用户数据报协议）是一个简单的面向数据报的运输层协议。<strong>UDP不提供可靠性</strong>，它只是把应用程序传给IP层的数据报发送出去，但是并不能保证它们能到达目的地。由于UDP在传输数据报前不需在客户端和服务器之间建立一个连接，且没有超时重发等机制，故而传输速度很快。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/bfa70c14.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2017-10-16T13:16:30.000Z">2017-10-16</time>
                 
                 <div class="level-item">
@@ -579,7 +637,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            158
+                            159
                         </p>
                     </a>
                 </div>
@@ -875,7 +933,7 @@
                 <span class="level-item">读书与生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">11</span>
+                <span class="level-item tag">12</span>
             </span>
         </a></li>
             </ul>
