@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2017-10-31T00:53:39.000Z">
-<meta property="article:modified_time" content="2020-03-10T15:42:40.639Z">
+<meta property="article:modified_time" content="2020-03-11T14:43:35.700Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary">
@@ -268,7 +268,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">原：</span><br><span class="line">not null,</span><br><span class="line">NUMBER(20),</span><br><span class="line"></span><br><span class="line">现：</span><br><span class="line">not null comment &#39;&#39;,</span><br><span class="line">NUMBER(20) comment &#39;&#39;,</span><br></pre></td></tr></table></figure>
 
 <h2 id="实例3"><a href="#实例3" class="headerlink" title="实例3"></a>实例3</h2><p>匹配所有以 [DEBUG] 开头，]] 或 yet 结尾，并且最后有换行符的，由于换行符在 Windows 为 CRLF ，在 Linux 为 LF，所以我们匹配1或2次，第一次 <code>\s</code> 匹配 CR，第二次匹配 LF 。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\[DEBUG\].*(\]\]|yet)\s&#123;1,2&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\[DEBUG\].*(\]\]|yet)(\s&#123;1,2&#125;)</span><br></pre></td></tr></table></figure>
 
 <p>tips：用 <code>\</code> 来转义特殊符号，如匹配 <code>[</code> ，要输入 <code>\[</code></p>
 <h1 id="Linux中使用-grep-和正则表达式，查找文件"><a href="#Linux中使用-grep-和正则表达式，查找文件" class="headerlink" title="Linux中使用 grep 和正则表达式，查找文件"></a>Linux中使用 grep 和正则表达式，查找文件</h1><p><code>grep -E --color &#39;[xyz]&#39; filename</code></p>
