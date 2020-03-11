@@ -13,6 +13,12 @@ date: 2019-04-28 19:28:02
 
 > **学 Golang 只是为了好玩！**
 
+参考教程
+
+- [Go 语言指引](https://tour.go-zh.org/)
+- [官方文档](https://go-zh.org/doc/)
+- [标准库手册](https://go-zh.org/pkg/)
+
 ---
 
 <!-- more-->
