@@ -128,6 +128,63 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-02-27T07:06:51.000Z">2018-02-27</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java/Java-SE/">Java SE</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 分钟 读完 (大约 308 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/85d8e3e2.html">Java简明笔记（十） 输入与输出</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="文本输入和输出"><a href="#文本输入和输出" class="headerlink" title="文本输入和输出"></a>文本输入和输出</h1><h2 id="文本输入"><a href="#文本输入" class="headerlink" title="文本输入"></a>文本输入</h2><p>对于较短的文本，我们可以直接把文本存到一个String里</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 整个文本</span></span><br><span class="line">String contents = <span class="keyword">new</span> String(readAllBytes((Paths.get(<span class="string">"alice.txt"</span>))), StandardCharsets.UTF_8);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 以非字母为分隔符，变成一个个单词</span></span><br><span class="line">List&lt;String&gt; words = Arrays.asList(contents.split(<span class="string">"\\PL+"</span>));</span><br></pre></td></tr></table></figure>
+
+<p>如果想按行读取，可以读文件并存到 List 集合里，集合的每一个元素代表每一行的一个String</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 按行读取</span></span><br><span class="line">List&lt;String&gt; lines = Files.readAllLines(path, charset);</span><br></pre></td></tr></table></figure>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/85d8e3e2.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2018-02-25T16:07:29.000Z">2018-02-26</time>
                 
                 <div class="level-item">
@@ -552,63 +609,6 @@
 
 
 
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-02-04T16:27:20.000Z">2018-02-05</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java/">Java</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java/Java-SE/">Java SE</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    21 分钟 读完 (大约 3080 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/689b9445.html">Java中的 String</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="String-的本质"><a href="#String-的本质" class="headerlink" title="String 的本质"></a>String 的本质</h1><p>在 Java8 中，分析 java.lang.String 类的源码，可以发现 String 内部维护的是一个 char 数组。同时可以发现，String类被 <code>final</code> 修饰，即不可变的。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">String</span></span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span>, <span class="title">Comparable</span>&lt;<span class="title">String</span>&gt;, <span class="title">CharSequence</span> </span>&#123;</span><br><span class="line">    <span class="comment">/** The value is used for character storage. */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> value[];</span><br><span class="line"></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在 Java9 中，将 char 数组优化成了 byte 数组。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">byte</span> value[];</span><br></pre></td></tr></table></figure>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/689b9445.html#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -683,7 +683,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            159
+                            160
                         </p>
                     </a>
                 </div>
@@ -979,7 +979,7 @@
                 <span class="level-item">读书与生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">13</span>
             </span>
         </a></li>
             </ul>

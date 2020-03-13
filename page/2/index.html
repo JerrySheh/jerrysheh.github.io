@@ -128,6 +128,63 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java/Effective-Java/">Effective Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 分钟 读完 (大约 1740 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/cc85a16e.html">Effective Java（六）Lambdas and Streams</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="Item-42-lambda-表达式优于匿名类"><a href="#Item-42-lambda-表达式优于匿名类" class="headerlink" title="Item 42 lambda 表达式优于匿名类"></a>Item 42 lambda 表达式优于匿名类</h1><p>Java 的 Lambda 表达式本质上就是一个匿名类。而什么是匿名类？就是在使用的时候现场 new 并实现的类。</p>
+<p>只有一个方法的接口称为 <strong>函数式接口（functioning interface）</strong>，Lambda 表达式本质上就是对这样子的接口做现场实现。可以参考我之前写的：<a href="../post/68278ec8.html">Java简明笔记（八）Lambda和函数式编程</a></p>
+<p>然而 lambda 也不是万能的，它只对函数是接口有用，如果一个接口有多个方法需要重写，那只能用匿名类。this 关键字在 lambda 中引用封闭实例，在匿名类中引用匿名类实例。如果你需要从其内部访问函数对象，则必须使用匿名类。</p>
+<p>Lambdas 与匿名类都无法可靠地序列化和反序列化。因此，尽量少去 (如果有的话) 序列化一个 lambda (或一个匿名类实例)。如果有一个想要进行序列化的函数对象，比如一个 Comparator，那么使用一个私有静态嵌套类的实例（见 Item 24 ）。</p>
+<p>作者建议：一行代码对于 lambda 说是理想的，三行代码是合理的最大值。 如果违反这一规定，可能会严重损害程序的可读性。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/cc85a16e.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-10-22T14:24:26.000Z">2019-10-22</time>
                 
                 <div class="level-item">
@@ -524,66 +581,6 @@
 
 
 
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-08T15:11:15.000Z">2019-08-08</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">计算机科学速成课</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    39 分钟 读完 (大约 5833 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/20575023.html">Crash Course Computer Science（11-20）</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="P11-编程语言发展史"><a href="#P11-编程语言发展史" class="headerlink" title="P11 编程语言发展史"></a>P11 编程语言发展史</h1><p>一条计算机指令，00101110，前四位是操作码，表示 LOAD_A（把值从内存复制到寄存器A），后四位是内存地址14，简写为 LOAD_A 14，意思是，读内存地址14，复制到寄存器A。计算机只认识二进制数，用二进制指令编写的程序称为 <strong>机器语言</strong>。早期人们编程的方式，是先在纸上写英文版的程序，再根据操作码表制作成二进制码的纸带，丢到计算机去处理。像这样，对计算机程序进行高层次的描述称为 <strong>伪代码</strong>。</p>
-<p>与其用机器码编写程序，为什么我们不直接写 LOAD_A 14 来表示 00101110，而中间翻译的部分交给机器去做呢？于是程序员发明了一种能将像 LOAD_A 14 这样的文字指令翻译成 00101110 这样的二进制指令的程序，叫做 <strong>汇编器（assembler）</strong>。用像 LOAD_A 14 这样的文字指令编写的程序，叫做 <strong>汇编语言</strong>。</p>
-<p>1940-1950年代，一名美国海军军官，也是哈佛1号计算机的设计者 Hopper，她想到能否把一条自然语句翻译成多条汇编指令或机器指令，于是设计了一种机器叫做 <strong>编译器（compiler）</strong>，专门把高级语言转换成低级语言。在高级语言里，我们用 <strong>变量</strong> 来抽象内存地址和值，程序员不必了解底层细节，从此，编程开始变得简单起来。</p>
-<p>Hopper 一开始发明了一种 A-0 高级语言，但没有流行开来，反倒是1957年IBM发明的 FORTRAN 主宰了早期的计算机编程，但只能运行在IBM的机器上，再后来出现了所有机器都可运行的 COBLE，再后来出现了我们熟悉的C、C++、Objective-C、Python、Java、Golang等高级语言。</p>
-<p>FORTRAN 项目总监 John Backus：</p>
-<blockquote>
-<p>我做的大部分工作是因为懒，我不喜欢写程序，所以我写这门语言，让编程更容易。</p>
-</blockquote>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/20575023.html#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -654,7 +651,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            159
+                            160
                         </p>
                     </a>
                 </div>
@@ -950,7 +947,7 @@
                 <span class="level-item">读书与生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">13</span>
             </span>
         </a></li>
             </ul>

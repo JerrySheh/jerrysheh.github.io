@@ -128,6 +128,62 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-03-20T09:59:50.000Z">2018-03-20</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java/Java-SE/">Java SE</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    17 分钟 读完 (大约 2484 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/f07211ef.html">Java简明笔记（十三）JDBC</a>
+            
+        </h1>
+        <div class="content">
+            <p>假设电脑已经安装有 mySQL，并在里面有一些表。现在，我们想通过 Java，来访问数据库里的表。</p>
+<p>JDBC (Java DataBase Connection) 指的就是通过Java访问数据库。</p>
+<p>这是我的数据库情况。</p>
+<p><img src="../../../../images/Java/JDBC.png" alt=""></p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/f07211ef.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2018-03-17T02:15:50.000Z">2018-03-17</time>
                 
                 <div class="level-item">
@@ -683,118 +739,6 @@
 
 
 
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-03-09T03:30:34.000Z">2018-03-09</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    8 分钟 读完 (大约 1137 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/1d084fbe.html">Android笔记（五）持久化技术</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="什么是持久化技术"><a href="#什么是持久化技术" class="headerlink" title="什么是持久化技术"></a>什么是持久化技术</h1><p>持久化技术指的是将内存中产生的瞬时数据保存到存储设备中，这样，当手机关机再重启，这些数据不会丢失。Android的持久化技术提供了一套机制，让数据在瞬时状态和持久状态之间进行转换。</p>
-<p>Android 主要提供了 3 种数据持久化功能，分别是：</p>
-<ul>
-<li><strong>文件存储</strong>：顾名思义，用于保存文本或二进制数据等文件</li>
-</ul>
-<ul>
-<li><strong>SharedPreference存储</strong>：保存相对较小的键值集合</li>
-</ul>
-<ul>
-<li><strong>数据库存储</strong>：将数据保存到数据库</li>
-</ul>
-<hr>
-<h1 id="文件存储"><a href="#文件存储" class="headerlink" title="文件存储"></a>文件存储</h1><p>File 对象适合按照从开始到结束的顺序不跳过地读取或写入大量数据。 例如，它适合于图片文件或通过网络交换的任何内容。</p>
-<blockquote>
-<p>早期的Android设备，由于内置存储空间非常有限（2011年买的Samung Galaxy S+只有 8 G 存储空间），因此通常都会外置SD卡。所以，Android的存储分为内部和外部。也有一些设备，虽然不支持SD卡，但依然人为地把存储空间分为外部和内部。一般来说，我们推荐把文件保存在内置存储当中，因为它始终可用，且只有自己的应用才能访问此处保存的文件，当自己的应用被卸载时，这些文件也会被移除。</p>
-</blockquote>
-<p>如果要将文件写入外部存储中，请参考<a href="https://developer.android.com/training/basics/data-storage/files.html?hl=zh-cn#WriteInternalStorage">官方文档</a></p>
-<h2 id="将文件保存在内部存储中"><a href="#将文件保存在内部存储中" class="headerlink" title="将文件保存在内部存储中"></a>将文件保存在内部存储中</h2><p>无需任何权限，即可在内部存储中保存文件。</p>
-<ul>
-<li>可以用 <code>getFilesDir()</code> 方法返回表示应用的内部目录的 File 。 用<code>getCacheDir()</code>方法返回表示应用临时缓存文件的内部目录的 File。</li>
-</ul>
-<blockquote>
-<p>关于写入文件和写入缓存，请参考<a href="https://developer.android.com/training/basics/data-storage/files.html?hl=zh-cn#WriteInternalStorage">官方文档</a></p>
-</blockquote>
-<h3 id="保存文本示例"><a href="#保存文本示例" class="headerlink" title="保存文本示例"></a>保存文本示例</h3><p>首先定义一个 EditText</p>
-<p>activity_main.xml</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:padding</span>=<span class="string">"16dp"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">EditText</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/edit_text_name_input"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:hint</span>=<span class="string">"input your name"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:padding</span>=<span class="string">"4dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:textSize</span>=<span class="string">"24sp"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>然后重写onCreate方法和onDestroy方法</p>
-<p>Context类提供了一个 FileOutputStream 类型的 <code>openFileOutput()</code>方法，用于输出数据到文件。</p>
-<p>MainActivity.java</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> EditText edit;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// edit 实例</span></span><br><span class="line">        edit = findViewById(R.id.edit_text_name_input);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取 edit 的内容</span></span><br><span class="line">        String inputText = edit.getText().toString();</span><br><span class="line">        save(inputText);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">(String inputText)</span></span>&#123;</span><br><span class="line">        FileOutputStream outputStream;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 输出流</span></span><br><span class="line">            outputStream = openFileOutput(<span class="string">"myName"</span>, Context.MODE_PRIVATE);</span><br><span class="line">            outputStream.write(inputText.getBytes());</span><br><span class="line">            outputStream.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这样当我们退出app，edittext的文本就会被自动保存起来。</p>
-<h3 id="从保存的文件中读取数据"><a href="#从保存的文件中读取数据" class="headerlink" title="从保存的文件中读取数据"></a>从保存的文件中读取数据</h3><p>类似于输出流，Context类也提供了一个 FileinputStream 类型的 <code>openFileinput()</code>方法，用于输出数据到文件。</p>
-<blockquote>
-<p><code>openFileinput(filename)</code>的参数是文件名，一旦指定，系统会自动从 /data/data/<package name>/files/ 目录下加载这个文件，并返回一个 FileinputStream 对象。</p>
-</blockquote>
-<h2 id="一个完整的示例"><a href="#一个完整的示例" class="headerlink" title="一个完整的示例"></a>一个完整的示例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">    private EditText dataEditText;</span><br><span class="line">    private String inputText;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        dataEditText &#x3D; findViewById(R.id.editText);</span><br><span class="line">        inputText &#x3D; load();</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; TextUtils.isEmpty方法：当 inputText 为 null 或 空 时返回 true</span><br><span class="line">        if (!TextUtils.isEmpty(inputText))&#123;</span><br><span class="line">            dataEditText.setText(inputText);</span><br><span class="line">            dataEditText.setSelection(inputText.length());</span><br><span class="line">            Toast.makeText(this, &quot;恢复数据成功&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 从文件加载数据</span><br><span class="line">    private String load() &#123;</span><br><span class="line">        StringBuilder content &#x3D; new StringBuilder();</span><br><span class="line">        String line;</span><br><span class="line"></span><br><span class="line">        try (</span><br><span class="line">                FileInputStream fileInputStream &#x3D; openFileInput(&quot;data&quot;);</span><br><span class="line">                BufferedReader bufferedReader &#x3D; new BufferedReader(new InputStreamReader(fileInputStream))</span><br><span class="line">        )&#123;</span><br><span class="line">            while( (line &#x3D; bufferedReader.readLine()) !&#x3D; null )&#123;</span><br><span class="line">                content.append(line);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (IOException IOe)&#123;</span><br><span class="line">            IOe.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return content.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onDestroy() &#123;</span><br><span class="line">        super.onDestroy();</span><br><span class="line">        String inputText &#x3D; dataEditText.getText().toString();</span><br><span class="line">        saveText(inputText);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;保存数据到文件</span><br><span class="line">    private void saveText(String inputText) &#123;</span><br><span class="line">        try(</span><br><span class="line">             FileOutputStream outputStream &#x3D; openFileOutput(&quot;data&quot;,Context.MODE_PRIVATE);</span><br><span class="line">             BufferedWriter bufferedWriter &#x3D; new BufferedWriter(new OutputStreamWriter(outputStream))</span><br><span class="line">           )&#123;</span><br><span class="line">            bufferedWriter.write(inputText);</span><br><span class="line">        &#125; catch ( IOException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>思路：</p>
-<ul>
-<li>在 <code>onCreate()</code>方法中调用 <code>load()</code> 来读取文件中的数据</li>
-<li>在 <code>onDestroy()</code>方法中调用 <code>saveText()</code> 来保存数据到文件</li>
-</ul>
-<hr>
-<h1 id="SharedPreference存储"><a href="#SharedPreference存储" class="headerlink" title="SharedPreference存储"></a>SharedPreference存储</h1><p>文件存储还是比较麻烦的，SharedPreference可以用键值对的方式来存储数据。</p>
-<ul>
-<li>保存数据时，给数据提供一个键</li>
-<li>读取数据时，根据键找到值</li>
-</ul>
-<p>在 Android 中，有三种方法得到 SharedPreference 对象:</p>
-<ul>
-<li>Context 类中的 <code>getSharePreference(filename, mode)</code>方法</li>
-</ul>
-<blockquote>
-<p>参数1是存储的文件名，目录在<code>/data/data/&lt;package name&gt;/share_prefs/</code> ，参数2是模式，默认 MODE_PRIVATE</p>
-</blockquote>
-<ul>
-<li>Activity 类中的 <code>getPreferences(mode)</code> 方法</li>
-</ul>
-<blockquote>
-<p>只有一个mode参数，因为这个方法会把当前类名作为 filename</p>
-</blockquote>
-<ul>
-<li>PreferenceManager 类中的 <code>static getDefaultSharedPreferences(Context)</code>方法</li>
-</ul>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -869,7 +813,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            159
+                            160
                         </p>
                     </a>
                 </div>
@@ -1165,7 +1109,7 @@
                 <span class="level-item">读书与生活</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">13</span>
             </span>
         </a></li>
             </ul>
