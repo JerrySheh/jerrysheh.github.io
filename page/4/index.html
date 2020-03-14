@@ -128,6 +128,70 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-04-28T11:28:02.000Z">2019-04-28</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Golang/">Golang</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    17 分钟 读完 (大约 2543 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/dcaae91f.html">Golang 快速入门</a>
+            
+        </h1>
+        <div class="content">
+            <p><img src="../../../../images/golang/GO.png" alt=""></p>
+<p>这几天闲来无事，想试着玩下 Golang。对于 Go 的认知，最开始是在知乎上看到一些相关的讨论，大概知道这是一门2009年由谷歌工程师捣鼓出来的新语言，其最大的特点是在语言层面支持并发（goroutine），因此天生适合用来做服务端开发。</p>
+<blockquote>
+<p><strong>学 Golang 只是为了好玩！</strong></p>
+</blockquote>
+<p>参考教程</p>
+<ul>
+<li><a href="https://tour.go-zh.org/">Go 语言指引</a></li>
+<li><a href="https://go-zh.org/doc/">官方文档</a></li>
+<li><a href="https://go-zh.org/pkg/">标准库手册</a></li>
+</ul>
+<hr>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/dcaae91f.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-04-16T07:14:00.000Z">2019-04-16</time>
                 
                 <div class="level-item">
@@ -551,101 +615,6 @@
 
 
 
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-12-06T10:46:28.000Z">2018-12-06</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    1 小时 读完 (大约 6785 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/2f0bdd16.html">如何从零开始造一台计算机</a>
-            
-        </h1>
-        <div class="content">
-            <blockquote>
-<p>加法计算是计算机唯一要做的工作。</p>
-</blockquote>
-<p>最近在读 Charles Petzold 的《编码——隐匿在计算机软硬件背后的语言》，英文书名是《Code：The Hidden Language of Computer Hardware and Software》。作者的文笔可谓是轻松风趣，第一页那句“众所周知，手电筒是为了让孩子们能够躲在被子下看书而发明的”就让我产生极大兴趣。读来发觉这本书实际上就是从最基本的电学开始讲起，一步步地揭开一台原始的计算机是如何诞生的这一神秘面纱。同时这本书也帮助我补充了不少数字电路和组成原理的知识，也算是补补基础了。下面是一些笔记。</p>
-<p><img src="../../../../images/code_book.jpg" alt="code_book"></p>
-<h1 id="编码与组合"><a href="#编码与组合" class="headerlink" title="编码与组合"></a>编码与组合</h1><p>《美国传统英语词典》对编码的其中一个定义是：由被赋予了一定主观意义（arbitrary meanings）的符号、字母以及单词所组成的系统，可用于传输需要 <strong>保密或简短</strong> 的信息。<strong>本质上，编码就是交流。从计算机的角度看，编码是一种人与机器传递信息的方式</strong>。莫尔斯电码就是一种经典的编码，用点（dot）和划（dash）的组合来对应不同的字母。例如，求救信号SOS就是一个易于记忆的莫尔斯电码（··· — ···）。</p>
-<p><strong>事实上，两个不同的事物，只要经过适当的组合，就可以表示所有类型的信息</strong>。而组合的长度，就决定了码字的数目。例如，长度为 1 的组合只能表示 2 种码字（单个点或者单个划），长度为 2 的组合能表示 4 种码字（点点、点划、划点、划划）。实践中我们发现，点和划的数目跟码字的数目的函数关系为 2 的幂次方，如下表：</p>
-<table>
-<thead>
-<tr>
-<th>点和划的数目</th>
-<th>码字的数目</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>2</td>
-</tr>
-<tr>
-<td>2</td>
-<td>4 (2^2)</td>
-</tr>
-<tr>
-<td>3</td>
-<td>8 (2^3)</td>
-</tr>
-<tr>
-<td>4</td>
-<td>16 (2^4)</td>
-</tr>
-<tr>
-<td>5</td>
-<td>32 (2^5)</td>
-</tr>
-<tr>
-<td>6</td>
-<td>64(2^6)</td>
-</tr>
-<tr>
-<td>n</td>
-<td>2^n</td>
-</tr>
-</tbody></table>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/2f0bdd16.html#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -670,7 +639,7 @@
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/page/20/">20</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/page/21/">21</a></li>
             
         </ul>
     </nav>
@@ -720,7 +689,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            160
+                            161
                         </p>
                     </a>
                 </div>
@@ -824,7 +793,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">39</span>
+                <span class="level-item tag">40</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/Concurrent/">
@@ -848,7 +817,7 @@
                 <span class="level-item">JDBC</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">2</span>
+                <span class="level-item tag">3</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/JVM/">
