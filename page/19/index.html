@@ -128,124 +128,6 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2017-12-06T04:58:29.000Z">2017-12-06</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">数据结构和算法</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    13 分钟 读完 (大约 1966 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/7c5cf5e1.html">数据结构（二）算法的复杂度、简单排序算法</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="前言：算法的复杂度"><a href="#前言：算法的复杂度" class="headerlink" title="前言：算法的复杂度"></a>前言：算法的复杂度</h1><p>在讨论数据结构和算法时，我们通常用算法的复杂度来描述一个算法的好坏，复杂度包括：<strong>时间复杂度</strong> 和 <strong>空间复杂度</strong>。计算机本质上是一个状态机，内存里的数据构成了当前的状态，CPU利用当前的状态计算出下一个状态。所谓的空间复杂度就是为了支持你的计算所必需存储的状态最多有多少，所谓时间复杂度就是从初始状态到达最终状态中间需要多少步！</p>
-<h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><p>算法的时间复杂度，也就是算法的时间量度，记作：<code>T(n) = O(f(n))</code>。它表示随问题规模 n 的增大，算法执行时间的增长率和 f(n) 的增长率相同，称为算法的渐近时间复杂度，<strong>简称为时间复杂度</strong>。其中 f(n) 是规模 n 的某个函数。</p>
-<h3 id="如何推导时间复杂度"><a href="#如何推导时间复杂度" class="headerlink" title="如何推导时间复杂度"></a>如何推导时间复杂度</h3><ol>
-<li>用常数 1 取代运行时间中的所有加法常数。</li>
-<li>在修改后的运行次数函数中，只保留最高阶项。</li>
-<li>如果最高阶项存在，且不是 1 ，则去除与这个项相乘的常数。</li>
-</ol>
-<p>例如:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sum = <span class="number">0</span>, n = <span class="number">100</span>;   <span class="comment">// 执行 1 次</span></span><br><span class="line">sum = (<span class="number">1</span> + n) * n / <span class="number">2</span>;  <span class="comment">// 执行 1 次</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d"</span>, sum);      <span class="comment">// 执行 1 次</span></span><br></pre></td></tr></table></figure>
-
-<p>这个算法的运行次数函数是 <code>f(n) = 3</code>。根据推导规则，第一步把常数项 3 改为 1。第二步保留最高阶项，它没有最高阶项，所以这个算法的时间复杂度为 <code>T(n) = O(1)</code>。</p>
-<h4 id="常数阶"><a href="#常数阶" class="headerlink" title="常数阶"></a>常数阶</h4><p>当 n = 1 时，算法执行次数为 3， 当 n = 100 时，算法的执行次数还是 3，所以我们可以看出这个算法的执行次数与 n 的规模没关系。我们把这种与问题的大小（n 的大小）无关，执行时间恒定的算法，叫作常数阶。</p>
-<h4 id="线性阶"><a href="#线性阶" class="headerlink" title="线性阶"></a>线性阶</h4><p>下面这段代码的时间复杂度为 <code>T(n) = O(n)</code>，因为循环体中的代码必须要执行 n 次。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="comment">/* 时间复杂度为 O(1) 的程序步骤序列 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="对数阶"><a href="#对数阶" class="headerlink" title="对数阶"></a>对数阶</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> count = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">while</span> (count &lt; n) &#123;</span><br><span class="line">    count = count * <span class="number">2</span>;</span><br><span class="line">    <span class="comment">/* 时间复杂度为 O(1) 的程序步骤序列 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>由于每次 count 乘以 2 以后，就越来越接近于 n，也就是说有多少个 2 相乘后大于 n，则会退出循环。由<code>2^x = n</code> 得到 <code>x = log2n</code>。所以这个算法的时间复杂度为 <code>T(n) = O(logn)</code>。</p>
-<h4 id="平方阶"><a href="#平方阶" class="headerlink" title="平方阶"></a>平方阶</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 例1</span></span><br><span class="line"><span class="keyword">int</span> i, j;</span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; n; j++) &#123;</span><br><span class="line">        <span class="comment">/* 时间复杂度为 O(1) 的程序步骤序列 */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 例2</span></span><br><span class="line"><span class="keyword">int</span> i, j， m;</span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; m; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; n; j++) &#123;</span><br><span class="line">        <span class="comment">/* 时间复杂度为 O(1) 的程序步骤序列 */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在 例1 中内循环时间复杂度为<code>O(n)</code>，而对于外层的循环，不过是这个内循环再循环 n 次。所以这段代码的时间复杂度为 <code>O(n^2)</code>。</p>
-<p>在 例2 中，时间复杂度就变为 O(m^n)</p>
-<h3 id="常见的时间复杂度耗费时间"><a href="#常见的时间复杂度耗费时间" class="headerlink" title="常见的时间复杂度耗费时间"></a>常见的时间复杂度耗费时间</h3><p>从小到大依次是：</p>
-<p>O(1) &lt; O(logn) &lt; O(n) &lt; O(nlogn) &lt; O(n^2) &lt; O(n^3) &lt; O(2^n) &lt; O(n!) &lt; O(n^n)</p>
-<h2 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h2><p>算法的空间复杂度通过计算算法所需的存储空间实现，算法空间复杂度的计算公式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">S(n) &#x3D; O(f(n))</span><br></pre></td></tr></table></figure>
-
-<p>其中 n 为问题的规模，<code>f(n)</code>为语句关于 n 所占存储空间的函数。</p>
-<ul>
-<li>参考：<a href="https://www.jianshu.com/p/d72d4c9e90c6">程序猿必修课之数据结构（二）算法和算法的复杂度</a></li>
-</ul>
-<h2 id="复杂度分析的主要方法"><a href="#复杂度分析的主要方法" class="headerlink" title="复杂度分析的主要方法"></a>复杂度分析的主要方法</h2><ol>
-<li><strong>迭代</strong>：级数求和</li>
-<li><strong>递归</strong>：递归跟踪 + 递推方程</li>
-</ol>
-<p>猜测 + 验证</p>
-<hr>
-<h1 id="一、选择排序（Selection-Sort）"><a href="#一、选择排序（Selection-Sort）" class="headerlink" title="一、选择排序（Selection Sort）"></a>一、选择排序（Selection Sort）</h1><h2 id="选择排序介绍"><a href="#选择排序介绍" class="headerlink" title="选择排序介绍"></a>选择排序介绍</h2><p>选择排序是一种最简单的排序算法，它的算法步骤如下：</p>
-<ol>
-<li>找到数组中最小的元素</li>
-<li>将它和数组的第一个元素交换位置（如果相同，也交换）</li>
-<li>在剩下的元素中找到最小的元素</li>
-<li>将它和数组的第二个元素交换位置</li>
-<li>重复。。</li>
-</ol>
-<p>选择排序交换的总次数为N，算法的效率取决于比较的次数。</p>
-<p>特点：</p>
-<ul>
-<li>运行时间和输入无关、移动数据是最少的</li>
-<li>选择排序是不稳定的排序方法</li>
-<li>对于长度为 N 的数组，选择排序需要大约 N²/2次比较和 N 次交换</li>
-<li>时间复杂度 O(n^2)</li>
-</ul>
-<h2 id="算法2-1-选择排序"><a href="#算法2-1-选择排序" class="headerlink" title="算法2.1 选择排序"></a>算法2.1 选择排序</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">selectSort</span><span class="params">(<span class="keyword">int</span>[] arr)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> size = arr.length;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> min = i;</span><br><span class="line">        <span class="comment">// 第二个for循环找出最小元素</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt; size; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (arr[j] &lt; arr[min]) min = j;</span><br><span class="line">        &#125;</span><br><span class="line">        Swap.swap(arr, min, i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="二、插入排序（Insertion-Sort）"><a href="#二、插入排序（Insertion-Sort）" class="headerlink" title="二、插入排序（Insertion Sort）"></a>二、插入排序（Insertion Sort）</h1><h2 id="插入排序介绍"><a href="#插入排序介绍" class="headerlink" title="插入排序介绍"></a>插入排序介绍</h2><p>插入排序，将数插入到其他已经有序的数中的适当位置。为了给要插入的数腾出空间，我们需要将其余所有元素在插入之前都向右移动一位。</p>
-<p>插入排序所需的时间取决于输入中元素的初始顺序。(原始数据越接近有序，越快)</p>
-<p>命题：对于随机排列的长度为 N 且主键不重复的数组，平均情况下插入排序需要约 N²/4 次比较以及 N²/4 次交换。最坏情况下需要 约 N²/2 次比较以及 N²/2 次交换，最好情况下需要 N-1 次比较 和 0 次交换。</p>
-<p>时间复杂度：O(n^2)</p>
-<h2 id="算法2-2-插入排序"><a href="#算法2-2-插入排序" class="headerlink" title="算法2.2 插入排序"></a>算法2.2 插入排序</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 原理：插入排序，将数插入到其他已经有序的数中的适当位置</span></span><br><span class="line"><span class="comment"> * 思路：从 a[0] 开始，a[0] 已经是第一个，所以不用动</span></span><br><span class="line"><span class="comment"> *       a[1] 与 a[0] 比较 -&gt; 得出顺序</span></span><br><span class="line"><span class="comment"> *       a[2] 与 a[1] a[0] 比较 -&gt; a[2] 先与 a[1] 比较 ，如果 a[2] 比 a[1] 小，则交换， 然后 a[1] 与 a[0] 比较</span></span><br><span class="line"><span class="comment"> *       a[3] 与 a[2] a[1] a[0] 比较 -&gt; 插入适当位置</span></span><br><span class="line"><span class="comment"> *       ...</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">insertSort</span><span class="params">(<span class="keyword">int</span>[] arr)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &gt; <span class="number">0</span> &amp;&amp; arr[j] &lt; arr[j-<span class="number">1</span>]; j--) &#123;</span><br><span class="line">            Swap.swap(arr, j, j-<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="三、希尔排序（Shell-Sort）"><a href="#三、希尔排序（Shell-Sort）" class="headerlink" title="三、希尔排序（Shell Sort）"></a>三、希尔排序（Shell Sort）</h1><h2 id="希尔排序介绍"><a href="#希尔排序介绍" class="headerlink" title="希尔排序介绍"></a>希尔排序介绍</h2><p>在插入排序和选择排序中，由于它们只能交换相邻的元素，如果有位于数组起始的大元素，则需要多次遍历才能交换到队尾，很不划算。希尔排序以更大的间隔来比较和交换元素，这样，大元素在交换的时候，可以向右移动不止一个位置。</p>
-<p>希尔排序只需要在插入排序的代码中将移动的元素距离由1改为h即可。</p>
-<p>希尔排序依赖于间隔(step)的选取。</p>
-<h2 id="算法2-3-希尔排序"><a href="#算法2-3-希尔排序" class="headerlink" title="算法2.3 希尔排序"></a>算法2.3 希尔排序</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Shell</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> N = a.length;</span><br><span class="line">        <span class="keyword">int</span> h = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(h &lt; N/<span class="number">3</span>) h = <span class="number">3</span>*h + <span class="number">1</span>;  <span class="comment">// 1,4,13,40,121,364,1093...</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//将数组变为h有序</span></span><br><span class="line">        <span class="keyword">while</span> (h &gt;= <span class="number">1</span>)&#123;</span><br><span class="line">            <span class="comment">//将a[i] 插入到 a[i-h]、a[i-2h]、a[i-3h]...之中</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = h; i &lt; N ; i++) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &gt; h &amp;&amp; less(a[j],a[j-h]); j-=h) &#123;</span><br><span class="line">                    exch(a, j, j-h);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            h = h/<span class="number">3</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="四、冒泡排序"><a href="#四、冒泡排序" class="headerlink" title="四、冒泡排序"></a>四、冒泡排序</h1><p>比较相邻元素，大的放右边</p>
-<p>要点：第一躺结束后，最右元素一定是最大的，因此第二趟最右元素不参与，即 size - i - 1</p>
-<p>时间复杂度：O(n^2)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">bubbleSort</span><span class="params">(<span class="keyword">int</span>[] arr)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> size = arr.length;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">        <span class="comment">// 第一躺结束后，最右元素一定是最大的，因此第二趟最右元素不参与，即 size - i - 1</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size - i - <span class="number">1</span>; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (arr[j] &gt; arr[j+<span class="number">1</span>]) Swap.swap(arr, j, j+<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2017-11-28T16:01:36.000Z">2017-11-29</time>
                 
                 <div class="level-item">
@@ -640,6 +522,61 @@
 
 
 
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-10-29T15:37:12.000Z">2017-10-29</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    1 分钟 读完 (大约 158 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/536d7ea0.html">Win10升级1709后亮度调节失效的解决方法</a>
+            
+        </h1>
+        <div class="content">
+            <p>笔记本升级Win10秋季创意者更新后，发现亮度调节不了了。起初以为是 ATK 热键驱动的问题，到 ASUS 官网重新下载安装了一遍，还是不行。后来在一个台湾的论坛找到解决方法。如下：</p>
+<ol>
+<li>win10搜索框搜索 <code>Device Manager</code> 或 <code>设备管理器</code></li>
+<li>找到 <code>监视器</code></li>
+<li>会看到一个叫 <code>PnP-Monitor (Standard)</code> 的东西</li>
+<li>卸载它！</li>
+<li>操作 - 扫描检测硬件改动</li>
+</ol>
+<p>然后神奇地好了。</p>
+<p>参考链接： <a href="https://apk.tw/thread-851168-1-1.html">[教程] Windows 10的螢幕亮度無法調整了怎麼辦？</a></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
     
 <div class="card card-transparent">
@@ -661,8 +598,6 @@
             <li><a class="pagination-link is-current" href="/page/19/">19</a></li>
             
             <li><a class="pagination-link has-text-black-ter" href="/page/20/">20</a></li>
-            
-            <li><a class="pagination-link has-text-black-ter" href="/page/21/">21</a></li>
             
         </ul>
     </nav>
@@ -712,7 +647,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            161
+                            160
                         </p>
                     </a>
                 </div>
@@ -816,7 +751,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">40</span>
+                <span class="level-item tag">39</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/Concurrent/">
@@ -840,7 +775,7 @@
                 <span class="level-item">JDBC</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/JVM/">

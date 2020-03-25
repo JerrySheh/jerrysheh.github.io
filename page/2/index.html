@@ -128,60 +128,6 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-11-22T13:39:53.000Z">2019-11-22</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java/">Java</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java/Effective-Java/">Effective Java</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    8 分钟 读完 (大约 1171 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/387fb533.html">Effective Java（七）方法</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="Item-49-检查参数有效性"><a href="#Item-49-检查参数有效性" class="headerlink" title="Item 49 检查参数有效性"></a>Item 49 检查参数有效性</h1><p>在 Java 7 之后，可以用 <code>requireNonNull</code> 来判空，如果为空，自动抛出空指针异常。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.strategy = Objects.requireNonNull(strategy, <span class="string">"strategy"</span>);</span><br></pre></td></tr></table></figure>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/387fb533.html#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-11-19T14:39:14.000Z">2019-11-19</time>
                 
                 <div class="level-item">
@@ -579,6 +525,62 @@
 
 
 
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-08-19T13:00:55.000Z">2019-08-19</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">计算机科学速成课</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    35 分钟 读完 (大约 5237 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/231feaa1.html">Crash Course Computer Science（21-30）</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="P21-压缩"><a href="#P21-压缩" class="headerlink" title="P21 压缩"></a>P21 压缩</h1><p>前面提到，位图文件存储的是RGB数据，有时候一张图片很大，而我们想更快地把它发给朋友，这时候就需要用到 <strong>压缩（compression）</strong>，一种简单的压缩方法是游程编码，例如连续7个像素点都是黄色，与其用7个一样的RGB数据，不如在前面加个7代表7个，再接1个RGB数据即可。这种压缩方法适合经常出现相同值的文件，并且可以轻易地复原，叫做 <strong>无损压缩</strong>。1950年代，麻省理工学院学生哈夫曼发明了一种高效编码方式，叫做 <strong>哈夫曼树（Huffman Tree）</strong>，将出现频率高的块用短编码，频率低的用长编码，用树结构和字典来映射。</p>
+<p>可以看到，上面两种方法的思路分别是消除冗余和用更紧凑的表示方法。几乎所有的无损压缩都用了这两种方法，如 gif、png、pdf、zip</p>
+<p><img src="../../../../images/crachcoursecs/huffman_tree.png" alt=""></p>
+<p>然而，并不是所有的数据都需要无损。像音频文件，有些超声波部分完全可以抛弃，因为人类听不到，图像和视频也是，有时候我们并不追求超清画质，只要能看到图片是什么就够了。这时候太过细致的细节会被模糊化处理，这就是 <strong>有损压缩</strong> 。著名的例子是 mp3 和 jpeg 。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/231feaa1.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
     
 <div class="card card-transparent">
@@ -599,7 +601,7 @@
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/page/21/">21</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/page/20/">20</a></li>
             
         </ul>
     </nav>
@@ -649,7 +651,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            161
+                            160
                         </p>
                     </a>
                 </div>
@@ -753,7 +755,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">40</span>
+                <span class="level-item tag">39</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/Concurrent/">
@@ -777,7 +779,7 @@
                 <span class="level-item">JDBC</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/JVM/">

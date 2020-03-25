@@ -128,76 +128,6 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-03-10T06:06:25.000Z">2018-03-10</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    5 分钟 读完 (大约 705 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/cc537ae4.html">Android开发中的一些坑</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="Gradle-加载慢的问题"><a href="#Gradle-加载慢的问题" class="headerlink" title="Gradle 加载慢的问题"></a>Gradle 加载慢的问题</h1><p>第一次加载项目很慢一直显示<code>Building “XXXX” Gradle project info</code></p>
-<p>解决办法：</p>
-<p>打开{your project}/gradle/wrapper/gradle-wrapper.properties</p>
-<p>查看distributionUrl中 gradle 版本</p>
-<p>去 <a href="https://services.gradle.org/distributions/">https://services.gradle.org/distributions/</a> 下载相应版本的Gradle（官网地址：<a href="https://gradle.org/install）">https://gradle.org/install）</a></p>
-<p>放到以下目录即可</p>
-<ul>
-<li>Linux：<code>~/.gradle/wrapper/dists</code></li>
-<li>Windows：<code>C:\users\{user name}\.gradle\wrapper\dists</code></li>
-</ul>
-<hr>
-<h1 id="运行时权限在部分Android手机上无效"><a href="#运行时权限在部分Android手机上无效" class="headerlink" title="运行时权限在部分Android手机上无效"></a>运行时权限在部分Android手机上无效</h1><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>按照 Google 文档的开发模型，写的运行时权限模型代码，在一加手机5T上，点击拒绝后没有任何提示，也就是说依然返回了有权限的STATUE_CODE，但是什么都没发生。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (ContextCompat.checkSelfPermission(<span class="keyword">this</span>, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">    <span class="comment">// 没有权限。</span></span><br><span class="line">    <span class="keyword">if</span> (ActivityCompat.shouldShowRequestPermissionRationale(<span class="keyword">this</span>, Manifest.permission.READ_CONTACTS)) &#123;</span><br><span class="line">            <span class="comment">// 用户拒绝过这个权限了，应该提示用户，为什么需要这个权限。</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 申请授权。</span></span><br><span class="line">        ActivityCompat.requestPermissions(thisActivity, <span class="keyword">new</span> String[]&#123;Manifest.permission.READ_CONTACTS&#125;, MMM);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRequestPermissionsResult</span><span class="params">(<span class="keyword">int</span> requestCode, String permissions[], <span class="keyword">int</span>[] grantResults)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (requestCode) &#123;</span><br><span class="line">        <span class="keyword">case</span> MMM: &#123;</span><br><span class="line">            <span class="keyword">if</span> (grantResults.length &gt; <span class="number">0</span></span><br><span class="line">                &amp;&amp; grantResults[<span class="number">0</span>] == PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">                <span class="comment">// 权限被用户同意，可以去放肆了。</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// 权限被用户拒绝了，洗洗睡吧。</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>很多国产ROM都有这个坑。因此不要用上面的开发模型，推荐开源库：AndPermission</p>
-<p>项目地址： <a href="https://github.com/yanzhenjie/AndPermission">https://github.com/yanzhenjie/AndPermission</a></p>
-<p>使用方法可参考：<a href="http://blog.csdn.net/yanzhenjie1003/article/details/52503533/">Android 6.0 运行时权限管理最佳实践</a></p>
-<hr>
-<h1 id="Android-Device-Monitor-打不开的问题"><a href="#Android-Device-Monitor-打不开的问题" class="headerlink" title="Android Device Monitor 打不开的问题"></a>Android Device Monitor 打不开的问题</h1><p><img src="../../../../images/Learn_Android/monitor_error.png" alt=""></p>
-<p>查看Log：C:\Users\Jerrysheh\AppData\Local\Android\Sdk\tools\lib\monitor-x86_64\configuration\1520661867795.log</p>
-<p>关键报错</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.224</span><br><span class="line">!MESSAGE Bundle reference:file:org.apache.ant_1.8.3.v201301120609&#x2F;@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.255</span><br><span class="line">!MESSAGE Bundle reference:file:org.apache.jasper.glassfish_2.2.2.v201205150955.jar@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.255</span><br><span class="line">!MESSAGE Bundle reference:file:org.apache.lucene.core_2.9.1.v201101211721.jar@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.458</span><br><span class="line">!MESSAGE Bundle reference:file:org.eclipse.help.base_3.6.101.v201302041200.jar@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.474</span><br><span class="line">!MESSAGE Bundle reference:file:org.eclipse.help.ui_3.5.201.v20130108-092756.jar@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.474</span><br><span class="line">!MESSAGE Bundle reference:file:org.eclipse.help.webapp_3.6.101.v20130116-182509.jar@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.474</span><br><span class="line">!MESSAGE Bundle reference:file:org.eclipse.jetty.server_8.1.3.v20120522.jar@4 not found.</span><br><span class="line"></span><br><span class="line">!ENTRY org.eclipse.osgi 4 0 2018-03-10 14:04:28.521</span><br><span class="line">!MESSAGE Bundle reference:file:org.eclipse.ui.intro_3.4.200.v20120521-2344.jar@4 not found.</span><br><span class="line"></span><br><span class="line">java.lang.IllegalStateException: Unable to acquire application service. Ensure that the org.eclipse.core.runtime bundle is resolved and started (see config.ini).</span><br><span class="line">	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:74)</span><br><span class="line">	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)</span><br><span class="line">	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)</span><br><span class="line">	at java.base&#x2F;jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at java.base&#x2F;jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)</span><br><span class="line">	at java.base&#x2F;jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)</span><br><span class="line">	at java.base&#x2F;java.lang.reflect.Method.invoke(Unknown Source)</span><br><span class="line">	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:629)</span><br><span class="line">	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:584)</span><br><span class="line">	at org.eclipse.equinox.launcher.Main.run(Main.java:1438)</span><br><span class="line">	at org.eclipse.equinox.launcher.Main.main(Main.java:1414)</span><br></pre></td></tr></table></figure>
-
-<h2 id="解决办法-1"><a href="#解决办法-1" class="headerlink" title="解决办法"></a>解决办法</h2><p>卸载 JRE 9。 （JDK 9 可以不用卸载） ， 然后装 JDK 8 。</p>
-<p>然后启动 Android Studio 时，使用管理员权限打开。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2018-03-09T03:30:34.000Z">2018-03-09</time>
                 
                 <div class="level-item">
@@ -851,6 +781,64 @@
 
 
 
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-02-28T16:29:51.000Z">2018-03-01</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java/Java-SE/">Java SE</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    29 分钟 读完 (大约 4299 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/727d207c.html">Java简明笔记（十一）并发编程</a>
+            
+        </h1>
+        <div class="content">
+            <p>关于并发的理论基础，见另一篇 <a href="../post/3bdfeb29.html">聊聊并发和并发模型</a></p>
+<hr>
+<h1 id="在-Java-中创建线程"><a href="#在-Java-中创建线程" class="headerlink" title="在 Java 中创建线程"></a>在 Java 中创建线程</h1><p>在 Java 中，线程是 java.lang.Thread 或其子类中的实例。通过 new 一个线程实例并调用 start 方法来启动线程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Thread thread = <span class="keyword">new</span> Thread();</span><br><span class="line">thread.start();</span><br></pre></td></tr></table></figure>
+
+<p>但是我们总得指定线程做一些事，可以用两种方式来指定。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/727d207c.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
     
 <div class="card card-transparent">
@@ -875,7 +863,7 @@
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/page/21/">21</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/page/20/">20</a></li>
             
         </ul>
     </nav>
@@ -925,7 +913,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            161
+                            160
                         </p>
                     </a>
                 </div>
@@ -1029,7 +1017,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">40</span>
+                <span class="level-item tag">39</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/Concurrent/">
@@ -1053,7 +1041,7 @@
                 <span class="level-item">JDBC</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/JVM/">

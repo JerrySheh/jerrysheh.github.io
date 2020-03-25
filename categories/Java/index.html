@@ -193,62 +193,6 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-04T15:22:38.000Z">2020-03-04</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java/">Java</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java/JDBC/">JDBC</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    7 分钟 读完 (大约 1019 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/7c78488a.html">聊聊JDBC批量数据处理</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="问题来源"><a href="#问题来源" class="headerlink" title="问题来源"></a>问题来源</h1><p>最近接手了一个生产问题，一个定时任务（JOB）报内存溢出。看了下代码反推逻辑，发现需求很简单，根据mysql库table表中的type字段，去更新level字段。</p>
-<p>表 <code>table</code> 共有1800万数据，其中符合 <code>type = P</code> 的有80万。</p>
-<p>定时任务是纯 JDBC 写的，没有用第三方框架，那为什么内存溢出呢？看了下代码，这货竟然是先用 SELECT 把 <code>type = P</code> 的所有ID取到应用的 List 里面，再循环遍历 List 根据 ID 一个个去做 update。这80万个ID一下子涌进内存，不OOM才怪呢，查SVN提交记录，查注释，发现这代码竟然是2013年写的，可能是当年数据量还没这么大，没有长远考虑吧，好吧，反正这种祖传代码，想找人理论也死无对证了。</p>
-<p>那要怎么改呢？</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/7c78488a.html#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-11-29T11:50:38.000Z">2019-11-29</time>
                 
                 <div class="level-item">
@@ -2477,7 +2421,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            161
+                            160
                         </p>
                     </a>
                 </div>
@@ -2581,7 +2525,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">40</span>
+                <span class="level-item tag">39</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/Concurrent/">
@@ -2605,7 +2549,7 @@
                 <span class="level-item">JDBC</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/JVM/">
