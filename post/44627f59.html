@@ -10,16 +10,16 @@
 <title>Java简明笔记（十五）Java NIO - J.e</title>
 
 
-    <meta name="description" content="什么是 Java NIOJava NIO， N 可以理解为 New ，也可以理解为 Non-blocking ，是 Java 1.4 之后新的一套区别于标准 Java IO 和 Java Networking 的 API 。">
+    <meta name="description" content="什么是 Java NIOJava NIO， N 可以理解为 New ，也可以理解为 Non-blocking ，是 Java 1.4 之后新的一套区别于标准 Java IO 和 Java Networking 的 API 。NIO 跟传统的 BIO 之间最大的区别在于 NIO 是面向 Channels 和 Buffers 的，一个线程可以通过 Selector 管理多个 Channels ，继而管">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java简明笔记（十五）Java NIO">
 <meta property="og:url" content="https://jerrysheh.me/post/44627f59.html">
 <meta property="og:site_name" content="J.e">
-<meta property="og:description" content="什么是 Java NIOJava NIO， N 可以理解为 New ，也可以理解为 Non-blocking ，是 Java 1.4 之后新的一套区别于标准 Java IO 和 Java Networking 的 API 。">
+<meta property="og:description" content="什么是 Java NIOJava NIO， N 可以理解为 New ，也可以理解为 Non-blocking ，是 Java 1.4 之后新的一套区别于标准 Java IO 和 Java Networking 的 API 。NIO 跟传统的 BIO 之间最大的区别在于 NIO 是面向 Channels 和 Buffers 的，一个线程可以通过 Selector 管理多个 Channels ，继而管">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2018-09-07T12:47:06.000Z">
-<meta property="article:modified_time" content="2020-03-06T15:24:03.994Z">
+<meta property="article:modified_time" content="2020-03-30T15:02:46.082Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
@@ -144,7 +144,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    10 分钟 读完 (大约 1497 个字)
+                    16 分钟 读完 (大约 2414 个字)
                 </span>
                 
                 
@@ -162,10 +162,10 @@
             
         </h1>
         <div class="content">
-            <h1 id="什么是-Java-NIO"><a href="#什么是-Java-NIO" class="headerlink" title="什么是 Java NIO"></a>什么是 Java NIO</h1><p>Java NIO， N 可以理解为 New ，也可以理解为 Non-blocking ，是 Java 1.4 之后新的一套区别于标准 Java IO 和 Java Networking 的 API 。</p>
+            <h1 id="什么是-Java-NIO"><a href="#什么是-Java-NIO" class="headerlink" title="什么是 Java NIO"></a>什么是 Java NIO</h1><p>Java NIO， N 可以理解为 New ，也可以理解为 Non-blocking ，是 Java 1.4 之后新的一套区别于标准 Java IO 和 Java Networking 的 API 。NIO 跟传统的 BIO 之间最大的区别在于 NIO 是面向 Channels 和 Buffers 的，一个线程可以通过 Selector 管理多个 Channels ，继而管理多个连接，在线程进行 IO 操作时不会阻塞。</p>
 <a id="more"></a>
 
-<h2 id="面向-Channels-和-Buffers"><a href="#面向-Channels-和-Buffers" class="headerlink" title="面向 Channels 和 Buffers"></a>面向 Channels 和 Buffers</h2><p>普通的IO，面向的是 byte streams（字节流，如FileOutputStream） 和 character streams（字符流，如FileReader），但是 NIO 面向的是 channels 和 buffers 。对于 Channel 来说，数据总是从 channel 写进 buffer 里，然后 Java 从 buffer 取出使用，或者 channel 读 buffer 里的数据，传输到外界。</p>
+<h1 id="面向-Channels-和-Buffers"><a href="#面向-Channels-和-Buffers" class="headerlink" title="面向 Channels 和 Buffers"></a>面向 Channels 和 Buffers</h1><p>普通的IO，面向的是 byte streams（字节流，如FileOutputStream） 和 character streams（字符流，如FileReader），但是 NIO 面向的是 channels 和 buffers 。对于 Channel 来说，数据总是从 channel 写进 buffer 里，然后 Java 从 buffer 取出使用，或者 channel 读 buffer 里的数据，传输到外界。</p>
 <p><img src="../../../../images/Java/channel_buffer.png" alt="channel_buffer"></p>
 <p>Channel 有点像流（Stream），在 Java NIO 中，有以下几种 channel：</p>
 <ul>
@@ -183,15 +183,10 @@
 <li>IntBuffer</li>
 <li>LongBuffer</li>
 <li>ShortBuffer</li>
+<li>MappedByteBuffer（不展开讲）</li>
 </ul>
-<blockquote>
-<p>事实上，还有一个 MappedByteBuffer ，但是这里不展开讲。</p>
-</blockquote>
-<h2 id="Non-blocking-IO"><a href="#Non-blocking-IO" class="headerlink" title="Non-blocking IO"></a>Non-blocking IO</h2><p>一个线程，可以让 channel 把数据读进 buffer 中（是 buffer 在读不是 channel 在读），当 channel 正在读的时候，线程可以做其他事。一旦数据已经读进 buffer 了，线程可以回来处理这些数据。 写的情况也是类似。</p>
-<h2 id="Selectors"><a href="#Selectors" class="headerlink" title="Selectors"></a>Selectors</h2><p>Java NIO 有一个 “selectors” 的概念。 selector 可以监控多个 channels 事件的状态（例如，连接已建立，数据已到达等）。因此，只需一个线程即可管理多个 channels 。</p>
-<p><img src="../../../../images/Java/overview-selectors.png" alt="selectors"></p>
-<hr>
-<h1 id="一个简单的例子"><a href="#一个简单的例子" class="headerlink" title="一个简单的例子"></a>一个简单的例子</h1><p>Channel 和 Buffer 配合的工作流程如下：</p>
+<p>一个线程，可以让 channel 把数据读进 buffer 中（操作者是 channel ），当 channel 正在读的时候，线程可以做其他事。一旦数据已经读进 buffer 了，线程可以回来处理这些数据。写的情况也是类似。</p>
+<h2 id="一个简单的例子"><a href="#一个简单的例子" class="headerlink" title="一个简单的例子"></a>一个简单的例子</h2><p>Channel 和 Buffer 配合的工作流程如下：</p>
 <ol>
 <li>开一个文件</li>
 <li>获取 Channel</li>
@@ -210,30 +205,61 @@
 <li><code>buf.clear()</code>的作用：当数据全部从 buffer 读出去了，应该调用 clear 或 compact 方法，好让 buffer 重写可以写入。 这两个方法的区别是：clear清除整个缓冲区，compact只清除已经读过的部分。</li>
 </ul>
 <hr>
-<h1 id="Capacity-Position-和-Limit"><a href="#Capacity-Position-和-Limit" class="headerlink" title="Capacity, Position 和 Limit"></a>Capacity, Position 和 Limit</h1><p>buffer 实际上是一块内存区域可以让你往里面写数据，之后再读到程序里。这块内存区域包含在一个 NIO Buffer 对象里。</p>
+<h2 id="Capacity-Position-和-Limit"><a href="#Capacity-Position-和-Limit" class="headerlink" title="Capacity, Position 和 Limit"></a>Capacity, Position 和 Limit</h2><p>buffer 实际上是一块内存区域可以让你往里面写数据，之后再读到程序里。这块内存区域包含在一个 NIO Buffer 对象里。</p>
 <p>在 buffer 中，有 Capacity, Position 和 Limit 这三个概念。position 跟 limit 跟 buffer 是读模式还是写模式有关，而 Capacity 与模式无关。</p>
 <p><img src="../../../../images/Java/buffers-modes.png" alt="selectors"></p>
-<h2 id="Capacity"><a href="#Capacity" class="headerlink" title="Capacity"></a>Capacity</h2><p>顾名思义，Capacity 就是容量。也就是 buffer 缓冲区最多能存储多少 bytes （或者 longs，或 chars ，取决于何种类型的 buffer ）</p>
-<h2 id="Position"><a href="#Position" class="headerlink" title="Position"></a>Position</h2><p>当你往 buffer 里写一个单位的数据的时候， position 就 +1， position是当前位置指示器。最大值为 Capacity - 1。</p>
+<h3 id="Capacity"><a href="#Capacity" class="headerlink" title="Capacity"></a>Capacity</h3><p>顾名思义，Capacity 就是容量。也就是 buffer 缓冲区最多能存储多少 bytes （或者 longs，或 chars ，取决于何种类型的 buffer ）</p>
+<h3 id="Position"><a href="#Position" class="headerlink" title="Position"></a>Position</h3><p>当你往 buffer 里写一个单位的数据的时候， position 就 +1， position是当前位置指示器。最大值为 Capacity - 1。</p>
 <p>当你从 buffer 里读数据时，同样有一个 position 指示器。当调用 flip ，让 buffer 从写模式转换成读模式的时候， position 会被重置为 0</p>
-<h2 id="limit"><a href="#limit" class="headerlink" title="limit"></a>limit</h2><p>在 buffer 写模式中， limit 等于 capacity，决定了你能往 buffer 里写多少数据。</p>
+<h3 id="limit"><a href="#limit" class="headerlink" title="limit"></a>limit</h3><p>在 buffer 写模式中， limit 等于 capacity，决定了你能往 buffer 里写多少数据。</p>
 <p>在 buffer 读模式中，limit 告诉你缓冲取最多有多少数据可以让你读取。也就是说，一开始写模式写了多少数据，会记录在 position 中，一旦你调用 flip 切换到读模式，limit 就是刚刚的 position。</p>
 <hr>
-<h1 id="Buffer-的方法"><a href="#Buffer-的方法" class="headerlink" title="Buffer 的方法"></a>Buffer 的方法</h1><h2 id="flip"><a href="#flip" class="headerlink" title="flip"></a>flip</h2><p>当调用 flip方法， position 会被置0，然后 buffer 会切换模式（读-&gt;写，或 写-&gt;读），limit 也随之改变。</p>
-<h2 id="rewind"><a href="#rewind" class="headerlink" title="rewind"></a>rewind</h2><p>rewind 可以让 position 变为 0， 好让你重新读刚刚读过的数据，但是模式不变。limit 的值也不会变。</p>
-<h2 id="clear-和-compact"><a href="#clear-和-compact" class="headerlink" title="clear() 和 compact()"></a>clear() 和 compact()</h2><p>clear清除整个缓冲区，compact只清除已经读过的部分。如果你有一些数据还没读，使用 compact， compact 会把未读的数据放到起始位置，然后把 position 放到最后一个数据的右边。</p>
+<h2 id="Buffer-的方法"><a href="#Buffer-的方法" class="headerlink" title="Buffer 的方法"></a>Buffer 的方法</h2><h3 id="flip"><a href="#flip" class="headerlink" title="flip"></a>flip</h3><p>当调用 flip方法， position 会被置0，然后 buffer 会切换模式（读-&gt;写，或 写-&gt;读），limit 也随之改变。</p>
+<h3 id="rewind"><a href="#rewind" class="headerlink" title="rewind"></a>rewind</h3><p>rewind 可以让 position 变为 0， 好让你重新读刚刚读过的数据，但是模式不变。limit 的值也不会变。</p>
+<h3 id="clear-和-compact"><a href="#clear-和-compact" class="headerlink" title="clear() 和 compact()"></a>clear() 和 compact()</h3><p>clear清除整个缓冲区，compact只清除已经读过的部分。如果你有一些数据还没读，使用 compact， compact 会把未读的数据放到起始位置，然后把 position 放到最后一个数据的右边。</p>
 <p><img src="../../../../images/Java/compact.png" alt="selectors"></p>
-<h2 id="mark-和-reset"><a href="#mark-和-reset" class="headerlink" title="mark() 和 reset()"></a>mark() 和 reset()</h2><p>可以用 mark 方法标记 position，然后做一个其他事后，调用 reset， position 会回到刚刚标记的位置。</p>
+<h3 id="mark-和-reset"><a href="#mark-和-reset" class="headerlink" title="mark() 和 reset()"></a>mark() 和 reset()</h3><p>可以用 mark 方法标记 position，然后做一个其他事后，调用 reset， position 会回到刚刚标记的位置。</p>
 <hr>
-<h1 id="Scatter（分散）-Gather（聚集）"><a href="#Scatter（分散）-Gather（聚集）" class="headerlink" title="Scatter（分散） / Gather（聚集）"></a>Scatter（分散） / Gather（聚集）</h1><p>channel “scatters” 是指，多个 buffer 从一个 Channel 里读取数据。</p>
-<p>channel “gathers” 是指，多个 buffer 把数据写进一个 Channel。</p>
+<h2 id="Scatter（分散）-Gather（聚集）"><a href="#Scatter（分散）-Gather（聚集）" class="headerlink" title="Scatter（分散） / Gather（聚集）"></a>Scatter（分散） / Gather（聚集）</h2><p><strong>channel “scatters” 是指，多个 buffer 从一个 Channel 里读取数据</strong>。分散读取是以数组的形式，总是先填充前面的 buffer，这意味着不支持动态大小。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ByteBuffer header = ByteBuffer.allocate(<span class="number">128</span>);</span><br><span class="line">ByteBuffer body   = ByteBuffer.allocate(<span class="number">1024</span>);</span><br><span class="line"></span><br><span class="line">ByteBuffer[] bufferArray = &#123; header, body &#125;;</span><br><span class="line"></span><br><span class="line">channel.read(bufferArray);</span><br></pre></td></tr></table></figure>
+
 <p><img src="../../../../images/Java/Scatter_Gather.png" alt="Scatter_Gather"></p>
+<p><strong>channel “gathers” 是指，多个 buffer 把数据写进一个 Channel</strong>。如果一个 <code>ByteBuffer</code> 的 capacity 有128字节，但实际只存储了58字节。Gather 只会往 channel 里写这58字节。然后继续写下一个。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ByteBuffer header = ByteBuffer.allocate(<span class="number">128</span>);</span><br><span class="line">ByteBuffer body   = ByteBuffer.allocate(<span class="number">1024</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//write data into buffers</span></span><br><span class="line"></span><br><span class="line">ByteBuffer[] bufferArray = &#123; header, body &#125;;</span><br><span class="line"></span><br><span class="line">channel.write(bufferArray);</span><br></pre></td></tr></table></figure>
+
 <hr>
-<p>未完待续</p>
+<h2 id="在不同-Channel-之间转换"><a href="#在不同-Channel-之间转换" class="headerlink" title="在不同 Channel 之间转换"></a>在不同 Channel 之间转换</h2><p>Channel 之间可以互相转换，以 FileChannel 为例，提供了 <code>transferFrom()</code> 和 <code>transferTo()</code> 方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">RandomAccessFile fromFile = <span class="keyword">new</span> RandomAccessFile(<span class="string">"fromFile.txt"</span>, <span class="string">"rw"</span>);</span><br><span class="line">FileChannel      fromChannel = fromFile.getChannel();</span><br><span class="line"></span><br><span class="line">RandomAccessFile toFile = <span class="keyword">new</span> RandomAccessFile(<span class="string">"toFile.txt"</span>, <span class="string">"rw"</span>);</span><br><span class="line">FileChannel      toChannel = toFile.getChannel();</span><br><span class="line"></span><br><span class="line"><span class="keyword">long</span> position = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">long</span> count    = fromChannel.size();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 从其他channle转到FileChannel</span></span><br><span class="line">toChannel.transferFrom(fromChannel, position, count);</span><br><span class="line"><span class="comment">// 从FileChannel转到其他channle</span></span><br><span class="line">fromChannel.transferTo(position, count, toChannel);</span><br></pre></td></tr></table></figure>
+
+<p>在有些 <code>SocketChannel</code> 的实现中，只会转换 channel 当前有的数据（尽管稍后 SocketChannel 会传来更多数据，但会被忽略）</p>
+<hr>
+<h1 id="Selectors"><a href="#Selectors" class="headerlink" title="Selectors"></a>Selectors</h1><p>Java NIO 有一个 “selectors” 的概念。 selector 可以监控多个 channels 事件的状态（例如，连接已建立，数据已到达等）。因此，只需一个线程即可管理多个 channels ，继而管理多个 connection。在并发量特别大时，传统的IO由于一个线程只负责一个连接，因此会创建大量线程。而用 NIO 的 selector，你甚至可以只用一个线程管理所有连接。</p>
+<p>然而，不要一贯认为传统IO多线程就不好。我们总说操作系统在线程切换时有一定开销，然而现代CPU都是多核处理器，不用多线程相当于浪费。</p>
+<p><img src="../../../../images/Java/overview-selectors.png" alt="selectors"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">channel.configureBlocking(<span class="keyword">false</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">第二个参数设置感兴趣的事件，可选项：</span></span><br><span class="line"><span class="comment">SelectionKey.OP_CONNECT</span></span><br><span class="line"><span class="comment">SelectionKey.OP_ACCEPT</span></span><br><span class="line"><span class="comment">SelectionKey.OP_READ</span></span><br><span class="line"><span class="comment">SelectionKey.OP_WRITE</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">SelectionKey key = channel.register(selector, SelectionKey.OP_READ);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 第三个参数设置附加对象（可选）</span></span><br><span class="line">SelectionKey key = channel.register(selector, SelectionKey.OP_READ, theObject);</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用 Selectors 的 channel 必须设置成 non-blocking 模式</strong>。FileChannel 无法设置成 non-blocking 因此无法使用 Selectors。 Socketchannels 则可以。<code>channel.register</code> 的第二个参数设定感兴趣的事件，如连接已建立、客户端accept，准备好可读，准备好可写。如果需要设定多个使用，用或语句。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> interestSet = SelectionKey.OP_READ | SelectionKey.OP_WRITE;</span><br></pre></td></tr></table></figure>
+
+<p>register 之后会返回一个 <code>SelectionKey</code>，通过它来获取有用信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Channel  channel  = selectionKey.channel();</span><br><span class="line"></span><br><span class="line">Selector selector = selectionKey.selector();    </span><br><span class="line"></span><br><span class="line"><span class="comment">// 附加对象（可选）</span></span><br><span class="line">selectionKey.attach(theObject);</span><br><span class="line"></span><br><span class="line">Object attachedObj = selectionKey.attachment();</span><br></pre></td></tr></table></figure>
+
+<h2 id="select-方法"><a href="#select-方法" class="headerlink" title="select 方法"></a>select 方法</h2><p>Selectors 的 <code>select()</code>方法用于返回准备好的 channel 数量。例如，你设置了若干个 SocketChannel 对 read 感兴趣。当你调用 <code>select()</code> ，将返回当前准备好可以读取数据的 channel 数量。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">select</span><span class="params">()</span> <span class="comment">// 若无，则阻塞</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">select</span><span class="params">(<span class="keyword">long</span> timeout)</span> <span class="comment">// 若无，超时时间内阻塞</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">selectNow</span><span class="params">()</span> <span class="comment">// 立即返回</span></span></span><br></pre></td></tr></table></figure>
+
+<p>当 select 返回大于0的数字，说明有 channel 准备好了，实际上内容封装在 <code>Set&lt;SelectionKey&gt;</code> 里，我们可以取出来然后做相应的动作。完整例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">Selector selector = Selector.open();</span><br><span class="line"></span><br><span class="line">channel.configureBlocking(<span class="keyword">false</span>);</span><br><span class="line"></span><br><span class="line">SelectionKey key = channel.register(selector, SelectionKey.OP_READ);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> readyChannels = selector.selectNow();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(readyChannels == <span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  Set&lt;SelectionKey&gt; selectedKeys = selector.selectedKeys();</span><br><span class="line"></span><br><span class="line">  Iterator&lt;SelectionKey&gt; keyIterator = selectedKeys.iterator();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span>(keyIterator.hasNext()) &#123;</span><br><span class="line"></span><br><span class="line">    SelectionKey key = keyIterator.next();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(key.isAcceptable()) &#123;</span><br><span class="line">        <span class="comment">// a connection was accepted by a ServerSocketChannel.</span></span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (key.isConnectable()) &#123;</span><br><span class="line">        <span class="comment">// a connection was established with a remote server.</span></span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (key.isReadable()) &#123;</span><br><span class="line">        <span class="comment">// a channel is ready for reading</span></span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (key.isWritable()) &#123;</span><br><span class="line">        <span class="comment">// a channel is ready for writing</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    keyIterator.remove();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="wakeup-和-close"><a href="#wakeup-和-close" class="headerlink" title="wakeup() 和 close()"></a>wakeup() 和 close()</h2><p>调用 <code>select()</code> 方法的线程会阻塞，用另一个线程调用 <code>Selector.wakeup()</code> 方法可以让它立即返回。</p>
+<p>调用<code>Selector.close()</code>可以关闭 Selector 和所有 SelectionKey ，但 channels 不会被关闭。</p>
 <hr>
 <h1 id="什么时候用-NIO，什么时候用传统-IO-？"><a href="#什么时候用-NIO，什么时候用传统-IO-？" class="headerlink" title="什么时候用 NIO，什么时候用传统 IO ？"></a>什么时候用 NIO，什么时候用传统 IO ？</h1><p>NIO可以只使用一个（或几个）单线程管理多个通道（网络连接或文件），但付出的代价是解析数据可能会比从一个阻塞流中读取数据更复杂。</p>
 <p>如果需要管理同时打开的成千上万个连接，这些连接每次只是发送少量的数据，例如聊天服务器，实现NIO的服务器可能是一个优势。同样，如果你需要维持许多打开的连接到其他计算机上，如P2P网络中，使用一个单独的线程来管理你所有出站连接，NIO可能是一个优势。</p>
 <p>如果你只有少量的连接但是每个连接都占有很高的带宽，同时发送很多数据，传统的IO会更适合。</p>
+<hr>
+<ul>
+<li>参考教程：<a href="http://tutorials.jenkov.com/java-nio">java-nio</a></li>
+</ul>
 
         </div>
         
@@ -641,65 +667,73 @@
         <a class="is-flex" href="#什么是-Java-NIO">
         <span class="has-mr-6">1</span>
         <span>什么是 Java NIO</span>
-        </a><ul class="menu-list"><li>
+        </a></li><li>
         <a class="is-flex" href="#面向-Channels-和-Buffers">
-        <span class="has-mr-6">1.1</span>
-        <span>面向 Channels 和 Buffers</span>
-        </a></li><li>
-        <a class="is-flex" href="#Non-blocking-IO">
-        <span class="has-mr-6">1.2</span>
-        <span>Non-blocking IO</span>
-        </a></li><li>
-        <a class="is-flex" href="#Selectors">
-        <span class="has-mr-6">1.3</span>
-        <span>Selectors</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#一个简单的例子">
         <span class="has-mr-6">2</span>
+        <span>面向 Channels 和 Buffers</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#一个简单的例子">
+        <span class="has-mr-6">2.1</span>
         <span>一个简单的例子</span>
         </a></li><li>
         <a class="is-flex" href="#Capacity-Position-和-Limit">
-        <span class="has-mr-6">3</span>
+        <span class="has-mr-6">2.2</span>
         <span>Capacity, Position 和 Limit</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#Capacity">
-        <span class="has-mr-6">3.1</span>
+        <span class="has-mr-6">2.2.1</span>
         <span>Capacity</span>
         </a></li><li>
         <a class="is-flex" href="#Position">
-        <span class="has-mr-6">3.2</span>
+        <span class="has-mr-6">2.2.2</span>
         <span>Position</span>
         </a></li><li>
         <a class="is-flex" href="#limit">
-        <span class="has-mr-6">3.3</span>
+        <span class="has-mr-6">2.2.3</span>
         <span>limit</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#Buffer-的方法">
-        <span class="has-mr-6">4</span>
+        <span class="has-mr-6">2.3</span>
         <span>Buffer 的方法</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#flip">
-        <span class="has-mr-6">4.1</span>
+        <span class="has-mr-6">2.3.1</span>
         <span>flip</span>
         </a></li><li>
         <a class="is-flex" href="#rewind">
-        <span class="has-mr-6">4.2</span>
+        <span class="has-mr-6">2.3.2</span>
         <span>rewind</span>
         </a></li><li>
         <a class="is-flex" href="#clear-和-compact">
-        <span class="has-mr-6">4.3</span>
+        <span class="has-mr-6">2.3.3</span>
         <span>clear() 和 compact()</span>
         </a></li><li>
         <a class="is-flex" href="#mark-和-reset">
-        <span class="has-mr-6">4.4</span>
+        <span class="has-mr-6">2.3.4</span>
         <span>mark() 和 reset()</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#Scatter（分散）-Gather（聚集）">
-        <span class="has-mr-6">5</span>
+        <span class="has-mr-6">2.4</span>
         <span>Scatter（分散） / Gather（聚集）</span>
         </a></li><li>
+        <a class="is-flex" href="#在不同-Channel-之间转换">
+        <span class="has-mr-6">2.5</span>
+        <span>在不同 Channel 之间转换</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Selectors">
+        <span class="has-mr-6">3</span>
+        <span>Selectors</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#select-方法">
+        <span class="has-mr-6">3.1</span>
+        <span>select 方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#wakeup-和-close">
+        <span class="has-mr-6">3.2</span>
+        <span>wakeup() 和 close()</span>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#什么时候用-NIO，什么时候用传统-IO-？">
-        <span class="has-mr-6">6</span>
+        <span class="has-mr-6">4</span>
         <span>什么时候用 NIO，什么时候用传统 IO ？</span>
         </a></li></ul>
             </div>
@@ -788,65 +822,73 @@
         <a class="is-flex" href="#什么是-Java-NIO">
         <span class="has-mr-6">1</span>
         <span>什么是 Java NIO</span>
-        </a><ul class="menu-list"><li>
+        </a></li><li>
         <a class="is-flex" href="#面向-Channels-和-Buffers">
-        <span class="has-mr-6">1.1</span>
-        <span>面向 Channels 和 Buffers</span>
-        </a></li><li>
-        <a class="is-flex" href="#Non-blocking-IO">
-        <span class="has-mr-6">1.2</span>
-        <span>Non-blocking IO</span>
-        </a></li><li>
-        <a class="is-flex" href="#Selectors">
-        <span class="has-mr-6">1.3</span>
-        <span>Selectors</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#一个简单的例子">
         <span class="has-mr-6">2</span>
+        <span>面向 Channels 和 Buffers</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#一个简单的例子">
+        <span class="has-mr-6">2.1</span>
         <span>一个简单的例子</span>
         </a></li><li>
         <a class="is-flex" href="#Capacity-Position-和-Limit">
-        <span class="has-mr-6">3</span>
+        <span class="has-mr-6">2.2</span>
         <span>Capacity, Position 和 Limit</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#Capacity">
-        <span class="has-mr-6">3.1</span>
+        <span class="has-mr-6">2.2.1</span>
         <span>Capacity</span>
         </a></li><li>
         <a class="is-flex" href="#Position">
-        <span class="has-mr-6">3.2</span>
+        <span class="has-mr-6">2.2.2</span>
         <span>Position</span>
         </a></li><li>
         <a class="is-flex" href="#limit">
-        <span class="has-mr-6">3.3</span>
+        <span class="has-mr-6">2.2.3</span>
         <span>limit</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#Buffer-的方法">
-        <span class="has-mr-6">4</span>
+        <span class="has-mr-6">2.3</span>
         <span>Buffer 的方法</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#flip">
-        <span class="has-mr-6">4.1</span>
+        <span class="has-mr-6">2.3.1</span>
         <span>flip</span>
         </a></li><li>
         <a class="is-flex" href="#rewind">
-        <span class="has-mr-6">4.2</span>
+        <span class="has-mr-6">2.3.2</span>
         <span>rewind</span>
         </a></li><li>
         <a class="is-flex" href="#clear-和-compact">
-        <span class="has-mr-6">4.3</span>
+        <span class="has-mr-6">2.3.3</span>
         <span>clear() 和 compact()</span>
         </a></li><li>
         <a class="is-flex" href="#mark-和-reset">
-        <span class="has-mr-6">4.4</span>
+        <span class="has-mr-6">2.3.4</span>
         <span>mark() 和 reset()</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#Scatter（分散）-Gather（聚集）">
-        <span class="has-mr-6">5</span>
+        <span class="has-mr-6">2.4</span>
         <span>Scatter（分散） / Gather（聚集）</span>
         </a></li><li>
+        <a class="is-flex" href="#在不同-Channel-之间转换">
+        <span class="has-mr-6">2.5</span>
+        <span>在不同 Channel 之间转换</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Selectors">
+        <span class="has-mr-6">3</span>
+        <span>Selectors</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#select-方法">
+        <span class="has-mr-6">3.1</span>
+        <span>select 方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#wakeup-和-close">
+        <span class="has-mr-6">3.2</span>
+        <span>wakeup() 和 close()</span>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#什么时候用-NIO，什么时候用传统-IO-？">
-        <span class="has-mr-6">6</span>
+        <span class="has-mr-6">4</span>
         <span>什么时候用 NIO，什么时候用传统 IO ？</span>
         </a></li></ul>
             </div>
