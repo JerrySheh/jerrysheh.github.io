@@ -7,19 +7,19 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Java并发编程之线程池 - J.e</title>
+<title>Java并发编程之异步任务和线程池 - J.e</title>
 
 
     <meta name="description" content="线程池是线程的管理工具，跟线程本身一样，线程池也有不同的状态。  在并发编程中，我们可能需要创建许多个线程来执行任务，这些线程频繁地被创建、执行，然后又销毁，这个过程的开销是比较大的。能不能弄一个像池子一样的线程池，线程统一创建，需要执行任务时从线程池里取一个线程来执行，执行完把线程放回去。 但是在聊线程池之前，得先从Java的异步任务讲起。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java并发编程之线程池">
+<meta property="og:title" content="Java并发编程之异步任务和线程池">
 <meta property="og:url" content="https://jerrysheh.me/post/377edbcb.html">
 <meta property="og:site_name" content="J.e">
 <meta property="og:description" content="线程池是线程的管理工具，跟线程本身一样，线程池也有不同的状态。  在并发编程中，我们可能需要创建许多个线程来执行任务，这些线程频繁地被创建、执行，然后又销毁，这个过程的开销是比较大的。能不能弄一个像池子一样的线程池，线程统一创建，需要执行任务时从线程池里取一个线程来执行，执行完把线程放回去。 但是在聊线程池之前，得先从Java的异步任务讲起。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2019-06-04T16:25:54.000Z">
-<meta property="article:modified_time" content="2020-03-06T15:19:23.914Z">
+<meta property="article:modified_time" content="2020-04-06T14:14:55.828Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta property="article:tag" content="并发">
 <meta property="article:tag" content="Java">
@@ -82,7 +82,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.png" alt="Java并发编程之线程池" height="28">
+                <img src="/images/logo.png" alt="Java并发编程之异步任务和线程池" height="28">
             
             </a>
         </div>
@@ -145,7 +145,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    11 分钟 读完 (大约 1639 个字)
+                    11 分钟 读完 (大约 1628 个字)
                 </span>
                 
                 
@@ -159,7 +159,7 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                Java并发编程之线程池
+                Java并发编程之异步任务和线程池
             
         </h1>
         <div class="content">
@@ -224,7 +224,6 @@
 <li><code>isShutdown()</code>描述的是非RUNNING状态，也就是SHUTDOWN/STOP/TERMINATED三种状态。</li>
 </ul>
 <hr>
-<p>先写这么多，未完待续。</p>
 
         </div>
         
@@ -313,7 +312,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            160
+                            161
                         </p>
                     </a>
                 </div>
@@ -417,7 +416,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">39</span>
+                <span class="level-item tag">40</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/Concurrent/">
@@ -425,7 +424,7 @@
                 <span class="level-item">Concurrent</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/Effective-Java/">
@@ -891,7 +890,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.png" alt="Java并发编程之线程池" height="28">
+                    <img src="/images/logo.png" alt="Java并发编程之异步任务和线程池" height="28">
                 
                 </a>
                 <p class="is-size-7">

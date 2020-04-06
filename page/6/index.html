@@ -128,6 +128,78 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-09-18T12:37:38.000Z">2018-09-18</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    27 分钟 读完 (大约 4039 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/2bb1b1ab.html">数据库（四）MySQL优化</a>
+            
+        </h1>
+        <div class="content">
+            <p>在 MySQL 中，使用恰当的数据类型，以及合理使用索引和查询，能够提升不少性能。这一篇介绍一下这三种情况的优化。</p>
+<hr>
+<h1 id="SQL执行过程"><a href="#SQL执行过程" class="headerlink" title="SQL执行过程"></a>SQL执行过程</h1><p>想要优化，先得了解一条SQL查询语句的执行过程。</p>
+<p>MySQL 大致架构为： <code>客户端</code> - <code>Server层</code> - <code>存储引擎</code>。</p>
+<h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><p>客户端用来发起一次SQL请求。</p>
+<h2 id="Server层"><a href="#Server层" class="headerlink" title="Server层"></a>Server层</h2><p>Server有以下组件：</p>
+<ol>
+<li><strong>连接器</strong>：连接器负责跟客户端建立连接、获取权限、维持和管理连接。</li>
+<li><strong>查询缓存</strong>：之前执行过的语句，会先放在缓存里。</li>
+<li><strong>分析器</strong>：词法分析、语法分析</li>
+<li><strong>优化器</strong>：优化语句，决定如何使用索引</li>
+<li><strong>执行器</strong>：判断权限，开始执行语句</li>
+</ol>
+<h2 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h2><p>负责数据的存储和提取。插件式架构，支持InnoDB、MyISAM、Memory等多个存储引擎。</p>
+<hr>
+<h1 id="Schema与数据类型优化"><a href="#Schema与数据类型优化" class="headerlink" title="Schema与数据类型优化"></a>Schema与数据类型优化</h1><h2 id="基本原则"><a href="#基本原则" class="headerlink" title="基本原则"></a>基本原则</h2><ul>
+<li><strong>更小</strong>：如果只要存0-200，<code>tinyint unsigned</code> 比 <code>int</code> 好</li>
+<li><strong>简单</strong>：用内建类型表示时间而不是varchar</li>
+<li><strong>避免NULL</strong>：有 NULL 的列使得索引、索引统计和值比较更加复杂。虽然调优时把NULL改NOT NULL性能提升较小，但是如果要在列上建索引，就应该避免 NULL</li>
+</ul>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/2bb1b1ab.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2018-09-15T12:37:38.000Z">2018-09-15</time>
                 
                 <div class="level-item">
@@ -566,60 +638,6 @@
 
 
 
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-08-04T11:51:52.000Z">2018-08-04</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java/">Java</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java/JVM/">JVM</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    26 分钟 读完 (大约 3908 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/7a1af8ce.html">Java虚拟机（二）内存模型和对象创建</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h1><p>Java虚拟机（JVM）会在 Java 程序执行的过程中，把虚拟机所管理的内存划分为几个不同的数据区域。如下：</p>
-<p><img src="../../../../images/Java/JVM_Memory.png" alt=""></p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/7a1af8ce.html#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -644,7 +662,7 @@
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/page/20/">20</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/page/21/">21</a></li>
             
         </ul>
     </nav>
@@ -694,7 +712,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            160
+                            161
                         </p>
                     </a>
                 </div>
@@ -798,7 +816,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">39</span>
+                <span class="level-item tag">40</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/Concurrent/">
@@ -806,7 +824,7 @@
                 <span class="level-item">Concurrent</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/Effective-Java/">
