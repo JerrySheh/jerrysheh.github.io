@@ -1,5 +1,5 @@
 ---
-title: Java并发编程之线程池
+title: Java并发编程之异步任务和线程池
 comments: true
 categories:
 - Java
@@ -201,5 +201,3 @@ executorService.shutdown();
 - `isShutdown()`描述的是非RUNNING状态，也就是SHUTDOWN/STOP/TERMINATED三种状态。
 
 ---
-
-先写这么多，未完待续。

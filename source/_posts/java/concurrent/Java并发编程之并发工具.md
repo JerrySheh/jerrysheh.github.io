@@ -210,8 +210,9 @@ map.compute(word, (k,v)-> v == null? 1:v+1);
 
 ## CopyOnWriteArrayList
 
-这是一个写入时复制（Copy-On-Write）并发容器，用于替代同步的List。在每次修改时，都会创建并重新发布一个新的容器副本。迭代器不会抛出`ConcurrentModificationException`，是 fail-safe 的。当迭代操作远远多于修改操作时，应该考虑使用Copy-On-Write容器。
+这是一个写入时复制（Copy-On-Write）并发容器，用于替代SynchronizedList。在每次修改时，都会创建并重新发布一个新的容器副本。迭代器不会抛出`ConcurrentModificationException`，是 fail-safe 的。当迭代操作远远多于修改操作时，应该考虑使用Copy-On-Write容器。例如事件监听系统，接收事件通知的操作远远多于注册或注销监听器的操作。
 
+类似的，有`CopyOnWriteArraySet`。
 
 ## BlockingQueue（生产者消费者模式）
 
