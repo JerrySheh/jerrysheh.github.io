@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2018-10-30T07:08:26.000Z">
-<meta property="article:modified_time" content="2020-04-06T13:55:33.469Z">
+<meta property="article:modified_time" content="2020-04-08T14:54:09.526Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta property="article:tag" content="并发">
 <meta property="article:tag" content="Java">
@@ -145,7 +145,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    21 分钟 读完 (大约 3181 个字)
+                    23 分钟 读完 (大约 3394 个字)
                 </span>
                 
                 
@@ -172,9 +172,11 @@
 </ol>
 <a id="more"></a>
 
-<h1 id="atomic原子类"><a href="#atomic原子类" class="headerlink" title="atomic原子类"></a>atomic原子类</h1><h2 id="为什么要用-atomic原子类"><a href="#为什么要用-atomic原子类" class="headerlink" title="为什么要用 atomic原子类"></a>为什么要用 atomic原子类</h2><p>像 <code>i++</code> 这样的操作并不是原子操作，多线程访问可能出现问题，在 <a href="../post/b4ed848b.html">Java并发编程之安全性</a> 就提到可以用 java.util.concurrent.atomic 包的 atomic原子类 来将 <code>i++</code> 封装成原子操作。</p>
+<h1 id="atomic原子类"><a href="#atomic原子类" class="headerlink" title="atomic原子类"></a>atomic原子类</h1><h2 id="为什么要用atomic原子类"><a href="#为什么要用atomic原子类" class="headerlink" title="为什么要用atomic原子类"></a>为什么要用atomic原子类</h2><p>像 <code>i++</code> 这样的操作并不是原子操作，多线程访问可能出现问题，在 <a href="../post/b4ed848b.html">Java并发编程之安全性</a> 就提到可以用 java.util.concurrent.atomic 包的 atomic原子类 来将 <code>i++</code> 封装成原子操作。</p>
 <p><img src="../../../../images/Java/atomic.png" alt="atomic"></p>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>非阻塞并发算法（CAS）。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>非阻塞并发算法。典型的算法有compare-and-swap（CAS），即一个线程在修改一个变量时，先将当前值（当前内存地址值）跟预期值进行比较，如果一致，则进行修改，如果不一致，说明这个变量被其他线程改了，就不进行修改。</p>
+<p>但是 CAS 也不是完美的，比如经典的ABA问题：一个变量 V 初次读取的时候是 A值，之后被其他线程修改为 B，然后又修改为 A，那 CAS 会认为它从来没有变过。</p>
+<p>参考：<a href="http://tutorials.jenkov.com/java-concurrency/compare-and-swap.html">http://tutorials.jenkov.com/java-concurrency/compare-and-swap.html</a></p>
 <h2 id="原子类的更新问题"><a href="#原子类的更新问题" class="headerlink" title="原子类的更新问题"></a>原子类的更新问题</h2><p>用 Atomiclong 的 <code>incrementAndGet()</code> 方法或者 <code>set()</code> 方法更新值。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Atomiclong count = <span class="keyword">new</span> AtomicLong(<span class="number">10</span>);</span><br><span class="line">count.incrementAndGet(); <span class="comment">// 11</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">long</span> value = <span class="number">2L</span>;</span><br><span class="line">count.set(value);  <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
 
@@ -220,9 +222,9 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    oldValue = map.get(word);</span><br><span class="line">    newValue = oldValue == <span class="keyword">null</span> ? <span class="number">1</span> : oldValue+<span class="number">1</span>;</span><br><span class="line">&#125; <span class="keyword">while</span> (!map.replace(word, oldValue, newValue));</span><br></pre></td></tr></table></figure>
 
 <p>但是我们太讨厌这样的样板代码了，进一步改进如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 把 Long 换成了 LongAdder</span></span><br><span class="line">ConcurrentHashMap&lt;String,LongAdder&gt; map = <span class="keyword">new</span> ConcurrentHashMap();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果为空，新建</span></span><br><span class="line">map.putIfAbsent(word, <span class="keyword">new</span> LongAdder());</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取再+1</span></span><br><span class="line">map.get(word).increment();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 上面两句可以合并为一句</span></span><br><span class="line">map.putIfAbsent(word, <span class="keyword">new</span> LongAdder()).increment();</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 把 Long 换成了 LongAdder</span></span><br><span class="line">ConcurrentHashMap&lt;String,LongAdder&gt; map = <span class="keyword">new</span> ConcurrentHashMap();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果为空，新建</span></span><br><span class="line">map.putIfAbsent(word, <span class="keyword">new</span> LongAdder());</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取再+1，实际上是把 do while 封装到 increment() 里面</span></span><br><span class="line">map.get(word).increment();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 上面两句可以合并为一句</span></span><br><span class="line">map.putIfAbsent(word, <span class="keyword">new</span> LongAdder()).increment();</span><br></pre></td></tr></table></figure>
 
-<p>Java 8 中，compute 方法传入一个 key 和一个计算新值的函数，用于完成原子更新，推荐使用：</p>
+<p>但如果我不是想 +1，而想做其他计算，就无法用 <code>increment()</code> 了。Java 8 中，compute 方法传入一个 key 和一个计算新值的函数，用于完成原子更新，推荐使用：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map.compute(word, (k,v)-&gt; v == <span class="keyword">null</span>? <span class="number">1</span>:v+<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
 
 <h2 id="CopyOnWriteArrayList"><a href="#CopyOnWriteArrayList" class="headerlink" title="CopyOnWriteArrayList"></a>CopyOnWriteArrayList</h2><p>这是一个写入时复制（Copy-On-Write）并发容器，用于替代SynchronizedList。在每次修改时，都会创建并重新发布一个新的容器副本。迭代器不会抛出<code>ConcurrentModificationException</code>，是 fail-safe 的。当迭代操作远远多于修改操作时，应该考虑使用Copy-On-Write容器。例如事件监听系统，接收事件通知的操作远远多于注册或注销监听器的操作。</p>
@@ -300,6 +302,8 @@
 <h2 id="信号量（Semaphore）"><a href="#信号量（Semaphore）" class="headerlink" title="信号量（Semaphore）"></a>信号量（Semaphore）</h2><p>计数信号量（Counting Semaphore）用来控制同时访问某个特定资源的操作数量，或者同时执行某个指定操作的数量。</p>
 <p>Semaphore 与 CountDownLatch 的区别在于 Semaphore 的计数器减少之后，还可以再增加，表示可用的资源数量。Semaphore 可以用来实现资源池，如数据库连接池。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Semaphore semaphore = <span class="keyword">new</span> Semaphore(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//资源被使用代码</span></span><br><span class="line"></span><br><span class="line">semaphore.acquire(); <span class="comment">// 资源被获取</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 资源使用完毕代码</span></span><br><span class="line"></span><br><span class="line">semaphore.release(); <span class="comment">// 资源被释放</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="显式锁（ReentrantLock）"><a href="#显式锁（ReentrantLock）" class="headerlink" title="显式锁（ReentrantLock）"></a>显式锁（ReentrantLock）</h2><p>todo 待补充</p>
 
         </div>
         
@@ -388,7 +392,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            161
+                            162
                         </p>
                     </a>
                 </div>
@@ -492,7 +496,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">40</span>
+                <span class="level-item tag">41</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/Concurrent/">
@@ -500,7 +504,7 @@
                 <span class="level-item">Concurrent</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/Effective-Java/">
@@ -708,9 +712,9 @@
         <span class="has-mr-6">1</span>
         <span>atomic原子类</span>
         </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#为什么要用-atomic原子类">
+        <a class="is-flex" href="#为什么要用atomic原子类">
         <span class="has-mr-6">1.1</span>
-        <span>为什么要用 atomic原子类</span>
+        <span>为什么要用atomic原子类</span>
         </a></li><li>
         <a class="is-flex" href="#原理">
         <span class="has-mr-6">1.2</span>
@@ -763,6 +767,10 @@
         <a class="is-flex" href="#信号量（Semaphore）">
         <span class="has-mr-6">4.3</span>
         <span>信号量（Semaphore）</span>
+        </a></li><li>
+        <a class="is-flex" href="#显式锁（ReentrantLock）">
+        <span class="has-mr-6">4.4</span>
+        <span>显式锁（ReentrantLock）</span>
         </a></li></ul></li></ul>
             </div>
         </div>
@@ -851,9 +859,9 @@
         <span class="has-mr-6">1</span>
         <span>atomic原子类</span>
         </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#为什么要用-atomic原子类">
+        <a class="is-flex" href="#为什么要用atomic原子类">
         <span class="has-mr-6">1.1</span>
-        <span>为什么要用 atomic原子类</span>
+        <span>为什么要用atomic原子类</span>
         </a></li><li>
         <a class="is-flex" href="#原理">
         <span class="has-mr-6">1.2</span>
@@ -906,6 +914,10 @@
         <a class="is-flex" href="#信号量（Semaphore）">
         <span class="has-mr-6">4.3</span>
         <span>信号量（Semaphore）</span>
+        </a></li><li>
+        <a class="is-flex" href="#显式锁（ReentrantLock）">
+        <span class="has-mr-6">4.4</span>
+        <span>显式锁（ReentrantLock）</span>
         </a></li></ul></li></ul>
             </div>
         </div>

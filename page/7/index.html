@@ -128,6 +128,76 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-08-09T13:30:49.000Z">2018-08-09</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java/JVM/">JVM</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 分钟 读完 (大约 877 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/d15ce8f0.html">Java虚拟机（三）Class文件结构</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="class-文件简介"><a href="#class-文件简介" class="headerlink" title="class 文件简介"></a>class 文件简介</h1><p>class 文件是javac编译器编译后生成的二进制文件,全部是连续的0/1。可以把 class 文件中的内容分为两种类型：</p>
+<ol>
+<li><strong>无符号数</strong>：表示class文件中的值，没有符号，但有长度。u1、u2、u4、u8 （u1表示1字节的无符号数）</li>
+<li><strong>表</strong>：无符号数要么单独存在，要么多个组合成为二维表。</li>
+</ol>
+<p>总而言之，class文件中的数据要么是单个值，要么是二维表。</p>
+<hr>
+<h1 id="class-文件的组织结构一览"><a href="#class-文件的组织结构一览" class="headerlink" title="class 文件的组织结构一览"></a>class 文件的组织结构一览</h1><ol>
+<li>魔数</li>
+<li>本文件的版本信息</li>
+<li>常量池</li>
+<li>访问标志</li>
+<li>类索引</li>
+<li>父类索引</li>
+<li>接口索引集合</li>
+<li>字段表集合</li>
+<li>方法表集合</li>
+</ol>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/d15ce8f0.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2018-08-04T11:51:52.000Z">2018-08-04</time>
                 
                 <div class="level-item">
@@ -526,65 +596,6 @@
 
 
 
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-07-05T08:16:42.000Z">2018-07-05</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java-Web/Spring/">Spring</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    7 分钟 读完 (大约 1086 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/3479b7db.html">Spring（四）使用 RESTful 风格</a>
-            
-        </h1>
-        <div class="content">
-            <p><img src="http://www.runoob.com/wp-content/uploads/2015/07/restful.gif" alt="RESTful"></p>
-<h1 id="什么是-RESTful-？"><a href="#什么是-RESTful-？" class="headerlink" title="什么是 RESTful ？"></a>什么是 RESTful ？</h1><p>REST这个词由 Roy Thomas Fielding 在他2000年的博士论文中提出。全称是 Representational State Transfer ，这个词省略了主语 Resource，因此翻译成中文是：资源表述性状态转化。</p>
-<h2 id="资源（Resource）"><a href="#资源（Resource）" class="headerlink" title="资源（Resource）"></a>资源（Resource）</h2><p>之前在 <a href="../post/1707ee78.html">HTTP之旅</a> 一文中提到过，一个 Web 页面包含了很多对象，这些对象可以是 html ，可以是 JSON、XML，或者可以是图片、嵌入的视频，还可以是java小程序等等。这些对象都可以称为资源。我们通过 <code>统一资源定位符（URI）</code>去定位资源。</p>
-<h2 id="表述性（REpresentational）"><a href="#表述性（REpresentational）" class="headerlink" title="表述性（REpresentational）"></a>表述性（REpresentational）</h2><p>正如上面提到的，资源可以用各种形式来进行表述，我们可以使用最适合资源使用者的任意形式来表述资源。资源具体呈现出来的形式，就是资源的表述性（REpresentational）。</p>
-<h2 id="状态转化（State-Transfer）"><a href="#状态转化（State-Transfer）" class="headerlink" title="状态转化（State Transfer）"></a>状态转化（State Transfer）</h2><p>HTTP协议是无状态协议。这意味着，资源的所有的状态都保存在服务器端。因此，如果客户端想要操作服务器，必须通过某种手段，让服务器端发生”状态转化”（State Transfer）。</p>
-<p>客户端用到的手段，只能是HTTP协议。具体来说，就是HTTP协议里面，四个表示操作方式的动词：GET、POST、PUT、DELETE。它们分别对应四种基本操作：GET用来获取资源，POST用来新建资源（也可以用于更新资源），PUT用来更新资源，DELETE用来删除资源。</p>
-<p>简单总结：资源通过 URL 进行识别和定位，然后通过行为(即 HTTP 方法)来定义应该完成怎样的功能。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/3479b7db.html#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -659,7 +670,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            161
+                            162
                         </p>
                     </a>
                 </div>
@@ -763,7 +774,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">40</span>
+                <span class="level-item tag">41</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/Concurrent/">
@@ -771,7 +782,7 @@
                 <span class="level-item">Concurrent</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/Effective-Java/">

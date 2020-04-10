@@ -7,13 +7,13 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>标签: linux - J.e</title>
+<title>标签: Linux - J.e</title>
 
 
     <meta name="description" content="车顶上绑着飞机发动机的小车也许真的能开，只要你不尝试急转弯">
 <meta property="og:type" content="website">
 <meta property="og:title" content="J.e">
-<meta property="og:url" content="https://jerrysheh.me/tags/linux/index.html">
+<meta property="og:url" content="https://jerrysheh.me/tags/Linux/index.html">
 <meta property="og:site_name" content="J.e">
 <meta property="og:description" content="车顶上绑着飞机发动机的小车也许真的能开，只要你不尝试急转弯">
 <meta property="og:locale" content="zh_CN">
@@ -125,7 +125,7 @@
         <nav class="breadcrumb" aria-label="breadcrumbs">
         <ul>
             <li><a href="/tags">标签</a></li>
-            <li class="is-active"><a href="#" aria-current="page">linux</a></li>
+            <li class="is-active"><a href="#" aria-current="page">Linux</a></li>
         </ul>
         </nav>
     </div>
@@ -138,7 +138,7 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-09-30T05:52:00.000Z">2018-09-30</time>
+                <time class="level-item has-text-grey" datetime="2018-03-13T14:01:33.000Z">2018-03-13</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/categories/linux/">linux</a>
@@ -148,7 +148,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    15 分钟 读完 (大约 2279 个字)
+                    15 分钟 读完 (大约 2182 个字)
                 </span>
                 
                 
@@ -157,25 +157,129 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/post/44ca081e.html">通过SSH反向代理连接学校内网服务器</a>
+                <a class="has-link-black-ter" href="/post/2720656c.html">Linux设备驱动开发（一）内核的配置与编译</a>
             
         </h1>
         <div class="content">
-            <h1 id="问题的来源"><a href="#问题的来源" class="headerlink" title="问题的来源"></a>问题的来源</h1><p>从老师那里借了两台服务器跑数据，但是老师的服务器没有公网ip，只有学校内网ip，故只能在实验室或者图书馆登录。有没有什么办法，能让我在宿舍或者家里，远程连接进这两台学校内网的服务器呢？答案肯定的，那就是 <strong>反向代理</strong>。前提是，我得有一台有公网ip的服务器（例如，阿里云服务器或VPS都可以）。</p>
-<p><img src="../../../../images/Linux/reverseproxy.png" alt=""></p>
+            <h1 id="Linux内核的源码结构"><a href="#Linux内核的源码结构" class="headerlink" title="Linux内核的源码结构"></a>Linux内核的源码结构</h1><p>Linux内核主要由五个子系统组成：</p>
+<ul>
+<li>进程调度</li>
+<li>内存管理</li>
+<li>虚拟文档系统</li>
+<li>网络接口</li>
+<li>进程间通信</li>
+</ul>
+<p><img src="../../../../images/Linux/linux_kernel_structure.png" alt="kernel"></p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/2720656c.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-03-07T05:03:26.000Z">2018-03-07</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/linux/">linux</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    9 分钟 读完 (大约 1294 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/75b0adbf.html">Linux内核模块编程 HelloWorld</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="微内核和宏内核"><a href="#微内核和宏内核" class="headerlink" title="微内核和宏内核"></a>微内核和宏内核</h1><h2 id="微内核"><a href="#微内核" class="headerlink" title="微内核"></a>微内核</h2><p>内核中只有最基本的调度、内存管理。其他的比如驱动、文件系统等都是用户态的守护进程去实现的。比如Windows NT、OS X</p>
+<p>优点是超级稳定，驱动等的错误只会导致相应进程死掉，不会导致整个系统都崩溃，做驱动开发时，发现错误，只需要kill掉进程，修正后重启进程就行了，比较方便。</p>
+<p>缺点是效率低。典型代表QNX，QNX的文件系统是跑在用户态的进程，称为resmgr的东西，是订阅发布机制，文件系统的错误只会导致这个守护进程挂掉。</p>
+<h2 id="宏内核"><a href="#宏内核" class="headerlink" title="宏内核"></a>宏内核</h2><p>简单来说，就是把很多东西都集成进内核，例如Linux内核，除了最基本的进程、线程管理、内存管理外，文件系统，驱动，网络协议等等都在内核里面。优点是效率高。缺点是稳定性差，开发过程中的bug经常会导致整个系统挂掉。做驱动开发的应该经常有按电源键强行关机的经历。</p>
 <hr>
-<h1 id="什么是代理？"><a href="#什么是代理？" class="headerlink" title="什么是代理？"></a>什么是代理？</h1><p>要搞清楚什么是反向代理，就得知道什么是 <strong>代理（Proxy）</strong>。代理其实就是一个跳板。比如我要去图书馆借一本书，我把要借的书的信息写在纸上，交给图书馆管理员，由图书馆管理员去仓库帮我把书取出来交给我。那我们就说，图书馆管理员是我的代理。</p>
-<p>在计算机网络中，代理分为 <strong>正向代理</strong> 和 <strong>反向代理</strong> 。</p>
+<h1 id="内核模块"><a href="#内核模块" class="headerlink" title="内核模块"></a>内核模块</h1><p>由于 Linux 内核是宏内核，集成性比较高，随着内核版本的迭代，内核变得非常大（Linux内核约50M），我们想定制自己的内核时，需要整个重新编译，比较繁琐。而且，定制内核时，有些功能我们是不需要的。</p>
+<p>因此 Linux 内核采用了模块化的方式。当我们编译内核时，可以只选择我们需要的模块。而且，我们自己编写的模块，可以采用安装/卸载的方式，集成到内核里。</p>
+<p>内核模块的优点是：开发效率更高，而且可以在内核运行时<code>动态加载</code>。由于Linux内核模块是动态加载的，所以它也叫<code>可加载内核模块(Loadable Kernel Module, LKM)</code>。Linux内核镜像位于/boot目录下，启动时最先加载，LKM总是在内核启动之后加载。</p>
+<p>LKM主要用于：设备驱动、文件系统驱动和系统调用。</p>
+<ul>
+<li><strong>注意</strong>：LKM是内核空间程序，不是用户空间程序，你可以把它看成是内核的一部分。也就是LKM没有任何保护，一不小心可能就会导致系统崩溃。</li>
+</ul>
+<hr>
+<h1 id="编译LKM"><a href="#编译LKM" class="headerlink" title="编译LKM"></a>编译LKM</h1><h2 id="安装C编译器和Linux内核头文件"><a href="#安装C编译器和Linux内核头文件" class="headerlink" title="安装C编译器和Linux内核头文件"></a>安装C编译器和Linux内核头文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install build-essential linux-headers-$(uname -r)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Hello-World内核模块代码（hello-c）"><a href="#Hello-World内核模块代码（hello-c）" class="headerlink" title="Hello World内核模块代码（hello.c）"></a>Hello World内核模块代码（hello.c）</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/module.h&gt;     /* 模块头文件，必不可少 */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/kernel.h&gt;     /* KERN_INFO在这里 */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/init.h&gt;       /* 使用的宏 */</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// LICENSE</span></span><br><span class="line">MODULE_LICENSE(<span class="string">"GPL"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 作者</span></span><br><span class="line">MODULE_AUTHOR(<span class="string">"blog.topspeedsnail.com"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 描述</span></span><br><span class="line">MODULE_DESCRIPTION(<span class="string">"hello world"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 模块版本</span></span><br><span class="line">MODULE_VERSION(<span class="string">"3.14"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> __<span class="function">init <span class="title">hello_start</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    printk(KERN_INFO <span class="string">"Hello World\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> __<span class="function"><span class="built_in">exit</span> <span class="title">hello_end</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    printk(KERN_INFO <span class="string">"Go to Hell\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module_init(hello_start);</span><br><span class="line">module_exit(hello_end);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>module_init</strong> 定义了模块的入口函数，在模块加载 insmoded (插入模块)时执行</li>
+<li><strong>module_exit</strong> 定义了模块的退出函数，在模块卸载 rmmoded （移除模块）时执行</li>
+</ul>
+<h2 id="创建Makefile"><a href="#创建Makefile" class="headerlink" title="创建Makefile"></a>创建Makefile</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">obj-m &#x3D; hello.o</span><br><span class="line">all:</span><br><span class="line">    make -C &#x2F;lib&#x2F;modules&#x2F;$(shell uname -r)&#x2F;build&#x2F; M&#x3D;$(PWD) modules</span><br><span class="line">clean:</span><br><span class="line">    make -C &#x2F;lib&#x2F;modules&#x2F;$(shell uname -r)&#x2F;build M&#x3D;$(PWD) clean</span><br><span class="line"># make命令前是tab，不是空格</span><br></pre></td></tr></table></figure>
+
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>make命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">jerrysheh@ubuntu:~&#x2F;Desktop$ make</span><br><span class="line">make -C &#x2F;lib&#x2F;modules&#x2F;4.13.0-31-generic&#x2F;build&#x2F; M&#x3D;&#x2F;home&#x2F;jerrysheh&#x2F;Desktop modules</span><br><span class="line">make[1]: Entering directory &#39;&#x2F;usr&#x2F;src&#x2F;linux-headers-4.13.0-31-generic&#39;</span><br><span class="line">  CC [M]  &#x2F;home&#x2F;jerrysheh&#x2F;Desktop&#x2F;helloworld.o</span><br><span class="line">  Building modules, stage 2.</span><br><span class="line">  MODPOST 1 modules</span><br><span class="line">  CC      &#x2F;home&#x2F;jerrysheh&#x2F;Desktop&#x2F;helloworld.mod.o</span><br><span class="line">  LD [M]  &#x2F;home&#x2F;jerrysheh&#x2F;Desktop&#x2F;helloworld.ko</span><br><span class="line">make[1]: Leaving directory &#39;&#x2F;usr&#x2F;src&#x2F;linux-headers-4.13.0-31-generic&#39;</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h2><p>使用<code>modinfo hello.ko</code>来查看模块信息</p>
+<p>使用<code>sudo insmod hello.ko</code>来加载模块到内核</p>
+<p>使用<code>lsmod</code>来查看已加载的内核（结合管道<code>lsmod | grep hello</code>）</p>
+<p>使用<code>sudo rmmod hello</code>来卸载模块</p>
+<h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><p>使用<code>tail /var/log/kern.log</code>来查看模块的输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">jerrysheh@ubuntu:~&#x2F;Desktop$ tail &#x2F;var&#x2F;log&#x2F;kern.log</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   gateway 192.168.224.2</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   server identifier 192.168.224.254</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   lease time 1800</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   nameserver &#39;192.168.224.2&#39;</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   domain name &#39;localdomain&#39;</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9770]   wins &#39;192.168.224.2&#39;</span><br><span class="line">Mar  7 12:53:59 ubuntu NetworkManager[863]: &lt;info&gt;  [1520398439.9771] dhcp4 (ens33): state changed bound -&gt; bound</span><br><span class="line">Mar  7 12:56:41 ubuntu kernel: [ 1170.100050] helloworld: loading out-of-tree module taints kernel.</span><br><span class="line">Mar  7 12:56:41 ubuntu kernel: [ 1170.100085] helloworld: module verification failed: signature and&#x2F;or required key missing - tainting kernel</span><br><span class="line">Mar  7 12:56:41 ubuntu kernel: [ 1170.100760] Hello World</span><br></pre></td></tr></table></figure>
+
+<p>看到最后一行输出了 Hello World，正是我们编写的 helloworld.ko 模块输出的。</p>
+<p>可以使用<code>tail -f /var/log/kern.lo</code>来动态监控内核的输出</p>
+<h2 id="作为字符型驱动"><a href="#作为字符型驱动" class="headerlink" title="作为字符型驱动"></a>作为字符型驱动</h2><p>在 insmod 的时候把设备的主设备号打印出来。</p>
+<p>如果要把内核模块作为字符型驱动设备，首先</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f &#x2F;var&#x2F;log&#x2F;messgaes</span><br></pre></td></tr></table></figure>
+
+<p>查看设备的主设备号，比如是 254</p>
+<p>然后创建目录和节点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir &#x2F;dev&#x2F;demo</span><br><span class="line">mknod &#x2F;dev&#x2F;demo&#x2F;newdev c 254 0</span><br></pre></td></tr></table></figure>
+
+<p>这样就创建了一个虚拟的字符型驱动设备。</p>
+<hr>
+<p>本文引用的文章：</p>
+<ul>
+<li><p><a href="http://blog.topspeedsnail.com/archives/10053">编写第一个Linux内核模块: Hello World</a></p>
+</li>
+<li><p><a href="http://blog.csdn.net/silencegll/article/details/51496158">宏内核与微内核、Linux内核与Unix内核的区别</a></p>
+</li>
+</ul>
+
         </div>
         
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/44ca081e.html#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
         
         
     </div>
@@ -195,7 +299,7 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-04-11T05:26:40.000Z">2018-04-11</time>
+                <time class="level-item has-text-grey" datetime="2018-02-10T16:21:18.000Z">2018-02-11</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/categories/linux/">linux</a>
@@ -205,7 +309,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    3 分钟 读完 (大约 438 个字)
+                    28 分钟 读完 (大约 4207 个字)
                 </span>
                 
                 
@@ -214,18 +318,36 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/post/10e2f7a0.html">Linux环境QT编程</a>
+                <a class="has-link-black-ter" href="/post/9cf7e81b.html">Linux系统漫游（二）从进程到并发</a>
             
         </h1>
         <div class="content">
-            <p>由于课程需要，需要在 Linux 环境下开发 QT 程序，因此开一篇文章来记录QT的知识点。</p>
+            <p>漫游式梳理一下关于 Linux 的知识。</p>
+<p><a href="https://jerrysheh.github.io/post/4f4dc2a9.html">上一篇</a>：</p>
+<ul>
+<li>Linux简介与版本</li>
+<li>从开机到启动</li>
+<li>文件系统</li>
+<li>文本流</li>
+<li>标准输入、标准输出、标准错误、重定向</li>
+<li>管道</li>
+<li>Linux 架构</li>
+</ul>
+<p>本篇：</p>
+<ul>
+<li>进程</li>
+<li>进程空间</li>
+<li>信号</li>
+<li>进程间通信</li>
+<li>并发与同步</li>
+</ul>
         </div>
         
         
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/10e2f7a0.html#more">阅读更多</a>
+                <a class="button is-size-7 is-light" href="/post/9cf7e81b.html#more">阅读更多</a>
                 </div>
             </div>
         </div>
@@ -248,17 +370,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2017-10-31T00:53:39.000Z">2017-10-31</time>
+                <time class="level-item has-text-grey" datetime="2018-02-09T10:11:46.000Z">2018-02-09</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>
+                <a class="has-link-grey -link" href="/categories/linux/">linux</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    4 分钟 读完 (大约 537 个字)
+                    26 分钟 读完 (大约 3941 个字)
                 </span>
                 
                 
@@ -267,18 +389,40 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/post/e36ce161.html">HeadFirst正则表达式</a>
+                <a class="has-link-black-ter" href="/post/4f4dc2a9.html">Linux系统漫游（一）从开机到架构</a>
             
         </h1>
         <div class="content">
-            <p>正则表达式，又称规则表达式。（Regular Expression，在代码中常简写为 regex、regexp 或 RE），计算机科学的一个概念。正则表通常被用来检索、替换那些符合某个模式(规则)的文本。</p>
+            <p>用了好久的 Linux 系统了，然而却没有从头开始好好系统地认识过 Linux，这两篇，就从以下几个方面，漫游式地重新梳理一下关于 Linux 的知识。</p>
+<p>本篇：</p>
+<ul>
+<li>Linux简介与版本</li>
+<li>从开机到启动</li>
+<li>文件系统</li>
+<li>文本流</li>
+<li>标准输入、标准输出、标准错误、重定向</li>
+<li>管道</li>
+<li>Linux 架构</li>
+</ul>
+<p><a href="https://jerrysheh.github.io/post/9cf7e81b.html">下一篇</a>：</p>
+<ul>
+<li>进程</li>
+<li>进程空间</li>
+<li>信号</li>
+<li>进程间通信</li>
+<li>并发与同步</li>
+</ul>
+<p><img src="http://s1.51cto.com/wyfs02/M00/6F/E0/wKioL1WsnI_D5yoXAACw18CAdYo720.jpg-wh_651x-s_997345474.jpg" alt="Linux"></p>
+<p>注：本文提取总结自<a href="http://www.cnblogs.com/vamei/tag/Linux/default.html?page=2">Vamei的博客</a></p>
+<hr>
+<h1 id="Linux-简介和版本"><a href="#Linux-简介和版本" class="headerlink" title="Linux 简介和版本"></a>Linux 简介和版本</h1><p>狭义的 Linux 指的是 Linux kernel (内核)，最初由 Linus Torvalds 根据Minix系统的代码，参照UNIX系统的设计写出。kernel 就是负责管理硬件并为上层应用提供接口的底层代码。广义的 Linux 指的是以 Linux kernel 为基础的包括操作系统和各种应用在内的各个Linux版本(distribution)。</p>
         </div>
         
         
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/e36ce161.html#more">阅读更多</a>
+                <a class="button is-size-7 is-light" href="/post/4f4dc2a9.html#more">阅读更多</a>
                 </div>
             </div>
         </div>
@@ -301,17 +445,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2017-10-17T16:04:01.000Z">2017-10-18</time>
+                <time class="level-item has-text-grey" datetime="2017-11-28T01:15:30.000Z">2017-11-28</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+                <a class="has-link-grey -link" href="/categories/linux/">linux</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    14 分钟 读完 (大约 2141 个字)
+                    6 分钟 读完 (大约 963 个字)
                 </span>
                 
                 
@@ -320,23 +464,27 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/post/bfa70c14.html">浅谈 socket 编程</a>
+                <a class="has-link-black-ter" href="/post/264103f9.html">了解makefile</a>
             
         </h1>
         <div class="content">
-            <h1 id="计算机通信和socket"><a href="#计算机通信和socket" class="headerlink" title="计算机通信和socket"></a>计算机通信和socket</h1><p>计算机程序之间的通信，是进程与进程之间的通信。之前在 Linux 学习中就遇到用管道（PIPE）来让一个进程的输出和另一个进程的输入连接起来，从而利用文件操作API来管理进程间通信。</p>
-<p>Unix/Linux的基本哲学之一就是“一切皆文件”，一切都可以用<code>打开(open) –&gt; 读写(read/write) –&gt; 关闭(close)</code>的模式来操作。<strong>socket可以看成一个进程向socket的一端写入或读取文本流，而另一个进程可以从另一端读取或写入。比较特别的是，这两个建立socket通信的进程可以分别属于两台不同的计算机</strong>，可以简单地把socket理解为一种特殊的文件，我们通过操作socket函数，实现文本流在多台计算机之间传输，同时也就实现了计算机之间的通信。</p>
-<p>一个socket包含四个地址信息: <strong>两台计算机的IP地址和两个进程所使用的端口(port)</strong>。IP地址用于定位计算机，而端口用于定位进程 (一台计算机上可以有多个进程分别使用不同的端口)。</p>
-<h1 id="TCP和UDP"><a href="#TCP和UDP" class="headerlink" title="TCP和UDP"></a>TCP和UDP</h1><p>在开始 socket 编程之前，有必要简单了解一下TCP和UDP协议。</p>
-<p>TCP（传输控制协议）提供<strong>面向连接、可靠的字节流服务</strong>。客户端和服务器彼此交换数据前，必须先在双方之间建立一个TCP连接，之后才能传输数据。TCP提供超时重发，丢弃重复数据，检验数据，流量控制等功能，从而<strong>保证数据能从一端传到另一端</strong>。</p>
-<p>UDP（用户数据报协议）是一个简单的面向数据报的运输层协议。<strong>UDP不提供可靠性</strong>，它只是把应用程序传给IP层的数据报发送出去，但是并不能保证它们能到达目的地。由于UDP在传输数据报前不需在客户端和服务器之间建立一个连接，且没有超时重发等机制，故而传输速度很快。</p>
+            <p>使用 gcc 命令可以很方便地在Linux下编译C源代码，但是，当我们的工程变大了之后，项目下面有很多 <code>.c</code>、<code>.h</code>文件，各种依赖关系错综复杂。这时候，手工编译就不是那么划算了。makefile就是用于解决这个问题的。</p>
+<p>假设我现在的工程下面有5个文件，分别是：</p>
+<ol>
+<li>main.c 主函数所在源文件</li>
+<li>hello.c 输出hello的函数</li>
+<li>hello.h 头文件</li>
+<li>world.c 输出world的函数</li>
+<li>world.h 头文件</li>
+</ol>
+<p>我们可以在工程目录下，新建一个名称为<code>makefile</code>的文件（没有扩展名），然后往这个文件里写一些规则，再在shell下面执行<code>make</code>命令，就可以实现自动编译了。</p>
         </div>
         
         
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/bfa70c14.html#more">阅读更多</a>
+                <a class="button is-size-7 is-light" href="/post/264103f9.html#more">阅读更多</a>
                 </div>
             </div>
         </div>
@@ -359,17 +507,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2017-09-13T15:14:59.000Z">2017-09-13</time>
+                <time class="level-item has-text-grey" datetime="2017-11-21T00:10:47.000Z">2017-11-21</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>
+                <a class="has-link-grey -link" href="/categories/linux/">linux</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    5 分钟 读完 (大约 792 个字)
+                    6 分钟 读完 (大约 918 个字)
                 </span>
                 
                 
@@ -378,19 +526,25 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/post/63b47f65.html">Hexo多终端同步</a>
+                <a class="has-link-black-ter" href="/post/bbe22ae6.html">gcc编译基本操作</a>
             
         </h1>
         <div class="content">
-            <p>Hexo 多终端同步问题</p>
-<p>我有两台电脑，一台 windows， 一台 Ubuntu 。之前在 Windows 机器下部署了 hexo 博客，现在想在另一台机子的 Ubuntu 系统下同步之前的博客，折腾了一晚上终于搞定。</p>
+            <p>假设我现在有3个文件，分别是：</p>
+<ul>
+<li><code>mystrlen.c</code>: 是我自己实现的一个计算字符串长度的算法函数。</li>
+<li><code>mystrlen.h</code>: 该算法的头文件。</li>
+<li><code>test.c</code>: main函数，里面有一些字符串需要调用上面的算法来计算长度</li>
+</ul>
+<p>那么在 Linux 下，如何用 gcc 把 mystrlen.c 编译成动态链接库，方便 test.c 去使用呢 ？</p>
+<hr>
         </div>
         
         
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/63b47f65.html#more">阅读更多</a>
+                <a class="button is-size-7 is-light" href="/post/bbe22ae6.html#more">阅读更多</a>
                 </div>
             </div>
         </div>
@@ -406,682 +560,204 @@
 
 
 
-</div>
-                
-
-
-
-
-<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
     
+<div class="card">
+    
+    <div class="card-content article ">
         
-<div class="card widget">
-    <div class="card-content">
-        <nav class="level">
-            <div class="level-item has-text-centered" style="flex-shrink: 1">
-                <div>
-                    
-                    <figure class="image is-128x128 has-mb-6">
-                        <img class="" src="/images/avatar.png" alt="Jerry Sheh">
-                    </figure>
-                    
-                    <p class="is-size-4 is-block">
-                        Jerry Sheh
-                    </p>
-                    
-                    
-                    <p class="is-size-6 is-block">
-                        车顶上绑着飞机发动机
-                    </p>
-                    
-                    
-                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
-                        <i class="fas fa-map-marker-alt has-mr-7"></i>
-                        <span>Shenzhen</span>
-                    </p>
-                    
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-09-24T06:28:00.000Z">2017-09-24</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/linux/">linux</a>
                 </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    16 分钟 读完 (大约 2389 个字)
+                </span>
+                
+                
             </div>
-        </nav>
-        <nav class="level is-mobile">
-            <div class="level-item has-text-centered is-marginless">
-                <div>
-                    <p class="heading">
-                        文章
-                    </p>
-                    <a href="/archives">
-                        <p class="title has-text-weight-normal">
-                            161
-                        </p>
-                    </a>
-                </div>
-            </div>
-            <div class="level-item has-text-centered is-marginless">
-                <div>
-                    <p class="heading">
-                        分类
-                    </p>
-                    <a href="/categories">
-                        <p class="title has-text-weight-normal">
-                            28
-                        </p>
-                    </a>
-                </div>
-            </div>
-            <div class="level-item has-text-centered is-marginless">
-                <div>
-                    <p class="heading">
-                        标签
-                    </p>
-                    <a href="/tags">
-                        <p class="title has-text-weight-normal">
-                            34
-                        </p>
-                    </a>
-                </div>
-            </div>
-        </nav>
-        
-        <div class="level">
-            <a class="level-item button is-link is-rounded" href="mailto:jerrysheh@gmail.com" target="_blank" rel="noopener">
-                联系我</a>
         </div>
         
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/ee3d8fa1.html">给自己的 Linux 备忘</a>
+            
+        </h1>
+        <div class="content">
+            <p>Linux 学习任重而道远，此文记录了我在 Linux 学习中需要知道或反复查阅使用的命令、表达式等内容，持续更新。</p>
+        </div>
         
         
         <div class="level is-mobile">
-            
-            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
-                title="Github" href="https://github.com/Jerrysheh">
-                
-                <i class="fab fa-github"></i>
-                
-            </a>
-            
-            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
-                title="email" href="mailto:jerrysheh@gmail.com">
-                
-                <i class="fa fa-envelope"></i>
-                
-            </a>
-            
-            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
-                title="Zhihu" href="https://www.zhihu.com/people/jerrysheh">
-                
-                <i class="fab fa-zhihu"></i>
-                
-            </a>
-            
-        </div>
-        
-    </div>
-</div>
-    
-        
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                分类
-            </h3>
-            <ul class="menu-list">
-            <li>
-        <a class="level is-marginless" href="/categories/Android/">
-            <span class="level-start">
-                <span class="level-item">Android</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">11</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/C-C/">
-            <span class="level-start">
-                <span class="level-item">C/C++</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Golang/">
-            <span class="level-start">
-                <span class="level-item">Golang</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java/">
-            <span class="level-start">
-                <span class="level-item">Java</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">40</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/Java/Concurrent/">
-            <span class="level-start">
-                <span class="level-item">Concurrent</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">4</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java/Effective-Java/">
-            <span class="level-start">
-                <span class="level-item">Effective Java</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">9</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java/JDBC/">
-            <span class="level-start">
-                <span class="level-item">JDBC</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">2</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java/JVM/">
-            <span class="level-start">
-                <span class="level-item">JVM</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">5</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java/Java-SE/">
-            <span class="level-start">
-                <span class="level-item">Java SE</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">20</span>
-            </span>
-        </a></li></ul></li><li>
-        <a class="level is-marginless" href="/categories/Java-Web/">
-            <span class="level-start">
-                <span class="level-item">Java Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">15</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/Java-Web/Spring/">
-            <span class="level-start">
-                <span class="level-item">Spring</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">9</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java-Web/Web/">
-            <span class="level-start">
-                <span class="level-item">Web</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">4</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Java-Web/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            <span class="level-start">
-                <span class="level-item">微服务</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li></ul></li><li>
-        <a class="level is-marginless" href="/categories/Python/">
-            <span class="level-start">
-                <span class="level-item">Python</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">6</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/linux/">
-            <span class="level-start">
-                <span class="level-item">linux</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">12</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%89%8D%E7%AB%AF/">
-            <span class="level-start">
-                <span class="level-item">前端</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">5</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
-            <span class="level-start">
-                <span class="level-item">大数据</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">12</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/Scala/">
-            <span class="level-start">
-                <span class="level-item">Scala</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">3</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/">
-            <span class="level-start">
-                <span class="level-item">Spark</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">6</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/hadoop/">
-            <span class="level-start">
-                <span class="level-item">hadoop</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">2</span>
-            </span>
-        </a></li></ul></li><li>
-        <a class="level is-marginless" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
-            <span class="level-start">
-                <span class="level-item">操作系统</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">7</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
-            <span class="level-start">
-                <span class="level-item">数据库</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">5</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
-            <span class="level-start">
-                <span class="level-item">数据结构和算法</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">9</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
-            <span class="level-start">
-                <span class="level-item">计算机</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">7</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E9%80%9F%E6%88%90%E8%AF%BE/">
-            <span class="level-start">
-                <span class="level-item">计算机科学速成课</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">4</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
-            <span class="level-start">
-                <span class="level-item">计算机网络</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">8</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
-            <span class="level-start">
-                <span class="level-item">设计模式</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">5</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/%E8%AF%BB%E4%B9%A6%E4%B8%8E%E7%94%9F%E6%B4%BB/">
-            <span class="level-start">
-                <span class="level-item">读书与生活</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">13</span>
-            </span>
-        </a></li>
-            </ul>
-        </div>
-    </div>
-</div>
-    
-    
-        <div class="column-right-shadow is-hidden-widescreen is-sticky">
-        
-            
-        
-            <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            推荐链接
-        </h3>
-        <ul class="menu-list">
-        
-            <li>
-                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
-                    <span class="level-left">
-                        <span class="level-item">我没有三颗心脏</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">www.wmyskxz.com</span>
-                    </span>
-                </a>
-            </li>
-        
-            <li>
-                <a class="level is-mobile" href="https://www.cnblogs.com/vamei/" target="_blank" rel="noopener">
-                    <span class="level-left">
-                        <span class="level-item">Vamei</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">www.cnblogs.com</span>
-                    </span>
-                </a>
-            </li>
-        
-            <li>
-                <a class="level is-mobile" href="https://www.celesteheadlee.com/" target="_blank" rel="noopener">
-                    <span class="level-left">
-                        <span class="level-item">celesteheadlee</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">www.celesteheadlee.com</span>
-                    </span>
-                </a>
-            </li>
-        
-            <li>
-                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
-                    <span class="level-left">
-                        <span class="level-item">Baron Schwartz</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">www.xaprb.com</span>
-                    </span>
-                </a>
-            </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-
-        
-        </div>
-    
-</div>
-
-                
-
-
-
-
-<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right is-sticky">
-    
-        
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            推荐链接
-        </h3>
-        <ul class="menu-list">
-        
-            <li>
-                <a class="level is-mobile" href="https://www.wmyskxz.com/" target="_blank" rel="noopener">
-                    <span class="level-left">
-                        <span class="level-item">我没有三颗心脏</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">www.wmyskxz.com</span>
-                    </span>
-                </a>
-            </li>
-        
-            <li>
-                <a class="level is-mobile" href="https://www.cnblogs.com/vamei/" target="_blank" rel="noopener">
-                    <span class="level-left">
-                        <span class="level-item">Vamei</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">www.cnblogs.com</span>
-                    </span>
-                </a>
-            </li>
-        
-            <li>
-                <a class="level is-mobile" href="https://www.celesteheadlee.com/" target="_blank" rel="noopener">
-                    <span class="level-left">
-                        <span class="level-item">celesteheadlee</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">www.celesteheadlee.com</span>
-                    </span>
-                </a>
-            </li>
-        
-            <li>
-                <a class="level is-mobile" href="https://www.xaprb.com/" target="_blank" rel="noopener">
-                    <span class="level-left">
-                        <span class="level-item">Baron Schwartz</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">www.xaprb.com</span>
-                    </span>
-                </a>
-            </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-
-    
-    
-</div>
-
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/ee3d8fa1.html#more">阅读更多</a>
+                </div>
             </div>
         </div>
-    </section>
-    <footer class="footer">
-    <div class="container">
-        <div class="level">
-            <div class="level-start has-text-centered-mobile">
-                <a class="footer-logo is-block has-mb-6" href="/">
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-09-12T12:14:40.000Z">2017-09-12</time>
                 
-                    <img src="/images/logo.png" alt="J.e" height="28">
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/linux/">linux</a>
+                </div>
                 
-                </a>
-                <p class="is-size-7">
-                &copy; 2020 Jerry Sheh&nbsp;
-                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
-                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
-                <br>
-                <span id="busuanzi_container_site_uv">
-                共<span id="busuanzi_value_site_uv">0</span>个访客
+                <span class="level-item has-text-grey">
+                    
+                    
+                    15 分钟 读完 (大约 2240 个字)
                 </span>
                 
-                </p>
+                
             </div>
-            <div class="level-end">
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
-                        
-                        <i class="fab fa-creative-commons"></i>
-                        
-                    </a>
-                </p>
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
-                        
-                        <i class="fab fa-creative-commons-by"></i>
-                        
-                    </a>
-                </p>
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
-                        
-                        <i class="fab fa-github"></i>
-                        
-                    </a>
-                </p>
-                
+                <a class="has-link-black-ter" href="/post/2656dc91.html">Ubuntu的一些奇技淫巧</a>
+            
+        </h1>
+        <div class="content">
+            <p>接触Linux越久，掉进莫名其妙的坑里就越多，于是我决定每遇到一个坑就记录下来，这样以后再踩的时候不至于爬不起来。</p>
+<p>Ubuntu的一些使用技巧</p>
+<p>目前 get 的有：</p>
+<ol>
+<li>调整鼠标速度</li>
+<li>解决双系统时间不同步的问题</li>
+<li>系统更新提示 /boot 空间不足的解决办法</li>
+<li>更改国内源，提高下载速度</li>
+<li>利用 Xshell / SSH 在远程和本地之间传文件</li>
+<li>编辑菜单</li>
+<li>终端使用SS，查公有ip</li>
+<li>管理ppa源</li>
+<li>安装 jdk 1.8</li>
+<li>更改 root 账户密码</li>
+<li>apt安装不成功，每次 apt install 都报错</li>
+<li>使用openssh远程连接</li>
+<li>ROOT账户没有环境变量</li>
+<li>如何正确地配置环境变量</li>
+<li>Ubuntu出现了内部错误</li>
+<li>Ubuntu/Debian 完全卸载Mysql</li>
+</ol>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/2656dc91.html#more">阅读更多</a>
                 </div>
-            
             </div>
         </div>
-    </div>
-</footer>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
-<script>moment.locale("zh-CN");</script>
-
-
-<script>
-var IcarusThemeSettings = {
-    site: {
-        url: 'https://jerrysheh.me',
-        external_link: {"enable":true,"exclude":[]}
-    },
-    article: {
-        highlight: {
-            clipboard: true,
-            fold: 'unfolded'
-        }
-    }
-};
-</script>
-
-
-<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
-
-
-
-
-
-<script src="/js/animation.js"></script>
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
-<script src="/js/gallery.js" defer></script>
-
-
-
-<div id="outdated">
-    <h6>Your browser is out-of-date!</h6>
-    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
-            my browser now </a></p>
-    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        outdatedBrowser({
-            bgColor: '#f25648',
-            color: '#ffffff',
-            lowerThan: 'flex'
-        });
-    });
-</script>
-
-
-<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    MathJax.Hub.Config({
-        'HTML-CSS': {
-            matchFontHeight: false
-        },
-        SVG: {
-            matchFontHeight: false
-        },
-        CommonHTML: {
-            matchFontHeight: false
-        },
-        tex2jax: {
-            inlineMath: [
-                ['$','$'],
-                ['\\(','\\)']
-            ]
-        }
-    });
-});
-</script>
-
-
-<a id="back-to-top" title="回到顶端" href="javascript:;">
-    <i class="fas fa-chevron-up"></i>
-</a>
-<script src="/js/back-to-top.js" defer></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script src="/js/main.js" defer></script>
-
-    
-    <div class="searchbox ins-search">
-    <div class="searchbox-container ins-search-container">
-        <div class="searchbox-input-wrapper">
-            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
-            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="searchbox-result-wrapper ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
+        
+        
     </div>
 </div>
-<script>
-    (function (window) {
-        var INSIGHT_CONFIG = {
-            TRANSLATION: {
-                POSTS: '文章',
-                PAGES: '页面',
-                CATEGORIES: '分类',
-                TAGS: '标签',
-                UNTITLED: '(无标题)',
-            },
-            CONTENT_URL: '/content.json',
-        };
-        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-    })(window);
-</script>
-<script src="/js/insight.js" defer></script>
-<link rel="stylesheet" href="/css/search.css">
-<link rel="stylesheet" href="/css/insight.css">
+
+
+
+
+
+
+
+
     
-</body>
-</html>置完之后就会自动启动，如果没有，使用以下命令来启动</p>
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-09-12T02:40:00.000Z">2017-09-12</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/linux/">linux</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    3 分钟 读完 (大约 457 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/879f3462.html">Ubuntu 下配置SS和SSR</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="Ubuntu-下配置-shadowsocks-qt"><a href="#Ubuntu-下配置-shadowsocks-qt" class="headerlink" title="Ubuntu 下配置 shadowsocks-qt"></a>Ubuntu 下配置 shadowsocks-qt</h1><p>注意：shadowsocks-qt只能用于SS，不能用于SSR</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:hzwhuang&#x2F;ss-qt5</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install shadowsocks-qt5</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>对于 UBuntu 18.04</p>
+</blockquote>
+<blockquote>
+<p>ppa:hzwhuang/ss-qt5 并没有18.04版本的源，所以再执行update时会出现</p>
+</blockquote>
+<blockquote>
+<p>E: 仓库 “<a href="http://ppa.launchpad.net/hzwhuang/ss-qt5/ubuntu">http://ppa.launchpad.net/hzwhuang/ss-qt5/ubuntu</a> bionic Release” 没有 Release 文件 的错误。</p>
+</blockquote>
+<blockquote>
+<p>这时，只要编辑 /etc/apt/sources.list.d/hzwhuang-ubuntu-ss-qt5-bionic.list 文件，将bionic (18.04版本代号)改成xenial（16.04版本代号）。</p>
+</blockquote>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>添加服务器地址、密码、连接方式。 gui友好界面。</p>
+<h2 id="配置Chrome-，使用插件SwitchyOmega"><a href="#配置Chrome-，使用插件SwitchyOmega" class="headerlink" title="配置Chrome ，使用插件SwitchyOmega"></a>配置Chrome ，使用插件SwitchyOmega</h2><p>用你能想到的方法找到Chrome SwitchyOmega 插件的 crx 离线包</p>
+<p>打开 Chrome 的扩展程序，将 crx 托进去及安装完毕</p>
+<h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><ol>
+<li>新建一个情景模式，更名 shadowsock</li>
+<li>代理协议选择 sock5，代理服务器 127.0.0.1， 代理端口 1080</li>
+</ol>
+<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><ol>
+<li>选择 autoswitch</li>
+<li>规则列表设置选择 Autoproxy</li>
+<li>规则列表网址如下<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;gfwlist&#x2F;gfwlist&#x2F;master&#x2F;gfwlist.txt</span><br></pre></td></tr></table></figure></li>
+<li>立即更新情景模式</li>
+<li>切换规则 - 规则列表规则选择 shadowsock</li>
+</ol>
+<p>Have fun :)</p>
+<hr>
+<h1 id="使用-SSR-客户端"><a href="#使用-SSR-客户端" class="headerlink" title="使用 SSR 客户端"></a>使用 SSR 客户端</h1><h2 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget http:&#x2F;&#x2F;www.texfox.com&#x2F;ssr  </span><br><span class="line">sudo mv ssr &#x2F;usr&#x2F;local&#x2F;bin</span><br><span class="line">chmod 766 &#x2F;usr&#x2F;local&#x2F;bin&#x2F;ssr  </span><br><span class="line">ssr install</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>一般安装的或者自己写的把全局脚本放在 usr/local/bin 下，这样在终端任意位置可以使用脚本命令</p>
+</blockquote>
+<h2 id="配置-1"><a href="#配置-1" class="headerlink" title="配置"></a>配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssr config</span><br></pre></td></tr></table></figure>
+
+<p>然后在弹出来的配置文件中填写你的服务器信息</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">"server":"0.0.0.0",        //服务器ip  </span><br><span class="line">"server_port":8388,        //端口  </span><br><span class="line">"password":"m",            //密码  </span><br><span class="line">"protocol":"origin",       //协议插件  </span><br><span class="line">"obfs":"http_simple",      //混淆插件  </span><br><span class="line">"method":"aes-256-cfb",    //加密方式</span><br></pre></td></tr></table></figure>
+
+<p>一般配置完之后就会自动启动，如果没有，使用以下命令来启动</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssr start</span><br></pre></td></tr></table></figure>
 
 <p>使用以下命令来关闭</p>
@@ -1148,7 +824,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            161
+                            162
                         </p>
                     </a>
                 </div>
@@ -1252,7 +928,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">40</span>
+                <span class="level-item tag">41</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/Concurrent/">
@@ -1260,7 +936,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <span class="level-item">Concurrent</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/Effective-Java/">

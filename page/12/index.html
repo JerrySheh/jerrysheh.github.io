@@ -128,6 +128,71 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-04-05T08:05:40.000Z">2018-04-05</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/">Spark</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    18 分钟 读完 (大约 2727 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/9c5fa7c3.html">Spark编程入门（二）RDD编程</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="RDD-简介"><a href="#RDD-简介" class="headerlink" title="RDD 简介"></a>RDD 简介</h1><p>弹性分布式数据集（Resilient Distributed Dataset，RDD），是分布式内存的一个抽象概念，它提供了一种高度受限的内存模型。本质上，RDD是一个只读的分区记录集合。一个RDD可以分成多个分区，每个分区就是一个数据集片段。不同的分区可以保存在集群的不同节点上，从而可以进行并行计算。</p>
+<p>RDD是只读的，不能直接修改。但是RDD提供了 <strong>转换</strong> 和 <strong>行动</strong> 两种操作。转换操作返回一个新的RDD，行动操作用于执行计算并指定输出，返回非RDD。</p>
+<p>典型的RDD执行过程如下：</p>
+<ul>
+<li>RDD读入外部数据源（或内存中的集合），进行创建。</li>
+<li>RDD经过一系列的转换操作，每一次都产生不同的RDD，给下一次转换使用。</li>
+<li>最后一个RDD经行动操作进行处理，输出到外部数据源。</li>
+</ul>
+<p>需要注意的是，RDD采用了惰性调用，即转换操作并不会真的进行转换，只是记录。直到行动操作的时候，才从头开始进行一系列计算。</p>
+<hr>
+<h1 id="RDD的依赖关系"><a href="#RDD的依赖关系" class="headerlink" title="RDD的依赖关系"></a>RDD的依赖关系</h1><p>RDD的依赖关系分为 <strong>窄依赖（Narrow Dependency）</strong> 与 <strong>宽依赖（Wide Dependency）</strong>。窄依赖即一个或多个父RDD的分区对应一个子RDD的分区，典型的例子有map、filter、union、join，而宽依赖则是一个父RDD的分区对应多个字RDD的分区，典型的例子有groupByKey、join。</p>
+<p><img src="../../../../images/hadoop/spark_dep.jpg" alt="spark_dep"></p>
+<h2 id="为什么要这样设计依赖关系？"><a href="#为什么要这样设计依赖关系？" class="headerlink" title="为什么要这样设计依赖关系？"></a>为什么要这样设计依赖关系？</h2><p><font color="red">为了提高容错性</font>，以加快 Spark 的执行速度。因为 RDD 通过“血缘关系”记住了它是如何从其它 RDD 演变过来的，血缘关系记录的是粗颗粒度的转换操作行为，<strong>当这个RDD的部分分区数据丢失时，它可以通过血缘关系获取足够的信息来重新运算和恢复丢失的数据分区</strong>，由此带来了性能的提升。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/9c5fa7c3.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2018-04-05T07:38:00.000Z">2018-04-05</time>
                 
                 <div class="level-item">
@@ -542,62 +607,6 @@
 
 
 
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-03-22T09:52:26.000Z">2018-03-22</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java-Web/Web/">Web</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    15 分钟 读完 (大约 2237 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/dfdfe2eb.html">Java Web（二）JavaServer Pages （JSP） </a>
-            
-        </h1>
-        <div class="content">
-            <p>我们知道，Servlet 中可以对客户端发来的信息进行处理（doGet、doPost等），可是，在 Servlet 里面输出 HTML 代码是一件很酸爽的事情。</p>
-<p>如果我们直接写 HTML 代码，然后在需要动态获取的地方用 Java 代码来实现，不是很方便？</p>
-<p>JSP 就是干这个事的！</p>
-<p>维基百科定义: JSP（全称JavaServer Pages）是由Sun Microsystems公司主导建立的一种动态网页技术标准。 JSP部署于网络服务器上，可以响应客户端发送的请求，并根据请求内容动态地生成HTML、XML或其他格式文档的Web网页，然后返回给请求者。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/dfdfe2eb.html#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -672,7 +681,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            161
+                            162
                         </p>
                     </a>
                 </div>
@@ -776,7 +785,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">40</span>
+                <span class="level-item tag">41</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/Concurrent/">
@@ -784,7 +793,7 @@
                 <span class="level-item">Concurrent</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/Effective-Java/">

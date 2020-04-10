@@ -128,6 +128,62 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-03-22T09:52:26.000Z">2018-03-22</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java-Web/Web/">Web</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    15 分钟 读完 (大约 2237 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/dfdfe2eb.html">Java Web（二）JavaServer Pages （JSP） </a>
+            
+        </h1>
+        <div class="content">
+            <p>我们知道，Servlet 中可以对客户端发来的信息进行处理（doGet、doPost等），可是，在 Servlet 里面输出 HTML 代码是一件很酸爽的事情。</p>
+<p>如果我们直接写 HTML 代码，然后在需要动态获取的地方用 Java 代码来实现，不是很方便？</p>
+<p>JSP 就是干这个事的！</p>
+<p>维基百科定义: JSP（全称JavaServer Pages）是由Sun Microsystems公司主导建立的一种动态网页技术标准。 JSP部署于网络服务器上，可以响应客户端发送的请求，并根据请求内容动态地生成HTML、XML或其他格式文档的Web网页，然后返回给请求者。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/dfdfe2eb.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2018-03-21T13:45:47.000Z">2018-03-21</time>
                 
                 <div class="level-item">
@@ -669,82 +725,6 @@
 
 
 
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-03-10T14:34:43.000Z">2018-03-10</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    6 分钟 读完 (大约 865 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/f85eb43b.html">Android笔记（六） 运行时权限和内容提供器</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="什么是Content-Provider"><a href="#什么是Content-Provider" class="headerlink" title="什么是Content Provider ?"></a>什么是Content Provider ?</h1><p>内容提供器（Content Provider）主要用于在不同的应用程序之间实现数据共享。它提供一套机制，允许在数据安全的条件下，让一个程序访问另一个程序的共享数据。比如，读取联系人app的电话号码数据等。</p>
-<p>Content Provider可选择只对哪一部分数据进行共享，从而保证隐私。</p>
-<p>但是在谈Content Provider之前，先来谈谈 Android 的<code>运行时权限（Runtime permissions）</code>。</p>
-<hr>
-<h1 id="运行时权限（Runtime-permissions）"><a href="#运行时权限（Runtime-permissions）" class="headerlink" title="运行时权限（Runtime permissions）"></a>运行时权限（Runtime permissions）</h1><p>Android 6.0 之后，Android 系统的权限分为两类：</p>
-<ul>
-<li>普通权限</li>
-<li>危险权限</li>
-</ul>
-<p>普通权限在 AndroidManifest.xml 文件里直接声明，如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">package</span>=<span class="string">"com.jerrysheh.englishquickchecker"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.ACCESS_NETWORK_STATE"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.ACCESS_WIFI_STATE"</span>/&gt;</span></span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>危险权限则需要使用<code>运行时权限（runtime permssions）</code>。Android 6.0 引入了这个概念，简单地说，就是在应用程序运行的时候，由用户手动授权是否调用手机的某些数据（比如，麦克风、相机、电话）。</p>
-<p>关于普通权限和危险权限的区别，以及分别有哪些权限，可以<a href="https://developer.android.com/guide/topics/security/permissions.html?hl=zh-cn#normal-dangerous">参考 Google 官方文档</a></p>
-<h2 id="申请运行时权限"><a href="#申请运行时权限" class="headerlink" title="申请运行时权限"></a>申请运行时权限</h2><p>可以调用<code>ContextCompat.checkSelfPermission()</code>方法来检查是否有相应的权限，如果有返回 PackageManager.PERMISSION_GRANTED，并且应用可以继续操作。如果没有，返回 PERMISSION_DENIED，且应用必须明确向用户要求权限。</p>
-<p>可以调用<code>shouldShowRequestPermissionRationale()</code>方法来向用户解释需要某些权限。如果用户第一次拒绝了权限，第二个需要这个权限的时候，该方法返回true。</p>
-<p>可以调用<code>requestPermissions()</code>来申请权限。（此时系统会显示标准对话框让用户选择是否授权，我们无法更改）</p>
-<p>可以重写<code>onRequestPermissionsResult()</code>方法来了解用户选择的结果。</p>
-<p>开发模型：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (ContextCompat.checkSelfPermission(<span class="keyword">this</span>, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">    <span class="comment">// 没有权限。</span></span><br><span class="line">    <span class="keyword">if</span> (ActivityCompat.shouldShowRequestPermissionRationale(<span class="keyword">this</span>, Manifest.permission.READ_CONTACTS)) &#123;</span><br><span class="line">            <span class="comment">// 用户拒绝过这个权限了，应该提示用户，为什么需要这个权限。</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 申请授权。</span></span><br><span class="line">        ActivityCompat.requestPermissions(thisActivity, <span class="keyword">new</span> String[]&#123;Manifest.permission.READ_CONTACTS&#125;, MMM);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRequestPermissionsResult</span><span class="params">(<span class="keyword">int</span> requestCode, String permissions[], <span class="keyword">int</span>[] grantResults)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (requestCode) &#123;</span><br><span class="line">        <span class="keyword">case</span> MMM: &#123;</span><br><span class="line">            <span class="keyword">if</span> (grantResults.length &gt; <span class="number">0</span></span><br><span class="line">                &amp;&amp; grantResults[<span class="number">0</span>] == PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">                <span class="comment">// 权限被用户同意，可以去放肆了。</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// 权限被用户拒绝了，洗洗睡吧。</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>上述代码详细参考<a href="https://developer.android.com/training/permissions/requesting.html?hl=zh-cn"> Google 官方文档</a></li>
-</ul>
-<p>可以看到，上面的逻辑还是比较复杂的。而且，由于OEM厂商会在定制ROM上各种改，导致权限获取不正常，以致出现各种各样的 bug。我本人就因为在一加5T上测试上面的代码时，点击了拒绝权限，但没有任何的 Toast 提示，白白浪费了4个小时的时间研究。后来用 AOSP 测试通过了，才发现是一加改了系统的权限通知框。</p>
-<p>解决上述问题，推荐开源库：<code>AndPermission</code></p>
-<p>项目地址： <a href="https://github.com/yanzhenjie/AndPermission">https://github.com/yanzhenjie/AndPermission</a></p>
-<p>使用方法可参考：<a href="http://blog.csdn.net/yanzhenjie1003/article/details/52503533/">Android 6.0 运行时权限管理最佳实践</a></p>
-<hr>
-<h1 id="访问其他程序中的数据"><a href="#访问其他程序中的数据" class="headerlink" title="访问其他程序中的数据"></a>访问其他程序中的数据</h1><p>未完待续</p>
-<h1 id="创建内容提供器"><a href="#创建内容提供器" class="headerlink" title="创建内容提供器"></a>创建内容提供器</h1><p>未完待续</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -819,7 +799,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            161
+                            162
                         </p>
                     </a>
                 </div>
@@ -923,7 +903,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">40</span>
+                <span class="level-item tag">41</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/Concurrent/">
@@ -931,7 +911,7 @@
                 <span class="level-item">Concurrent</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/Effective-Java/">

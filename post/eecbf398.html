@@ -7,21 +7,21 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Linux环境QT编程 - J.e</title>
+<title>Java并发编程之AQS - J.e</title>
 
 
-    <meta name="description" content="由于课程需要，需要在 Linux 环境下开发 QT 程序，因此开一篇文章来记录QT的知识点。">
+    <meta name="description" content="什么是 AQS并发工具 实际上也叫同步器（Synchronizer），在使用并发工具时，我们发现不同的同步器存在许多共同点，例如 ReentrantLock 和 Semaphore 都支持每次允许一定数量线程通过&#x2F;等待&#x2F;取消，也都支持让等待线程执行公平或非公平的队列操作等。 事实上，很多并发工具在实现时都使用了共同的基类，这就是 AbstractQueuedSynchronizer（AQS），抽象">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux环境QT编程">
-<meta property="og:url" content="https://jerrysheh.me/post/10e2f7a0.html">
+<meta property="og:title" content="Java并发编程之AQS">
+<meta property="og:url" content="https://jerrysheh.me/post/eecbf398.html">
 <meta property="og:site_name" content="J.e">
-<meta property="og:description" content="由于课程需要，需要在 Linux 环境下开发 QT 程序，因此开一篇文章来记录QT的知识点。">
+<meta property="og:description" content="什么是 AQS并发工具 实际上也叫同步器（Synchronizer），在使用并发工具时，我们发现不同的同步器存在许多共同点，例如 ReentrantLock 和 Semaphore 都支持每次允许一定数量线程通过&#x2F;等待&#x2F;取消，也都支持让等待线程执行公平或非公平的队列操作等。 事实上，很多并发工具在实现时都使用了共同的基类，这就是 AbstractQueuedSynchronizer（AQS），抽象">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
-<meta property="article:published_time" content="2018-04-11T05:26:40.000Z">
-<meta property="article:modified_time" content="2019-07-20T04:21:46.884Z">
+<meta property="article:published_time" content="2020-04-08T14:54:55.000Z">
+<meta property="article:modified_time" content="2020-04-10T17:45:09.140Z">
 <meta property="article:author" content="Jerry Sheh">
-<meta property="article:tag" content="linux">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
 
@@ -81,7 +81,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.png" alt="Linux环境QT编程" height="28">
+                <img src="/images/logo.png" alt="Java并发编程之AQS" height="28">
             
             </a>
         </div>
@@ -134,17 +134,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-04-11T05:26:40.000Z">2018-04-11</time>
+                <time class="level-item has-text-grey" datetime="2020-04-08T14:54:55.000Z">2020-04-08</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/linux/">linux</a>
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java/Concurrent/">Concurrent</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    3 分钟 读完 (大约 438 个字)
+                    11 分钟 读完 (大约 1625 个字)
                 </span>
                 
                 
@@ -158,71 +158,67 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                Linux环境QT编程
+                Java并发编程之AQS
             
         </h1>
         <div class="content">
-            <p>由于课程需要，需要在 Linux 环境下开发 QT 程序，因此开一篇文章来记录QT的知识点。</p>
+            <h1 id="什么是-AQS"><a href="#什么是-AQS" class="headerlink" title="什么是 AQS"></a>什么是 AQS</h1><p><a href="../post/a23f9c20.html">并发工具</a> 实际上也叫同步器（Synchronizer），在使用并发工具时，我们发现不同的同步器存在许多共同点，例如 ReentrantLock 和 Semaphore 都支持每次允许一定数量线程通过/等待/取消，也都支持让等待线程执行公平或非公平的队列操作等。</p>
+<p>事实上，很多并发工具在实现时都使用了共同的基类，这就是 <code>AbstractQueuedSynchronizer（AQS），抽象队列同步器</code>。</p>
 <a id="more"></a>
 
-<h1 id="Ubuntu-16-04-QT安装"><a href="#Ubuntu-16-04-QT安装" class="headerlink" title="Ubuntu 16.04 QT安装"></a>Ubuntu 16.04 QT安装</h1><p>由于实验室和课程安排都是基于 QT4，因此这里安装QT4</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install qt4*</span><br><span class="line">sudo apt install qtcreator</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="QT-基本操作"><a href="#QT-基本操作" class="headerlink" title="QT 基本操作"></a>QT 基本操作</h1><h2 id="屏幕自适应"><a href="#屏幕自适应" class="headerlink" title="屏幕自适应"></a>屏幕自适应</h2><p>先布局一个 layout，然后在全局框里，设置 layout</p>
-<p>用以下代码自动全屏</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">QDesktopWidget* desktopWidget = QApplication::desktop();</span><br><span class="line">QRect screenRect = desktopWidget-&gt;screenGeometry();</span><br><span class="line">resize(screenRect.<span class="built_in">width</span>(),screenRect.<span class="built_in">height</span>());</span><br><span class="line"><span class="keyword">this</span>-&gt;showMaximized();</span><br></pre></td></tr></table></figure>
-
-<h2 id="显示图片"><a href="#显示图片" class="headerlink" title="显示图片"></a>显示图片</h2><ol>
-<li>布局一个 label</li>
-<li>头文件添加 <code>#include &lt;QPixmap&gt;</code></li>
-<li>构造函数添加 <code>ui-&gt;label-&gt;setPixmap(&quot;0.png&quot;)</code></li>
-</ol>
-<h2 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h2><ol>
-<li>主类声明一个指针 public: 下， <code>QTimer *display_timer;</code></li>
-<li>头文件添加 <code>#include &lt;QTimer&gt;</code></li>
-<li>构造函数添加</li>
-</ol>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">display_timer = <span class="keyword">new</span> QTimer(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//槽函数</span></span><br><span class="line"><span class="built_in">connect</span>(display_timer,SIGNAL(timeout()), <span class="keyword">this</span>, SLOT(doChange()));</span><br><span class="line">display_timer-&gt;start(<span class="number">10000</span>);</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>头文件 public slots: 声明 <code>doChange();</code></li>
-<li>实现<code>doChange();</code>函数</li>
-</ol>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> MainWindow::doChange()&#123;</span><br><span class="line">    qDebug(<span class="string">"doChange"</span>);</span><br><span class="line">    ui-&gt;label-&gt;setPixmap(QPixmap(QString::number(num) + <span class="string">".png"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<p>从字面上理解 AQS:</p>
 <ul>
-<li>使用<code>display_timer-&gt;start(1000);</code>来开启定时器</li>
-<li>使用<code>display_timer-&gt;stop(1000);</code>来关闭定时器</li>
+<li>Abstract：抽象类，说明只实现一些通用逻辑，有些方法由子类实现；</li>
+<li>Queue：使用先进先出（FIFO）队列存储数据；</li>
+<li>Synchronizer：实现了同步的功能。</li>
+</ul>
+<p>说白了，AQS就是一个用来构建锁和同步器的框架，我们可以使用 AQS 简单且高效地构造出应用广泛的同步器。在《Java并发编程》一书中，AQS是放在“构建自定义的同步工具”这一章讲解的。当然，JDK里有很多并发工具也都是基于AQS，包括：</p>
+<ul>
+<li>ReentrantLock</li>
+<li>ReentrantReadWriteLock</li>
+<li>Semaphore</li>
+<li>CountDownLatch</li>
+<li>FutureTask</li>
 </ul>
 <hr>
-<h1 id="实验室环境QT交叉编译"><a href="#实验室环境QT交叉编译" class="headerlink" title="实验室环境QT交叉编译"></a>实验室环境QT交叉编译</h1><p>将QT程序编译成实验室开发板 ARM-linux 下能执行的程序。</p>
-<h2 id="将工程文件拷贝到编译目录"><a href="#将工程文件拷贝到编译目录" class="headerlink" title="将工程文件拷贝到编译目录"></a>将工程文件拷贝到编译目录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp myproject &#x2F;usr&#x2F;local&#x2F;Trolltech&#x2F;QtEmbedded-4.8.5-arm&#x2F;examples&#x2F; -a</span><br></pre></td></tr></table></figure>
-
-<h2 id="执行-qmake"><a href="#执行-qmake" class="headerlink" title="执行 qmake"></a>执行 qmake</h2><p>这一步主要是生成 Makefile</p>
-<p>实验室里为了区分，把 qmake 命令换成了 qmake-arm</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qmake-arm</span><br></pre></td></tr></table></figure>
-
-<h2 id="执行-make"><a href="#执行-make" class="headerlink" title="执行 make"></a>执行 make</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
-
-<p>make完成后，可执行文件就生成了。通过串口传输到ARM实验箱上。</p>
-<p>串口连接过程略。</p>
-<h2 id="串口-本地-gt-ARM"><a href="#串口-本地-gt-ARM" class="headerlink" title="串口:本地 -&gt; ARM"></a>串口:本地 -&gt; ARM</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rx myAPP</span><br></pre></td></tr></table></figure>
-
-<p>选择 传输 -&gt; 发生 Xmodem</p>
-<h2 id="解决ARM实验箱的坑"><a href="#解决ARM实验箱的坑" class="headerlink" title="解决ARM实验箱的坑"></a>解决ARM实验箱的坑</h2><ul>
-<li><p>kill掉以下三个进程</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;opt&#x2F;Qtopia&#x2F;bin&#x2F;qpe</span><br><span class="line">&#x2F;opt&#x2F;Qtopia&#x2F;bin&#x2F;qss</span><br><span class="line">&#x2F;opt&#x2F;Qtioua&#x2F;bin&#x2F;quicklauncher</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>初始化环境变量</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">. setqt4env  # 不要漏了中间的空格</span><br></pre></td></tr></table></figure>
-
+<h1 id="AQS-的-state"><a href="#AQS-的-state" class="headerlink" title="AQS 的 state"></a>AQS 的 state</h1><p>AQS 是一个同步器，同步器的本质作用是协调资源。我们把资源是否可用称为资源的状态。在 AQS 中用一个 <code>int</code> 变量表示资源状态。</p>
+<p>不同的实现对 <code>state</code> 的意义不尽相同，例如：</p>
 <ul>
-<li>运行</li>
+<li>ReentrantLock 的 <code>state</code> 表示锁持有者重入的次数，每重入一次就加一，当 <code>state</code> 降为 0 才表示资源可用；</li>
+<li>Semaphore 的 <code>state</code> 则表示剩余的可用资源数量；</li>
+<li>FutureTask 的 <code>state</code> 用来表示任务的状态（尚未开始、正在运行、已完成、已取消等）。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;myApp -qws</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// volatile 确保了它的修改对任何线程都是及时可见的</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">int</span> state;</span><br><span class="line"></span><br><span class="line"><span class="comment">// protected 意味着可由子类重写具体实现</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">getState</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> state;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">setState</span><span class="params">(<span class="keyword">int</span> newState)</span> </span>&#123;</span><br><span class="line">    state = newState;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">compareAndSetState</span><span class="params">(<span class="keyword">int</span> expect, <span class="keyword">int</span> update)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// See below for intrinsics setup to support this</span></span><br><span class="line">    <span class="keyword">return</span> unsafe.compareAndSwapInt(<span class="keyword">this</span>, stateOffset, expect, update);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>资源有两种模式：</p>
+<ul>
+<li><strong>独占模式（Exclusive）</strong>：一次只能一个线程获取，如 ReentrantLock。</li>
+<li><strong>共享模式（Share）</strong>：同时可以被多个线程获取，具体的资源个数可以通过参数指定，如 Semaphore。</li>
+</ul>
+<p>一般一种同步器只会用到一种模式，但也有两种模式同时使用的，如 <code>readWriteLock</code>。</p>
+<hr>
+<h1 id="acquire-获取资源"><a href="#acquire-获取资源" class="headerlink" title="acquire 获取资源"></a>acquire 获取资源</h1><p>有了对资源的表示，便可通过 <code>acquire(int arg)</code> 方法来获取资源。参数 <code>arg</code> 表示要获取的资源的个数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquire</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!tryAcquire(arg) &amp;&amp; acquireQueued(addWaiter(Node.EXCLUSIVE), arg))&#123;</span><br><span class="line">      selfInterrupt();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>获取资源时，由同步器判断是否成功，如果是，则线程获得资源，此时会将该线程当作一个节点放入队列头表示占用资源；如果否，线程将阻塞或者失败，并把该线程节点放入队列。该队列是一个先进先出（FIFO）的双端队列，使用两个指针head和tail用于标识队列的头部和尾部。</p>
+<p><img src="../../../../images/Java/AQS%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png" alt="AQS数据结构（图片来源 concurrent.redspider.group）"></p>
+<p>队列并不是直接储存线程，而是储存拥有线程的Node节点。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 标记一个结点（对应的线程）在共享模式下等待</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> Node SHARED = <span class="keyword">new</span> Node();</span><br><span class="line">    <span class="comment">// 标记一个结点（对应的线程）在独占模式下等待</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> Node EXCLUSIVE = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// waitStatus的值，表示该结点（对应的线程）已被取消</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CANCELLED = <span class="number">1</span>;</span><br><span class="line">    <span class="comment">// waitStatus的值，表示后继结点（对应的线程）需要被唤醒</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SIGNAL = -<span class="number">1</span>;</span><br><span class="line">    <span class="comment">// waitStatus的值，表示该结点（对应的线程）在等待某一条件</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CONDITION = -<span class="number">2</span>;</span><br><span class="line">    <span class="comment">/*waitStatus的值，表示有资源可用，新head结点需要继续唤醒后继结点（共享模式下，多线程并发释放资源，而head唤醒其后继结点后，需要把多出来的资源留给后面的结点；设置新的head结点时，会继续唤醒其后继结点）*/</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> PROPAGATE = -<span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 等待状态，取值范围，-3，-2，-1，0，1</span></span><br><span class="line">    <span class="keyword">volatile</span> <span class="keyword">int</span> waitStatus;</span><br><span class="line">    <span class="keyword">volatile</span> Node prev; <span class="comment">// 前驱结点</span></span><br><span class="line">    <span class="keyword">volatile</span> Node next; <span class="comment">// 后继结点</span></span><br><span class="line">    <span class="keyword">volatile</span> Thread thread; <span class="comment">// 结点对应的线程</span></span><br><span class="line">    Node nextWaiter; <span class="comment">// 等待队列里下一个等待条件的结点</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断共享模式的方法</span></span><br><span class="line">    <span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">isShared</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> nextWaiter == SHARED;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Node(Thread thread, Node mode) &#123;     <span class="comment">// Used by addWaiter</span></span><br><span class="line">        <span class="keyword">this</span>.nextWaiter = mode;</span><br><span class="line">        <span class="keyword">this</span>.thread = thread;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 其它方法忽略，可以参考具体的源码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>acquire</code> 方法里的 <code>addWaiter(Node.EXCLUSIVE)</code> 也在 Node 里面实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// AQS里面的addWaiter私有方法</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">addWaiter</span><span class="params">(Node mode)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 生成该线程对应的Node节点</span></span><br><span class="line">    Node node = <span class="keyword">new</span> Node(Thread.currentThread(), mode);</span><br><span class="line">    <span class="comment">// 将Node插入队列中</span></span><br><span class="line">    Node pred = tail;</span><br><span class="line">    <span class="keyword">if</span> (pred != <span class="keyword">null</span>) &#123;</span><br><span class="line">        node.prev = pred;</span><br><span class="line">        <span class="comment">// 使用CAS尝试，如果成功就返回</span></span><br><span class="line">        <span class="keyword">if</span> (compareAndSetTail(pred, node)) &#123;</span><br><span class="line">            pred.next = node;</span><br><span class="line">            <span class="keyword">return</span> node;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 如果等待队列为空或者上述CAS失败，再自旋CAS插入</span></span><br><span class="line">    enq(node);</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>线程节点以CAS的方式加入队列后，除头结点外，其余节点都处于阻塞状态。而头结点的下一个结点会不断通过 <code>acquireQueued</code> 尝试获取资源。获取资源的方法除了acquire外，还有：</p>
+<ul>
+<li>acquireInterruptibly：申请可中断的资源（独占模式）</li>
+<li>acquireShared：申请共享模式的资源</li>
+<li>acquireSharedInterruptibly：申请可中断的资源（共享模式）</li>
+</ul>
+<hr>
+<h1 id="release-释放资源"><a href="#release-释放资源" class="headerlink" title="release 释放资源"></a>release 释放资源</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">release</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (tryRelease(arg)) &#123;</span><br><span class="line">        Node h = head;</span><br><span class="line">        <span class="keyword">if</span> (h != <span class="keyword">null</span> &amp;&amp; h.waitStatus != <span class="number">0</span>)</span><br><span class="line">            unparkSuccessor(h);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">unparkSuccessor</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 如果状态是负数，尝试把它设置为0</span></span><br><span class="line">    <span class="keyword">int</span> ws = node.waitStatus;</span><br><span class="line">    <span class="keyword">if</span> (ws &lt; <span class="number">0</span>)</span><br><span class="line">        compareAndSetWaitStatus(node, ws, <span class="number">0</span>);</span><br><span class="line">    <span class="comment">// 得到头结点的后继结点head.next</span></span><br><span class="line">    Node s = node.next;</span><br><span class="line">    <span class="comment">// 如果这个后继结点为空或者状态大于0</span></span><br><span class="line">    <span class="comment">// 通过前面的定义我们知道，大于0只有一种可能，就是这个结点已被取消</span></span><br><span class="line">    <span class="keyword">if</span> (s == <span class="keyword">null</span> || s.waitStatus &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        s = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">// 等待队列中所有还有用的结点，都向前移动</span></span><br><span class="line">        <span class="keyword">for</span> (Node t = tail; t != <span class="keyword">null</span> &amp;&amp; t != node; t = t.prev)</span><br><span class="line">            <span class="keyword">if</span> (t.waitStatus &lt;= <span class="number">0</span>)</span><br><span class="line">                s = t;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 如果后继结点不为空，</span></span><br><span class="line">    <span class="keyword">if</span> (s != <span class="keyword">null</span>)</span><br><span class="line">        LockSupport.unpark(s.thread);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>未完待续</p>
 
         </div>
         
@@ -230,7 +226,7 @@
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/linux/" rel="tag">linux</a>
+                    <a class="has-link-grey -link" href="/tags/Java/" rel="tag">Java</a>
                 </div>
             </div>
         </div>
@@ -247,17 +243,10 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/post/d772a9a7.html">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Java Web 跳坑手册</span>
-            </a>
-        </div>
-        
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/post/b8de25eb.html">
-                <span class="level-item">Scala 入门</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/959bfd05.html">
+                <span class="level-item">Java并发编程之对象共享</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -627,50 +616,22 @@
                     目录
                 </h3>
                 <ul class="menu-list"><li>
-        <a class="is-flex" href="#Ubuntu-16-04-QT安装">
+        <a class="is-flex" href="#什么是-AQS">
         <span class="has-mr-6">1</span>
-        <span>Ubuntu 16.04 QT安装</span>
+        <span>什么是 AQS</span>
         </a></li><li>
-        <a class="is-flex" href="#QT-基本操作">
+        <a class="is-flex" href="#AQS-的-state">
         <span class="has-mr-6">2</span>
-        <span>QT 基本操作</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#屏幕自适应">
-        <span class="has-mr-6">2.1</span>
-        <span>屏幕自适应</span>
+        <span>AQS 的 state</span>
         </a></li><li>
-        <a class="is-flex" href="#显示图片">
-        <span class="has-mr-6">2.2</span>
-        <span>显示图片</span>
-        </a></li><li>
-        <a class="is-flex" href="#定时器">
-        <span class="has-mr-6">2.3</span>
-        <span>定时器</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#实验室环境QT交叉编译">
+        <a class="is-flex" href="#acquire-获取资源">
         <span class="has-mr-6">3</span>
-        <span>实验室环境QT交叉编译</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#将工程文件拷贝到编译目录">
-        <span class="has-mr-6">3.1</span>
-        <span>将工程文件拷贝到编译目录</span>
+        <span>acquire 获取资源</span>
         </a></li><li>
-        <a class="is-flex" href="#执行-qmake">
-        <span class="has-mr-6">3.2</span>
-        <span>执行 qmake</span>
-        </a></li><li>
-        <a class="is-flex" href="#执行-make">
-        <span class="has-mr-6">3.3</span>
-        <span>执行 make</span>
-        </a></li><li>
-        <a class="is-flex" href="#串口-本地-gt-ARM">
-        <span class="has-mr-6">3.4</span>
-        <span>串口:本地 -> ARM</span>
-        </a></li><li>
-        <a class="is-flex" href="#解决ARM实验箱的坑">
-        <span class="has-mr-6">3.5</span>
-        <span>解决ARM实验箱的坑</span>
-        </a></li></ul></li></ul>
+        <a class="is-flex" href="#release-释放资源">
+        <span class="has-mr-6">4</span>
+        <span>release 释放资源</span>
+        </a></li></ul>
             </div>
         </div>
     </div>
@@ -754,50 +715,22 @@
                     目录
                 </h3>
                 <ul class="menu-list"><li>
-        <a class="is-flex" href="#Ubuntu-16-04-QT安装">
+        <a class="is-flex" href="#什么是-AQS">
         <span class="has-mr-6">1</span>
-        <span>Ubuntu 16.04 QT安装</span>
+        <span>什么是 AQS</span>
         </a></li><li>
-        <a class="is-flex" href="#QT-基本操作">
+        <a class="is-flex" href="#AQS-的-state">
         <span class="has-mr-6">2</span>
-        <span>QT 基本操作</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#屏幕自适应">
-        <span class="has-mr-6">2.1</span>
-        <span>屏幕自适应</span>
+        <span>AQS 的 state</span>
         </a></li><li>
-        <a class="is-flex" href="#显示图片">
-        <span class="has-mr-6">2.2</span>
-        <span>显示图片</span>
-        </a></li><li>
-        <a class="is-flex" href="#定时器">
-        <span class="has-mr-6">2.3</span>
-        <span>定时器</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#实验室环境QT交叉编译">
+        <a class="is-flex" href="#acquire-获取资源">
         <span class="has-mr-6">3</span>
-        <span>实验室环境QT交叉编译</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#将工程文件拷贝到编译目录">
-        <span class="has-mr-6">3.1</span>
-        <span>将工程文件拷贝到编译目录</span>
+        <span>acquire 获取资源</span>
         </a></li><li>
-        <a class="is-flex" href="#执行-qmake">
-        <span class="has-mr-6">3.2</span>
-        <span>执行 qmake</span>
-        </a></li><li>
-        <a class="is-flex" href="#执行-make">
-        <span class="has-mr-6">3.3</span>
-        <span>执行 make</span>
-        </a></li><li>
-        <a class="is-flex" href="#串口-本地-gt-ARM">
-        <span class="has-mr-6">3.4</span>
-        <span>串口:本地 -> ARM</span>
-        </a></li><li>
-        <a class="is-flex" href="#解决ARM实验箱的坑">
-        <span class="has-mr-6">3.5</span>
-        <span>解决ARM实验箱的坑</span>
-        </a></li></ul></li></ul>
+        <a class="is-flex" href="#release-释放资源">
+        <span class="has-mr-6">4</span>
+        <span>release 释放资源</span>
+        </a></li></ul>
             </div>
         </div>
     </div>
@@ -873,7 +806,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.png" alt="Linux环境QT编程" height="28">
+                    <img src="/images/logo.png" alt="Java并发编程之AQS" height="28">
                 
                 </a>
                 <p class="is-size-7">
