@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2018-10-30T07:08:26.000Z">
-<meta property="article:modified_time" content="2020-04-08T14:54:09.526Z">
+<meta property="article:modified_time" content="2020-04-11T15:09:19.164Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta property="article:tag" content="并发">
 <meta property="article:tag" content="Java">
@@ -145,7 +145,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    23 分钟 读完 (大约 3394 个字)
+                    26 分钟 读完 (大约 3894 个字)
                 </span>
                 
                 
@@ -292,7 +292,7 @@
 <ul>
 <li>确保某个计算在其需要的所有资源都被初始化后才继续执行。</li>
 <li>确保某个服务在其依赖的其他服务都被启动之后才启动。</li>
-<li>等待某个操作的参与者都就绪再继续执行（多人在线游戏）</li>
+<li>等待某个操作的参与者都就绪再继续执行（多人在线游戏）。</li>
 </ul>
 <p>CountDownLatch 是一种闭锁的实现。包括一个计数器，一开始为正数，表示需要等待的事件数量。以及 countDown 方法，每当一个等待的事件发生了，计数器就减一。直到为零闭锁打开。如果计数器不为零，那 await 会一直阻塞直到计数器为零，或者等待中的线程中断，或者等待超时。</p>
 <h2 id="栅栏（Barrier）"><a href="#栅栏（Barrier）" class="headerlink" title="栅栏（Barrier）"></a>栅栏（Barrier）</h2><p>栅栏跟闭锁类似，不同点在于，所有线程必须同时到达栅栏位置，才能继续执行。<strong>闭锁用于等待事件，而栅栏用于等待其他线程</strong>，当所有线程到达 <code>barrier.await();</code> 的位置，栅栏放开。</p>
@@ -303,7 +303,22 @@
 <p>Semaphore 与 CountDownLatch 的区别在于 Semaphore 的计数器减少之后，还可以再增加，表示可用的资源数量。Semaphore 可以用来实现资源池，如数据库连接池。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Semaphore semaphore = <span class="keyword">new</span> Semaphore(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//资源被使用代码</span></span><br><span class="line"></span><br><span class="line">semaphore.acquire(); <span class="comment">// 资源被获取</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 资源使用完毕代码</span></span><br><span class="line"></span><br><span class="line">semaphore.release(); <span class="comment">// 资源被释放</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="显式锁（ReentrantLock）"><a href="#显式锁（ReentrantLock）" class="headerlink" title="显式锁（ReentrantLock）"></a>显式锁（ReentrantLock）</h2><p>todo 待补充</p>
+<h2 id="显式锁"><a href="#显式锁" class="headerlink" title="显式锁"></a>显式锁</h2><h3 id="可重入锁（ReentrantLock）"><a href="#可重入锁（ReentrantLock）" class="headerlink" title="可重入锁（ReentrantLock）"></a>可重入锁（ReentrantLock）</h3><p>ReentrantLock 是 Lock 接口的默认实现。实现了锁的基本功能。作用跟 <code>Synchronized</code> 一样，都是用于线程同步的。但 ReentrantLock 多了三个高级特性：</p>
+<ol>
+<li><strong>等待可中断</strong>：如果持有锁的线程长期不释放锁，正在等待的线程可以放弃等待，改为处理别的事情。</li>
+<li><strong>可实现公平锁</strong>：公平锁是指按照申请锁的时间顺序依次获得锁，而非随机获得。可以通过带 boolean 值的构造函数要求使用公平锁。</li>
+<li><strong>锁可以绑定多个条件</strong>：一个 ReentrantLock对象可以绑定多个 Condition 对象。</li>
+</ol>
+<h3 id="可重入读写锁（ReentrantReadWriteLock）"><a href="#可重入读写锁（ReentrantReadWriteLock）" class="headerlink" title="可重入读写锁（ReentrantReadWriteLock）"></a>可重入读写锁（ReentrantReadWriteLock）</h3><p>ReentrantReadWriteLock 是 ReadWriteLock 接口的默认实现。实际上是结合了可重入锁和读写锁的特性。内部维护了两个锁，ReadLock 和 WriteLock，其中<br>ReadLock 是线程共享的，而 WriteLock 是独占的。</p>
+<p>可重入读写锁有一个小弊端，就是在“写”操作的时候，其它线程不能写也不能读。我们称这种现象为“写饥饿”。</p>
+<h3 id="StampedLock"><a href="#StampedLock" class="headerlink" title="StampedLock"></a>StampedLock</h3><p>StampedLock 是 JDK 1.8 才发布的，作者依然是 Doug Lea。功能跟 ReentrantReadWriteLock 一样，但是性能更高，且不会发现写饥饿。其原理是，<strong>在读的时候如果发生了写，应该通过重试的方式来获取新的值，而不应该阻塞写操作。这种模式也就是典型的无锁编程思想，和CAS自旋的思想一样</strong>。这种操作方式决定了StampedLock在读线程非常多而写线程非常少的场景下非常适用，同时还避免了写饥饿情况的发生。</p>
+<p>StampedLock的性能非常优异，基本上可以取代ReentrantReadWriteLock的作用。</p>
+<hr>
+<p>参考：</p>
+<ul>
+<li>《Java并发编程实战》</li>
+<li><a href="http://concurrent.redspider.group/article/03/14.html">第十四章 锁接口和类</a></li>
+</ul>
 
         </div>
         
@@ -392,7 +407,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            162
+                            163
                         </p>
                     </a>
                 </div>
@@ -496,7 +511,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">41</span>
+                <span class="level-item tag">42</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/Concurrent/">
@@ -504,7 +519,7 @@
                 <span class="level-item">Concurrent</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">5</span>
+                <span class="level-item tag">6</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/Effective-Java/">
@@ -768,10 +783,22 @@
         <span class="has-mr-6">4.3</span>
         <span>信号量（Semaphore）</span>
         </a></li><li>
-        <a class="is-flex" href="#显式锁（ReentrantLock）">
+        <a class="is-flex" href="#显式锁">
         <span class="has-mr-6">4.4</span>
-        <span>显式锁（ReentrantLock）</span>
-        </a></li></ul></li></ul>
+        <span>显式锁</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#可重入锁（ReentrantLock）">
+        <span class="has-mr-6">4.4.1</span>
+        <span>可重入锁（ReentrantLock）</span>
+        </a></li><li>
+        <a class="is-flex" href="#可重入读写锁（ReentrantReadWriteLock）">
+        <span class="has-mr-6">4.4.2</span>
+        <span>可重入读写锁（ReentrantReadWriteLock）</span>
+        </a></li><li>
+        <a class="is-flex" href="#StampedLock">
+        <span class="has-mr-6">4.4.3</span>
+        <span>StampedLock</span>
+        </a></li></ul></li></ul></li></ul>
             </div>
         </div>
     </div>
@@ -915,10 +942,22 @@
         <span class="has-mr-6">4.3</span>
         <span>信号量（Semaphore）</span>
         </a></li><li>
-        <a class="is-flex" href="#显式锁（ReentrantLock）">
+        <a class="is-flex" href="#显式锁">
         <span class="has-mr-6">4.4</span>
-        <span>显式锁（ReentrantLock）</span>
-        </a></li></ul></li></ul>
+        <span>显式锁</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#可重入锁（ReentrantLock）">
+        <span class="has-mr-6">4.4.1</span>
+        <span>可重入锁（ReentrantLock）</span>
+        </a></li><li>
+        <a class="is-flex" href="#可重入读写锁（ReentrantReadWriteLock）">
+        <span class="has-mr-6">4.4.2</span>
+        <span>可重入读写锁（ReentrantReadWriteLock）</span>
+        </a></li><li>
+        <a class="is-flex" href="#StampedLock">
+        <span class="has-mr-6">4.4.3</span>
+        <span>StampedLock</span>
+        </a></li></ul></li></ul></li></ul>
             </div>
         </div>
     </div>

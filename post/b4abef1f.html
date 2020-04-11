@@ -7,21 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Spark SQL 和 DataFrame - J.e</title>
+<title>Java并发编程之线程池 - J.e</title>
 
 
-    <meta name="description" content="RDD 和 DataFrame 的区别RDD 是弹性分布式数据集，其本质是 Dataset。Dataset 可以从 JVM 对象中构建 （例如 rating 对象，即 javabean ），然后通过 map、flatMap、filter 等方法转换来操作。 为了更好地读写数据以及使用类似SQL语句一样简单地操作，Spark SQL 提供了 DataFrame (其前身是SchemaRDD)。  D">
+    <meta name="description" content="线程池是线程的管理工具，跟线程本身一样，线程池也有不同的状态。  在并发编程中，我们可能需要创建许多个线程来执行任务，这些线程频繁地被创建、执行，然后又销毁，这个过程的开销是比较大的。能不能弄一个像池子一样的线程池，线程统一创建，需要执行任务时从线程池里取一个线程来执行，执行完再把线程放回去呢？">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spark SQL 和 DataFrame">
-<meta property="og:url" content="https://jerrysheh.me/post/21c6c0f6.html">
+<meta property="og:title" content="Java并发编程之线程池">
+<meta property="og:url" content="https://jerrysheh.me/post/b4abef1f.html">
 <meta property="og:site_name" content="J.e">
-<meta property="og:description" content="RDD 和 DataFrame 的区别RDD 是弹性分布式数据集，其本质是 Dataset。Dataset 可以从 JVM 对象中构建 （例如 rating 对象，即 javabean ），然后通过 map、flatMap、filter 等方法转换来操作。 为了更好地读写数据以及使用类似SQL语句一样简单地操作，Spark SQL 提供了 DataFrame (其前身是SchemaRDD)。  D">
+<meta property="og:description" content="线程池是线程的管理工具，跟线程本身一样，线程池也有不同的状态。  在并发编程中，我们可能需要创建许多个线程来执行任务，这些线程频繁地被创建、执行，然后又销毁，这个过程的开销是比较大的。能不能弄一个像池子一样的线程池，线程统一创建，需要执行任务时从线程池里取一个线程来执行，执行完再把线程放回去呢？">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
-<meta property="article:published_time" content="2018-06-03T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-03-06T15:39:52.954Z">
+<meta property="article:published_time" content="2020-04-11T15:47:54.000Z">
+<meta property="article:modified_time" content="2020-04-11T15:53:02.215Z">
 <meta property="article:author" content="Jerry Sheh">
-<meta property="article:tag" content="大数据">
+<meta property="article:tag" content="并发">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://jerrysheh.me/images/og_image.png">
 
@@ -81,7 +82,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.png" alt="Spark SQL 和 DataFrame" height="28">
+                <img src="/images/logo.png" alt="Java并发编程之线程池" height="28">
             
             </a>
         </div>
@@ -134,17 +135,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-06-03T16:00:00.000Z">2018-06-04</time>
+                <time class="level-item has-text-grey" datetime="2020-04-11T15:47:54.000Z">2020-04-11</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/">Spark</a>
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java/Concurrent/">Concurrent</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    13 分钟 读完 (大约 1879 个字)
+                    5 分钟 读完 (大约 749 个字)
                 </span>
                 
                 
@@ -158,63 +159,38 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                Spark SQL 和 DataFrame
+                Java并发编程之线程池
             
         </h1>
         <div class="content">
-            <h1 id="RDD-和-DataFrame-的区别"><a href="#RDD-和-DataFrame-的区别" class="headerlink" title="RDD 和 DataFrame 的区别"></a>RDD 和 DataFrame 的区别</h1><p>RDD 是弹性分布式数据集，其本质是 Dataset。Dataset 可以从 JVM 对象中构建 （例如 rating 对象，即 javabean ），然后通过 map、flatMap、filter 等方法转换来操作。</p>
-<p>为了更好地读写数据以及使用类似SQL语句一样简单地操作，Spark SQL 提供了 DataFrame (其前身是SchemaRDD)。</p>
-<p><img src="../../../../images/hadoop/sparksql.jpg" alt="sparksql"></p>
-<p>DataFrame 能够让你知道数据集中的每一行和列。这个概念跟关系型数据库中的表（table）类似，但是比表更强大。如下图：</p>
-<p><img src="../../../../images/hadoop/DataFrame-RDD.jpg" alt="dataframes"></p>
-<p>DataFrame 可以从结构化的数据文件（structured data files）、Hive中的表、外部数据库或者<strong>已存在的RDD</strong>中构建。</p>
-<p>在 Java 中，使用 <code>Dataset&lt;Row&gt;</code> 来表示 DataFrame。</p>
+            <blockquote>
+<p>线程池是线程的管理工具，跟线程本身一样，线程池也有不同的状态。</p>
+</blockquote>
+<p>在并发编程中，我们可能需要创建许多个线程来执行任务，这些线程频繁地被创建、执行，然后又销毁，这个过程的开销是比较大的。能不能弄一个像池子一样的线程池，线程统一创建，需要执行任务时从线程池里取一个线程来执行，执行完再把线程放回去呢？</p>
 <a id="more"></a>
 
+<h1 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h1><p>在 <a href="../post/377edbcb.html">Java并发编程之异步任务</a> 提到，Java.util.concurrent 包的作者 Doug Lea 设计了 <code>ExecutorService</code> 接口，用于提交异步任务。而 ThreadPoolExecutor 是 <code>ExecutorService</code> 的默认实现，用来启动一个线程池。但是，线程池是一个配置繁杂，状态较多的工具，我们通常不手动启动，而是借助 Executors 类的静态工厂方法来生成。</p>
 <hr>
-<h1 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h1><h2 id="初始化-Spark"><a href="#初始化-Spark" class="headerlink" title="初始化 Spark"></a>初始化 Spark</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SparkSession spark = SparkSession</span><br><span class="line">  .builder()</span><br><span class="line">  .appName(<span class="string">"Java Spark SQL basic example"</span>)</span><br><span class="line">  .config(<span class="string">"spark.some.config.option"</span>, <span class="string">"some-value"</span>)</span><br><span class="line">  .getOrCreate();</span><br></pre></td></tr></table></figure>
+<h1 id="使用-Executors-创建线程池"><a href="#使用-Executors-创建线程池" class="headerlink" title="使用 Executors 创建线程池"></a>使用 Executors 创建线程池</h1><p>Executors 类跟 Executor 接口关系不大，这个类主要提供了一些静态工厂，用来生成一些常用的线程池执行器。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单线程执行器</span></span><br><span class="line">ExecutorService executorService1 = Executors.newSingleThreadExecutor();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 固定线程数量</span></span><br><span class="line">ExecutorService executorService2 = Executors.newFixedThreadPool(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 多线程调度执行器</span></span><br><span class="line">ExecutorService executorService3 = Executors.newScheduledThreadPool(<span class="number">10</span>);</span><br></pre></td></tr></table></figure>
 
-<h2 id="创建-DataFrames"><a href="#创建-DataFrames" class="headerlink" title="创建 DataFrames"></a>创建 DataFrames</h2><p>通过 SparkSession，可以从已存在的RDD、Hive表、或者<a href="https://spark.apache.org/docs/latest/sql-programming-guide.html#data-sources">其他数据源</a> 来创建DataFrames</p>
-<p>例如，从一个 json 文件创建 DataFrames：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Dataset&lt;Row&gt; df = spark.read().json(<span class="string">"examples/src/main/resources/people.json"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Displays the content of the DataFrame to stdout</span></span><br><span class="line">df.show();</span><br><span class="line"><span class="comment">// +----+-------+</span></span><br><span class="line"><span class="comment">// | age|   name|</span></span><br><span class="line"><span class="comment">// +----+-------+</span></span><br><span class="line"><span class="comment">// |null|Michael|</span></span><br><span class="line"><span class="comment">// |  30|   Andy|</span></span><br><span class="line"><span class="comment">// |  19| Justin|</span></span><br><span class="line"><span class="comment">// +----+-------+</span></span><br></pre></td></tr></table></figure>
+<p>简单例子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService executorService = Executors.newFixedThreadPool(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">executorService.execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Asynchronous task"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">executorService.shutdown();</span><br></pre></td></tr></table></figure>
 
-<h2 id="操作-DataFrame"><a href="#操作-DataFrame" class="headerlink" title="操作 DataFrame"></a>操作 DataFrame</h2><p><code>df</code>可以像数据库表一样进行操作：</p>
+<hr>
+<h1 id="线程池生命周期"><a href="#线程池生命周期" class="headerlink" title="线程池生命周期"></a>线程池生命周期</h1><p>既然 ThreadPoolExecutor 是 ExecutorService 的实现，而 ExecutorService 又继承 Executor 接口。所以，线程池的生命周期即是 Executor 的生命周期啦。</p>
+<h2 id="CREATE-amp-RUNNING"><a href="#CREATE-amp-RUNNING" class="headerlink" title="CREATE &amp; RUNNING"></a>CREATE &amp; RUNNING</h2><p>当我们 new 一个 Executor 或者通过 Executors 静态工厂构造一个 Executor，线程池即进入了 RUNNING 状态，在此之前是 CREATE 状态。严格意义上讲线程池构造完成后并没有线程被立即启动，只有进行“预启动”或者接收到任务的时候才会启动线程。但是无论如何，构造完后，线程池已经在运行，随时准备接受任务来执行。</p>
+<h2 id="SHUTDOWN-amp-STOP"><a href="#SHUTDOWN-amp-STOP" class="headerlink" title="SHUTDOWN &amp; STOP"></a>SHUTDOWN &amp; STOP</h2><p>通过<code>shutdown()</code>和<code>shutdownNow()</code>来将线程关闭。</p>
 <ul>
-<li><code>df.printSchema()</code>：打印DataFrames结构</li>
-<li><code>df.select(&quot;name&quot;).show()</code>: 选择 name 列打印</li>
-<li><code>df.filter(col(&quot;age&quot;).gt(21)).show()</code>：筛选出年龄列大于21的</li>
-<li><code>df.groupBy(&quot;age&quot;).count().show()</code>：统计各年龄人数</li>
+<li><code>shutdown()</code>平缓关闭，线程池停止接受新的任务，同时等待已经提交的任务执行完毕，包括那些进入队列还没有开始的任务，这时候线程池处于SHUTDOWN状态。</li>
+<li><code>shutdownNow()</code>是一个立即关闭过程，线程池停止接受新的任务，同时线程池取消所有执行的任务和已经进入队列但是还没有执行的任务，这时候线程池处于STOP状态。</li>
 </ul>
-<p>或者，把它变成一张临时的表</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Register the DataFrame as a SQL temporary view</span></span><br><span class="line">df.createOrReplaceTempView(<span class="string">"people"</span>);</span><br></pre></td></tr></table></figure>
-
-<p>现在，我们的内存里就存在一张临时 people 表了。然后通过 Spark SQL 来操作：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Dataset&lt;Row&gt; sqlDF = spark.sql(<span class="string">"SELECT * FROM people"</span>);</span><br><span class="line">    sqlDF.show();</span><br><span class="line">    <span class="comment">// +----+-------+</span></span><br><span class="line">    <span class="comment">// | age|   name|</span></span><br><span class="line">    <span class="comment">// +----+-------+</span></span><br><span class="line">    <span class="comment">// |null|Michael|</span></span><br><span class="line">    <span class="comment">// |  30|   Andy|</span></span><br><span class="line">    <span class="comment">// |  19| Justin|</span></span><br><span class="line">    <span class="comment">// +----+-------+</span></span><br></pre></td></tr></table></figure>
-
-<p><code>df.createOrReplaceTempView(&quot;people&quot;)</code>的生命周期在 Spark Session，Session一关闭临时表就不存在了。如果要用应用程序级别的全局临时表，使用<code>df.createGlobalTempView(&quot;people&quot;)</code>，使用全局表需要在SQL语句添加 <code>.global_temp</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">df.createGlobalTempView(<span class="string">"people"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Global temporary view is tied to a system preserved database `global_temp`</span></span><br><span class="line">spark.sql(<span class="string">"SELECT * FROM global_temp.people"</span>).show();</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="一个agg的例子"><a href="#一个agg的例子" class="headerlink" title="一个agg的例子"></a>一个agg的例子</h1><p>从数据库读一张表，然后根据相同的 userId，将 productId 聚合为 List</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 转换前</span><br><span class="line">+------+---------+</span><br><span class="line">|userId|productId|</span><br><span class="line">+------+---------+</span><br><span class="line">|     3|  1786670|</span><br><span class="line">|     3|  2679073|</span><br><span class="line">|     3|  1082387|</span><br><span class="line">|     8|  1082734|</span><br><span class="line">|     9|  4039416|</span><br><span class="line">|     9|  1734231|</span><br><span class="line">|     1|  5252677|</span><br><span class="line">|    10|  1141406|</span><br><span class="line">|    10|  1026425|</span><br><span class="line">|    10|  3426048|</span><br><span class="line">|     1|  1193101|</span><br><span class="line">|     1|  1051440|</span><br><span class="line">+------+---------+</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;转换后</span><br><span class="line">+------+--------------------+</span><br><span class="line">|userId|          productIds|</span><br><span class="line">+------+--------------------+</span><br><span class="line">|     1|[5252677, 1193101...|</span><br><span class="line">|     3|[1056461, 1786670...|</span><br><span class="line">|     9|[1734231, 4039416]  |</span><br><span class="line">|     8|[1082734]           |</span><br><span class="line">|    10|[1141406, 3426048...|</span><br><span class="line">+------+--------------------+</span><br></pre></td></tr></table></figure>
-
-<p>方法：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> dataset = <span class="type">MySQLUtils</span></span><br><span class="line">                .readFromMySQL(spark, <span class="string">"likes"</span>)</span><br><span class="line">                .select(<span class="string">"userId"</span>, <span class="string">"productId"</span>)</span><br><span class="line"></span><br><span class="line">dataset.show()</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> dataFormat = dataset</span><br><span class="line">                .groupBy(<span class="string">"userId"</span>)</span><br><span class="line">                .agg(collect_set(<span class="string">"productId"</span>) as <span class="string">"productIds"</span>)</span><br><span class="line"></span><br><span class="line">dataFormat.show()</span><br></pre></td></tr></table></figure>
-
-
+<h2 id="TERMINATED"><a href="#TERMINATED" class="headerlink" title="TERMINATED"></a>TERMINATED</h2><p>一旦<code>shutdown()</code>或者<code>shutdownNow()</code>执行完毕，线程池就进入TERMINATED状态，此时线程池就结束了。</p>
 <ul>
-<li>groupBy 以 userId， 将一个 dataframe 分成多个， 然后 agg 将多个 DataFrame 聚合， 聚合的参数是 collect_set(“productId”) 。</li>
+<li><code>isTerminating()</code>描述的是SHUTDOWN和STOP两种状态。</li>
+<li><code>isShutdown()</code>描述的是非RUNNING状态，也就是SHUTDOWN/STOP/TERMINATED三种状态。</li>
 </ul>
 <hr>
-<p>更多操作见：</p>
-<ul>
-<li><a href="https://spark.apache.org/docs/latest/sql-programming-guide.html#datasets-and-dataframes">官方文档</a></li>
-<li><a href="https://github.com/apache/spark/blob/master/examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java">官方示例</a></li>
-</ul>
-<hr>
-<h1 id="DataFrame-的函数"><a href="#DataFrame-的函数" class="headerlink" title="DataFrame 的函数"></a>DataFrame 的函数</h1><h2 id="Action-操作"><a href="#Action-操作" class="headerlink" title="Action 操作"></a>Action 操作</h2><p>1、 collect() ,返回值是一个数组，返回dataframe集合所有的行<br>2、 collectAsList() 返回值是一个Java类型的数组，返回dataframe集合所有的行<br>3、 count() 返回一个number类型的，返回dataframe集合的行数<br>4、 describe(cols: String*) 返回一个通过数学计算的类表值(count, mean, stddev, min, and max)，这个可以传多个参数，中间用逗号分隔，如果有字段为空，那么不参与运算，只这对数值类型的字段。例如df.describe(“age”, “height”).show()<br>5、 first() 返回第一行 ，类型是row类型<br>6、 head() 返回第一行 ，类型是row类型<br>7、 head(n:Int)返回n行  ，类型是row 类型<br>8、 show()返回dataframe集合的值 默认是20行，返回类型是unit<br>9、 show(n:Int)返回n行，，返回值类型是unit<br>10、 table(n:Int) 返回n行  ，类型是row 类型</p>
-<h2 id="dataframe的基本操作"><a href="#dataframe的基本操作" class="headerlink" title="dataframe的基本操作"></a>dataframe的基本操作</h2><p>1、 cache()同步数据的内存<br>2、 columns 返回一个string类型的数组，返回值是所有列的名字<br>3、 dtypes返回一个string类型的二维数组，返回值是所有列的名字以及类型<br>4、 explan()打印执行计划  物理的<br>5、 explain(n:Boolean) 输入值为 false 或者true ，返回值是unit  默认是false ，如果输入true 将会打印 逻辑的和物理的<br>6、 isLocal 返回值是Boolean类型，如果允许模式是local返回true 否则返回false<br>7、 persist(newlevel:StorageLevel) 返回一个dataframe.this.type 输入存储模型类型<br>8、 printSchema() 打印出字段名称和类型 按照树状结构来打印<br>9、 registerTempTable(tablename:String) 返回Unit ，将df的对象只放在一张表里面，这个表随着对象的删除而删除了<br>10、 schema 返回structType 类型，将字段名称和类型按照结构体类型返回<br>11、 toDF()返回一个新的dataframe类型的<br>12、 toDF(colnames：String*)将参数中的几个字段返回一个新的dataframe类型的，<br>13、 unpersist() 返回dataframe.this.type 类型，去除模式中的数据<br>14、 unpersist(blocking:Boolean)返回dataframe.this.type类型 true 和unpersist是一样的作用false 是去除RDD</p>
-<h2 id="集成查询"><a href="#集成查询" class="headerlink" title="集成查询"></a>集成查询</h2><p>1、 agg(expers:column<em>) 返回dataframe类型 ，同数学计算求值<br>df.agg(max(“age”), avg(“salary”))<br>df.groupBy().agg(max(“age”), avg(“salary”))<br>2、 agg(exprs: Map[String, String])  返回dataframe类型 ，同数学计算求值 map类型的<br>df.agg(Map(“age” -&gt; “max”, “salary” -&gt; “avg”))<br>df.groupBy().agg(Map(“age” -&gt; “max”, “salary” -&gt; “avg”))<br>3、 agg(aggExpr: (String, String), aggExprs: (String, String)\</em>)  返回dataframe类型 ，同数学计算求值<br>df.agg(Map(“age” -&gt; “max”, “salary” -&gt; “avg”))<br>df.groupBy().agg(Map(“age” -&gt; “max”, “salary” -&gt; “avg”))<br>4、 apply(colName: String) 返回column类型，捕获输入进去列的对象<br>5、 as(alias: String) 返回一个新的dataframe类型，就是原来的一个别名<br>6、 col(colName: String)  返回column类型，捕获输入进去列的对象<br>7、 cube(col1: String, cols: String<em>) 返回一个GroupedData类型，根据某些字段来汇总<br>8、 distinct 去重 返回一个dataframe类型<br>9、 drop(col: Column) 删除某列 返回dataframe类型<br>10、 dropDuplicates(colNames: Array[String]) 删除相同的列 返回一个dataframe<br>11、 except(other: DataFrame) 返回一个dataframe，返回在当前集合存在的在其他集合不存在的<br>12、 explode[A, B](inputColumn: String, outputColumn: String)(f: (A) ⇒ TraversableOnce[B])(implicit arg0: scala.reflect.api.JavaUniverse.TypeTag[B]) 返回值是dataframe类型，这个 将一个字段进行更多行的拆分<br>df.explode(“name”,”names”) {name :String=&gt; name.split(“ “)}.show();<br>将name字段根据空格来拆分，拆分的字段放在names里面<br>13、 filter(conditionExpr: String): 刷选部分数据，返回dataframe类型 df.filter(“age&gt;10”).show();  df.filter(df(“age”)&gt;10).show();   df.where(df(“age”)&gt;10).show(); 都可以<br>14、 groupBy(col1: String, cols: String</em>) 根据某写字段来汇总返回groupedate类型   df.groupBy(“age”).agg(Map(“age” -&gt;”count”)).show();df.groupBy(“age”).avg().show();都可以<br>15、 intersect(other: DataFrame) 返回一个dataframe，在2个dataframe都存在的元素<br>16、 join(right: DataFrame, joinExprs: Column, joinType: String)<br>一个是关联的dataframe，第二个关联的条件，第三个关联的类型：inner, outer, left_outer, right_outer, leftsemi<br>df.join(ds,df(“name”)===ds(“name”) and  df(“age”)===ds(“age”),”outer”).show();<br>17、 limit(n: Int) 返回dataframe类型  去n 条数据出来<br>18、 na: DataFrameNaFunctions ，可以调用dataframenafunctions的功能区做过滤 df.na.drop().show(); 删除为空的行<br>19、 orderBy(sortExprs: Column<em>) 做alise排序<br>20、 select(cols:string</em>) dataframe 做字段的刷选 df.select($”colA”, $”colB” + 1)<br>21、 selectExpr(exprs: String<em>) 做字段的刷选 df.selectExpr(“name”,”name as names”,”upper(name)”,”age+1”).show();<br>22、 sort(sortExprs: Column</em>) 排序 df.sort(df(“age”).desc).show(); 默认是asc<br>23、 unionAll(other:Dataframe) 合并 df.unionAll(ds).show();<br>24、 withColumnRenamed(existingName: String, newName: String) 修改列表 df.withColumnRenamed(“name”,”names”).show();<br>25、 withColumn(colName: String, col: Column) 增加一列 df.withColumn(“aa”,df(“name”)).show();</p>
 
         </div>
         
@@ -222,7 +198,7 @@
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a>
+                    <a class="has-link-grey -link" href="/tags/Java/" rel="tag">Java</a>, <a class="has-link-grey -link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a>
                 </div>
             </div>
         </div>
@@ -239,17 +215,10 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/post/c8d50731.html">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">操作系统漫游（五）输入输出系统</span>
-            </a>
-        </div>
-        
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/post/69f0eb47.html">
-                <span class="level-item">计算机网络——网络层探究</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/post/eecbf398.html">
+                <span class="level-item">Java并发编程之AQS</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -619,45 +588,29 @@
                     目录
                 </h3>
                 <ul class="menu-list"><li>
-        <a class="is-flex" href="#RDD-和-DataFrame-的区别">
+        <a class="is-flex" href="#ThreadPoolExecutor">
         <span class="has-mr-6">1</span>
-        <span>RDD 和 DataFrame 的区别</span>
+        <span>ThreadPoolExecutor</span>
         </a></li><li>
-        <a class="is-flex" href="#Getting-Started">
+        <a class="is-flex" href="#使用-Executors-创建线程池">
         <span class="has-mr-6">2</span>
-        <span>Getting Started</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#初始化-Spark">
-        <span class="has-mr-6">2.1</span>
-        <span>初始化 Spark</span>
+        <span>使用 Executors 创建线程池</span>
         </a></li><li>
-        <a class="is-flex" href="#创建-DataFrames">
-        <span class="has-mr-6">2.2</span>
-        <span>创建 DataFrames</span>
-        </a></li><li>
-        <a class="is-flex" href="#操作-DataFrame">
-        <span class="has-mr-6">2.3</span>
-        <span>操作 DataFrame</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#一个agg的例子">
+        <a class="is-flex" href="#线程池生命周期">
         <span class="has-mr-6">3</span>
-        <span>一个agg的例子</span>
-        </a></li><li>
-        <a class="is-flex" href="#DataFrame-的函数">
-        <span class="has-mr-6">4</span>
-        <span>DataFrame 的函数</span>
+        <span>线程池生命周期</span>
         </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#Action-操作">
-        <span class="has-mr-6">4.1</span>
-        <span>Action 操作</span>
+        <a class="is-flex" href="#CREATE-amp-RUNNING">
+        <span class="has-mr-6">3.1</span>
+        <span>CREATE & RUNNING</span>
         </a></li><li>
-        <a class="is-flex" href="#dataframe的基本操作">
-        <span class="has-mr-6">4.2</span>
-        <span>dataframe的基本操作</span>
+        <a class="is-flex" href="#SHUTDOWN-amp-STOP">
+        <span class="has-mr-6">3.2</span>
+        <span>SHUTDOWN & STOP</span>
         </a></li><li>
-        <a class="is-flex" href="#集成查询">
-        <span class="has-mr-6">4.3</span>
-        <span>集成查询</span>
+        <a class="is-flex" href="#TERMINATED">
+        <span class="has-mr-6">3.3</span>
+        <span>TERMINATED</span>
         </a></li></ul></li></ul>
             </div>
         </div>
@@ -742,45 +695,29 @@
                     目录
                 </h3>
                 <ul class="menu-list"><li>
-        <a class="is-flex" href="#RDD-和-DataFrame-的区别">
+        <a class="is-flex" href="#ThreadPoolExecutor">
         <span class="has-mr-6">1</span>
-        <span>RDD 和 DataFrame 的区别</span>
+        <span>ThreadPoolExecutor</span>
         </a></li><li>
-        <a class="is-flex" href="#Getting-Started">
+        <a class="is-flex" href="#使用-Executors-创建线程池">
         <span class="has-mr-6">2</span>
-        <span>Getting Started</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#初始化-Spark">
-        <span class="has-mr-6">2.1</span>
-        <span>初始化 Spark</span>
+        <span>使用 Executors 创建线程池</span>
         </a></li><li>
-        <a class="is-flex" href="#创建-DataFrames">
-        <span class="has-mr-6">2.2</span>
-        <span>创建 DataFrames</span>
-        </a></li><li>
-        <a class="is-flex" href="#操作-DataFrame">
-        <span class="has-mr-6">2.3</span>
-        <span>操作 DataFrame</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#一个agg的例子">
+        <a class="is-flex" href="#线程池生命周期">
         <span class="has-mr-6">3</span>
-        <span>一个agg的例子</span>
-        </a></li><li>
-        <a class="is-flex" href="#DataFrame-的函数">
-        <span class="has-mr-6">4</span>
-        <span>DataFrame 的函数</span>
+        <span>线程池生命周期</span>
         </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#Action-操作">
-        <span class="has-mr-6">4.1</span>
-        <span>Action 操作</span>
+        <a class="is-flex" href="#CREATE-amp-RUNNING">
+        <span class="has-mr-6">3.1</span>
+        <span>CREATE & RUNNING</span>
         </a></li><li>
-        <a class="is-flex" href="#dataframe的基本操作">
-        <span class="has-mr-6">4.2</span>
-        <span>dataframe的基本操作</span>
+        <a class="is-flex" href="#SHUTDOWN-amp-STOP">
+        <span class="has-mr-6">3.2</span>
+        <span>SHUTDOWN & STOP</span>
         </a></li><li>
-        <a class="is-flex" href="#集成查询">
-        <span class="has-mr-6">4.3</span>
-        <span>集成查询</span>
+        <a class="is-flex" href="#TERMINATED">
+        <span class="has-mr-6">3.3</span>
+        <span>TERMINATED</span>
         </a></li></ul></li></ul>
             </div>
         </div>
@@ -857,7 +794,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.png" alt="Spark SQL 和 DataFrame" height="28">
+                    <img src="/images/logo.png" alt="Java并发编程之线程池" height="28">
                 
                 </a>
                 <p class="is-size-7">

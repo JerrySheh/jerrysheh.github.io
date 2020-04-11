@@ -7,19 +7,19 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Java并发编程之异步任务和线程池 - J.e</title>
+<title>Java并发编程之异步任务 - J.e</title>
 
 
-    <meta name="description" content="线程池是线程的管理工具，跟线程本身一样，线程池也有不同的状态。  在并发编程中，我们可能需要创建许多个线程来执行任务，这些线程频繁地被创建、执行，然后又销毁，这个过程的开销是比较大的。能不能弄一个像池子一样的线程池，线程统一创建，需要执行任务时从线程池里取一个线程来执行，执行完把线程放回去。 但是在聊线程池之前，得先从Java的异步任务讲起。">
+    <meta name="description" content="CallableRunnable 用于一个异步执行的任务，没有参数和返回值。Callable 与 Runnable 类似，区别是，Callable有返回值，且可以抛出异常。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java并发编程之异步任务和线程池">
+<meta property="og:title" content="Java并发编程之异步任务">
 <meta property="og:url" content="https://jerrysheh.me/post/377edbcb.html">
 <meta property="og:site_name" content="J.e">
-<meta property="og:description" content="线程池是线程的管理工具，跟线程本身一样，线程池也有不同的状态。  在并发编程中，我们可能需要创建许多个线程来执行任务，这些线程频繁地被创建、执行，然后又销毁，这个过程的开销是比较大的。能不能弄一个像池子一样的线程池，线程统一创建，需要执行任务时从线程池里取一个线程来执行，执行完把线程放回去。 但是在聊线程池之前，得先从Java的异步任务讲起。">
+<meta property="og:description" content="CallableRunnable 用于一个异步执行的任务，没有参数和返回值。Callable 与 Runnable 类似，区别是，Callable有返回值，且可以抛出异常。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2019-06-04T16:25:54.000Z">
-<meta property="article:modified_time" content="2020-04-08T14:11:13.171Z">
+<meta property="article:modified_time" content="2020-04-11T15:57:07.401Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta property="article:tag" content="并发">
 <meta property="article:tag" content="Java">
@@ -82,7 +82,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.png" alt="Java并发编程之异步任务和线程池" height="28">
+                <img src="/images/logo.png" alt="Java并发编程之异步任务" height="28">
             
             </a>
         </div>
@@ -145,7 +145,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    11 分钟 读完 (大约 1630 个字)
+                    6 分钟 读完 (大约 960 个字)
                 </span>
                 
                 
@@ -159,19 +159,13 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                Java并发编程之异步任务和线程池
+                Java并发编程之异步任务
             
         </h1>
         <div class="content">
-            <blockquote>
-<p>线程池是线程的管理工具，跟线程本身一样，线程池也有不同的状态。</p>
-</blockquote>
-<p>在并发编程中，我们可能需要创建许多个线程来执行任务，这些线程频繁地被创建、执行，然后又销毁，这个过程的开销是比较大的。能不能弄一个像池子一样的线程池，线程统一创建，需要执行任务时从线程池里取一个线程来执行，执行完把线程放回去。</p>
-<p>但是在聊线程池之前，得先从Java的异步任务讲起。</p>
+            <h1 id="Callable"><a href="#Callable" class="headerlink" title="Callable"></a>Callable</h1><p>Runnable 用于一个异步执行的任务，没有参数和返回值。Callable 与 Runnable 类似，区别是，Callable有返回值，且可以抛出异常。</p>
 <a id="more"></a>
 
-<hr>
-<h1 id="Callable"><a href="#Callable" class="headerlink" title="Callable"></a>Callable</h1><p>Runnable 用于一个异步执行的任务，没有参数和返回值。Callable 与 Runnable 类似，区别是，Callable有返回值，且可以抛出异常。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> java.util.concurrent;</span><br><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Callable</span>&lt;<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Computes a result, or throws an exception if unable to do so.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> computed result</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Exception if unable to compute a result</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">V <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>无论是 Runnable 还是 Callable，想要放到独立的线程中去运行，都是需要借助 Thread 类的。</p>
@@ -194,7 +188,7 @@
 <h2 id="ExecutorService-接口"><a href="#ExecutorService-接口" class="headerlink" title="ExecutorService 接口"></a>ExecutorService 接口</h2><p>Doug Lea（JUC的设计者）又写了一个 ExecutorService 接口，继承 Executor 再添加几个方法，主要是以下两个：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ExecutorService</span> <span class="keyword">extends</span> <span class="title">Executor</span> </span>&#123;</span><br><span class="line">    &lt;T&gt; <span class="function">Future&lt;T&gt; <span class="title">submit</span><span class="params">(Callable&lt;T&gt; task)</span></span>;</span><br><span class="line">    &lt;T&gt; <span class="function">Future&lt;T&gt; <span class="title">submit</span><span class="params">(Runnable task, T result)</span></span>;</span><br><span class="line">    Future&lt;?&gt; submit(Runnable task);</span><br><span class="line">    <span class="comment">// ... 其他方法略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>这两个方法用于向线程提交异步任务，然后返回一个 Future，我们再用 Future 来判断异步任务结束没有，或者获取结果。</p>
+<p>这两个方法用于向线程提交异步任务，然后返回一个 Future，我们再用 Future 来判断异步任务结束没有，或者获取结果。这个接口的默认实现是 <code>ThreadPoolExecutor</code>，用于启动一个线程池，另一个实现是 Fork/Join 框架（JDK1.7）。</p>
 <h3 id="submit-和-execute-的区别"><a href="#submit-和-execute-的区别" class="headerlink" title="submit 和 execute 的区别"></a>submit 和 execute 的区别</h3><p><code>execute()</code> 是 Executor 接口的方法，表示执行一个 Runnable， <code>submit()</code> 是 ExecutorService 接口的方法，内部调用了 <code>execute()</code> ，但还会返回一个异步计算结果 Future 对象（也意味着可以做异常处理）。</p>
 <h2 id="ScheduledExecutorService-接口"><a href="#ScheduledExecutorService-接口" class="headerlink" title="ScheduledExecutorService 接口"></a>ScheduledExecutorService 接口</h2><p>看起来已经够用了，Doug Lea大佬觉得哪里还不太够，于是劈里啪啦又写了一个 ScheduledExecutorService 接口，继承 ExecutorService 接口，再添加几个 schedule 方法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ScheduledFuture&lt;?&gt; schedule(Runnable command, <span class="keyword">long</span> delay, TimeUnit unit);</span><br><span class="line"><span class="keyword">public</span> &lt;V&gt; <span class="function">ScheduledFuture&lt;V&gt; <span class="title">schedule</span><span class="params">(Callable&lt;V&gt; callable, <span class="keyword">long</span> delay, TimeUnit unit)</span></span>;</span><br></pre></td></tr></table></figure>
@@ -202,28 +196,9 @@
 <p>ScheduledExecutorService 的功能和 Timer/TimerTask 类似，解决那些需要任务重复执行的问题。这包括延迟时间一次性执行、延迟时间周期性执行以及固定延迟时间周期性执行等。</p>
 <p>后来 Doug Lea 又写了几个例如 CompletionService 等接口，这里就不展开讲了。线程执行Executor接口大家族完善后，接下来就要开始实现了。</p>
 <hr>
-<h1 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h1><p>ThreadPoolExecutor 是 ExecutorService 的默认实现，用来启动一个线程池。但是，线程池是一个配置繁杂，状态较多的工具，我们通常不手动启动，而是借助 Executors 类的静态工厂方法来生成。</p>
+<h1 id="Fork-Join-框架（JDK1-7）"><a href="#Fork-Join-框架（JDK1-7）" class="headerlink" title="Fork/Join 框架（JDK1.7）"></a>Fork/Join 框架（JDK1.7）</h1><p>todo</p>
 <hr>
-<h1 id="Executors-的静态工厂"><a href="#Executors-的静态工厂" class="headerlink" title="Executors 的静态工厂"></a>Executors 的静态工厂</h1><p>Executors 类跟 Executor 接口关系不大，这个类主要提供了一些静态工厂，用来生成一些常用的线程池执行器。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单线程执行器</span></span><br><span class="line">ExecutorService executorService1 = Executors.newSingleThreadExecutor();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 固定线程数量</span></span><br><span class="line">ExecutorService executorService2 = Executors.newFixedThreadPool(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 多线程调度执行器</span></span><br><span class="line">ExecutorService executorService3 = Executors.newScheduledThreadPool(<span class="number">10</span>);</span><br></pre></td></tr></table></figure>
-
-<p>简单例子</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService executorService = Executors.newFixedThreadPool(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">executorService.execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Asynchronous task"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">executorService.shutdown();</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="线程池生命周期"><a href="#线程池生命周期" class="headerlink" title="线程池生命周期"></a>线程池生命周期</h1><p>既然 ThreadPoolExecutor 是 ExecutorService 的实现，而 ExecutorService 又继承 Executor 接口。所以，线程池的生命周期即是 Executor 的生命周期啦。</p>
-<h2 id="CREATE-amp-RUNNING"><a href="#CREATE-amp-RUNNING" class="headerlink" title="CREATE &amp; RUNNING"></a>CREATE &amp; RUNNING</h2><p>当我们 new 一个 Executor 或者通过 Executors 静态工厂构造一个 Executor，线程池即进入了 RUNNING 状态，在此之前是 CREATE 状态。严格意义上讲线程池构造完成后并没有线程被立即启动，只有进行“预启动”或者接收到任务的时候才会启动线程。但是无论如何，构造完后，线程池已经在运行，随时准备接受任务来执行。</p>
-<h2 id="SHUTDOWN-amp-STOP"><a href="#SHUTDOWN-amp-STOP" class="headerlink" title="SHUTDOWN &amp; STOP"></a>SHUTDOWN &amp; STOP</h2><p>通过<code>shutdown()</code>和<code>shutdownNow()</code>来将线程关闭。</p>
-<ul>
-<li><code>shutdown()</code>平缓关闭，线程池停止接受新的任务，同时等待已经提交的任务执行完毕，包括那些进入队列还没有开始的任务，这时候线程池处于SHUTDOWN状态。</li>
-<li><code>shutdownNow()</code>是一个立即关闭过程，线程池停止接受新的任务，同时线程池取消所有执行的任务和已经进入队列但是还没有执行的任务，这时候线程池处于STOP状态。</li>
-</ul>
-<h2 id="TERMINATED"><a href="#TERMINATED" class="headerlink" title="TERMINATED"></a>TERMINATED</h2><p>一旦<code>shutdown()</code>或者<code>shutdownNow()</code>执行完毕，线程池就进入TERMINATED状态，此时线程池就结束了。</p>
-<ul>
-<li><code>isTerminating()</code>描述的是SHUTDOWN和STOP两种状态。</li>
-<li><code>isShutdown()</code>描述的是非RUNNING状态，也就是SHUTDOWN/STOP/TERMINATED三种状态。</li>
-</ul>
-<hr>
+<h1 id="Stream并行计算（JDK1-8）"><a href="#Stream并行计算（JDK1-8）" class="headerlink" title="Stream并行计算（JDK1.8）"></a>Stream并行计算（JDK1.8）</h1><p>todo</p>
 
         </div>
         
@@ -312,7 +287,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            162
+                            163
                         </p>
                     </a>
                 </div>
@@ -416,7 +391,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">41</span>
+                <span class="level-item tag">42</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/Concurrent/">
@@ -424,7 +399,7 @@
                 <span class="level-item">Concurrent</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">5</span>
+                <span class="level-item tag">6</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/Effective-Java/">
@@ -656,30 +631,14 @@
         <span class="has-mr-6">3.3</span>
         <span>ScheduledExecutorService 接口</span>
         </a></li></ul></li><li>
-        <a class="is-flex" href="#ThreadPoolExecutor">
+        <a class="is-flex" href="#Fork-Join-框架（JDK1-7）">
         <span class="has-mr-6">4</span>
-        <span>ThreadPoolExecutor</span>
+        <span>Fork/Join 框架（JDK1.7）</span>
         </a></li><li>
-        <a class="is-flex" href="#Executors-的静态工厂">
+        <a class="is-flex" href="#Stream并行计算（JDK1-8）">
         <span class="has-mr-6">5</span>
-        <span>Executors 的静态工厂</span>
-        </a></li><li>
-        <a class="is-flex" href="#线程池生命周期">
-        <span class="has-mr-6">6</span>
-        <span>线程池生命周期</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#CREATE-amp-RUNNING">
-        <span class="has-mr-6">6.1</span>
-        <span>CREATE & RUNNING</span>
-        </a></li><li>
-        <a class="is-flex" href="#SHUTDOWN-amp-STOP">
-        <span class="has-mr-6">6.2</span>
-        <span>SHUTDOWN & STOP</span>
-        </a></li><li>
-        <a class="is-flex" href="#TERMINATED">
-        <span class="has-mr-6">6.3</span>
-        <span>TERMINATED</span>
-        </a></li></ul></li></ul>
+        <span>Stream并行计算（JDK1.8）</span>
+        </a></li></ul>
             </div>
         </div>
     </div>
@@ -791,30 +750,14 @@
         <span class="has-mr-6">3.3</span>
         <span>ScheduledExecutorService 接口</span>
         </a></li></ul></li><li>
-        <a class="is-flex" href="#ThreadPoolExecutor">
+        <a class="is-flex" href="#Fork-Join-框架（JDK1-7）">
         <span class="has-mr-6">4</span>
-        <span>ThreadPoolExecutor</span>
+        <span>Fork/Join 框架（JDK1.7）</span>
         </a></li><li>
-        <a class="is-flex" href="#Executors-的静态工厂">
+        <a class="is-flex" href="#Stream并行计算（JDK1-8）">
         <span class="has-mr-6">5</span>
-        <span>Executors 的静态工厂</span>
-        </a></li><li>
-        <a class="is-flex" href="#线程池生命周期">
-        <span class="has-mr-6">6</span>
-        <span>线程池生命周期</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#CREATE-amp-RUNNING">
-        <span class="has-mr-6">6.1</span>
-        <span>CREATE & RUNNING</span>
-        </a></li><li>
-        <a class="is-flex" href="#SHUTDOWN-amp-STOP">
-        <span class="has-mr-6">6.2</span>
-        <span>SHUTDOWN & STOP</span>
-        </a></li><li>
-        <a class="is-flex" href="#TERMINATED">
-        <span class="has-mr-6">6.3</span>
-        <span>TERMINATED</span>
-        </a></li></ul></li></ul>
+        <span>Stream并行计算（JDK1.8）</span>
+        </a></li></ul>
             </div>
         </div>
     </div>
@@ -890,7 +833,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.png" alt="Java并发编程之异步任务和线程池" height="28">
+                    <img src="/images/logo.png" alt="Java并发编程之异步任务" height="28">
                 
                 </a>
                 <p class="is-size-7">
