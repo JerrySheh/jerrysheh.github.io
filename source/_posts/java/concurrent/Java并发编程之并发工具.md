@@ -22,7 +22,7 @@ Java自带的平台类库（java.util.concurrent）里面包含了很多有用�
 
 # atomic原子类
 
-## 为什么要用 atomic原子类
+## 为什么要用atomic原子类
 
 像 `i++` 这样的操作并不是原子操作，多线程访问可能出现问题，在 [Java并发编程之安全性](../post/b4ed848b.html) 就提到可以用 java.util.concurrent.atomic 包的 atomic原子类 来将 `i++` 封装成原子操作。
 
@@ -30,7 +30,11 @@ Java自带的平台类库（java.util.concurrent）里面包含了很多有用�
 
 ## 原理
 
-非阻塞并发算法（CAS）。
+非阻塞并发算法。典型的算法有compare-and-swap（CAS），即一个线程在修改一个变量时，先将当前值（当前内存地址值）跟预期值进行比较，如果一致，则进行修改，如果不一致，说明这个变量被其他线程改了，就不进行修改。
+
+但是 CAS 也不是完美的，比如经典的ABA问题：一个变量 V 初次读取的时候是 A值，之后被其他线程修改为 B，然后又修改为 A，那 CAS 会认为它从来没有变过。
+
+参考：http://tutorials.jenkov.com/java-concurrency/compare-and-swap.html
 
 ## 原子类的更新问题
 
@@ -195,14 +199,14 @@ ConcurrentHashMap<String,LongAdder> map = new ConcurrentHashMap();
 // 如果为空，新建
 map.putIfAbsent(word, new LongAdder());
 
-// 获取再+1
+// 获取再+1，实际上是把 do while 封装到 increment() 里面
 map.get(word).increment();
 
 // 上面两句可以合并为一句
 map.putIfAbsent(word, new LongAdder()).increment();
 ```
 
-Java 8 中，compute 方法传入一个 key 和一个计算新值的函数，用于完成原子更新，推荐使用：
+但如果我不是想 +1，而想做其他计算，就无法用 `increment()` 了。Java 8 中，compute 方法传入一个 key 和一个计算新值的函数，用于完成原子更新，推荐使用：
 
 ```java
 map.compute(word, (k,v)-> v == null? 1:v+1);
@@ -255,7 +259,7 @@ BlockingQueue 阻塞队列不仅能作为保存对象的容器，而且能根据
 
 - 确保某个计算在其需要的所有资源都被初始化后才继续执行。
 - 确保某个服务在其依赖的其他服务都被启动之后才启动。
-- 等待某个操作的参与者都就绪再继续执行（多人在线游戏）
+- 等待某个操作的参与者都就绪再继续执行（多人在线游戏）。
 
 CountDownLatch 是一种闭锁的实现。包括一个计数器，一开始为正数，表示需要等待的事件数量。以及 countDown 方法，每当一个等待的事件发生了，计数器就减一。直到为零闭锁打开。如果计数器不为零，那 await 会一直阻塞直到计数器为零，或者等待中的线程中断，或者等待超时。
 
@@ -287,3 +291,33 @@ semaphore.acquire(); // 资源被获取
 
 semaphore.release(); // 资源被释放
 ```
+
+## 显式锁
+
+### 可重入锁（ReentrantLock）
+
+ReentrantLock 是 Lock 接口的默认实现。实现了锁的基本功能。作用跟 `Synchronized` 一样，都是用于线程同步的。但 ReentrantLock 多了三个高级特性：
+
+1. **等待可中断**：如果持有锁的线程长期不释放锁，正在等待的线程可以放弃等待，改为处理别的事情。
+2. **可实现公平锁**：公平锁是指按照申请锁的时间顺序依次获得锁，而非随机获得。可以通过带 boolean 值的构造函数要求使用公平锁。
+3. **锁可以绑定多个条件**：一个 ReentrantLock对象可以绑定多个 Condition 对象。
+
+### 可重入读写锁（ReentrantReadWriteLock）
+
+ReentrantReadWriteLock 是 ReadWriteLock 接口的默认实现。实际上是结合了可重入锁和读写锁的特性。内部维护了两个锁，ReadLock 和 WriteLock，其中
+ReadLock 是线程共享的，而 WriteLock 是独占的。
+
+可重入读写锁有一个小弊端，就是在“写”操作的时候，其它线程不能写也不能读。我们称这种现象为“写饥饿”。
+
+### StampedLock
+
+StampedLock 是 JDK 1.8 才发布的，作者依然是 Doug Lea。功能跟 ReentrantReadWriteLock 一样，但是性能更高，且不会发现写饥饿。其原理是，**在读的时候如果发生了写，应该通过重试的方式来获取新的值，而不应该阻塞写操作。这种模式也就是典型的无锁编程思想，和CAS自旋的思想一样**。这种操作方式决定了StampedLock在读线程非常多而写线程非常少的场景下非常适用，同时还避免了写饥饿情况的发生。
+
+StampedLock的性能非常优异，基本上可以取代ReentrantReadWriteLock的作用。
+
+---
+
+参考：
+
+- 《Java并发编程实战》
+- [第十四章 锁接口和类](http://concurrent.redspider.group/article/03/14.html)
