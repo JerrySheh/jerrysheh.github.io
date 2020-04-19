@@ -10,16 +10,16 @@
 <title>Java并发编程之异步任务 - J.e</title>
 
 
-    <meta name="description" content="CallableRunnable 用于一个异步执行的任务，没有参数和返回值。Callable 与 Runnable 类似，区别是，Callable有返回值，且可以抛出异常。">
+    <meta name="description" content="有时候，我们想在主线程之外执行一些异步任务，不难想到，可以开一个新线程专门去处理某个任务。在 Java 中处理异步任务都有哪些需要注意的呢？">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java并发编程之异步任务">
 <meta property="og:url" content="https://jerrysheh.me/post/377edbcb.html">
 <meta property="og:site_name" content="J.e">
-<meta property="og:description" content="CallableRunnable 用于一个异步执行的任务，没有参数和返回值。Callable 与 Runnable 类似，区别是，Callable有返回值，且可以抛出异常。">
+<meta property="og:description" content="有时候，我们想在主线程之外执行一些异步任务，不难想到，可以开一个新线程专门去处理某个任务。在 Java 中处理异步任务都有哪些需要注意的呢？">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2019-06-04T16:25:54.000Z">
-<meta property="article:modified_time" content="2020-04-11T15:57:07.401Z">
+<meta property="article:modified_time" content="2020-04-19T06:15:41.259Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta property="article:tag" content="并发">
 <meta property="article:tag" content="Java">
@@ -145,7 +145,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    6 分钟 读完 (大约 960 个字)
+                    14 分钟 读完 (大约 2174 个字)
                 </span>
                 
                 
@@ -163,42 +163,84 @@
             
         </h1>
         <div class="content">
-            <h1 id="Callable"><a href="#Callable" class="headerlink" title="Callable"></a>Callable</h1><p>Runnable 用于一个异步执行的任务，没有参数和返回值。Callable 与 Runnable 类似，区别是，Callable有返回值，且可以抛出异常。</p>
+            <p>有时候，我们想在主线程之外执行一些异步任务，不难想到，可以开一个新线程专门去处理某个任务。在 Java 中处理异步任务都有哪些需要注意的呢？</p>
 <a id="more"></a>
 
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> java.util.concurrent;</span><br><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Callable</span>&lt;<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Computes a result, or throws an exception if unable to do so.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> computed result</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Exception if unable to compute a result</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">V <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="最简单的异步任务执行"><a href="#最简单的异步任务执行" class="headerlink" title="最简单的异步任务执行"></a>最简单的异步任务执行</h1><h2 id="Runnable"><a href="#Runnable" class="headerlink" title="Runnable"></a>Runnable</h2><p>Runnable 用于一个异步执行的任务，没有参数和返回值。实现 Runnable 接口，把我们想要执行的任务写在 run 方法里，即可表示任务内容。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> java.lang;</span><br><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>无论是 Runnable 还是 Callable，想要放到独立的线程中去运行，都是需要借助 Thread 类的。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Thread(callable).start();</span><br></pre></td></tr></table></figure>
 
+<h2 id="Callable"><a href="#Callable" class="headerlink" title="Callable"></a>Callable</h2><p>Callable 与 Runnable 类似，区别是，Callable有返回值，且可以抛出异常。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> java.util.concurrent;</span><br><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Callable</span>&lt;<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function">V <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="一个简易Web服务器例子"><a href="#一个简易Web服务器例子" class="headerlink" title="一个简易Web服务器例子"></a>一个简易Web服务器例子</h2><p>无论是 Runnable 还是 Callable，想要放到独立的线程中去运行，都是需要借助 Thread 类的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Thread(runnable).start();</span><br><span class="line"><span class="keyword">new</span> Thread(callable).start();</span><br></pre></td></tr></table></figure>
+
+<p>我们可以编写一个简易的Web服务器，当一个请求进来时，新建一个线程去服务这个请求。（不要在生产环境使用）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    ServerSocket socket = <span class="keyword">new</span> ServerSocket(<span class="number">80</span>);</span><br><span class="line">    <span class="keyword">for</span> (;;)&#123;</span><br><span class="line">        <span class="keyword">final</span> Socket conn = socket.accept();</span><br><span class="line">        Runnable task = () -&gt; handleRequest(conn);</span><br><span class="line">        <span class="keyword">new</span> Thread(task).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">handleRequest</span><span class="params">(Socket conn)</span></span>&#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="Executor-接口"><a href="#Executor-接口" class="headerlink" title="Executor 接口"></a>Executor 接口</h1><p>由我们手动去 new 线程执行任务，有一些缺点：</p>
+<ul>
+<li>随着新任务一个个的到来，旧任务一个个结束，线程不断创建销毁，开销很大；</li>
+<li>线程数量不可控，如果一下子有大量任务到来，将无限制创建线程，即使没有OOM，也会因线程数量太多而导致性能降低（CPU在线程之间切换也是有开销）</li>
+</ul>
+<p>所以通常我们不会手动去 new 线程执行任务，而是借助 Executor 接口帮助我们执行。</p>
+<p>Executor 接口用来执行一个 Runnable。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Executor</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">execute</span><span class="params">(Runnable command)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为什么要把线程放到 Executor 里面执行呢？</p>
+<ul>
+<li>Executor 提供了一种标准的方法将任务的提交过程和执行过程解耦。这是一种生产者-消费者模式。</li>
+<li>我们可以在 Executor 的实现类里，添加一些方法，用于管理生命周期和做其他监控，便于我们调度异步任务。</li>
+</ul>
+<h2 id="借助-Executor-的简易Web服务器"><a href="#借助-Executor-的简易Web服务器" class="headerlink" title="借助 Executor 的简易Web服务器"></a>借助 Executor 的简易Web服务器</h2><p>这一次，我们不再 new 线程，而是把 task 放到 Executor 里面去执行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExecutorExample</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> THREAD_NUMBER = <span class="number">100</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Executor exec = Executors.newFixedThreadPool(THREAD_NUMBER);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        ServerSocket socket = <span class="keyword">new</span> ServerSocket(<span class="number">80</span>);</span><br><span class="line">        <span class="keyword">for</span> (;;)&#123;</span><br><span class="line">            <span class="keyword">final</span> Socket conn = socket.accept();</span><br><span class="line">            Runnable task = () -&gt; handleRequest(conn);</span><br><span class="line">            exec.execute(task);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">handleRequest</span><span class="params">(Socket conn)</span></span>&#123;</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Executors-工具类"><a href="#Executors-工具类" class="headerlink" title="Executors 工具类"></a>Executors 工具类</h2><p>Executor 的实现类各种各样，我们可以把 Executor 实现为单线程，或者实现为跟每次都自己 new 线程一样，也可以实现为限制最大线程数量等。通常情况下不同的实现类参数复杂，状态较多，所以我们通常不自己 new Executor，而是借助工具类 Executors 帮助我们创建 Executor。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单线程执行器，如果该线程异常，将创建另一个来替代</span></span><br><span class="line">Executor exec1 = Executors.newSingleThreadExecutor();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 固定线程数量，提交一个任务就创建一个，直至最大值</span></span><br><span class="line">Executor exec2 = Executors.newFixedThreadPool(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 多线程调度执行器</span></span><br><span class="line">Executor exec3 = Executors.newScheduledThreadPool(<span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="ExecutorService-接口"><a href="#ExecutorService-接口" class="headerlink" title="ExecutorService 接口"></a>ExecutorService 接口</h2><p>事实上，我们用 Executors 创建出来的执行器是 Executor 的子接口 ExecutorService。既然已经有了 Executor 了，为什么还要 ExecutorService 呢？前面说到，我们不只是把任务丢到线程里让他去执行就完了，有时候，我们还想获取异步任务的状态，以及管理 Executor 执行器本身。</p>
+<p>因此，ExecutorService 继承了 Executor ，再添加几个方法，主要是<code>submit</code>方法，用于向线程提交异步任务，然后返回一个 Future，我们再用 Future 来判断异步任务结束没有，或者获取结果。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ExecutorService</span> <span class="keyword">extends</span> <span class="title">Executor</span> </span>&#123;</span><br><span class="line">    &lt;T&gt; <span class="function">Future&lt;T&gt; <span class="title">submit</span><span class="params">(Callable&lt;T&gt; task)</span></span>;</span><br><span class="line">    &lt;T&gt; <span class="function">Future&lt;T&gt; <span class="title">submit</span><span class="params">(Runnable task, T result)</span></span>;</span><br><span class="line">    Future&lt;?&gt; submit(Runnable task);</span><br><span class="line">    <span class="comment">// ... 其他方法见下面生命周期部分</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个接口的默认实现是 <code>ThreadPoolExecutor</code>，用于启动一个线程池，另一个实现是 Fork/Join 框架（JDK1.7）。</p>
+<h3 id="submit-和-execute-的区别"><a href="#submit-和-execute-的区别" class="headerlink" title="submit 和 execute 的区别"></a>submit 和 execute 的区别</h3><p><code>execute()</code> 是 Executor 接口的方法，表示执行一个 Runnable， <code>submit()</code> 是 ExecutorService 接口的方法，内部调用了 <code>execute()</code> ，但还会返回一个异步计算结果 Future 对象（也意味着可以做异常处理）。</p>
+<h2 id="ScheduledExecutorService-接口"><a href="#ScheduledExecutorService-接口" class="headerlink" title="ScheduledExecutorService 接口"></a>ScheduledExecutorService 接口</h2><p>看起来已经够用了，JUC的设计者Doug Lea大佬觉得哪里还不太够，于是劈里啪啦又写了一个 ScheduledExecutorService 接口，继承 ExecutorService 接口，再添加几个 schedule 方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ScheduledFuture&lt;?&gt; schedule(Runnable command, <span class="keyword">long</span> delay, TimeUnit unit);</span><br><span class="line"><span class="keyword">public</span> &lt;V&gt; <span class="function">ScheduledFuture&lt;V&gt; <span class="title">schedule</span><span class="params">(Callable&lt;V&gt; callable, <span class="keyword">long</span> delay, TimeUnit unit)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>ScheduledExecutorService 的功能和 Timer/TimerTask 类似，解决那些需要任务重复执行的问题。这包括延迟时间一次性执行、延迟时间周期性执行以及固定延迟时间周期性执行等。</p>
 <hr>
 <h1 id="Future"><a href="#Future" class="headerlink" title="Future"></a>Future</h1><p>Callable 的 <code>call()</code> 方法可以获取一个返回值，但假设异步任务要执行很久，调用方就会阻塞。<strong>Future是一个接口，用来判断异步计算是否已完成以及帮助我们获取异步计算的结果</strong>。在没有Future之前我们检测一个线程是否执行完毕通常使用<code>Thread.join()</code>或者用一个死循环加状态位来描述线程执行完毕。Future是一种更好的方法，能够阻塞线程，检测任务执行完毕，甚至取消执行中或者未开始执行的任务。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Future</span>&lt;<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">cancel</span><span class="params">(<span class="keyword">boolean</span> mayInterruptIfRunning)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isCancelled</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isDone</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 调用 get 时，如果还没计算完，将阻塞</span></span><br><span class="line">    <span class="function">V <span class="title">get</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException, ExecutionException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果过了设定的时间还没计算完，抛出超时异常</span></span><br><span class="line">    <span class="function">V <span class="title">get</span><span class="params">(<span class="keyword">long</span> timeout, TimeUnit unit)</span></span></span><br><span class="line"><span class="function">        <span class="keyword">throws</span> InterruptedException, ExecutionException, TimeoutException</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>RunnableFuture<V> 是一个继承了 Runnable 和 Future<V> 的接口，再添加一个 <code>run()</code> 方法。而 FutureTask<V> 是 RunnableFuture<V> 的实现，包含以下四个field：</p>
+<p><code>RunnableFuture&lt;V&gt;</code> 是一个继承了 <code>Runnable</code> 和 <code>Future&lt;V&gt;</code> 的接口，再添加一个 <code>run()</code> 方法。而 <code>FutureTask&lt;V&gt;</code> 是它的实现，包含以下四个field：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** The underlying callable; nulled out after running */</span></span><br><span class="line"><span class="keyword">private</span> Callable&lt;V&gt; callable;</span><br><span class="line"><span class="comment">/** The result to return or exception to throw from get() */</span></span><br><span class="line"><span class="keyword">private</span> Object outcome; <span class="comment">// non-volatile, protected by state reads/writes</span></span><br><span class="line"><span class="comment">/** The thread running the callable; CASed during run() */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> Thread runner;</span><br><span class="line"><span class="comment">/** Treiber stack of waiting threads */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> WaitNode waiters;</span><br></pre></td></tr></table></figure>
 
-<p>Callable 由构造器传入，所以，当我们有一个异步任务 Callable ，可通过 FutureTask<V> 转换成 Future，如：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">FutureTask&lt;Long&gt; future = <span class="keyword">new</span> FutureTask&lt;Long&gt;( () -&gt; &#123;</span><br><span class="line">    Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">5L</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Thread(future).start();</span><br><span class="line"></span><br><span class="line">Long result = future.get();</span><br><span class="line">System.out.println(result);</span><br></pre></td></tr></table></figure>
+<p>Callable 由构造器传入，所以，当我们有一个异步任务 Callable ，可通过 FutureTask<V> 来获取返回值，如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">FutureTask&lt;Long&gt; future = <span class="keyword">new</span> FutureTask&lt;Long&gt;( () -&gt; &#123;</span><br><span class="line">    Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">5L</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Thread(future).start();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 执行get时，若异步任务还未结束，主线程将阻塞</span></span><br><span class="line">Long result = future.get();</span><br><span class="line">System.out.println(result);</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h1 id="Executor"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</h1><h2 id="Executor-接口"><a href="#Executor-接口" class="headerlink" title="Executor 接口"></a>Executor 接口</h2><p>Executor 只是一个顶级接口，用来执行一个 Runnable。看起来并没有什么卵用。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Executor</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">execute</span><span class="params">(Runnable command)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Executor-生命周期"><a href="#Executor-生命周期" class="headerlink" title="Executor 生命周期"></a>Executor 生命周期</h1><p>既然 ThreadPoolExecutor 是 ExecutorService 的实现，而 ExecutorService 又继承 Executor 接口。所以，线程池的生命周期即是 Executor 的生命周期啦。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ExecutorService</span> <span class="keyword">extends</span> <span class="title">Executor</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 用于提交异步任务和获取结果</span></span><br><span class="line">    &lt;T&gt; <span class="function">Future&lt;T&gt; <span class="title">submit</span><span class="params">(Callable&lt;T&gt; task)</span></span>;</span><br><span class="line">    &lt;T&gt; <span class="function">Future&lt;T&gt; <span class="title">submit</span><span class="params">(Runnable task, T result)</span></span>;</span><br><span class="line">    Future&lt;?&gt; submit(Runnable task);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 用于管理执行器本身</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">shutdown</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">List&lt;Runnable&gt; <span class="title">shutdownNow</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isShutdown</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isTerminated</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">awaitTermination</span><span class="params">(<span class="keyword">long</span> timeout, TimeUnit unit)</span> <span class="keyword">throws</span> InterruptedException</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="ExecutorService-接口"><a href="#ExecutorService-接口" class="headerlink" title="ExecutorService 接口"></a>ExecutorService 接口</h2><p>Doug Lea（JUC的设计者）又写了一个 ExecutorService 接口，继承 Executor 再添加几个方法，主要是以下两个：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ExecutorService</span> <span class="keyword">extends</span> <span class="title">Executor</span> </span>&#123;</span><br><span class="line">    &lt;T&gt; <span class="function">Future&lt;T&gt; <span class="title">submit</span><span class="params">(Callable&lt;T&gt; task)</span></span>;</span><br><span class="line">    &lt;T&gt; <span class="function">Future&lt;T&gt; <span class="title">submit</span><span class="params">(Runnable task, T result)</span></span>;</span><br><span class="line">    Future&lt;?&gt; submit(Runnable task);</span><br><span class="line">    <span class="comment">// ... 其他方法略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这两个方法用于向线程提交异步任务，然后返回一个 Future，我们再用 Future 来判断异步任务结束没有，或者获取结果。这个接口的默认实现是 <code>ThreadPoolExecutor</code>，用于启动一个线程池，另一个实现是 Fork/Join 框架（JDK1.7）。</p>
-<h3 id="submit-和-execute-的区别"><a href="#submit-和-execute-的区别" class="headerlink" title="submit 和 execute 的区别"></a>submit 和 execute 的区别</h3><p><code>execute()</code> 是 Executor 接口的方法，表示执行一个 Runnable， <code>submit()</code> 是 ExecutorService 接口的方法，内部调用了 <code>execute()</code> ，但还会返回一个异步计算结果 Future 对象（也意味着可以做异常处理）。</p>
-<h2 id="ScheduledExecutorService-接口"><a href="#ScheduledExecutorService-接口" class="headerlink" title="ScheduledExecutorService 接口"></a>ScheduledExecutorService 接口</h2><p>看起来已经够用了，Doug Lea大佬觉得哪里还不太够，于是劈里啪啦又写了一个 ScheduledExecutorService 接口，继承 ExecutorService 接口，再添加几个 schedule 方法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ScheduledFuture&lt;?&gt; schedule(Runnable command, <span class="keyword">long</span> delay, TimeUnit unit);</span><br><span class="line"><span class="keyword">public</span> &lt;V&gt; <span class="function">ScheduledFuture&lt;V&gt; <span class="title">schedule</span><span class="params">(Callable&lt;V&gt; callable, <span class="keyword">long</span> delay, TimeUnit unit)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>ScheduledExecutorService 的功能和 Timer/TimerTask 类似，解决那些需要任务重复执行的问题。这包括延迟时间一次性执行、延迟时间周期性执行以及固定延迟时间周期性执行等。</p>
-<p>后来 Doug Lea 又写了几个例如 CompletionService 等接口，这里就不展开讲了。线程执行Executor接口大家族完善后，接下来就要开始实现了。</p>
+<h2 id="CREATE-amp-RUNNING"><a href="#CREATE-amp-RUNNING" class="headerlink" title="CREATE &amp; RUNNING"></a>CREATE &amp; RUNNING</h2><p>当我们 new 一个 Executor 或者通过 Executors 静态工厂构造一个 Executor，线程池即进入了 RUNNING 状态，在此之前是 CREATE 状态。严格意义上讲线程池构造完成后并没有线程被立即启动，只有进行“预启动”或者接收到任务的时候才会启动线程。但是无论如何，构造完后，线程池已经在运行，随时准备接受任务来执行。</p>
+<h2 id="SHUTDOWN-amp-STOP"><a href="#SHUTDOWN-amp-STOP" class="headerlink" title="SHUTDOWN &amp; STOP"></a>SHUTDOWN &amp; STOP</h2><p>通过<code>shutdown()</code>和<code>shutdownNow()</code>来将线程关闭。</p>
+<ul>
+<li><code>shutdown()</code>平缓关闭，线程池停止接受新的任务，同时等待已经提交的任务执行完毕，包括那些进入队列还没有开始的任务，这时候线程池处于SHUTDOWN状态。</li>
+<li><code>shutdownNow()</code>是一个立即关闭过程，线程池停止接受新的任务，同时尝试取消所有正在执行的任务和已经进入队列但是还没有执行的任务，这时候线程池处于STOP状态。</li>
+</ul>
+<h2 id="TERMINATED"><a href="#TERMINATED" class="headerlink" title="TERMINATED"></a>TERMINATED</h2><p>一旦<code>shutdown()</code>或者<code>shutdownNow()</code>执行完毕，线程池就进入TERMINATED状态，此时线程池就结束了。</p>
+<ul>
+<li><code>isTerminating()</code>描述的是SHUTDOWN和STOP两种状态。</li>
+<li><code>isShutdown()</code>描述的是非RUNNING状态，也就是SHUTDOWN/STOP/TERMINATED三种状态。</li>
+<li>可以调用 <code>awaitTermination()</code> 来等待 <code>ExecutorService</code> 到达 TERMINATED 状态。</li>
+</ul>
 <hr>
-<h1 id="Fork-Join-框架（JDK1-7）"><a href="#Fork-Join-框架（JDK1-7）" class="headerlink" title="Fork/Join 框架（JDK1.7）"></a>Fork/Join 框架（JDK1.7）</h1><p>todo</p>
-<hr>
-<h1 id="Stream并行计算（JDK1-8）"><a href="#Stream并行计算（JDK1-8）" class="headerlink" title="Stream并行计算（JDK1.8）"></a>Stream并行计算（JDK1.8）</h1><p>todo</p>
+<p>参考：</p>
+<ul>
+<li>《Java并发编程实战》</li>
+</ul>
 
         </div>
         
@@ -287,7 +329,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            163
+                            162
                         </p>
                     </a>
                 </div>
@@ -391,7 +433,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">42</span>
+                <span class="level-item tag">41</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/Concurrent/">
@@ -399,7 +441,7 @@
                 <span class="level-item">Concurrent</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">6</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/Effective-Java/">
@@ -603,42 +645,66 @@
                     目录
                 </h3>
                 <ul class="menu-list"><li>
-        <a class="is-flex" href="#Callable">
+        <a class="is-flex" href="#最简单的异步任务执行">
         <span class="has-mr-6">1</span>
+        <span>最简单的异步任务执行</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Runnable">
+        <span class="has-mr-6">1.1</span>
+        <span>Runnable</span>
+        </a></li><li>
+        <a class="is-flex" href="#Callable">
+        <span class="has-mr-6">1.2</span>
         <span>Callable</span>
         </a></li><li>
-        <a class="is-flex" href="#Future">
-        <span class="has-mr-6">2</span>
-        <span>Future</span>
-        </a></li><li>
-        <a class="is-flex" href="#Executor">
-        <span class="has-mr-6">3</span>
-        <span>Executor</span>
-        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#一个简易Web服务器例子">
+        <span class="has-mr-6">1.3</span>
+        <span>一个简易Web服务器例子</span>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#Executor-接口">
-        <span class="has-mr-6">3.1</span>
+        <span class="has-mr-6">2</span>
         <span>Executor 接口</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#借助-Executor-的简易Web服务器">
+        <span class="has-mr-6">2.1</span>
+        <span>借助 Executor 的简易Web服务器</span>
+        </a></li><li>
+        <a class="is-flex" href="#Executors-工具类">
+        <span class="has-mr-6">2.2</span>
+        <span>Executors 工具类</span>
         </a></li><li>
         <a class="is-flex" href="#ExecutorService-接口">
-        <span class="has-mr-6">3.2</span>
+        <span class="has-mr-6">2.3</span>
         <span>ExecutorService 接口</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#submit-和-execute-的区别">
-        <span class="has-mr-6">3.2.1</span>
+        <span class="has-mr-6">2.3.1</span>
         <span>submit 和 execute 的区别</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#ScheduledExecutorService-接口">
-        <span class="has-mr-6">3.3</span>
+        <span class="has-mr-6">2.4</span>
         <span>ScheduledExecutorService 接口</span>
         </a></li></ul></li><li>
-        <a class="is-flex" href="#Fork-Join-框架（JDK1-7）">
-        <span class="has-mr-6">4</span>
-        <span>Fork/Join 框架（JDK1.7）</span>
+        <a class="is-flex" href="#Future">
+        <span class="has-mr-6">3</span>
+        <span>Future</span>
         </a></li><li>
-        <a class="is-flex" href="#Stream并行计算（JDK1-8）">
-        <span class="has-mr-6">5</span>
-        <span>Stream并行计算（JDK1.8）</span>
-        </a></li></ul>
+        <a class="is-flex" href="#Executor-生命周期">
+        <span class="has-mr-6">4</span>
+        <span>Executor 生命周期</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#CREATE-amp-RUNNING">
+        <span class="has-mr-6">4.1</span>
+        <span>CREATE & RUNNING</span>
+        </a></li><li>
+        <a class="is-flex" href="#SHUTDOWN-amp-STOP">
+        <span class="has-mr-6">4.2</span>
+        <span>SHUTDOWN & STOP</span>
+        </a></li><li>
+        <a class="is-flex" href="#TERMINATED">
+        <span class="has-mr-6">4.3</span>
+        <span>TERMINATED</span>
+        </a></li></ul></li></ul>
             </div>
         </div>
     </div>
@@ -722,42 +788,66 @@
                     目录
                 </h3>
                 <ul class="menu-list"><li>
-        <a class="is-flex" href="#Callable">
+        <a class="is-flex" href="#最简单的异步任务执行">
         <span class="has-mr-6">1</span>
+        <span>最简单的异步任务执行</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Runnable">
+        <span class="has-mr-6">1.1</span>
+        <span>Runnable</span>
+        </a></li><li>
+        <a class="is-flex" href="#Callable">
+        <span class="has-mr-6">1.2</span>
         <span>Callable</span>
         </a></li><li>
-        <a class="is-flex" href="#Future">
-        <span class="has-mr-6">2</span>
-        <span>Future</span>
-        </a></li><li>
-        <a class="is-flex" href="#Executor">
-        <span class="has-mr-6">3</span>
-        <span>Executor</span>
-        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#一个简易Web服务器例子">
+        <span class="has-mr-6">1.3</span>
+        <span>一个简易Web服务器例子</span>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#Executor-接口">
-        <span class="has-mr-6">3.1</span>
+        <span class="has-mr-6">2</span>
         <span>Executor 接口</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#借助-Executor-的简易Web服务器">
+        <span class="has-mr-6">2.1</span>
+        <span>借助 Executor 的简易Web服务器</span>
+        </a></li><li>
+        <a class="is-flex" href="#Executors-工具类">
+        <span class="has-mr-6">2.2</span>
+        <span>Executors 工具类</span>
         </a></li><li>
         <a class="is-flex" href="#ExecutorService-接口">
-        <span class="has-mr-6">3.2</span>
+        <span class="has-mr-6">2.3</span>
         <span>ExecutorService 接口</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#submit-和-execute-的区别">
-        <span class="has-mr-6">3.2.1</span>
+        <span class="has-mr-6">2.3.1</span>
         <span>submit 和 execute 的区别</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#ScheduledExecutorService-接口">
-        <span class="has-mr-6">3.3</span>
+        <span class="has-mr-6">2.4</span>
         <span>ScheduledExecutorService 接口</span>
         </a></li></ul></li><li>
-        <a class="is-flex" href="#Fork-Join-框架（JDK1-7）">
-        <span class="has-mr-6">4</span>
-        <span>Fork/Join 框架（JDK1.7）</span>
+        <a class="is-flex" href="#Future">
+        <span class="has-mr-6">3</span>
+        <span>Future</span>
         </a></li><li>
-        <a class="is-flex" href="#Stream并行计算（JDK1-8）">
-        <span class="has-mr-6">5</span>
-        <span>Stream并行计算（JDK1.8）</span>
-        </a></li></ul>
+        <a class="is-flex" href="#Executor-生命周期">
+        <span class="has-mr-6">4</span>
+        <span>Executor 生命周期</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#CREATE-amp-RUNNING">
+        <span class="has-mr-6">4.1</span>
+        <span>CREATE & RUNNING</span>
+        </a></li><li>
+        <a class="is-flex" href="#SHUTDOWN-amp-STOP">
+        <span class="has-mr-6">4.2</span>
+        <span>SHUTDOWN & STOP</span>
+        </a></li><li>
+        <a class="is-flex" href="#TERMINATED">
+        <span class="has-mr-6">4.3</span>
+        <span>TERMINATED</span>
+        </a></li></ul></li></ul>
             </div>
         </div>
     </div>

@@ -128,78 +128,6 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-03-25T10:57:20.000Z">2018-03-25</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/C-C/">C/C++</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    14 分钟 读完 (大约 2064 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/82d9a37c.html">C/C++语言中的指针</a>
-            
-        </h1>
-        <div class="content">
-            <p>这几天在接触一些C语言的项目，发现自己对C语言，包括C++的知识理解不透彻，尤其是指针。导致项目完全看不懂。因此这一篇就来补补C/C++中指针的知识。</p>
-<p>参考书籍《C++ Primer》</p>
-<hr>
-<h1 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h1><h2 id="简单比喻"><a href="#简单比喻" class="headerlink" title="简单比喻"></a>简单比喻</h2><p>什么是指针，假如你住5楼503号房间。那么有一张纸条，纸条上写着5楼503。那么，我们就说这张纸条就是指向你房间的一个指针。</p>
-<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>指针（Pointer）是指向（Point to）另外一种类型的复合类型。</p>
-<p>指针有两个特点：</p>
-<ul>
-<li>本身是一个对象，允许对指针进行赋值和拷贝，而且在指针的生命周期内可以先后指向几个不同的对象。</li>
-<li>无须在定义时赋初始值</li>
-</ul>
-<h2 id="一个简单例子"><a href="#一个简单例子" class="headerlink" title="一个简单例子"></a>一个简单例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    int ival &#x3D; 42;</span><br><span class="line">    int *p &#x3D; &amp;ival;</span><br><span class="line"></span><br><span class="line">    printf(&quot;p是一个指针，P为%p\n&quot;,p);</span><br><span class="line">    printf(&quot;*p是指针指向的变量，*p为%d\n&quot;,*p);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">p是一个指针，P为0x7ffe09031b1c</span><br><span class="line">*p是指针指向的变量，*p为42</span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，我们用 <code>int *p</code>来定义指针，这时候<code>p</code>是一个指针。<code>&amp;ival</code>的意思是取<code>int</code>型变量<code>ival</code>的地址。</p>
-<p>而在输出的时候，<code>*p</code>是指针指向的变量，也就是说，<code>*</code>号在这里成了解引用符号。仅在指针确实指向了某个对象，即指针确实有效的情况下，<code>*p</code>才适用。</p>
-<blockquote>
-<p>理解的关键：在定义阶段， 用<code>int *p</code>用来定义指针。在操作阶段，<code>*p</code>是解引用。</p>
-</blockquote>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/82d9a37c.html#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2018-03-22T09:52:26.000Z">2018-03-22</time>
                 
                 <div class="level-item">
@@ -744,6 +672,59 @@
 
 
 
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-03-11T02:44:18.000Z">2018-03-11</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java/Java-SE/">Java SE</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    18 分钟 读完 (大约 2726 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/779c6006.html">Java简明笔记（十二） IO编程</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="文件对象-File"><a href="#文件对象-File" class="headerlink" title="文件对象 File"></a>文件对象 File</h1><p>用过 Linux 的一定知道，“一切皆文件”和“一切皆文本流”的思想。在 Java 中，普通文件和文件夹都是文件对象，用<code>File</code>表示。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/779c6006.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
     
 <div class="card card-transparent">
@@ -818,7 +799,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            163
+                            162
                         </p>
                     </a>
                 </div>
@@ -922,7 +903,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">42</span>
+                <span class="level-item tag">41</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/Concurrent/">
@@ -930,7 +911,7 @@
                 <span class="level-item">Concurrent</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">6</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/Effective-Java/">

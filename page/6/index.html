@@ -128,61 +128,6 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-10-11T14:33:15.000Z">2018-10-11</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java-Web/">Java Web</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java-Web/Spring/">Spring</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    17 分钟 读完 (大约 2511 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/post/3fc0f79e.html">Spring（七）深入理解Spring MVC</a>
-            
-        </h1>
-        <div class="content">
-            <p><img src="../../../../images/Webapp/How_MVC_Works.webp" alt=""></p>
-<p>我们通过 Spring Boot 来创建一个 Web 应用，发挥作用的是 Spring MVC 框架。当我们在IDE里敲入以下代码时，究竟发生了什么呢？</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">hello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"login"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/login"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ModelAndView <span class="title">login</span><span class="params">(LoginData loginData)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (LOGIN.equals(loginData.getLogin())</span><br><span class="line">      &amp;&amp; PASSWORD.equals(loginData.getPassword())) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ModelAndView(<span class="string">"success"</span>,</span><br><span class="line">          Collections.singletonMap(<span class="string">"login"</span>, loginData.getLogin()));</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ModelAndView(<span class="string">"failure"</span>,</span><br><span class="line">          Collections.singletonMap(<span class="string">"login"</span>, loginData.getLogin()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/post/3fc0f79e.html#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2018-09-30T05:52:00.000Z">2018-09-30</time>
                 
                 <div class="level-item">
@@ -625,6 +570,61 @@
 
 
 
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-08-10T13:32:32.000Z">2018-08-10</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java/JVM/">JVM</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    20 分钟 读完 (大约 3001 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/post/2191536a.html">Java虚拟机（四）垃圾回收策略</a>
+            
+        </h1>
+        <div class="content">
+            <p><img src="../../../../images/Java/GC.png" alt="GC.png"></p>
+<p>在 <a href="../post/7a1af8ce.html">Java虚拟机（二）内存模型和对象创建</a> 这一篇中，我们知道 Java 虚拟机的内存模型包含五个部分：程序计数器、Java虚拟机栈、本地方法栈、堆、方法区。这五个区域也叫运行时数据区域（Runtime Data Area），他们是数据的存储空间。既然是存储空间，那就有可能达到存满的时候，因此，JVM必须配备一个垃圾回收器（Garbage Collection, GC），用于不定期地回收不再需要的内存空间。</p>
+<p>事实上，Java的动态内存分配和回收技术已经相当成熟，作为开发者的我们无需手动去分配和释放内存，一切都交给Java虚拟机。那为什么我们还要去了解 GC 和 内存放配呢？原因是：当需要排查各种内存溢出、泄露等问题，或当垃圾收集称为系统达到更高并发量的瓶颈时，我们有必要对这些“自动化”的技术进行监控和调节。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/post/2191536a.html#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
     
 <div class="card card-transparent">
@@ -699,7 +699,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            163
+                            162
                         </p>
                     </a>
                 </div>
@@ -803,7 +803,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">42</span>
+                <span class="level-item tag">41</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/Concurrent/">
@@ -811,7 +811,7 @@
                 <span class="level-item">Concurrent</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">6</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/Effective-Java/">
