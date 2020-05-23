@@ -17,6 +17,14 @@ Java 中的 Stream 提供了数据源，让你可以在比集合类更高的概�
 
 流的来源，可以是集合，数组，I/O channel， 生成器（generator）等。流的聚合操作类似 SQL 语句，比如filter, map, reduce, find, match, sorted等。
 
+例如，从文件从获取流：
+
+```java
+try (Stream<String> lines = Files.lines(Paths.get("/path/to/file.txt"))) {
+    ...
+}
+```
+
 <!-- more -->
 
 ## 从迭代到 Stream 操作

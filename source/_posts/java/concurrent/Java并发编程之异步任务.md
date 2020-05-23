@@ -51,7 +51,7 @@ new Thread(runnable).start();
 new Thread(callable).start();
 ```
 
-我们可以编写一个简易的Web服务器，当一个请求进来时，新建一个线程去服务这个请求。（不要在生产环境使用）
+我们可以编写一个简易的Web服务器，当一个请求进来时，新建一个线程去服务这个请求。（不要在生产环境使用这种方式）
 
 ```java
 public static void main(String[] args) throws IOException {
@@ -68,16 +68,16 @@ private static void handleRequest(Socket conn){
 }
 ```
 
----
-
-# Executor 接口
-
 由我们手动去 new 线程执行任务，有一些缺点：
 
 - 随着新任务一个个的到来，旧任务一个个结束，线程不断创建销毁，开销很大；
 - 线程数量不可控，如果一下子有大量任务到来，将无限制创建线程，即使没有OOM，也会因线程数量太多而导致性能降低（CPU在线程之间切换也是有开销）
 
 所以通常我们不会手动去 new 线程执行任务，而是借助 Executor 接口帮助我们执行。
+
+---
+
+# Executor 接口
 
 Executor 接口用来执行一个 Runnable。
 
@@ -91,6 +91,8 @@ public interface Executor {
 
 - Executor 提供了一种标准的方法将任务的提交过程和执行过程解耦。这是一种生产者-消费者模式。
 - 我们可以在 Executor 的实现类里，添加一些方法，用于管理生命周期和做其他监控，便于我们调度异步任务。
+
+> 不仅应该尽量不要编写自己的工作队列，而且还应该尽量不直接使用线程。 ——《Effective Java》
 
 ## 借助 Executor 的简易Web服务器
 
@@ -119,7 +121,7 @@ public class ExecutorExample {
 
 ## Executors 工具类
 
-Executor 的实现类各种各样，我们可以把 Executor 实现为单线程，或者实现为跟每次都自己 new 线程一样，也可以实现为限制最大线程数量等。通常情况下不同的实现类参数复杂，状态较多，所以我们通常不自己 new Executor，而是借助工具类 Executors 帮助我们创建 Executor。
+Executor 的实现类多种多样，我们可以把 Executor 实现为单线程，或者实现为跟每次都自己 new 线程一样，也可以实现为限制最大线程数量等。通常情况下不同的实现类参数复杂，状态较多，所以我们通常不自己 new Executor，而是借助工具类 Executors 帮助我们创建 Executor。
 
 ```java
 // 单线程执行器，如果该线程异常，将创建另一个来替代

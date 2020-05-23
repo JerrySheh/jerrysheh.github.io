@@ -7,13 +7,13 @@ abbrlink: f95479c9
 date: 2018-03-21 21:45:47
 ---
 
-> 填坑系列！！
-
 # SQL简介
 
 SQL （Structured Query Language，结构化查询语言）是一种大小写不敏感的标准语言，用于帮助我们访问数据库。
 
 SQL 包含两大部分 DML 和 DDL 两部分。
+
+<!--more-->
 
 ## DML（data manipulation language，数据操作语言）
 
@@ -34,12 +34,11 @@ DDL包括：
 - **DROP TABLE**：删除数据库表
 - **CREATE INDEX**：创建索引
 - **DROP INDEX**：删除索引
+- **TRUNCATE TABLE**：清空表
 
 ## RDBMS
 
-RDBMS（Relational Database Management System，关系型数据库管理系统）是将数据组织为相关的行和列的系统，其数据存储在被称为表（tables）的数据库对象中。表是相关的数据项的集合，它由列和行组成。常见的RDBMS有 MS SQL Server、MySQL、Oracle 等
-
-<!--more-->
+RDBMS（Relational Database Management System，关系型数据库管理系统）是将数据组织为相关的行和列的系统，其数据存储在被称为表（tables）的数据库对象中。表是相关的数据项的集合，它由列和行组成。常见的RDBMS有 MS SQL Server、MySQL、Oracle 等。
 
 ---
 
@@ -194,7 +193,7 @@ C:\Program Files\MySQL\MySQL Server 8.0\bin>mysqldump.exe -uroot -p mall  -e --m
 
 # 修改默认字符集
 
-```
+```SQL
 ALTER DATABASE db_name CHARACTER SET utf8mb4;
 ALTER TABLE db_name DEFAULT CHARACTER SET utf8mb4;
 ALTER TABLE db_name CONVERT TO CHARACTER SET utf8mb4;
@@ -456,7 +455,7 @@ BETWEEN 'Adams' AND 'Carter'
 ```
 
 * `NOT BETWEEN`，不在某范围内
-* 不同数据库 BETWEEN...AND... 包括的范围可能不一样
+* 不同数据库 BETWEEN...AND... 包括的范围可能不一样。在 MySQL 中包含边界值。
 
 ---
 
@@ -570,7 +569,7 @@ SELECT * INTO new_table FROM old_table
 
 ---
 
-# SQL 常用数据类型
+# MySQL 常用数据类型
 
 类型|释义
 ---|---
@@ -583,6 +582,7 @@ numeric(size,d)|小数
 char(size)|固定字符串
 varchar(size)|可变长字符串
 date(yyyymmdd)|日期
+date(yyymmddHHiiss)|时间
 
 ---
 
@@ -605,9 +605,9 @@ WHERE age > 18
 Jerry（23）
 ```
 
-## Upper
+## Upper && Lower
 
-转换成大写
+转换成大写、小写
 
 ---
 
