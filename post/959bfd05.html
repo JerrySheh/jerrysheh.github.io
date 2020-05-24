@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2020-04-06T11:08:54.000Z">
-<meta property="article:modified_time" content="2020-04-06T13:50:14.528Z">
+<meta property="article:modified_time" content="2020-04-19T08:56:25.236Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
@@ -144,7 +144,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    20 分钟 读完 (大约 2961 个字)
+                    20 分钟 读完 (大约 3012 个字)
                 </span>
                 
                 
@@ -181,11 +181,15 @@
 <ol>
 <li>从 Java内存模型（JMM）的角度看，正因为每条线程都有各自的存储空间，在多线程中，假设没有加入同步，如果一个线程修改了一个值，储存在自己的线程内存里，另一个线程就会看不到。又或者，你看到的是一个已经失效的值。</li>
 <li>从计算机的角度看，现代多核计算机中，每个 CPU 都有自己的寄存器，为了和主存读写速度匹配，CPU寄存器和主存中间往往有一层 Cache 缓冲，当一个 CPU 修改了一个共享变量，放在自己的寄存器或 Cache 缓冲中，还未写回主存，另一个 CPU 就可能读不到最新修改的数据。</li>
+<li>从 JVM 的角度来看，虚拟机会对源代码做一些重排序或优化。</li>
 </ol>
 <p>考虑下面的例子，</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> asleep = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 线程A</span></span><br><span class="line"><span class="keyword">while</span>(!asleep)</span><br><span class="line">  countSomeSheep();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 线程B</span></span><br><span class="line">asleep = <span class="keyword">true</span>;</span><br></pre></td></tr></table></figure>
 
 <p>线程A不断检查 asleep 的值，直到它变成 true 就停止数羊，线程B将 asleep 设置成true，如果不解决可见性问题，线程B的改动，线程A可能永远都看不到。<strong>像这样，一个线程不能及时看到另一个线程对共享变量的修改这种情况，叫做可见性问题</strong>。</p>
+<p>在这里例子中，JVM可能会把 while 循环优化成：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!asleep)</span><br><span class="line">  <span class="keyword">while</span>(<span class="keyword">true</span>)</span><br><span class="line">    countSomeSheep();</span><br></pre></td></tr></table></figure>
+
 <hr>
 <h1 id="解决可见性问题"><a href="#解决可见性问题" class="headerlink" title="解决可见性问题"></a>解决可见性问题</h1><h2 id="使用-synchronized"><a href="#使用-synchronized" class="headerlink" title="使用 synchronized"></a>使用 synchronized</h2><p>解决可见性问题，可以用 synchronized ，因为 synchronized 的语义规定，对一个变量执行 unlock 操作前，必须先把此变量同步回主内存中。但是 synchronized 每次加锁解锁都需要额外的开销，显得太“重”了，会影响性能。</p>
 <h2 id="使用-final"><a href="#使用-final" class="headerlink" title="使用 final"></a>使用 final</h2><p>我们也可以用 final 解决可见性问题，被 final 修饰的字段在构造器中一旦初始化完毕（且 this 引用没有逃逸），其他线程立即可以看到 final 字段的值。可惜 final 字段不可再次被修改，有时不满足我们的需求。</p>
