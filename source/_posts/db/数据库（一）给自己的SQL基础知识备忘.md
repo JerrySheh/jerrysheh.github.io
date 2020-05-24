@@ -38,7 +38,7 @@ DDL包括：
 
 ## RDBMS
 
-RDBMS（Relational Database Management System，关系型数据库管理系统）是将数据组织为相关的行和列的系统，其数据存储在被称为表（tables）的数据库对象中。表是相关的数据项的集合，它由列和行组成。常见的RDBMS有 MS SQL Server、MySQL、Oracle 等。
+RDBMS（Relational Database Management System，关系型数据库管理系统）是将数据组织为相关的行和列的系统，其数据存储在被称为表（tables）的数据库对象中。表是相关的数据项的集合，由列和行组成。常见的RDBMS有 MS SQL Server、MySQL、Oracle 等。
 
 ---
 
@@ -185,7 +185,7 @@ C:\Program Files\MySQL\MySQL Server 8.0\bin>mysqldump.exe -uroot -p mall  -e --m
 - **--max_allowed_packet=XXX**：客户端/服务器之间通信的缓存区的最大大小;
 - **--net_buffer_length=XXX**：TCP/IP和套接字通信缓冲区大小,创建长度达net_buffer_length的行。
 
-注意：max_allowed_packet和net_buffer_length不能比目标数据库的设定数值 大，否则可能出错。
+注意：max_allowed_packet和net_buffer_length不能比目标数据库的设定数值大，否则可能出错。
 
 3、登录数据库B，执行 source 命令导入
 
@@ -339,6 +339,19 @@ WHERE LastName='Wilson'
 
 ---
 
+## INSERT INTO ... ON DUPLICATE KEY UPDATE
+
+尝试插入，如果有冲突（唯一键冲突、主键冲突）则更新。
+
+```SQL
+INSERT INTO Persons(LastName, Age)
+VALUES ('Wilson', 18)
+ON DUPLICATE KEY UPDATE Address='Xueyuan Road',
+                        City='Zhongshan'
+```
+
+---
+
 ## DELETE
 
 删除某行
@@ -351,7 +364,13 @@ WHERE LastName='Wilson'
 删除所有行（表并没有被删除，结构、属性、索引都是完整的）
 
 ```SQL
-DELETE * FROM table
+DELETE * FROM table;
+```
+
+清空
+
+```SQL
+TRUNCATE TABLE t;
 ```
 
 ---
@@ -455,7 +474,7 @@ BETWEEN 'Adams' AND 'Carter'
 ```
 
 * `NOT BETWEEN`，不在某范围内
-* 不同数据库 BETWEEN...AND... 包括的范围可能不一样。在 MySQL 中包含边界值。
+* 不同数据库 BETWEEN...AND... 包括的范围可能不一样。**在 MySQL 中包含两边边界值**。
 
 ---
 
@@ -467,7 +486,8 @@ ALIAS 用于给列名或表名指定“别名”，方便阅读。
 
 ```SQL
 SELECT o.OrderId, p.LastName
-FROM Persons AS p, Orders AS o
+FROM Persons AS p,
+     Orders AS o
 WHERE p.LastName = "Adams"
 ```
 
@@ -484,8 +504,6 @@ INNER JOIN Orders
 ON Person.Id_p = Orders.Id_p
 ORDER BY Person.LastName
 ```
-
-记住，SELECT 要选多个表而且有 JOIN 时， FROM 一个表， JOIN 一个表，不要都写在 FROM 里。
 
 ```sql
 SELECT p.FirstName, p.LastName, a.City, a.State
@@ -549,8 +567,7 @@ HAVING 通常与 GROUP BY 和 函数 一起使用。
 找出成绩全部大于80分的学生学号
 
 ```sql
-SELECT number
-FROM grade
+SELECT number FROM grade
 GROUP BY number
 HAVING MIN(grade.grade > 80)
 ```
@@ -635,80 +652,40 @@ CREATE SCHEMA is a synonym for CREATE DATABASE as of MySQL 5.0.2.
 ```SQL
 CREATE TABLE Persons
 (
-  Id_p int AUTO_INCREMENT,
-  LastName varchar(255),
-  FirstName varchar(255),
-  Address Varchar(255),
+  id_p int NOT NULL AUTO_INCREMENT,
+  last_name varchar(255),
+  first_name varchar(255),
+  address Varchar(255),
+  primary key(id_p)
+  UNIQUE INDEX ix_first_name(first_name)
 ) DEFAULT CHARSET=utf8;
-```
-
-## 约束
-
-### 属性约束
-
-```SQL
-CREATE TABLE Persons
-(
-  Id_p int NOT NULL,
-  LastName varchar(255),
-  ...
-)
 ```
 
 * **NOT NULL**: 不接受NULL值
 * **UNIQUE**:为列或者列集合提供唯一性保证
 * **PRIMARY KEY**：主键
 
-### CHECK约束
+---
+
+## 创建/删除索引
+
+创建
 
 ```sql
-CREATE TABLE Persons
-(
-  Id_p int NOT NULL CHECK (Id_p > 0),
-  LastName varchar(255) NOT NULL,
-  ...
-)
+ALTER TABLE table_name ADD INDEX index_name (column_list);
+ALTER TABLE table_name ADD UNIQUE (column_list);
 ```
 
-### CHECK约束
+删除
 
 ```SQL
-CREATE TABLE Persons
-(
-  ...
-  CONSTRAINT CHK_Persons CHECK (Id_p > 0 AND City='Sandnes')
-)
+ALTER TABLE table_name DROP INDEX index_name;
 ```
-
-如果表已经存在，新增 CHECK 约束，用
-
-```sql
-ALTER table Persons
-    ADD CHECK (ip_p > 0)
-```
-
-### DEFAULT约束
-
-设置默认值
-
----
-
-## CREATE INDEX 创建索引
-
-```sql
-CREATE UNIQUE INDEX index_name
-ON table_name(column_name)
-```
-
----
-
-## DROP 撤销操作
 
 ## ALTER 在已有表 添加/修改/删除 列
 
 ```sql
-ALTER TABLE table_name
-ADD column_name datatype
+ALTER TABLE table_name ADD column_name datatype;
 ```
 
 ---
