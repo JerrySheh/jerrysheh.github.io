@@ -10,16 +10,16 @@
 <title>Java虚拟机（二）内存模型和对象创建 - J.e</title>
 
 
-    <meta name="description" content="运行时数据区域Java虚拟机（JVM）会在 Java 程序执行的过程中，把虚拟机所管理的内存划分为几个不同的数据区域。如下：">
+    <meta name="description" content="运行时数据区域Java 程序执行的过程中，虚拟机所管理的内存划分为如下几个不同的数据区域：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java虚拟机（二）内存模型和对象创建">
 <meta property="og:url" content="https://jerrysheh.me/post/7a1af8ce.html">
 <meta property="og:site_name" content="J.e">
-<meta property="og:description" content="运行时数据区域Java虚拟机（JVM）会在 Java 程序执行的过程中，把虚拟机所管理的内存划分为几个不同的数据区域。如下：">
+<meta property="og:description" content="运行时数据区域Java 程序执行的过程中，虚拟机所管理的内存划分为如下几个不同的数据区域：">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2018-08-04T11:51:52.000Z">
-<meta property="article:modified_time" content="2020-03-06T15:22:23.955Z">
+<meta property="article:modified_time" content="2020-05-26T15:14:44.407Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
@@ -144,7 +144,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    26 分钟 读完 (大约 3908 个字)
+                    28 分钟 读完 (大约 4230 个字)
                 </span>
                 
                 
@@ -162,7 +162,7 @@
             
         </h1>
         <div class="content">
-            <h1 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h1><p>Java虚拟机（JVM）会在 Java 程序执行的过程中，把虚拟机所管理的内存划分为几个不同的数据区域。如下：</p>
+            <h1 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h1><p>Java 程序执行的过程中，虚拟机所管理的内存划分为如下几个不同的数据区域：</p>
 <p><img src="../../../../images/Java/JVM_Memory.png" alt=""></p>
 <a id="more"></a>
 
@@ -174,23 +174,24 @@
 <li>在多线程中，程序计数器用于记录当前线程执行的位置，当线程被切换回来的时候能够知道该线程上次运行到哪儿了。</li>
 </ol>
 <h2 id="程序计数器的特点"><a href="#程序计数器的特点" class="headerlink" title="程序计数器的特点"></a>程序计数器的特点</h2><ol>
-<li>此内存区域是唯一一个在 Java 虚拟机规范中没有规定任何 OutOfMemoryError 情况的区域。</li>
-<li>是一块较小的存储空间</li>
-<li>线程私有</li>
-<li>生命周期随着线程的创建而创建，随着线程的结束而死亡</li>
+<li>此内存区域是唯一一个在 Java 虚拟机规范中没有规定任何 OutOfMemoryError 情况的区域；</li>
+<li>是一块较小的存储空间；</li>
+<li>线程私有；</li>
+<li>生命周期随着线程的创建而创建，随着线程的结束而死亡。</li>
 </ol>
+<h2 id="为什么每个线程都要有一个程序计数器，不能多个线程共享一个吗？"><a href="#为什么每个线程都要有一个程序计数器，不能多个线程共享一个吗？" class="headerlink" title="为什么每个线程都要有一个程序计数器，不能多个线程共享一个吗？"></a>为什么每个线程都要有一个程序计数器，不能多个线程共享一个吗？</h2><p>JVM的多线程是通过线程轮流切换、分配处理器时间片的方式实现。一个时刻处理器只会执行一条指定。为了线程切换后能恢复到上次的位置，每条线程都需要有一个单独的程序计数器。</p>
 <hr>
 <h1 id="虚拟机栈（栈内存）（线程隔离）"><a href="#虚拟机栈（栈内存）（线程隔离）" class="headerlink" title="虚拟机栈（栈内存）（线程隔离）"></a>虚拟机栈（栈内存）（线程隔离）</h1><p>虚拟机栈描述的是 Java 方法执行的内存模型。</p>
-<p>虚拟机栈是由一个个栈帧组成。每个 Java 方法即将执行的时候，JVM都会创建一个栈帧用于存储该方法的 <strong>局部变量表、操作数、动态链接、方法出口等信息</strong>。 每个方法调用都意味着一个栈帧在虚拟机栈中入栈到出栈的过程。一个方法被调用了，即创建了一个“栈帧”，一个方法返回了，“栈帧”出栈，释放内存。</p>
+<p>虚拟机栈是由一个个栈帧组成。每个 Java 方法即将执行的时候，JVM都会创建一个栈帧用于存储该方法的 <strong>局部变量表、操作数、动态链接、方法出口等信息</strong>。 每个方法调用都对应了一个栈帧在虚拟机栈中入栈到出栈的过程。一个方法被调用了，即创建了一个“栈帧”，一个方法返回了，“栈帧”出栈，释放内存。</p>
 <p><img src="../../../../images/Java/VM_Stack.png" alt="VM_Stack"></p>
-<h3 id="1-局部变量表"><a href="#1-局部变量表" class="headerlink" title="1. 局部变量表"></a>1. 局部变量表</h3><p>存储方法参数、局部变量（基本数据类型 + 引用对象）、方法返回地址。</p>
+<h2 id="虚拟机栈的组成"><a href="#虚拟机栈的组成" class="headerlink" title="虚拟机栈的组成"></a>虚拟机栈的组成</h2><h3 id="1-局部变量表"><a href="#1-局部变量表" class="headerlink" title="1. 局部变量表"></a>1. 局部变量表</h3><p>存储方法参数、局部变量（基本数据类型 + 引用对象）、方法返回地址。局部变量表所需的内存空间在编译期就完全确定。</p>
 <h3 id="2-操作数栈"><a href="#2-操作数栈" class="headerlink" title="2. 操作数栈"></a>2. 操作数栈</h3><p>进行运算的地方</p>
 <h3 id="3-动态链接"><a href="#3-动态链接" class="headerlink" title="3. 动态链接"></a>3. 动态链接</h3><p>.Class文件中有很多符号引用，一部分在类加载的时候转化为直接引用（称为静态链接），另一部分在每一次运行期间转化为直接引用，这部分被称为动态链接。</p>
-<h4 id="符号引用和直接引用"><a href="#符号引用和直接引用" class="headerlink" title="符号引用和直接引用"></a>符号引用和直接引用</h4><p>符号引用是无歧义的可以定位到这个目标的字面量。在编译时，java类并不知道所引用的类的实际地址，因此只能使用符号引用来代替。而直接引用可以理解为直接指向目标的指针。</p>
+<h4 id="什么是符号引用和直接引用？"><a href="#什么是符号引用和直接引用？" class="headerlink" title="什么是符号引用和直接引用？"></a>什么是符号引用和直接引用？</h4><p>符号引用是无歧义的可以定位到这个目标的字面量。在编译时，java类并不知道所引用的类的实际地址，因此只能使用符号引用来代替。而直接引用可以理解为直接指向目标的指针。</p>
 <p>在类加载的链接（的解析）阶段，符号引用被转换为直接引用。</p>
 <h3 id="4-方法出口"><a href="#4-方法出口" class="headerlink" title="4. 方法出口"></a>4. 方法出口</h3><p>当一个方法执行的时候，只有两种可以退出方法的方法。第一种是JVM碰到任意一个方法返回的字节码指令，被称为正常完成出口。另一种是在执行方法中抛出异常并且未对异常进行处理，被称为异常完成出口。方法退出的时候相当于把栈帧出栈。</p>
 <h2 id="虚拟机栈的特点"><a href="#虚拟机栈的特点" class="headerlink" title="虚拟机栈的特点"></a>虚拟机栈的特点</h2><ol>
-<li>局部变量表随着栈帧的创建而创建，其大小在编译时期就已确定，创建时直接分配该大小的空间。方法运行过程中，局部变量表大小并不会改变。</li>
+<li>局部变量表随着栈帧的创建而创建，其大小在编译时期就已确定，创建时直接分配该大小的空间。方法运行过程中，局部变量表大小并不会改变；</li>
 <li>每个线程都有各自的Java虚拟机栈。生命周期随着线程的创建而创建，随着线程的结束而死亡。</li>
 </ol>
 <h2 id="StackOverFlowError-和-OutOfMemoryError"><a href="#StackOverFlowError-和-OutOfMemoryError" class="headerlink" title="StackOverFlowError 和 OutOfMemoryError"></a>StackOverFlowError 和 OutOfMemoryError</h2><p>虚拟机栈会抛出两种异常：</p>
@@ -204,19 +205,20 @@
 <h2 id="JVM-如何让-Native-方法跑起来？"><a href="#JVM-如何让-Native-方法跑起来？" class="headerlink" title="JVM 如何让 Native 方法跑起来？"></a>JVM 如何让 Native 方法跑起来？</h2><p>我们知道，当一个类第一次被使用到时，这个类的字节码会被加载到内存，并且只会加载一次。在这个被加载的字节码的入口维持着一个该类所有方法描述符的list，这些方法描述符包含这样一些信息：方法代码存于何处，它有哪些参数，方法的描述符（public之类）等等。</p>
 <p>如果一个方法描述符内有 <code>native</code> ，这个描述符块将有一个指向该方法的实现的指针。这些实现在一些DLL文件内，但是它们会被操作系统加载到 java 程序的地址空间。当一个带有本地方法的类被加载时，其相关的DLL并未被加载，因此指向方法实现的指针并不会被设置。当本地方法被调用之前，这些DLL才会被加载，这是通过调用 <code>java.system.loadLibrary()</code> 实现的。</p>
 <hr>
-<h1 id="堆内存（线程共享）"><a href="#堆内存（线程共享）" class="headerlink" title="堆内存（线程共享）"></a>堆内存（线程共享）</h1><p>堆是用来存放对象的内存空间，几乎所有的对象都存储在堆中。</p>
+<h1 id="堆内存（线程共享）"><a href="#堆内存（线程共享）" class="headerlink" title="堆内存（线程共享）"></a>堆内存（线程共享）</h1><p>堆是用来存放对象的内存空间，几乎所有的对象都存储在堆中。Java堆还可以进一步细分为：新生代、老年代。新生代又可被分为：Eden、From Survior、To Survior。不同的区域存放具有不同生命周期的对象。这样可以根据不同的区域使用不同的垃圾回收算法，从而更具有针对性，更高效。</p>
+<p>《深入理解Java虚拟机》第三版提到，无论哪个区域，存放的都只能是对象的实例，将Java堆细分的目的只是为了更好地回收或分配内存。</p>
 <h2 id="堆的特点"><a href="#堆的特点" class="headerlink" title="堆的特点"></a>堆的特点</h2><ol>
-<li>堆内存是垃圾收集器管理的主要区域。</li>
-<li>堆内存是所有线程共享的。</li>
-<li>在虚拟机启动时创建。</li>
-<li>可以进一步细分为：新生代、老年代。新生代又可被分为：Eden、From Survior、To Survior。不同的区域存放具有不同生命周期的对象。这样可以根据不同的区域使用不同的垃圾回收算法，从而更具有针对性，从而更高效。</li>
+<li>堆内存是垃圾收集器管理的主要区域；</li>
+<li>堆内存是所有线程共享的；</li>
+<li>在虚拟机启动时创建；</li>
 <li>堆的大小既可以固定也可以扩展，但主流的虚拟机堆的大小是可扩展的，因此当线程请求分配内存，但堆已满，且内存已满无法再扩展时，就抛出 OutOfMemoryError。</li>
 </ol>
 <hr>
-<h1 id="方法区（线程共享）"><a href="#方法区（线程共享）" class="headerlink" title="方法区（线程共享）"></a>方法区（线程共享）</h1><p>方法区用于 <strong>存储虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码</strong>。虽然 Java 虚拟机规范把方法区描述为堆的一个逻辑部分，但是它却又一个别名叫做 Non-Heap（非堆），目的应该是与 Java 堆区分开来。</p>
+<h1 id="方法区（线程共享）"><a href="#方法区（线程共享）" class="headerlink" title="方法区（线程共享）"></a>方法区（线程共享）</h1><p>方法区用于 <strong>存储虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码</strong>。虽然 Java 虚拟机规范把方法区描述为堆的一个逻辑部分，但是它却又一个别名叫做 Non-Heap（非堆），目的是与 Java 堆区分开来。</p>
+<p>方法区中的信息一般需要长期存在，而且它又是堆的逻辑分区，因此以前人们用堆的划分方法，喜欢把方法区称为永久代（老年代），但是永久代和方法区其实并不等价。只不过说为了方便像管理堆内存一样管理方法区，HotSpot虚拟机采用了永久代的方式来实现方法区。</p>
+<p>到了 JDK 8 ，永久代的概念被放弃了。以前放在永久代的字符串常量池、静态变量等，被搬运到了在本地内存中实现的元空间（meta space）里面。</p>
 <h2 id="方法区的特点"><a href="#方法区的特点" class="headerlink" title="方法区的特点"></a>方法区的特点</h2><ol>
-<li>所有线程共享</li>
-<li>方法区中的信息一般需要长期存在，而且它又是堆的逻辑分区，因此用堆的划分方法，我们把方法区称为老年代。</li>
+<li>所有线程共享；</li>
 <li>内存回收效率低：方法区中的信息一般需要长期存在，回收一遍内存之后可能只有少量信息无效。对方法区的内存回收的主要目标是： <strong>对常量池的回收</strong> 和 <strong>对类型的卸载</strong>。</li>
 </ol>
 <h2 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h2><p>运行时常量池是方法区的一部分。方法区就是借助运行时常量池来存储常量的。</p>
@@ -675,11 +677,19 @@
         <a class="is-flex" href="#程序计数器的特点">
         <span class="has-mr-6">2.2</span>
         <span>程序计数器的特点</span>
+        </a></li><li>
+        <a class="is-flex" href="#为什么每个线程都要有一个程序计数器，不能多个线程共享一个吗？">
+        <span class="has-mr-6">2.3</span>
+        <span>为什么每个线程都要有一个程序计数器，不能多个线程共享一个吗？</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#虚拟机栈（栈内存）（线程隔离）">
         <span class="has-mr-6">3</span>
         <span>虚拟机栈（栈内存）（线程隔离）</span>
-        </a><ul class="menu-list"><ul class="menu-list"><li>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#虚拟机栈的组成">
+        <span class="has-mr-6">3.1</span>
+        <span>虚拟机栈的组成</span>
+        </a><ul class="menu-list"><li>
         <a class="is-flex" href="#1-局部变量表">
         <span class="has-mr-6">3.1.1</span>
         <span>1. 局部变量表</span>
@@ -695,7 +705,7 @@
         <a class="is-flex" href="#4-方法出口">
         <span class="has-mr-6">3.1.4</span>
         <span>4. 方法出口</span>
-        </a></li></ul><li>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#虚拟机栈的特点">
         <span class="has-mr-6">3.2</span>
         <span>虚拟机栈的特点</span>
@@ -882,11 +892,19 @@
         <a class="is-flex" href="#程序计数器的特点">
         <span class="has-mr-6">2.2</span>
         <span>程序计数器的特点</span>
+        </a></li><li>
+        <a class="is-flex" href="#为什么每个线程都要有一个程序计数器，不能多个线程共享一个吗？">
+        <span class="has-mr-6">2.3</span>
+        <span>为什么每个线程都要有一个程序计数器，不能多个线程共享一个吗？</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#虚拟机栈（栈内存）（线程隔离）">
         <span class="has-mr-6">3</span>
         <span>虚拟机栈（栈内存）（线程隔离）</span>
-        </a><ul class="menu-list"><ul class="menu-list"><li>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#虚拟机栈的组成">
+        <span class="has-mr-6">3.1</span>
+        <span>虚拟机栈的组成</span>
+        </a><ul class="menu-list"><li>
         <a class="is-flex" href="#1-局部变量表">
         <span class="has-mr-6">3.1.1</span>
         <span>1. 局部变量表</span>
@@ -902,7 +920,7 @@
         <a class="is-flex" href="#4-方法出口">
         <span class="has-mr-6">3.1.4</span>
         <span>4. 方法出口</span>
-        </a></li></ul><li>
+        </a></li></ul></li><li>
         <a class="is-flex" href="#虚拟机栈的特点">
         <span class="has-mr-6">3.2</span>
         <span>虚拟机栈的特点</span>

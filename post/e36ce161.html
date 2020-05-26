@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2017-10-31T00:53:39.000Z">
-<meta property="article:modified_time" content="2020-05-24T14:15:37.055Z">
+<meta property="article:modified_time" content="2020-05-26T13:18:22.060Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary">
@@ -144,7 +144,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    7 分钟 读完 (大约 987 个字)
+                    7 分钟 读完 (大约 992 个字)
                 </span>
                 
                 
@@ -166,7 +166,7 @@
 <a id="more"></a>
 
 <hr>
-<h1 id="正则表达式到基本规则"><a href="#正则表达式到基本规则" class="headerlink" title="正则表达式到基本规则"></a>正则表达式到基本规则</h1><h2 id="单个字符匹配"><a href="#单个字符匹配" class="headerlink" title="单个字符匹配"></a>单个字符匹配</h2><table>
+<h1 id="正则表达式的基本规则"><a href="#正则表达式的基本规则" class="headerlink" title="正则表达式的基本规则"></a>正则表达式的基本规则</h1><h2 id="单个字符匹配"><a href="#单个字符匹配" class="headerlink" title="单个字符匹配"></a>单个字符匹配</h2><table>
 <thead>
 <tr>
 <th>字符</th>
@@ -186,12 +186,12 @@
 </tr>
 <tr>
 <td>\d</td>
-<td>匹配数字，等同<code>[0-9]</code></td>
+<td>匹配一个数字，等同<code>[0-9]</code></td>
 <td><code>1\d8</code>匹配 138</td>
 </tr>
 <tr>
 <td>\D</td>
-<td>匹配非数字</td>
+<td>匹配一个非数字</td>
 <td><code>1\d8</code>匹配 1A8</td>
 </tr>
 <tr>
@@ -250,7 +250,7 @@
 </tr>
 <tr>
 <td>[a-z]</td>
-<td>匹配指范围内到任意字符</td>
+<td>匹配指定范围内的任意字符</td>
 <td><code>[0-9]</code></td>
 </tr>
 <tr>
@@ -294,7 +294,7 @@
 <td><code>(\d{3,4})\-(\d{6,8})</code></td>
 </tr>
 <tr>
-<td>()(&#124;)</td>
+<td>(&#124;)</td>
 <td>分组和或的组合</td>
 <td>hello\s(world&#124;ketty&#124;jerry)</td>
 </tr>
@@ -302,7 +302,7 @@
 <p>分组还有一个好处，当你想使用正则替换时，可以用 <code>$1</code>、<code>$2</code> 来表示第几组的内容。例如，在 Java 中为匹配到的内容前后加分别加 <b> </b> :</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s.replaceAll(<span class="string">"\\s([a-z]&#123;4&#125;)\\s"</span>, <span class="string">" &lt;b&gt;$1&lt;/b&gt; "</span>);</span><br></pre></td></tr></table></figure>
 
-<h2 id="非贪婪匹配"><a href="#非贪婪匹配" class="headerlink" title="非贪婪匹配"></a>非贪婪匹配</h2><p>假设要求 1230000 后面有几个零，正则为 <code>(\d+)(0*)</code>，但是却发现第一组匹配倒 1230000，第二组匹配到空白。我们期望的是第一组匹配到 123，第二组匹配到 0000。</p>
+<h2 id="非贪婪匹配"><a href="#非贪婪匹配" class="headerlink" title="非贪婪匹配"></a>非贪婪匹配</h2><p>假设要求 1230000 后面有几个零，正则为 <code>(\d+)(0*)</code>，但是却发现第一组匹配到 1230000，第二组匹配到空白。我们期望的是第一组匹配到 123，第二组匹配到 0000。</p>
 <p>此时可以在第一组末尾加 <code>?</code> 表示非贪婪匹配，如：<code>(\d+?)(0*)</code>，这样第一组就会少匹配，第二组多匹配。</p>
 <p>而对于 <code>(\d??)(9*)</code>， 匹配 9999 时，第一组匹配到空白，第二组匹配到 9999。因为第一个问号表示零次或一次，第二个问号表示非贪婪，正则表达式会按最少的零次来匹配。</p>
 <h2 id="匹配中文"><a href="#匹配中文" class="headerlink" title="匹配中文"></a>匹配中文</h2><p>匹配非ASCII字符，例如中文，用<code>\u####</code>的十六进制表示，例如：<code>a\u548cc</code>匹配字符串<code>a和c</code>，中文字符<code>和</code>的Unicode编码是548c。</p>
@@ -312,10 +312,10 @@
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Str.*r</span><br></pre></td></tr></table></figure>
 
+<p>匹配到 Stringbuffer， StringBuilder</p>
 <ol start="2">
-<li>匹配： Stringbuffer， StringBuilder</li>
+<li>匹配所有以 , 结尾，修改成 comment ‘’,</li>
 </ol>
-<p>匹配所有以 , 结尾，修改成 comment ‘’,</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">查找：</span><br><span class="line">(.*),</span><br><span class="line"></span><br><span class="line">替换：</span><br><span class="line">$1 comment &#39;&#39;,</span><br></pre></td></tr></table></figure>
 
 <p>.表示任意字符，* 表示任意多个，括号用于在下面 $1 保留原内容</p>
@@ -745,9 +745,9 @@
                     目录
                 </h3>
                 <ul class="menu-list"><li>
-        <a class="is-flex" href="#正则表达式到基本规则">
+        <a class="is-flex" href="#正则表达式的基本规则">
         <span class="has-mr-6">1</span>
-        <span>正则表达式到基本规则</span>
+        <span>正则表达式的基本规则</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#单个字符匹配">
         <span class="has-mr-6">1.1</span>
@@ -860,9 +860,9 @@
                     目录
                 </h3>
                 <ul class="menu-list"><li>
-        <a class="is-flex" href="#正则表达式到基本规则">
+        <a class="is-flex" href="#正则表达式的基本规则">
         <span class="has-mr-6">1</span>
-        <span>正则表达式到基本规则</span>
+        <span>正则表达式的基本规则</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#单个字符匹配">
         <span class="has-mr-6">1.1</span>
