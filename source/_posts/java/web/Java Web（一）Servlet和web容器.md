@@ -101,7 +101,7 @@ Servlet是一个供其他Java程序（Servlet引擎）调用的Java类，它不�
 ### 新建IDEA工程
 
 1. 新建一个IDEA Maven工程
-2. 在 pom.xml 添加 servlet-api 依赖 （依赖到 [mvnrepository](http://mvnrepository.com/artifact/javax.servlet/javax.servlet-api/4.0.0) 找）
+2. 在 pom.xml 添加 servlet-api 依赖 （依赖到 [mvnrepository](http://mvnrepository.com/artifact/javax.servlet/javax.servlet-api/4.0.0) 或 [search.maven.org](https://search.maven.org/) 找）
 3. 右键工程名字，Add Framework Support，选择 Web
  Application
 4. Edit Configurations，配置 Tomcat 服务器
