@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jerrysheh.me/images/og_image.png">
 <meta property="article:published_time" content="2017-10-31T00:53:39.000Z">
-<meta property="article:modified_time" content="2020-05-26T13:18:22.060Z">
+<meta property="article:modified_time" content="2020-05-27T12:17:48.759Z">
 <meta property="article:author" content="Jerry Sheh">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary">
@@ -144,7 +144,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    7 分钟 读完 (大约 992 个字)
+                    7 分钟 读完 (大约 991 个字)
                 </span>
                 
                 
@@ -299,7 +299,7 @@
 <td>hello\s(world&#124;ketty&#124;jerry)</td>
 </tr>
 </tbody></table>
-<p>分组还有一个好处，当你想使用正则替换时，可以用 <code>$1</code>、<code>$2</code> 来表示第几组的内容。例如，在 Java 中为匹配到的内容前后加分别加 <b> </b> :</p>
+<p>分组还有一个好处，当你想使用正则替换时，可以用 <code>$1</code>、<code>$2</code> 来表示第几组的内容。例如，在 Java 中为匹配到的内容前后分别加 <code>&lt;b&gt; &lt;/b&gt;</code> :</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s.replaceAll(<span class="string">"\\s([a-z]&#123;4&#125;)\\s"</span>, <span class="string">" &lt;b&gt;$1&lt;/b&gt; "</span>);</span><br></pre></td></tr></table></figure>
 
 <h2 id="非贪婪匹配"><a href="#非贪婪匹配" class="headerlink" title="非贪婪匹配"></a>非贪婪匹配</h2><p>假设要求 1230000 后面有几个零，正则为 <code>(\d+)(0*)</code>，但是却发现第一组匹配到 1230000，第二组匹配到空白。我们期望的是第一组匹配到 123，第二组匹配到 0000。</p>
