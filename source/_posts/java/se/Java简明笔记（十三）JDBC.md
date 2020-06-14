@@ -9,7 +9,7 @@ abbrlink: f07211ef
 date: 2018-03-20 17:59:50
 ---
 
-假设电脑已经安装有 mySQL，并在里面有一些表。现在，我们想通过 Java，来访问数据库里的表。
+假设电脑已经安装有 MySQL，并在里面有一些表。现在，我们想通过 Java，来访问数据库里的表。
 
 JDBC (Java DataBase Connection) 指的就是通过Java访问数据库。
 
