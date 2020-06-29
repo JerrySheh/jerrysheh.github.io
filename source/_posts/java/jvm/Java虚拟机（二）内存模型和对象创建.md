@@ -1,4 +1,4 @@
- ---
+---
 title: Java虚拟机（二）内存模型和对象创建
 comments: true
 date: 2018-08-04 19:51:52
