@@ -281,7 +281,7 @@ for (String name : friends) {
 5. `Double.POSITIVE_INFINITY`表示无穷大，`Double.NEGATIVE_INFINITY`表示负无穷大
 6. `Double.NaN`表示非数值
 7. 用 `if (Double.isNaN(x))`来检查 `x` 是否为 NaN，但不可以用`if (x == Double.NaN)`，因为NaN都是彼此不同的
-8. 浮点数不适合金融计算，用BigDecimal类
+8. 浮点数不适合金融计算，用 BigDecimal 类，**且要用它的 String 参数构造器**，否则还是会发生精度丢失的问题。
 9. `BigDecimal.ValueOf(n,e);`，其中n是一个整数数，e是小数位，如(588888,3)，就是 588.888
 10. 17/5 的结果是3， 而 17.0/5 的结果是3.4
 11. 整数除以零会导致异常，浮点数除以零会产生无限值或NaN
@@ -295,7 +295,7 @@ for (String name : friends) {
 19.  Java不允许对象直接使用加减乘除等操作符，所以 BigDecimal 和 BigInteer 类需要用方法
 
  ```Java
- BigDecimal next = bd.multiply(bd.add(BigDecimal.valueOf(l)));
+ BigDecimal next = bd.multiply(bd.add(BigDecimal.valueOf("l")));
  ```
 
 ## 变量相关

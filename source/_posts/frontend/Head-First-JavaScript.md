@@ -47,7 +47,7 @@ JavaScript 必须写在 `<script>` 里
 
 ## 变量
 
-用 var 声明变量，关键字`var` 也可以省略
+用 var 声明变量，关键字`var` 也可以省略。但省略就是全局变量，所以不建议省略。
 
 ```html
 <script>
@@ -79,8 +79,6 @@ var x                // x 为 undefined
 var x = 6;           // x 为数字
 var x = "Bill";      // x 为字符串
 ```
-
-<!-- more -->
 
 ### 类型转换
 
