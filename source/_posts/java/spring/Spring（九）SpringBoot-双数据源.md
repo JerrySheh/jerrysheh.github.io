@@ -78,7 +78,7 @@ mysql 配置
 ```java
 @Configuration
 @MapperScan(basePackages = {"com.jerry.demo.mysql.dao"},
-              sqlSessionFactoryRef = "sqlSessionFactoryMysqlBean")
+              sqlSessionFactoryRef = "sqlSessionFactoryMysqlBean" )
 public class MysqlDSConfig{
 
     @Autowired
@@ -90,27 +90,28 @@ public class MysqlDSConfig{
       SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
       bean.setDataSource(mysqlDS);
       bean.setMapperLocations(new PathMatchingResourcePatternResolver()
-                        .getResources("classpath:mybatis/oracle/mapper/*.xml");)
+                        .getResources("classpath:mybatis/mysql/mapper/*.xml");)
       return bean;
     }
 
 }
 ```
 
+
+
 oracle 配置
 
 ```java
 @Configuration
 @MapperScan(basePackages = {"com.jerry.demo.oracle.dao"})
-public class MysqlDSConfig{
+public class OracleDSConfig{
 
     @Autowired
-    @Qualifier("MYSQL_DS")
-    private DataSource mysqlDS;
+    @Qualifier("ORACLE_DS")
+    private DataSource oracleDS;
 
     @Bean(name = "sqlSessionFactoryOracleBean")
     @Primary
-    @ConfigurationProperties(prefix = "mybatis")
     public SqlSessionFactoryBean SqlSessionFactoryBean() throws IOException{
       SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
       bean.setDataSource(mysqlDS);
@@ -123,3 +124,56 @@ public class MysqlDSConfig{
 ```
 
 接下来就可以到对应的目录下编写 xml 的 SQL 语句了。
+
+---
+
+# 在dao层指定数据源
+
+有时候我们想通过指定某一个 dao 使用指定的数据源，可以再数据源配置的 MapperScan 注解上上加 `annotationClass`
+
+```java
+@Configuration
+@MapperScan(basePackages = {"com.jerry.demo.mysql.dao"},
+              sqlSessionFactoryRef = "sqlSessionFactoryMysqlBean",
+               annotationClass = me.jerrysheh.demo.annotation.MysqlMapper.class))
+public class MysqlDSConfig{
+```
+
+然后自定义一个注解标记
+
+```java
+package me.jerrysheh.demo.annotation;
+
+/**
+ * @author jerrysheh
+ * @date 2020/7/4
+ */
+public @interface MysqlMapper {
+}
+
+```
+
+
+这样 mybatis 会自动去扫 basePackages 下面所有标记了 `MysqlMapper` 注解的接口，使用 mysql 数据源。
+
+```java
+/**
+ * @author jerrysheh
+ * @date 2020/7/4
+ */
+@MysqlMapper
+public interface ProductMapper {
+
+    Object selectOne();
+
+    List selectAll();
+
+    // ...
+
+}
+
+```
+
+---
+
+- demo参考github：https://github.com/JerrySheh/springboot-mybatis-multidatasource-demo
