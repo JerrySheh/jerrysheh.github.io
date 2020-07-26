@@ -79,6 +79,9 @@ teacher YangLiang = new teacher();
 
 ```java
 Class pClass = Class.forname("student"); //获取一个 student 类的类对象
+
+// 实际上内部会调用这个方法，第二个参数true表示要初始化
+Class.forName(className,true,classloader)
 ```
 
 获取类对象的时候，类属性会被初始化。
