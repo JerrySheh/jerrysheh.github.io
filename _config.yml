@@ -64,6 +64,36 @@ index_generator:
   per_page: 8
   order_by: -date
 
+# index2 generator是否包含官方的hexo-generator-index，默认true（包含）
+index2_include_index: true # defult is true
+
+# 配置index2 generator，可以是数组或对象
+index2_generator:
+  -  per_page: 8
+     layout: index
+     path: ''
+     index: true
+     order_by: -date
+     exclude:
+      - path sentences
+
+  -  per_page: 100
+     layout: archives
+     path: /archives
+     index: true
+     order_by: -date
+     exclude:
+      - path sentences
+
+  - per_page: 3
+    layout: index
+    path: /sentences
+    order_by: -date
+    include:
+      - path sentences
+
+
+
 # Category & Tag
 default_category: uncategorized
 category_map:

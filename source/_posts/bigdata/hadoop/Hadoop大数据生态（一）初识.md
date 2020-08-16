@@ -1,6 +1,5 @@
 ---
-title: Hadoop 笔记（一）初识
-comments: true
+title: Hadoop大数据生态（一）初识
 categories:
 - 大数据
 - hadoop
