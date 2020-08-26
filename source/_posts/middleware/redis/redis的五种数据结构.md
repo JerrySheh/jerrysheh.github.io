@@ -22,9 +22,11 @@ Redis 用于缓存比较多。我在公司接触过的几个项目中无一不�
 <!-- more -->
 
 
-# Redis的五种基本数据结构
+# Redis 的五种基本数据结构
 
 字典服务的本质是 key-value 存储，我们给 Redis 一个 key，他返回一个 value 给我们，就这么简单。只不过说， Redis 的 value 可以是不同的数据结构，它可能是字符串，可能是链表，也可能是哈希表。
+
+要体验 Redis 的功能，可以使用官方提供的 [在线 redis 环境](https://try.redis.io/) 进行试用。
 
 ## string
 
@@ -97,7 +99,7 @@ Java HashMap 的 rehash 需要一次完成， map 很大时比较耗时，而 Re
 # 存
 > hset book_1 name "一往无前"
 > hset book_1 author "范海涛"
-> hset book_2 category "传记"
+> hset book_1 category "传记"
 
 # 取
 > hget book_1 name
@@ -126,3 +128,15 @@ zset 的应用场景可以是粉丝列表，value 是 user_id， score 是关注
 > zrange 0 -1
 > zreverange 0 -1
 ```
+
+# 通用规则
+
+五种基本数据结构中，除 string 外，剩下的都是容器型结构。他们遵循两个规则：
+
+1. **create if not exists**：如果容器不存在，那就创建一个
+2. **drop if no elements**：如果容器没有元素了，那就销毁，释放内存
+
+---
+
+参考：
+- 《Redis 深度历险》 钱文品
