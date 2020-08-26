@@ -4,6 +4,7 @@ abbrlink: 59165dff
 date: 2018-01-26 01:23:42
 ---
 
+
 ### 12月29日
 
 
@@ -12,11 +13,15 @@ date: 2018-01-26 01:23:42
 
 ——[《English-level-up-tips-for-Chinese》 PART I - 认知篇](https://byoungd.gitbook.io/english-level-up-tips/part-i/1-understanding)
 
+---
+
 ### 12月28日
 
 我一直觉得，伴侣的好绝不在于他在普世价值中表现出来的那些，让女生走马路内侧，说话轻声，制造浪漫之类。**我喜欢的，是一个正常人灵魂里躲着的神经病，是一个智者脑子中存在的白痴，是一朵玫瑰脚下的泥土，是宇宙里最特别的那颗星，只被我看见的那部分天真**。
 
 ——网易云网友在歌曲《Star of the County Down》下的评论
+
+---
 
 ### 12月22日
 
@@ -30,6 +35,8 @@ date: 2018-01-26 01:23:42
 
 
 
+---
+
 ### 12月16日
 
 
@@ -38,6 +45,8 @@ date: 2018-01-26 01:23:42
 
 ——《饮食男女》
 
+
+---
 
 ### 11月23日
 
@@ -51,20 +60,28 @@ date: 2018-01-26 01:23:42
 
 知不足者，方知路远，知路远者，必勤慎独行。
 
+---
+
 ### 11月20日
 
 The end is always good, if it is not good, it is not the end.
 
+
+---
 
 ### 11月9日
 
 Where there is a will，there is a way.
 
 
+---
+
 ### 10月3日
 
 人际关系良好的第一点，是真诚地对他人发生兴趣。
 
+
+---
 
 ### 9月17日
 
@@ -73,10 +90,14 @@ Where there is a will，there is a way.
 ——余世存 《时间之书》 ​​​
 
 
+---
+
 ### 8月20日
 
 你分享音乐，没几个人点开，你发了一组自拍却收到了很多赞。其实大家一直都在关心你的外在容貌，不关心你的喜好。正如廖一梅书中写到的那样：**人这一生，遇到性、遇到爱，都不稀罕，稀罕的是遇到了解。**
 
+
+---
 
 ### 7月23日
 
@@ -89,6 +110,8 @@ Bryce's grandfather says about Juli, "Some of us get dipped in flat, some in sat
 ——《Flipped》
 
 
+---
+
 ### 7月21日
 
 
@@ -98,6 +121,8 @@ Bryce's grandfather says about Juli, "Some of us get dipped in flat, some in sat
 ——白岩松
 
 
+---
+
 ### 6月20日
 
 还不确定自己想做什么，至少先把目前能做到的做好。还不清楚自己适合什么样的伴，那就先懂得善待自己与身边的人，不要停止让自己变好。
@@ -106,12 +131,16 @@ Bryce's grandfather says about Juli, "Some of us get dipped in flat, some in sat
 
 
 
+---
+
 ### 6月19日
 
 一个懂得规则的人的坚持是尤为可贵的。
 
 —— 知乎网友对日剧《Unnatural》中主角三澄美琴的评价。
 
+
+---
 
 ### 6月18日
 
@@ -122,6 +151,8 @@ Bryce's grandfather says about Juli, "Some of us get dipped in flat, some in sat
 
 
 
+---
+
 ### 6月10日
 
 
@@ -131,6 +162,8 @@ Bryce's grandfather says about Juli, "Some of us get dipped in flat, some in sat
 ——《侧耳倾听》
 
 
+
+---
 
 ### 6月9日
 
@@ -150,6 +183,8 @@ Bryce's grandfather says about Juli, "Some of us get dipped in flat, some in sat
 
 
 
+---
+
 ### 6月7日
 
 
@@ -158,15 +193,21 @@ Bryce's grandfather says about Juli, "Some of us get dipped in flat, some in sat
 
 
 
+---
+
 ### 5月18日
 
 真爱的前提，就是永远有空。阅读是，音乐是，电影是，人也是。
 
 
+---
+
 ### 5月14日
 
 并不是所有观点一致所以是朋友。而是存在观点分歧还能交流才是朋友。
 
+
+---
 
 ### 5月9日
 
@@ -179,6 +220,8 @@ Bryce's grandfather says about Juli, "Some of us get dipped in flat, some in sat
 > 句子出自列夫托尔斯泰的《家挺与幸福》，在电影《荒野求生》（Into the wild）中被引用。
 
 
+---
+
 ### 5月7日
 
 如果你不喜欢桌面上仅有的两个选项，那就把桌子掀翻吧。
@@ -186,10 +229,14 @@ Bryce's grandfather says about Juli, "Some of us get dipped in flat, some in sat
 ——《纸牌屋》
 
 
+---
+
 ### 5月6日
 
 在普通的一天里有所期待，本来就是给自己挖的一个坑。
 
+
+---
 
 ### 5月1日
 
@@ -197,10 +244,14 @@ Bryce's grandfather says about Juli, "Some of us get dipped in flat, some in sat
 
 
 
+---
+
 ### 4月28日
 
 Rarely can a response make somthing better, what makes something better is connection.
 
+
+---
 
 ### 4月13日
 
@@ -208,6 +259,8 @@ Rarely can a response make somthing better, what makes something better is conne
 
 ——《大佛普拉斯》
 
+
+---
 
 ### 4月2日
 
@@ -218,6 +271,8 @@ Rarely can a response make somthing better, what makes something better is conne
 ——《维特根斯坦传》
 
 
+---
+
 ### 4月1日
 
 一帆风顺的人，认为航海也不过如此，但在你看不见的暗礁下，埋葬了无数的水手。
@@ -226,10 +281,14 @@ Rarely can a response make somthing better, what makes something better is conne
 
 
 
+---
+
 ### 3月28日
 
 愿有前程可奔赴，亦有岁月可回首。
 
+
+---
 
 ### 3月26日
 
@@ -237,6 +296,8 @@ Rarely can a response make somthing better, what makes something better is conne
 
 ——《编舟记》
 
+
+---
 
 ### 3月19日
 
@@ -250,6 +311,8 @@ Rarely can a response make somthing better, what makes something better is conne
 
 
 
+---
+
 ### 3月14日
 
 For those of you who could not attend, I would like to share these words from my own lecture with you: Remember to look up at the stars and not down at your feet. **Be curious and however difficult life may seem, there is always something you can do and succeed at.** 
@@ -258,10 +321,14 @@ For those of you who could not attend, I would like to share these words from my
 
 
 
+---
+
 ### 2月28日
 
 接受得起赞誉，就应该接受得起误解。
 
+
+---
 
 ### 2月21日
 
@@ -270,6 +337,8 @@ For those of you who could not attend, I would like to share these words from my
 —— 林夕
 
 
+---
+
 ### 2月18日
 
 世界上最没有用的东西是什么？没有实力只能去靠诚意表真心。
@@ -277,10 +346,14 @@ For those of you who could not attend, I would like to share these words from my
 但凡能拿出一丁点东西来，都比这玩意强。
 
 
+---
+
 ### 2月17日
 
 don't judge
 
+
+---
 
 ### 2月14日
 
@@ -294,9 +367,13 @@ don't judge
 
 ——韩寒
 
+---
+
 ### 2月11日
 
 所以现在人们没事就北上广深杭，不是喜欢人多嘴杂空气差，而是在这些一线城市可以接触更多的人和事物，见更高的山，渡更宽的河。不是为了情怀，而是拥有格局。见都没见过，还同一个起跑线呢，一跑就得趴窝。所以，无论这些地方环境多恶劣，竞争多激烈，来的永远多过走的，不为别的，只是为了缓解些许绝望的感觉……
+
+---
 
 ### 2月10日
 
@@ -304,6 +381,8 @@ don't judge
 
 ——Linus Torvalds 《Just for fun》
 
+
+---
 
 ### 2月9日
 
@@ -313,11 +392,15 @@ don't judge
 
 ——知乎用户阿喵姐说在问题[经常看书的人和不看书的人有什么区别？](https://www.zhihu.com/question/64501030/answer/300103506)下的回答
 
+---
+
 ### 2月7日
 
 有一种人值得警惕，那就是永远不会自相矛盾的人，其实如果我们真诚地面对自己，就不得不承认，总有一些时候我们会做自相矛盾的事情，粗鲁地说就是打脸，但这就是真实的人，人会成长，会改变，人的理智与情感总是在交战，我们也要接纳自己这个事实，不丢人。
 
 ——微博用户蔡尹珊珊
+
+---
 
 ### 2月5日
 
@@ -328,17 +411,23 @@ don't judge
 ——张爱玲
 
 
+---
+
 ### 2月3日
 
 人生实苦，但请你足够相信！
 
 ——清华大学致魏祥的回信
 
+---
+
 ### 2月2日
 
 用技术去生存，用艺术去生活。
 
 ——《死亡诗社》
+
+---
 
 ### 2月1日
 
@@ -347,6 +436,8 @@ don't judge
 久别重逢 失而复得 虚惊一场
 
 
+---
+
 ### 1月27日
 
 当你踩着高跷的时候，哪里还顾得上什么体面。
@@ -354,9 +445,13 @@ don't judge
 ——《地球脉动2》
 
 
+---
+
 ### 1月26日
 
 开弓没有回头箭
+
+---
 
 ### 1月25日
 
