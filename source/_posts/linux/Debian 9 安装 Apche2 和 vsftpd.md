@@ -1,7 +1,7 @@
 ---
 title: Debian 9 安装 Apche2 和 vsftpd
 comments: true
-categories: linux
+categories: Linux
 abbrlink: d3952d64
 date: 2018-07-11 15:15:47
 tags:

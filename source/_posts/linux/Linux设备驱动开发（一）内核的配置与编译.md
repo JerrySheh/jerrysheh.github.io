@@ -1,7 +1,7 @@
 ---
 title: Linux设备驱动开发（一）内核的配置与编译
 comments: true
-categories: linux
+categories: Linux
 tags: Linux
 abbrlink: 2720656c
 date: 2018-03-13 22:01:33

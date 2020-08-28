@@ -1,7 +1,7 @@
 ---
 title: Linux系统漫游（一）从开机到架构
 comments: true
-categories: linux
+categories: Linux
 tags: Linux
 abbrlink: 4f4dc2a9
 date: 2018-02-09 18:11:46

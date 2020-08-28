@@ -9,8 +9,6 @@ abbrlink: a44bfe3f
 date: 2018-03-15 22:20:00
 ---
 
-> 温馨提示：点击页面右下角按钮，打开目录。
-
 # 一、 Connection refused
 
 根据官方文档 Hadoop 3.0 配置，在
@@ -30,6 +28,8 @@ export PDSH_RCMD_TYPE=ssh
 ```
 
 然后`source /etc/profile` 之后重新sbin/start-dfs.sh
+
+<!-- more -->
 
 ---
 

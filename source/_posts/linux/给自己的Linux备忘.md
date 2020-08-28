@@ -1,6 +1,6 @@
 ---
 title: 给自己的 Linux 备忘
-categories: linux
+categories: Linux
 tags: Linux
 abbrlink: ee3d8fa1
 date: 2017-09-24 14:28:00

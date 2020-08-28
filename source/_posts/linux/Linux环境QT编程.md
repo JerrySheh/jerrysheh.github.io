@@ -1,7 +1,7 @@
 ---
 title: Linux环境QT编程
 comments: true
-categories: linux
+categories: Linux
 tags: linux
 abbrlink: 10e2f7a0
 date: 2018-04-11 13:26:40

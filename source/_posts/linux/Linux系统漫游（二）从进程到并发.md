@@ -3,7 +3,7 @@ title: Linux系统漫游（二）从进程到并发
 comments: true
 abbrlink: 9cf7e81b
 date: 2018-02-11 00:21:18
-categories: linux
+categories: Linux
 tags: Linux
 ---
 

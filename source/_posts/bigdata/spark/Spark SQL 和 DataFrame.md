@@ -15,6 +15,8 @@ RDD 是弹性分布式数据集，其本质是 Dataset。Dataset 可以从 JVM �
 
 为了更好地读写数据以及使用类似SQL语句一样简单地操作，Spark SQL 提供了 DataFrame (其前身是SchemaRDD)。
 
+<!-- more -->
+
 ![sparksql](../../../../images/hadoop/sparksql.jpg)
 
 DataFrame 能够让你知道数据集中的每一行和列。这个概念跟关系型数据库中的表（table）类似，但是比表更强大。如下图：
@@ -25,8 +27,6 @@ DataFrame 能够让你知道数据集中的每一行和列。这个概念跟关�
 DataFrame 可以从结构化的数据文件（structured data files）、Hive中的表、外部数据库或者**已存在的RDD**中构建。
 
 在 Java 中，使用 `Dataset<Row>` 来表示 DataFrame。
-
-<!-- more -->
 
 ---
 

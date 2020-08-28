@@ -16,6 +16,8 @@ Spark 支持多种文件格式的读写，包括
 - 文件系统：HDFS、Amazon S3
 - 数据库：MySQL、HBase、Hive
 
+<!-- more -->
+
 ---
 
 # 本地文件读写

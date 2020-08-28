@@ -1,7 +1,7 @@
 ---
 title: 通过SSH反向代理连接学校内网服务器
 comments: true
-categories: linux
+categories: Linux
 tags: linux
 abbrlink: 44ca081e
 date: 2018-09-30 13:52:00
