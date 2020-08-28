@@ -1,6 +1,6 @@
 ---
 title: 给自己的 git 备忘
-categories: 计算机
+categories: 技能
 tags: git
 abbrlink: 9f9a74a3
 date: 2017-09-04 15:43:46

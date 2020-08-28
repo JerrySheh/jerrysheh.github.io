@@ -1,7 +1,7 @@
 ---
 title: Android 10 ROOT
-tags: 计算机
-categories: 计算机
+tags: Android
+categories: 瞎折腾
 abbrlink: 3903647e
 date: 2020-08-21 23:25:16
 ---

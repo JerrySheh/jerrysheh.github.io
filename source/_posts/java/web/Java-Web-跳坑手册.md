@@ -1,6 +1,5 @@
 ---
 title: Java Web 跳坑手册
-comments: true
 categories:
 - Java Web
 - Web

@@ -1,10 +1,10 @@
 ---
-title: Json初探
-comments: true
-categories: Java Web
+title: JSON初探
+categories:
+- Java Web
+- Web
 abbrlink: c9fc16a8
 date: 2018-04-29 12:22:58
-tags:
 ---
 
 JSON（JavaScript Object Notation）是一种轻量级的数据交换格式，通常用于在客户端和服务器之间传递数据。

@@ -1,7 +1,6 @@
 ---
 title: Docker探索
-comments: true
-categories: 计算机
+categories: 技能
 tags: Docker
 abbrlink: b1f3af76
 date: 2019-01-13 23:18:46

@@ -1,7 +1,6 @@
 ---
 title: 使用Synergy在两台电脑之间共享键盘鼠标
-comments: true
-categories: 计算机
+categories: 瞎折腾
 tags:
   - Ubuntu
 abbrlink: da6510de
