@@ -27,19 +27,15 @@ date: 2018-02-09 18:11:46
 * 进程间通信
 * 并发与同步
 
-
-
-![Linux](http://s1.51cto.com/wyfs02/M00/6F/E0/wKioL1WsnI_D5yoXAACw18CAdYo720.jpg-wh_651x-s_997345474.jpg)
-
 注：本文提取总结自[Vamei的博客](http://www.cnblogs.com/vamei/tag/Linux/default.html?page=2)
+
+<!-- more -->
 
 ---
 
 # Linux 简介和版本
 
 狭义的 Linux 指的是 Linux kernel (内核)，最初由 Linus Torvalds 根据Minix系统的代码，参照UNIX系统的设计写出。kernel 就是负责管理硬件并为上层应用提供接口的底层代码。广义的 Linux 指的是以 Linux kernel 为基础的包括操作系统和各种应用在内的各个Linux版本(distribution)。
-
-<!-- more -->
 
 ![Torvalds](https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Linus_Torvalds.jpeg/330px-Linus_Torvalds.jpeg)
 

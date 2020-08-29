@@ -17,6 +17,8 @@ Apache HTTP Server Project 是致力于为现代操作系统（包括UNIX 和 Wi
 
 - Apache官网：[Link](http://httpd.apache.org/)
 
+<!--more-->
+
 # Getting Started
 
 ## 安装
@@ -30,7 +32,7 @@ sudo apt-get install apache2
 ![welcome](../../../../images/Linux/Apache2Welcome.png)
 
 
-<!--more-->
+
 
 ## 修改主配置文件
 

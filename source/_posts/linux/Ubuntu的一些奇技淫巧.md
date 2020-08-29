@@ -57,8 +57,6 @@ sudo hwclock --localtime --systohc
 
 ## 3. Enjoy！
 
-<!-- more -->
-
 ---
 
 # 三. Ubuntu 提示 /boot 空间不足的解决办法

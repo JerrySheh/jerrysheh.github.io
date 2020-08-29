@@ -1,6 +1,6 @@
 ---
 title: Ubuntu 下配置SS和SSR
-categories: Linux
+categories: 瞎折腾
 tags: Linux
 abbrlink: 879f3462
 date: 2017-09-12 10:40:00
@@ -18,6 +18,8 @@ sudo add-apt-repository ppa:hzwhuang/ss-qt5
 sudo apt update
 sudo apt install shadowsocks-qt5
 ```
+
+<!-- more -->
 
 > 对于 UBuntu 18.04
 
