@@ -10,26 +10,13 @@
 <p><img src="../../../../images/Linux/reverseproxy.png" alt=""></p>
 <hr>
 <h1 id="什么是代理？"><a href="#什么是代理？" class="headerlink" title="什么是代理？"></a>什么是代理？</h1><p>要搞清楚什么是反向代理，就得知道什么是 <strong>代理（Proxy）</strong>。代理其实就是一个跳板。比如我要去图书馆借一本书，我把要借的书的信息写在纸上，交给图书馆管理员，由图书馆管理员去仓库帮我把书取出来交给我。那我们就说，图书馆管理员是我的代理。</p>
-<p>在计算机网络中，代理分为 <strong>正向代理</strong> 和 <strong>反向代理</strong> 。</p></div><a class="article-more button is-small size-small" href="/post/44ca081e.html#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2018-09-18T12:37:38.000Z" title="2018-09-18T12:37:38.000Z">2018-09-18</time><span class="level-item"><a class="link-muted" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></span><span class="level-item">27 分钟 读完 (大约 4039 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/post/2bb1b1ab.html">数据库（四）MySQL优化</a></h1><div class="content"><p>在 MySQL 中，使用恰当的数据类型，以及合理使用索引和查询，能够提升不少性能。这一篇介绍一下这三种情况的优化。</p>
-<hr>
-<h1 id="SQL执行过程"><a href="#SQL执行过程" class="headerlink" title="SQL执行过程"></a>SQL执行过程</h1><p>想要优化，先得了解一条SQL查询语句的执行过程。</p>
-<p>MySQL 大致架构为： <code>客户端</code> - <code>Server层</code> - <code>存储引擎</code>。</p>
-<h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><p>客户端用来发起一次SQL请求。</p>
-<h2 id="Server层"><a href="#Server层" class="headerlink" title="Server层"></a>Server层</h2><p>Server有以下组件：</p>
+<p>在计算机网络中，代理分为 <strong>正向代理</strong> 和 <strong>反向代理</strong> 。</p></div><a class="article-more button is-small size-small" href="/post/44ca081e.html#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2018-09-18T12:37:38.000Z" title="2018-09-18T12:37:38.000Z">2018-09-18</time><span class="level-item"><a class="link-muted" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></span><span class="level-item">30 分钟 读完 (大约 4477 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/post/2bb1b1ab.html">数据库（四）MySQL优化</a></h1><div class="content"><p>这一篇主要从以下三个角度谈谈MySQL的优化：</p>
 <ol>
-<li><strong>连接器</strong>：连接器负责跟客户端建立连接、获取权限、维持和管理连接。</li>
-<li><strong>查询缓存</strong>：之前执行过的语句，会先放在缓存里。</li>
-<li><strong>分析器</strong>：词法分析、语法分析</li>
-<li><strong>优化器</strong>：优化语句，决定如何使用索引</li>
-<li><strong>执行器</strong>：判断权限，开始执行语句</li>
-</ol>
-<h2 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h2><p>负责数据的存储和提取。插件式架构，支持InnoDB、MyISAM、Memory等多个存储引擎。</p>
-<hr>
-<h1 id="Schema与数据类型优化"><a href="#Schema与数据类型优化" class="headerlink" title="Schema与数据类型优化"></a>Schema与数据类型优化</h1><h2 id="基本原则"><a href="#基本原则" class="headerlink" title="基本原则"></a>基本原则</h2><ul>
-<li><strong>更小</strong>：如果只要存0-200，<code>tinyint unsigned</code> 比 <code>int</code> 好</li>
-<li><strong>简单</strong>：用内建类型表示时间而不是varchar</li>
-<li><strong>避免NULL</strong>：有 NULL 的列使得索引、索引统计和值比较更加复杂。虽然调优时把NULL改NOT NULL性能提升较小，但是如果要在列上建索引，就应该避免 NULL</li>
-</ul></div><a class="article-more button is-small size-small" href="/post/2bb1b1ab.html#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2018-09-15T12:37:38.000Z" title="2018-09-15T12:37:38.000Z">2018-09-15</time><span class="level-item"><a class="link-muted" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></span><span class="level-item">20 分钟 读完 (大约 2929 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/post/a7354b8d.html">数据库（三）索引</a></h1><div class="content"><h1 id="什么是索引？"><a href="#什么是索引？" class="headerlink" title="什么是索引？"></a>什么是索引？</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>索引是一个单独存储在磁盘上的数据结构，包含着对数据表里所有记录的引用指针。</p>
+<li>使用恰当的数据类型</li>
+<li>高效索引</li>
+<li>高效查询</li>
+<li>大表优化（含分库分表）</li>
+</ol></div><a class="article-more button is-small size-small" href="/post/2bb1b1ab.html#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2018-09-15T12:37:38.000Z" title="2018-09-15T12:37:38.000Z">2018-09-15</time><span class="level-item"><a class="link-muted" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></span><span class="level-item">20 分钟 读完 (大约 2925 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/post/a7354b8d.html">数据库（三）索引</a></h1><div class="content"><h1 id="什么是索引？"><a href="#什么是索引？" class="headerlink" title="什么是索引？"></a>什么是索引？</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>索引是一个单独存储在磁盘上的数据结构，包含着对数据表里所有记录的引用指针。</p>
 <h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><p>使用索引可以 <strong>提高数据库特定数据的查询速度</strong>。</p>
 <h2 id="实现位置"><a href="#实现位置" class="headerlink" title="实现位置"></a>实现位置</h2><p>在存储引擎中实现。</p>
 <h2 id="结构类型"><a href="#结构类型" class="headerlink" title="结构类型"></a>结构类型</h2><p>BTree 和 Hash table，具体哪种和表的存储引擎有关。<font color="red">MyISAM 和 InnoDB 只支持 BTree </font>，MEMORY 同时支持 BTree 和 Hash table。</p>
