@@ -15,6 +15,8 @@ date: 2018-08-04 12:53:58
 
 Java的理念是“一次编译，到处运行”。我们平时编写的 Java 代码，经过Java编译器编译后会生成一种 .class 文件，称为字节码文件。<font color="red">Java虚拟机（Java Virtual Machine，JVM）就是负责将字节码文件翻译成特定平台下的机器码然后运行的软件，其本身是由C/C++编写</font>。
 
+<!-- more -->
+
 ![dotclass](../../../../images/Java/dotclass.png)
 
 ## JVM 如何让 Java 程序跨平台？
@@ -24,8 +26,6 @@ JVM 将字节码翻译成机器码然后运行，也就是说，只要在不同�
 而这个过程，我们编写的 Java 程序没有任何改变，仅仅是通过 JVM 这一 “中间层” ，就能在不同平台上运行，真正实现了 “一次编译，到处运行” 的目的。 <font color="red"> 需要注意的是，JVM 本身是用 C/C++ 开发的，是编译后的机器码，不能跨平台，不同平台下需要安装不同版本的 JVM。</font>
 
 ![JVM](../../../../images/Java/JVM.png)
-
-<!-- more -->
 
 ## JVM的“无关性”
 
