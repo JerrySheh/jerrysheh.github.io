@@ -62,6 +62,7 @@ unzip mydata.zip -d mydatabak | 解压 mydata.zip， -d 解压到指定目录
 ---|---
 shutdown now| 关机  
 uname -a | 查看内核信息
+dpkg -i xxx.deb | 安装已下载的.deb安装包
 
 ## 用户相关
 
@@ -282,6 +283,10 @@ u |撤销
 U |撤销整行
 0 （zero）|光标移动到行首
 ce| 删除光标所指到单词末尾，并进入编辑模式
+ctrl+F|下一页
+ctrl+B|上一页
+ctrl+E|下滚一行
+ctrl+Y|上滚一行
 
 
 命令	|说明
