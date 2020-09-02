@@ -13,6 +13,7 @@ date: 2018-9-18 20:37:38
 2. 高效索引
 3. 高效查询
 4. 大表优化（含分库分表）
+5. explain
 
 <!-- more  -->
 
@@ -380,7 +381,70 @@ MySQL单表数据量超过500万时，性能就开始急剧下降。
 
 ---
 
+# explain
+
+在一条 SQL 前面加上 `explain` 执行，即可查看执行计划。
+
+
+id|select_type|table|type|possible_key|key|key_len|ref|rows|Extra
+---|---|---|---|---|---|---|---|---|---
+1|SIMPLE|s|ALL|NULL|NULL|NULL|NULL|17022|Using where
+
+## select type
+
+`SELECT` 语句的类型，如 `SIMPLE`（简单查询）、 `PRIMARY`（最外层查询）、`UNION`（UNION里的查询）、`SUBQUERY`（子查询）、`DERIVED`（派生表） 。
+
+## table
+
+指明了是哪张表，包括别名和中间表。
+
+## partitions
+
+非分区表显示 NULL， 分区表显示该查询在哪个分区。
+
+## type
+
+join type，指出这张表是用何种方式 JOIN 的：
+
+- system：系统表或该表只有一行数据（const的特例）
+- const：常数级，表示该表最多有一个匹配行，这是最快的。通常情况下，查询条件带主键或唯一索引就是 const
+- eq_ref：两张表互相一次匹配，通常在两张表主键或唯一索引 = 操作查询一条记录时
+- ref：两张表按某一列关联
+- range：范围查找
+- index：全扫描覆盖索引，或全表扫描
+- all：全表扫描
+
+还有几种不常见的可参阅 [MySQL官方文档](https://dev.mysql.com/doc/refman/5.7/en/explain-output.html)，讲得非常详细了。
+
+## possible_keys
+
+可能的索引
+
+## key 和 key_len
+
+实际使用的索引，及其长度
+
+## ref
+
+跟实际使用的索引（即key列）进行比较的列 或 常数，如果是 `func`，说明比较的是某个函数的结果
+
+## rows
+
+执行这条语句 MySQL 需要扫描多少行数据
+
+## filtered
+
+过滤百分比，例如 rows 是 1000， filtered 是 50.00（50%），那么会有 1000 × 50% = 500 条数据会被 JOIN
+
+## Extra
+
+其他信息，如 `Using Where`、`Using Index`
+
+
+---
+
 参考：
 - 《高性能MySQL》
 - 《阿里巴巴Java开发手册》
+- [MySQL官方文档](https://dev.mysql.com/doc/refman/5.7/en/explain-output.html)
 - https://github.com/Snailclimb/JavaGuide/blob/master/docs/database/MySQL.md
