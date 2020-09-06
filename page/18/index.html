@@ -47,60 +47,8 @@
 <p>早上起来看到朋友圈有人五六点钟就起床抢占下一年的考研自习室座位。也看到身边的一些朋友原来都默默下决心要考研了。</p>
 <p>感叹时间过得真快。考研还是工作，这个问题从大一就开始想过，现在我自己的答案是：为工作而准备。</p>
 <p>每个人的条件和追求都不一样，对我来说，学术和科研似乎不是我所梦想的。自觉本身潜在有 Geek 的性格。因而越早投身于自己喜爱的项目和钻研中，更加合适。而且就我来说，要我看一天高数、组原这些很理论的知识，大抵我是坐不下去的。倒是坐在电脑前思考一整天如何实现XX功能，做点自己觉得酷的事情，却没有问题。</p>
-<p>每个人都有自己的选择，定下来了，就往前走。</p></div><a class="article-more button is-small size-small" href="/post/5b1e0c36.html#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2018-01-02T15:32:36.000Z" title="2018-01-02T15:32:36.000Z">2018-01-02</time><span class="level-item"><a class="link-muted" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span><span class="level-item">8 分钟 读完 (大约 1130 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/post/4399c62c.html">TCP与UDP的区别</a></h1><div class="content"><p>TCP和UDP是OSI模型<code>运输层</code>中的协议。</p>
-<p>TCP提供可靠的通信传输，而UDP则常被用于让广播和细节控制交给应用的通信传输。</p>
-<h1 id="UDP-User-Datagram-Protocol"><a href="#UDP-User-Datagram-Protocol" class="headerlink" title="UDP (User Datagram Protocol)"></a>UDP (User Datagram Protocol)</h1><p>UDP不提供复杂的控制机制，利用IP提供面向无连接的通信服务。并且它是将应用程序发来的数据在收到的那一刻，立刻按照原样发送到网络上的一种机制。</p>
-<p>即使是出现网络拥堵的情况下，UDP也无法进行流量控制等避免网络拥塞的行为。</p>
-<p>此外，传输途中如果出现了丢包，UDP也不负责重发。甚至当出现包的到达顺序乱掉时也没有纠正的功能。如果需要这些细节控制，那么不得不交给由采用UDP的应用程序去处理。</p>
-<p>换句话说，UDP将部分控制转移到应用程序去处理，自己却只提供作为传输层协议的最基本功能。UDP有点类似于用户说什么听什么的机制，但是需要用户充分考虑好上层协议类型并制作相应的应用程序。</p>
-<h1 id="TCP-Transmission-Control-Protocol"><a href="#TCP-Transmission-Control-Protocol" class="headerlink" title="TCP(Transmission Control Protocol)"></a>TCP(Transmission Control Protocol)</h1><p>TCP充分实现了数据传输时各种控制功能，可以进行丢包的重发控制，还可以对次序乱掉的分包进行顺序控制。而这些在UDP中都没有。</p>
-<p>此外，TCP作为一种面向有连接的协议，只有在确认通信对端存在时才会发送数据，从而可以控制通信流量的浪费。TCP通过检验和、序列号、确认应答、重发控制、连接管理以及窗口控制等机制实现可靠性传输。</p>
-<h1 id="TCP与UDP如何加以区分使用？"><a href="#TCP与UDP如何加以区分使用？" class="headerlink" title="TCP与UDP如何加以区分使用？"></a>TCP与UDP如何加以区分使用？</h1><p>TCP用于在传输层有必要实现可靠性传输的情况。由于它是面向有连接并具备顺序控制、重发控制等机制的。所以它可以为应用提供可靠传输。</p>
-<p>另一方面，UDP主要用于那些对高速传输和实时性有较高要求的通信或广播通信。</p>
-<p>举一个IP电话进行通话的例子。如果使用TCP，数据在传送途中如果丢失会被重发，但是这样无法流畅地传输通话人的声音，会导致无法进行正常交流。而采用UDP，它不会进行重发处理。从而也就不会有声音大幅度延迟到达的问题。即使有部分数据丢失，也只是影响某一小部分的通话。</p>
-<p>此外，在多播与广播通信中也使用UDP而不是TCP。RIP、DHCP等基于广播的协议也要依赖于UDP。</p>
-<hr>
-<h1 id="TCP与UDP区别总结"><a href="#TCP与UDP区别总结" class="headerlink" title="TCP与UDP区别总结"></a>TCP与UDP区别总结</h1><ol>
-<li>TCP<code>面向连接</code>（如打电话要先拨号建立连接);UDP是<code>无连接</code>的，即发送数据之前不需要建立连接</li>
-<li>TCP提供<code>可靠</code>的服务。也就是说，通过TCP连接传送的数据，无差错，不丢失，不重复，且按序到达;UDP尽最大努力交付，即<code>不保证可靠</code>交付</li>
-<li>TCP<code>面向字节流</code>，实际上是TCP把数据看成一连串无结构的字节流;UDP则是<code>面向报文</code>的。UDP没有拥塞控制，因此网络出现拥塞不会使源主机的发送速率降低（对实时应用很有用，如IP电话，实时视频会议等），并且UDP速度更快。</li>
-<li>每一条TCP连接只能是<code>点到点</code>的;UDP支持<code>一对一，一对多，多对一和多对多</code>的交互通信</li>
-<li>TCP<code>首部开销</code>20字节;UDP的首部开销小，只有8个字节</li>
-<li>TCP的逻辑通信信道是全双工的<code>可靠信道</code>，UDP则是<code>不可靠信道</code></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th>TCP</th>
-<th>UDP</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>面向连接</code></td>
-<td><code>无连接</code></td>
-</tr>
-<tr>
-<td>提供<code>可靠</code>的服务。</td>
-<td>尽最大努力，<code>不保证可靠</code>交付</td>
-</tr>
-<tr>
-<td><code>面向字节流</code></td>
-<td><code>面向报文</code></td>
-</tr>
-<tr>
-<td>只能<code>点到点</code></td>
-<td>支持<code>一对一，一对多，多对一和多对多</code></td>
-</tr>
-<tr>
-<td>首部开销 20 字节</td>
-<td>首部开销 8 个字节</td>
-</tr>
-<tr>
-<td><code>可靠逻辑通信信道</code>（全双工）</td>
-<td><code>不可靠逻辑通信信道</code></td>
-</tr>
-</tbody></table>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2018-01-01T06:18:19.000Z" title="2018-01-01T06:18:19.000Z">2018-01-01</time><span class="level-item"><a class="link-muted" href="/categories/%E8%AF%BB%E4%B9%A6%E4%B8%8E%E7%94%9F%E6%B4%BB/">读书与生活</a></span><span class="level-item">6 分钟 读完 (大约 900 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/post/745782bb.html">silver lining</a></h1><div class="content"><p><img src="../../../../images/movie_capture/sliverLining_1.jpg" alt="sliverlining"></p>
+<p>每个人都有自己的选择，定下来了，就往前走。</p></div><a class="article-more button is-small size-small" href="/post/5b1e0c36.html#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2018-01-02T15:32:36.000Z" title="2018-01-02T15:32:36.000Z">2018-01-02</time><span class="level-item"><a class="link-muted" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span><span class="level-item">8 分钟 读完 (大约 1131 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/post/4399c62c.html">TCP与UDP的区别</a></h1><div class="content"><p>TCP和UDP是OSI模型<code>运输层</code>中的协议。</p>
+<p>TCP提供可靠的通信传输，而UDP则常被用于让广播和细节控制交给应用的通信传输。</p></div><a class="article-more button is-small size-small" href="/post/4399c62c.html#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2018-01-01T06:18:19.000Z" title="2018-01-01T06:18:19.000Z">2018-01-01</time><span class="level-item"><a class="link-muted" href="/categories/%E8%AF%BB%E4%B9%A6%E4%B8%8E%E7%94%9F%E6%B4%BB/">读书与生活</a></span><span class="level-item">6 分钟 读完 (大约 900 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/post/745782bb.html">silver lining</a></h1><div class="content"><p><img src="../../../../images/movie_capture/sliverLining_1.jpg" alt="sliverlining"></p>
 <p>每个人都有半面，一半乌云、一半幸福。在别人看来，你是一个疯狂的精神病人，可是当你遇到一个跟你一样独特的人，你乌云背后的阳光才能拥有初霁。我所理解的《乌云背后的幸福线》，正是遇见那个跟你一样 crazy 的人。</p></div><a class="article-more button is-small size-small" href="/post/745782bb.html#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2017-12-31T15:50:58.000Z" title="2017-12-31T15:50:58.000Z">2017-12-31</time><span class="level-item"><a class="link-muted" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></span><span class="level-item">1 分钟 读完 (大约 194 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/post/5e11ed5b.html">html5插入视频空白问题</a></h1><div class="content"><p>今天想在我的博客文章<a href="https://jerrysheh.github.io/post/c3c12d05.html">一些想法</a>中插入一段视频。</p>
 <p>本来把视频上传到我的apache服务器中，然后在 Hexo 的 Markdown语法中插入以下语句即可</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;video src&#x3D;&#39;链接地址&#39; type&#x3D;&#39;video&#x2F;mp4&#39; controls&#x3D;&#39;controls&#39;  width&#x3D;&#39;100%&#39; height&#x3D;&#39;100%&#39;&gt;</span><br><span class="line">&lt;&#x2F;video&gt;</span><br></pre></td></tr></table></figure>
