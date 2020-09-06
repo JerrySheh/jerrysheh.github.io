@@ -15,6 +15,8 @@ date: 2018-03-08 11:54:26
 
 ![http](../../../../images/networking/http_model.png)
 
+<!-- more -->
+
 ---
 
 # 与 HTTP 有关的概念
