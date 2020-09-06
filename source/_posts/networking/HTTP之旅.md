@@ -35,8 +35,6 @@ https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.p
 
 HTTP 定义了客户端如何向服务器请求 Web page。HTTP使用 TCP 作为支撑运输协议，所以不用担心请求的过程数据在中途丢失或出错的问题。
 
-<!-- more -->
-
 ## 无状态协议
 
 我们可能注意到，我们使用浏览器打开Google.com，然后新建一个标签页又打开一次，Google 的页面还是会又一次地显示出来，不存在服务器之前已经给你发过了所以不再发这种事。因此我们说 HTTP 是 **无状态协议(stateless protocol)**。
@@ -90,22 +88,32 @@ Connection: close
 User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
 ```
 
-请求行后面的几行称为 **首部行（header line）**。
+请求行后面的几行称为 **首部行（header line）**，用来提供一些额外的信息。
 
 #### request常见首部
 
 | 首部     | 解释     |
 | :------------- | :------------- |
-| Accept         | 客户端能够处理的媒体类型和相对优先级  |
-| Accept-Charset  | 客户端能够支持的字符集和相对优先级  |
-| Accept-Encoding |  客户端能够支持的内容编码和相对优先级 |
-| Accept-Language | 客户端能够支持的自然语言集和相对优先级 |
+| Accept         | 客户端能够处理的媒体类型  |
+| Accept-Charset  | 客户端能够支持的字符集  |
+| Accept-Encoding |  客户端能够支持的内容编码 |
+| Accept-Language | 客户端能够支持的自然语言集 |
 | Authorization | 认证信息 |
 | Host | 请求的主机域名（HTTP1.1中唯一一个必须包含的请求首部） |
-| Connection | 如果是close，表明客户端希望在本次连接后就断掉 TCP 连接
+| Connection | 是否需要持久连接。如果是close，表明客户端希望在本次连接后就断掉 TCP 连接
 | User-Agent | 客户端的浏览器类型 |
+| Referer |包含一个URL，用户从该URL代表的页面出发访问当前请求的页面
+|Content-Length|请求消息正文的长度
+|Pragma|指定“no-cache”值表示服务器必须返回一个刷新后的文档，即使它是代理服务器而且已经有了页面的本地拷贝
+
 
 > 一个简单的例子是，当我们访问 https://developer.android.com/studio/index.html 想要下载 Android Studio软件时，如果我们用的是Windows 系统的浏览器，页面则会默认显示Windows版本的Android Studio软件下载，反正如果我们用的是 Mac 系统，则会默认显示 Mac 版本。这就是因为服务器根据我们的 User-Agent判断我们是当前什么系统。
+
+如果一个首部行有多个值，通常用 `q=0.9` 来排列相对优先级，如
+
+```
+accept-language: zh-CN,zh;q=0.9,en;q=0.8,zh-TW;q=0.7
+```
 
 如果是 POST 方法，在 首部行 后面会有一个空行，紧接着是 **请求包体**。包括了表单中提交的内容。
 
@@ -124,7 +132,7 @@ Server:Apache/2.2.15 (CentOS)
 Transfer-Encoding:chunked
 X-Powered-By:PHP/5.3.3
 
-（然后是数据）
+(data)
 ```
 
 ### 状态行
