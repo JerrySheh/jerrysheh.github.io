@@ -35,11 +35,11 @@ date: 2018-02-09 18:11:46
 
 # Linux 简介和版本
 
-狭义的 Linux 指的是 Linux kernel (内核)，最初由 Linus Torvalds 根据Minix系统的代码，参照UNIX系统的设计写出。kernel 就是负责管理硬件并为上层应用提供接口的底层代码。广义的 Linux 指的是以 Linux kernel 为基础的包括操作系统和各种应用在内的各个Linux版本(distribution)。
+狭义的 Linux 指的是 Linux kernel (内核)，最初由 Linus Torvalds 根据Minix系统的代码，参照UNIX系统的设计写出。**kernel 就是负责管理硬件并为上层应用提供接口的底层代码**。广义的 Linux 指的是以 Linux kernel 为基础的包括操作系统和各种应用在内的各个Linux版本(distribution)。
 
 ![Torvalds](https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Linus_Torvalds.jpeg/330px-Linus_Torvalds.jpeg)
 
-上图就是 Linux Kernel 的最初创始人 Linus Torvalds，关于 linus 的介绍，可看[Linus，一生只为寻找欢笑](https://zhuanlan.zhihu.com/mactalk/19796979)
+上图就是 Linux Kernel 的最初创始人 Linus Torvalds，关于 linus 的介绍，可看[Linus，一生只为寻找欢笑](https://zhuanlan.zhihu.com/mactalk/19796979)，Linus 还出过一本自传[《只是为了好玩》](https://book.douban.com/subject/25930025/)，当年在大学图书馆看完这本书心里只有仰望和佩服。
 
 PC平台比较流行的 Linux厂商版本 可以分为两类：
 
@@ -98,7 +98,7 @@ PC平台比较流行的 Linux厂商版本 可以分为两类：
 
 输入用户名(比如说vamei)和密码，DONE！
 
-![boot](../../../../Linux/linux_boot.png)
+![boot](../../../../images/Linux/linux_boot.png)
 
 ---
 
@@ -110,7 +110,10 @@ PC平台比较流行的 Linux厂商版本 可以分为两类：
 
 值得注意的是，在Linux系统中，目录也是一种文件。Linux中的文件有目录文件、常规文件、软链接文件三种。对于任意一种文件，我们都可以读取(read)，写入(write)和运行(execute)，但首先要有相关操作的权限。
 
-上面提到的软链接，可以理解为类似于 Windows 的快捷方式。
+> 上面提到的软链接，可以理解为类似于 Windows 的快捷方式。
+
+> 文件权限相关可以看另一篇：[给自己的 Linux 备忘](../post/ee3d8fa1.html#文件权限相关)
+
 
 ---
 
@@ -140,7 +143,7 @@ Unix/Linux的基本哲学之一就是「万物皆文件」（Everything is a fil
 
 我们也可以用`<`符号来改变标准输入。
 
-* Linux中，命令 echo 的作用就是将文本流导向标准输出。
+> Linux中，命令 echo 的作用就是将文本流导向标准输出。
 
 ---
 
