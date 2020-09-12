@@ -171,7 +171,18 @@ ScheduledExecutorService 的功能和 Timer/TimerTask 类似，解决那些需�
 
 # Future
 
-Callable 的 `call()` 方法可以获取一个返回值，但假设异步任务要执行很久，调用方就会阻塞。**Future是一个接口，用来判断异步计算是否已完成以及帮助我们获取异步计算的结果**。在没有Future之前我们检测一个线程是否执行完毕通常使用`Thread.join()`或者用一个死循环加状态位来描述线程执行完毕。Future是一种更好的方法，能够阻塞线程，检测任务执行完毕，甚至取消执行中或者未开始执行的任务。
+Callable 的 `call()` 方法可以执行一个异步任务并获取一个返回值，但假设异步任务要执行很久，调用方就会阻塞。这就失去了异步的意义。
+
+```java
+AsyncTask task1 = new MyTask(64);
+
+// 调用即阻塞
+long result1 = (Long) task1.call();
+```
+
+**Future是一个接口，用来判断异步计算是否已完成以及帮助我们获取异步计算的结果**。
+
+在没有Future之前我们检测一个线程是否执行完毕通常使用`Thread.join()`或者用一个死循环加状态位来描述线程执行完毕。Future是一种更好的方法，能够阻塞线程，检测任务执行完毕，甚至取消执行中或者未开始执行的任务。
 
 ```java
 public interface Future<V> {
@@ -201,7 +212,7 @@ private volatile Thread runner;
 private volatile WaitNode waiters;
 ```
 
-Callable 由构造器传入，所以，当我们有一个异步任务 Callable ，可通过 FutureTask<V> 来获取返回值，如：
+其构造器传入一个Callable，所以，当我们有一个异步任务 Callable ，可通过 `FutureTask<V>` 来获取返回值，如：
 
 ```java
 FutureTask<Long> future = new FutureTask<Long>( () -> {
@@ -211,9 +222,104 @@ FutureTask<Long> future = new FutureTask<Long>( () -> {
 
 new Thread(future).start();
 
+// 此时主线程可以去做别的事
+// ...
+
 // 执行get时，若异步任务还未结束，主线程将阻塞
 Long result = future.get();
 System.out.println(result);
+```
+
+`ExecutorService` 的 `submit()` 方法，就是返回一个 future。所以，一般我们都是 `FutureTask` 和 `Executor` 结合起来用：
+
+```java
+ExecutorService executor = Executors.newFixedThreadPool(4);
+// MyTask implements Callable
+Callable<String> mytask = new MyTask();
+// 提交任务,同时获得一个 Future 对象:
+Future<String> future = executor.submit(task);
+// 从 Future 获取异步执行返回的结果:
+String result = future.get(); // 可能阻塞
+```
+
+---
+
+# CompletableFuture
+
+Future 其实还不够好，因为主线程迟早要主动去调用 `future.get()` 来获取结果的。我们希望异步任务结束后，主动回调，而不是主线程去`isDone()`或`get()` 。
+
+JDK 1.8 引入了 CompletableFuture，用法如下：
+
+```java
+// 定义一个异步任务
+Supplier<String> myTask = () -> {
+    try {
+        Thread.sleep(3000);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    return "hello world";
+};
+
+// 定义 CompletableFuture
+CompletableFuture<String> myTaskFuture = CompletableFuture.supplyAsync(myTask);
+
+// 设置 CompletableFuture 执行结束时做什么
+myTaskFuture.thenAccept(System.out::println);
+
+// 设置 CompletableFuture 抛出异常时做什么
+myTaskFuture.exceptionally( e -> {
+    e.printStackTrace();
+    return null;
+});
+
+// 主线程可以做其他事
+// ...
+```
+
+使用 CompletableFuture 的好处是异步任务结束或异常时，会自动回调某个对象的方法，且
+主线程设置好回调后，不再关心异步任务的执行。
+
+## 多个 CompletableFuture 串行执行
+
+```java
+// 定义任务 f1
+CompletableFuture<String> f1 = CompletableFuture.supplyAsync(myTaskHello);
+f1.thenAccept(System.out::println);
+
+// 定义任务 f2 为 f1 执行完后执行，第一个任务的结果会作为第二个任务的参数
+// 所以 thenApplyAsync 接收的是一个 Function<T,T>
+CompletableFuture<String> f2 = f1.thenApplyAsync(myTaskName);
+f2.thenAccept(System.out::println);
+
+// 主线程可以做其他事
+// ..
+```
+
+## 多个 CompletableFuture 并行执行
+
+用 `anyOf()` 或 `allOf()` 可以将两个 CompletableFuture 合并为一个新的 CompletableFuture ，实现并行执行。
+
+- anyOf()：只要有一个成功
+- allOf()：需所有的都成功
+
+想象一个场景：需要一个人搬砖，用异步任务呼叫 jerry 和 calm 两个人，只要任意一个人回应了，就由他去搬砖。
+
+```java
+// f1： 呼叫 jerry
+// f2： 呼叫 calm
+// f3： 搬砖
+
+CompletableFuture<String> f1 = CompletableFuture.supplyAsync( () -> callSomebody("jerry"));
+CompletableFuture<String> f2 = CompletableFuture.supplyAsync( () -> callSomebody("calm"));
+
+// 用anyOf合并为一个新的CompletableFuture:
+CompletableFuture<Object> f3 = CompletableFuture.anyOf(f1, f2);
+
+f3.thenAccept( r -> System.out.println(String.format("%s去搬砖", r)));
+
+// 主线程可以做其他事
+// ..
 ```
 
 ---

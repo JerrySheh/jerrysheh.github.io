@@ -206,7 +206,7 @@ jdk 1.8 预置了一些函数式接口，在 java.util.function 包里。其中 
 
 ## Consumer<T>
 
-接收一个对象 T， 无返回。
+Consumer的中文意思是消费者，接收一个对象 T， 无返回。
 
 ```java
 @FunctionalInterface
@@ -229,7 +229,7 @@ cal.accept(3.5);
 
 ## Supplier<T>
 
-不接收参数，返回一个对象 T
+Supplier的中文意思是提供者，不接收参数，返回一个对象 T
 
 JDK例子：Instant::now
 
@@ -242,7 +242,9 @@ public interface Supplier<T> {
 
 ## Predicate<T>
 
-接收一个对象T，返回 boolean
+我之前很难理解什么是 Predicate，直到看了 [知乎这个回答](https://www.zhihu.com/question/25404942/answer/53680068)。
+
+其实很简单，接收一个对象T，返回 boolean，这种场景就是 Predicate 。
 
 ```java
 @FunctionalInterface
