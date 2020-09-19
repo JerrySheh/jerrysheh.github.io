@@ -1,6 +1,5 @@
 ---
-title: HTML JavaScript DOM
-comments: false
+title: JavaScript（三）Document Object Model
 abbrlink: f75e92e9
 date: 2018-04-16 12:22:19
 categories: 前端
@@ -9,12 +8,14 @@ tags:
  - 前端
 ---
 
-前面提到，完整的 Javascript 由以下三个部分组成
+前面提到，完整的 Javascript 由以下三个部分组成：
 - 语言基础
-- BOM(Browser Object Model 浏览器对象模型)
+- BOM（Browser Object Model 浏览器对象模型）
 - DOM（Document Object Model 文档对象模型）
 
 这一篇主要讲讲 DOM ，DOM 其实就是把 html 里面的各种数据当作对象进行操作的一种思路。
+
+<!--more-->
 
 ![pic](http://www.w3school.com.cn/i/ct_htmltree.gif)
 
@@ -25,8 +26,6 @@ tags:
 - 能够改变页面中的所有 HTML 元素或属性
 - 能够改变页面中的所有 CSS 样式
 - 能够对页面中的所有事件做出反应
-
-<!--more-->
 
 ---
 

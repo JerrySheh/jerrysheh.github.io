@@ -1,5 +1,5 @@
 ---
-title: Head First JavaScript
+title: JavaScript（一）基础语法
 comments: true
 categories: 前端
 tags:
@@ -11,9 +11,9 @@ date: 2018-04-02 11:07:25
 
 JavaScript用于网页和用户之间的交互，比如提交的时候，进行用户名是否为空的判断。
 
-完整的 Javascript 由以下三个部分组成
+完整的 Javascript 由以下三个部分组成：
 - 语言基础
-- BOM(Browser Object Model 浏览器对象模型)
+- BOM（Browser Object Model 浏览器对象模型）
 - DOM（Document Object Model 文档对象模型）
 
 <!-- more -->
@@ -70,7 +70,13 @@ null	| 空对象/对象不存在
 
 - JavaScript 中单引号和双引号都表示字符串
 - JavaScript 中，即使是基本数据类型，也有属性和方法
-- 当不确定某个变量是什么类型的时候，可以用使用typeof来进行判断数据类型
+
+当不确定某个变量是什么类型的时候，可以用使用`typeof`来进行判断数据类型
+
+```js
+var name = 'jerry'
+typeof name // string
+```
 
 JavaScript中的变量类型是动态的
 
@@ -84,12 +90,19 @@ var x = "Bill";      // x 为字符串
 
 使用内置函数`toString()`转换为字符串。
 
-- 比如说，我们可以对 Number 或者 Boolean 执行 `toString()`方法。 用法：`a.toString(16)`，将a转换为16进制字符串
-- 对于有Null值的情况，用`String()`会返回null，用`toString()`报错。
+比如说，我们可以对 Number 或者 Boolean 执行 `toString()`方法。
 
-使用内置函数 `parseInt()`、`parseFloat()`或 `Number()`转换为数字
+将a转换为16进制字符串
 
-- parseInt会一直定位数字，直到出现非字符。 所以"10abc" 会被转换为 10。但是"abc10"返回NaN，如果没有数字，也返回NaN。
+```js
+var a = 18
+a.toString(16)
+```
+
+对于有Null值的情况，用`String()`会返回null，用`toString()`报错。
+
+- 使用内置函数 `parseInt()`、`parseFloat()`或 `Number()`转换为数字
+- `parseInt`会一直定位数字，直到出现非字符。 所以`10abc`会被转换为`10`。但是`abc10`返回NaN，如果没有数字，也返回NaN。
 - `Number()`必须为纯数字，如果参杂其他字符，直接返回NaN。
 
 使用内置函数`Boolean()`转换为Boolean值
@@ -99,7 +112,7 @@ var x = "Bill";      // x 为字符串
 
 ### 绝对等运算符
 
-JavaScript的运算符跟 Java 区别不大，但是有一点要注意
+JavaScript的运算符跟 Java 区别不大，但是有一点要注意：
 
 - `==`是等于运算符，表示：值相等（类型不一定相等）
 - `===`是绝对等运算符，表示：类型相等，值也相等
@@ -133,8 +146,6 @@ world
 
 > 在写前端文件的时候，通常把 JavaScript 脚本写在最后面，以提高网页的加载速度。当需要在加载时立即执行 JavaScript 代码，可以用 `onload="jfun()"` 属性。其中 `jfun()` 是 JS 函数名称。
 
-- 当不想让函数继续执行下去时，可以直接写`return ;`
-
 ## 语句
 
 跟Java类似， JavaScript也支持 **条件语句**、**循环语句**、**try-catch语句**
@@ -154,8 +165,6 @@ for (var str in strs) {
 这里的str，是strs的下标，因此要表达数组的每个元素，用`strs[str]`
 
 continue、break 什么的当然也是存在的啦
-
-
 
 ---
 
@@ -269,7 +278,7 @@ lastname  : "Gates",
 id        :  5566
 };
 
-var n = person.name; // n是 ”Gates
+var n = person.lastname;
 ```
 
 ### 函数封装对象
@@ -289,110 +298,15 @@ var teemo = new Hero("提莫");
 teemo.go();
 ```
 
-用prototype实现为已存在的对象增添新的方法，例如为 `Hero` 增添 `back` 方法
+用 prototype 实现为已存在的对象增添新的方法，例如为 `Hero` 增添 `back` 方法
 
 ```javascript
-
 Hero.prototype.back = function(){
   document.write(this.name + "正在后退<br>");
 }
 
 gareen.back();
 ```
-
----
-
-# 浏览器对象模型(Brower Object Model)
-
-`浏览器对象模型(Brower Object Model) ` 就是所谓的 BOM
-
-浏览器对象包括：
-- Window(窗口)
-- Navigator(浏览器)
-- Screen (客户端屏幕)
-- History(访问历史)
-- Location(浏览器地址)
-
-## windows
-
-- 用`window.innerWidth`和`window.innerHeight`获取浏览器的**文档显示区域**的宽和高
-- 用`window.outerWidth`和`window.outerHeight`获取浏览器**外部窗体**的宽和高
-- 用`window.open("/")`打开一个新页面，这里的`/`指本站的根目录。只能打开本站网页。（不建议在用户不知情的情况下随意打开新页面，影响用户体验）
-
-体验一下：
-
-<script>
-function openNewWindow(){
-  myWindow=window.open("/");
-}
-</script>
-
-<button onclick="openNewWindow()">回到主页</button>
-
-## Navigator
-
-Navigator提供浏览器相关的信息
-
-属性|简介
----|---
-navigator.appName|浏览器产品名称
-navigator.appVersion|浏览器版本号
-navigator.appCodeName|浏览器内部代码
-navigator.platform|操作系统
-navigator.cookieEnabled|是否启用Cookies
-navigator.userAgent|浏览器的用户代理报头
-
-## 弹出框
-
-- 用`alert`显示一个警告窗
-- 用`confirm`显示一个确认框，根据用户选择，返回true or false
-- 用`prompt`显示一个输入框
-
-确认框例子
-
-```html
-<script>
-function del(){
-var d = confirm("是否要删除"); // d 是 boolean 类型
-}
-</script>
-
-<br>
-<button onclick="del()">删除</button>
-```
-
-输入框例子
-
-```html
-<script>
-function p(){
-var name = prompt("请输入用户名:"); // name 是 string 类型
-alert("您输入的用户名是:" + name);
-}
-</script>
-
-<br>
-<button onclick="p()">请输入用户名</button>
-```
-
-## Location
-
-Location 对象包含有关当前 URL 的信息。
-
-
-```html
-<script>
-// url的值为当前URL
-var url = location.href
-
-// 跳转到谷歌
-location.href = "https://www.google.com"
-</script>
-```
-
-参考：
-
-- [Location 对象](http://www.w3school.com.cn/jsref/dom_obj_location.asp)
 
 ---
 
@@ -404,7 +318,3 @@ getDate:function (strDate) {
     return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
 }
 ```
-
----
-
-[下一篇](../post/f75e92e9.html)介绍Javascript中的DOM（文档对象模型）
