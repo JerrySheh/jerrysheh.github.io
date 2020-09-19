@@ -11,7 +11,7 @@ abbrlink: 377edbcb
 date: 2019-06-05 00:25:54
 ---
 
-有时候，我们想在主线程之外执行一些异步任务，不难想到，可以开一个新线程专门去处理某个任务。在 Java 中处理异步任务都有哪些需要注意的呢？
+有时候，我们想在主线程之外执行一些异步任务，不难想到，可以开一个新线程专门去处理某个任务。
 
 <!-- more -->
 
@@ -73,13 +73,13 @@ private static void handleRequest(Socket conn){
 - 随着新任务一个个的到来，旧任务一个个结束，线程不断创建销毁，开销很大；
 - 线程数量不可控，如果一下子有大量任务到来，将无限制创建线程，即使没有OOM，也会因线程数量太多而导致性能降低（CPU在线程之间切换也是有开销）
 
-所以通常我们不会手动去 new 线程执行任务，而是借助 Executor 接口帮助我们执行。
+所以通常我们不会手动去 new 线程执行任务，而是借助 `Executor` 接口帮助我们执行。
 
 ---
 
 # Executor 接口
 
-Executor 接口用来执行一个 Runnable。
+`Executor` 接口用来执行一个 Runnable：
 
 ```java
 public interface Executor {
@@ -87,10 +87,10 @@ public interface Executor {
 }
 ```
 
-为什么要把线程放到 Executor 里面执行呢？
+为什么要把线程放到 `Executor` 里面执行呢？
 
-- Executor 提供了一种标准的方法将任务的提交过程和执行过程解耦。这是一种生产者-消费者模式。
-- 我们可以在 Executor 的实现类里，添加一些方法，用于管理生命周期和做其他监控，便于我们调度异步任务。
+- Executor 提供了一种标准的方法将任务的 **提交过程** 和 **执行过程** 解耦。这是一种生产者-消费者模式。
+- 我们可以在 Executor 的实现类里，添加一些方法，用于 **管理生命周期和做其他监控**，便于我们调度异步任务。
 
 > 不仅应该尽量不要编写自己的工作队列，而且还应该尽量不直接使用线程。 ——《Effective Java》
 
@@ -149,7 +149,7 @@ public interface ExecutorService extends Executor {
 }
 ```
 
-这个接口的默认实现是 `ThreadPoolExecutor`，用于启动一个线程池，另一个实现是 Fork/Join 框架（JDK1.7）。
+ExecutorService 接口的默认实现是 `ThreadPoolExecutor`，用于启动一个线程池，另一个实现是 Fork/Join 框架（JDK1.7）。
 
 ### submit 和 execute 的区别
 
@@ -166,6 +166,47 @@ public <V> ScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUni
 ```
 
 ScheduledExecutorService 的功能和 Timer/TimerTask 类似，解决那些需要任务重复执行的问题。这包括延迟时间一次性执行、延迟时间周期性执行以及固定延迟时间周期性执行等。
+
+---
+
+# Executor 生命周期
+
+既然 ThreadPoolExecutor 是 ExecutorService 的实现，而 ExecutorService 又继承 Executor 接口。所以，线程池的生命周期即是 Executor 的生命周期啦。
+
+```java
+public interface ExecutorService extends Executor {
+    // 用于提交异步任务和获取结果
+    <T> Future<T> submit(Callable<T> task);
+    <T> Future<T> submit(Runnable task, T result);
+    Future<?> submit(Runnable task);
+
+    // 用于管理执行器本身
+    void shutdown();
+    List<Runnable> shutdownNow();
+    boolean isShutdown();
+    boolean isTerminated();
+    boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException;
+}
+```
+
+## CREATE & RUNNING
+
+当我们 new 一个 Executor 或者通过 Executors 静态工厂构造一个 Executor，线程池即进入了 RUNNING 状态，在此之前是 CREATE 状态。严格意义上讲线程池构造完成后并没有线程被立即启动，只有进行“预启动”或者接收到任务的时候才会启动线程。但是无论如何，构造完后，线程池已经在运行，随时准备接受任务来执行。
+
+## SHUTDOWN & STOP
+
+通过`shutdown()`和`shutdownNow()`来将线程关闭。
+
+- `shutdown()`平缓关闭，线程池停止接受新的任务，同时等待已经提交的任务执行完毕，包括那些进入队列还没有开始的任务，这时候线程池处于SHUTDOWN状态。
+- `shutdownNow()`是一个立即关闭过程，线程池停止接受新的任务，同时尝试取消所有正在执行的任务和已经进入队列但是还没有执行的任务，这时候线程池处于STOP状态。
+
+## TERMINATED
+
+一旦`shutdown()`或者`shutdownNow()`执行完毕，线程池就进入TERMINATED状态，此时线程池就结束了。
+
+- `isTerminating()`描述的是SHUTDOWN和STOP两种状态。
+- `isShutdown()`描述的是非RUNNING状态，也就是SHUTDOWN/STOP/TERMINATED三种状态。
+- 可以调用 `awaitTermination()` 来等待 `ExecutorService` 到达 TERMINATED 状态。
 
 ---
 
@@ -277,8 +318,7 @@ myTaskFuture.exceptionally( e -> {
 // ...
 ```
 
-使用 CompletableFuture 的好处是异步任务结束或异常时，会自动回调某个对象的方法，且
-主线程设置好回调后，不再关心异步任务的执行。
+使用 CompletableFuture 的好处是异步任务结束或异常时，会自动回调某个对象的方法，且主线程设置好回调后，不再关心异步任务的执行。
 
 ## 多个 CompletableFuture 串行执行
 
@@ -324,44 +364,74 @@ f3.thenAccept( r -> System.out.println(String.format("%s去搬砖", r)));
 
 ---
 
-# Executor 生命周期
+# Fork/Join
 
-既然 ThreadPoolExecutor 是 ExecutorService 的实现，而 ExecutorService 又继承 Executor 接口。所以，线程池的生命周期即是 Executor 的生命周期啦。
+前面提到 `ExecutorService` 接口的默认实现是 `ThreadPoolExecutor`，用于启动一个线程池，另一个实现是 Fork/Join ，Fork/Join 用来将一个大的任务分解成多个小的任务，并行执行。其原理跟排序算法的归并排序类似。
+
+例如，要计算一个超大数据的和，可以把数组拆成两个中等组数，两个中等数组又分别拆成两个小数组，现在我们有4个小数组了，可以用4个线程并行执行求和。最后再汇总。
+
+![forkjoin](../../../../images/Java/forkjoin.png)
+
+使用方法：
 
 ```java
-public interface ExecutorService extends Executor {
-    // 用于提交异步任务和获取结果
-    <T> Future<T> submit(Callable<T> task);
-    <T> Future<T> submit(Runnable task, T result);
-    Future<?> submit(Runnable task);
-
-    // 用于管理执行器本身
-    void shutdown();
-    List<Runnable> shutdownNow();
-    boolean isShutdown();
-    boolean isTerminated();
-    boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException;
+public static void main(String[] args) {
+    long[] largeArrays = getLargeArrays();
+    ForkJoinTask<Long> calculateSumTask = new SumTask(largeArrays,0, largeArrays.length);
+    Long result = ForkJoinPool.commonPool().invoke(calculateSumTask);
 }
 ```
 
-## CREATE & RUNNING
+其中，SumTask 的实现如下，继承`RecursiveTask<Long>`，并重写`compute()`方法，在`compute()`里面，判断如果任务足够小，就直接计算，否则一分为二。
 
-当我们 new 一个 Executor 或者通过 Executors 静态工厂构造一个 Executor，线程池即进入了 RUNNING 状态，在此之前是 CREATE 状态。严格意义上讲线程池构造完成后并没有线程被立即启动，只有进行“预启动”或者接收到任务的时候才会启动线程。但是无论如何，构造完后，线程池已经在运行，随时准备接受任务来执行。
+```java
 
-## SHUTDOWN & STOP
+class SumTask extends RecursiveTask<Long> {
+    static final int THRESHOLD = 500;
+    long[] array;
+    int start;
+    int end;
 
-通过`shutdown()`和`shutdownNow()`来将线程关闭。
+    SumTask(long[] array, int start, int end) {
+        this.array = array;
+        this.start = start;
+        this.end = end;
+    }
 
-- `shutdown()`平缓关闭，线程池停止接受新的任务，同时等待已经提交的任务执行完毕，包括那些进入队列还没有开始的任务，这时候线程池处于SHUTDOWN状态。
-- `shutdownNow()`是一个立即关闭过程，线程池停止接受新的任务，同时尝试取消所有正在执行的任务和已经进入队列但是还没有执行的任务，这时候线程池处于STOP状态。
+    @Override
+    protected Long compute() {
+        // 如果任务足够小,直接计算:
+        if (end - start <= THRESHOLD) {
+            long sum = 0;
+            for (int i = start; i < end; i++) {
+                sum += this.array[i];
+                // 故意放慢计算速度:
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                }
+            }
+            return sum;
+        }
 
-## TERMINATED
+        // 任务太大,一分为二:
+        int middle = (end + start) / 2;
+        System.out.println(String.format("split %d~%d ==> %d~%d, %d~%d", start, end, start, middle, middle, end));
+        SumTask subtask1 = new SumTask(this.array, start, middle);
+        SumTask subtask2 = new SumTask(this.array, middle, end);
 
-一旦`shutdown()`或者`shutdownNow()`执行完毕，线程池就进入TERMINATED状态，此时线程池就结束了。
+        // invokeAll会并行运行两个子任务:
+        invokeAll(subtask1, subtask2);
 
-- `isTerminating()`描述的是SHUTDOWN和STOP两种状态。
-- `isShutdown()`描述的是非RUNNING状态，也就是SHUTDOWN/STOP/TERMINATED三种状态。
-- 可以调用 `awaitTermination()` 来等待 `ExecutorService` 到达 TERMINATED 状态。
+        Long subresult1 = subtask1.join();
+        Long subresult2 = subtask2.join();
+
+        Long result = subresult1 + subresult2;
+        System.out.println("result = " + subresult1 + " + " + subresult2 + " ==> " + result);
+        return result;
+    }
+}
+```
 
 ---
 
