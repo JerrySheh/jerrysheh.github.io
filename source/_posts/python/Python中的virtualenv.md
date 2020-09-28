@@ -135,3 +135,32 @@ deactivate
 ## 4. 删除虚拟环境
 
 直接删除目录即可
+
+---
+
+# 下载 requirements
+
+有时候，一个项目里所需的依赖会导出到 requirements.txt，使用以下命令来安装所有依赖
+
+```
+pip install -r requirements.txt
+```
+
+---
+
+# 更换 pip 源
+
+使用 `-i` 参数临时使用
+
+```
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple [some-package]
+```
+
+升级 pip 到最新的版本 (>=10.0.0) 后进行配置，永久使用
+
+```
+pip install pip -U
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+```
+
+---
