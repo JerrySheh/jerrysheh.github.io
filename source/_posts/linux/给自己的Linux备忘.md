@@ -64,7 +64,7 @@ shutdown now| 关机
 uname -a | 查看内核信息
 dpkg -i xxx.deb | 安装已下载的.deb安装包
 
-## 用户相关
+## 用户相关命令
 
 用户相关(在root下操作)	| 说明
 ---|---
@@ -72,6 +72,10 @@ adduser jerry| 创建 jerry 用户（自动创建/home目录）
 useradd jerry| 创建 jerry 用户 （需要手动配置/home目录）
 passwd jerry | 给 jerry 用户设置密码
 userdel jerry| 删除 jerry 用户
+
+> Tips 1: 如果不知道一个命令是干嘛用的，可以用 `--help` 参数显示帮助，或者用 `man ls` 显示手册。如 `ls --help` 和 `man ls`。按 `q` 离开 man 环境。
+
+> Tips 2: linux命令后面的参数，一般简写时是单横杠，如 `-h` ，全写是双横杠，如 `--help`。
 
 ---
 
@@ -131,7 +135,9 @@ Linux 通配表达式 与 正则表达式 相类似，但语法有所不同。
 
 不要在删除文件到时候多敲了一个空格，会删除当前整个目录下的文件～
 
-`$rm * .txt`
+```
+$rm * .txt
+```
 
 ***
 

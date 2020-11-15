@@ -46,22 +46,45 @@ fastboot flash recovery /path/to/magisk_patched.img
 
 简单复述下步骤，如下：
 
-1. 解锁BootLoader，这个很久以前做过，不说了
-2. 设置 — 关于手机 — 版本号点击7次-进入开发者模式
-3. 设置 — 系统 — 开发者选项 — USB 调试
-4. 下载 platform-tools （网上很多，论坛也有）
-5. 安装 magisk
-```
-adb install magisk.apk
-```
-6. 制作 magisk_patched.img，就是在 magisk 里面点安装，再点选择并修补一个文件，将前期提取的固件里的 boot.img 放到手机存储里面，选择你的 boot.img ，然后 magisk 会自动修复，并生成 magisk_patched.img
-7. 将 magisk_patched.img 提取到电脑 platform-tools 目录下
-8. 手机进入 bootloader
+## 1. 解锁BootLoader
+
+>  <font color='red'>警告：解锁BootLoader会清空数据，请提前备份 </font>
+
+开发者选项OEM解锁打开，开启USB调试连接电脑，adb输入以下命令重启至 bootloader 模式
+
 ```
 adb reboot bootloader
 ```
-9. 刷入img
+
+之后在手机上选择 unlock， 重启即解锁
+
+### 2. 提取 boot.img
+
+到官网下载固件全量包，如果是zip，解压缩能看到 boot.img， 直接把 boot.img 拖出来。如果是 payload.bin ，需要用 Payload_Dumber_x64 工具（网上下载）提取（源码参考 [github](https://gist.github.com/ius/42bd02a5df2226633a342ab7a9c60f15) ）。
+
+### 3. platform-tools
+
+使用 platform-tools （网上下载）安装 magisk（网上下载），使用 adb 安装到手机
+
 ```
+adb install magisk.apk
+```
+
+### 4. 制作 magisk_patched.img
+
+就是在 magisk app 里面点安装，再点选择并修补一个文件，将前期提取的固件里的 boot.img 放到手机存储里面，选择你的 boot.img ，然后 magisk 会自动修复，并生成 magisk_patched.img，将 magisk_patched.img 提取到电脑 platform-tools 目录下。
+
+### 5. 刷入img
+
+重启到 bootloader，刷入img。这一步的意思是使用我们的 magisk_patched.img 来驱动手机启动。
+
+```
+adb reboot bootloader
 fastboot boot magisk_patched.img
 ```
-10. 手机自动重启，done!
+
+手机自动重启后，即获得临时 root 权限。
+
+### 6. 直接安装
+
+到 magisk app 里面点安装，再点直接安装，即可获得永久 root 。
