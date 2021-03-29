@@ -11,7 +11,11 @@ date: 2021-03-28 20:25:00
 
 ## 问题再现
 
-最近在维护一个基于 Spring Boot 的数据同步系统。项目使用 druid 连接池，配置动态数据源连接了 16 个数据库，主要用于跑任务处理跨库数据同步。其中的某个任务，在线上环境一直稳定运行，前几天任务又一次执行时，突然收到任务报错的邮件告警。日志如下：
+最近在维护一个基于 Spring Boot 的数据同步系统。项目使用 druid 连接池，配置动态数据源连接了 16 个数据库，主要用于跑任务处理跨库数据同步。其中的某个任务，在线上环境一直稳定运行，前几天任务又一次执行时，突然收到任务报错的邮件告警。
+
+<!-- more -->
+
+日志如下：
 
 ```java
 com.alibaba.druid.pool.GetConnectionTimeoutException: wait millis 60000, active 20, maxActive 20, creating 0
@@ -26,6 +30,8 @@ com.alibaba.druid.pool.GetConnectionTimeoutException: wait millis 60000, active 
 ```
 
 从日志上看，`active 20, maxActive 20` 说明配置的最大活跃连接数是 `20`，当前创建的连接数也是 `20`，初步分析报错的直接原因肯定是代码中的某个地方获取连接后一直没有释放，导致连接数达到上限，druid 无法获取更多连接，最终超时报错。
+
+
 
 ## 问题排查
 
@@ -68,11 +74,11 @@ try {
 } catch (Exception e) {
     log.error();
 } finally {
-        DataSourceUtils.releaseConnection(conn, jdbcTemplate.getDataSource());
+    DataSourceUtils.releaseConnection(conn, jdbcTemplate.getDataSource());
 }
 ```
 
 
-好在这个系统中只有定时任务，没有前端请求。所幸没有引起严重后果。如果发生在接收前端请求的系统中，估计会是一次“血灾”。
+好在这个系统中只有定时任务，没有前端请求。所幸没有引起严重后果。如果发生在接收前端请求的系统中，那就是另外一个关于“血灾”的故事了。
 
 完。
