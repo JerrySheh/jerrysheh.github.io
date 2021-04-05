@@ -90,7 +90,7 @@ public interface Executor {
 为什么要把线程放到 `Executor` 里面执行呢？
 
 - Executor 提供了一种标准的方法将任务的 **提交过程** 和 **执行过程** 解耦。这是一种生产者-消费者模式。
-- 我们可以在 Executor 的实现类里，添加一些方法，用于 **管理生命周期和做其他监控**，便于我们调度异步任务。
+- 我们可以在 Executor 的实现类里，添加一些方法，用于 **管理生命周期和做其他监控**，便于我们调度异步任务（jdk正是这么做的，见`ExecutorService`接口）。
 
 > 不仅应该尽量不要编写自己的工作队列，而且还应该尽量不直接使用线程。 ——《Effective Java》
 
@@ -136,9 +136,16 @@ Executor exec3 = Executors.newScheduledThreadPool(10);
 
 ## ExecutorService 接口
 
-事实上，我们用 Executors 创建出来的执行器是 Executor 的子接口 ExecutorService。既然已经有了 Executor 了，为什么还要 ExecutorService 呢？前面说到，我们不只是把任务丢到线程里让他去执行就完了，有时候，我们还想获取异步任务的状态，以及管理 Executor 执行器本身。
+事实上，我们用 `Executors` 创建出来的执行器是其子接口 `ExecutorService`。既然已经有了 `Executor` 了，为什么还要 `ExecutorService` 呢？前面说到，**我们不只是把任务丢到线程里让他去执行就完了，有时候，我们还想获取异步任务的状态，以及管理 Executor 本身的生命周期等**。
 
-因此，ExecutorService 继承了 Executor ，再添加几个方法，主要是`submit`方法，用于向线程提交异步任务，然后返回一个 Future，我们再用 Future 来判断异步任务结束没有，或者获取结果。
+因此，`ExecutorService` 继承了 `Executor` ，再添加几个方法，包括两部分：
+
+1. 获取异步任务的状态的
+2. 管理 Executor 的生命周期（见下面生命周期部分）
+
+### 获取异步任务的状态的
+
+这部分主要是 `submit` 方法，用于向线程提交异步任务，然后返回一个 Future，我们再用 Future 来判断异步任务结束没有，或者获取结果。
 
 ```java
 public interface ExecutorService extends Executor {
@@ -151,14 +158,13 @@ public interface ExecutorService extends Executor {
 
 ExecutorService 接口的默认实现是 `ThreadPoolExecutor`，用于启动一个线程池，另一个实现是 Fork/Join 框架（JDK1.7）。
 
-### submit 和 execute 的区别
+#### submit 和 execute 的区别
 
-`execute()` 是 Executor 接口的方法，表示执行一个 Runnable， `submit()` 是 ExecutorService 接口的方法，内部调用了 `execute()` ，但还会返回一个异步计算结果 Future 对象（也意味着可以做异常处理）。
-
+`execute()` 是 Executor 接口的方法，表示执行一个 Runnable， `submit()` 是 `ExecutorService` 接口的方法，内部调用了 `execute()` ，但还会返回一个异步计算结果 `Future` 对象（也意味着可以做异常处理）。
 
 ## ScheduledExecutorService 接口
 
-看起来已经够用了，JUC的设计者Doug Lea大佬觉得哪里还不太够，于是劈里啪啦又写了一个 ScheduledExecutorService 接口，继承 ExecutorService 接口，再添加几个 schedule 方法：
+看起来已经够用了，JUC的设计者Doug Lea大佬觉得哪里还不太够，于是劈里啪啦又写了一个 `ScheduledExecutorService` 接口，继承 `ExecutorService` 接口，再添加几个 schedule 方法：
 
 ```java
 public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit);
@@ -282,6 +288,24 @@ Future<String> future = executor.submit(task);
 // 从 Future 获取异步执行返回的结果:
 String result = future.get(); // 可能阻塞
 ```
+
+## 任务中断
+
+有时候，我们用 `Executor` 提交了一个任务，但运行过程中想中断这个任务，可以利用 `Future` 抛出 `TimeoutException` 或 `InterruptedException`。
+
+```java
+Future<String> future = executor.submit(task);
+
+try{
+    String result = future.get(); // 可能阻塞
+} catch(TimeoutException | InterruptedException e) {
+    // 处理中断策略
+} finally {
+    future.cancel(true);
+}
+```
+
+其原理是，`Future` 的 `get()` 方法会阻塞，此时会维护一个状态机，无限去获取任务的状态，当执行任务的线程被置为中断或超时状态时，`get()` 方法将抛出异常。
 
 ---
 
