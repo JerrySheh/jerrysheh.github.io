@@ -90,7 +90,7 @@ public class lazyInitRace{
 
 ## 使用 atomic 原子类解决原子性问题
 
-在 java.util.concurrent.atomic 包中包含了一些原子变量类，可以提供原子操作。只需把 count 的类型从 `long` 改为 `Atomiclong`。在程序员的角度，可以认为 Atomiclong 把上述 读取 count 的值、计算加一、计算结果写回 count 这三个操作，合并成一个原子操作。这跟数据库的事务有点类似。
+在 `java.util.concurrent.atomic` 包中包含了一些原子变量类，可以提供原子操作。只需把 count 的类型从 `long` 改为 `Atomiclong`。在程序员的角度，可以认为 Atomiclong 把上述 读取 count 的值、计算加一、计算结果写回 count 这三个操作，合并成一个原子操作。这跟数据库的事务有点类似。
 
 ```java
  // count 是共享变量
@@ -109,7 +109,7 @@ public void service (ServletRequest req, ServletResponse resp) {
 
 ### 深入：atomic原子类为什么可以保证原子性？
 
-atomic原子类底层是用非阻塞并发算法实现的。具体是用了 CAS 算法。**CAS指的是比较并交换(compare and swap)**。它包含三个数：需要读写的内存位置V、进行比较的值A、拟写入的新值B。当 V 和 A 相等时，才将 V 的值更新为 B。无论是否更新成功，都返回当前内存位置 V 值。
+atomic原子类底层是用非阻塞并发算法实现的。具体是用了 CAS 算法，**CAS指的是比较并交换(compare and swap)** 。它包含三个数：需要读写的内存位置V、进行比较的值A、拟写入的新值B。当 V 和 A 相等时，才将 V 的值更新为 B。无论是否更新成功，都返回当前内存位置 V 值。
 
 可以这样理解CAS：我认为 V 的值应该为 A，如果是，那么将 V 的值更新为 B，否则不修改并告诉 V 的值实际为多少。
 
