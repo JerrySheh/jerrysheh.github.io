@@ -167,3 +167,12 @@ MySQL 默认的事务隔离是第 3 级别，可重复读。
 3. **redis**：性能比较好，灵活方便，不依赖于数据库，但引入了新的组件造成系统更加复杂
 4. Twitter的[snowflake](https://github.com/twitter-archive/snowflake%E3%80%82)算法
 5. 美团的[Leaf分布式ID生成系统](https://tech.meituan.com/2017/04/21/mt-leaf.html)
+
+---
+
+# 19. binlog 和 redo log 的区别？
+
+- `redo log` 是物理日志，是 InnoDB 引擎特有的，记录的是“在某个数据页上做了什么修改”这样的操作。使用了 `WAL(Write-Ahead Logging)` 技术，即先写日志，再写磁盘。所以能支持崩溃修复（crash-safe）。`redo log` 是循环写的，重复利用空间。
+- `binlog` 是逻辑日志，是 Server 层日志，存储引擎无关，记录的是“给ID=2这一行的c字段加1”这样的操作。`binlog`是追加写的，适合归档保存，通常也用来恢复误删的数据。
+
+MySQL事务有`两阶段提交`，即一个 update 语句，需要依次经过 redo log prepare、binlog、 redo log commit 三个步骤，保证两份日志的一致性。

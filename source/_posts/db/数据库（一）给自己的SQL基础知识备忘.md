@@ -38,7 +38,7 @@ DDL包括：
 
 ## RDBMS
 
-RDBMS（Relational Database Management System，关系型数据库管理系统）是将数据组织为相关的行和列的系统，其数据存储在被称为表（tables）的数据库对象中。表是相关的数据项的集合，由列和行组成。常见的RDBMS有 MS SQL Server、MySQL、Oracle 等。
+`RDBMS（Relational Database Management System，关系型数据库管理系统）`是将数据组织为相关的行和列的系统，其数据存储在被称为`表（tables）`的数据库对象中。表是相关的数据项的集合，由`列（column）`和`行（row）`组成。常见的RDBMS有 MS SQL Server、MySQL、Oracle 等。
 
 ---
 
