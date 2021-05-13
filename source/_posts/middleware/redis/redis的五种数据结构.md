@@ -112,7 +112,7 @@ set 类似于 Java 的 `HashSet<String>`，同样也是只能存储 string，set
 
 ## zset
 
-zset 类似于 Java 的 `SortSet<String>` 和 `HashMap<String,String>` 的结合体，其本质是一个 set， 但同时还为 set 里的每一个元素维护了一个 score 权重值，用来排序。底层是用 `跳跃表` 的数据结构实现。
+zset 类似于 Java 的 `SortSet<String>` 和 `HashMap<String,String>` 的结合体，其本质是一个 set， 但同时还为 set 里的每一个元素维护了一个 score 权重值，用来排序。底层是用 `跳跃表` 的数据结构实现。zset 就是一种有权重的 set 。
 
 ![zset](../../../images/middleware/redis-zset.png)
 

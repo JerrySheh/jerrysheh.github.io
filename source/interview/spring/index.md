@@ -197,3 +197,64 @@ public class PersonService{
     @Qualifier("personMysqlDaoImpl")
     private PersonDao personDao;
 ```
+
+---
+
+# 19. @Transational 什么时候注解会失效？
+
+1. 数据库引擎本身不支持事务（如MySQL MyISAM）
+2. 类没有被 Spring 管理
+3. private 方法
+4. 自己调自己
+5. 数据源没有配事务管理器
+6. 标记了 `Propagation.NOT_SUPPORTED`
+7. try-catch
+8. 异常被转换（try-catch后又 throw 一个 非runtimeException ）
+
+## 为什么 private 方法会失效？
+
+`@Transational` 本质是动态代理，通过反射在方法前后织入开启事务、结束事务的代码， private 方法无法被反射获取。
+
+## 为什么自己调自己会失效？
+
+自己调自己，调的不是代理类，而是原类。解决办法：`((A)AopContext.currentProxy).b()`
+
+原类
+
+```java
+public class A {
+    a() {
+        b();
+    }
+
+    @Transactional
+    b() {
+        insert();
+    }
+}
+```
+
+代理后的类
+
+```java
+public class Proxy$A {
+     A a = new A();
+     
+     a() {
+         a.a();
+     }
+     
+     b() {
+       try{
+        startTransaction();
+        a.b();
+       } catch (RuntimeException e){
+         rollBack();
+       } finally {
+        endTransaction();
+       }
+        
+     }
+     
+}
+```
