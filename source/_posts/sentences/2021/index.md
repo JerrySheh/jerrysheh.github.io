@@ -13,3 +13,7 @@ date: 2021-04-11 00:00:00
 
 当发生冲突时，永远假设对方是出于好意（When in conflict, always assume that folks have good intention)。—— 知乎用户 程墨Morgan 
 在问题[为了优秀，你一直坚持的好习惯有哪些？](https://www.zhihu.com/question/452488029/answer/1876388797)下的回答
+
+### 5月16日
+
+人生如棋，当落子无悔
