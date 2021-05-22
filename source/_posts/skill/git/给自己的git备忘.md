@@ -1,6 +1,8 @@
 ---
 title: 给自己的 git 备忘
-categories: 技能
+categories: 
+- 技能
+- git
 tags: git
 abbrlink: 9f9a74a3
 date: 2017-09-04 15:43:46
@@ -9,12 +11,13 @@ updated: 2017-09-04 17:04:01
 
 给自己的 git 备忘：
 
-1. git使用流程
-2. git分支管理
-3. git撤销
-4. 连接到github
+1. git 使用流程
+2. git 分支管理
+3. git 撤销
+4. 连接到 github
 5. fork
-6. IDEA git项目颜色含义
+6. IDEA git 项目颜色含义
+7. git stash 暂存
 
 <!-- more -->
 
@@ -302,3 +305,39 @@ git config --global --unset https.proxy
 
 参考：
 - [IntelliJ IDEA 中git的使用图文教程](https://www.jb51.net/article/135583.htm)
+
+---
+
+# git stash 暂存
+
+有时候我们在本地写了一些代码，之后可能紧急要切换到另一个分支做一些修复，可以先将本地变更的代码“暂存”，稍后再在任意分支恢复。
+
+暂存代码
+
+```
+git stash
+```
+
+切换到别的分支工作
+
+```
+git checkout master
+```
+
+工作完换回来
+
+```
+git switch dev
+```
+
+查看暂存区
+
+```
+git stash list
+```
+
+暂存内容恢复
+
+```
+git stash pop
+```
