@@ -227,7 +227,7 @@ AsyncTask task1 = new MyTask(64);
 long result1 = (Long) task1.call();
 ```
 
-**Future是一个接口，用来判断异步计算是否已完成以及帮助我们获取异步计算的结果**。
+**Future是一个接口，用来判断异步计算是否已完成以及帮助我们获取异步计算的结果**，或者说，Future 相当于一个占位符，代表一个操作未来的结果。
 
 在没有Future之前我们检测一个线程是否执行完毕通常使用`Thread.join()`或者用一个死循环加状态位来描述线程执行完毕。Future是一种更好的方法，能够阻塞线程，检测任务执行完毕，甚至取消执行中或者未开始执行的任务。
 
@@ -385,6 +385,18 @@ f3.thenAccept( r -> System.out.println(String.format("%s去搬砖", r)));
 // 主线程可以做其他事
 // ..
 ```
+
+## CompletableFuture 方法概览
+
+|  行为   | 对应的函数式接口  | then | both | either
+|  ----  | ----  | ---- | ---- | ----
+| apply  | Function | thenApply | thenCombine | applyToEither
+| accept  | Consumer | thenAccept | thenAcceptBoth | acceptEither 
+| run  | Runnable | thenRun | runAfterBoth | runAfterEither
+
+此外，还有一个常用的方法是 `thenCompose()`，它跟 `thenApply()` 很像，但返回的是一个 Future，而非嵌套的Future。
+
+> `thenApply()` 就像函数式编程里的 `map`，而  `thenCompose()` 更像 `flapMap`
 
 ---
 
