@@ -16,17 +16,17 @@ date: 2021-06-26 13:33:48
 ```java
 public void process(ResultContext rc){
 
-Map m1 = rc.getResult();
-Map m2 = rc.getResult();
+    Map m1 = rc.getResult();
+    Map m2 = rc.getResult();
 
-// m1 做一些get set处理
-// ..
+    // m1 做一些get set处理
+    // ..
 
-// m2 做一些get set处理
-// ..
+    // m2 做一些get set处理
+    // ..
 
-dao.insert(m1);
-dao.insert(m2);
+    dao.insert(m1);
+    dao.insert(m2);
 }
 ```
 
