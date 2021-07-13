@@ -1,8 +1,9 @@
 ---
-title: 数据库（二）存储引擎、事务、锁
-comments: true
-categories: 数据库
-tags: SQL
+title: MySQL的存储引擎、事务、锁
+categories: 
+- 数据库
+- 高性能MySQL
+tags: database
 abbrlink: 4c81d70
 date: 2018-09-09 19:37:13
 ---

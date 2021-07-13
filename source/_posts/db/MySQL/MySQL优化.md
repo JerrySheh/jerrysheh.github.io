@@ -1,8 +1,9 @@
 ---
-title: 数据库（四）MySQL优化
-comments: true
-categories: 数据库
-tags: SQL
+title: MySQL优化
+categories: 
+- 数据库
+- 高性能MySQL
+tags: database
 abbrlink: 2bb1b1ab
 date: 2018-9-18 20:37:38
 ---

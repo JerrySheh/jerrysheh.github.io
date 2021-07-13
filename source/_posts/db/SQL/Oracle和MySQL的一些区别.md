@@ -1,7 +1,8 @@
 ---
-title: 数据库（五）Oracle 和 MySQL 的一些区别
-comments: true
-categories: 数据库
+title: Oracle 和 MySQL 语法的一些区别
+categories: 
+- 数据库
+- SQL语法
 tags: SQL
 abbrlink: 65a27c74
 date: 2019-03-03 20:41:48

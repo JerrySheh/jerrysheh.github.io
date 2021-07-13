@@ -1,8 +1,9 @@
 ---
-title: 数据库（三）索引
-comments: true
-categories: 数据库
-tags: SQL
+title: MySQL索引
+categories: 
+- 数据库
+- 高性能MySQL
+tags: database
 abbrlink: a7354b8d
 date: 2018-09-15 20:37:38
 ---
